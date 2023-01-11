@@ -51,7 +51,7 @@
             formControlName="phoneNumber"
             placeholder="Telefon"
           >
-          <mat-error *ngIf="aboutITFFform.get('phoneNumber').invalid">En fazla 100 karakter!</mat-error>
+          <mat-error *ngIf="aboutITFFform.get('phoneNumber').invalid">Lütfen telefon numarası giriniz! (en fazla 100 karakter)</mat-error>
         </mat-form-field>
       </div>
 
@@ -64,7 +64,7 @@
             formControlName="faxNumber"
             placeholder="Fax"
           >
-          <mat-error *ngIf="aboutITFFform.get('faxNumber').invalid">En fazla 100 karakter!</mat-error>
+          <mat-error *ngIf="aboutITFFform.get('faxNumber').invalid">Lütfen fax numarası giriniz! (en fazla 100 karakter)</mat-error>
         </mat-form-field>
       </div>
 
@@ -77,7 +77,7 @@
             formControlName="email"
             placeholder="E-posta"
           >
-          <mat-error *ngIf="aboutITFFform.get('email').invalid">En fazla 100 karakter!</mat-error>
+          <mat-error *ngIf="aboutITFFform.get('email').invalid">Lütfen e-posta adresi giriniz! (en fazla 100 karakter)</mat-error>
         </mat-form-field>
       </div>
 
