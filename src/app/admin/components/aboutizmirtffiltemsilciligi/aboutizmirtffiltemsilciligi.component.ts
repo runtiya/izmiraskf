@@ -29,6 +29,7 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
           address: new FormControl(data.address, {validators: [Validators.maxLength(2000)]}),
           phoneNumber: new FormControl(data.phoneNumber, {validators: [Validators.maxLength(100)]}),
           faxNumber: new FormControl(data.faxNumber, {validators: [Validators.maxLength(100)]}),
+          email: new FormControl(data.email, {validators: [Validators.maxLength(100)]}),
           longitude: new FormControl(data.longitude, {validators: []}),
           latitude: new FormControl(data.latitude, {validators: []}),
         });
