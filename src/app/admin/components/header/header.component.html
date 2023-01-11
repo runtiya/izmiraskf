@@ -1,0 +1,119 @@
+<nav class="navbar navbar-expand-lg" style="background-color: #3F51B5;">
+  <div class="container-fluid">
+    <a
+      class="navbar-brand"
+      routerLink="/admin"
+    >
+      <img
+        src=""
+        alt="İzmir ASKF"
+        width="30"
+        height="24"
+      >
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarAdminPanel"
+      aria-controls="navbarAdminPanel"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarAdminPanel">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Home -->
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            aria-current="page"
+            routerLink="/admin"
+          >Ana Sayfa</a>
+        </li>
+        <!-- Content Management -->
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >İçerik Yönetimi</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="admin/izmiraskf">İzmir ASKF</a></li>
+            <li><a class="dropdown-item" routerLink="admin/izmirtffiltemsilciligi">TFF İl Temsilciliği</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" routerLink="admin/haberler">Haberler</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" routerLink="admin/disbaglantilar">Dış Bağlantılar</a></li>
+            <li><a class="dropdown-item" routerLink="admin/reklamlar">Reklamlar</a></li>
+          </ul>
+        </li>
+         <!-- Documents -->
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">Dokümanlar</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="admin/amatorligstatuleri">Amatör Lig Statüleri</a></li>
+            <li><a class="dropdown-item" routerLink="admin/talimatlar">Talimatlar</a></li>
+            <li><a class="dropdown-item" routerLink="admin/lisansformlari">Lisans Formları</a></li>
+            <li><a class="dropdown-item" routerLink="admin/belgeler">Belgeler</a></li>
+          </ul>
+        </li>
+        <!-- Info Center -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">Bilgi Bankası</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="admin/takimlar">Takımlar</a></li>
+            <li><a class="dropdown-item" routerLink="admin/sahalar">Sahalar</a></li>
+            <li><a class="dropdown-item" routerLink="admin/disiplinkurulukararlari">Disiplin Kurulu Kararları</a></li>
+          </ul>
+        </li>
+        <!-- Data Management -->
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >Veri Yönetimi</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="admin/sezonlar">Sezonlar</a></li>
+            <li><a class="dropdown-item" routerLink="admin/ligler">Ligler</a></li>
+            <li><a class="dropdown-item" routerLink="admin/gruplar">Gruplar</a></li>
+            <li><a class="dropdown-item" routerLink="admin/fikstur">Fikstür</a></li>
+            <li><a class="dropdown-item" routerLink="admin/puandurumu">Puan Durumu</a></li>
+            <li><a class="dropdown-item" routerLink="admin/canliskor">Canlı Skor</a></li>
+          </ul>
+        </li>
+        <!-- Settings -->
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >Araçlar</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="admin/kullanicilar">Kullanıcılar</a></li>
+          </ul>
+        </li>
+        <!-- Logout -->
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="">Güvenli Çıkış</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+

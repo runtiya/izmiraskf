@@ -1,0 +1,165 @@
+<mat-dialog-content class="mat-typography">
+  <div class="container">
+    <mat-card>
+      <mat-dialog-actions align="end">
+        <button mat-icon-button mat-dialog-close class="icon">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-dialog-actions>
+
+      <form
+        [formGroup]="staffIASKFSubmitForm"
+        (submit)="onSubmitForm()"
+        *ngIf="!isLoading"
+      >
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="form-input">
+              <mat-label>Unvan</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="title"
+                placeholder="Unvan"
+              />
+              <mat-error *ngIf="staffIASKFSubmitForm.get('title').invalid">
+                Lütfen unvan giriniz! (en fazla 200 karakter)
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-6">
+            <mat-form-field class="form-input">
+              <mat-label>Ad - Soyad</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="name"
+                placeholder="Ad - Soyad"
+              />
+              <mat-error *ngIf="staffIASKFSubmitForm.get('name').invalid"
+                >Lütfen ad-soyad giriniz! (en fazla 200 karakter)
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="form-input">
+              <mat-label>Telefon</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="phone"
+                placeholder="Telefon No"
+              />
+              <mat-error *ngIf="staffIASKFSubmitForm.get('phone').invalid"
+                >Lütfen unvan giriniz! (en fazla 200 karakter)
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-6">
+            <mat-form-field class="form-input">
+              <mat-label>E-posta</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="email"
+                placeholder="E-posta"
+              />
+              <mat-error *ngIf="staffIASKFSubmitForm.get('email').invalid"
+                >Lütfen unvan giriniz! (en fazla 200 karakter)
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <button
+              mat-stroked-button
+              type="button"
+              color="primary"
+              (click)="filePicker.click()"
+            >
+              Resim Seç
+            </button>
+            <input type="file" #filePicker (change)="onFilePicked($event)"/>
+            <div
+              class="image-preview"
+              *ngIf="imagePreview !== '' && imagePreview && staffIASKFSubmitForm.get('profileImage').valid"
+            >
+              <img
+                [src]="imagePreview"
+                [alt]="staffIASKFSubmitForm.value.title"
+              />
+            </div>
+            <mat-error *ngIf="!staffIASKFSubmitForm.get('profileImage').valid"
+              >Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+            </mat-error>
+          </div>
+
+          <div class="col-md-6 row">
+            <div class="col-lg-6 col-md-12">
+              <mat-form-field class="form-input">
+                <mat-label>Aktif mi?</mat-label>
+                <mat-select
+                  matInput
+                  formControlName="isVisible"
+                  placeholder="Evet"
+                >
+                  <mat-option [value]="true">Evet</mat-option>
+                  <mat-option [value]="false">Hayır</mat-option>
+                </mat-select>
+                <mat-error *ngIf="staffIASKFSubmitForm.get('isVisible').invalid"
+                  >Lütfen bir değer seçiniz!
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+              <mat-form-field class="form-input">
+                <mat-label>Sıra No (1-999)</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  formControlName="order"
+                  placeholder="Sıralama Numarası"
+                />
+                <mat-error *ngIf="staffIASKFSubmitForm.get('order').invalid"
+                  >Lütfen sıralama numarası giriniz! (1-999)
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <mat-action-row>
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="data.mode === 'create'"
+            type="submit"
+            >Oluştur
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="data.mode === 'edit'"
+            type="submit"
+            >Düzenle
+          </button>
+          <a
+            mat-raised-button
+            color="warn"
+            *ngIf="data.mode === 'edit'"
+            (click)="onDelete(staffIASKFSubmitForm.value.id)"
+            >Sil
+          </a>
+        </mat-action-row>
+      </form>
+    </mat-card>
+  </div>
+</mat-dialog-content>

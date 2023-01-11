@@ -1,0 +1,23 @@
+.external-link {
+  display: block;
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.button-external-link {
+  text-decoration: none;
+}
+
+.button-external-link-primary {
+  color: #3F51B5;
+}
+
+.button-external-link-warn {
+  color: #F44A3E;
+}
+
+mat-divider {
+  margin: 2rem 0px;
+}

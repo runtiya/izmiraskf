@@ -1,0 +1,132 @@
+<div class="container">
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>{{title}}</span>
+  </mat-toolbar>
+
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <mat-card class="create-card">
+      <button
+        class="create-button"
+        mat-fab
+        color="primary"
+        matTooltip="Oluştur"
+        (click)="onCreate()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </mat-card>
+  </div>
+
+
+  <mat-accordion *ngIf="stadiumsList.length > 0 && !isLoading">
+    <mat-expansion-panel *ngFor="let stadium of stadiumsList">
+      <mat-expansion-panel-header>
+        {{stadium.name}}
+      </mat-expansion-panel-header>
+
+      <mat-card>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td>Ad:</td>
+                    <td>{{stadium.name}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>İl:</td>
+                    <td>{{onCityList(stadium.city)}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>İlçe:</td>
+                    <td>{{onTownList(stadium.town)}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Adres:</td>
+                    <td>{{stadium.address}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Telefon:</td>
+                    <td>{{stadium.phoneNumber}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td>Seyirci Kapasitesi:</td>
+                    <td>{{stadium.audienceCapacity}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Saha Ölçüsü:</td>
+                    <td>{{stadium.sizeLength}}m x {{stadium.sizeWidth}}m</td>
+                  </tr>
+
+                  <tr>
+                    <td>Zemin:</td>
+                    <td>{{onFloorTypeList(stadium.floorType)}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Işıklandırma:</td>
+                    <td>{{stadium.hasLightning == null ? 'Belirtilmemiş' : stadium.hasLightning ? 'Evet' : 'Hayır'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Koltuklandırma:</td>
+                    <td>{{stadium.hasSeating == null ? 'Belirtilmemiş' : stadium.hasSeating ? 'Evet' : 'Hayır'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Engelli Tribünü:</td>
+                    <td>{{stadium.hasDisabledTribune == null ? 'Belirtilmemiş' : stadium.hasDisabledTribune ? 'Evet' : 'Hayır'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Kapalı Devre Kamera Sistemi:</td>
+                    <td>{{stadium.hasClosedCircuitCameraSystem == null ? 'Belirtilmemiş' : stadium.hasClosedCircuitCameraSystem ? 'Evet' : 'Hayır'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </mat-card-content>
+
+
+
+        <mat-action-row>
+          <button
+            mat-button
+            type="button"
+            color="primary"
+            (click)="onEdit(stadium)"
+          >Düzenle</button>
+
+          <button
+            mat-button
+            type="button"
+            color="warn"
+            (click)="onDelete(stadium.id)"
+          >Sil</button>
+        </mat-action-row>
+      </mat-card>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-card *ngIf="stadiumsList.length <= 0 && !isLoading">
+    <mat-card-content>
+      SAHA BULUNAMADI!
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,97 @@
+<mat-dialog-content class="mat-typography">
+  <div class="container">
+    <mat-card>
+      <mat-dialog-actions align="end">
+        <button
+          mat-icon-button
+          class="icon"
+          mat-dialog-close
+          >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-dialog-actions>
+
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+      <form
+        [formGroup]="newsUpdateForm"
+        (submit)="onUpdateNews()"
+        *ngIf="!isLoading"
+      >
+        <mat-form-field class="form-input">
+          <mat-label>Haber Başlığı</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="title"
+            placeholder="Başlık (en fazla 200 karakter)"
+          >
+          <mat-error *ngIf="newsUpdateForm.get('title').invalid">Lütfen haber başlığı giriniz!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-input">
+          <mat-label>Haber Metni</mat-label>
+          <textarea
+            matInput
+            type="text"
+            formControlName="content"
+            placeholder="Metin (en fazla 2000 karakter)"
+            rows="8"
+          ></textarea>
+          <mat-error *ngIf="newsUpdateForm.get('content').invalid">Lütfen haber metni giriniz!</mat-error>
+        </mat-form-field>
+
+
+        <div class="row">
+          <div class="col-md-4">
+            <button
+              mat-stroked-button
+              type="button"
+              color="primary"
+              (click)="filePicker.click()"
+              >Resim Seç</button>
+            <input type="file" #filePicker (change)="onFilePicked($event)">
+          </div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <mat-form-field class="form-input">
+              <mat-label>Yayında mı?</mat-label>
+              <mat-select
+                matInput
+                formControlName="isOnline"
+                placeholder="Evet"
+                >
+                <mat-option [value]="true">Evet</mat-option>
+                <mat-option [value]="false">Hayır</mat-option>
+              </mat-select>
+              <mat-error *ngIf="newsUpdateForm.get('isOnline').invalid">Lütfen bir değer seçiniz!</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && newsUpdateForm.get('newsImage').valid">
+          <img [src]="imagePreview" [alt]="newsUpdateForm.value.title">
+        </div>
+        <mat-error *ngIf="!newsUpdateForm.get('newsImage').valid">Lütfen geçerli bir resim seçiniz! (en fazla 5MB)</mat-error>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [mat-dialog-close]="true"
+        >Güncelle
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          color="warn"
+          (click)="onDelete(data.id)"
+          [mat-dialog-close]="true"
+        >Sil
+        </button>
+
+      </form>
+    </mat-card>
+  </div>
+
+</mat-dialog-content>

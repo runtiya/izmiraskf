@@ -1,0 +1,75 @@
+/* Mat-Card Component Start */
+
+.mat-mdc-card-avatar {
+  border-radius: 0px;
+}
+
+/*
+mat-card-title {
+  font-size: medium;
+}
+*/
+
+mat-card {
+  margin-bottom: 1.5rem;
+}
+
+mat-card-header, mat-card-content {
+  background-color: whitesmoke;
+}
+
+mat-action-row {
+  display: block;
+  margin: .25rem 0px;
+}
+/* Mat-Card Component End */
+
+
+mat-form-field, textarea {
+  width: 100%;
+}
+
+
+mat-spinner {
+  margin: auto;
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+/* Class Attributes Start */
+
+.toolbar-title {
+  margin: 1rem 0;
+}
+
+.create-card {
+  height: 100%;
+  box-shadow: none;
+}
+
+.create-card .create-button {
+  margin: auto;
+}
+
+.external-link {
+  display: block;
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.button-external-link {
+  text-decoration: none;
+}
+
+.button-external-link-primary {
+  color: #3F51B5;
+}
+
+.button-external-link-warn {
+  color: #F44A3E;
+}
+/* Class Attributes End */
+

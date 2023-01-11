@@ -1,0 +1,112 @@
+<div class="container">
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>{{headerTitle}}</span>
+  </mat-toolbar>
+
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <mat-card class="create-card">
+      <button
+        class="create-button"
+        mat-fab
+        color="primary"
+        matTooltip="Oluştur"
+        (click)="onCreate('RELATEDLINK')">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </mat-card>
+  </div>
+
+  <!-- Related Link Table -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>KURUM YÖNLENDİRMELERİ</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <table class="table table-hover">
+
+          <thead>
+            <tr>
+              <th scope="col">Sıra</th>
+              <th scope="col">İsim</th>
+              <th scope="col">URL</th>
+              <th scope="col">Aktif</th>
+              <th>Düzenle</th>
+              <th>Sil</th>
+            </tr>
+          </thead>
+
+          <tbody *ngFor="let link of extLinks">
+            <tr *ngIf="link.type === 'RELATEDLINK'">
+              <td>{{link.order}}</td>
+              <td>{{link.name}}</td>
+              <td><a class="external-link" href="{{link.url}}" target="_blank">{{link.url}}</a></td>
+              <td>{{link.isActive ? 'Evet' : 'Hayır'}}</td>
+              <td><a class="button-external-link button-external-link-primary" (click)="onEdit(link)" type="button">Düzenle</a></td>
+              <td><a class="button-external-link button-external-link-warn" (click)="onDelete(link.id)" type="button">Sil</a></td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+
+    </mat-card-content>
+
+  </mat-card>
+
+  <mat-divider></mat-divider>
+
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <mat-card class="create-card">
+      <button
+        class="create-button"
+        mat-fab
+        color="primary"
+        matTooltip="Oluştur"
+        (click)="onCreate('RELATEDLINK')">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </mat-card>
+  </div>
+
+  <!-- Social Media Table -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>SOSYAL MEDYA YÖNLENDİRMELERİ</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <table class="table table-hover">
+
+          <thead>
+            <tr>
+              <th scope="col">Sıra</th>
+              <th scope="col">İsim</th>
+              <th scope="col">URL</th>
+              <th scope="col">Aktif</th>
+              <th>Düzenle</th>
+              <th>Sil</th>
+            </tr>
+          </thead>
+
+          <tbody *ngFor="let link of extLinks">
+            <tr *ngIf="link.type === 'SOCIALMEDIA'">
+              <td>{{link.order}}</td>
+              <td>{{link.name}}</td>
+              <td><a class="external-link" href="{{link.url}}" target="_blank">{{link.url}}</a></td>
+              <td>{{link.isActive ? 'Evet' : 'Hayır'}}</td>
+              <td><a class="button-external-link button-external-link-primary" (click)="onEdit(link)" type="button">Düzenle</a></td>
+              <td><a class="button-external-link button-external-link-warn" (click)="onDelete(link.id)" type="button">Sil</a></td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+
+</div>

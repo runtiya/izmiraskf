@@ -1,0 +1,298 @@
+<mat-dialog-content class="mat-typography">
+  <div class="container">
+    <mat-card>
+      <mat-dialog-actions align="end">
+        <button mat-icon-button mat-dialog-close class="icon">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-dialog-actions>
+
+
+
+      <form
+        [formGroup]="teamSubmitForm"
+        (submit)="onSubmitForm()"
+        *ngIf="!isLoading"
+      >
+
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <button
+              mat-stroked-button
+              type="button"
+              color="primary"
+              class="btn-image-picker"
+              (click)="filePicker.click()"
+            >
+              Resim Seç
+            </button>
+            <input type="file" #filePicker (change)="onFilePicked($event)">
+            <div
+              class="image-preview"
+              *ngIf="imagePreview !== '' && imagePreview && teamSubmitForm.get('logo').valid">
+              <img [src]="imagePreview" [alt]="teamSubmitForm.value.officialName"/>
+            </div>
+            <mat-error *ngIf="!teamSubmitForm.get('logo').valid">
+              Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+            </mat-error>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Kulüp Kodu</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="TFFClubCode"
+                placeholder="TFF Kulüp Kodu"
+              >
+              <mat-error *ngIf="teamSubmitForm.get('TFFClubCode').invalid">
+                Lütfen TFF Kulüp Kodu giriniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Resmi Adı</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="officialName"
+                placeholder="Kulüp Resmi Adı"
+                (keyup)="onOfficialNameChange($event)"
+              >
+              <mat-error *ngIf="teamSubmitForm.get('officialName').invalid">
+                Lütfen Kulüp Adı giriniz! (en fazla 200 karakter)
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Kısaltma</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="shortName"
+                placeholder="Kulüp Kısaltması"
+              >
+              <mat-error *ngIf="teamSubmitForm.get('shortName').invalid">
+                Lütfen Kulüp Adı kısaltması giriniz! (en fazla 200 karakter)
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Adres</mat-label>
+              <textarea
+                matInput
+                type="text"
+                formControlName="address"
+                placeholder="Adres"
+                rows="2"
+              >
+              </textarea>
+              <mat-error *ngIf="teamSubmitForm.get('address').invalid">
+                Lütfen adres giriniz! (en fazla 2000 karakter)
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4 col-md-16 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Saha</mat-label>
+              <mat-select matInput formControlName="stadiumId" placeholder="Saha">
+                <mat-option
+                  *ngFor="let stadium of stadiumsList"
+                  [value]="stadium.id"
+                >
+                  {{stadium.name}}
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="teamSubmitForm.get('stadiumId').invalid">
+                Lütfen saha seçiniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Kulüp Başkanı</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="presidentName"
+                placeholder="Ad Soyad"
+              />
+
+              <mat-error *ngIf="teamSubmitForm.get('presidentName').invalid">
+                Lütfen Kulüp Başkanı isim bilgisi giriniz! (en fazla 200 karakter)
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>İnternet Adresi</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="websiteURL"
+                placeholder="URL"
+              />
+
+              <mat-error *ngIf="teamSubmitForm.get('websiteURL').invalid">
+                Lütfen internet adresi giriniz! (en fazla 200 karakter)
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4 col-md-16 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>İlçe</mat-label>
+              <mat-select matInput formControlName="town" placeholder="İlçe">
+                <mat-option
+                  *ngFor="let townList of townListArray"
+                  [value]="townList.name"
+                >
+                  {{townList.value}}
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="teamSubmitForm.get('town').invalid">
+                Lütfen ilçe seçiniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Telefon</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="phoneNumber"
+                placeholder="Telefon No"
+              />
+
+              <mat-error *ngIf="teamSubmitForm.get('phoneNumber').invalid">
+                Lütfen telefon numarası giriniz! (en fazla 200 karakter)
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Fax</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="faxNumber"
+                placeholder="Fax No"
+              />
+
+              <mat-error *ngIf="teamSubmitForm.get('faxNumber').invalid">
+                Lütfen fax numarası giriniz! (en fazla 200 karakter)
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Kulüp Renkleri</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="colorCodes"
+                placeholder="Kulüp Renk Kodları"
+              />
+
+              <mat-error *ngIf="teamSubmitForm.get('colorCodes').invalid">
+                Lütfen kulüp renklerini seçiniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-1 col-md-6 col-sm-12">
+            <input
+              type="color"
+              id="colorCode0"
+              value="{{teamSubmitForm.get('colorCodes').value.split(';')[0]}}"
+              (change)="getColorCodeHex()">
+
+              <input
+              type="color"
+              id="colorCode1"
+              value="{{teamSubmitForm.get('colorCodes').value.split(';')[1]}}"
+              (change)="getColorCodeHex()">
+          </div>
+
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Üye</mat-label>
+              <mat-select
+                matInput
+                formControlName="isMember"
+                placeholder="Üye"
+              >
+              <mat-option [value]="true">Evet</mat-option>
+              <mat-option [value]="false">Hayır</mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="teamSubmitForm.get('isMember').invalid">
+                Lütfen bir değer seçiniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Aktif</mat-label>
+              <mat-select
+                matInput
+                formControlName="isVisible"
+                placeholder="Aktif"
+              >
+              <mat-option [value]="true">Evet</mat-option>
+              <mat-option [value]="false">Hayır</mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="teamSubmitForm.get('isVisible').invalid">
+                Lütfen bir değer seçiniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <mat-action-row>
+            <button
+              mat-raised-button
+              color="primary"
+              *ngIf="data.pageMode == 'create'"
+              type="submit"
+            >Oluştur</button>
+
+            <button
+              mat-raised-button
+              color="primary"
+              *ngIf="data.pageMode == 'edit'"
+              type="submit"
+            >Düzenle</button>
+
+            <a
+              mat-raised-button
+              color="warn"
+              *ngIf="data.pageMode == 'edit'"
+              (click)="onDelete(teamSubmitForm.value.id)"
+            >Sil</a>
+          </mat-action-row>
+
+
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</mat-dialog-content>

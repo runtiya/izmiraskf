@@ -1,0 +1,94 @@
+<mat-dialog-content class="mat-typography">
+  <div class="container">
+    <mat-card>
+      <mat-dialog-actions align="end">
+        <button mat-icon-button mat-dialog-close class="icon">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-dialog-actions>
+    </mat-card>
+
+    <form
+      [formGroup]="documentSubmitForm"
+      (submit)="onSubmitForm()"
+      *ngIf="!isLoading"
+    >
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <mat-form-field class="form-input">
+          <mat-label>Dosya Adı</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="name"
+            placeholder="Dosya Adı"
+          >
+          <mat-error *ngIf="documentSubmitForm.get('name').invalid">Lütfen dosya adı giriniz! (en fazla 200 karakter)</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <button
+              mat-stroked-button
+              type="button"
+              color="primary"
+              (click)="filePicker.click()"
+            >
+              Dosya Seç
+            </button>
+            <input type="file" #filePicker (change)="onFilePicked($event)"/>
+            <div
+              class="document-preview"
+              *ngIf="documentPreview !== '' && documentPreview && documentSubmitForm.get('content').valid"
+            >
+              <mat-card-subtitle>{{documentPreview}}</mat-card-subtitle>
+            </div>
+            <mat-error *ngIf="!documentSubmitForm.get('content').valid">
+              Lütfen geçerli bir dosya seçiniz! (en fazla 5MB)
+            </mat-error>
+      </div>
+
+      <div class="col-lg-3"></div>
+
+      <div class="col-lg-3 col-md-6 col-sm-12">
+        <mat-form-field class="form-input">
+          <mat-label>Sıra No</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="order"
+            placeholder="(1-999)"
+          >
+          <mat-error *ngIf="documentSubmitForm.get('order').invalid">
+            Lütfen sıralama numarası giriniz! (1-999)
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-action-row>
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="data.pageMode == 'create'"
+        type="submit"
+        >Oluştur</button
+      >
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="data.pageMode == 'edit'"
+        type="submit"
+        >Düzenle</button
+      >
+      <a
+        mat-raised-button
+        color="warn"
+        *ngIf="data.pageMode == 'edit'"
+        (click)="onDelete(documentSubmitForm.value.id)"
+        >Sil</a
+      >
+    </mat-action-row>
+    </form>
+  </div>
+</mat-dialog-content>

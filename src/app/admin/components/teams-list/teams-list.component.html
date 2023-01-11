@@ -1,0 +1,52 @@
+<div class="container">
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>{{headerTitle}}</span>
+  </mat-toolbar>
+
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+
+  <div class="row">
+
+    <div class="col-lg-4 col-md-12 col-sm-12">
+      <mat-card class="create-card">
+        <button
+          class="create-button"
+          mat-fab
+          color="primary"
+          matTooltip="Oluştur"
+          (click)="onCreate()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </mat-card>
+    </div>
+
+    <div class="col-lg-4 col-md-12 col-sm-12" *ngFor="let team of teamsList">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title-group>
+            <!-- Logo Does NOT Exist -->
+            <img *ngIf="!team.logo" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{team.shortName || team.officialName}}">
+            <!-- Logo Exists -->
+            <img *ngIf="team.logo" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{team.shortName || team.officialName}}">
+            <mat-card-title>{{team.shortName || team.officialName}}</mat-card-title>
+            <mat-card-subtitle>Üye: {{team.isMember ? 'Evet' : 'Hayır'}}</mat-card-subtitle>
+            <mat-card-subtitle>Aktif: {{team.isVisible ? 'Evet' : 'Hayır'}}</mat-card-subtitle>
+            <mat-card-subtitle>
+              <mat-icon class="team-color" [ngStyle]="{'color': team.colorCodes.split(';')[0]}">circle</mat-icon>
+              <mat-icon class="team-color" [ngStyle]="{'color': team.colorCodes.split(';')[1]}">circle</mat-icon>
+            </mat-card-subtitle>
+          </mat-card-title-group>
+        </mat-card-header>
+
+        <mat-card-content></mat-card-content>
+
+        <mat-action-row class="container">
+          <a mat-button color="primary" (click)="onEdit(team)">Düzenle</a>
+          <a mat-button color="warn" (click)="onDelete(team.id)">Sil</a>
+        </mat-action-row>
+
+      </mat-card>
+    </div>
+  </div>
+</div>

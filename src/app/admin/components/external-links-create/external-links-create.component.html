@@ -1,0 +1,151 @@
+<mat-dialog-content class="mat-typography">
+  <div class="container">
+    <mat-card>
+      <mat-dialog-actions align="end">
+        <button mat-icon-button mat-dialog-close class="icon">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-dialog-actions>
+    </mat-card>
+
+    <form
+      [formGroup]="extLinkSubmitForm"
+      (submit)="onSubmitForm()"
+      *ngIf="!isLoading"
+    >
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="form-input">
+            <mat-label>İsim</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="name"
+              placeholder="İsim"
+            >
+            <mat-error *ngIf="extLinkSubmitForm.get('name').invalid">
+              Lütfen isim giriniz! (en fazla 100 karakter)
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field class="form-input">
+            <mat-label>İnternet Adresi</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="url"
+              placeholder="URL"
+            >
+            <mat-error *ngIf="extLinkSubmitForm.get('url').invalid">
+              Lütfen internet adresi giriniz! (en fazla 200 karakter)
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6 col-md-12 col-sm-12" *ngIf="this.linkType === 'RELATEDLINK'">
+          <button
+              mat-stroked-button
+              type="button"
+              color="primary"
+              (click)="filePicker.click()"
+            >
+              Resim Seç
+            </button>
+            <input type="file" #filePicker (change)="onFilePicked($event)"/>
+            <div
+              class="image-preview"
+              *ngIf="imagePreview !== '' && imagePreview && extLinkSubmitForm.get('iconImage').valid"
+            >
+              <img
+                [src]="imagePreview"
+                [alt]="extLinkSubmitForm.value.title"
+              />
+            </div>
+            <mat-error *ngIf="!extLinkSubmitForm.get('iconImage').valid">
+              Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+            </mat-error>
+        </div>
+
+        <div class="col-md-6 col-sm-12" *ngIf="this.linkType === 'SOCIALMEDIA'">
+          <mat-form-field class="form-input">
+            <mat-label>Font Awesome Class</mat-label>
+            <mat-select
+              matInput
+              formControlName="faClass"
+              placeholder="Font Awesome"
+            >
+              <mat-option
+                *ngFor="let faClass of faList"
+                [value]="faClass"
+              >
+                {{faClass}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="extLinkSubmitForm.get('faClass').invalid">
+              Lütfen bir değer seçiniz!
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Aktif mi?</mat-label>
+            <mat-select
+              matInput
+              formControlName="isActive"
+              placeholder="Evet"
+            >
+            <mat-option [value]="true">Evet</mat-option>
+            <mat-option [value]="false">Hayır</mat-option>
+            </mat-select>
+            <mat-error *ngIf="extLinkSubmitForm.get('isActive').invalid">
+              Lütfen bir değer seçiniz!
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Sıra No</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="order"
+              placeholder="(1-999)"
+            >
+            <mat-error *ngIf="extLinkSubmitForm.get('order').invalid">
+              Lütfen sıralama numarası giriniz! (1-999)
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <mat-action-row>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="data.pageMode == 'create'"
+          type="submit"
+          >Oluştur</button
+        >
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="data.pageMode == 'edit'"
+          type="submit"
+          >Düzenle</button
+        >
+        <a
+          mat-raised-button
+          color="warn"
+          *ngIf="data.pageMode == 'edit'"
+          (click)="onDelete(extLinkSubmitForm.value.id)"
+          >Sil</a
+        >
+      </mat-action-row>
+    </form>
+  </div>
+</mat-dialog-content>
