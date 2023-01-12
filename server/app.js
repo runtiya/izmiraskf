@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const mysql = require('mysql');
 
 const app = express();
 
@@ -15,12 +14,6 @@ const adminStadiumsRoutes = require('./routes/admin/stadiums');
 const adminTeamsRoutes = require('./routes/admin/teams');
 const adminSeasonsRoutes = require('./routes/admin/seasons');
 
-const connection = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  password: '17Nisan1996',
-  database: 'izmiraskf',
-});
 
 /*
 connection.connect();

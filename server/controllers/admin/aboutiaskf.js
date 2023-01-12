@@ -1,28 +1,86 @@
-const mysql = require('mysql');
-const connection = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  port: 3306,
-  password: '17Nisan1996',
-  database: 'izmiraskf',
-});
+const connection = require('../../functions/database.js').connectDatabase();
 
 function getAboutContent(req, res, next) {
-
-  connection.connect();
-
+  var aboutContent;
+  console.log(connection)
   connection.query(
-    'select * from aboutiaskf',
-    (error, result, fields) => {
-      if (error) {
-        console.log(error);
+    'select * from view_aboutiaskf', (error, result) => {
+      if (!error) {
+        aboutContent = result[0];
       }
-      else console.log(result)
-    }
-  );
+      console.log(aboutContent);
+      res.status(200).json({
+        error: !!error,
+        message: 'About Content fetched successfully!',
+        aboutContent: aboutContent,
+        staffList: [
+          {
+            id: 1,
+            title: 'Yönetim Kurulu Başkanı',
+            name: 'Efkan Muhtar',
+            email: 'efkan.muhtar@izmiraskf.com',
+            phone: '0 000 000 00 00',
+            profileImage: null,
+            isVisible: true,
+            order: 1
+          },
+          {
+            id: 2,
+            title: 'Genel Sekreter',
+            name: 'Ali Alanç',
+            email: 'ali.alanc@izmiraskf.com',
+            phone: '0 000 000 00 00',
+            profileImage: null,
+            isVisible: false,
+            order: 2
+          },
+          {
+            id: 6,
+            title: 'İdari Personel',
+            name: 'Ejder Cihan Kaya',
+            email: 'cihan.kaya@izmiraskf.com',
+            phone: '0 000 000 00 00',
+            profileImage: null,
+            isVisible: true,
+            order: 6
+          },
+          {
+            id: 7,
+            title: 'İdari Personel',
+            name: 'Erhan Daşdelen',
+            email: 'erhan.dasdelen@izmiraskf.com',
+            phone: '0 000 000 00 00',
+            profileImage: null,
+            isVisible: false,
+            order: 7
+          },
+          {
+            id: 8,
+            title: 'İdari Koordinatör',
+            name: 'Mustafa Yılmaz',
+            email: 'mustafa.yilmaz@izmiraskf.com',
+            phone: '0 000 000 00 00',
+            profileImage: null,
+            isVisible: true,
+            order: 8
+          },
+          {
+            id: 9,
+            title: 'Personel',
+            name: 'Mustafa İlhan Usta',
+            email: 'mustafa.usta@izmiraskf.com',
+            phone: '0 000 000 00 00',
+            profileImage: null,
+            isVisible: true,
+            order: 9
+          }
+        ]
+      });
+    });
 
-  connection.end();
 
+
+  /*
   res.status(200).json({
     error: false,
     message: 'About Content fetched successfully!',
@@ -95,6 +153,7 @@ function getAboutContent(req, res, next) {
       }
     ]
   });
+  */
 }
 
 
