@@ -1,10 +1,10 @@
 export interface ExternalLinksModel {
   id: number,
   iconImage: File,
-  name: string,
+  linkName: string,
   url: string,
-  type: string,
+  linkType: string,
   faClass: string,
-  order: number,
+  orderNo: number,
   isActive: boolean
 }

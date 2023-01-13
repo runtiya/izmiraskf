@@ -32,7 +32,7 @@ export class StadiumsCreateModal {
 
     this.stadiumsCreateForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.id : null, {validators: []}),
-      name: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.name : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+      stadiumName: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.stadiumName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       city: new FormControl('IZMIR', {validators: [Validators.required, Validators.maxLength(200)]}),
       town: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.town : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       address: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.address : null, {validators: [Validators.maxLength(2000)]}),

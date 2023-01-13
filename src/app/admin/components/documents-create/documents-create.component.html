@@ -20,10 +20,10 @@
           <input
             matInput
             type="text"
-            formControlName="name"
+            formControlName="docName"
             placeholder="Dosya Adı"
           >
-          <mat-error *ngIf="documentSubmitForm.get('name').invalid">Lütfen dosya adı giriniz! (en fazla 200 karakter)</mat-error>
+          <mat-error *ngIf="documentSubmitForm.get('docName').invalid">Lütfen dosya adı giriniz! (en fazla 200 karakter)</mat-error>
         </mat-form-field>
       </div>
 
@@ -56,10 +56,10 @@
           <input
             matInput
             type="number"
-            formControlName="order"
+            formControlName="orderNo"
             placeholder="(1-999)"
           >
-          <mat-error *ngIf="documentSubmitForm.get('order').invalid">
+          <mat-error *ngIf="documentSubmitForm.get('orderNo').invalid">
             Lütfen sıralama numarası giriniz! (1-999)
           </mat-error>
         </mat-form-field>

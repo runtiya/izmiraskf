@@ -28,11 +28,11 @@ export class AdminDocumentCreateModal {
     this.isLoading = true;
     this.documentSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.documentInfo.id : null, {validators: []}),
-      name: new FormControl(this.pageMode == 'edit' ? this.documentInfo.name : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+      docName: new FormControl(this.pageMode == 'edit' ? this.documentInfo.docName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       content: new FormControl(this.pageMode == 'edit' ? this.documentInfo.content : null, {validators: [Validators.required], asyncValidators: [fileUploadValidator]}),
       mimeType: new FormControl(this.pageMode == 'edit' ? this.documentInfo.mimeType : null, {validators: []}),
       category: new FormControl(this.pageMode == 'edit' ? this.documentInfo.documentCategory : this.data.documentCategory, {validators: [Validators.required]}),
-      order: new FormControl(this.pageMode == 'edit' ? this.documentInfo.order : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]}),
+      orderNo: new FormControl(this.pageMode == 'edit' ? this.documentInfo.orderNo : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]}),
     });
     this.isLoading = false;
   }

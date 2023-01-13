@@ -18,7 +18,7 @@ export class StaffIASKFService {
     try {
       this.http
       .get<{error: boolean, message: string, staffList: any}>(
-        'http://localhost:3000/admin/izmiraskf'
+        'http://localhost:3000/admin/izmiraskf-personel'
       )
       /*
       .pipe(
@@ -58,7 +58,7 @@ export class StaffIASKFService {
 
     this.http
       .post<{error: boolean, message: string, staffId: number}>(
-        'http://localhost:3000/admin/izmiraskf', staffInfo
+        'http://localhost:3000/admin/izmiraskf-personel', staffInfo
       )
       .subscribe((data) => {
         if (!data.error) {
@@ -78,7 +78,7 @@ export class StaffIASKFService {
 
     this.http
       .put<{error: boolean, message: string}>(
-        'http://localhost:3000/admin/izmiraskf/' + staffInfo.id, staffInfo
+        'http://localhost:3000/admin/izmiraskf-personel/' + staffInfo.id, staffInfo
       )
       .subscribe((data) => {
         if (!data.error) {
@@ -101,7 +101,7 @@ export class StaffIASKFService {
 
     this.http
       .delete<{error: boolean, message: string}>(
-        'http://localhost:3000/admin/izmiraskf/' + staffId
+        'http://localhost:3000/admin/izmiraskf-personel/' + staffId
       )
       .subscribe((data) => {
         if (!data.error) {

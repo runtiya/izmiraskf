@@ -32,7 +32,7 @@ export class CreateAdminStaffIzmirTFFModal {
       phone: new FormControl(this.pageMode == 'edit' ? this.staffInfo.phone : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       email: new FormControl(this.pageMode == 'edit' ? this.staffInfo.email : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       profileImage: new FormControl(this.pageMode == 'edit' ? this.staffInfo.profileImage : null, {validators: [], asyncValidators: [imageUploadValidator]}),
-      isVisible: new FormControl(this.pageMode == 'edit' ? this.staffInfo.isVisible : true, {validators: [Validators.required]}),
+      isVisible: new FormControl(this.pageMode == 'edit' ? !!this.staffInfo.isVisible : true, {validators: [Validators.required]}),
       order: new FormControl(this.pageMode == 'edit' ? this.staffInfo.order : 1, {validators: [Validators.required, Validators.maxLength(3), Validators.min(1), Validators.max(999)]})
     });
 

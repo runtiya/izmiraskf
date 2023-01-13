@@ -35,8 +35,8 @@
 
           <tbody *ngFor="let doc of documents">
             <tr>
-              <td>{{doc.order}}</td>
-              <td>{{doc.name}}</td>
+              <td>{{doc.orderNo}}</td>
+              <td>{{doc.docName}}</td>
               <td>{{doc.mimeType}}</td>
               <td><a class="button-external-link button-external-link-primary" (click)="onEdit(doc)" type="button">Düzenle</a></td>
               <td><a class="button-external-link button-external-link-warn" (click)="onDelete(doc.id)" type="button">Sil</a></td>

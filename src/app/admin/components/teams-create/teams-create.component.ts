@@ -60,7 +60,7 @@ export class TeamsCreateModal {
           colorCodes: new FormControl({value: this.pageMode == 'edit' ? this.teamInfo.colorCodes : '#FF0000;#FFFFFF', disabled: true},  {validators: [Validators.required]}),
           websiteURL: new FormControl(this.pageMode == 'edit' ? this.teamInfo.websiteURL : null, {validators: [Validators.maxLength(200)]}),
           isMember: new FormControl(this.pageMode == 'edit' ? this.teamInfo.isMember : false, {validators: []}),
-          isVisible: new FormControl(this.pageMode == 'edit' ? this.teamInfo.isVisible : true, {validators: []}),
+          isVisible: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isVisible : true, {validators: []}),
         });
 
         this.isLoading = false;

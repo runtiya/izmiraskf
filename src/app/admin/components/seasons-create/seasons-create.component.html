@@ -21,10 +21,10 @@
             <input
               matInput
               type="text"
-              formControlName="name"
+              formControlName="seasonName"
               placeholder="Sezon Adı"
             >
-            <mat-error *ngIf="seasonSubmitForm.get('name').invalid">
+            <mat-error *ngIf="seasonSubmitForm.get('seasonName').invalid">
               Lütfen sezon adı giriniz! (en fazla 200 karakter)
             </mat-error>
           </mat-form-field>
@@ -35,7 +35,7 @@
             <mat-label>Yıl</mat-label>
             <mat-select
               matInput
-              formControlName="year"
+              formControlName="seasonYear"
               placeholder="Yıl"
             >
               <mat-option
@@ -45,7 +45,7 @@
                 {{year}}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="seasonSubmitForm.get('year').invalid">
+            <mat-error *ngIf="seasonSubmitForm.get('seasonYear').invalid">
               Lütfen bir değer seçiniz!
             </mat-error>
           </mat-form-field>

@@ -1,13 +1,9 @@
+const environment = require('../environments/development');
 const mysql = require('mysql');
 
 function connectDatabase() {
-  const connection = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: '17Nisan1996',
-    database: 'izmiraskf',
-  });
 
+  const connection = mysql.createConnection(environment.database);
   return connection;
 }
 

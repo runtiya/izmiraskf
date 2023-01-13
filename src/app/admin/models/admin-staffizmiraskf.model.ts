@@ -1,10 +1,10 @@
 export interface StaffIzmirAskfModel {
   id: number,
   title: string,
-  name: string,
+  fullName: string,
   phone: string,
   email: string,
   profileImage: File,
   isVisible: boolean,
-  order: number
+  orderNo: number
 }

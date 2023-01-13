@@ -29,12 +29,12 @@ export class CreateAdminStaffIzmirAskfModal {
     this.staffIASKFSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.staffInfo.id : null, {validators: []}),
       title: new FormControl(this.pageMode == 'edit' ? this.staffInfo.title : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      name: new FormControl(this.pageMode == 'edit' ? this.staffInfo.name : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      phone: new FormControl(this.pageMode == 'edit' ? this.staffInfo.phone : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      email: new FormControl(this.pageMode == 'edit' ? this.staffInfo.email : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+      fullName: new FormControl(this.pageMode == 'edit' ? this.staffInfo.fullName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+      phone: new FormControl(this.pageMode == 'edit' ? this.staffInfo.phone : null, {validators: [Validators.maxLength(200)]}),
+      email: new FormControl(this.pageMode == 'edit' ? this.staffInfo.email : null, {validators: [Validators.maxLength(200)]}),
       profileImage: new FormControl(this.pageMode == 'edit' ? this.staffInfo.profileImage : null, {validators: [], asyncValidators: [imageUploadValidator]}),
-      isVisible: new FormControl(this.pageMode == 'edit' ? this.staffInfo.isVisible : true, {validators: [Validators.required]}),
-      order: new FormControl(this.pageMode == 'edit' ? this.staffInfo.order : 1, {validators: [Validators.required, Validators.maxLength(3), Validators.min(1), Validators.max(999)]})
+      isVisible: new FormControl(this.pageMode == 'edit' ? !!this.staffInfo.isVisible : true, {validators: [Validators.required]}),
+      orderNo: new FormControl(this.pageMode == 'edit' ? this.staffInfo.orderNo : 1, {validators: [Validators.required, Validators.maxLength(3), Validators.min(1), Validators.max(999)]})
     });
 
   }

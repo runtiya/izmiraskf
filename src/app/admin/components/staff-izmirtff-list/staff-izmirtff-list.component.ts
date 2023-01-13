@@ -24,7 +24,7 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
     this.staffService.getStaff();
     this.staffizmirtffListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffITFFModel[]) => {
-        this.staffizmirtffList = data.sort((a, b) => { return a.order - b.order});
+        this.staffizmirtffList = data.sort((a, b) => { return a.orderNo - b.orderNo});
         this.isLoading = false;
       });
   }
@@ -45,7 +45,7 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       this.staffizmirtffListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffITFFModel[]) => {
-        this.staffizmirtffList = data.sort((a, b) => { return a.order - b.order});
+        this.staffizmirtffList = data.sort((a, b) => { return a.orderNo - b.orderNo});
       });
     });
   }
@@ -62,7 +62,7 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       this.staffizmirtffListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffITFFModel[]) => {
-        this.staffizmirtffList = data.sort((a, b) => { return a.order - b.order});
+        this.staffizmirtffList = data.sort((a, b) => { return a.orderNo - b.orderNo});
       });
     });
   }

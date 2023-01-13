@@ -28,7 +28,7 @@ export class AdminDocumentList {
     this.documentService.getDocuments(this.documentCategory);
     this.documentsSubscription = this.documentService.getDocumentsListSubListener()
       .subscribe((data: DocumentsModel[]) => {
-        this.documents = data.sort((a, b) => {return a.order - b.order});
+        this.documents = data.sort((a, b) => {return a.orderNo - b.orderNo});
         this.isLoading = false;
         console.log(this.documents);
       });
@@ -45,7 +45,7 @@ export class AdminDocumentList {
     dialogRef.afterClosed().subscribe(result => {
       this.documentsSubscription = this.documentService.getDocumentsListSubListener()
         .subscribe((data: DocumentsModel[]) => {
-          this.documents = data.sort((a, b) => {return a.order - b.order});
+          this.documents = data.sort((a, b) => {return a.orderNo - b.orderNo});
         });
     });
   }
@@ -62,7 +62,7 @@ export class AdminDocumentList {
     dialogRef.afterClosed().subscribe(result => {
       this.documentsSubscription = this.documentService.getDocumentsListSubListener()
         .subscribe((data: DocumentsModel[]) => {
-          this.documents = data.sort((a, b) => {return a.order - b.order});
+          this.documents = data.sort((a, b) => {return a.orderNo - b.orderNo});
         })
     });
   }

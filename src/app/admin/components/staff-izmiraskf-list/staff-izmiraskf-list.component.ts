@@ -24,7 +24,7 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
     this.staffService.getStaff();
     this.staffizmiraskfListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffIzmirAskfModel[]) => {
-        this.staffizmiraskfList = data.sort((a, b) => { return a.order - b.order});
+        this.staffizmiraskfList = data.sort((a, b) => { return a.orderNo - b.orderNo});
       });
     this.isLoading = false;
   }
@@ -45,7 +45,7 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       this.staffizmiraskfListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffIzmirAskfModel[]) => {
-        this.staffizmiraskfList = data.sort((a, b) => { return a.order - b.order});
+        this.staffizmiraskfList = data.sort((a, b) => { return a.orderNo - b.orderNo});
       });
     });
   }
@@ -62,7 +62,7 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       this.staffizmiraskfListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffIzmirAskfModel[]) => {
-        this.staffizmiraskfList = data.sort((a, b) => { return a.order - b.order});
+        this.staffizmiraskfList = data.sort((a, b) => { return a.orderNo - b.orderNo});
       });
     });
   }

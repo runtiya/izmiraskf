@@ -7,6 +7,7 @@ const app = express();
 
 const adminNewsRoutes = require('./routes/admin/news');
 const adminAboutIASKFRoutes = require('./routes/admin/aboutiaskf');
+const adminStaffIASKFRoutes = require('./routes/admin/staffiaskf');
 const adminAboutITFFRoutes = require('./routes/admin/aboutitff');
 const adminExternalLinkRoutes = require('./routes/admin/externallinks');
 const adminDocumentsRoutes = require('./routes/admin/documents');
@@ -47,6 +48,7 @@ app.use((req, res, next) => {
 
 app.use('/admin/haberler', adminNewsRoutes);
 app.use('/admin/izmiraskf', adminAboutIASKFRoutes);
+app.use('/admin/izmiraskf-personel', adminStaffIASKFRoutes);
 app.use('/admin/izmirtffiltemsilciligi', adminAboutITFFRoutes);
 app.use('/admin/disbaglantilar', adminExternalLinkRoutes);
 app.use('/admin/documents', adminDocumentsRoutes);

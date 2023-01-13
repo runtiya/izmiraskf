@@ -25,24 +25,24 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     this.extLinkService.getLinks();
     this.extLinksSubscription = this.extLinkService.getExternalLinksSubListener()
       .subscribe((data: ExternalLinksModel[]) => {
-        this.extLinks = data.sort((a, b) => {return a.order - b.order});
+        this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
         this.isLoading = false;
         console.log(this.extLinks);
       });
   }
 
-  onCreate(type: string) {
+  onCreate(linkType: string) {
     const dialogRef = this.dialog.open(AdminExternalLinksCreateModal, {
       data: {
         pageMode: 'create',
-        type: type
+        type: linkType
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       this.extLinksSubscription = this.extLinkService.getExternalLinksSubListener()
         .subscribe((data: ExternalLinksModel[]) => {
-          this.extLinks = data.sort((a, b) => {return a.order - b.order});
+          this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
         })
     });
   }
@@ -51,7 +51,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AdminExternalLinksCreateModal, {
       data: {
         pageMode: 'edit',
-        type: linkInfo.type,
+        type: linkInfo.linkType,
         linkInfo: linkInfo
       }
     });
@@ -59,7 +59,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       this.extLinksSubscription = this.extLinkService.getExternalLinksSubListener()
         .subscribe((data: ExternalLinksModel[]) => {
-          this.extLinks = data.sort((a, b) => {return a.order - b.order});
+          this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
         })
     });
   }

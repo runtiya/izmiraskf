@@ -39,9 +39,9 @@
           </thead>
 
           <tbody *ngFor="let link of extLinks">
-            <tr *ngIf="link.type === 'RELATEDLINK'">
-              <td>{{link.order}}</td>
-              <td>{{link.name}}</td>
+            <tr *ngIf="link.linkType === 'RELATEDLINK'">
+              <td>{{link.orderNo}}</td>
+              <td>{{link.linkName}}</td>
               <td><a class="external-link" href="{{link.url}}" target="_blank">{{link.url}}</a></td>
               <td>{{link.isActive ? 'Evet' : 'Hayır'}}</td>
               <td><a class="button-external-link button-external-link-primary" (click)="onEdit(link)" type="button">Düzenle</a></td>
@@ -92,9 +92,9 @@
           </thead>
 
           <tbody *ngFor="let link of extLinks">
-            <tr *ngIf="link.type === 'SOCIALMEDIA'">
-              <td>{{link.order}}</td>
-              <td>{{link.name}}</td>
+            <tr *ngIf="link.linkType === 'SOCIALMEDIA'">
+              <td>{{link.orderNo}}</td>
+              <td>{{link.linkName}}</td>
               <td><a class="external-link" href="{{link.url}}" target="_blank">{{link.url}}</a></td>
               <td>{{link.isActive ? 'Evet' : 'Hayır'}}</td>
               <td><a class="button-external-link button-external-link-primary" (click)="onEdit(link)" type="button">Düzenle</a></td>

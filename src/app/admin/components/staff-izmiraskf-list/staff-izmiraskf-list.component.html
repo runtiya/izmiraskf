@@ -26,16 +26,17 @@
             <div class="profileImageBorder">
               <img mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{staffizmiraskf.title}}">
             </div>
-            <mat-card-title>{{staffizmiraskf.name}}</mat-card-title>
+            <mat-card-title>{{staffizmiraskf.fullName}}</mat-card-title>
             <mat-card-subtitle>{{staffizmiraskf.title}}</mat-card-subtitle>
           </mat-card-title-group>
         </mat-card-header>
 
         <mat-card-content class="container">
-          <mat-card-subtitle>{{staffizmiraskf.phone}}</mat-card-subtitle>
-          <mat-card-subtitle>{{staffizmiraskf.email}}</mat-card-subtitle>
+          <mat-card-subtitle><p></p></mat-card-subtitle>
+          <mat-card-subtitle>Telefon: {{staffizmiraskf.phone}}</mat-card-subtitle>
+          <mat-card-subtitle>E-posta: {{staffizmiraskf.email}}</mat-card-subtitle>
           <mat-card-subtitle>Aktif: {{staffizmiraskf.isVisible ? 'Evet' : 'Hayır'}}</mat-card-subtitle>
-          <mat-card-subtitle>Sıra: {{staffizmiraskf.order}}</mat-card-subtitle>
+          <mat-card-subtitle>Sıra: {{staffizmiraskf.orderNo}}</mat-card-subtitle>
         </mat-card-content>
 
         <mat-action-row class="container">
