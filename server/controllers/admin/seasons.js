@@ -1,58 +1,92 @@
-function getSeasons(req, res, next) {
-  const seasons = [
-    {
-      id: 1,
-      name: '2022-2023',
-      year: '2022-2023',
-      isActive: true,
-    },
-    {
-      id: 2,
-      name: '2021-2022',
-      year: '2021-2022',
-      isActive: false,
-    },
-    {
-      id: 3,
-      name: '2020-2021',
-      year: '2020-2021',
-      isActive: false,
-    },
-  ];
+const connection = require('../../functions/database').connectDatabase();
 
-  res.status(200).json({
-    error: false,
-    message: 'Seaons fetched successfully!',
-    seasons: seasons
-  });
+function getSeasons(req, res, next) {
+  var seasonList;
+  var message;
+
+  connection.query(
+    "select * from view_seasons",
+    (error, result) => {
+      if (!error) {
+        seasonList = result;
+      } else {
+        message = error.sqlMessage;
+        seasonList = [];
+      }
+
+      res.status(200).json({
+        error: !!error,
+        message: message || 'Seasons fetched successfully!',
+        seasonList: seasonList
+      });
+    });
 }
 
 function createSeason(req, res, next) {
-  const season = req.body;
-  console.log(season);
-  res.status(200).json({
-    error: false,
-    message: 'Season added successfully!',
-    seasonId: null
-  });
+  const seasonInfo = req.body;
+  var message;
+  var seasonId;
+  connection.query(
+    "insert into seasons(seasonname, seasonyear, isactive)values (?, ?, ?)",
+    [ seasonInfo.seasonName,
+      seasonInfo.seasonYear,
+      seasonInfo.isActive
+    ],
+    (error, result) => {
+      if (!error) {
+        seasonId = result.insertId;
+      } else {
+        message = error.sqlMessage;
+      }
+      res.status(200).json({
+        error: !!error,
+        message: message || 'Season added successfully!',
+        seasonId: seasonId
+      });
+    });
 }
 
 
 function updateSeason(req, res, next) {
-  const season = req.body;
-  console.log(season);
-  res.status(200).json({
-    error: false,
-    message: 'Season updated successfully!'
-  });
+  const seasonInfo = req.body;
+  var message;
+  var seasonId;
+  connection.query(
+    "update seasons set seasonname = ?, seasonyear = ?, isactive = ?  where id = ?",
+    [ seasonInfo.seasonName,
+      seasonInfo.seasonYear,
+      seasonInfo.isActive,
+      seasonInfo.id
+    ],
+    (error, result) => {
+      if (!error) {
+        console.log(result);
+      } else {
+        message = error.sqlMessage;
+      }
+      res.status(200).json({
+        error: !!error,
+        message: message || 'Season updated successfully!',
+      });
+    });
 }
 
 function deleteSeason(req, res, next) {
-  const seasonId = req.params.id;
-  console.log(seasonId);
-  res.status(200).json({
-    error: false,
-    message: 'Season deleted successfully!'
+  var seasonId =  req.params.id;
+  var message;
+  connection.query(
+    "delete from seasons where id = ?",
+    [seasonId],
+    (error, result) => {
+      if (!error) {
+        console.log(result);
+      } else {
+        message = error.sqlMessage;
+      }
+      res.status(200).json({
+        error: !!error,
+        message: message || 'Season deleted successfully!',
+      });
   });
 }
 

@@ -27,7 +27,7 @@ export class AdminSeasonsList {
     this.seasonsService.getSeasons();
     this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
       .subscribe((data: SeasonsModel[]) => {
-        this.seasonsList = data.sort((a, b) => b.year.localeCompare(a.year));
+        this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
         this.isLoading = false;
       });
   }
@@ -42,7 +42,7 @@ export class AdminSeasonsList {
     dialogRef.afterClosed().subscribe(result => {
       this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
         .subscribe((data: SeasonsModel[]) => {
-          this.seasonsList = data.sort((a, b) => b.year.localeCompare(a.year));
+          this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
         });
     });
   }
@@ -58,7 +58,7 @@ export class AdminSeasonsList {
     dialogRef.afterClosed().subscribe(result => {
       this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
         .subscribe((data: SeasonsModel[]) => {
-          this.seasonsList = data.sort((a, b) => b.year.localeCompare(a.year));
+          this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
         });
     });
   }

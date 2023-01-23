@@ -51,7 +51,7 @@ export class StadiumsListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
         .subscribe((data: StadiumsModel[]) => {
-          this.stadiumsList = data.sort((a, b) => a.name.localeCompare(b.name));
+          this.stadiumsList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
         });
     });
   }
@@ -68,7 +68,7 @@ export class StadiumsListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
         .subscribe((data: StadiumsModel[]) => {
-          this.stadiumsList = data.sort((a, b) => a.name.localeCompare(b.name));
+          this.stadiumsList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
         });
     });
 

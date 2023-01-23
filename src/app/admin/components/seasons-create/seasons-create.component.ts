@@ -25,9 +25,9 @@ export class AdminSeasonsCreateModal {
     this.isLoading = true;
     this.seasonSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.id : null, {validators: []}),
-      name: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.name : seasonYearList[0] + ' SEZONU', {validators: [Validators.required, Validators.maxLength(200)]}),
-      year: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.year : seasonYearList[0], {validators: [Validators.required]}),
-      isActive: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.isActive : true, {validators: [Validators.required]}),
+      seasonName: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.seasonName : seasonYearList[0] + ' SEZONU', {validators: [Validators.required, Validators.maxLength(200)]}),
+      seasonYear: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.seasonYear : seasonYearList[0], {validators: [Validators.required, Validators.maxLength(200)]}),
+      isActive: new FormControl(this.pageMode == 'edit' ? !!this.seasonInfo.isActive : true, {validators: [Validators.required]}),
     });
     this.isLoading = false;
   }

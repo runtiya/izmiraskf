@@ -27,7 +27,7 @@ export class NewsCreateComponent {
 
     this.newsCreateForm = new FormGroup({
       title: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      content: new FormControl(null, {validators: [Validators.required, Validators.maxLength(2000)]}),
+      content: new FormControl(null, {validators: [Validators.required, Validators.maxLength(4000)]}),
       newsImage: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
       isOnline: new FormControl(true, {validators: [Validators.required]})
     });

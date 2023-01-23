@@ -1,19 +1,32 @@
-export const fontAwesomeList = [
-  "fa-brands fa-facebook",
-  "fa-brands fa-facebook-f",
-  "fa-brands fa-square-facebook",
-  "fa-brands fa-twitter",
-  "fa-brands fa-square-twitter",
-  "fa-brands fa-instagram",
-  "fa-brands fa-square-instagram",
-  "fa-brands fa-youtube",
-  "fa-brands fa-square-youtube",
-  "fa-brands fa-tiktok",
-  "fa-brands fa-linkedin",
-  "fa-brands fa-linkedin-in",
-  "fa-brands fa-google-plus-g",
-  "fa-brands fa-google-plus",
-  "fa-brands fa-pinterest",
-  "fa-brands fa-pinterest-p",
-  "fa-brands fa-square-pinterest",
+export const faBrandList = [
+  {
+    name: "FACEBOOK",
+    value: "Facebook",
+    faClass: "fa-brands fa-facebook-f",
+    color: "#1877F2"
+  },
+  {
+    name: "TWITTER",
+    value: "Twitter",
+    faClass: "fa-brands fa-twitter",
+    color: "#1DA1F2"
+  },
+  {
+    name: "INSTAGRAM",
+    value: "Instagram",
+    faClass: "fa-brands fa-square-instagram",
+    color: "#E1306C"
+  },
+  {
+    name: "YOUTUBE",
+    value: "Youtube",
+    faClass: "fa-brands fa-youtube",
+    color: "#FF0000"
+  },
+  {
+    name: "LINKEDIN",
+    value: "Linkedin",
+    faClass: "fa-brands fa-linkedin-in",
+    color: "#0077B5"
+  },
 ];

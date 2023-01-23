@@ -1,6 +1,6 @@
 export interface StadiumsModel {
   id: number,
-  name: string,
+  stadiumName: string,
   city: string,
   town: string,
   address: string,

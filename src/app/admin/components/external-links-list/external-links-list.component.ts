@@ -5,6 +5,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { ExternalLinksModel } from "../../models/admin-externallinks.model";
 import { ExternalLinksService } from "../../services/admin/admin-externallinks.service";
 import { AdminExternalLinksCreateModal } from "../external-links-create/external-links-create.component";
+import { faBrandList } from "../../assets/lists/font-awesome-list";
+
 
 @Component({
   selector: 'app-admin-external-links-list',
@@ -16,6 +18,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   isLoading = false;
   extLinks: ExternalLinksModel[] = [];
   private extLinksSubscription: Subscription;
+  faBrandList = faBrandList;
 
   constructor(public extLinkService: ExternalLinksService, public dialog: MatDialog) {}
 
@@ -25,24 +28,24 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     this.extLinkService.getLinks();
     this.extLinksSubscription = this.extLinkService.getExternalLinksSubListener()
       .subscribe((data: ExternalLinksModel[]) => {
-        this.extLinks = data.sort((a, b) => {return a.order - b.order});
+        this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
         this.isLoading = false;
         console.log(this.extLinks);
       });
   }
 
-  onCreate(type: string) {
+  onCreate(linkType: string) {
     const dialogRef = this.dialog.open(AdminExternalLinksCreateModal, {
       data: {
         pageMode: 'create',
-        type: type
+        linkType: linkType
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       this.extLinksSubscription = this.extLinkService.getExternalLinksSubListener()
         .subscribe((data: ExternalLinksModel[]) => {
-          this.extLinks = data.sort((a, b) => {return a.order - b.order});
+          this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
         })
     });
   }
@@ -51,7 +54,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AdminExternalLinksCreateModal, {
       data: {
         pageMode: 'edit',
-        type: linkInfo.type,
+        linkType: linkInfo.linkType,
         linkInfo: linkInfo
       }
     });
@@ -59,7 +62,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       this.extLinksSubscription = this.extLinkService.getExternalLinksSubListener()
         .subscribe((data: ExternalLinksModel[]) => {
-          this.extLinks = data.sort((a, b) => {return a.order - b.order});
+          this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
         })
     });
   }
@@ -73,4 +76,5 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.extLinksSubscription.unsubscribe();
   }
+
 }

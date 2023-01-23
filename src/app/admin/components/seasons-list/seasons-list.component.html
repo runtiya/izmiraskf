@@ -34,9 +34,9 @@
 
           <tbody *ngFor="let season of seasonsList">
             <tr>
-              <td>{{season.name}}</td>
-              <td>{{season.year}}</td>
-              <td>{{season.isOnline ? 'Evet' : 'Hayır'}}</td>
+              <td>{{season.seasonName}}</td>
+              <td>{{season.seasonYear}}</td>
+              <td>{{season.isActive ? 'Evet' : 'Hayır'}}</td>
               <td><a class="button-external-link button-external-link-primary" (click)="onEdit(season)" type="button">Düzenle</a></td>
               <td><a class="button-external-link button-external-link-warn" (click)="onDelete(season.id)" type="button">Sil</a></td>
             </tr>

@@ -14,12 +14,12 @@ export class TeamsService {
   getTeams() {
     try {
       this.http
-        .get<{error: boolean, message: string, teams: TeamsModel[]}>(
+        .get<{error: boolean, message: string, teamList: TeamsModel[]}>(
           'http://localhost:3000/admin/takimlar'
         )
         .subscribe((data) => {
           if (!data.error) {
-            this.teamList = data.teams;
+            this.teamList = data.teamList;
             this.teamListSub.next([...this.teamList]);
           } else {
             console.log(data.message);

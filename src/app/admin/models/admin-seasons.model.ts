@@ -1,6 +1,6 @@
 export interface SeasonsModel {
   id: number;
-  name: string;
-  year: string;
+  seasonName: string;
+  seasonYear: string;
   isActive: boolean;
 }

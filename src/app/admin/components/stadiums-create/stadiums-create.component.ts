@@ -32,7 +32,7 @@ export class StadiumsCreateModal {
 
     this.stadiumsCreateForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.id : null, {validators: []}),
-      name: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.name : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+      stadiumName: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.stadiumName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       city: new FormControl('IZMIR', {validators: [Validators.required, Validators.maxLength(200)]}),
       town: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.town : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       address: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.address : null, {validators: [Validators.maxLength(2000)]}),
@@ -43,12 +43,15 @@ export class StadiumsCreateModal {
       audienceCapacity: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.audienceCapacity : null, {validators: [Validators.min(0), Validators.max(99999)]}),
       sizeLength: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.sizeLength : null, {validators: [Validators.min(0), Validators.max(999)]}),
       sizeWidth: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.sizeWidth : null, {validators: [Validators.min(0), Validators.max(999)]}),
-      floorType: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.floorType : null, {validators: []}),
-      hasLightning: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.hasLightning : null, {validators: []}),
-      hasSeating: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.hasSeating : null, {validators: []}),
-      hasDisabledTribune: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.hasDisabledTribune : null, {validators: []}),
-      hasClosedCircuitCameraSystem: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.hasClosedCircuitCameraSystem : null, {validators: []})
+      floorType: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.floorType : null, {validators: [Validators.maxLength(200)]}),
+      hasLightning: new FormControl(this.pageMode == 'edit' ? ((this.stadiumInfo.hasLightning != null) ? !!this.stadiumInfo.hasLightning : null) : null, {validators: []}),
+      hasSeating: new FormControl(this.pageMode == 'edit' ? ((this.stadiumInfo.hasSeating != null) ? !!this.stadiumInfo.hasSeating : null) : null, {validators: []}),
+      hasDisabledTribune: new FormControl(this.pageMode == 'edit' ? ((this.stadiumInfo.hasDisabledTribune != null) ? !!this.stadiumInfo.hasDisabledTribune : null) : null, {validators: []}),
+      hasClosedCircuitCameraSystem: new FormControl(this.pageMode == 'edit' ? ((this.stadiumInfo.hasClosedCircuitCameraSystem != null) ? !!this.stadiumInfo.hasClosedCircuitCameraSystem : null) : null, {validators: []})
     });
+
+    alert(this.stadiumInfo.latitude);
+
   }
 
   onDelete(id: number) {

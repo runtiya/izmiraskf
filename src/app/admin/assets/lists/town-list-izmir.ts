@@ -17,7 +17,7 @@ export const townList = [
   {
     order: 4,
     name: 'BAYRAKLI',
-    value: 'Bayındır'
+    value: 'Bayraklı'
   },
   {
     order: 5,

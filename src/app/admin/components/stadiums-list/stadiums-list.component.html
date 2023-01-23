@@ -22,7 +22,7 @@
   <mat-accordion *ngIf="stadiumsList.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor="let stadium of stadiumsList">
       <mat-expansion-panel-header>
-        {{stadium.name}}
+        {{stadium.stadiumName}}
       </mat-expansion-panel-header>
 
       <mat-card>
@@ -33,7 +33,7 @@
                 <tbody>
                   <tr>
                     <td>Ad:</td>
-                    <td>{{stadium.name}}</td>
+                    <td>{{stadium.stadiumName}}</td>
                   </tr>
 
                   <tr>

@@ -14,12 +14,12 @@ export class SeasonsService {
   getSeasons() {
     try {
       this.http
-        .get<{error: boolean, message: string, seasons: SeasonsModel[]}>(
+        .get<{error: boolean, message: string, seasonList: SeasonsModel[]}>(
           'http://localhost:3000/admin/sezonlar'
         )
         .subscribe((data) => {
           if (!data.error) {
-            this.seasonsList = data.seasons;
+            this.seasonsList = data.seasonList;
             this.seasonsListSub.next([...this.seasonsList]);
           } else {
             console.log(data.message);

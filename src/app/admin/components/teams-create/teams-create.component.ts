@@ -44,10 +44,10 @@ export class TeamsCreateModal {
 
         this.teamSubmitForm = new FormGroup({
           id: new FormControl(this.pageMode == 'edit' ? this.teamInfo.id : null, {validators: []}),
-          TFFClubCode: new FormControl(this.pageMode == 'edit' ? this.teamInfo.TFFClubCode : null, {validators: []}),
+          TFFClubCode: new FormControl(this.pageMode == 'edit' ? this.teamInfo.TFFClubCode : null, {validators: [Validators.maxLength(200)]}),
           officialName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.officialName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-          shortName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.shortName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-          logo: new FormControl(this.pageMode == 'edit' ? this.teamInfo.logo : null, {validators: [], asyncValidators: [imageUploadValidator]}),
+          shortName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.shortName : null, {validators: [Validators.maxLength(200)]}),
+          logoImage: new FormControl(this.pageMode == 'edit' ? this.teamInfo.logoImage : null, {validators: [], asyncValidators: [imageUploadValidator]}),
           city: new FormControl('IZMIR', {validators: [Validators.required, Validators.maxLength(200)]}),
           town: new FormControl(this.pageMode == 'edit' ? this.teamInfo.town : null, {validators: [Validators.required, Validators.maxLength(200)]}),
           address: new FormControl(this.pageMode == 'edit' ? this.teamInfo.address : null, {validators: [Validators.maxLength(2000)]}),
@@ -55,12 +55,12 @@ export class TeamsCreateModal {
           latitude: new FormControl(this.pageMode == 'edit' ? this.teamInfo.latitude : null, {validators: []}),
           phoneNumber: new FormControl(this.pageMode == 'edit' ? this.teamInfo.phoneNumber : null, {validators: [Validators.maxLength(200)]}),
           faxNumber: new FormControl(this.pageMode == 'edit' ? this.teamInfo.faxNumber : null, {validators: [Validators.maxLength(200)]}),
-          stadiumId: new FormControl(this.pageMode == 'edit' ? this.teamInfo.stadiumId : null, {validators: []}),
+          stadiumId: new FormControl(this.pageMode == 'edit' ? this.teamInfo.stadiumId : null, {validators: [Validators.required]}),
           presidentName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.presidentName : null, {validators: [Validators.maxLength(200)]}),
           colorCodes: new FormControl({value: this.pageMode == 'edit' ? this.teamInfo.colorCodes : '#FF0000;#FFFFFF', disabled: true},  {validators: [Validators.required]}),
           websiteURL: new FormControl(this.pageMode == 'edit' ? this.teamInfo.websiteURL : null, {validators: [Validators.maxLength(200)]}),
-          isMember: new FormControl(this.pageMode == 'edit' ? this.teamInfo.isMember : false, {validators: []}),
-          isVisible: new FormControl(this.pageMode == 'edit' ? this.teamInfo.isVisible : true, {validators: []}),
+          isASKFMember: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isMember : false, {validators: []}),
+          isVisible: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isVisible : true, {validators: []}),
         });
 
         this.isLoading = false;
@@ -79,8 +79,8 @@ export class TeamsCreateModal {
     try {
 
       const file = (event.target as HTMLInputElement).files[0];
-      this.teamSubmitForm.patchValue({logo: file});
-      this.teamSubmitForm.get('logo').updateValueAndValidity();
+      this.teamSubmitForm.patchValue({logoImage: file});
+      this.teamSubmitForm.get('logoImage').updateValueAndValidity();
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview = reader.result as string;
