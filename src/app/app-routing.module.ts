@@ -16,6 +16,8 @@ import { StadiumsListComponent } from "./admin/components/stadiums-list/stadiums
 
 import { AdminSeasonsList } from "./admin/components/seasons-list/seasons-list.component";
 
+import { AdminLeaguesList } from "./admin/components/leagues-list/leagues-list.component";
+
 import { PageNotFound } from "./admin/components/page-not-found/page-not-found.component";
 
 
@@ -35,6 +37,7 @@ const routes: Routes = [
   {path: 'admin/takimlar', component: TeamsList},
 
   {path: 'admin/sezonlar', component: AdminSeasonsList},
+  {path: 'admin/ligler', component: AdminLeaguesList},
 
   {path: '**', pathMatch: "full", component: PageNotFound},
 ];

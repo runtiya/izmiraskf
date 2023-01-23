@@ -20,7 +20,6 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
 
   constructor(public aboutiaskfService : AboutIASKFService) {}
 
-
   ngOnInit() {
     this.isLoading = true;
     this.aboutiaskfService.getAboutContent();

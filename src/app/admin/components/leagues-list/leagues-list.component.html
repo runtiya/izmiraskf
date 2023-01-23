@@ -24,28 +24,28 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th scope="col">Sezon Adı</th>
-              <th scope="col">Yıl</th>
+              <th scope="col">Lig</th>
+              <th scope="col">Kategori</th>
+              <th scope="col">Tür</th>
               <th scope="col">Yayında</th>
               <th scope="col">Düzenle</th>
               <th scope="col">Sil</th>
             </tr>
           </thead>
 
-          <tbody *ngFor="let season of seasonsList">
+          <tbody *ngFor="let league of leagueList">
             <tr>
-              <td>{{season.seasonName}}</td>
-              <td>{{season.seasonYear}}</td>
-              <td>{{season.isActive ? 'Evet' : 'Hayır'}}</td>
-              <td><a class="button-external-link button-external-link-primary" (click)="onEdit(season)" type="button">Düzenle</a></td>
-              <td><a class="button-external-link button-external-link-warn" (click)="onDelete(season.id)" type="button">Sil</a></td>
+              <td>{{league.leagueName}}</td>
+              <td>{{league.category}}</td>
+              <td>{{league.leagueType}}</td>
+              <td>{{league.isActive ? 'Evet' : 'Hayır'}}</td>
+              <td><a class="button-external-link button-external-link-primary" (click)="onEdit(league)" type="button">Düzenle</a></td>
+              <td><a class="button-external-link button-external-link-warn" (click)="onDelete(league.id)" type="button">Sil</a></td>
             </tr>
           </tbody>
         </table>
       </div>
     </mat-card-content>
-    <mat-card-footer>
-      <mat-card-subtitle>Toplam Kayıt Sayısı: {{seasonsList.length}}</mat-card-subtitle>
-    </mat-card-footer>
   </mat-card>
+
 </div>

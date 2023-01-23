@@ -5,6 +5,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { ExternalLinksModel } from "../../models/admin-externallinks.model";
 import { ExternalLinksService } from "../../services/admin/admin-externallinks.service";
 import { AdminExternalLinksCreateModal } from "../external-links-create/external-links-create.component";
+import { faBrandList } from "../../assets/lists/font-awesome-list";
+
 
 @Component({
   selector: 'app-admin-external-links-list',
@@ -16,6 +18,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   isLoading = false;
   extLinks: ExternalLinksModel[] = [];
   private extLinksSubscription: Subscription;
+  faBrandList = faBrandList;
 
   constructor(public extLinkService: ExternalLinksService, public dialog: MatDialog) {}
 
@@ -35,7 +38,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AdminExternalLinksCreateModal, {
       data: {
         pageMode: 'create',
-        type: linkType
+        linkType: linkType
       }
     });
 
@@ -51,7 +54,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AdminExternalLinksCreateModal, {
       data: {
         pageMode: 'edit',
-        type: linkInfo.linkType,
+        linkType: linkInfo.linkType,
         linkInfo: linkInfo
       }
     });
@@ -73,4 +76,5 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.extLinksSubscription.unsubscribe();
   }
+
 }

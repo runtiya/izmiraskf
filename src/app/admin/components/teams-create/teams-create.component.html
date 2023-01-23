@@ -17,6 +17,7 @@
 
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12">
+
             <button
               mat-stroked-button
               type="button"
@@ -29,10 +30,16 @@
             <input type="file" #filePicker (change)="onFilePicked($event)">
             <div
               class="image-preview"
-              *ngIf="imagePreview !== '' && imagePreview && teamSubmitForm.get('logo').valid">
+              *ngIf="imagePreview !== '' && imagePreview && teamSubmitForm.get('logoImage').valid">
               <img [src]="imagePreview" [alt]="teamSubmitForm.value.officialName"/>
             </div>
-            <mat-error *ngIf="!teamSubmitForm.get('logo').valid">
+            <div
+              class="image-preview"
+              mat-card-sm-image
+              *ngIf="imagePreview == '' || !imagePreview || !teamSubmitForm.get('logoImage').valid">
+              <img src="https://github.com/runtiya/izmiraskf/blob/development/src/app/admin/assets/images/pickLogoTemplate.jpg" [alt]="teamSubmitForm.value.officialName"/>
+            </div>
+            <mat-error *ngIf="!teamSubmitForm.get('logoImage').valid">
               Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
             </mat-error>
           </div>
@@ -108,7 +115,7 @@
                   *ngFor="let stadium of stadiumsList"
                   [value]="stadium.id"
                 >
-                  {{stadium.name}}
+                  {{stadium.stadiumName}}
                 </mat-option>
               </mat-select>
 
@@ -235,14 +242,14 @@
               <mat-label>Üye</mat-label>
               <mat-select
                 matInput
-                formControlName="isMember"
+                formControlName="isASKFMember"
                 placeholder="Üye"
               >
               <mat-option [value]="true">Evet</mat-option>
               <mat-option [value]="false">Hayır</mat-option>
               </mat-select>
 
-              <mat-error *ngIf="teamSubmitForm.get('isMember').invalid">
+              <mat-error *ngIf="teamSubmitForm.get('isASKFMember').invalid">
                 Lütfen bir değer seçiniz!
               </mat-error>
             </mat-form-field>

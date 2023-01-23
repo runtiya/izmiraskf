@@ -65,6 +65,8 @@ import { TeamsCreateModal } from './admin/components/teams-create/teams-create.c
 import { AdminSeasonsList } from "./admin/components/seasons-list/seasons-list.component";
 import { AdminSeasonsCreateModal } from "./admin/components/seasons-create/seasons-create.component";
 
+import { AdminLeaguesList } from "./admin/components/leagues-list/leagues-list.component";
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
@@ -107,7 +109,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     TeamsCreateModal,
 
     AdminSeasonsList,
-    AdminSeasonsCreateModal
+    AdminSeasonsCreateModal,
+
+    AdminLeaguesList
 
   ],
   imports: [

@@ -7,7 +7,7 @@ import { Data } from "@angular/router";
 import { ExternalLinksModel } from "../../models/admin-externallinks.model";
 import { ExternalLinksService } from "../../services/admin/admin-externallinks.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-import { fontAwesomeList } from "../../assets/lists/font-awesome-list";
+import { faBrandList } from "../../assets/lists/font-awesome-list";
 
 
 @Component({
@@ -18,11 +18,11 @@ import { fontAwesomeList } from "../../assets/lists/font-awesome-list";
 export class AdminExternalLinksCreateModal {
   isLoading = false;
   pageMode: string = this.data.pageMode || 'create';
-  linkType: string = this.data.type || 'RELATEDLINK';
+  linkType: string = this.data.linkType || 'RELATEDLINK';
   linkInfo = this.data.linkInfo;
   imagePreview: string;
   extLinkSubmitForm: FormGroup;
-  faList = fontAwesomeList;
+  faBrandList = faBrandList;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<AdminExternalLinksCreateModal>, public extLinkService: ExternalLinksService) {}
 
@@ -30,13 +30,13 @@ export class AdminExternalLinksCreateModal {
 
     this.extLinkSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.linkInfo.id : null, {validators: []}),
-      name: new FormControl(this.pageMode == 'edit' ? this.linkInfo.name : null, {validators: [Validators.required, Validators.maxLength(100)]}),
+      linkName: new FormControl(this.pageMode == 'edit' ? this.linkInfo.linkName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       url: new FormControl(this.pageMode == 'edit' ? this.linkInfo.url : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      type: new FormControl(this.pageMode == 'edit' ? this.linkInfo.type : this.linkType, {validators: []}),
+      linkType: new FormControl(this.pageMode == 'edit' ? this.linkInfo.linkType : this.linkType, {validators: []}),
       iconImage: new FormControl(this.pageMode == 'edit' ? this.linkInfo.iconImage : null, {validators: [], asyncValidators: [imageUploadValidator]}),
-      faClass: new FormControl(this.pageMode == 'edit' ? this.linkInfo.faClass : null, {validators: [this.linkType == 'SOCIALMEDIA' ? Validators.required : Validators.maxLength(1)]}),
-      order: new FormControl(this.pageMode == 'edit' ? this.linkInfo.order : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]}),
-      isActive: new FormControl(this.pageMode == 'edit' ? this.linkInfo.isActive : true, {validators: [Validators.required, Validators.maxLength(3)]}),
+      faBrand: new FormControl(this.pageMode == 'edit' ? this.linkInfo.faBrand : null, {validators: [this.linkType == "SOCIALMEDIA" ? Validators.required : Validators.maxLength(1)]}),
+      orderNo: new FormControl(this.pageMode == 'edit' ? this.linkInfo.orderNo : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]}),
+      isActive: new FormControl(this.pageMode == 'edit' ? !!this.linkInfo.isActive : true, {validators: [Validators.required, Validators.maxLength(3)]}),
     });
   }
 
@@ -81,4 +81,5 @@ export class AdminExternalLinksCreateModal {
 
     this.dialogRef.close();
   }
+
 }

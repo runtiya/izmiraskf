@@ -1,29 +1,27 @@
-// Get all news list
-function getNews(req, res, next) {
-  const news = [
-    { id: '1',
-      title: 'Title #1',
-      content: 'Content #1',
-      img: 'image #1',
-      createdAt: '22.12.2022',
-      createdBy: 'Jane Doe',
-      isOnline: true
-    },
-    { id: '2',
-      title: 'Title #2',
-      content: 'Content #2',
-      img: 'image #2',
-      createdAt: '21.12.2022',
-      createdBy: 'John Doe',
-      isOnline: false
-    }
-  ];
+const connection = require('../../functions/database').connectDatabase();
 
-  res.status(200).json({
-    error: false,
-    message: 'News fetched successfully!',
-    news: news
-  });
+function getNews(req, res, next) {
+  var newsList;
+  var message;
+
+  connection.query(
+    "select * from view_news",
+    (error, result) => {
+      if (!error) {
+        newsList = result;
+      } else {
+        message = error.sqlMessage;
+        newsList = [];
+      }
+
+      res.status(200).json({
+        error: !!error,
+        message: message || 'News fetched successfully!',
+        news: newsList
+      });
+    });
+
+
 }
 
 
@@ -32,37 +30,68 @@ function findNews(req, res, next) {
 
 }
 
-// Create a new news
+
 function createNews(req, res, next) {
-  const news = req.body;
-  console.log(typeof(news.image));
-  console.log(!!news.image);
-  res.status(200).json({
-    error: false,
-    message: 'News added successfully!',
-    newsId: null
-  });
+  const newsInfo = req.body;
+  var message;
+  var newsId;
+  connection.query(
+    "insert into news(title, content, newsimage, isonline)values (?, ?, ?, ?)",
+    [newsInfo.title, newsInfo.content, newsInfo.newsImage, newsInfo.isOnline],
+    (error, result) => {
+      if (!error) {
+        newsId = result.insertId;
+      } else {
+        message = error.sqlMessage;
+      }
+      res.status(200).json({
+        error: !!error,
+        message: message || 'News added successfully!',
+        newsId: newsId
+      });
+    });
+
 }
 
-// Update a news by id
+
 function updateNews(req, res, next) {
-  const news = req.body;
-  console.log(typeof(news.image));
-  console.log(!!news.image);
-  res.status(200).json({
-    error: false,
-    message: 'News updated successfully!'
-  });
+  const newsInfo = req.body;
+  var message;
+  connection.query(
+    "update news set title = ?, content = ?, newsimage = ?, isonline = ? where id = ?",
+    [newsInfo.title, newsInfo.content, newsInfo.newsImage, newsInfo.isOnline, newsInfo.id],
+    (error, result) => {
+      if (!error) {
+        console.log(result);
+      } else {
+        message = error.sqlMessage;
+      }
+
+      res.status(200).json({
+        error: !!error,
+        message: message || 'News updated successfully!'
+      });
+    });
+
 }
 
-// Delete a news by id
-function deleteNews(req, res, next) {
-  const newsId = req.params.id;
 
-  console.log(newsId);
-  res.status(200).json({
-    error: false,
-    message: 'News deleted successfully!'
+function deleteNews(req, res, next) {
+  var newsId =  req.params.id;
+  var message;
+  connection.query(
+    "delete from news where id = ?",
+    [newsId],
+    (error, result) => {
+      if (!error) {
+        console.log(result);
+      } else {
+        message = error.sqlMessage;
+      }
+      res.status(200).json({
+        error: !!error,
+        message: message || 'News deleted successfully!',
+      });
   });
 }
 

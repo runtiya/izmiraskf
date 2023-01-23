@@ -4,7 +4,7 @@ function getStaffList(req, res, next) {
   var staffList;
   var message;
   connection.query(
-    "select * from view_staffiaskf", (error, result) => {
+    "select * from view_staffitff", (error, result) => {
       if (!error) {
         staffList = result;
       }
@@ -28,7 +28,7 @@ function createStaff(req, res, next) {
   var message;
   var staffId;
   connection.query(
-    "insert into staffiaskf(title, fullname, phone, email, profileimage, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?)",
+    "insert into staffitff(title, fullname, phone, email, profileimage, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?)",
     [staffInfo.title, staffInfo.fullName, staffInfo.phone, staffInfo.email, staffInfo.profileImage, staffInfo.isVisible, staffInfo.orderNo],
     (error, result) => {
       if (!error) {
@@ -47,9 +47,10 @@ function createStaff(req, res, next) {
 
 function updateStaff(req, res, next) {
   const staffInfo = req.body;
+  console.log(staffInfo);
   var message;
   connection.query(
-    "update staffiaskf set title = ?, fullname = ?, phone = ?, email = ?, profileimage = ?, isvisible = ?, orderno = ? where id = ?",
+    "update staffitff set title = ?, fullname = ?, phone = ?, email = ?, profileimage = ?, isvisible = ?, orderno = ? where id = ?",
     [staffInfo.title, staffInfo.fullName, staffInfo.phone, staffInfo.email, staffInfo.profileImage, staffInfo.isVisible, staffInfo.orderNo, staffInfo.id],
     (error, result) => {
       if (!error) {
@@ -68,7 +69,7 @@ function deleteStaff(req, res, next) {
   var staffId =  req.params.id;
   var message;
   connection.query(
-    "delete from staffiaskf where id = ?",
+    "delete from staffitff where id = ?",
     [staffId],
     (error, result) => {
       if (!error) {

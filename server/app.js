@@ -9,28 +9,14 @@ const adminNewsRoutes = require('./routes/admin/news');
 const adminAboutIASKFRoutes = require('./routes/admin/aboutiaskf');
 const adminStaffIASKFRoutes = require('./routes/admin/staffiaskf');
 const adminAboutITFFRoutes = require('./routes/admin/aboutitff');
+const adminStaffITFFRoutes = require('./routes/admin/staffitff');
 const adminExternalLinkRoutes = require('./routes/admin/externallinks');
 const adminDocumentsRoutes = require('./routes/admin/documents');
 const adminStadiumsRoutes = require('./routes/admin/stadiums');
 const adminTeamsRoutes = require('./routes/admin/teams');
 const adminSeasonsRoutes = require('./routes/admin/seasons');
+const adminLeaguesRoutes = require('./routes/admin/leagues');
 
-
-/*
-connection.connect();
-
-connection.query(
-  'insert into test(isactive) values (true)',
-  (error, result, fields) => {
-    if (error) {
-      console.log(error);
-    }
-    else console.log(result.insertId) // return last id
-  }
-);
-
-connection.end();
-*/
 
 
 app.use(bodyParser.json());
@@ -50,11 +36,13 @@ app.use('/admin/haberler', adminNewsRoutes);
 app.use('/admin/izmiraskf', adminAboutIASKFRoutes);
 app.use('/admin/izmiraskf-personel', adminStaffIASKFRoutes);
 app.use('/admin/izmirtffiltemsilciligi', adminAboutITFFRoutes);
+app.use('/admin/izmirtffiltemsilciligi-personel', adminStaffITFFRoutes);
 app.use('/admin/disbaglantilar', adminExternalLinkRoutes);
 app.use('/admin/documents', adminDocumentsRoutes);
 app.use('/admin/sahalar', adminStadiumsRoutes);
 app.use('/admin/takimlar', adminTeamsRoutes);
 app.use('/admin/sezonlar', adminSeasonsRoutes);
+app.use('/admin/ligler', adminLeaguesRoutes);
 
 
 module.exports = app;

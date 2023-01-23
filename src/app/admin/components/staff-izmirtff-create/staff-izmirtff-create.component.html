@@ -36,10 +36,10 @@
               <input
                 matInput
                 type="text"
-                formControlName="name"
+                formControlName="fullName"
                 placeholder="Ad - Soyad"
               />
-              <mat-error *ngIf="staffITFFSubmitForm.get('name').invalid"
+              <mat-error *ngIf="staffITFFSubmitForm.get('fullName').invalid"
                 >Lütfen ad-soyad giriniz! (en fazla 200 karakter)</mat-error
               >
             </mat-form-field>
@@ -129,10 +129,10 @@
                 <input
                   matInput
                   type="number"
-                  formControlName="order"
+                  formControlName="orderNo"
                   placeholder="(1-999)"
                 />
-                <mat-error *ngIf="staffITFFSubmitForm.get('order').invalid">
+                <mat-error *ngIf="staffITFFSubmitForm.get('orderNo').invalid">
                   Lütfen sıralama numarası giriniz! (1-999)
                 </mat-error
                 >
