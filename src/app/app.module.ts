@@ -66,6 +66,10 @@ import { AdminSeasonsList } from "./admin/components/seasons-list/seasons-list.c
 import { AdminSeasonsCreateModal } from "./admin/components/seasons-create/seasons-create.component";
 
 import { AdminLeaguesList } from "./admin/components/leagues-list/leagues-list.component";
+import { AdminLeaguesCreateModal } from './admin/components/leagues-create/leagues-create.component';
+
+import { AdminGroupList } from "./admin/components/groupstages-list/groupstages-list.component";
+import { AdminGroupStagesCreateModal } from "./admin/components/groupstages-create/groupstages-create.component";
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -111,7 +115,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AdminSeasonsList,
     AdminSeasonsCreateModal,
 
-    AdminLeaguesList
+    AdminLeaguesList,
+    AdminLeaguesCreateModal,
+
+    AdminGroupList,
+    AdminGroupStagesCreateModal
 
   ],
   imports: [

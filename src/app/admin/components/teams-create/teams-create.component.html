@@ -33,12 +33,6 @@
               *ngIf="imagePreview !== '' && imagePreview && teamSubmitForm.get('logoImage').valid">
               <img [src]="imagePreview" [alt]="teamSubmitForm.value.officialName"/>
             </div>
-            <div
-              class="image-preview"
-              mat-card-sm-image
-              *ngIf="imagePreview == '' || !imagePreview || !teamSubmitForm.get('logoImage').valid">
-              <img src="https://github.com/runtiya/izmiraskf/blob/development/src/app/admin/assets/images/pickLogoTemplate.jpg" [alt]="teamSubmitForm.value.officialName"/>
-            </div>
             <mat-error *ngIf="!teamSubmitForm.get('logoImage').valid">
               Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
             </mat-error>

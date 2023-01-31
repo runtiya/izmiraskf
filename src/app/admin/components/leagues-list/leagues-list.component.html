@@ -19,6 +19,25 @@
   </div>
 
   <mat-card>
+    <div class="row">
+      <mat-form-field class="form-input col-lg-6">
+        <mat-label>Sezon</mat-label>
+        <mat-select
+          matInput
+          placeholder="Sezon"
+          [(ngModel)]="seasonSelectionId"
+          (selectionChange)="onSeasonChange(seasonSelectionId)">
+          <mat-option
+            *ngFor="let season of seasonsList"
+            [value]="season.id"
+          >
+            {{season.seasonName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
     <mat-card-content>
       <div class="col-lg-12 col-md-12 col-sm-12">
         <table class="table table-hover">
@@ -36,8 +55,8 @@
           <tbody *ngFor="let league of leagueList">
             <tr>
               <td>{{league.leagueName}}</td>
-              <td>{{league.category}}</td>
-              <td>{{league.leagueType}}</td>
+              <td>{{ findLeagueCategory(league.category) }}</td>
+              <td>{{ findLeagueType(league.leagueType) }}</td>
               <td>{{league.isActive ? 'Evet' : 'Hayır'}}</td>
               <td><a class="button-external-link button-external-link-primary" (click)="onEdit(league)" type="button">Düzenle</a></td>
               <td><a class="button-external-link button-external-link-warn" (click)="onDelete(league.id)" type="button">Sil</a></td>
@@ -46,6 +65,8 @@
         </table>
       </div>
     </mat-card-content>
+    <mat-card-footer>
+      <mat-card-subtitle>Toplam Kayıt Sayısı: {{leagueList.length}}</mat-card-subtitle>
+    </mat-card-footer>
   </mat-card>
-
 </div>

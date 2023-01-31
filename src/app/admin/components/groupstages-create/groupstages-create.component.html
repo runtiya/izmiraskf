@@ -10,9 +10,9 @@
 
 
     <form
-      [formGroup]="leagueSubmitForm"
-      (submit)="onSubmitForm()"
-      *ngIf="!isLoading"
+    [formGroup]="groupstageSubmitForm"
+    (submit)="onSubmitForm()"
+    *ngIf="!isLoading"
     >
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12">
@@ -22,6 +22,7 @@
               matInput
               formControlName="seasonId"
               placeholder="Sezon"
+              (selectionChange)="onSeasonChange()"
             >
               <mat-option
                 *ngFor="let season of seasonList"
@@ -30,86 +31,70 @@
                 {{season.seasonName}}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="leagueSubmitForm.get('seasonId').invalid">
+            <mat-error *ngIf="groupstageSubmitForm.get('seasonId').invalid">
               Lütfen bir değer seçiniz!
             </mat-error>
           </mat-form-field>
         </div>
 
-        <div class="col-lg-6 col-md-6 col-sm-12">
-          <mat-form-field class="form-input">
-            <mat-label>Kategori</mat-label>
-            <mat-select
-              matInput
-              formControlName="category"
-              placeholder="Kategori"
-            >
-              <mat-option
-              *ngFor="let category of leagueCategoryList"
-              [value]="category.name"
-              >
-                {{category.value}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-error *ngIf="leagueSubmitForm.get('category').invalid">
-            Lütfen bir değer seçiniz!
-          </mat-error>
-        </div>
 
         <div class="col-lg-6 col-md-6 col-sm-12">
           <mat-form-field class="form-input">
-            <mat-label>Lig Adı</mat-label>
+            <mat-label>Lig</mat-label>
+            <mat-select
+              matInput
+              formControlName="leagueId"
+              placeholder="Lig"
+            >
+              <mat-option
+                *ngFor="let league of leagueList"
+                [value]="league.id"
+              >
+                {{league.leagueName}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="groupstageSubmitForm.get('leagueId').invalid">
+              Lütfen bir değer seçiniz!
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Grup Adı</mat-label>
             <input
               matInput
               type="text"
-              formControlName="leagueName"
-              placeholder="Lig">
+              formControlName="groupName"
+              placeholder="Grup">
           </mat-form-field>
-          <mat-error *ngIf="leagueSubmitForm.get('leagueName').invalid">
-            Lütfen lig adı giriniz!
+          <mat-error *ngIf="groupstageSubmitForm.get('groupName').invalid">
+            Lütfen grup adı giriniz!
           </mat-error>
         </div>
 
-        <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="col-lg-3 col-md-6 col-sm-12">
           <mat-form-field class="form-input">
-            <mat-label>Tür</mat-label>
+            <mat-label>Fikstür Anahtarı</mat-label>
             <mat-select
               matInput
-              formControlName="leagueType"
-              placeholder="Tür"
+              formControlName="periodSystem"
+              placeholder="Fikstrü Anahtarı"
             >
               <mat-option
-              *ngFor="let type of leagueTypeList"
-              [value]="type.name"
+                *ngFor="let period of groupPeriodSystemList"
+                [value]="period.value"
               >
-                {{type.value}}
+                {{period.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-error *ngIf="leagueSubmitForm.get('leagueType').invalid">
+          <mat-error *ngIf="groupstageSubmitForm.get('periodSystem').invalid">
             Lütfen bir değer seçiniz!
           </mat-error>
         </div>
 
-        <div class="col-lg-6 col-md-6 col-sm-12">
-          <mat-form-field class="form-input">
-            <mat-label>Yayında mı?</mat-label>
-            <mat-select
-              matInput
-              formControlName="isActive"
-              placeholder="Evet"
-            >
-            <mat-option [value]="true">Evet</mat-option>
-            <mat-option [value]="false">Hayır</mat-option>
-            </mat-select>
-            <mat-error *ngIf="leagueSubmitForm.get('isActive').invalid">
-              Lütfen bir değer seçiniz!
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-3 col-md-6 col-sm-12">
           <mat-form-field class="form-input">
             <mat-label>Sıra No (1-999)</mat-label>
             <input
@@ -118,13 +103,13 @@
               formControlName="orderNo"
               placeholder="Sıralama Numarası"
             />
-            <mat-error *ngIf="leagueSubmitForm.get('orderNo').invalid"
+            <mat-error *ngIf="groupstageSubmitForm.get('orderNo').invalid"
               >Lütfen sıralama numarası giriniz! (1-999)
             </mat-error>
           </mat-form-field>
         </div>
-
       </div>
+
 
       <mat-action-row>
         <button
@@ -145,11 +130,10 @@
           mat-raised-button
           color="warn"
           *ngIf="data.pageMode == 'edit'"
-          (click)="onDelete(leagueSubmitForm.value.id)"
+          (click)="onDelete(groupstageSubmitForm.value.id)"
           >Sil</a
         >
       </mat-action-row>
     </form>
-
   </div>
 </mat-dialog-content>

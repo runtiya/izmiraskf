@@ -69,8 +69,15 @@ export class LeaguesService {
             this.leagueList.forEach((item, i) => {
               if (item.id == leagueInfo.id) {
                 this.leagueList[i] = leagueInfo;
+
+                if (item.seasonId !== leagueInfo.seasonId) {
+                  const filteredLeagueList = this.leagueList.filter(league => league.seasonId !== leagueInfo.seasonId);
+                  this.leagueList = filteredLeagueList;
+                }
+
               }
             });
+
             this.leagueListSub.next([...this.leagueList]);
           } else {
             console.log(data.message);
