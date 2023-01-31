@@ -15,8 +15,9 @@ import { TeamsList } from "./admin/components/teams-list/teams-list.component";
 import { StadiumsListComponent } from "./admin/components/stadiums-list/stadiums-list.component";
 
 import { AdminSeasonsList } from "./admin/components/seasons-list/seasons-list.component";
-
 import { AdminLeaguesList } from "./admin/components/leagues-list/leagues-list.component";
+import { AdminGroupList } from "./admin/components/groupstages-list/groupstages-list.component";
+
 
 import { PageNotFound } from "./admin/components/page-not-found/page-not-found.component";
 
@@ -38,6 +39,7 @@ const routes: Routes = [
 
   {path: 'admin/sezonlar', component: AdminSeasonsList},
   {path: 'admin/ligler', component: AdminLeaguesList},
+  {path: 'admin/gruplar', component: AdminGroupList},
 
   {path: '**', pathMatch: "full", component: PageNotFound},
 ];

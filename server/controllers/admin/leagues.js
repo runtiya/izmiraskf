@@ -29,7 +29,7 @@ function createLeague(req, res, next) {
   var message;
   var leagueId;
   connection.query(
-    "insert into leagues(seasonid, leaguename, category, leaguetype, isactive, orderno)values (?, ?, ?, ?, ?, ?)",
+    "insert into leagues(seasonid, leaguename, category, leaguetype, isactive, orderno) values (?, ?, ?, ?, ?, ?)",
     [ leagueInfo.seasonId,
       leagueInfo.leagueName,
       leagueInfo.category,
@@ -56,7 +56,7 @@ function updateLeague(req, res, next) {
   const leagueInfo = req.body;
   var message;
   connection.query(
-    "update leagues set seasonid = ?, leaguename = ?, category = ?, leaguetype = ?, isactive = ?, orderno = ? where id = ?  where id = ?",
+    "update leagues set seasonid = ?, leaguename = ?, category = ?, leaguetype = ?, isactive = ?, orderno = ? where id = ?",
     [ leagueInfo.seasonId,
       leagueInfo.leagueName,
       leagueInfo.category,
