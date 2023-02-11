@@ -38,13 +38,6 @@ export class AdminSeasonsList {
         pageMode: 'create'
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
-        .subscribe((data: SeasonsModel[]) => {
-          this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-        });
-    });
   }
 
   onEdit(seasonInfo: SeasonsModel) {
@@ -53,13 +46,6 @@ export class AdminSeasonsList {
         pageMode: 'edit',
         seasonInfo: seasonInfo
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
-        .subscribe((data: SeasonsModel[]) => {
-          this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-        });
     });
   }
 

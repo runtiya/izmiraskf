@@ -17,7 +17,7 @@ const adminTeamsRoutes = require('./routes/admin/teams');
 const adminSeasonsRoutes = require('./routes/admin/seasons');
 const adminLeaguesRoutes = require('./routes/admin/leagues');
 const adminGroupsRoutes = require('./routes/admin/groupstages');
-
+const adminTeamsInGroupsRoutes = require('./routes/admin/teamsingroupstages');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -43,7 +43,9 @@ app.use('/admin/sahalar', adminStadiumsRoutes);
 app.use('/admin/takimlar', adminTeamsRoutes);
 app.use('/admin/sezonlar', adminSeasonsRoutes);
 app.use('/admin/ligler', adminLeaguesRoutes);
+app.use('/admin/grup-takim-eslesmeleri', adminTeamsInGroupsRoutes);
 app.use('/admin/gruplar', adminGroupsRoutes);
+
 
 
 module.exports = app;

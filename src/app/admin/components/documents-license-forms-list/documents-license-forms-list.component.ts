@@ -29,7 +29,6 @@ export class AdminDocumentLicenseForms {
       .subscribe((data: DocumentsModel[]) => {
         this.documents = data.sort((a, b) => {return a.orderNo - b.orderNo});
         this.isLoading = false;
-        console.log(this.documents);
       });
   }
 
@@ -39,13 +38,6 @@ export class AdminDocumentLicenseForms {
         pageMode: 'create',
         documentCategory: this.documentCategory
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.documentsSubscription = this.documentService.getDocumentsListSubListener()
-        .subscribe((data: DocumentsModel[]) => {
-          this.documents = data.sort((a, b) => {return a.orderNo - b.orderNo});
-        })
     });
   }
 
@@ -57,18 +49,15 @@ export class AdminDocumentLicenseForms {
         documentInfo: documentInfo
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.documentsSubscription = this.documentService.getDocumentsListSubListener()
-        .subscribe((data: DocumentsModel[]) => {
-          this.documents = data.sort((a, b) => {return a.orderNo - b.orderNo});
-        })
-    });
   }
 
   onDelete(id: number) {
     this.isLoading = true;
     this.documentService.deleteDocument(id);
     this.isLoading = false;
+  }
+
+  ngOnDestroy() {
+    this.documentsSubscription.unsubscribe();
   }
 }

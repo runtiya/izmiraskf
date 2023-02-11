@@ -4,7 +4,6 @@ function getGroupStages(req, res, next) {
   var groupstageList;
   const leagueId = req.params.leagueid;
   var message;
-
   connection.query(
     "select * from view_groupstages where leagueid = ?",
     [leagueId],
@@ -84,6 +83,7 @@ function updateGroupStage(req, res, next) {
 function deleteGroupStage(req, res, next) {
   var groupId =  req.params.id;
   var message;
+
   connection.query(
     "delete from groupstages where id = ?",
     [groupId],
@@ -93,9 +93,10 @@ function deleteGroupStage(req, res, next) {
       } else {
         message = error.sqlMessage;
       }
+
       res.status(200).json({
         error: !!error,
-        message: message || 'Group deleted successfully!',
+        message: message || 'Group deleted successfully!'
       });
   });
 }

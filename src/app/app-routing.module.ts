@@ -17,6 +17,8 @@ import { StadiumsListComponent } from "./admin/components/stadiums-list/stadiums
 import { AdminSeasonsList } from "./admin/components/seasons-list/seasons-list.component";
 import { AdminLeaguesList } from "./admin/components/leagues-list/leagues-list.component";
 import { AdminGroupList } from "./admin/components/groupstages-list/groupstages-list.component";
+import { TeamsInGroupstages } from "./admin/components/teams-in-groupstages/teams-in-groupstages.component";
+import { TeamsInDisqualifications } from "./admin/components/teams-in-disqualifications/teams-in-disqualifications.component";
 
 
 import { PageNotFound } from "./admin/components/page-not-found/page-not-found.component";
@@ -40,6 +42,8 @@ const routes: Routes = [
   {path: 'admin/sezonlar', component: AdminSeasonsList},
   {path: 'admin/ligler', component: AdminLeaguesList},
   {path: 'admin/gruplar', component: AdminGroupList},
+  {path: 'admin/gruplar/takimlar', component: TeamsInGroupstages},
+  {path: 'admin/gruplar/ihrac-ve-cekilme', component: TeamsInDisqualifications},
 
   {path: '**', pathMatch: "full", component: PageNotFound},
 ];

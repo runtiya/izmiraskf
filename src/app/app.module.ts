@@ -24,6 +24,8 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 import { AppComponent } from './app.component';
@@ -70,6 +72,10 @@ import { AdminLeaguesCreateModal } from './admin/components/leagues-create/leagu
 
 import { AdminGroupList } from "./admin/components/groupstages-list/groupstages-list.component";
 import { AdminGroupStagesCreateModal } from "./admin/components/groupstages-create/groupstages-create.component";
+
+import { TeamsInGroupstages } from "./admin/components/teams-in-groupstages/teams-in-groupstages.component";
+import { TeamsInDisqualifications } from "./admin/components/teams-in-disqualifications/teams-in-disqualifications.component";
+import { TeamsInDisqualificationsEditModal } from "./admin/components/teams-in-disqualifications-edit/teams-in-disqualifications-edit.component";
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -119,7 +125,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AdminLeaguesCreateModal,
 
     AdminGroupList,
-    AdminGroupStagesCreateModal
+    AdminGroupStagesCreateModal,
+
+    TeamsInGroupstages,
+    TeamsInDisqualifications,
+    TeamsInDisqualificationsEditModal
 
   ],
   imports: [
@@ -150,6 +160,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatTableModule,
+    MatAutocompleteModule,
+    MatSnackBarModule,
     FontAwesomeModule
   ],
   providers: [{provide: MatDialogRef, useValue: {}}],

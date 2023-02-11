@@ -1,5 +1,5 @@
 import { Dialog, DialogModule, DialogRef } from "@angular/cdk/dialog";
-import { Component, Inject, Input } from "@angular/core";
+import { Component, Inject, Input, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
@@ -20,7 +20,7 @@ import { StadiumsModel } from "../../models/admin-stadiums.model";
   styleUrls: ['../../../app.component.css', './teams-create.component.css']
 })
 
-export class TeamsCreateModal {
+export class TeamsCreateModal implements OnInit {
   isLoading = false;
   pageMode: string = this.data.pageMode || 'create';
   teamInfo = this.data.teamInfo;
@@ -31,7 +31,11 @@ export class TeamsCreateModal {
   private stadiumListSub: Subscription;
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<TeamsCreateModal>, public teamService: TeamsService, public stadiumService: StadiumsService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Data,
+              public dialogRef: MatDialogRef<TeamsCreateModal>,
+              public teamService: TeamsService,
+              public stadiumService: StadiumsService
+            ) {}
 
   ngOnInit() {
 

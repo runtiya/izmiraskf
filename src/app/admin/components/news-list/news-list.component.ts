@@ -28,6 +28,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.newsService.getNews();
     this.newsSub = this.newsService.getNewsUpdateListener()
       .subscribe((data: NewsModel[]) => {
+        // Sort data regarding the updateDate || createDate
         this.newsList = data;
         this.isLoading = false;
       });
@@ -50,16 +51,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
         isOnline: news.isOnline
       }
     });
-
-    // Start spinner for news-create & news-list
-    dialogRef.afterOpened().subscribe(() => {
-      this.isLoading = true;
-    });
-    // Stop spinner for news-create & news-list
-    dialogRef.afterClosed().subscribe(result => {
-      this.isLoading = false;
-      console.log(result);
-    })
   }
 
 

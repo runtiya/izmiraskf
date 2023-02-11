@@ -1,5 +1,10 @@
 export const townList = [
   {
+    order: 0,
+    name: null,
+    value: 'Seçiniz'
+  },
+  {
     order: 1,
     name: 'ALIAGA',
     value: 'Aliağa'
@@ -122,7 +127,7 @@ export const townList = [
   {
     order: 25,
     name: 'ODEMIS',
-    value: 'Ödmeiş'
+    value: 'Ödemiş'
   },
   {
     order: 26,

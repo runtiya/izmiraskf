@@ -29,7 +29,7 @@ export class AdminLeaguesCreateModal {
     this.isLoading = true;
     this.leagueSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.id : null, {validators: []}),
-      seasonId: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.seasonId : this.seasonList[0]["id"], {validators: [Validators.required]}),
+      seasonId: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.seasonId : this.data.seasonSelectionId, {validators: [Validators.required]}),
       leagueName: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.leagueName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       category: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.category : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       leagueType: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.leagueType : leagueTypeList[0]["name"], {validators: [Validators.required, Validators.maxLength(200)]}),
@@ -37,6 +37,16 @@ export class AdminLeaguesCreateModal {
       orderNo: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.orderNo : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]})
     });
     this.isLoading = false;
+  }
+
+  onCategoryChange() {
+    let category = this.leagueSubmitForm.get('category').value;
+
+    let categoryName = leagueCategoryList.find(e => e.name == category).value;
+    this.leagueSubmitForm.get('leagueName').setValue(categoryName);
+
+    let orderNo = leagueCategoryList.findIndex(e => e.name == category);
+    this.leagueSubmitForm.get('orderNo').setValue(orderNo + 1);
   }
 
   onSubmitForm() {
