@@ -41,13 +41,6 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
         mode: 'create'
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.staffizmiraskfListSub = this.staffService.getStaffListUpdateListener()
-      .subscribe((data: StaffIzmirAskfModel[]) => {
-        this.staffizmiraskfList = data.sort((a, b) => { return a.orderNo - b.orderNo});
-      });
-    });
   }
 
   onEdit(staffInfo: StaffIzmirAskfModel) {
@@ -58,18 +51,10 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
         staffInfo: staffInfo
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.staffizmiraskfListSub = this.staffService.getStaffListUpdateListener()
-      .subscribe((data: StaffIzmirAskfModel[]) => {
-        this.staffizmiraskfList = data.sort((a, b) => { return a.orderNo - b.orderNo});
-      });
-    });
   }
 
   ngOnDestroy(): void {
     this.staffizmiraskfListSub.unsubscribe();
   }
-
 }
 

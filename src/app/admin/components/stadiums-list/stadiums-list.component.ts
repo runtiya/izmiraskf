@@ -35,7 +35,7 @@ export class StadiumsListComponent implements OnInit, OnDestroy {
     this.stadiumService.getStadiums();
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe((data: StadiumsModel[]) => {
-        this.stadiumsList = data;
+        this.stadiumsList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
         this.isLoading = false;
         console.log(this.stadiumsList)
       });
@@ -47,31 +47,15 @@ export class StadiumsListComponent implements OnInit, OnDestroy {
         pageMode: "create"
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
-        .subscribe((data: StadiumsModel[]) => {
-          this.stadiumsList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
-        });
-    });
   }
 
   onEdit(stadiumInfo: StaffITFFModel) {
-    console.log(stadiumInfo);
     const dialogRef = this.dialog.open(StadiumsCreateModal, {
       data: {
         pageMode: "edit",
         stadiumInfo: stadiumInfo
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
-        .subscribe((data: StadiumsModel[]) => {
-          this.stadiumsList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
-        });
-    });
-
   }
 
   onDelete(id: number) {

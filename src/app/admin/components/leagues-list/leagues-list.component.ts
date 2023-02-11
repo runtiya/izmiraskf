@@ -52,7 +52,6 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
 
 
   onSeasonChange(seasonChangedID: number) {
-
     this.isLoading = true;
     this.seasonSelectionId = seasonChangedID;
     this.leagueService.getLeagues(this.seasonSelectionId);
@@ -71,17 +70,10 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AdminLeaguesCreateModal, {
       data: {
         pageMode: 'create',
-        seasonList: this.seasonsList
+        seasonList: this.seasonsList,
+        seasonSelectionId: this.seasonSelectionId
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
-        .subscribe((data: LeaguesModel[]) => {
-          this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
-        });
-    });
-
   }
 
   onEdit(leagueInfo: LeaguesModel) {
@@ -89,15 +81,9 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
       data: {
         pageMode: 'edit',
         leagueInfo: leagueInfo,
-        seasonList: this.seasonsList
+        seasonList: this.seasonsList,
+        seasonSelectionId: this.seasonSelectionId
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
-        .subscribe((data: LeaguesModel[]) => {
-          this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
-        });
     });
   }
 
@@ -108,6 +94,7 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.seasonsListSubscription.unsubscribe();
     this.leagueListSubscription.unsubscribe();
   }
 }

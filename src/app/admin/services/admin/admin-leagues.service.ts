@@ -43,8 +43,6 @@ export class LeaguesService {
         )
         .subscribe((data) => {
           if (!data.error) {
-            console.log(data.message);
-            console.log(data.leagueId);
             leagueInfo.id = data.leagueId;
             this.leagueList.push(leagueInfo);
             this.leagueListSub.next([...this.leagueList]);
@@ -69,12 +67,10 @@ export class LeaguesService {
             this.leagueList.forEach((item, i) => {
               if (item.id == leagueInfo.id) {
                 this.leagueList[i] = leagueInfo;
-
                 if (item.seasonId !== leagueInfo.seasonId) {
                   const filteredLeagueList = this.leagueList.filter(league => league.seasonId !== leagueInfo.seasonId);
                   this.leagueList = filteredLeagueList;
                 }
-
               }
             });
 
@@ -96,7 +92,6 @@ export class LeaguesService {
         )
         .subscribe((data) => {
           if (!data.error) {
-            console.log(data.message);
             const filteredLeagueList = this.leagueList.filter(league => league.id !== leagueId);
             this.leagueList = filteredLeagueList;
             this.leagueListSub.next([...this.leagueList]);

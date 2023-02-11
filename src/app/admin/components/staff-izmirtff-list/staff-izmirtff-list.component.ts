@@ -41,13 +41,6 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
         mode: 'create'
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.staffizmirtffListSub = this.staffService.getStaffListUpdateListener()
-      .subscribe((data: StaffITFFModel[]) => {
-        this.staffizmirtffList = data.sort((a, b) => { return a.orderNo - b.orderNo});
-      });
-    });
   }
 
   onEdit(staffInfo: StaffITFFModel) {
@@ -57,13 +50,6 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
         mode: 'edit',
         staffInfo: staffInfo
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.staffizmirtffListSub = this.staffService.getStaffListUpdateListener()
-      .subscribe((data: StaffITFFModel[]) => {
-        this.staffizmirtffList = data.sort((a, b) => { return a.orderNo - b.orderNo});
-      });
     });
   }
 

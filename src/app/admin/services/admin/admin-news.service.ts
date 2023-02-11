@@ -101,7 +101,6 @@ export class NewsService {
         else {
           null;
         }
-
       });
   }
 

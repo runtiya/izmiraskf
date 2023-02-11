@@ -33,7 +33,7 @@ function createTeam(req, res, next) {
   var message;
   var teamId;
   connection.query(
-    "insert into teams(tffclubcode, officialname, shortname, logoimage, city, town, address, longitude, latitude, phonenumber, faxnumber, stadiumid, presidentname, colorcodes, websiteurl, isaskfmember, isvisible)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "insert into teams(tffclubcode, officialname, shortname, logoimage, city, town, address, longitude, latitude, phonenumber, faxnumber, stadiumid, presidentname, colorcodes, websiteurl, isaskfmember, isvisible) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [ teamInfo.TFFClubCode,
       teamInfo.officialName,
       teamInfo.shortName,

@@ -59,37 +59,43 @@ export class AdminGroupList implements OnInit, OnDestroy {
               });
           });
       });
+
   }
 
   onCreate() {
     this.seasonsListSubscription.unsubscribe();
     this.leagueListSubscription.unsubscribe();
     this.groupstageListSubscription.unsubscribe();
+
     const dialogRef = this.dialog.open(AdminGroupStagesCreateModal, {
       data: {
-        pageMode: 'create'
+        pageMode: 'create',
+        seasonList: this.seasonList,
+        seasonSelectionId: this.seasonSelectionId,
+        leagueSelectionId: this.leagueSelectionId
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.isLoading = true;
+      this.seasonsService.getSeasons();
       this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
-      .subscribe((data: SeasonsModel[]) => {
-        this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-        this.seasonSelectionId = this.seasonList[0]["id"];
-        this.leagueService.getLeagues(this.seasonSelectionId);
-        this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
-          .subscribe((data: LeaguesModel[]) => {
-            this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
-            this.leagueSelectionId = this.leagueList[0]["id"];
-            this.groupstageService.getGroups(this.leagueSelectionId);
-            this.groupstageListSubscription = this.groupstageService.getGroupStageListUpdateListener()
-              .subscribe((data: GroupStagesModel[]) => {
-                this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
-                this.isLoading = false;
-              });
-          });
-      });
+        .subscribe((data: SeasonsModel[]) => {
+          this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+          this.seasonSelectionId = this.seasonSelectionId || this.seasonList[0]["id"];
+          this.leagueService.getLeagues(this.seasonSelectionId);
+          this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
+            .subscribe((data: LeaguesModel[]) => {
+              this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
+              this.leagueSelectionId = this.leagueSelectionId || this.leagueList[0]["id"];
+              this.groupstageService.getGroups(this.leagueSelectionId);
+              this.groupstageListSubscription = this.groupstageService.getGroupStageListUpdateListener()
+                .subscribe((data: GroupStagesModel[]) => {
+                  this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
+                  this.isLoading = false;
+                });
+            });
+        });
     });
 
   }
@@ -97,13 +103,38 @@ export class AdminGroupList implements OnInit, OnDestroy {
   onEdit(groupstageInfo: GroupStagesModel) {
     this.seasonsListSubscription.unsubscribe();
     this.leagueListSubscription.unsubscribe();
+    this.groupstageListSubscription.unsubscribe();
+
     const dialogRef = this.dialog.open(AdminGroupStagesCreateModal, {
       data: {
         pageMode: 'edit',
         groupstageInfo: groupstageInfo,
-        seasonList: this.seasonList,
-        leagueList: this.leagueList
+        seasonList: this.seasonList
       }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(this.seasonSelectionId);
+      console.log(this.leagueSelectionId);
+      this.isLoading = true;
+      this.seasonsService.getSeasons();
+      this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
+        .subscribe((data: SeasonsModel[]) => {
+          this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+          this.seasonSelectionId = this.seasonSelectionId || this.seasonList[0]["id"];
+          this.leagueService.getLeagues(this.seasonSelectionId);
+          this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
+            .subscribe((data: LeaguesModel[]) => {
+              this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
+              this.leagueSelectionId = this.leagueSelectionId || this.leagueList[0]["id"];
+              this.groupstageService.getGroups(this.leagueSelectionId);
+              this.groupstageListSubscription = this.groupstageService.getGroupStageListUpdateListener()
+                .subscribe((data: GroupStagesModel[]) => {
+                  this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
+                  this.isLoading = false;
+                });
+            });
+        });
     });
   }
 
@@ -114,7 +145,9 @@ export class AdminGroupList implements OnInit, OnDestroy {
   }
 
   onSeasonChange(seasonId: number) {
+    console.log(seasonId);
     this.isLoading = true;
+    this.leagueSelectionId = null;
     this.leagueService.getLeagues(seasonId);
     this.isLoading = false;
   }

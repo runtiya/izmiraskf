@@ -43,6 +43,7 @@
               matInput
               formControlName="category"
               placeholder="Kategori"
+              (selectionChange)="onCategoryChange()"
             >
               <mat-option
               *ngFor="let category of leagueCategoryList"

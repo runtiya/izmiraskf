@@ -37,13 +37,6 @@ export class TeamsList implements OnInit, OnDestroy {
         pageMode: "create"
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.teamsListSub = this.teamsService.getTeamListSubListener()
-        .subscribe((data: TeamsModel[]) => {
-          this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
-        });
-    });
   }
 
   onEdit(teamInfo: TeamsModel) {
@@ -53,13 +46,6 @@ export class TeamsList implements OnInit, OnDestroy {
         pageMode: "edit",
         teamInfo: teamInfo
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.teamsListSub = this.teamsService.getTeamListSubListener()
-        .subscribe((data: TeamsModel[]) => {
-          this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
-        });
     });
   }
 
