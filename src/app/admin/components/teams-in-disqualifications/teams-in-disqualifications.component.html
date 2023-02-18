@@ -5,106 +5,108 @@
 
   <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-12">
-        <mat-form-field>
-          <mat-label>Sezonlar</mat-label>
-          <mat-select
-            matInput
-            placeholder="Sezon"
-            [(ngModel)]="seasonSelectionId"
-            (selectionChange)="onSeasonChange(seasonSelectionId)"
-          >
-          <mat-option
-            *ngFor="let season of seasonList"
-            [value]="season.id"
-          >
-            {{season.seasonName}}
-          </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+  <div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <mat-form-field>
+        <mat-label>Sezonlar</mat-label>
+        <mat-select
+          matInput
+          placeholder="Sezon"
+          [(ngModel)]="seasonSelectionId"
+          (selectionChange)="onSeasonChange(seasonSelectionId)"
+        >
+        <mat-option
+          *ngFor="let season of seasonList"
+          [value]="season.id"
+        >
+          {{season.seasonName}}
+        </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-      <div class="col-lg-4 col-md-4 col-sm-12">
-        <mat-form-field>
-          <mat-label>Ligler</mat-label>
-          <mat-select
-            matInput
-            placeholder="Lig"
-            [(ngModel)]="leagueSelectionId"
-            (selectionChange)="onLeagueChange(leagueSelectionId)"
-          >
-          <mat-option
-            *ngFor="let league of leagueList"
-            [value]="league.id"
-          >
-            {{league.leagueName}}
-          </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <mat-form-field>
+        <mat-label>Ligler</mat-label>
+        <mat-select
+          matInput
+          placeholder="Lig"
+          [(ngModel)]="leagueSelectionId"
+          (selectionChange)="onLeagueChange(leagueSelectionId)"
+        >
+        <mat-option
+          *ngFor="let league of leagueList"
+          [value]="league.id"
+        >
+          {{league.leagueName}}
+        </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-      <div class="col-lg-4 col-md-4 col-sm-12">
-        <mat-form-field>
-          <mat-label>Gruplar</mat-label>
-          <mat-select
-            matInput
-            placeholder="Grup"
-            [(ngModel)]="groupstageSelectionId"
-            (selectionChange)="onGroupstageChange(groupstageSelectionId)"
-          >
-          <mat-option
-            *ngFor="let group of groupstageList"
-            [value]="group.id"
-          >
-            {{group.groupName}}
-          </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <mat-form-field>
+        <mat-label>Gruplar</mat-label>
+        <mat-select
+          matInput
+          placeholder="Grup"
+          [(ngModel)]="groupstageSelectionId"
+          (selectionChange)="onGroupstageChange(groupstageSelectionId)"
+        >
+        <mat-option
+          *ngFor="let group of groupstageList"
+          [value]="group.id"
+        >
+          {{group.groupName}}
+        </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
 
-  <div class="container">
-    <table mat-table [dataSource]="teamsingroupstagesList" class="mat-elevation-z8">
-      <ng-container matColumnDef="orderNo">
-        <th mat-header-cell *matHeaderCellDef>#</th>
-        <td mat-cell *matCellDef="let team">{{team.orderNo}}</td>
-      </ng-container>
+  <table mat-table [dataSource]="teamsingroupstagesList" class="mat-elevation-z8">
+    <ng-container matColumnDef="orderNo">
+      <th mat-header-cell *matHeaderCellDef>Sıra</th>
+      <td mat-cell *matCellDef="let team">{{team.orderNo}}</td>
+    </ng-container>
 
-      <ng-container matColumnDef="teamName">
-        <th mat-header-cell *matHeaderCellDef>Takım</th>
-        <td mat-cell *matCellDef="let team">{{team.teamShortName || team.teamOfficialName}}</td>
-      </ng-container>
+    <ng-container matColumnDef="teamName">
+      <th mat-header-cell *matHeaderCellDef>Takım Adı</th>
+      <td mat-cell *matCellDef="let team">{{team.teamShortName || team.teamOfficialName}}</td>
+    </ng-container>
 
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>İşlem</th>
-        <td mat-cell *matCellDef="let team">{{team.isExpelled ? 'İHRAÇ' : (team.isReceded ? 'ÇEKİLME' : '-') }}</td>
-      </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>İşlem</th>
+      <td mat-cell *matCellDef="let team">{{team.isExpelled ? 'İHRAÇ' : (team.isReceded ? 'ÇEKİLME' : '-') }}</td>
+    </ng-container>
 
-      <ng-container matColumnDef="weekofExpelledorReceded">
-        <th mat-header-cell *matHeaderCellDef>Hafta</th>
-        <td mat-cell *matCellDef="let team">{{team.weekofExpelledorReceded ? team.weekofExpelledorReceded : '-'}}</td>
-      </ng-container>
+    <ng-container matColumnDef="weekofExpelledorReceded">
+      <th mat-header-cell *matHeaderCellDef>Hafta</th>
+      <td mat-cell *matCellDef="let team">{{team.weekofExpelledorReceded ? team.weekofExpelledorReceded : '-'}}</td>
+    </ng-container>
 
-      <ng-container matColumnDef="explanation">
-        <th mat-header-cell *matHeaderCellDef>Açıklama</th>
-        <td mat-cell *matCellDef="let team">{{team.explanation ? team.explanation : '-'}}</td>
-      </ng-container>
+    <ng-container matColumnDef="explanation">
+      <th mat-header-cell *matHeaderCellDef>Açıklama</th>
+      <td mat-cell *matCellDef="let team" class="disqualification-explanation">{{team.explanation ? team.explanation : '-'}}</td>
+    </ng-container>
 
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let team">
-          <button mat-button color="primary" (click)="onEdit(team.id)">
-            Düzenle
-          </button>
-        </td>
-      </ng-container>
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef>Düzenle</th>
+      <td mat-cell *matCellDef="let team">
+        <button mat-button color="primary" (click)="onEdit(team.id)">
+          Düzenle
+        </button>
+      </td>
+    </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header-row"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-detail-row"></tr>
-    </table>
-  </div>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header-row"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-detail-row"></tr>
+  </table>
+
+  <mat-card>
+    <mat-card-content>
+      <mat-card-subtitle>Toplam Kayıt Sayısı: {{teamsingroupstagesList.length}}</mat-card-subtitle>
+    </mat-card-content>
+  </mat-card>
 
 </div>

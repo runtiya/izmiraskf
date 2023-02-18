@@ -81,8 +81,6 @@ export class CreateAdminStaffIzmirAskfModal {
     this.isLoading = false;
 
     this.dialogRef.close();
-
   }
-
 
 }

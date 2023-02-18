@@ -1,0 +1,27 @@
+.button-fixture-create {
+  background-color: darkorange !important;
+  color: white !important;
+}
+
+.button-match-create {
+  background-color: green !important;
+  color: white !important;
+}
+
+.table-fixture-list {
+  margin-bottom: 1rem;
+}
+
+.toolbar-fixture-week > span {
+  font-size: medium;
+}
+
+.subtitle-matchday-detail {
+  font-size: small;
+}
+
+/*
+tr.table-detail-row:hover {
+  cursor: pointer;
+}
+*/

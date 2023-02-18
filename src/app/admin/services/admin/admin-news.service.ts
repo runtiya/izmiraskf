@@ -59,8 +59,7 @@ export class NewsService {
       .subscribe((data) => {
         console.log(data.message);
         // Add Angular Component Snackbar OR Bootstrap Toasts
-        const createdNewsId = data.newsId;
-        news.id = createdNewsId;
+        news.id = data.newsId;
         this.newsList.push(news);
         this.newsUpdated.next([...this.newsList]);
       });

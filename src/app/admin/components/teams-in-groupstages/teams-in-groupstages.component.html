@@ -5,139 +5,136 @@
 
   <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-4 col-sm-12">
-        <mat-form-field>
-          <mat-label>Sezonlar</mat-label>
-          <mat-select
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-12">
+      <mat-form-field>
+        <mat-label>Sezonlar</mat-label>
+        <mat-select
+          matInput
+          placeholder="Sezon"
+          [(ngModel)]="seasonSelectionId"
+          (selectionChange)="onSeasonChange(seasonSelectionId)"
+        >
+        <mat-option
+          *ngFor="let season of seasonList"
+          [value]="season.id"
+        >
+          {{season.seasonName}}
+        </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-12">
+      <mat-form-field>
+        <mat-label>Ligler</mat-label>
+        <mat-select
+          matInput
+          placeholder="Lig"
+          [(ngModel)]="leagueSelectionId"
+          (selectionChange)="onLeagueChange(leagueSelectionId)"
+        >
+        <mat-option
+          *ngFor="let league of leagueList"
+          [value]="league.id"
+        >
+          {{league.leagueName}}
+        </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-12">
+      <mat-form-field>
+        <mat-label>Gruplar</mat-label>
+        <mat-select
+          matInput
+          placeholder="Grup"
+          [(ngModel)]="groupstageSelectionId"
+          (selectionChange)="onGroupstageChange(groupstageSelectionId)"
+        >
+        <mat-option
+          *ngFor="let group of groupstageList"
+          [value]="group.id"
+        >
+          {{group.groupName}}
+        </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-12">
+      <form>
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Arama</mat-label>
+          <input
             matInput
-            placeholder="Sezon"
-            [(ngModel)]="seasonSelectionId"
-            (selectionChange)="onSeasonChange(seasonSelectionId)"
-          >
-          <mat-option
-            *ngFor="let season of seasonList"
-            [value]="season.id"
-          >
-            {{season.seasonName}}
-          </mat-option>
-          </mat-select>
+            type="text"
+            [formControl]="searchControl"
+            [matAutocomplete]="auto">
+            <mat-icon matSuffix>search</mat-icon>
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="displayFn">
+            <mat-option *ngFor="let teams of filteredOptions | async" [value]="teams">
+              {{teams.officialName}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-sm-12">
-        <mat-form-field>
-          <mat-label>Ligler</mat-label>
-          <mat-select
-            matInput
-            placeholder="Lig"
-            [(ngModel)]="leagueSelectionId"
-            (selectionChange)="onLeagueChange(leagueSelectionId)"
-          >
-          <mat-option
-            *ngFor="let league of leagueList"
-            [value]="league.id"
-          >
-            {{league.leagueName}}
-          </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-sm-12">
-        <mat-form-field>
-          <mat-label>Gruplar</mat-label>
-          <mat-select
-            matInput
-            placeholder="Grup"
-            [(ngModel)]="groupstageSelectionId"
-            (selectionChange)="onGroupstageChange(groupstageSelectionId)"
-          >
-          <mat-option
-            *ngFor="let group of groupstageList"
-            [value]="group.id"
-          >
-            {{group.groupName}}
-          </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-sm-12">
-        <form>
-          <mat-form-field class="form-input" appearance="fill">
-            <mat-label>Arama</mat-label>
-            <input
-              matInput
-              type="text"
-              [formControl]="searchControl"
-              [matAutocomplete]="auto">
-              <mat-icon matSuffix>search</mat-icon>
-            <mat-autocomplete
-              #auto="matAutocomplete"
-              [displayWith]="displayFn">
-              <mat-option *ngFor="let teams of filteredOptions | async" [value]="teams">
-                {{teams.officialName}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </form>
-      </div>
-
+      </form>
     </div>
   </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4 col-md-12 col-sm-12">
-        <mat-toolbar class="toolbar toolbar-title">
-          <span>EŞLEŞEN TAKIMLAR ({{teamsingroupstagesList.length}})</span>
-        </mat-toolbar>
 
-        <div cdkDropList class="cdk-drop-list" (cdkDropListDropped)="drop($event)">
-          <div
-            class="cdk-drop-list-box"
-            *ngFor="let team of teamsingroupstagesList; let i = index"
-            cdkDrag
-            (dblclick)="onRemoveList(team.teamId)"
-          >
-            <mat-card-subtitle>{{i + 1}}</mat-card-subtitle>
-            <mat-card-title class="team-in-list">{{team.teamShortName || team.teamOfficialName}}</mat-card-title>
-            <mat-icon class="icon-delete-team" (click)="onRemoveList(team.teamId)" matTooltip="Sil">delete</mat-icon>
-          </div>
+  <div class="row">
+    <div class="col-lg-4 col-md-12 col-sm-12">
+      <mat-toolbar class="toolbar toolbar-title">
+        <span>GRUP ({{teamsingroupstagesList.length}})</span>
+      </mat-toolbar>
+
+      <div cdkDropList class="cdk-drop-list" (cdkDropListDropped)="drop($event)">
+        <div
+          class="cdk-drop-list-box"
+          *ngFor="let team of teamsingroupstagesList; let i = index"
+          cdkDrag
+          (dblclick)="onRemoveList(team.teamId)"
+        >
+          <mat-card-subtitle>{{i + 1}}</mat-card-subtitle>
+          <mat-card-title class="team-in-list">{{team.teamShortName || team.teamOfficialName}}</mat-card-title>
+          <mat-icon class="icon-delete-team" (click)="onRemoveList(team.teamId)" matTooltip="Sil">delete</mat-icon>
         </div>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="onSaveTeamsInGroupstages(teamsingroupstagesList)"
-        >Kaydet</button>
       </div>
 
-      <div class="col-lg-8 col-md-12 col-sm-12">
-        <mat-toolbar class="toolbar toolbar-title">
-          <span>TAKIMLAR</span>
-        </mat-toolbar>
-        <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let team of filteredTeamsList">
-            <mat-card>
-              <mat-card-header>
-                <mat-card-title-group>
-                  <!-- Logo Does NOT Exist -->
-                  <img *ngIf="!team.logo" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{team.shortName || team.officialName}}">
-                  <!-- Logo Exists -->
-                  <img *ngIf="team.logo" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{team.shortName || team.officialName}}">
-                  <mat-card-title>{{team.shortName || team.officialName}}</mat-card-title>
-                  <mat-card-subtitle>Bölge: {{findTown(team.town)}}</mat-card-subtitle>
-                </mat-card-title-group>
-              </mat-card-header>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onSaveTeamsInGroupstages(teamsingroupstagesList)"
+      >Kaydet</button>
+    </div>
 
-              <mat-action-row>
-                <a mat-button *ngIf="!matchList(team.id)" color="primary" (click)="onAddList(team.id)">Ekle</a>
-                <a mat-button *ngIf="matchList(team.id)" color="warn" (click)="onRemoveList(team.id)">Sil</a>
-              </mat-action-row>
-            </mat-card>
-          </div>
+    <div class="col-lg-8 col-md-12 col-sm-12">
+      <mat-toolbar class="toolbar toolbar-title">
+        <span>TAKIMLAR</span>
+      </mat-toolbar>
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let team of filteredTeamsList">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title-group>
+                <!-- Logo Does NOT Exist -->
+                <img *ngIf="!team.logo" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{team.shortName || team.officialName}}">
+                <!-- Logo Exists -->
+                <img *ngIf="team.logo" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{team.shortName || team.officialName}}">
+                <mat-card-title>{{team.shortName || team.officialName}}</mat-card-title>
+                <mat-card-subtitle>İlçe: {{findTown(team.town)}}</mat-card-subtitle>
+              </mat-card-title-group>
+            </mat-card-header>
+
+            <mat-action-row>
+              <button mat-button *ngIf="!matchList(team.id)" color="primary" (click)="onAddList(team.id)">Ekle</button>
+              <button mat-button *ngIf="matchList(team.id)" color="warn" (click)="onRemoveList(team.id)">Sil</button>
+            </mat-action-row>
+          </mat-card>
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
+const { async } = require('rxjs');
+
 const connection = require('../../functions/database').connectDatabase();
 
 function getTeamsInGroupstages(req, res, next) {
@@ -47,7 +49,7 @@ function getTeamsForGroupstages(req, res, next) {
 
 function createTeamsInGroupstages(req, res, next) {
   const groupstageId = req.params.groupstagesid;
-  const teamsList = req.body;
+  var teamsList = req.body;
   var message;
   var error = false;
 
@@ -58,7 +60,7 @@ function createTeamsInGroupstages(req, res, next) {
         [groupstageId],
         (error, result) => {
           if (!error) {
-            console.log("Query #1 - Deleting");
+            null;
           } else {
             throw error;
           }
@@ -66,19 +68,19 @@ function createTeamsInGroupstages(req, res, next) {
       );
 
       for (let i = 0; i < teamsList.length; i++) {
-        const element = teamsList[i];
+        const team = teamsList[i];
         await connection.query(
           "insert into teamsingroupstages(groupstagesid, teamid, isexpelled, isreceded, orderno) values(?, ?, ?, ?, ?)",
           [
-            groupstageId || element.groupstagesId,
-            element.teamId,
+            groupstageId || team.groupstagesId,
+            team.teamId,
             false,
             false,
-            element.orderNo
+            team.orderNo
           ],
           (error, result) => {
            if (!error) {
-            console.log(result.insertId);
+            teamsList[i].id = result.insertId;
            } else {
             throw error;
            }
@@ -90,12 +92,13 @@ function createTeamsInGroupstages(req, res, next) {
       console.log(err)
       connection.rollback(() => {
         error = true;
-        message = err.message
+        message = err.message;
       });
     } finally {
       res.status(200).json({
         error: error,
-        message: message
+        message: message,
+        teamsList: teamsList
       });
     }
   }

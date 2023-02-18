@@ -44,7 +44,6 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
   }
 
   onEdit(staffInfo: StaffIzmirAskfModel) {
-    console.log(staffInfo)
     const dialogRef = this.dialog.open(CreateAdminStaffIzmirAskfModal, {
       data: {
         mode: 'edit',

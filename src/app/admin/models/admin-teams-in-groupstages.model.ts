@@ -4,6 +4,7 @@ export interface TeamsInGroupstagesModel {
   teamId: number,
   teamOfficialName: string,
   teamShortName: string,
+  teamStadiumId: number,
   isExpelled: boolean,
   isReceded: boolean,
   weekofExpelledorReceded: number,

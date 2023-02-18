@@ -8,7 +8,6 @@
       </mat-dialog-actions>
 
 
-
       <form
         [formGroup]="teamSubmitForm"
         (submit)="onSubmitForm()"
@@ -40,15 +39,16 @@
 
           <div class="col-lg-6 col-md-6 col-sm-12">
             <mat-form-field class="form-input">
-              <mat-label>Kulüp Kodu</mat-label>
+              <mat-label>TFF Kulüp Kodu</mat-label>
               <input
                 matInput
                 type="text"
                 formControlName="TFFClubCode"
                 placeholder="TFF Kulüp Kodu"
               >
+              <mat-hint align="end">{{teamSubmitForm.get('TFFClubCode').value ? teamSubmitForm.get('TFFClubCode').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('TFFClubCode').invalid">
-                Lütfen TFF Kulüp Kodu giriniz!
+                Lütfen TFF Kulüp Kodu giriniz! En fazla 200 karakter!
               </mat-error>
             </mat-form-field>
           </div>
@@ -63,6 +63,7 @@
                 placeholder="Kulüp Resmi Adı"
                 (keyup)="onOfficialNameChange($event)"
               >
+              <mat-hint align="end">{{teamSubmitForm.get('officialName').value ? teamSubmitForm.get('officialName').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('officialName').invalid">
                 Lütfen Kulüp Adı giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -78,6 +79,7 @@
                 formControlName="shortName"
                 placeholder="Kulüp Kısaltması"
               >
+              <mat-hint align="end">{{teamSubmitForm.get('shortName').value ? teamSubmitForm.get('shortName').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('shortName').invalid">
                 Lütfen Kulüp Adı kısaltması giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -95,6 +97,7 @@
                 rows="2"
               >
               </textarea>
+              <mat-hint align="end">{{teamSubmitForm.get('address').value ? teamSubmitForm.get('address').value.length : 0}}/2000</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('address').invalid">
                 Lütfen adres giriniz! (en fazla 2000 karakter)
               </mat-error>
@@ -132,7 +135,7 @@
                 formControlName="presidentName"
                 placeholder="Ad Soyad"
               />
-
+              <mat-hint align="end">{{teamSubmitForm.get('presidentName').value ? teamSubmitForm.get('presidentName').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('presidentName').invalid">
                 Lütfen Kulüp Başkanı isim bilgisi giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -148,7 +151,7 @@
                 formControlName="websiteURL"
                 placeholder="URL"
               />
-
+              <mat-hint align="end">{{teamSubmitForm.get('websiteURL').value ? teamSubmitForm.get('websiteURL').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('websiteURL').invalid">
                 Lütfen internet adresi giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -186,7 +189,7 @@
                 formControlName="phoneNumber"
                 placeholder="Telefon No"
               />
-
+              <mat-hint align="end">{{teamSubmitForm.get('phoneNumber').value ? teamSubmitForm.get('phoneNumber').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('phoneNumber').invalid">
                 Lütfen telefon numarası giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -202,7 +205,7 @@
                 formControlName="faxNumber"
                 placeholder="Fax No"
               />
-
+              <mat-hint align="end">{{teamSubmitForm.get('faxNumber').value ? teamSubmitForm.get('faxNumber').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('faxNumber').invalid">
                 Lütfen fax numarası giriniz! (en fazla 200 karakter)
               </mat-error>

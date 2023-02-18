@@ -59,18 +59,21 @@
           </mat-form-field>
         </div>
 
-        <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="col-lg-6 col-md-6 col-sm-12">
           <mat-form-field class="form-input">
             <mat-label>Grup Adı</mat-label>
             <input
               matInput
               type="text"
               formControlName="groupName"
-              placeholder="Grup">
+              placeholder="Grup"
+            />
+            <mat-hint align="end">{{groupstageSubmitForm.get('groupName').value ? groupstageSubmitForm.get('groupName').value.length : 0}}/200</mat-hint>
+            <mat-error *ngIf="groupstageSubmitForm.get('groupName').invalid">
+              Lütfen grup adı giriniz!
+            </mat-error>
           </mat-form-field>
-          <mat-error *ngIf="groupstageSubmitForm.get('groupName').invalid">
-            Lütfen grup adı giriniz!
-          </mat-error>
+
         </div>
 
         <div class="col-lg-3 col-md-6 col-sm-12">
@@ -117,22 +120,21 @@
           color="primary"
           *ngIf="data.pageMode == 'create'"
           type="submit"
-          >Oluştur</button
-        >
+          >Oluştur</button>
+
         <button
           mat-raised-button
           color="primary"
           *ngIf="data.pageMode == 'edit'"
           type="submit"
-          >Düzenle</button
-        >
-        <a
+          >Düzenle</button>
+
+        <button
           mat-raised-button
           color="warn"
           *ngIf="data.pageMode == 'edit'"
           (click)="onDelete(groupstageSubmitForm.value.id)"
-          >Sil</a
-        >
+          >Sil</button>
       </mat-action-row>
     </form>
   </div>

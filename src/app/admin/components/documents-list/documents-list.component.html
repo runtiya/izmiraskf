@@ -17,33 +17,51 @@
         <mat-icon>add_circle</mat-icon>
       </button>
     </mat-card>
+
+    <table mat-table [dataSource]="documents" class="mat-elevation-z8">
+      <ng-container matColumnDef="orderNo">
+        <th mat-header-cell *matHeaderCellDef="">Sıra</th>
+        <td mat-cell *matCellDef="let doc">{{doc.orderNo}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="docName">
+        <th mat-header-cell *matHeaderCellDef="">Dosya Adı</th>
+        <td mat-cell *matCellDef="let doc">{{doc.docName}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="docType">
+        <th mat-header-cell *matHeaderCellDef="">Dosya Türü</th>
+        <td mat-cell *matCellDef="let doc">{{doc.mimeType}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef="">Düzenle</th>
+        <td mat-cell *matCellDef="let doc">
+          <button mat-button color="primary" (click)="onEdit(doc)">
+            Düzenle
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef="">Sil</th>
+        <td mat-cell *matCellDef="let doc">
+          <button mat-button color="warn" (click)="onDelete(doc.id)">
+            Sil
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-detail-row"></tr>
+    </table>
+
+    <mat-card>
+      <mat-card-content>
+        <mat-card-subtitle>Toplam Kayıt Sayısı: {{documents.length}}</mat-card-subtitle>
+      </mat-card-content>
+    </mat-card>
+
   </div>
 
-  <mat-card>
-    <mat-card-content>
-      <div class="col-lg-12 col-md-12 col-sm-12">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Sıra</th>
-              <th scope="col">Dosya Adı</th>
-              <th scope="col">Dosya Uzantısı</th>
-              <th scope="col">Düzenle</th>
-              <th scope="col">Sil</th>
-            </tr>
-          </thead>
-
-          <tbody *ngFor="let doc of documents">
-            <tr>
-              <td>{{doc.orderNo}}</td>
-              <td>{{doc.docName}}</td>
-              <td>{{doc.mimeType}}</td>
-              <td><a class="button-external-link button-external-link-primary" (click)="onEdit(doc)" type="button">Düzenle</a></td>
-              <td><a class="button-external-link button-external-link-warn" (click)="onDelete(doc.id)" type="button">Sil</a></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </mat-card-content>
-  </mat-card>
 </div>

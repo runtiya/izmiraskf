@@ -28,7 +28,6 @@ export class StadiumsCreateModal {
   constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<StadiumsCreateModal>, public stadiumService: StadiumsService) {}
 
   ngOnInit() {
-    console.log(this.stadiumInfo);
 
     this.stadiumsCreateForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.id : null, {validators: []}),
@@ -49,8 +48,6 @@ export class StadiumsCreateModal {
       hasDisabledTribune: new FormControl(this.pageMode == 'edit' ? ((this.stadiumInfo.hasDisabledTribune != null) ? !!this.stadiumInfo.hasDisabledTribune : null) : null, {validators: []}),
       hasClosedCircuitCameraSystem: new FormControl(this.pageMode == 'edit' ? ((this.stadiumInfo.hasClosedCircuitCameraSystem != null) ? !!this.stadiumInfo.hasClosedCircuitCameraSystem : null) : null, {validators: []})
     });
-
-    alert(this.stadiumInfo.latitude);
 
   }
 

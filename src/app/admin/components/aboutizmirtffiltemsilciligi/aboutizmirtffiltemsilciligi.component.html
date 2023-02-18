@@ -23,6 +23,7 @@
             placeholder="İzmir TFF İl Temsilciliği hakkında (en fazla 4000 karakter)"
           >
           </textarea>
+          <mat-hint align="end">{{aboutITFFform.get('aboutText').value ? aboutITFFform.get('aboutText').value.length : 0}}/4000</mat-hint>
           <mat-error *ngIf="aboutITFFform.get('aboutText').invalid">En fazla 4000 karakter girebilirsiniz!</mat-error>
         </mat-form-field>
       </div>
@@ -38,6 +39,7 @@
             placeholder="Adres (en fazla 2000 karakter)"
           >
           </textarea>
+          <mat-hint align="end">{{aboutITFFform.get('address').value ? aboutITFFform.get('address').value.length : 0}}/2000</mat-hint>
           <mat-error *ngIf="aboutITFFform.get('address').invalid">En fazla 2000 karakter!</mat-error>
         </mat-form-field>
       </div>
@@ -51,7 +53,8 @@
             formControlName="phoneNumber"
             placeholder="Telefon"
           >
-          <mat-error *ngIf="aboutITFFform.get('phoneNumber').invalid">Lütfen telefon numarası giriniz! (en fazla 100 karakter)</mat-error>
+          <mat-hint align="end">{{aboutITFFform.get('phoneNumber').value ? aboutITFFform.get('phoneNumber').value.length : 0}}/200</mat-hint>
+          <mat-error *ngIf="aboutITFFform.get('phoneNumber').invalid">Lütfen telefon numarası giriniz! (en fazla 200 karakter)</mat-error>
         </mat-form-field>
       </div>
 
@@ -64,7 +67,8 @@
             formControlName="faxNumber"
             placeholder="Fax"
           >
-          <mat-error *ngIf="aboutITFFform.get('faxNumber').invalid">Lütfen fax numarası giriniz! (en fazla 100 karakter)</mat-error>
+          <mat-hint align="end">{{aboutITFFform.get('faxNumber').value ? aboutITFFform.get('faxNumber').value.length : 0}}/200</mat-hint>
+          <mat-error *ngIf="aboutITFFform.get('faxNumber').invalid">Lütfen fax numarası giriniz! (en fazla 200 karakter)</mat-error>
         </mat-form-field>
       </div>
 
@@ -77,7 +81,8 @@
             formControlName="email"
             placeholder="E-posta"
           >
-          <mat-error *ngIf="aboutITFFform.get('email').invalid">Lütfen e-posta adresi giriniz! (en fazla 100 karakter)</mat-error>
+          <mat-hint align="end">{{aboutITFFform.get('email').value ? aboutITFFform.get('email').value.length : 0}}/200</mat-hint>
+          <mat-error *ngIf="aboutITFFform.get('email').invalid">Lütfen e-posta adresi giriniz! (en fazla 200 karakter)</mat-error>
         </mat-form-field>
       </div>
 

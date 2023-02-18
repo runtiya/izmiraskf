@@ -23,6 +23,7 @@
             formControlName="docName"
             placeholder="Dosya Adı"
           >
+          <mat-hint align="end">{{documentSubmitForm.get('docName').value ? documentSubmitForm.get('docName').value.length : 0}}/200</mat-hint>
           <mat-error *ngIf="documentSubmitForm.get('docName').invalid">Lütfen dosya adı giriniz! (en fazla 200 karakter)</mat-error>
         </mat-form-field>
       </div>

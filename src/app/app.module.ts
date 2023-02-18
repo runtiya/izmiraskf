@@ -77,6 +77,8 @@ import { TeamsInGroupstages } from "./admin/components/teams-in-groupstages/team
 import { TeamsInDisqualifications } from "./admin/components/teams-in-disqualifications/teams-in-disqualifications.component";
 import { TeamsInDisqualificationsEditModal } from "./admin/components/teams-in-disqualifications-edit/teams-in-disqualifications-edit.component";
 
+import { FixtureCreate } from "./admin/components/fixture-create/fixture-create.component";
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
@@ -129,7 +131,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
     TeamsInGroupstages,
     TeamsInDisqualifications,
-    TeamsInDisqualificationsEditModal
+    TeamsInDisqualificationsEditModal,
+
+    FixtureCreate
 
   ],
   imports: [

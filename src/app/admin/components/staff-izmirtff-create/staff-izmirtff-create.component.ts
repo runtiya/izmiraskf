@@ -80,8 +80,6 @@ export class CreateAdminStaffIzmirTFFModal {
     this.isLoading = false;
 
     this.dialogRef.close();
-
   }
-
 
 }

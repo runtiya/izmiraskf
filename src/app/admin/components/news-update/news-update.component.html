@@ -26,6 +26,7 @@
             formControlName="title"
             placeholder="Başlık (en fazla 200 karakter)"
           >
+          <mat-hint align="end">{{newsUpdateForm.get('title').value ? newsUpdateForm.get('title').value.length : 0}}/200</mat-hint>
           <mat-error *ngIf="newsUpdateForm.get('title').invalid">Lütfen haber başlığı giriniz!</mat-error>
         </mat-form-field>
 
@@ -38,6 +39,7 @@
             placeholder="Metin (en fazla 2000 karakter)"
             rows="8"
           ></textarea>
+          <mat-hint align="end">{{newsUpdateForm.get('content').value ? newsUpdateForm.get('content').value.length : 0}}/2000</mat-hint>
           <mat-error *ngIf="newsUpdateForm.get('content').invalid">Lütfen haber metni giriniz!</mat-error>
         </mat-form-field>
 

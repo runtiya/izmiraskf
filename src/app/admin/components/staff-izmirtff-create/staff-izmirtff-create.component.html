@@ -14,7 +14,7 @@
         *ngIf="!isLoading"
       >
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-lg-6 col-md-6 col-sm-12">
             <mat-form-field class="form-input">
               <mat-label>Unvan</mat-label>
               <input
@@ -23,6 +23,7 @@
                 formControlName="title"
                 placeholder="Unvan"
               />
+              <mat-hint align="end">{{staffITFFSubmitForm.get('title').value ? staffITFFSubmitForm.get('title').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="staffITFFSubmitForm.get('title').invalid">
                 Lütfen unvan giriniz! (en fazla 200 karakter)
               </mat-error
@@ -30,7 +31,7 @@
             </mat-form-field>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-lg-6 col-md-6 col-sm-12">
             <mat-form-field class="form-input">
               <mat-label>Ad - Soyad</mat-label>
               <input
@@ -39,15 +40,14 @@
                 formControlName="fullName"
                 placeholder="Ad - Soyad"
               />
+              <mat-hint align="end">{{staffITFFSubmitForm.get('fullName').value ? staffITFFSubmitForm.get('fullName').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="staffITFFSubmitForm.get('fullName').invalid"
                 >Lütfen ad-soyad giriniz! (en fazla 200 karakter)</mat-error
               >
             </mat-form-field>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-md-6">
+          <div class="col-lg-6 col-md-6 col-sm-12">
             <mat-form-field class="form-input">
               <mat-label>Telefon</mat-label>
               <input
@@ -56,13 +56,14 @@
                 formControlName="phone"
                 placeholder="Telefon No"
               />
+              <mat-hint align="end">{{staffITFFSubmitForm.get('phone').value ? staffITFFSubmitForm.get('phone').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="staffITFFSubmitForm.get('phone').invalid"
                 >Lütfen unvan giriniz! (en fazla 200 karakter)</mat-error
               >
             </mat-form-field>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-lg-6 col-md-6 col-sm-12">
             <mat-form-field class="form-input">
               <mat-label>E-posta</mat-label>
               <input
@@ -71,16 +72,15 @@
                 formControlName="email"
                 placeholder="E-posta"
               />
+              <mat-hint align="end">{{staffITFFSubmitForm.get('email').value ? staffITFFSubmitForm.get('email').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="staffITFFSubmitForm.get('email').invalid">
                 Lütfen unvan giriniz! (en fazla 200 karakter)
               </mat-error
               >
             </mat-form-field>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="col-md-6">
+          <div class="col-lg-6 col-md-6 col-sm-12">
             <button
               mat-stroked-button
               type="button"
@@ -104,43 +104,40 @@
             </mat-error>
           </div>
 
-          <div class="col-md-6 row">
-            <div class="col-lg-6 col-md-12">
-              <mat-form-field class="form-input">
-                <mat-label>Aktif mi?</mat-label>
-                <mat-select
-                  matInput
-                  formControlName="isVisible"
-                  placeholder="Evet"
-                >
-                  <mat-option [value]="true">Evet</mat-option>
-                  <mat-option [value]="false">Hayır</mat-option>
-                </mat-select>
-                <mat-error *ngIf="staffITFFSubmitForm.get('isVisible').invalid">
-                  Lütfen bir değer seçiniz!
-                </mat-error
-                >
-              </mat-form-field>
-            </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Aktif mi?</mat-label>
+              <mat-select
+                matInput
+                formControlName="isVisible"
+                placeholder="Evet"
+              >
+                <mat-option [value]="true">Evet</mat-option>
+                <mat-option [value]="false">Hayır</mat-option>
+              </mat-select>
+              <mat-error *ngIf="staffITFFSubmitForm.get('isVisible').invalid">
+                Lütfen bir değer seçiniz!
+              </mat-error
+              >
+            </mat-form-field>
+          </div>
 
-            <div class="col-lg-6 col-md-12">
-              <mat-form-field class="form-input">
-                <mat-label>Sıra No</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  formControlName="orderNo"
-                  placeholder="(1-999)"
-                />
-                <mat-error *ngIf="staffITFFSubmitForm.get('orderNo').invalid">
-                  Lütfen sıralama numarası giriniz! (1-999)
-                </mat-error
-                >
-              </mat-form-field>
-            </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Sıra No</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="orderNo"
+                placeholder="(1-999)"
+              />
+              <mat-error *ngIf="staffITFFSubmitForm.get('orderNo').invalid">
+                Lütfen sıralama numarası giriniz! (1-999)
+              </mat-error
+              >
+            </mat-form-field>
           </div>
         </div>
-
 
         <mat-action-row>
           <button
@@ -148,22 +145,22 @@
             color="primary"
             *ngIf="data.mode == 'create'"
             type="submit"
-            >Oluştur</button
-          >
+            >Oluştur
+          </button>
           <button
             mat-raised-button
             color="primary"
             *ngIf="data.mode == 'edit'"
             type="submit"
-            >Düzenle</button
-          >
-          <a
+            >Düzenle
+          </button>
+          <button
             mat-raised-button
             color="warn"
             *ngIf="data.mode == 'edit'"
             (click)="onDelete(staffITFFSubmitForm.value.id)"
-            >Sil</a
-          >
+            >Sil
+          </button>
         </mat-action-row>
       </form>
     </mat-card>

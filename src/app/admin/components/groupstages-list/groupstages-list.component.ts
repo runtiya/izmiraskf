@@ -29,6 +29,7 @@ export class AdminGroupList implements OnInit, OnDestroy {
   groupstageList: GroupStagesModel[] = [];
   private groupstageListSubscription: Subscription;
   groupPeriodSystemList = groupPeriodSystemList;
+  displayedColumns: string[] = ["seasonName", "leagueName", "groupName", "periodSystem", "edit", "delete"];
 
   @Input() seasonSelectionId: number;
   @Input() leagueSelectionId: number;

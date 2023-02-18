@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from "@angular/core";
+import { Component, Inject, Input, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
@@ -15,7 +15,7 @@ import { faBrandList } from "../../assets/lists/font-awesome-list";
   templateUrl: './external-links-create.component.html',
   styleUrls: ['../../../app.component.css', './external-links-create.component.css']
 })
-export class AdminExternalLinksCreateModal {
+export class AdminExternalLinksCreateModal implements OnInit {
   isLoading = false;
   pageMode: string = this.data.pageMode || 'create';
   linkType: string = this.data.linkType || 'RELATEDLINK';
@@ -24,9 +24,13 @@ export class AdminExternalLinksCreateModal {
   extLinkSubmitForm: FormGroup;
   faBrandList = faBrandList;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<AdminExternalLinksCreateModal>, public extLinkService: ExternalLinksService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Data,
+    public dialogRef: MatDialogRef<AdminExternalLinksCreateModal>,
+    public extLinkService: ExternalLinksService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
 
     this.extLinkSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.linkInfo.id : null, {validators: []}),
