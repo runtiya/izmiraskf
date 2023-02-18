@@ -3,147 +3,147 @@ function getDocuments(req, res, next) {
   const documents = [
     {
       id: 1,
-      name: 'File #1',
+      docName: 'File #1',
       content: null,
       mimeType: 'pdf',
       category: 'AMATORLIGSTATULERI',
-      order: 1
+      orderNo: 1
     },
     {
       id: 2,
-      name: 'File #2',
+      docName: 'File #2',
       content: null,
       mimeType: 'pdf',
       category: 'AMATORLIGSTATULERI',
-      order: 2
+      orderNo: 2
     },
     {
       id: 3,
-      name: 'File #3',
+      docName: 'File #3',
       content: null,
       mimeType: 'docx',
       category: 'AMATORLIGSTATULERI',
-      order: 3
+      orderNo: 3
     },
     {
       id: 4,
-      name: 'File #4',
+      docName: 'File #4',
       content: null,
       mimeType: 'xlsx',
       category: 'AMATORLIGSTATULERI',
-      order: 4
+      orderNo: 4
     },
     {
       id: 5,
-      name: 'File #5',
+      docName: 'File #5',
       content: null,
       mimeType: 'pdf',
       category: 'AMATORLIGSTATULERI',
-      order: 5
+      orderNo: 5
     },
     {
       id: 6,
-      name: 'File #6',
+      docName: 'File #6',
       content: null,
       mimeType: 'pdf',
       category: 'AMATORLIGSTATULERI',
-      order: 6
+      orderNo: 6
     },
     {
       id: 7,
-      name: 'File #1',
+      docName: 'File #1',
       content: null,
       mimeType: 'pdf',
       category: 'TALIMATLAR',
-      order: 1
+      orderNo: 1
     },
     {
       id: 8,
-      name: 'File #2',
+      docName: 'File #2',
       content: null,
       mimeType: 'pdf',
       category: 'TALIMATLAR',
-      order: 2
+      orderNo: 2
     },
     {
       id: 9,
-      name: 'File #3',
+      docName: 'File #3',
       content: null,
       mimeType: 'docx',
       category: 'TALIMATLAR',
-      order: 3
+      orderNo: 3
     },
     {
       id: 10,
-      name: 'File #4',
+      docName: 'File #4',
       content: null,
       mimeType: 'xlsx',
       category: 'TALIMATLAR',
-      order: 4
+      orderNo: 4
     },
     {
       id: 11,
-      name: 'File #1',
+      docName: 'File #1',
       content: null,
       mimeType: 'pdf',
       category: 'LISANSFORMLARI',
-      order: 1
+      orderNo: 1
     },
     {
       id: 12,
-      name: 'File #2',
+      docName: 'File #2',
       content: null,
       mimeType: 'docx',
       category: 'LISANSFORMLARI',
-      order: 2
+      orderNo: 2
     },
     {
       id: 13,
-      name: 'File #3',
+      docName: 'File #3',
       content: null,
       mimeType: 'docx',
       category: 'LISANSFORMLARI',
-      order: 3
+      orderNo: 3
     },
     {
       id: 14,
-      name: 'File #4',
+      docName: 'File #4',
       content: null,
       mimeType: 'pdf',
       category: 'LISANSFORMLARI',
-      order: 4
+      orderNo: 4
     },
     {
       id: 15,
-      name: 'File #5',
+      docName: 'File #5',
       content: null,
       mimeType: 'pdf',
       category: 'LISANSFORMLARI',
-      order: 5
+      orderNo: 5
     },
     {
       id: 16,
-      name: 'File #1',
+      docName: 'File #1',
       content: null,
       mimeType: 'pdf',
       category: 'BELGELER',
-      order: 1
+      orderNo: 1
     },
     {
       id: 17,
-      name: 'File #2',
+      docName: 'File #2',
       content: null,
       mimeType: 'pdf',
       category: 'BELGELER',
-      order: 2
+      orderNo: 2
     },
     {
       id: 18,
-      name: 'File #3',
+      docName: 'File #3',
       content: null,
       mimeType: 'pdf',
       category: 'BELGELER',
-      order: 3
+      orderNo: 3
     },
   ];
   const filteredDocs = documents.filter(doc => doc.category == documentType);

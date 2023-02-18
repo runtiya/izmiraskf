@@ -52,10 +52,10 @@
                 {{category.value}}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="leagueSubmitForm.get('category').invalid">
+              Lütfen bir değer seçiniz!
+            </mat-error>
           </mat-form-field>
-          <mat-error *ngIf="leagueSubmitForm.get('category').invalid">
-            Lütfen bir değer seçiniz!
-          </mat-error>
         </div>
 
         <div class="col-lg-6 col-md-6 col-sm-12">
@@ -65,11 +65,13 @@
               matInput
               type="text"
               formControlName="leagueName"
-              placeholder="Lig">
+              placeholder="Lig (En fazla 200 karakter)"
+            />
+            <mat-hint align="end">{{leagueSubmitForm.get('leagueName').value ? leagueSubmitForm.get('leagueName').value.length : 0}}/200</mat-hint>
+            <mat-error *ngIf="leagueSubmitForm.get('leagueName').invalid">
+              Lütfen lig adı giriniz!
+            </mat-error>
           </mat-form-field>
-          <mat-error *ngIf="leagueSubmitForm.get('leagueName').invalid">
-            Lütfen lig adı giriniz!
-          </mat-error>
         </div>
 
         <div class="col-lg-6 col-md-6 col-sm-12">
@@ -133,22 +135,21 @@
           color="primary"
           *ngIf="data.pageMode == 'create'"
           type="submit"
-          >Oluştur</button
-        >
+          >Oluştur</button>
+
         <button
           mat-raised-button
           color="primary"
           *ngIf="data.pageMode == 'edit'"
           type="submit"
-          >Düzenle</button
-        >
-        <a
+          >Düzenle</button>
+
+        <button
           mat-raised-button
           color="warn"
           *ngIf="data.pageMode == 'edit'"
           (click)="onDelete(leagueSubmitForm.value.id)"
-          >Sil</a
-        >
+          >Sil</button>
       </mat-action-row>
     </form>
 

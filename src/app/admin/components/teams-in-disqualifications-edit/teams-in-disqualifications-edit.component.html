@@ -64,6 +64,7 @@
                 placeholder="Açıklama"
                 formControlName="explanation"
               >
+              <mat-hint align="end">{{teamSubmitForm.get('explanation').value.length}} / 200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('explanation').invalid">
                 En fazla 200 karakter!
               </mat-error>

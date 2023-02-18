@@ -20,6 +20,7 @@ import { AdminGroupList } from "./admin/components/groupstages-list/groupstages-
 import { TeamsInGroupstages } from "./admin/components/teams-in-groupstages/teams-in-groupstages.component";
 import { TeamsInDisqualifications } from "./admin/components/teams-in-disqualifications/teams-in-disqualifications.component";
 
+import { FixtureCreate } from "./admin/components/fixture-create/fixture-create.component";
 
 import { PageNotFound } from "./admin/components/page-not-found/page-not-found.component";
 
@@ -44,6 +45,8 @@ const routes: Routes = [
   {path: 'admin/gruplar', component: AdminGroupList},
   {path: 'admin/gruplar/takimlar', component: TeamsInGroupstages},
   {path: 'admin/gruplar/ihrac-ve-cekilme', component: TeamsInDisqualifications},
+
+  {path: 'admin/fikstur', component: FixtureCreate},
 
   {path: '**', pathMatch: "full", component: PageNotFound},
 ];

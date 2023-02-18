@@ -24,6 +24,7 @@
               formControlName="seasonName"
               placeholder="Sezon Adı"
             >
+            <mat-hint align="end">{{seasonSubmitForm.get('seasonName').value ? seasonSubmitForm.get('seasonName').value.length : 0}}/200</mat-hint>
             <mat-error *ngIf="seasonSubmitForm.get('seasonName').invalid">
               Lütfen sezon adı giriniz! (en fazla 200 karakter)
             </mat-error>
@@ -76,22 +77,21 @@
           color="primary"
           *ngIf="data.pageMode == 'create'"
           type="submit"
-          >Oluştur</button
-        >
+        >Oluştur</button>
+
         <button
           mat-raised-button
           color="primary"
           *ngIf="data.pageMode == 'edit'"
           type="submit"
-          >Düzenle</button
-        >
-        <a
+          >Düzenle</button>
+
+        <button
           mat-raised-button
           color="warn"
           *ngIf="data.pageMode == 'edit'"
           (click)="onDelete(seasonSubmitForm.value.id)"
-          >Sil</a
-        >
+          >Sil</button>
       </mat-action-row>
     </form>
 

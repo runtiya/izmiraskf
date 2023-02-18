@@ -27,7 +27,6 @@ export class TeamsList implements OnInit, OnDestroy {
       .subscribe((data: TeamsModel[]) => {
         this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
         this.isLoading = false;
-        console.log(this.teamsList);
       });
   }
 

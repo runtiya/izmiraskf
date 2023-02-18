@@ -22,13 +22,8 @@ export class TeamsInGroupstagesService {
         )
         .subscribe((data) => {
           if (!data.error) {
-            if (!!data.teamsingroupstagesList) {
-              this.teamsingroupstagesList = data.teamsingroupstagesList;
-              this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]);
-            } else {
-              this.teamsingroupstagesList = data.teamsingroupstagesList;
-              this.teamsingroupstagesListSub.next([]);
-            }
+            this.teamsingroupstagesList = data.teamsingroupstagesList;
+            !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
           } else {
             console.log(data.message);
           }
@@ -65,22 +60,16 @@ export class TeamsInGroupstagesService {
     return this.teamsListSub.asObservable();
   }
 
-  createTeamsInGroupstages(teamsList: TeamsInGroupstagesModel[], groupstageSelectionId: number) {
+  createTeamsInGroupstages(teamsInGroupstagesList: TeamsInGroupstagesModel[], groupstageSelectionId: number) {
     try {
       this.http
-        .post<{error: boolean, message: string}>(
-          'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageSelectionId, teamsList
+        .post<{error: boolean, message: string, teamsList: TeamsInGroupstagesModel[]}>(
+          'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageSelectionId, teamsInGroupstagesList
         )
         .subscribe((data) => {
           if (!data.error) {
-            if (!!teamsList) {
-              this.teamsingroupstagesList = teamsList;
-              this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]);
-            } else {
-              this.teamsingroupstagesList = teamsList;
-              this.teamsingroupstagesListSub.next([]);
-            }
-
+            this.teamsingroupstagesList = teamsInGroupstagesList;
+            !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
           } else {
             console.log(data.message);
           }

@@ -23,8 +23,9 @@
               formControlName="linkName"
               placeholder="İsim"
             >
+            <mat-hint align="end">{{extLinkSubmitForm.get('linkName').value ? extLinkSubmitForm.get('linkName').value.length : 0}}/200</mat-hint>
             <mat-error *ngIf="extLinkSubmitForm.get('linkName').invalid">
-              Lütfen isim giriniz! (en fazla 100 karakter)
+              Lütfen isim giriniz! (en fazla 200 karakter)
             </mat-error>
           </mat-form-field>
         </div>
@@ -38,6 +39,7 @@
               formControlName="url"
               placeholder="URL"
             >
+            <mat-hint align="end">{{extLinkSubmitForm.get('url').value ? extLinkSubmitForm.get('url').value.length : 0}}/200</mat-hint>
             <mat-error *ngIf="extLinkSubmitForm.get('url').invalid">
               Lütfen internet adresi giriniz! (en fazla 200 karakter)
             </mat-error>

@@ -23,6 +23,7 @@
               placeholder="İzmir ASKF hakkında (en fazla 4000 karakter)"
             >
             </textarea>
+            <mat-hint align="end">{{aboutIASKFform.get('aboutText').value ? aboutIASKFform.get('aboutText').value.length : 0}}/4000</mat-hint>
             <mat-error *ngIf="aboutIASKFform.get('aboutText').invalid">En fazla 4000 karakter!</mat-error>
           </mat-form-field>
         </div>
@@ -38,6 +39,7 @@
               placeholder="Adres (en fazla 2000 karakter)"
             >
             </textarea>
+            <mat-hint align="end">{{aboutIASKFform.get('address').value ? aboutIASKFform.get('address').value.length : 0}}/2000</mat-hint>
             <mat-error *ngIf="aboutIASKFform.get('address').invalid">En fazla 2000 karakter!</mat-error>
           </mat-form-field>
         </div>
@@ -51,7 +53,8 @@
               formControlName="phoneNumber"
               placeholder="Telefon"
             >
-            <mat-error *ngIf="aboutIASKFform.get('phoneNumber').invalid">En fazla 100 karakter!</mat-error>
+            <mat-hint align="end">{{aboutIASKFform.get('phoneNumber').value ? aboutIASKFform.get('phoneNumber').value.length : 0}}/200</mat-hint>
+            <mat-error *ngIf="aboutIASKFform.get('phoneNumber').invalid">En fazla 200 karakter!</mat-error>
           </mat-form-field>
         </div>
 
@@ -64,7 +67,8 @@
               formControlName="faxNumber"
               placeholder="Fax"
             >
-            <mat-error *ngIf="aboutIASKFform.get('faxNumber').invalid">En fazla 100 karakter!</mat-error>
+            <mat-hint align="end">{{aboutIASKFform.get('faxNumber').value ? aboutIASKFform.get('faxNumber').value.length : 0}}/200</mat-hint>
+            <mat-error *ngIf="aboutIASKFform.get('faxNumber').invalid">En fazla 200 karakter!</mat-error>
           </mat-form-field>
         </div>
 
@@ -77,7 +81,8 @@
               formControlName="email"
               placeholder="E-posta"
             >
-            <mat-error *ngIf="aboutIASKFform.get('email').invalid">En fazla 100 karakter!</mat-error>
+            <mat-hint align="end">{{aboutIASKFform.get('email').value ? aboutIASKFform.get('email').value.length : 0}}/200</mat-hint>
+            <mat-error *ngIf="aboutIASKFform.get('email').invalid">En fazla 200 karakter!</mat-error>
           </mat-form-field>
         </div>
 

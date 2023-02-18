@@ -44,7 +44,6 @@ export class TeamsCreateModal implements OnInit {
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe((data: StadiumsModel[]) => {
         this.stadiumsList = data;
-        console.log(this.stadiumsList);
 
         this.teamSubmitForm = new FormGroup({
           id: new FormControl(this.pageMode == 'edit' ? this.teamInfo.id : null, {validators: []}),
@@ -76,6 +75,7 @@ export class TeamsCreateModal implements OnInit {
     this.isLoading = true;
     this.teamService.deleteTeam(id);
     this.isLoading = false;
+
     this.dialogRef.close();
   }
 
@@ -96,7 +96,6 @@ export class TeamsCreateModal implements OnInit {
   }
 
   onSubmitForm() {
-    console.log(this.teamSubmitForm.value);
     if (this.teamSubmitForm.valid) {
       this.isLoading = true;
       this.teamSubmitForm.get('colorCodes').enable();
@@ -108,6 +107,7 @@ export class TeamsCreateModal implements OnInit {
       }
       this.teamSubmitForm.get('colorCodes').disable();
       this.isLoading = false;
+
       this.dialogRef.close();
     }
     else {

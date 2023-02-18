@@ -20,23 +20,40 @@ mat-card-header, mat-card-content {
 
 mat-action-row {
   display: block;
+  border: none;
   margin: .25rem 0px;
 }
+
 /* Mat-Card Component End */
 
 
-mat-form-field, textarea {
+
+/* Mat-Table Component Start */
+
+table {
   width: 100%;
 }
 
-
-mat-spinner {
-  margin: auto;
+tr.table-detail-row:hover {
+  background: whitesmoke;
 }
 
-input[type="file"] {
-  visibility: hidden;
+tr.table-header-row {
+  background-color: #3F51B5;
 }
+
+.mdc-data-table__header-cell {
+  color: white;
+}
+
+.mdc-data-table__header-cell, .mdc-data-table__cell {
+  text-align: center;
+}
+
+/* Mat-Table Component End */
+
+
+
 /* Class Attributes Start */
 
 .toolbar-title {
@@ -52,24 +69,16 @@ input[type="file"] {
   margin: auto;
 }
 
-.external-link {
-  display: block;
-  width: 100px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.button-external-link {
-  text-decoration: none;
-}
-
-.button-external-link-primary {
-  color: #3F51B5;
-}
-
-.button-external-link-warn {
-  color: #F44A3E;
-}
 /* Class Attributes End */
 
+mat-form-field, textarea {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+input[type="file"] {
+  visibility: hidden;
+}

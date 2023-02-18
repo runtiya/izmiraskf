@@ -44,7 +44,6 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
   }
 
   onEdit(staffInfo: StaffITFFModel) {
-    console.log(staffInfo)
     const dialogRef = this.dialog.open(CreateAdminStaffIzmirTFFModal, {
       data: {
         mode: 'edit',

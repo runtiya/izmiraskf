@@ -27,7 +27,7 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
   leagueCategoryList = leagueCategoryList;
   leagueTypeList = leagueTypeList;
   @Input() seasonSelectionId: number;
-
+  displayedColumns: string[] = ["leagueName", "category", "leagueType", "isActive", "edit", "delete"];
 
   constructor(public leagueService: LeaguesService, public seasonsService: SeasonsService, public dialog: MatDialog){}
 
@@ -49,7 +49,6 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
       });
 
   }
-
 
   onSeasonChange(seasonChangedID: number) {
     this.isLoading = true;

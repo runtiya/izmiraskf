@@ -60,27 +60,42 @@ export class TeamsInGroupstages implements OnInit, OnDestroy {
     this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
       .subscribe((data: SeasonsModel[]) => {
         this.isLoading = true;
-        this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-        this.seasonSelectionId = this.seasonList[0]["id"];
-        this.leaguesService.getLeagues(this.seasonSelectionId);
+        if (data.length > 0) {
+          this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+          this.seasonSelectionId = this.seasonList[0]["id"];
+          this.leaguesService.getLeagues(this.seasonSelectionId);
+        } else {
+          this.seasonList = [];
+        }
+
         this.isLoading = false;
       });
 
     this.leagueListSub = this.leaguesService.getLeagueListUpdateListener()
       .subscribe((data: LeaguesModel[]) => {
         this.isLoading = true;
-        this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
-        this.leagueSelectionId = this.leagueList[0]["id"];
-        this.groupstagesService.getGroups(this.leagueSelectionId);
+        if (data.length > 0) {
+          this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
+          this.leagueSelectionId = this.leagueList[0]["id"];
+          this.groupstagesService.getGroups(this.leagueSelectionId);
+        } else {
+          this.leagueList = [];
+        }
+
         this.isLoading = false;
       });
 
     this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
       .subscribe((data: GroupStagesModel[]) => {
         this.isLoading = true;
-        this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
-        this.groupstageSelectionId = this.groupstageList[0]["id"];
-        this.teamsingroupstagesService.getTeamsInGroupstages(this.groupstageSelectionId);
+        if (data.length > 0) {
+          this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
+          this.groupstageSelectionId = this.groupstageList[0]["id"];
+          this.teamsingroupstagesService.getTeamsInGroupstages(this.groupstageSelectionId);
+        } else {
+          this.groupstageList = []
+        }
+
         this.isLoading = false;
       });
 
@@ -88,11 +103,13 @@ export class TeamsInGroupstages implements OnInit, OnDestroy {
     this.teamsingroupstagesListSub = this.teamsingroupstagesService.getTeamsInGroupstagesUpdateListener()
       .subscribe((data: TeamsInGroupstagesModel[]) => {
         this.isLoading = true;
-        this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
+        if (data.length > 0) {
+          this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
+        } else {
+          this.teamsingroupstagesList = []
+        }
         this.isLoading = false;
       });
-
-
 
     this.teamsingroupstagesService.getTeams();
     this.teamsListSub = this.teamsingroupstagesService.getTeamsUpdateListener()

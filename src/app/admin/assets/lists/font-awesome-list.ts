@@ -29,4 +29,16 @@ export const faBrandList = [
     faClass: "fa-brands fa-linkedin-in",
     color: "#0077B5"
   },
+  {
+    name: "TIKTOK",
+    value: "Tiktok",
+    faClass: "fa-brands fa-tiktok",
+    color: "#000000"
+  },
+  {
+    name: "SNAPCHAT",
+    value: "Snapchat",
+    faClass: "fa-brands fa-snapchat",
+    color: "#FFFC00"
+  },
 ];

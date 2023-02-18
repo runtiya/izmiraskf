@@ -32,7 +32,7 @@ export class TeamsInDisqualifications implements OnInit, OnDestroy {
   teamsingroupstagesList: TeamsInGroupstagesModel[] = [];
   private teamsingroupstagesListSub: Subscription;
 
-  displayedColumns: string[] = ['orderNo', 'teamName', 'status', 'weekofExpelledorReceded', 'explanation', 'action'];
+  displayedColumns: string[] = ['orderNo', 'teamName', 'status', 'weekofExpelledorReceded', 'explanation', 'edit'];
 
   @Input() seasonSelectionId: number;
   @Input() leagueSelectionId: number;

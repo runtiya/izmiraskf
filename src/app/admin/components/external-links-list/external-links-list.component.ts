@@ -17,8 +17,12 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   headerTitle = 'DIŞ BAĞLANTILAR';
   isLoading = false;
   extLinks: ExternalLinksModel[] = [];
+  extLinksRelatedLinks: ExternalLinksModel[] = [];
+  extLinksSocialMediaLinks: ExternalLinksModel[] = [];
   private extLinksSubscription: Subscription;
   faBrandList = faBrandList;
+
+  displayedColumns: string[] = ["orderNo", "linkName", "url", "isActive", "edit", "delete"];
 
   constructor(public extLinkService: ExternalLinksService, public dialog: MatDialog) {}
 
@@ -29,6 +33,8 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     this.extLinksSubscription = this.extLinkService.getExternalLinksSubListener()
       .subscribe((data: ExternalLinksModel[]) => {
         this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
+        this.extLinksRelatedLinks = this.extLinks.filter(link => link.linkType == "RELATEDLINK");
+        this.extLinksSocialMediaLinks = this.extLinks.filter(link => link.linkType == "SOCIALMEDIA");
         this.isLoading = false;
         console.log(this.extLinks);
       });
