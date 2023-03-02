@@ -46,8 +46,6 @@ export class TeamsService {
         )
         .subscribe((data) => {
           if (!data.error) {
-            console.log(data.message);
-            console.log(data.teamId);
             teamInfo.id = data.teamId;
             this.teamList.push(teamInfo);
             this.teamListSub.next([...this.teamList]);
@@ -92,7 +90,6 @@ export class TeamsService {
         )
         .subscribe((data) => {
           if (!data.error) {
-            console.log(data.message);
             const filteredTeamList = this.teamList.filter(team => team.id !== teamId);
             this.teamList = filteredTeamList;
             this.teamListSub.next([...this.teamList]);

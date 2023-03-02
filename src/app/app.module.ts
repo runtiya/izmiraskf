@@ -26,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DatePipe } from '@angular/common';
 
 
 import { AppComponent } from './app.component';
@@ -64,6 +65,12 @@ import { StadiumsCreateModal } from "./admin/components/stadiums-create/stadiums
 import { TeamsList } from "./admin/components/teams-list/teams-list.component";
 import { TeamsCreateModal } from './admin/components/teams-create/teams-create.component';
 
+import { AdminDisciplinaryBoardFilesList } from "./admin/components/disciplinary-board-files-list/disciplinary-board-files-list.component";
+import { AdminDisciplinaryBoardCreateModal } from "./admin/components/disciplinary-board-files-create/disciplinary-board-files-create.component";
+
+import { AdminDisciplinaryBoardDecisionsList } from "./admin/components/disciplinary-board-decisions-list/disciplinary-board-decisions-list.component";
+
+
 import { AdminSeasonsList } from "./admin/components/seasons-list/seasons-list.component";
 import { AdminSeasonsCreateModal } from "./admin/components/seasons-create/seasons-create.component";
 
@@ -78,8 +85,10 @@ import { TeamsInDisqualifications } from "./admin/components/teams-in-disqualifi
 import { TeamsInDisqualificationsEditModal } from "./admin/components/teams-in-disqualifications-edit/teams-in-disqualifications-edit.component";
 
 import { FixtureCreate } from "./admin/components/fixture-create/fixture-create.component";
+import { FixtureEditModal } from "./admin/components/fixture-edit/fixture-edit.component";
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 
 
@@ -120,6 +129,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     TeamsList,
     TeamsCreateModal,
 
+    AdminDisciplinaryBoardFilesList,
+    AdminDisciplinaryBoardCreateModal,
+
+    AdminDisciplinaryBoardDecisionsList,
+
     AdminSeasonsList,
     AdminSeasonsCreateModal,
 
@@ -133,7 +147,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     TeamsInDisqualifications,
     TeamsInDisqualificationsEditModal,
 
-    FixtureCreate
+    FixtureCreate,
+    FixtureEditModal
 
   ],
   imports: [
@@ -168,7 +183,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatSnackBarModule,
     FontAwesomeModule
   ],
-  providers: [{provide: MatDialogRef, useValue: {}}],
+  providers: [{provide: MatDialogRef, useValue: {}}, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

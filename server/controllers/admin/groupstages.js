@@ -4,6 +4,8 @@ function getGroupStages(req, res, next) {
   var groupstageList;
   const leagueId = req.params.leagueid;
   var message;
+  
+
   connection.query(
     "select * from view_groupstages where leagueid = ?",
     [leagueId],
@@ -22,6 +24,7 @@ function getGroupStages(req, res, next) {
       });
     }
   );
+  
 }
 
 function createGroupStage(req, res, next) {

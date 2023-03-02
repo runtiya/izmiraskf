@@ -11,7 +11,7 @@ export class GroupStagesService {
 
   constructor(private http: HttpClient) {}
 
-  getGroups(leagueId: number) {
+  getGroupstages(leagueId: number) {
     try {
       this.http
         .get<{error: boolean, message: string, groupstageList: GroupStagesModel[]}>(
@@ -19,7 +19,6 @@ export class GroupStagesService {
         )
         .subscribe((data) => {
           if (!data.error) {
-            console.log(data.groupstageList)
             this.groupstageList = data.groupstageList;
             this.groupstageListSub.next([...this.groupstageList]);
           } else {

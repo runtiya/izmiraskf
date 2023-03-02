@@ -1,6 +1,6 @@
 export interface TeamsInGroupstagesModel {
   id: number,
-  groupstagesId: number,
+  groupstageId: number,
   teamId: number,
   teamOfficialName: string,
   teamShortName: string,

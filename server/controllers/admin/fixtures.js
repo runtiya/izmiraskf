@@ -1,12 +1,12 @@
 const connection = require('../../functions/database').connectDatabase();
 
 function getFixture(req, res, next) {
-  const groupstageId = req.params.groupstagesid;
+  const groupstageId = req.params.groupstageId;
   var fixtureList;
   var message;
 
   connection.query(
-    "select * from view_fixtures where groupstagesid = ?",
+    "select * from view_fixtures where groupstageId = ?",
     [groupstageId],
     (error, result) => {
       if (!error) {
@@ -27,29 +27,37 @@ function getFixture(req, res, next) {
 
 function createFixture(req, res, next) {
   var fixtureList = req.body;
-  const groupstagesId = req.params.groupstageid;
+  const groupstageId = req.params.groupstageId;
   var message;
   var error = false;
 
   try {
     connection.query(
-      "delete from fixtures where groupstagesid = ?",
-      [groupstagesId],
-      async (error, result) => {
+      "delete from fixtures where groupstageid = ?",
+      [groupstageId],
+      (error, result) => {
         if (!error) {
           console.log("Fixtures Deleted!");
           for (let i = 0; i < fixtureList.length; i++) {
             const match = fixtureList[i];
-            await connection.query(
-              "insert into fixtures(groupstagesid, matchno, matchweek, matchdate, stadiumid, hometeamid, awayteamid, orderno) values (?, ?, ?, ?, ?, ?, ?, ?)",
+            connection.query(
+              "insert into fixtures(groupstageid, matchno, matchweek, matchdate, matchstatus, stadiumid, hometeamid, hometeamscore, ishometeamwinbyforfeit, hometeampoint, awayteamid, awayteamscore, isawayteamwinbyforfeit, awayteampoint, explanation, orderno) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
               [
                 match.groupstageId,
                 match.matchNo,
                 match.matchWeek,
                 match.matchDate,
+                match.matchStatus,
                 match.stadiumId,
                 match.homeTeamId,
+                match.homeTeamScore,
+                match.isHomeTeamWinByForfeit,
+                match.homeTeamPoint,
                 match.awayTeamId,
+                match.awayTeamScore,
+                match.isAwayTeamWinByForfeit,
+                match.awayTeamPoint,
+                match.explanation,
                 match.orderNo
               ],
               (error, result) => {

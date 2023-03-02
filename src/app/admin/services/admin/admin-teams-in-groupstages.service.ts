@@ -14,11 +14,11 @@ export class TeamsInGroupstagesService {
 
   constructor(private http: HttpClient) {}
 
-  getTeamsInGroupstages(groupstagesId: number) {
+  getTeamsInGroupstages(groupstageId: number) {
     try {
       this.http
         .get<{error: boolean, message: string, teamsingroupstagesList: TeamsInGroupstagesModel[]}>(
-          'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstagesId
+          'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageId
         )
         .subscribe((data) => {
           if (!data.error) {

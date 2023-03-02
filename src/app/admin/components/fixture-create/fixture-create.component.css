@@ -3,6 +3,10 @@
   color: white !important;
 }
 
+.btn-disabled {
+  background-color: grey !important;
+}
+
 .button-match-create {
   background-color: green !important;
   color: white !important;
@@ -25,3 +29,45 @@ tr.table-detail-row:hover {
   cursor: pointer;
 }
 */
+
+.icon-danger {
+  color: red;
+}
+
+.icon-warning {
+  color: orange;
+}
+
+.team-status-expelorrecede {
+  background-color: tomato;
+}
+
+.icon-match-status {
+  font-size: x-small;
+  overflow: unset;
+}
+
+.match-status-notplayed {
+  color: grey;
+}
+
+.match-status-played {
+  color: greenyellow;
+}
+
+.match-status-postponed {
+  color: orange;
+}
+
+.match-status-byforfeit {
+  color: red;
+}
+
+.icon-circle-h {
+  color: red;
+}
+
+.input-score {
+  font-size: medium;
+  width: 25%;
+}

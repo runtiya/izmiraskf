@@ -44,11 +44,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   openEditDialog(news) {
     const dialogRef = this.dialog.open(NewsUpdateModal, {
       data: {
-        id: news.id,
-        title: news.title,
-        content: news.content,
-        newsImage: news.newsImage,
-        isOnline: news.isOnline
+        news: news
       }
     });
   }

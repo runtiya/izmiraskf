@@ -77,7 +77,7 @@ export class TeamsInGroupstages implements OnInit, OnDestroy {
         if (data.length > 0) {
           this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
           this.leagueSelectionId = this.leagueList[0]["id"];
-          this.groupstagesService.getGroups(this.leagueSelectionId);
+          this.groupstagesService.getGroupstages(this.leagueSelectionId);
         } else {
           this.leagueList = [];
         }
@@ -153,7 +153,7 @@ export class TeamsInGroupstages implements OnInit, OnDestroy {
 
   onLeagueChange(leagueSelectionId: number) {
     this.isLoading = true;
-    this.groupstagesService.getGroups(leagueSelectionId);
+    this.groupstagesService.getGroupstages(leagueSelectionId);
     this.isLoading = false;
   }
 
@@ -172,7 +172,7 @@ export class TeamsInGroupstages implements OnInit, OnDestroy {
       castTeam.teamId = selectedTeam.id;
       castTeam.teamOfficialName = selectedTeam.officialName;
       castTeam.teamShortName = selectedTeam.shortName;
-      castTeam.groupstagesId = this.groupstageSelectionId;
+      castTeam.groupstageId = this.groupstageSelectionId;
       castTeam.isExpelled = false;
       castTeam.isReceded = false;
       castTeam.weekofExpelledorReceded = null;

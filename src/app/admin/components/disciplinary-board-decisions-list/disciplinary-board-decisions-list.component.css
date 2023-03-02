@@ -1,0 +1,4 @@
+.mdc-data-table__header-cell, .mdc-data-table__cell {
+    font-size: small;
+    text-align: start;
+  }
