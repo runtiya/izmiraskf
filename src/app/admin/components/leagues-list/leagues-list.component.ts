@@ -29,7 +29,11 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
   @Input() seasonSelectionId: number;
   displayedColumns: string[] = ["leagueName", "category", "leagueType", "isActive", "edit", "delete"];
 
-  constructor(public leagueService: LeaguesService, public seasonsService: SeasonsService, public dialog: MatDialog){}
+  constructor(
+    public leagueService: LeaguesService, 
+    public seasonsService: SeasonsService, 
+    public dialog: MatDialog
+    ){}
 
 
   ngOnInit(): void {
@@ -52,8 +56,7 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
 
   onSeasonChange(seasonChangedID: number) {
     this.isLoading = true;
-    this.seasonSelectionId = seasonChangedID;
-    this.leagueService.getLeagues(this.seasonSelectionId);
+    this.leagueService.getLeagues(seasonChangedID);
     this.isLoading = false;
   }
 

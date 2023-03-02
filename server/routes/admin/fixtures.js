@@ -9,13 +9,13 @@ const checkImageMimeType = require('../../middlewares/check-image-mimetype');
 const router = express.Router();
 
 
-router.get("/:groupstagesid", fixturesController.getFixture);
+router.get("/:groupstageId", fixturesController.getFixture);
 
-router.post("/:groupstagesid", fixturesController.createFixture);
+router.post("/:groupstageId", fixturesController.createFixture);
 
 //router.put("", fixturesController)
 
-router.delete("/:groupstagesid", fixturesController.clearFixture);
+router.delete("/:groupstageId", fixturesController.clearFixture);
 
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
@@ -18,7 +18,7 @@ import { groupPeriodSystemList } from "../../assets/lists/group-period-system-li
   templateUrl: './groupstages-create.component.html',
   styleUrls: ['../../../app.component.css', './groupstages-create.component.css']
 })
-export class AdminGroupStagesCreateModal {
+export class AdminGroupStagesCreateModal implements OnInit {
   isLoading = false;
   pageMode: string = this.data.pageMode || 'create';
   groupstageInfo = this.data.groupstageInfo;
@@ -38,28 +38,6 @@ export class AdminGroupStagesCreateModal {
 
   ngOnInit() {
     this.isLoading = true;
-    /*
-    this.seasonsService.getSeasons();
-    this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
-      .subscribe((data: SeasonsModel[]) => {
-        this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-        this.leagueService.getLeagues(this.groupstageInfo ? this.groupstageInfo.seasonId : this.seasonList[0]["id"]);
-        this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
-          .subscribe((data: LeaguesModel[]) => {
-            this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
-          });
-        this.groupstageSubmitForm = new FormGroup({
-          id: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.id : null, {validators: []}),
-          seasonId: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.seasonId : this.seasonList[0]["id"], {validators: [Validators.required]}),
-          leagueId: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.leagueId : null, {validators: [Validators.required]}),
-          groupName: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.groupName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-          periodSystem: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.periodSystem : groupPeriodSystemList[1].value, {validators: [Validators.required]}),
-          orderNo: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.orderNo : 1, {validators: [Validators.required]})
-        })
-        this.isLoading = false;
-      });
-    */
-
     this.leagueService.getLeagues(this.groupstageInfo ? this.groupstageInfo.seasonId : this.data.seasonSelectionId);
     this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
       .subscribe((data: LeaguesModel[]) => {

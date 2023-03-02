@@ -63,7 +63,7 @@ export class TeamsInDisqualifications implements OnInit, OnDestroy {
         this.isLoading = true;
         this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
         this.leagueSelectionId = this.leagueList[0]["id"];
-        this.groupstagesService.getGroups(this.leagueSelectionId);
+        this.groupstagesService.getGroupstages(this.leagueSelectionId);
         this.isLoading = false;
       });
 
@@ -103,7 +103,7 @@ export class TeamsInDisqualifications implements OnInit, OnDestroy {
 
   onLeagueChange(leagueSelectionId: number) {
     this.isLoading = true;
-    this.groupstagesService.getGroups(leagueSelectionId);
+    this.groupstagesService.getGroupstages(leagueSelectionId);
     this.isLoading = false;
   }
 

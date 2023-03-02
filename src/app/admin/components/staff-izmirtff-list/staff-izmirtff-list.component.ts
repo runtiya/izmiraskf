@@ -17,14 +17,17 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
   staffizmirtffList: StaffITFFModel[] = [];
   private staffizmirtffListSub: Subscription;
 
-  constructor(public staffService: StaffITFFService, public dialog: MatDialog) {}
+  constructor(
+    public staffService: StaffITFFService, 
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
     this.staffService.getStaff();
     this.staffizmirtffListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffITFFModel[]) => {
-        this.staffizmirtffList = data.sort((a, b) => { return a.orderNo - b.orderNo});
+        this.staffizmirtffList = data.sort((a, b) => a.orderNo - b.orderNo);
         this.isLoading = false;
       });
   }

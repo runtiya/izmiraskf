@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 
@@ -29,7 +29,7 @@ export class AdminGroupList implements OnInit, OnDestroy {
   groupstageList: GroupStagesModel[] = [];
   private groupstageListSubscription: Subscription;
   groupPeriodSystemList = groupPeriodSystemList;
-  displayedColumns: string[] = ["seasonName", "leagueName", "groupName", "periodSystem", "edit", "delete"];
+  displayedColumns: string[] = ["seasonName", "leagueName", "groupName", "periodSystem", "actions"];
 
   @Input() seasonSelectionId: number;
   @Input() leagueSelectionId: number;
@@ -48,17 +48,19 @@ export class AdminGroupList implements OnInit, OnDestroy {
         this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
         this.seasonSelectionId = this.seasonList[0]["id"];
         this.leagueService.getLeagues(this.seasonSelectionId);
-        this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
-          .subscribe((data: LeaguesModel[]) => {
-            this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
-            this.leagueSelectionId = this.leagueList[0]["id"];
-            this.groupstageService.getGroups(this.leagueSelectionId);
-            this.groupstageListSubscription = this.groupstageService.getGroupStageListUpdateListener()
-              .subscribe((data: GroupStagesModel[]) => {
-                this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
-                this.isLoading = false;
-              });
-          });
+      });
+
+    this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
+      .subscribe((data: LeaguesModel[]) => {
+        this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
+        this.leagueSelectionId = this.leagueList[0]["id"];
+        this.groupstageService.getGroupstages(this.leagueSelectionId);
+      });
+    
+    this.groupstageListSubscription = this.groupstageService.getGroupStageListUpdateListener()
+      .subscribe((data: GroupStagesModel[]) => {
+        this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
+        this.isLoading = false;
       });
 
   }
@@ -85,18 +87,20 @@ export class AdminGroupList implements OnInit, OnDestroy {
           this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
           this.seasonSelectionId = this.seasonSelectionId || this.seasonList[0]["id"];
           this.leagueService.getLeagues(this.seasonSelectionId);
-          this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
-            .subscribe((data: LeaguesModel[]) => {
-              this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
-              this.leagueSelectionId = this.leagueSelectionId || this.leagueList[0]["id"];
-              this.groupstageService.getGroups(this.leagueSelectionId);
-              this.groupstageListSubscription = this.groupstageService.getGroupStageListUpdateListener()
-                .subscribe((data: GroupStagesModel[]) => {
-                  this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
-                  this.isLoading = false;
-                });
-            });
         });
+      
+      this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
+        .subscribe((data: LeaguesModel[]) => {
+          this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
+          this.leagueSelectionId = this.leagueSelectionId || this.leagueList[0]["id"];
+          this.groupstageService.getGroupstages(this.leagueSelectionId);
+        });
+
+      this.groupstageListSubscription = this.groupstageService.getGroupStageListUpdateListener()
+          .subscribe((data: GroupStagesModel[]) => {
+            this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
+            this.isLoading = false;
+          });
     });
 
   }
@@ -128,7 +132,7 @@ export class AdminGroupList implements OnInit, OnDestroy {
             .subscribe((data: LeaguesModel[]) => {
               this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
               this.leagueSelectionId = this.leagueSelectionId || this.leagueList[0]["id"];
-              this.groupstageService.getGroups(this.leagueSelectionId);
+              this.groupstageService.getGroupstages(this.leagueSelectionId);
               this.groupstageListSubscription = this.groupstageService.getGroupStageListUpdateListener()
                 .subscribe((data: GroupStagesModel[]) => {
                   this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
@@ -155,7 +159,7 @@ export class AdminGroupList implements OnInit, OnDestroy {
 
   onLeagueChange(leagueId: number) {
     this.isLoading = true;
-    this.groupstageService.getGroups(leagueId);
+    this.groupstageService.getGroupstages(leagueId);
     this.isLoading = false;
   }
 

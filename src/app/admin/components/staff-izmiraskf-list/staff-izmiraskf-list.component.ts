@@ -24,7 +24,7 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
     this.staffService.getStaff();
     this.staffizmiraskfListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffIzmirAskfModel[]) => {
-        this.staffizmiraskfList = data.sort((a, b) => { return a.orderNo - b.orderNo});
+        this.staffizmiraskfList = data.sort((a, b) => a.orderNo - b.orderNo);
       });
     this.isLoading = false;
   }

@@ -16,12 +16,12 @@
           [(ngModel)]="seasonSelectionId"
           (selectionChange)="onSeasonChange(seasonSelectionId)"
         >
-        <mat-option
-          *ngFor="let season of seasonList"
-          [value]="season.id"
-        >
-          {{season.seasonName}}
-        </mat-option>
+          <mat-option
+            *ngFor="let season of seasonList"
+            [value]="season.id"
+          >
+            {{season.seasonName}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -65,13 +65,11 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12">
+  <div class="row" *ngIf="!isLoading">
+    <div class="col-lg-12 col-md-12 col-sm-12">
       <mat-toolbar class="toolbar toolbar-title">
         <span>GRUP ({{teamsingroupstagesList.length}})</span>
       </mat-toolbar>
-
-
 
       <table mat-table [dataSource]="teamsingroupstagesList" class="mat-elevation-z8">
         <ng-container matColumnDef="orderNo">
@@ -79,41 +77,90 @@
           <td mat-cell *matCellDef="let team">{{team.orderNo}}</td>
         </ng-container>
 
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef=""></th>
+          <td mat-cell *matCellDef="let team">
+            <div class="d-flex align-items-center">
+              <mat-icon 
+                *ngIf="team.isExpelled || team.isReceded" 
+                matTooltip="{{team.weekofExpelledorReceded + '. hafta itibari ile ligden ' + (team.isExpelled ? 'ihraç edilmiştir!' : (team.isReceded ? 'çekilmiştir!' : ''))}}"
+              >info</mat-icon>
+              {{team.isExpelled ? 'İHRAÇ' : (team.isReceded ? 'ÇEKİLME' : '')}}
+            </div>
+            
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="teamName">
           <th mat-header-cell *matHeaderCellDef="">Takım Adı</th>
           <td mat-cell *matCellDef="let team">{{team.teamShortName || team.teamOfficialName}}</td>
         </ng-container>
 
+        <ng-container matColumnDef="stadiumName">
+          <th mat-header-cell *matHeaderCellDef="">Saha</th>
+          <td mat-cell *matCellDef="let team">{{findStadium(team.teamStadiumId) || 'Belirtilmemiş'}}</td>
+        </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header-row"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-detail-row"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsGroup" class="table-header-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsGroup;" class="table-detail-row {{row.isExpelled || row.isReceded ? 'team-status-expelorrecede' : null}}"></tr>
       </table>
     </div>
 
-    <div class="col-lg-8 col-md-12 col-sm-12">
+    <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="!isLoading">
       <mat-toolbar class="toolbar toolbar-title">
         <span>FİKSTÜR</span>
       </mat-toolbar>
 
       <mat-action-row>
         <div class="row">
-          <div class="col-lg-3 col-3" [align]="'center'">
+          <div class="col-3" [align]="'center'">
             <button mat-raised-button color="warn" (click)="clearFixtureList()">Temizle</button>
           </div>
 
-          <div class="col-lg-3 col-3" [align]="'center'">
-            <button mat-raised-button class="button-fixture-create" (click)="createFixture(teamsingroupstagesList)">Fikstür Oluştur</button>
+          <div class="col-3" [align]="'center'">
+            <button 
+              mat-raised-button 
+              class="button-fixture-create {{fixtureList.length !== 0 ? 'btn-disabled' : null}}" 
+              [disabled]="fixtureList.length !== 0" 
+              (click)="createFixture(teamsingroupstagesList)"
+            >Fikstür Oluştur</button>
           </div>
 
-          <div class="col-lg-3 col-3" [align]="'center'">
-            <button mat-raised-button class="button-match-create">Maç Oluştur</button>
+          <div class="col-3" [align]="'center'">
+            <button mat-raised-button class="button-match-create" (click)="onCreateMatch()">Maç Oluştur</button>
           </div>
 
-          <div class="col-lg-3 col-3" [align]="'center'">
+          <div class="col-3" [align]="'center'">
             <button mat-raised-button color="primary" (click)="onSaveFixture()">Kaydet</button>
           </div>
         </div>
       </mat-action-row>
+
+      <div class="alert alert-light">
+        <div class="d-flex align-items-center" role="alert">
+          <mat-icon 
+            class="icon-danger" 
+            matTooltip="Değişikliklerinizi kaydetmek için 'Kaydet' butonuna tıklayınız!"
+          >warning</mat-icon>
+          <mat-card-subtitle>
+            Lütfen değişikliklerinizi kaydetmeyi unutmatınız!
+          </mat-card-subtitle>
+        </div>
+  
+        <div class="d-flex align-items-center" role="alert">
+          <mat-icon 
+            class="icon-warning" 
+            matTooltip="Değişikliklerinizi kaydetmek için 'Kaydet' butonuna tıklayınız!"
+          >info</mat-icon>
+  
+          <mat-card-subtitle>
+            Yeni fikstür oluşturmak için önce mevcut fikstürü temizlemeniz gerekmektedir.
+          </mat-card-subtitle>
+        </div>
+      </div>
+      
+
+      
 
       <div class="table-fixture-list" *ngFor="let fixtureList of groupByFixture">
         <mat-toolbar class="toolbar toolbar-title toolbar-fixture-week">
@@ -121,16 +168,17 @@
         </mat-toolbar>
         <table mat-table [dataSource]="fixtureList.matchList" class="mat-elevation-z8">
           <ng-container matColumnDef="matchNo">
-            <th mat-header-cell *matHeaderCellDef="">Maç No.</th>
+            <th mat-header-cell *matHeaderCellDef="">Müsabaka No.</th>
             <td mat-cell *matCellDef="let matchDay">
-              {{matchDay.matchNo && matchDay.id ? matchDay.matchNo : '-'}}
+              {{matchDay.matchNo ? matchDay.matchNo : '-'}}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="homeTeam">
             <th mat-header-cell *matHeaderCellDef="">Ev Sahibi Takım</th>
             <td mat-cell *matCellDef="let matchDay">
-              {{findTeamName(matchDay.homeTeamId)}}
+              {{findTeamName(matchDay.homeTeamId) || 'BAY'}}
+              <fa-icon *ngIf="matchDay.isHomeTeamWinByForfeit" [icon]="faCircleH" class="icon-circle-h" matTooltip="Hükmen"></fa-icon>
             </td>
           </ng-container>
 
@@ -138,16 +186,52 @@
             <th mat-header-cell *matHeaderCellDef=""></th>
             <td mat-cell *matCellDef="let matchDay">
               <div>
-                <mat-card-subtitle class="subtitle-matchday-detail">{{findStadium(matchDay.stadiumId)}}</mat-card-subtitle>
+                <mat-card-subtitle class="subtitle-matchday-detail">
+                  {{findStadium(matchDay.stadiumId) || 'Belirtilmemiş'}}
+                </mat-card-subtitle>
               </div>
               <div>
-                <mat-card-subtitle class="subtitle-matchday-detail"><b>{{matchDay.matchDate}}</b></mat-card-subtitle>
+                <mat-card-subtitle>
+                  <mat-icon class="{{findMatchStatusClass(matchDay.matchStatus)}}" matTooltip="{{findMatchStatus(matchDay.matchStatus)}}">circle</mat-icon>
+                </mat-card-subtitle>
+                <mat-card-subtitle class="subtitle-matchday-detail">
+                  <b>{{matchDay.matchDate | date : "dd.MM.yyyy HH:mm"}}</b>
+                </mat-card-subtitle>
               </div>
               <div>
                 <mat-card-subtitle class="subtitle-matchday-detail">
+                  <!--
+                  <b>{{matchDay.homeTeamScore}}</b>
+                  -->
+                  <mat-form-field class="input-score">
+                    <input 
+                      matInput 
+                      #homeTeamScore
+                      type="text" 
+                      [value]="matchDay.homeTeamScore"
+                      (keypress)="numbersOnly($event)"
+                      (change)="onScoreChange(matchDay.matchNo, homeTeamScore.value, awayTeamScore.value)"
+                    >
+                  </mat-form-field>
+                  
+
                   <button mat-button matTooltip="Değiştir" (click)="swapMatch(matchDay.matchNo)">
                     <mat-icon>swap_horiz</mat-icon>
                   </button>
+
+                  <mat-form-field class="input-score">
+                    <input 
+                      matInput 
+                      #awayTeamScore
+                      type="text" 
+                      [value]="matchDay.awayTeamScore"
+                      (keypress)="numbersOnly($event)"
+                      (change)="onScoreChange(matchDay.matchNo, homeTeamScore.value, awayTeamScore.value)"
+                    >
+                  </mat-form-field>
+                  <!--
+                  <b>{{matchDay.awayTeamScore}}</b>
+                  -->
                 </mat-card-subtitle>
               </div>
             </td>
@@ -155,13 +239,17 @@
 
           <ng-container matColumnDef="awayTeam">
             <th mat-header-cell *matHeaderCellDef="">Misafir Takım</th>
-            <td mat-cell *matCellDef="let matchDay">{{findTeamName(matchDay.awayTeamId)}}</td>
+            <td mat-cell *matCellDef="let matchDay">
+              <fa-icon *ngIf="matchDay.isAwayTeamWinByForfeit" [icon]="faCircleH" class="icon-circle-h" matTooltip="Hükmen"></fa-icon>
+              {{findTeamName(matchDay.awayTeamId) || 'BAY'}}
+            </td>
           </ng-container>
 
-          <ng-container matColumnDef="edit">
-            <th mat-header-cell *matHeaderCellDef="">Düzenle</th>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef=""></th>
             <td mat-cell *matCellDef="let matchDay">
-              <button mat-button color="primary">Düzenle</button>
+              <button mat-button color="primary" (click)="onEdit(matchDay, fixtureList.week)">Düzenle</button>
+              <button mat-button color="warn" (click)="onDelete(matchDay.matchNo)">Sil</button>
             </td>
           </ng-container>
 
@@ -169,8 +257,13 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumnsFixture" class="table-header-row"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumnsFixture;" class="table-detail-row"></tr>
         </table>
-      </div>
 
+        <mat-card>
+          <mat-card-content>
+            <mat-card-subtitle>Toplam Kayıt Sayısı: {{fixtureList.matchList.length}}</mat-card-subtitle>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
   </div>
 

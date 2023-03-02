@@ -19,9 +19,9 @@
           -->
           <mat-card-subtitle><b>Haber No:</b> {{news.id}}</mat-card-subtitle>
           <mat-card-subtitle><b>Yayında:</b> {{news.isOnline ? 'Evet': 'Hayır'}}</mat-card-subtitle>
-          <mat-card-subtitle><b>Yayın Tarihi:</b> {{news.createdAt}}</mat-card-subtitle>
+          <mat-card-subtitle><b>Yayın Tarihi:</b> {{news.createdAt | date : "dd.MM.yyyy HH:mm"}}</mat-card-subtitle>
           <mat-card-subtitle><b>Yayınlayan:</b> {{news.createdBy}}</mat-card-subtitle>
-          <mat-card-subtitle *ngIf="news.updatedAt"><b>Düzenleme Tarihi:</b> {{news.updatedAt}}</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="news.updatedAt"><b>Düzenleme Tarihi:</b> {{news.updatedAt | date : "dd.MM.yyyy HH:mm"}}</mat-card-subtitle>
           <mat-card-subtitle *ngIf="news.updatedBy"><b>Düzenleyen:</b> {{news.updatedBy}}</mat-card-subtitle>
         </mat-card-header>
 

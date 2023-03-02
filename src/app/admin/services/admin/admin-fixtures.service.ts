@@ -34,6 +34,11 @@ export class FixtureService {
     return this.fixtureListSub.asObservable();
   }
 
+  buildFixtureAsObservable(_fixtureList: FixtureModel[]) {
+    this.fixtureList = _fixtureList;
+    this.fixtureListSub.next([...this.fixtureList]);
+  }
+
   createFixture(fixtures: FixtureModel[], groupstageId: number) {
     try {
       this.http
@@ -42,10 +47,8 @@ export class FixtureService {
         )
         .subscribe((data) => {
           if (!data.error) {
-            console.log(data.fixtureList)
             this.fixtureList = fixtures;
             !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-            //!!data.fixtureList ? data.fixtureList.forEach(f => f.matchNo = (f.matchNo + f.id).toString()) : null;
           } else {
             console.log(data.message);
           }
@@ -53,5 +56,53 @@ export class FixtureService {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  createMatch(matchDay: FixtureModel, matchNo: string): boolean {
+    
+    const doesMatchExist = this.checkMatchExist(matchDay);
+    if (!doesMatchExist) {
+      matchDay.matchNo = matchNo;
+      this.fixtureList.push(matchDay);
+      this.fixtureListSub.next([...this.fixtureList]);
+      return true;
+    } else {
+      return false;
+    }
+    
+  }
+
+  editMatch(matchDay: FixtureModel, isSameMatch: boolean): boolean {
+
+    let val_push: boolean = false;
+
+    if (isSameMatch) {
+      val_push = true;
+    } else {
+      const doesMatchExist = this.checkMatchExist(matchDay);
+      if (!doesMatchExist) {
+        val_push = true;
+      } else {
+        val_push = false;
+      }
+    }
+    if (val_push) {
+      let matchIndex = this.fixtureList.findIndex(fixture => fixture.matchNo == matchDay.matchNo);
+      this.fixtureList[matchIndex] = matchDay;
+      this.fixtureListSub.next([...this.fixtureList]);
+    }
+
+    return val_push;
+    
+  }
+
+  checkMatchExist(matchDay: FixtureModel): boolean {
+    let match = this.fixtureList.find(match => (match.matchWeek == matchDay.matchWeek && match.orderNo == matchDay.orderNo));
+    return !!match;
+  }
+
+  deleteMatch(matchNo: string) {
+    this.fixtureList = this.fixtureList.filter(fixture => fixture.matchNo !== matchNo);
+    !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
   }
 }

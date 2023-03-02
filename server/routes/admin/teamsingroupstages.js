@@ -9,15 +9,15 @@ const checkImageMimeType = require('../../middlewares/check-image-mimetype');
 const router = express.Router();
 
 
-router.get("/:groupstagesid", teamsingroupstagesController.getTeamsInGroupstages);
+router.get("/:groupstageId", teamsingroupstagesController.getTeamsInGroupstages);
 
 router.get("", teamsingroupstagesController.getTeamsForGroupstages);
 
-router.post("/:groupstagesid", teamsingroupstagesController.createTeamsInGroupstages);
+router.post("/:groupstageId", teamsingroupstagesController.createTeamsInGroupstages);
 
 router.put("", teamsingroupstagesController.updateTeamsForGroupstages)
 
-router.delete("/:groupstagesid", teamsingroupstagesController.deleteTeamsInGroupstages);
+router.delete("/:groupstageId", teamsingroupstagesController.deleteTeamsInGroupstages);
 
 
 module.exports = router;

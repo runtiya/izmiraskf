@@ -23,7 +23,7 @@
                 placeholder="Başlık (en fazla 200 karakter)"
               >
               <mat-hint align="end">{{newsCreateForm.get('title').value ? newsCreateForm.get('title').value.length : 0}}/200</mat-hint>
-              <mat-error *ngIf="newsCreateForm.get('title').invalid">Lütfen haber başlığı giriniz!</mat-error>
+              <mat-error *ngIf="newsCreateForm.get('title').invalid">En fazla 200 karakter!</mat-error>
             </mat-form-field>
           </div>
 

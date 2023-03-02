@@ -2,6 +2,7 @@ import { Component, Inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
+import { DatePipe } from "@angular/common";
 
 import { NewsModel } from "../../models/admin-news.model";
 import { NewsService } from "../../services/admin/admin-news.service";
@@ -19,22 +20,31 @@ export class NewsUpdateModal {
   isLoading = false;
   newsUpdateForm: FormGroup;
   imagePreview: string;
+  newsInfo = this.data.news;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public newsService: NewsService) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Data, 
+    public newsService: NewsService,
+    private _datePipe: DatePipe
+    ) {
 
   }
 
 
   ngOnInit() {
+
     this.newsUpdateForm = new FormGroup({
-      id: new FormControl(this.data.id, {validators: []}),
-      title: new FormControl(this.data.title, {validators: [Validators.required, Validators.maxLength(200)]}),
-      content: new FormControl(this.data.content, {validators: [Validators.required, Validators.maxLength(2000)]}),
-      newsImage: new FormControl(this.data.newsImage, {validators: [], asyncValidators: [imageUploadValidator]}),
-      isOnline: new FormControl(this.data.isOnline, {validators: [Validators.required]})
+      id: new FormControl(this.newsInfo.id, {validators: []}),
+      createdAt: new FormControl(this.newsInfo.createdAt, {validators: []}),
+      createdBy: new FormControl(this.newsInfo.createdBy, {validators: []}),
+      updatedAt: new FormControl(this.newsInfo.updatedAt, {validators: []}),
+      updatedBy: new FormControl(this.newsInfo.updatedBy, {validators: []}),
+      title: new FormControl(this.newsInfo.title, {validators: [Validators.required, Validators.maxLength(200)]}),
+      content: new FormControl(this.newsInfo.content, {validators: [Validators.required, Validators.maxLength(2000)]}),
+      newsImage: new FormControl(this.newsInfo.newsImage, {validators: [], asyncValidators: [imageUploadValidator]}),
+      isOnline: new FormControl(this.newsInfo.isOnline, {validators: [Validators.required]})
     });
 
-    console.log(this.data);
   }
 
   onFilePicked(event: Event) {
@@ -67,6 +77,8 @@ export class NewsUpdateModal {
     if (this.newsUpdateForm.valid) {
 
       this.isLoading = true;
+      let updatedAt = this._datePipe.transform((new Date), 'yyyy-MM-ddTHH:mm');
+      this.newsUpdateForm.get('updatedAt').setValue(updatedAt);
       this.newsService.updateNews(this.newsUpdateForm.value);
       this.isLoading = false;
 

@@ -13,6 +13,8 @@ import { AdminDocumentDocuments } from "./admin/components/documents-documents-l
 
 import { TeamsList } from "./admin/components/teams-list/teams-list.component";
 import { StadiumsListComponent } from "./admin/components/stadiums-list/stadiums-list.component";
+import { AdminDisciplinaryBoardFilesList } from "./admin/components/disciplinary-board-files-list/disciplinary-board-files-list.component";
+import { AdminDisciplinaryBoardDecisionsList } from "./admin/components/disciplinary-board-decisions-list/disciplinary-board-decisions-list.component";
 
 import { AdminSeasonsList } from "./admin/components/seasons-list/seasons-list.component";
 import { AdminLeaguesList } from "./admin/components/leagues-list/leagues-list.component";
@@ -39,6 +41,8 @@ const routes: Routes = [
 
   {path: 'admin/sahalar', component: StadiumsListComponent},
   {path: 'admin/takimlar', component: TeamsList},
+  {path: 'admin/disiplin-kurulu-dosyalari', component: AdminDisciplinaryBoardFilesList},
+  {path: 'admin/disiplin-kurulu-kararlari', component: AdminDisciplinaryBoardDecisionsList},
 
   {path: 'admin/sezonlar', component: AdminSeasonsList},
   {path: 'admin/ligler', component: AdminLeaguesList},

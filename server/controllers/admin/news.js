@@ -36,8 +36,17 @@ function createNews(req, res, next) {
   var message;
   var newsId;
   connection.query(
-    "insert into news(title, content, newsimage, isonline)values (?, ?, ?, ?)",
-    [newsInfo.title, newsInfo.content, newsInfo.newsImage, newsInfo.isOnline],
+    "insert into news(createdat, createdby, updatedat, updatedby, title, content, newsimage, isonline)values (?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      newsInfo.createdAt,
+      newsInfo.createdBy,
+      newsInfo.updatedAt,
+      newsInfo.updatedBy,
+      newsInfo.title, 
+      newsInfo.content, 
+      newsInfo.newsImage, 
+      newsInfo.isOnline
+    ],
     (error, result) => {
       if (!error) {
         newsId = result.insertId;
@@ -56,10 +65,21 @@ function createNews(req, res, next) {
 
 function updateNews(req, res, next) {
   const newsInfo = req.body;
+  console.log(newsInfo)
   var message;
   connection.query(
-    "update news set title = ?, content = ?, newsimage = ?, isonline = ? where id = ?",
-    [newsInfo.title, newsInfo.content, newsInfo.newsImage, newsInfo.isOnline, newsInfo.id],
+    "update news set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, content = ?, newsimage = ?, isonline = ? where id = ?",
+    [
+      newsInfo.createdAt,
+      newsInfo.createdBy,
+      newsInfo.updatedAt,
+      newsInfo.updatedBy,
+      newsInfo.title, 
+      newsInfo.content, 
+      newsInfo.newsImage, 
+      newsInfo.isOnline, 
+      newsInfo.id
+    ],
     (error, result) => {
       if (!error) {
         console.log(result);

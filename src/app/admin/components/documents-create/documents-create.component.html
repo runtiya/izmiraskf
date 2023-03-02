@@ -30,23 +30,24 @@
 
       <div class="col-lg-6 col-md-6 col-sm-12">
         <button
-              mat-stroked-button
-              type="button"
-              color="primary"
-              (click)="filePicker.click()"
-            >
-              Dosya Seç
-            </button>
-            <input type="file" #filePicker (change)="onFilePicked($event)"/>
+            mat-stroked-button
+            type="button"
+            color="primary"
+            (click)="filePicker.click()"
+          >
+            Dosya Seç
+          </button>
+          <input type="file" #filePicker (change)="onFilePicked($event)"/>
             <div
               class="document-preview"
               *ngIf="documentPreview !== '' && documentPreview && documentSubmitForm.get('content').valid"
             >
               <mat-card-subtitle>{{documentPreview}}</mat-card-subtitle>
+              <mat-error *ngIf="!documentSubmitForm.get('content').valid">
+                Lütfen geçerli bir dosya seçiniz! (en fazla 5MB)
+              </mat-error>
             </div>
-            <mat-error *ngIf="!documentSubmitForm.get('content').valid">
-              Lütfen geçerli bir dosya seçiniz! (en fazla 5MB)
-            </mat-error>
+            
       </div>
 
       <div class="col-lg-3"></div>

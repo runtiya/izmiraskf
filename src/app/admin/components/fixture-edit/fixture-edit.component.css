@@ -1,0 +1,29 @@
+.mat-mdc-card {
+    box-shadow: none;
+}
+
+mat-action-row button {
+    margin-right: 1rem;
+}
+
+.icon-match-status {
+    font-size: x-small;
+    overflow: unset;
+}
+
+.match-status-notplayed {
+    color: grey;
+}
+
+.match-status-played {
+    color: greenyellow;
+}
+
+.match-status-postponed {
+    color: orange;
+}
+
+.match-status-byforfeit {
+    color: red;
+}
+

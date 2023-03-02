@@ -28,9 +28,13 @@ export class NewsService {
             news: data.news.map(newsObj => {
               return {
                 id: newsObj.id,
+                createdAt: newsObj.createdAt,
+                createdBy: newsObj.createdBy,
+                updatedAt: newsObj.updatedAt,
+                updatedBy: newsObj.updatedBy,
                 title: newsObj.title,
                 content: newsObj.content,
-                newsImage: newsObj.img,
+                newsImage: newsObj.newsImage,
                 isOnline: newsObj.isOnline
               };
             }),
@@ -51,7 +55,6 @@ export class NewsService {
 
 
   addNews(news: NewsModel) {
-
     this.http
       .post<{error: boolean, message: string, newsId: number}>(
         'http://localhost:3000/admin/haberler', news
@@ -82,7 +85,6 @@ export class NewsService {
 
 
   updateNews(news: NewsModel) {
-
     this.http
       .put<{error: boolean, message: string}>(
         'http://localhost:3000/admin/haberler/' + news.id, news
@@ -98,7 +100,7 @@ export class NewsService {
           this.newsUpdated.next([...this.newsList]);
         }
         else {
-          null;
+          console.log(data.message);
         }
       });
   }

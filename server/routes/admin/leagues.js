@@ -15,7 +15,7 @@ router.post("", leaguesController.createLeague);
 
 router.put("/:id", leaguesController.updateLeague);
 
-router.delete("/:id", leaguesController.deleteLeague)
+router.delete("/:id", leaguesController.deleteLeague);
 
 
 module.exports = router;

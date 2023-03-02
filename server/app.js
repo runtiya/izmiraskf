@@ -19,6 +19,7 @@ const adminLeaguesRoutes = require('./routes/admin/leagues');
 const adminGroupsRoutes = require('./routes/admin/groupstages');
 const adminTeamsInGroupsRoutes = require('./routes/admin/teamsingroupstages');
 const adminFixtures = require('./routes/admin/fixtures');
+const adminDisciplinaryBoardFiles = require('./routes/admin/disciplinaryboardfiles');
 
 
 app.use(bodyParser.json());
@@ -48,7 +49,7 @@ app.use('/admin/ligler', adminLeaguesRoutes);
 app.use('/admin/grup-takim-eslesmeleri', adminTeamsInGroupsRoutes);
 app.use('/admin/gruplar', adminGroupsRoutes);
 app.use('/admin/fikstur', adminFixtures);
-
+app.use('/admin/disiplin-kurulu-dosyalari', adminDisciplinaryBoardFiles);
 
 
 module.exports = app;

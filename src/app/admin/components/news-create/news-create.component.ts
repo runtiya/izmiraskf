@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE }  from "@angular/material/core";
@@ -5,7 +6,6 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE }  from "@angular/materi
 import { NewsModel } from "../../models/admin-news.model";
 import { NewsService } from "../../services/admin/admin-news.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-
 
 
 @Component({
@@ -19,19 +19,27 @@ export class NewsCreateComponent {
   newsCreateForm: FormGroup;
   imagePreview: string;
 
-  constructor(private dateAdapter: DateAdapter<Date>, public newsService: NewsService) {
-    this.dateAdapter.setLocale('en-GB'); // dd/MM/yyyy
+  constructor(
+    private _dateAdapter: DateAdapter<Date>,
+    private _datePipe: DatePipe,
+    public newsService: NewsService
+    ) {
+    //this._dateAdapter.setLocale('en-GB'); // dd/MM/yyyy
   }
 
   ngOnInit() {
 
     this.newsCreateForm = new FormGroup({
+      createdAt: new FormControl(null, {validators: []}),
+      createdBy: new FormControl(null, {validators: []}),
+      updatedAt: new FormControl(null, {validators: []}),
+      updatedBy: new FormControl(null, {validators: []}),
       title: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)]}),
       content: new FormControl(null, {validators: [Validators.required, Validators.maxLength(4000)]}),
       newsImage: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
       isOnline: new FormControl(true, {validators: [Validators.required]})
     });
-    console.log(this.newsCreateForm.get('newsImage').valid);
+
   }
 
   onFilePicked(event: Event) {
@@ -58,24 +66,17 @@ export class NewsCreateComponent {
   onAddNews() {
 
     if (this.newsCreateForm.valid) {
-      /*
-      const news: NewsModel = {
-        id: 0,
-        title: this.newsCreateForm.value.title,
-        content: this.newsCreateForm.value.content,
-        newsImage: this.newsCreateForm.value.newsImage,
-        isOnline: this.newsCreateForm.value.isOnline
-      };
-      */
-
       this.isLoading = true;
+      let createdAt = this._datePipe.transform((new Date), 'yyyy-MM-ddTHH:mm');
+      this.newsCreateForm.get('createdAt').setValue(createdAt);
       this.newsService.addNews(this.newsCreateForm.value);
       this.isLoading = false;
 
       this.onClearNewsForm();
 
+    } else {
+      null;
     }
-    else return;
   }
 
 }

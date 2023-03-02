@@ -3,13 +3,13 @@ const { async } = require('rxjs');
 const connection = require('../../functions/database').connectDatabase();
 
 function getTeamsInGroupstages(req, res, next) {
-  const groupstagesId = req.params.groupstagesid;
+  const groupstageId = req.params.groupstageId;
   var teamsingroupstagesList;
   var message;
 
   connection.query(
-    "select * from view_teamsingroupstages where groupstagesid = ?",
-    [groupstagesId],
+    "select * from view_teamsingroupstages where groupstageId = ?",
+    [groupstageId],
     (error, result) => {
       if (!error) {
         teamsingroupstagesList = result;
@@ -48,7 +48,7 @@ function getTeamsForGroupstages(req, res, next) {
 }
 
 function createTeamsInGroupstages(req, res, next) {
-  const groupstageId = req.params.groupstagesid;
+  const groupstageId = req.params.groupstageId;
   var teamsList = req.body;
   var message;
   var error = false;
@@ -56,7 +56,7 @@ function createTeamsInGroupstages(req, res, next) {
   async function buildGroups() {
     try {
       await connection.query(
-        "delete from teamsingroupstages where groupstagesid = ?",
+        "delete from teamsingroupstages where groupstageId = ?",
         [groupstageId],
         (error, result) => {
           if (!error) {
@@ -70,9 +70,9 @@ function createTeamsInGroupstages(req, res, next) {
       for (let i = 0; i < teamsList.length; i++) {
         const team = teamsList[i];
         await connection.query(
-          "insert into teamsingroupstages(groupstagesid, teamid, isexpelled, isreceded, orderno) values(?, ?, ?, ?, ?)",
+          "insert into teamsingroupstages(groupstageId, teamid, isexpelled, isreceded, orderno) values(?, ?, ?, ?, ?)",
           [
-            groupstageId || team.groupstagesId,
+            groupstageId || team.groupstageId,
             team.teamId,
             false,
             false,
@@ -137,13 +137,13 @@ function updateTeamsForGroupstages(req, res, next) {
 
 
 function deleteTeamsInGroupstages(req, res, next) {
-  const groupstageId = req.params.groupstagesid;
+  const groupstageId = req.params.groupstageId;
   var message;
 
   console.log(groupstageId);
 
   connection.query(
-    "delete from teamsingroupstages where groupstagesid = ?",
+    "delete from teamsingroupstages where groupstageId = ?",
     [groupstageId],
     (error, result) => {
       if (!error) {
