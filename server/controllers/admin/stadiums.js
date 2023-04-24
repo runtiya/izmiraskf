@@ -36,8 +36,13 @@ function createStadium(req, res, next) {
   var message;
   var stadiumId;
   connection.query(
-    "insert into stadiums(stadiumname, city, town, address, stadiumimage, audiencecapacity, sizelength, sizewidth, floortype, haslightning, hasseating, hasdisabledtribune, hasclosedcircuitcamerasystem)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [ stadiumInfo.stadiumName,
+    "insert into stadiums(createdat, createdby, updatedat, updatedby, stadiumname, city, town, address, stadiumimage, audiencecapacity, sizelength, sizewidth, floortype, haslightning, hasseating, hasdisabledtribune, hasclosedcircuitcamerasystem)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [ 
+      stadiumInfo.createdAt,
+      stadiumInfo.createdBy,
+      stadiumInfo.updatedAt,
+      stadiumInfo.updatedBy,
+      stadiumInfo.stadiumName,
       stadiumInfo.city,
       stadiumInfo.town,
       stadiumInfo.address,
@@ -70,8 +75,13 @@ function updateStadium(req, res, next) {
   const stadiumInfo = req.body;
   var message;
   connection.query(
-    "update stadiums set stadiumname = ?, city = ?, town = ?, address = ?, stadiumimage = ?, audiencecapacity = ?, sizelength = ?, sizewidth = ?, floortype = ?, haslightning = ?, hasseating = ?, hasdisabledtribune = ?, hasclosedcircuitcamerasystem = ? where id = ?",
-    [ stadiumInfo.stadiumName,
+    "update stadiums set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, stadiumname = ?, city = ?, town = ?, address = ?, stadiumimage = ?, audiencecapacity = ?, sizelength = ?, sizewidth = ?, floortype = ?, haslightning = ?, hasseating = ?, hasdisabledtribune = ?, hasclosedcircuitcamerasystem = ? where id = ?",
+    [ 
+      stadiumInfo.createdAt,
+      stadiumInfo.createdBy,
+      stadiumInfo.updatedAt,
+      stadiumInfo.updatedBy,
+      stadiumInfo.stadiumName,
       stadiumInfo.city,
       stadiumInfo.town,
       stadiumInfo.address,

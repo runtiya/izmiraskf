@@ -28,7 +28,7 @@ export class DisciplinaryBoardFilesService {
                     } else {
                         console.log(data.message);
                     }
-                })
+                });
         } catch (error) {
             console.log(error);
         }
@@ -52,7 +52,7 @@ export class DisciplinaryBoardFilesService {
                     } else {
                         console.log(data.message);
                     }
-                })
+                });
         } catch (error) {
             console.log(error);
         }
@@ -75,7 +75,7 @@ export class DisciplinaryBoardFilesService {
                     } else {
                         console.log(data.message);
                     }
-                })
+                });
         } catch (error) {
             console.log(error);
         }
@@ -95,7 +95,7 @@ export class DisciplinaryBoardFilesService {
                     } else {
                         console.log(data.message);
                     }
-                })
+                });
         } catch (error) {
             console.log(error);
         }

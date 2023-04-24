@@ -22,7 +22,12 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   private extLinksSubscription: Subscription;
   faBrandList = faBrandList;
 
-  displayedColumns: string[] = ["orderNo", "linkName", "url", "isActive", "edit", "delete"];
+  displayedColumns: string[] = ["orderNo", 
+                                "linkName", 
+                                "url", 
+                                "isActive", 
+                                "actions"
+                              ];
 
   constructor(public extLinkService: ExternalLinksService, public dialog: MatDialog) {}
 

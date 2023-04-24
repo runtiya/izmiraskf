@@ -19,9 +19,12 @@ import { StadiumsService } from "../../services/admin/admin-stadiums.service";
 
 import { FixtureEditModal } from "../fixture-edit/fixture-edit.component";
 
+import { fixtureFunctions } from "../../functions/fixture.function";
+import { globalFunctions } from "../../functions/global.function";
+
 import { fixtureKey3, fixtureKey4, fixtureKey5, fixtureKey6, fixtureKey7, fixtureKey8, fixtureKey9, fixtureKey10, fixtureKey11, fixtureKey12, fixtureKey13, fixtureKey14, fixtureKey15 } from "../../assets/lists/fixture-keys-list";
 import { matchStatusList } from "../../assets/lists/match-status-list";
-import { faCircleH } from "@fortawesome/free-solid-svg-icons";
+import { faCircleH, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { DatePipe } from "@angular/common";
 
 @Component({
@@ -48,13 +51,25 @@ export class FixtureCreate implements OnInit, OnDestroy {
 
   matchStatusList = matchStatusList;
   faCircleH = faCircleH;
+  faCircleInfo = faCircleInfo;
 
   @Input() seasonSelectionId: number;
   @Input() leagueSelectionId: number;
   @Input() groupstageSelectionId: number;
 
-  displayedColumnsGroup: string[] = ["orderNo", "status", "teamName", "stadiumName"];
-  displayedColumnsFixture: string[] = ["matchNo", "homeTeam", "details", "awayTeam", "actions"];
+  displayedColumnsGroup: string[] = [
+                                      "orderNo", 
+                                      "status", 
+                                      "teamName", 
+                                      "stadiumName"
+                                    ];
+  displayedColumnsFixture: string[] = [
+                                        "matchNo", 
+                                        "homeTeam", 
+                                        "details", 
+                                        "awayTeam", 
+                                        "actions"
+                                      ];
   groupByFixture: any[] = [];
   constructor(public seasonsService: SeasonsService,
               public leaguesService: LeaguesService,
@@ -63,7 +78,8 @@ export class FixtureCreate implements OnInit, OnDestroy {
               public fixturesService: FixtureService,
               public stadiumsService: StadiumsService,
               public dialog: MatDialog,
-              private _datePipe: DatePipe
+              private _datePipe: DatePipe,
+              private globalFunctions: globalFunctions
             ) {}
 
   ngOnInit(): void {
@@ -73,52 +89,50 @@ export class FixtureCreate implements OnInit, OnDestroy {
     this.stadiumListSub = this.stadiumsService.getStadiumListUpdateListener()
       .subscribe((data: StadiumsModel[]) => {
         this.stadiumList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
-        this.isLoading = false;
       });
 
-    this.isLoading = true;
+
     this.seasonsService.getSeasons();
     this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
       .subscribe((data: SeasonsModel[]) => {
         this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
         this.seasonSelectionId = this.seasonList[0]["id"];
         this.leaguesService.getLeagues(this.seasonSelectionId);
-        this.isLoading = false;
       });
 
-    this.isLoading = true;
+
     this.leagueListSub = this.leaguesService.getLeagueListUpdateListener()
       .subscribe((data: LeaguesModel[]) => {
         this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
         this.leagueSelectionId = this.leagueList[0]["id"];
         this.groupstagesService.getGroupstages(this.leagueSelectionId);
-        this.isLoading = false;
+
       });
 
-    this.isLoading = true;
+
     this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
       .subscribe((data: GroupStagesModel[]) => {
         this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
         this.groupstageSelectionId = this.groupstageList[0]["id"];
         this.teamsingroupstagesService.getTeamsInGroupstages(this.groupstageSelectionId);
         this.fixturesService.getFixture(this.groupstageSelectionId);
-        this.isLoading = false;
       });
 
-    this.isLoading = true;
+
     this.teamsingroupstagesListSub = this.teamsingroupstagesService.getTeamsInGroupstagesUpdateListener()
       .subscribe((data: TeamsInGroupstagesModel[]) => {
         this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
-        this.isLoading = false;
       });
 
-    this.isLoading = true;
+
     this.fixtureListSub = this.fixturesService.getFixtureUpdateListener()
       .subscribe((data: FixtureModel[]) => {
         this.fixtureList = data.sort((a, b) => a.orderNo - b.orderNo);
         this.groupByFixture = this.groupByToFixture(this.fixtureList);
-        this.isLoading = false;
+        
       });
+
+    this.isLoading = false;
   }
 
 
@@ -141,140 +155,121 @@ export class FixtureCreate implements OnInit, OnDestroy {
     this.isLoading = false;
   }
 
-  createFixture(teams: TeamsInGroupstagesModel[]) {
-    this.isLoading = true;
-
+  buildFixtureList() {
     try {
-      const teamsCount = teams.length;
-      const periodSystem = this.groupstageList.find(group => group.id == this.groupstageSelectionId).periodSystem;
-      const teamList = teams;
-      var weeks = [];
+      this.isLoading = true;
+      const teamsList: TeamsInGroupstagesModel[] = this.teamsingroupstagesList;
+      const fixtureKeyCount: number = teamsList.length;
+      const periodSystem = this.groupstageList.find(g => g.id == this.groupstageSelectionId).periodSystem;
+      var fixtureKey = [];
+      var _fixtureList: FixtureModel[] = [];
 
-      var fixtureListDemo: FixtureModel[] = [];
-
-
-      switch (teamsCount) {
+      switch (fixtureKeyCount) {
         case 3:
-          weeks = fixtureKey3;
+          fixtureKey = fixtureKey3;
           break;
         case 4:
-          weeks = fixtureKey4;
+          fixtureKey = fixtureKey4;
           break;
         case 5:
-          weeks = fixtureKey5;
+          fixtureKey = fixtureKey5;
           break;
         case 6:
-          weeks = fixtureKey6;
+          fixtureKey = fixtureKey6;
           break;
         case 7:
-          weeks = fixtureKey7;
+          fixtureKey = fixtureKey7;
           break;
         case 8:
-          weeks = fixtureKey8;
+          fixtureKey = fixtureKey8;
           break;
-
         case 9:
-          weeks = fixtureKey9;
+          fixtureKey = fixtureKey9;
           break;
         case 10:
-          weeks = fixtureKey10;
+          fixtureKey = fixtureKey10;
           break;
         case 11:
-          weeks = fixtureKey11;
+          fixtureKey = fixtureKey11;
           break;
         case 12:
-          weeks = fixtureKey12;
+          fixtureKey = fixtureKey12;
           break;
         case 13:
-          weeks = fixtureKey13;
+          fixtureKey = fixtureKey13;
           break;
         case 14:
-          weeks = fixtureKey14;
+          fixtureKey = fixtureKey14;
           break;
         case 15:
-            weeks = fixtureKey15;
+          fixtureKey = fixtureKey15;
             break;
         default:
-          break;
+          throw new Error;
       }
 
-      this.clearFixtureList();
+      for (let ps = 1; ps <= periodSystem; ps++) {
+        for (let fk = 0; fk < fixtureKey.length; fk++) {
+          let element = fixtureKey[fk];
+          let week = element.week + (fixtureKey.length * (ps - 1));
+          let key = element.key;
 
-      for(let p = 1; p <= periodSystem; p++) {
-        for(let i = 0; i<weeks.length; i++) {
-            let element = weeks[i];
-            let week = element.week + (weeks.length * (p-1));
-            let key = element.key;
-            for(let k = 0; k<key.length; k++) {
-                let match = key[k];
-                let orderNo = match.orderNo;
-                let homeTeamOrderNo = match.homeTeam;
-                let awayTeamOrderNo = match.awayTeam;
+          for (let k = 0; k < key.length; k++) {
+            let matchFrame = key[k];
+            let orderNo = matchFrame.orderNo;
+            let homeTeamOrderNo = matchFrame.homeTeam;
+            let awayTeamOrderNo = matchFrame.awayTeam;
 
-                let homeTeam = teamList.find(team => team.orderNo == ((p%2 == 1) ? homeTeamOrderNo : awayTeamOrderNo));
-                let awayTeam = teamList.find(team => team.orderNo == ((p%2 == 1) ? awayTeamOrderNo : homeTeamOrderNo));
+            let homeTeam = teamsList.find(team => team.orderNo == ((ps%2 == 1) ? homeTeamOrderNo : awayTeamOrderNo));
+            let awayTeam = teamsList.find(team => team.orderNo == ((ps%2 == 1) ? awayTeamOrderNo : homeTeamOrderNo));
 
-                var fixture = <FixtureModel>{};
-                fixture = this.buildMatch(homeTeam, awayTeam, week, orderNo);
-                fixtureListDemo.push(fixture);
-            }
+            var matchDraft = <FixtureModel>{};
+            matchDraft = this.createDraft(homeTeam, awayTeam, week, orderNo);
+            _fixtureList.push(matchDraft);
+          }
         }
       }
-
-      this.fixturesService.buildFixtureAsObservable(fixtureListDemo);
-      /*
-      fixtureListDemo.sort((a, b) => a.orderNo - b.orderNo)
-      this.groupByFixture = this.groupByToFixture(fixtureListDemo);
-      this.fixtureList = fixtureListDemo;
-      */
-
+      this.fixturesService.createFixture(_fixtureList, this.groupstageSelectionId);
     } catch (error) {
-      fixtureListDemo = [];
+      this.globalFunctions.showSnackBar.next('Hata!');
+      _fixtureList = [];
       this.groupByFixture = this.groupByToFixture(this.fixtureList);
-      // Show error message here
-      console.log(error);
     }
-
     this.isLoading = false;
-
   }
 
-  buildMatch(homeTeam: TeamsInGroupstagesModel, awayTeam: TeamsInGroupstagesModel, week: number, orderNo: number): FixtureModel {
+  createDraft(_homeTeam: TeamsInGroupstagesModel, _awayTeam: TeamsInGroupstagesModel, _weekNumber: number, _orderNo: number): FixtureModel {
     try {
       const seasonId = this.seasonSelectionId;
       const leagueId = this.leagueSelectionId;
       const groupstageId = this.groupstageSelectionId;
       const teamsingroupstagesList = this.teamsingroupstagesList;
 
-      let fixture = <FixtureModel>{};
+      var matchDraft = <FixtureModel>{};
+      matchDraft.id = null;
+      matchDraft.groupstageId = groupstageId;
+      matchDraft.matchNo = fixtureFunctions.setMatchNo(seasonId, leagueId, groupstageId, _weekNumber, _orderNo);
+      matchDraft.matchWeek = _weekNumber;
+      matchDraft.orderNo = _orderNo;
+      matchDraft.matchStatus = 'NOTPLAYED';
+      matchDraft.stadiumId = _homeTeam ? _homeTeam.teamStadiumId : null;
+      matchDraft.homeTeamId = _homeTeam ? _homeTeam.teamId : null;
+      matchDraft.homeTeamScore = null;
+      matchDraft.homeTeamPoint = null;
+      matchDraft.isHomeTeamWinByForfeit = false;
+      matchDraft.awayTeamId = _awayTeam ? _awayTeam.teamId : null;
+      matchDraft.awayTeamScore = null;
+      matchDraft.awayTeamPoint = null;
+      matchDraft.isAwayTeamWinByForfeit = false;
 
-      fixture.id = null;
-      fixture.groupstageId = groupstageId;
-      fixture.matchNo = ('35' + seasonId.toString().padStart(2, "0") + leagueId.toString().padStart(2, "0") + groupstageId.toString().padStart(2, "0") + '-' + week.toString().padStart(2, "0") + orderNo.toString().padStart(2, "0"));
-      fixture.matchWeek = week;
-      fixture.matchStatus = 'NOTPLAYED';
-
-      fixture.stadiumId = homeTeam ? homeTeam.teamStadiumId : null;
-
-      fixture.homeTeamId = homeTeam ? homeTeam.teamId : null;
-      fixture.homeTeamScore = null;
-      fixture.isHomeTeamWinByForfeit = false;
-      fixture.homeTeamPoint = null;
-
-      fixture.awayTeamId = awayTeam ? awayTeam.teamId : null;
-      fixture.awayTeamScore = null;
-      fixture.isAwayTeamWinByForfeit = false;
-      fixture.awayTeamPoint = null;
-
-      fixture.orderNo = orderNo;
-
-      return fixture;
+      return matchDraft;
 
     } catch (error) {
-      return null;
+      this.globalFunctions.showSnackBar.next('Hata!');
+      return null
     }
-
   }
+  
 
   groupByToFixture(fixtureList: FixtureModel[]): any {
     this.groupByFixture = [];
@@ -294,8 +289,57 @@ export class FixtureCreate implements OnInit, OnDestroy {
 
 
   clearFixtureList() {
-    this.fixtureList = [];
-    this.groupByFixture = [];
+    this.isLoading = true;
+    this.fixturesService.clearFixture(this.groupstageSelectionId);
+    this.isLoading = false;
+  }
+
+  onCreateMatch() {
+    let matchDay = <FixtureModel>{};
+    matchDay.matchNo = null;
+    matchDay.groupstageId = this.groupstageSelectionId;
+
+    const dialogRef = this.dialog.open(FixtureEditModal, {
+      data: {
+        pageMode: 'create',
+        fixtureInfo: matchDay,
+        stadiumList: this.stadiumList,
+        teamsingroupstagesList: this.teamsingroupstagesList,
+        seasonSelectionId: this.seasonSelectionId,
+        leagueSelectionId: this.leagueSelectionId,
+        groupstageSelectionId: this.groupstageSelectionId
+      }
+    });
+  }
+
+  onEdit(matchDay: FixtureModel, matchWeek: number) {
+    matchDay.matchWeek = matchWeek;
+
+    const dialogRef = this.dialog.open(FixtureEditModal, {
+      data: {
+        pageMode: 'edit',
+        fixtureInfo: matchDay,
+        stadiumList: this.stadiumList,
+        teamsingroupstagesList: this.teamsingroupstagesList,
+        seasonSelectionId: this.seasonSelectionId,
+        leagueSelectionId: this.leagueSelectionId,
+        groupstageSelectionId: this.groupstageSelectionId
+      }
+    });
+  }
+
+  onDelete(id: number) {
+    this.isLoading = true;
+    this.fixturesService.deleteMatch(id);
+    this.isLoading = false;
+  }
+
+  onImport() {
+
+  }
+
+  onExport() {
+
   }
 
   swapMatch(matchNo: string) {
@@ -324,58 +368,29 @@ export class FixtureCreate implements OnInit, OnDestroy {
 
     matchTemp.orderNo = match.orderNo;
 
-    this.fixtureList[indexNo] = matchTemp;
-    this.groupByFixture = this.groupByToFixture(this.fixtureList);
-
+    var _fixtureList: FixtureModel[] = [];
+    _fixtureList.push(matchTemp);
+    this.fixturesService.updateFixture(_fixtureList);
   }
 
-  onScoreChange(matchNo: string, homeTeamScore: number, awayTeamScore: number) {
-    console.log(matchNo)
-    console.log(!!!homeTeamScore)
-    console.log(awayTeamScore)
-
-
-    if (!!homeTeamScore && !!awayTeamScore && !!matchNo) {
-      let match = this.fixtureList.find(f => f.matchNo == matchNo);
-      let matchIndex = this.fixtureList.findIndex(f => f.matchNo == matchNo);
-      
-      match.homeTeamScore = homeTeamScore;
-      match.awayTeamScore = awayTeamScore;
-      match.matchStatus = 'PLAYED';
-      if (homeTeamScore > awayTeamScore) {
-        match.homeTeamPoint = 3;
-        match.awayTeamPoint = 0;
-      } else if (awayTeamScore > homeTeamScore) {
-        match.homeTeamPoint = 0;
-        match.awayTeamPoint = 3;
-      } else if (homeTeamScore == awayTeamScore) {
-        match.homeTeamPoint = 1;
-        match.awayTeamPoint = 1;
-      }
-
-      this.fixtureList[matchIndex] = match;
-      this.groupByFixture = this.groupByToFixture(this.fixtureList);
-    } else if (!!!homeTeamScore && !!!awayTeamScore && !!matchNo) {
-      let match = this.fixtureList.find(f => f.matchNo == matchNo);
-      let matchIndex = this.fixtureList.findIndex(f => f.matchNo == matchNo);
-      
-      match.homeTeamScore = homeTeamScore;
-      match.awayTeamScore = awayTeamScore;
-      match.matchStatus = 'NOTPLAYED';
-      match.homeTeamPoint = null;
-      match.awayTeamPoint = null;
-
-      this.fixtureList[matchIndex] = match;
-      this.groupByFixture = this.groupByToFixture(this.fixtureList);
-    }
-  }
-
-  numbersOnly(event): boolean {
+  numbersOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
     }
     return true;
+  }
+
+  findSeasonName(seasonId: number) {
+    return this.seasonList.find(s => s.id == seasonId).seasonName;
+  }
+
+  findLeagueName(leagueId: number) {
+    return this.leagueList.find(l => l.id == leagueId).leagueName;
+  }
+
+  findGroupstageName(groupstageId: number) {
+    return this.groupstageList.find(gs => gs.id == groupstageId).groupName;
   }
 
   findStadium(stadiumId: number): string {
@@ -395,56 +410,6 @@ export class FixtureCreate implements OnInit, OnDestroy {
     return this.matchStatusList.find(s => s.name == status).class;
   }
 
-  onCreateMatch() {
-    const seasonId = this.seasonSelectionId;
-    const leagueId = this.leagueSelectionId;
-    const groupstageId = this.groupstageSelectionId;
-
-    let matchDay = <FixtureModel>{};
-    matchDay.matchNo = null;
-    matchDay.groupstageId = groupstageId;
-    
-    const dialogRef = this.dialog.open(FixtureEditModal, {
-      data: {
-        pageMode: 'create',
-        fixtureInfo: matchDay,
-        stadiumList: this.stadiumList,
-        teamsingroupstagesList: this.teamsingroupstagesList,
-        seasonSelectionId: this.seasonSelectionId,
-        leagueSelectionId: this.leagueSelectionId,
-        groupstageSelectionId: this.groupstageSelectionId
-      }
-    });
-  }
-
-  onEdit(matchDay: FixtureModel, matchWeek: number) {
-    matchDay.matchWeek = matchWeek;
-
-    const dialogRef = this.dialog.open(FixtureEditModal, {
-      data: {
-        pageMode: 'edit',
-        fixtureInfo: matchDay,
-        stadiumList: this.stadiumList,
-        teamsingroupstagesList: this.teamsingroupstagesList,
-        seasonSelectionId: this.seasonSelectionId,
-        leagueSelectionId: this.leagueSelectionId,
-        groupstageSelectionId: this.groupstageSelectionId
-      }
-    });
-
-  }
-
-  onDelete(matchNo: string) {
-    this.isLoading = true;
-    this.fixturesService.deleteMatch(matchNo);
-    this.isLoading = false;
-  }
-
-  onSaveFixture() {
-    this.isLoading = true;
-    this.fixturesService.createFixture(this.fixtureList, this.groupstageSelectionId);
-    this.isLoading = false;
-  }
 
   ngOnDestroy(): void {
     this.seasonListSub.unsubscribe();

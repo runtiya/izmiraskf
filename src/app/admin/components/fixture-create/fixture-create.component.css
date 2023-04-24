@@ -1,14 +1,17 @@
-.button-fixture-create {
-  background-color: darkorange !important;
+.button-fixture-clear, 
+.button-fixture-create,
+.button-match-create,
+.button-import,
+.button-export {
+  margin-bottom: 1rem;
+}
+.button-import {
+  background-color: green !important;
   color: white !important;
 }
 
-.btn-disabled {
-  background-color: grey !important;
-}
-
-.button-match-create {
-  background-color: green !important;
+.button-export {
+  background-color: orange !important;
   color: white !important;
 }
 
@@ -16,19 +19,6 @@
   margin-bottom: 1rem;
 }
 
-.toolbar-fixture-week > span {
-  font-size: medium;
-}
-
-.subtitle-matchday-detail {
-  font-size: small;
-}
-
-/*
-tr.table-detail-row:hover {
-  cursor: pointer;
-}
-*/
 
 .icon-danger {
   color: red;
@@ -67,7 +57,6 @@ tr.table-detail-row:hover {
   color: red;
 }
 
-.input-score {
-  font-size: medium;
-  width: 25%;
+.font-title-teamname {
+  font-size: small;
 }

@@ -1,4 +1,17 @@
 .mdc-data-table__header-cell, .mdc-data-table__cell {
     font-size: small;
-    text-align: start;
   }
+
+.btn-disciplinary-board-decisions-actions {
+  margin-bottom: 0.5rem;
+}
+
+.btn-import-disciplinary-board-decisions {
+  background-color: green !important;
+  color: white !important;
+}
+
+.btn-export-disciplinary-board-decisions {
+  background-color: darkorange !important;
+  color: white !important;
+}

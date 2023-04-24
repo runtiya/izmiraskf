@@ -40,7 +40,7 @@
             </ng-container>
 
             <ng-container matColumnDef="caseNo">
-                <th mat-header-cell *matHeaderCellDef="">Dosya No.</th>
+                <th mat-header-cell *matHeaderCellDef="">Dosya Numarası</th>
                 <td mat-cell *matCellDef="let file">{{file.caseNo}}</td>
             </ng-container>
 
@@ -55,7 +55,7 @@
             </ng-container>
 
             <ng-container matColumnDef="explanation">
-              <th mat-header-cell *matHeaderCellDef=""></th>
+              <th mat-header-cell *matHeaderCellDef="">Açıklama</th>
               <td mat-cell *matCellDef="let file">
                 <mat-icon *ngIf="file.explanation" matTooltip="{{file.explanation}}">info</mat-icon>
               </td>

@@ -70,8 +70,12 @@ function createTeamsInGroupstages(req, res, next) {
       for (let i = 0; i < teamsList.length; i++) {
         const team = teamsList[i];
         await connection.query(
-          "insert into teamsingroupstages(groupstageId, teamid, isexpelled, isreceded, orderno) values(?, ?, ?, ?, ?)",
+          "insert into teamsingroupstages(createdat, createdby, updatedat, updatedby, groupstageId, teamid, isexpelled, isreceded, orderno) values(?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
+            team.createdAt,
+            team.createdBy,
+            team.updatedAt,
+            team.updatedBy,
             groupstageId || team.groupstageId,
             team.teamId,
             false,
@@ -113,8 +117,12 @@ function updateTeamsForGroupstages(req, res, next) {
   console.log(teamInfo);
 
   connection.query(
-    "update teamsingroupstages set isexpelled = ?, isreceded = ?, weekofexpelledorreceded = ?, explanation = ? where id = ?",
+    "update teamsingroupstages set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, isexpelled = ?, isreceded = ?, weekofexpelledorreceded = ?, explanation = ? where id = ?",
     [
+      teamInfo.createdAt,
+      teamInfo.createdBy,
+      teamInfo.updatedAt,
+      teamInfo.updatedBy,
       teamInfo.isExpelled,
       teamInfo.isReceded,
       teamInfo.weekofExpelledorReceded,

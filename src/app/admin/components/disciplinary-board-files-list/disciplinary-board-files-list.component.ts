@@ -26,7 +26,14 @@ export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
     private disciplinaryBoardFilesListSubscription: Subscription;
 
     @Input() seasonSelectionId: number;
-    displayedColumns: string[] = ["seasonName", "caseNo", "caseDate", "title", "explanation", "actions"];
+    displayedColumns: string[] = [
+                                    "seasonName", 
+                                    "caseNo", 
+                                    "caseDate", 
+                                    "title", 
+                                    "explanation", 
+                                    "actions"
+                                ];
 
     constructor(
         public disciplinaryBoardFilesService: DisciplinaryBoardFilesService,
@@ -48,7 +55,8 @@ export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
         this.isLoading = true;
         this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
             .subscribe((data: DisciplinaryBoardFileModel[]) => {
-                this.disciplinaryBoardFilesList = data.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
+                const filteredDisciplinaryBoardFilesList = data.filter(file => file.seasonId == this.seasonSelectionId);
+                this.disciplinaryBoardFilesList = filteredDisciplinaryBoardFilesList.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
                 this.isLoading = false;
             })
     }

@@ -66,11 +66,8 @@ export class StadiumsService {
         .subscribe((data) => {
           if (!data.error) {
             // Replace updated object with the old one
-            this.stadiumList.forEach((item, i) => {
-              if (item.id == stadiumInfo.id) {
-                this.stadiumList[i] = stadiumInfo;
-              }
-            });
+            let index = this.stadiumList.findIndex(s => s.id == stadiumInfo.id);
+            this.stadiumList[index] = stadiumInfo;
             this.stadiumListSub.next([...this.stadiumList]);
           } else {
             console.log(data.message);
