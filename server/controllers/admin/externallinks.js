@@ -30,8 +30,20 @@ function createExternalLink(req, res, next) {
   var message;
   var linkId;
   connection.query(
-    "insert into externallinks(linkname, url, linktype, iconimage, fabrand, orderno, isactive)values (?, ?, ?, ?, ?, ?, ?)",
-    [linkInfo.linkName, linkInfo.url, linkInfo.linkType, linkInfo.iconImage, linkInfo.faBrand, linkInfo.orderNo, linkInfo.isActive],
+    "insert into externallinks(createdat, createdby, updatedat, updatedby, linkname, url, linktype, iconimage, fabrand, orderno, isactive)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      linkInfo.createdAt,
+      linkInfo.createdBy,
+      linkInfo.updatedAt,
+      linkInfo.updatedBy,
+      linkInfo.linkName, 
+      linkInfo.url, 
+      linkInfo.linkType, 
+      linkInfo.iconImage, 
+      linkInfo.faBrand, 
+      linkInfo.orderNo, 
+      linkInfo.isActive
+    ],
     (error, result) => {
       if (!error) {
         linkId = result.insertId;
@@ -51,8 +63,21 @@ function updateExternalLink(req, res, next) {
   const linkInfo = req.body;
   var message;
   connection.query(
-    "update externallinks set linkname = ?, url = ?, linktype = ?, iconimage = ?, fabrand = ?, orderno = ?, isactive = ? where id = ?",
-    [linkInfo.linkName, linkInfo.url, linkInfo.linkType, linkInfo.iconImage, linkInfo.faBrand, linkInfo.orderNo, linkInfo.isActive, linkInfo.id],
+    "update externallinks set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, linkname = ?, url = ?, linktype = ?, iconimage = ?, fabrand = ?, orderno = ?, isactive = ? where id = ?",
+    [
+      linkInfo.createdAt,
+      linkInfo.createdBy,
+      linkInfo.updatedAt,
+      linkInfo.updatedBy,
+      linkInfo.linkName, 
+      linkInfo.url, 
+      linkInfo.linkType, 
+      linkInfo.iconImage, 
+      linkInfo.faBrand, 
+      linkInfo.orderNo, 
+      linkInfo.isActive, 
+      linkInfo.id
+    ],
     (error, result) => {
       if (!error) {
         console.log(result);

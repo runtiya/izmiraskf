@@ -1,0 +1,94 @@
+.btn-search {
+    width: 100%;
+}
+
+.table-fixture-list {
+    margin-top: 2rem;
+}
+
+.btn-action {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-import {
+    background-color: green !important;
+    color: white !important;
+}
+  
+.btn-export {
+    background-color: darkorange !important;
+    color: white !important;
+}
+
+
+.subtitle-matchday-detail {
+    font-size: small;
+}
+  
+.icon-danger {
+    color: red;
+}
+  
+.icon-warning {
+    color: orange;
+}
+  
+.team-status-expelorrecede {
+    background-color: tomato;
+}
+  
+.icon-match-status {
+    font-size: x-small;
+    overflow: unset;
+}
+  
+.match-status-notplayed {
+    color: grey;
+}
+  
+.match-status-played {
+    color: greenyellow;
+}
+  
+.match-status-postponed {
+    color: orange;
+}
+  
+.match-status-byforfeit {
+    color: red;
+}
+  
+.icon-circle-h {
+    color: red;
+}
+  
+.input-score {
+    font-size: medium;
+    width: 25%;
+}
+
+.input-point {
+    font-size: medium;
+    width: 25%;
+}
+
+.font-team {
+    font-size: medium;
+}
+
+.score-card-header {
+    background-color: #3F51B5;
+}
+
+.font-score-card-header {
+    color: whitesmoke !important;
+}
+
+.container-score-board {
+    margin-top: 2rem;
+}
+
+.icon-circle-info {
+    color: orange;
+}

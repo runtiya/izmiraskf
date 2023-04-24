@@ -24,8 +24,18 @@ function updateAboutContent(req, res, next) {
   const aboutContent = req.body;
   var message;
   connection.query(
-    "update aboutitff set abouttext = ?, address = ?, phonenumber = ?, faxnumber = ?, email = ?, longitude = ?, latitude = ?",
-    [aboutContent.aboutText, aboutContent.address, aboutContent.phoneNumber, aboutContent.faxNumber, aboutContent.email, aboutContent.longitude, aboutContent.latitude],
+    "update aboutitff set abouttext = ?, address = ?, phonenumber = ?, faxnumber = ?, email = ?, longitude = ?, latitude = ?, updatedat = ?, updatedby = ?",
+    [
+      aboutContent.aboutText, 
+      aboutContent.address, 
+      aboutContent.phoneNumber, 
+      aboutContent.faxNumber, 
+      aboutContent.email, 
+      aboutContent.longitude, 
+      aboutContent.latitude,
+      aboutContent.updatedAt,
+      aboutContent.updatedBy
+    ],
     (error, result) => {
       if (!error) {
         console.log(result);

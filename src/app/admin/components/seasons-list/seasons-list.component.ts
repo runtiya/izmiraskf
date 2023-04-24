@@ -19,9 +19,17 @@ export class AdminSeasonsList {
   isLoading = false;
   seasonsList: SeasonsModel[] = [];
   private seasonsListSubscription: Subscription;
-  displayedColumns: string[] = ["seasonName", "seasonYear", "isActive", "edit", "delete"];
+  displayedColumns: string[] = [
+                                "seasonName", 
+                                "seasonYear", 
+                                "isActive", 
+                                "actions"
+                              ];
 
-  constructor(public seasonsService: SeasonsService, public dialog: MatDialog) {}
+  constructor(
+              public seasonsService: SeasonsService, 
+              public dialog: MatDialog
+            ) {}
 
   ngOnInit() {
     this.isLoading = true;

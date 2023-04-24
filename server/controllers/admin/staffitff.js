@@ -28,8 +28,19 @@ function createStaff(req, res, next) {
   var message;
   var staffId;
   connection.query(
-    "insert into staffitff(title, fullname, phone, email, profileimage, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?)",
-    [staffInfo.title, staffInfo.fullName, staffInfo.phone, staffInfo.email, staffInfo.profileImage, staffInfo.isVisible, staffInfo.orderNo],
+    "insert into staffitff(createdat, createdby, updatedat, updatedby, title, fullname, phone, email, profileimage, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      staffInfo.createdAt,
+      staffInfo.createdBy,
+      staffInfo.updatedAt,
+      staffInfo.updatedBy,
+      staffInfo.title, 
+      staffInfo.fullName, 
+      staffInfo.phone, 
+      staffInfo.email, 
+      staffInfo.profileImage, 
+      staffInfo.isVisible, 
+      staffInfo.orderNo],
     (error, result) => {
       if (!error) {
         staffId = result.insertId;
@@ -50,8 +61,21 @@ function updateStaff(req, res, next) {
   console.log(staffInfo);
   var message;
   connection.query(
-    "update staffitff set title = ?, fullname = ?, phone = ?, email = ?, profileimage = ?, isvisible = ?, orderno = ? where id = ?",
-    [staffInfo.title, staffInfo.fullName, staffInfo.phone, staffInfo.email, staffInfo.profileImage, staffInfo.isVisible, staffInfo.orderNo, staffInfo.id],
+    "update staffitff set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, fullname = ?, phone = ?, email = ?, profileimage = ?, isvisible = ?, orderno = ? where id = ?",
+    [
+      staffInfo.createdAt,
+      staffInfo.createdBy,
+      staffInfo.updatedAt,
+      staffInfo.updatedBy,
+      staffInfo.title, 
+      staffInfo.fullName, 
+      staffInfo.phone, 
+      staffInfo.email, 
+      staffInfo.profileImage, 
+      staffInfo.isVisible, 
+      staffInfo.orderNo, 
+      staffInfo.id
+    ],
     (error, result) => {
       if (!error) {
         console.log(result);

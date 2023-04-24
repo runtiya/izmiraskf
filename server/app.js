@@ -20,10 +20,11 @@ const adminGroupsRoutes = require('./routes/admin/groupstages');
 const adminTeamsInGroupsRoutes = require('./routes/admin/teamsingroupstages');
 const adminFixtures = require('./routes/admin/fixtures');
 const adminDisciplinaryBoardFiles = require('./routes/admin/disciplinaryboardfiles');
+const adminDisciplinaryBoardDecisions = require('./routes/admin/disciplinaryboarddecisions');
 
-
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json({limit:'3000kb'}));
+
 
 // CORS - Cross-Origin Resource Sharing
 app.use((req, res, next) => {
@@ -50,6 +51,7 @@ app.use('/admin/grup-takim-eslesmeleri', adminTeamsInGroupsRoutes);
 app.use('/admin/gruplar', adminGroupsRoutes);
 app.use('/admin/fikstur', adminFixtures);
 app.use('/admin/disiplin-kurulu-dosyalari', adminDisciplinaryBoardFiles);
+app.use('/admin/disiplin-kurulu-kararlari', adminDisciplinaryBoardDecisions);
 
 
 module.exports = app;

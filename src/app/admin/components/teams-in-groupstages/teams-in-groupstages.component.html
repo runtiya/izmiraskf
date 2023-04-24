@@ -119,7 +119,7 @@
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let team of filteredTeamsList">
           <mat-card>
-            <mat-card-header>
+            <mat-card-header class="{{matchList(team.id) ? 'match-team-list' : null}}">
               <mat-card-title-group>
                 <!-- Logo Does NOT Exist -->
                 <img *ngIf="!team.logo" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{team.shortName || team.officialName}}">

@@ -1,5 +1,9 @@
 export interface TeamsModel {
   id: number,
+  createdAt: Date,
+  createdBy: number,
+  updatedAt: Date,
+  updatedBy: number,
   TFFClubCode: string,
   officialName: string,
   shortName: string,

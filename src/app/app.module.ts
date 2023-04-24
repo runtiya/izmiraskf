@@ -69,7 +69,7 @@ import { AdminDisciplinaryBoardFilesList } from "./admin/components/disciplinary
 import { AdminDisciplinaryBoardCreateModal } from "./admin/components/disciplinary-board-files-create/disciplinary-board-files-create.component";
 
 import { AdminDisciplinaryBoardDecisionsList } from "./admin/components/disciplinary-board-decisions-list/disciplinary-board-decisions-list.component";
-
+import { AdminDisciplinaryBoardDecisionsCreateModal } from "./admin/components/disciplinary-board-decisions-create/disciplinary-board-decisions-create.component";
 
 import { AdminSeasonsList } from "./admin/components/seasons-list/seasons-list.component";
 import { AdminSeasonsCreateModal } from "./admin/components/seasons-create/seasons-create.component";
@@ -87,9 +87,9 @@ import { TeamsInDisqualificationsEditModal } from "./admin/components/teams-in-d
 import { FixtureCreate } from "./admin/components/fixture-create/fixture-create.component";
 import { FixtureEditModal } from "./admin/components/fixture-edit/fixture-edit.component";
 
+import { AdminScoreBoard } from "./admin/components/score-board/score-board.component";
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-
 
 
 @NgModule({
@@ -133,6 +133,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AdminDisciplinaryBoardCreateModal,
 
     AdminDisciplinaryBoardDecisionsList,
+    AdminDisciplinaryBoardDecisionsCreateModal,
 
     AdminSeasonsList,
     AdminSeasonsCreateModal,
@@ -148,7 +149,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     TeamsInDisqualificationsEditModal,
 
     FixtureCreate,
-    FixtureEditModal
+    FixtureEditModal,
+
+    AdminScoreBoard
 
   ],
   imports: [

@@ -17,6 +17,11 @@ import { LeaguesService } from "../../services/admin/admin-leagues.service";
 import { TeamsModel } from "../../models/admin-teams.model";
 import { TeamsService } from "../../services/admin/admin-teams.service";
 
+import { AdminDisciplinaryBoardDecisionsCreateModal } from "../disciplinary-board-decisions-create/disciplinary-board-decisions-create.component";
+
+import { disciplinaryPenalTypeList } from "../../assets/lists/disciplinary-penaltype-list";
+import { disciplinaryBelongingToList } from "../../assets/lists/disciplinary-belongingto-list";
+
 @Component({
     selector: 'app-admin-disciplinary-board-decisions-list',
     templateUrl: './disciplinary-board-decisions-list.component.html',
@@ -42,9 +47,22 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
     disciplinaryBoardDecisionsList: DisciplinaryBoardDecisionModel[] = [];
     private disciplinaryBoardDecisionsListSubscription: Subscription;
 
+    disciplinaryPenalTypeList = disciplinaryPenalTypeList;
+    disciplinaryBelongingToList = disciplinaryBelongingToList;
+
     @Input() seasonSelectionId: number;
-    @Input() disciplinaryBoardFileSelectionCaseNo: string;
-    displayedColumns: string[] = ["caseNo", "leagueName", "teamName", "licenseNo", "fullName", "belongingTo", "penalType", "duration", "explanation", "actions"];
+    @Input() disciplinaryBoardFileSelectionId: number;
+    displayedColumns: string[] = [
+                                    "leagueName", 
+                                    "teamName", 
+                                    "licenseNo", 
+                                    "fullName", 
+                                    "belongingTo", 
+                                    "penalType", 
+                                    "duration", 
+                                    "explanation", 
+                                    "actions"
+                                ];
 
 
     constructor(
@@ -65,7 +83,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
                 this.seasonSelectionId = this.seasonsList[0]["id"];
                 this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId);
                 this.leaguesService.getLeagues(this.seasonSelectionId);
-                this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.seasonSelectionId, this.disciplinaryBoardFileSelectionCaseNo);
+                this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
                 this.isLoading = false;
             });
         
@@ -73,9 +91,8 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
         this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
             .subscribe((data: DisciplinaryBoardFileModel[]) => {
                 this.disciplinaryBoardFilesList = data.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
-                this.disciplinaryBoardFileSelectionCaseNo = this.disciplinaryBoardFilesList[0]["caseNo"];
-                let fileId = this.disciplinaryBoardFilesList.find(f => f.caseNo == this.disciplinaryBoardFileSelectionCaseNo).id;
-                this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(fileId, this.disciplinaryBoardFileSelectionCaseNo);
+                this.disciplinaryBoardFileSelectionId = this.disciplinaryBoardFilesList[0]["id"];
+                this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
                 this.isLoading = false;
             });
         
@@ -89,7 +106,8 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
         this.isLoading = true;
         this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisionsUpdateListener()
             .subscribe((data: DisciplinaryBoardDecisionModel[]) => {
-                this.disciplinaryBoardDecisionsList = data.sort((a, b) => a.leagueId - b.leagueId);
+                const filteredDisciplinaryBoardDecisionsList = data.filter(decision => decision.disciplinaryBoardFileId === this.disciplinaryBoardFileSelectionId);
+                this.disciplinaryBoardDecisionsList = filteredDisciplinaryBoardDecisionsList.sort((a, b) => a.leagueId - b.leagueId);
                 this.isLoading = false;
             });
 
@@ -97,7 +115,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
         this.teamsService.getTeams();
         this.teamsListSubscription = this.teamsService.getTeamListSubListener()
             .subscribe((data: TeamsModel[]) => {
-                this.teamsList = data.sort((a, b) => b.officialName.localeCompare(a.officialName));
+                this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
                 this.isLoading = false;
             });
         
@@ -107,14 +125,13 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
         this.isLoading = true;
         this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId);
         this.leaguesService.getLeagues(this.seasonSelectionId);
-        this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.seasonSelectionId, this.disciplinaryBoardFileSelectionCaseNo);
+        this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
         this.isLoading = false;
     }
 
-    onCaseNoChange() {
+    onFileNoChange() {
         this.isLoading = true;
-        let fileId = this.disciplinaryBoardFilesList.find(f => f.caseNo == this.disciplinaryBoardFileSelectionCaseNo).id;
-        this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(fileId, this.disciplinaryBoardFileSelectionCaseNo);
+        this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
         this.isLoading = false;
     }
 
@@ -127,22 +144,56 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
     }
 
     findPenalType(penalType: string): string {
-        return ''
+        return penalType ? this.disciplinaryPenalTypeList.find(p => p.name == penalType).value : null;
     }
 
     findBelongingTo(belongingTo: string): string {
-        return ''
+        return belongingTo ? this.disciplinaryBelongingToList.find(b => b.name == belongingTo).value : null;
+        
     }
 
     onCreate() {
-
+        const dialogRef = this.dialog.open(AdminDisciplinaryBoardDecisionsCreateModal, {
+            data: {
+                pageMode: 'create',
+                seasonSelectionValue: this.seasonsList.find(s => s.id == this.seasonSelectionId).seasonName,
+                disciplinaryBoardFilesList: this.disciplinaryBoardFilesList,
+                leaguesList: this.leaguesList,
+                teamsList: this.teamsList
+            }
+        });
     }
 
     onEdit(disciplinaryBoardDecision: DisciplinaryBoardDecisionModel) {
-
+        const dialogRef = this.dialog.open(AdminDisciplinaryBoardDecisionsCreateModal, {
+            data: {
+                pageMode: 'edit',
+                seasonSelectionValue: this.seasonsList.find(s => s.id == this.seasonSelectionId).seasonName,
+                disciplinaryBoardFilesList: this.disciplinaryBoardFilesList,
+                leaguesList: this.leaguesList,
+                teamsList: this.teamsList,
+                disciplinaryBoardDecisionInfo: disciplinaryBoardDecision
+            }
+        });
     }
 
     onDelete(disciplinaryBoardDecisionId: number) {
+        this.isLoading = true;
+        this.disciplinaryBoardDecisionsService.deleteDisciplinaryBoardDecision(disciplinaryBoardDecisionId);
+        this.isLoading = false;
+    }
+
+    onClear() {
+        this.isLoading = true;
+        this.disciplinaryBoardDecisionsService.clearDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+        this.isLoading = false;
+    }
+
+    onExport() {
+
+    }
+
+    onImport() {
 
     }
 

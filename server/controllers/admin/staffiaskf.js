@@ -24,17 +24,30 @@ function getStaffList(req, res, next) {
 
 function createStaff(req, res, next) {
   const staffInfo = req.body;
-  console.log(staffInfo);
   var message;
   var staffId;
   connection.query(
-    "insert into staffiaskf(title, fullname, phone, email, profileimage, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?)",
-    [staffInfo.title, staffInfo.fullName, staffInfo.phone, staffInfo.email, staffInfo.profileImage, staffInfo.isVisible, staffInfo.orderNo],
+    "insert into staffiaskf(createdat, createdby, updatedat, updatedby, title, fullname, phone, email, profileimage, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      staffInfo.createdAt,
+      staffInfo.createdBy,
+      staffInfo.updatedAt,
+      staffInfo.updatedBy,
+      staffInfo.title, 
+      staffInfo.fullName, 
+      staffInfo.phone, 
+      staffInfo.email, 
+      staffInfo.profileImage, 
+      staffInfo.isVisible, 
+      staffInfo.orderNo
+    ],
     (error, result) => {
       if (!error) {
         staffId = result.insertId;
+        console.log(result)
       } else {
         message = error.sqlMessage;
+        console.log(error)
       }
       res.status(200).json({
         error: !!error,
@@ -49,8 +62,21 @@ function updateStaff(req, res, next) {
   const staffInfo = req.body;
   var message;
   connection.query(
-    "update staffiaskf set title = ?, fullname = ?, phone = ?, email = ?, profileimage = ?, isvisible = ?, orderno = ? where id = ?",
-    [staffInfo.title, staffInfo.fullName, staffInfo.phone, staffInfo.email, staffInfo.profileImage, staffInfo.isVisible, staffInfo.orderNo, staffInfo.id],
+    "update staffiaskf set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, fullname = ?, phone = ?, email = ?, profileimage = ?, isvisible = ?, orderno = ? where id = ?",
+    [
+      staffInfo.createdAt,
+      staffInfo.createdBy,
+      staffInfo.updatedAt,
+      staffInfo.updatedBy,
+      staffInfo.title, 
+      staffInfo.fullName, 
+      staffInfo.phone, 
+      staffInfo.email, 
+      staffInfo.profileImage, 
+      staffInfo.isVisible, 
+      staffInfo.orderNo, 
+      staffInfo.id
+    ],
     (error, result) => {
       if (!error) {
         console.log(result);

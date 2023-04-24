@@ -34,18 +34,12 @@
         <td mat-cell *matCellDef="let doc">{{doc.mimeType}}</td>
       </ng-container>
 
-      <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef="">Düzenle</th>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef=""></th>
         <td mat-cell *matCellDef="let doc">
           <button mat-button color="primary" (click)="onEdit(doc)">
             Düzenle
           </button>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef="">Sil</th>
-        <td mat-cell *matCellDef="let doc">
           <button mat-button color="warn" (click)="onDelete(doc.id)">
             Sil
           </button>

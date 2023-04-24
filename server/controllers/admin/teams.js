@@ -33,8 +33,13 @@ function createTeam(req, res, next) {
   var message;
   var teamId;
   connection.query(
-    "insert into teams(tffclubcode, officialname, shortname, logoimage, city, town, address, longitude, latitude, phonenumber, faxnumber, stadiumid, presidentname, colorcodes, websiteurl, isaskfmember, isvisible) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [ teamInfo.TFFClubCode,
+    "insert into teams(createdat, createdby, updatedat, updatedby, tffclubcode, officialname, shortname, logoimage, city, town, address, longitude, latitude, phonenumber, faxnumber, stadiumid, presidentname, colorcodes, websiteurl, isaskfmember, isvisible) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [ 
+      teamInfo.createdAt,
+      teamInfo.createdBy,
+      teamInfo.updatedAt,
+      teamInfo.updatedBy,
+      teamInfo.TFFClubCode,
       teamInfo.officialName,
       teamInfo.shortName,
       teamInfo.logoImage,
@@ -72,8 +77,13 @@ function updateTeam(req, res, next) {
   var message;
   var teamId;
   connection.query(
-    "update teams set tffclubcode = ?, officialname = ?, shortname = ?, logoimage = ?, city = ?, town = ?, address = ?, longitude = ?, latitude = ?, phonenumber = ?, faxnumber = ?, stadiumid = ?, presidentname = ?, colorcodes = ?, websiteurl = ?, isaskfmember = ?, isvisible = ? where id = ?",
-    [ teamInfo.TFFClubCode,
+    "update teams set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, tffclubcode = ?, officialname = ?, shortname = ?, logoimage = ?, city = ?, town = ?, address = ?, longitude = ?, latitude = ?, phonenumber = ?, faxnumber = ?, stadiumid = ?, presidentname = ?, colorcodes = ?, websiteurl = ?, isaskfmember = ?, isvisible = ? where id = ?",
+    [ 
+      teamInfo.createdAt,
+      teamInfo.createdBy,
+      teamInfo.updatedAt,
+      teamInfo.updatedBy,
+      teamInfo.TFFClubCode,
       teamInfo.officialName,
       teamInfo.shortName,
       teamInfo.logoImage,

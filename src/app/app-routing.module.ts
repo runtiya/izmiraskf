@@ -23,6 +23,7 @@ import { TeamsInGroupstages } from "./admin/components/teams-in-groupstages/team
 import { TeamsInDisqualifications } from "./admin/components/teams-in-disqualifications/teams-in-disqualifications.component";
 
 import { FixtureCreate } from "./admin/components/fixture-create/fixture-create.component";
+import { AdminScoreBoard } from "./admin/components/score-board/score-board.component";
 
 import { PageNotFound } from "./admin/components/page-not-found/page-not-found.component";
 
@@ -51,6 +52,7 @@ const routes: Routes = [
   {path: 'admin/gruplar/ihrac-ve-cekilme', component: TeamsInDisqualifications},
 
   {path: 'admin/fikstur', component: FixtureCreate},
+  {path: 'admin/skor-tablosu', component: AdminScoreBoard},
 
   {path: '**', pathMatch: "full", component: PageNotFound},
 ];

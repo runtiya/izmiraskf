@@ -19,7 +19,12 @@ export class AdminDocumentDocuments {
   documents: DocumentsModel[] = [];
   private documentsSubscription: Subscription;
   documentCategory = documentCategoryList[3].name;
-  displayedColumns: string[] = ["orderNo", "docName", "docType", "edit", "delete"];
+  displayedColumns: string[] = [
+                                "orderNo", 
+                                "docName", 
+                                "docType", 
+                                "actions"
+                              ];
 
   constructor(public documentService: DocumentsService, public dialog: MatDialog) {}
 

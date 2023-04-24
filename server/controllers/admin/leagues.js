@@ -30,8 +30,13 @@ function createLeague(req, res, next) {
   var leagueId;
 
   connection.query(
-    "insert into leagues(seasonid, leaguename, category, leaguetype, isactive, orderno) values (?, ?, ?, ?, ?, ?)",
-    [ leagueInfo.seasonId,
+    "insert into leagues(createdat, createdby, updatedat, updatedby, seasonid, leaguename, category, leaguetype, isactive, orderno) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [ 
+      leagueInfo.createdAt,
+      leagueInfo.createdBy,
+      leagueInfo.updatedAt,
+      leagueInfo.updatedBy,
+      leagueInfo.seasonId,
       leagueInfo.leagueName,
       leagueInfo.category,
       leagueInfo.leagueType,
@@ -58,8 +63,13 @@ function updateLeague(req, res, next) {
   var message;
 
   connection.query(
-    "update leagues set seasonid = ?, leaguename = ?, category = ?, leaguetype = ?, isactive = ?, orderno = ? where id = ?",
-    [ leagueInfo.seasonId,
+    "update leagues set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonid = ?, leaguename = ?, category = ?, leaguetype = ?, isactive = ?, orderno = ? where id = ?",
+    [ 
+      leagueInfo.createdAt,
+      leagueInfo.createdBy,
+      leagueInfo.updatedAt,
+      leagueInfo.updatedBy,
+      leagueInfo.seasonId,
       leagueInfo.leagueName,
       leagueInfo.category,
       leagueInfo.leagueType,

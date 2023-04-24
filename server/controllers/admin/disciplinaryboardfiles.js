@@ -7,7 +7,9 @@ function getDisciplinaryBoardFiles(req, res, next) {
 
     connection.query(
         "select * from view_disciplinaryboardfiles where seasonid = ?",
-        [seasonId],
+        [
+            seasonId
+        ],
         (error, result) => {
             if (!error) {
                 disciplinaryBoardFileList = result;
@@ -101,7 +103,9 @@ function deleteDisciplinaryBoardFile(req, res, next) {
 
     connection.query(
         "delete from disciplinaryboardfiles where id = ?",
-        [disciplinaryBoardFileId],
+        [
+            disciplinaryBoardFileId
+        ],
         (error, result) => {
             if (!error) {
                 console.log(result);

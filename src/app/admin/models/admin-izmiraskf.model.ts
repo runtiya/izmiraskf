@@ -5,5 +5,7 @@ export interface AboutIASKFModel {
   faxNumber: string,
   email: string,
   longitude: number,
-  latitude: number
+  latitude: number,
+  updatedAt: Date,
+  updatedBy: number
 }

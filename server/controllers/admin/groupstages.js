@@ -33,8 +33,12 @@ function createGroupStage(req, res, next) {
   var groupId;
 
   connection.query(
-    "insert into groupstages(leagueid, groupname, periodsystem, orderno) values(?, ?, ?, ?)",
+    "insert into groupstages(createdat, createdby, updatedat, updatedby, leagueid, groupname, periodsystem, orderno) values(?, ?, ?, ?, ?, ?, ?, ?)",
     [
+      groupInfo.createdAt,
+      groupInfo.createdBy,
+      groupInfo.updatedAt,
+      groupInfo.updatedBy,
       groupInfo.leagueId,
       groupInfo.groupName,
       groupInfo.periodSystem,
@@ -61,8 +65,12 @@ function updateGroupStage(req, res, next) {
   const groupInfo = req.body;
   var message;
   connection.query(
-    "update groupstages set leagueid = ?, groupname = ?, periodsystem = ?, orderno = ? where id = ?",
+    "update groupstages set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, leagueid = ?, groupname = ?, periodsystem = ?, orderno = ? where id = ?",
     [
+      groupInfo.createdAt,
+      groupInfo.createdBy,
+      groupInfo.updatedAt,
+      groupInfo.updatedBy,
       groupInfo.leagueId,
       groupInfo.groupName,
       groupInfo.periodSystem,

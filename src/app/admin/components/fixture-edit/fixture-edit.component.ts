@@ -12,6 +12,9 @@ import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages
 
 import { FixtureService } from "../../services/admin/admin-fixtures.service";
 
+import { fixtureFunctions } from "../../functions/fixture.function";
+import { globalFunctions } from "../../functions/global.function";
+
 import { matchStatusList } from "../../assets/lists/match-status-list";
 import { DatePipe } from "@angular/common";
 
@@ -44,10 +47,11 @@ export class FixtureEditModal implements OnInit {
     public dialogRef: MatDialogRef<FixtureEditModal>,
     public fixturesService: FixtureService,
     private _snackBar: MatSnackBar,
-    private _datePipe: DatePipe
+    private _datePipe: DatePipe,
+    private globalFunctions: globalFunctions
 
   ) {
-    // no need if datetime-local used; this._adapter.setLocale('en-GB');
+    
   }
 
   ngOnInit(): void {
@@ -79,41 +83,57 @@ export class FixtureEditModal implements OnInit {
   }
 
   onHomeTeamChange(teamId: number) {
-    let team = this.teamsingroupstagesList.find(team => team.teamId == teamId);
-    this.fixtureSubmitForm.get('stadiumId').setValue(team.teamStadiumId);
+    try {
+      let team = this.teamsingroupstagesList.find(team => team.teamId == teamId);
+      this.fixtureSubmitForm.get('stadiumId').setValue(team.teamStadiumId);
+    } catch (error) {
+      this.fixtureSubmitForm.get('stadiumId').setValue(null);
+    }
+    
+    
   }
 
   onSubmitForm() {
+    this.isLoading = true;
+
     let seasonId = this.seasonSelectionId;
     let leagueId = this.leagueSelectionId;
     let groupstageId = this.groupstageSelectionId;
-    let matchWeek = this.fixtureSubmitForm.get('matchWeek').value;
+    let weekNumber = this.fixtureSubmitForm.get('matchWeek').value;
     let orderNo = this.fixtureSubmitForm.get('orderNo').value;
 
-    let submitCheck: boolean;
+    var _fixtureList: FixtureModel[] = [];
+    let checkMatch: boolean;
 
     if (this.fixtureSubmitForm.valid) {
+      
       if (this.pageMode == 'create') {
-        let matchNo = ('35' + seasonId.toString().padStart(2, "0") + leagueId.toString().padStart(2, "0") + groupstageId.toString().padStart(2, "0") + '-' + matchWeek.toString().padStart(2, "0") + orderNo.toString().padStart(2, "0"));
-        submitCheck = this.fixturesService.createMatch(this.fixtureSubmitForm.value, matchNo);
+        
+        let matchNo = fixtureFunctions.setMatchNo(seasonId, leagueId, groupstageId, weekNumber, orderNo);
+        checkMatch = this.fixturesService.checkMatch(this.fixtureSubmitForm.value, matchNo, null);
+        if (checkMatch) {
+          this.fixtureSubmitForm.get('matchNo').setValue(matchNo);
+          _fixtureList.push(this.fixtureSubmitForm.value);
+          this.fixturesService.createFixture(_fixtureList, groupstageId);
+          this.dialogRef.close();
+        } else {
+          this.globalFunctions.showSnackBar.next('Hafta ve Sıra Numarasına sahip başka bir maç bulundu!');
+        }
       } else {
-        let isSameMatch = (matchWeek == this.preMatchWeek && orderNo == this.preOrderNo);
-        submitCheck = this.fixturesService.editMatch(this.fixtureSubmitForm.value, isSameMatch);
+        let isSameMatch = (weekNumber == this.preMatchWeek && orderNo == this.preOrderNo);
+        checkMatch = this.fixturesService.checkMatch(this.fixtureSubmitForm.value, null, isSameMatch);
+        if (checkMatch) {
+          _fixtureList.push(this.fixtureSubmitForm.value);
+          this.fixturesService.updateFixture(_fixtureList);
+          this.dialogRef.close();
+        } else {
+          this.globalFunctions.showSnackBar.next('Hafta ve Sıra Numarasına sahip başka bir maç bulundu!');
+        }
       }
-
-      if (submitCheck) {
-        this.dialogRef.close();
-      } else {
-        // Show snackbar
-        this._snackBar.open('Hafta ve Sıra Numarasına sahip başka bir maç bulundu!', 'Tamam', {
-          horizontalPosition: "end",
-          verticalPosition: "top",
-          duration: 3000
-        });
-      }
+      this.isLoading = false;
       
     } else {
-      null;
+      this.globalFunctions.showSnackBar.next('Gerekli alanları doldurunuz!')
     }
     
   }
@@ -125,50 +145,65 @@ export class FixtureEditModal implements OnInit {
   onScoresChange() {
     let homeTeamScore = this.fixtureSubmitForm.get('homeTeamScore').value;
     let awayTeamScore = this.fixtureSubmitForm.get('awayTeamScore').value;
+    let matchNo = this.fixtureSubmitForm.get('matchNo').value;
 
-    if (homeTeamScore !== null && awayTeamScore !== null) {
-      this.setTeamPoints(homeTeamScore, awayTeamScore);
+    this.setTeamPoints(homeTeamScore, awayTeamScore);
+
+    if (homeTeamScore !== null && awayTeamScore !== null && matchNo !== null) {
+      this.fixtureSubmitForm.get('matchStatus').setValue('PLAYED');
+    } else if (homeTeamScore == null && awayTeamScore == null && matchNo !== null) {
+      this.fixtureSubmitForm.get('matchStatus').setValue('NOTPLAYED');
     }
   }
 
-  onWinByForfeitChange(winnerByForfeit) {
+  onWinByForfeitChange(_winnerByForfeit: string) {
     
-    let val = winnerByForfeit;
     let homeTeamScore = this.fixtureSubmitForm.get('homeTeamScore').value;
     let awayTeamScore = this.fixtureSubmitForm.get('awayTeamScore').value;
 
-    console.log(val)
-    if (val == 'homeTeamWinByForfeit') {
+    if (_winnerByForfeit == 'homeTeamWinByForfeit') {
       this.fixtureSubmitForm.get('isHomeTeamWinByForfeit').setValue(true);
       this.fixtureSubmitForm.get('isAwayTeamWinByForfeit').setValue(false);
-    } else if (val == 'awayTeamWinByForfeit') {
+      this.fixtureSubmitForm.get('matchStatus').setValue('BYFORFEIT');
+      if (homeTeamScore == null && awayTeamScore == null) {
+        
+      }
+    } else if (_winnerByForfeit == 'awayTeamWinByForfeit') {
       this.fixtureSubmitForm.get('isHomeTeamWinByForfeit').setValue(false);
       this.fixtureSubmitForm.get('isAwayTeamWinByForfeit').setValue(true);
+      this.fixtureSubmitForm.get('matchStatus').setValue('BYFORFEIT');
     } else {
       this.fixtureSubmitForm.get('isHomeTeamWinByForfeit').setValue(false);
       this.fixtureSubmitForm.get('isAwayTeamWinByForfeit').setValue(false);
+
+      if (homeTeamScore !== null && awayTeamScore !== null) {
+        this.fixtureSubmitForm.get('matchStatus').setValue('PLAYED');
+      } else if(homeTeamScore == null && awayTeamScore == null) {
+        this.fixtureSubmitForm.get('matchStatus').setValue('NOTPLAYED');
+      }
+      
     }
 
     if (homeTeamScore == null && awayTeamScore == null) {
-        if (val == 'homeTeamWinByForfeit') {
-          this.fixtureSubmitForm.get('homeTeamScore').setValue(3);
-          this.fixtureSubmitForm.get('awayTeamScore').setValue(0);
-        } else if (val == 'awayTeamWinByForfeit') {
-          this.fixtureSubmitForm.get('homeTeamScore').setValue(0);
-          this.fixtureSubmitForm.get('awayTeamScore').setValue(3);
-        }
-
-        // Set points automatically
-        this.setTeamPoints(
-          this.fixtureSubmitForm.get('homeTeamScore').value,
-          this.fixtureSubmitForm.get('awayTeamScore').value
-        );
+      if (_winnerByForfeit == 'homeTeamWinByForfeit') {
+        this.fixtureSubmitForm.get('homeTeamScore').setValue(3);
+        this.fixtureSubmitForm.get('awayTeamScore').setValue(0);
+      } else if (_winnerByForfeit == 'awayTeamWinByForfeit') {
+        this.fixtureSubmitForm.get('homeTeamScore').setValue(0);
+        this.fixtureSubmitForm.get('awayTeamScore').setValue(3);
+      }
     }
+
+    // Set points automatically
+    this.setTeamPoints(
+      this.fixtureSubmitForm.get('homeTeamScore').value,
+      this.fixtureSubmitForm.get('awayTeamScore').value
+    );
 
   }
 
   setTeamPoints(homeTeamScore: number, awayTeamScore: number) {
-    if (homeTeamScore !== null || awayTeamScore !== null) {
+    if (homeTeamScore !== null && awayTeamScore !== null) {
       if (homeTeamScore > awayTeamScore) {
         this.fixtureSubmitForm.get('homeTeamPoint').setValue(3);
         this.fixtureSubmitForm.get('awayTeamPoint').setValue(0);
@@ -179,13 +214,16 @@ export class FixtureEditModal implements OnInit {
         this.fixtureSubmitForm.get('homeTeamPoint').setValue(1);
         this.fixtureSubmitForm.get('awayTeamPoint').setValue(1);
       }
+    } else if (homeTeamScore == null && awayTeamScore == null) {
+      this.fixtureSubmitForm.get('homeTeamPoint').setValue(null);
+      this.fixtureSubmitForm.get('awayTeamPoint').setValue(null);
     }
     
   }
 
-  onDelete(matchNo: string) {
+  onDelete(id: number) {
     this.isLoading = true;
-    this.fixturesService.deleteMatch(matchNo);
+    this.fixturesService.deleteMatch(id);
     this.isLoading = false;
     this.dialogRef.close();
   }

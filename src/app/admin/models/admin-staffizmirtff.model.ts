@@ -1,5 +1,9 @@
 export interface StaffITFFModel {
   id: number,
+  createdAt: Date,
+  createdBy: number,
+  updatedAt: Date,
+  updatedBy: number,
   title: string,
   fullName: string,
   phone: string,

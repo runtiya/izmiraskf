@@ -1,5 +1,9 @@
 export interface TeamsInGroupstagesModel {
   id: number,
+  createdAt: Date,
+  createdBy: number,
+  updatedAt: Date,
+  updatedBy: number,
   groupstageId: number,
   teamId: number,
   teamOfficialName: string,

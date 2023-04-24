@@ -1,5 +1,9 @@
 export interface FixtureModel {
   id: number,
+  createdAt: Date,
+  createdBy: number,
+  updatedAt: Date,
+  updatedBy: number,
   groupstageId: number,
   matchNo: string,
   matchWeek: number,

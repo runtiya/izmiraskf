@@ -3,7 +3,7 @@
         <mat-card>
             <mat-dialog-actions align="end">
                 <button mat-icon-button mat-dialog-close class="icon">
-                <mat-icon>close</mat-icon>
+                    <mat-icon>close</mat-icon>
                 </button>
             </mat-dialog-actions>
         </mat-card>
@@ -193,7 +193,7 @@
                         <mat-select
                             matInput
                             formControlName="matchStatus"
-                            placeholder="Maç Durumu"
+                            placeholder="Müsabaka Durumu"
                         >
                             <mat-option
                                 *ngFor="let status of matchStatusList"
@@ -276,7 +276,8 @@
                     mat-raised-button
                     color="warn"
                     *ngIf="data.pageMode == 'edit'"
-                    (click)="onDelete(fixtureSubmitForm.get('matchNo').value)"
+                    type="button"
+                    (click)="onDelete(fixtureSubmitForm.get('id').value)"
                 >Sil</button>
             </mat-action-row>
         </form>

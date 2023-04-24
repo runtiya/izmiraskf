@@ -15,11 +15,22 @@ export class DisciplinaryBoardDecisionsService {
 
     }
 
-    getDisciplinaryBoardDecisions(fileId: number, caseNo: string) {
+    getDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
         try {
-            
+            this.http
+                .get<{error: boolean, message: string, disciplinaryBoardDecisionList: DisciplinaryBoardDecisionModel[]}>(
+                    'http://localhost:3000/admin/disiplin-kurulu-kararlari/' + disciplinaryBoardFileId
+                )
+                .subscribe((data) => {
+                    if (!data.error) {
+                        this.disciplinaryBoardDecisionList = data.disciplinaryBoardDecisionList;
+                        !!this.disciplinaryBoardDecisionList ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
+                    } else {
+                        console.log(data.message);
+                    }
+                })
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
@@ -29,7 +40,19 @@ export class DisciplinaryBoardDecisionsService {
 
     createDisciplinaryBoardDecision(disciplinaryBoardDecisionInfo: DisciplinaryBoardDecisionModel) {
         try {
-            
+            this.http
+                .post<{error: boolean, message: string, disciplinaryBoardDecisionId: number}>(
+                    'http://localhost:3000/admin/disiplin-kurulu-kararlari', disciplinaryBoardDecisionInfo
+                )
+                .subscribe((data) => {
+                    if (!data.error) {
+                        disciplinaryBoardDecisionInfo.id = data.disciplinaryBoardDecisionId;
+                        this.disciplinaryBoardDecisionList.push(disciplinaryBoardDecisionInfo);
+                        this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]);
+                    } else {
+                        console.log(data.message);
+                    }
+                })
         } catch (error) {
             console.log(error);
         }
@@ -37,7 +60,22 @@ export class DisciplinaryBoardDecisionsService {
 
     updateDisciplinaryBoardDecision(disciplinaryBoardDecisionInfo: DisciplinaryBoardDecisionModel) {
         try {
-            
+            this.http
+                .put<{error: boolean, message: string}>(
+                    'http://localhost:3000/admin/disiplin-kurulu-kararlari/' + disciplinaryBoardDecisionInfo.id, disciplinaryBoardDecisionInfo
+                )
+                .subscribe((data) => {
+                    if (!data.error) {
+                        this.disciplinaryBoardDecisionList.forEach((item, i) => {
+                            if (item.id == disciplinaryBoardDecisionInfo.id) {
+                                this.disciplinaryBoardDecisionList[i] = disciplinaryBoardDecisionInfo;
+                            }
+                        });
+                        this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]);
+                    } else {
+                        console.log(data.message);
+                    }
+                })
         } catch (error) {
             console.log(error);
         }
@@ -45,7 +83,39 @@ export class DisciplinaryBoardDecisionsService {
 
     deleteDisciplinaryBoardDecision(disciplinaryBoardDecisionId: number) {
         try {
-            
+            this.http
+                .delete<{error: boolean, message: string}>(
+                    'http://localhost:3000/admin/disiplin-kurulu-kararlari/' + disciplinaryBoardDecisionId
+                )
+                .subscribe((data) => {
+                    if (!data.error) {
+                        const filteredDisciplinaryBoardDecisionList = this.disciplinaryBoardDecisionList.filter(decision => decision.id !== disciplinaryBoardDecisionId);
+                        this.disciplinaryBoardDecisionList = filteredDisciplinaryBoardDecisionList;
+                        this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]);
+                    } else {
+                        console.log(data.message);
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    clearDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
+        try {
+            this.http
+                .delete<{error: boolean, message: string}>(
+                    'http://localhost:3000/admin/disiplin-kurulu-kararlari/temizle/' + disciplinaryBoardFileId
+                )
+                .subscribe((data) => {
+                    if (!data.error) {
+                        console.log(data.message)
+                        this.disciplinaryBoardDecisionList = [];
+                        this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]);
+                    } else {
+                        console.log(data.message);
+                    }
+                });
         } catch (error) {
             console.log(error);
         }

@@ -27,7 +27,13 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
   leagueCategoryList = leagueCategoryList;
   leagueTypeList = leagueTypeList;
   @Input() seasonSelectionId: number;
-  displayedColumns: string[] = ["leagueName", "category", "leagueType", "isActive", "edit", "delete"];
+  displayedColumns: string[] = [
+                                "leagueName", 
+                                "category", 
+                                "leagueType", 
+                                "isActive", 
+                                "actions"
+                              ];
 
   constructor(
     public leagueService: LeaguesService, 
@@ -46,7 +52,8 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
         this.leagueService.getLeagues(this.seasonSelectionId);
         this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
           .subscribe((data: LeaguesModel[]) => {
-            this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
+            const filteredLeagueList = data.filter(league => league.seasonId === this.seasonSelectionId);
+            this.leagueList = filteredLeagueList.sort((a, b) => a.orderNo - b.orderNo);
             this.isLoading = false;
             console.log(this.leagueList)
           });

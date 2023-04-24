@@ -82,3 +82,26 @@ mat-spinner {
 input[type="file"] {
   visibility: hidden;
 }
+
+/* Match Status Class Attributes Start */
+.icon-match-status {
+  font-size: x-small;
+  overflow: unset;
+}
+
+.match-status-notplayed {
+  color: grey;
+}
+
+.match-status-played {
+  color: greenyellow;
+}
+
+.match-status-postponed {
+  color: orange;
+}
+
+.match-status-byforfeit {
+  color: red;
+}
+/* Match Status Class Attributes End */
