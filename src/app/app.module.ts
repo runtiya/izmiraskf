@@ -27,6 +27,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 import { AppComponent } from './app.component';
@@ -89,7 +90,10 @@ import { FixtureEditModal } from "./admin/components/fixture-edit/fixture-edit.c
 
 import { AdminScoreBoard } from "./admin/components/score-board/score-board.component";
 
+import { AdminPointBoard } from "./admin/components/point-board/point-board.component";
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 @NgModule({
@@ -151,7 +155,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FixtureCreate,
     FixtureEditModal,
 
-    AdminScoreBoard
+    AdminScoreBoard,
+
+    AdminPointBoard
 
   ],
   imports: [
@@ -184,9 +190,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatTableModule,
     MatAutocompleteModule,
     MatSnackBarModule,
-    FontAwesomeModule
+    MatButtonToggleModule,
+
+    FontAwesomeModule,
+    AngularEditorModule
+
   ],
-  providers: [{provide: MatDialogRef, useValue: {}}, DatePipe],
+  providers: [
+    {provide: MatDialogRef, useValue: {}},
+    DatePipe
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

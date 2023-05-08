@@ -8,7 +8,13 @@
   <mat-accordion *ngIf="newsList.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor="let news of newsList">
       <mat-expansion-panel-header>
-        <mat-icon [ngStyle]="{'color': news.isOnline ? 'green' : 'red'}">circle</mat-icon>
+
+        <fa-icon
+              [icon]="fontAwesomeIconList.faCircle"
+              class="icon-circle"
+              [ngStyle]="{'color': news.isOnline ? 'green' : 'red'}"
+              matTooltip="{{news.isOnline ? 'Yayında' : 'Yayında Değil'}}">
+          </fa-icon>
         {{news.title}}
       </mat-expansion-panel-header>
 
@@ -29,7 +35,7 @@
 
         <mat-card-content class="container">
           <p></p>
-          <p>{{news.content}}</p>
+          <p [innerHTML]="news.content"></p>
           <img
             mat-card-image
             src="https://material.angular.io/assets/img/examples/shiba2.jpg"

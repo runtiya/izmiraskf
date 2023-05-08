@@ -7,45 +7,53 @@ import { Router } from "@angular/router";
 
 import { NewsModel } from "../../models/admin-news.model";
 
+import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({providedIn: 'root'})
 export class NewsService {
   private newsList: NewsModel[] = [];
   private newsUpdated = new Subject<NewsModel[]>();
 
-
-
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+    ) {}
 
   getNews() {
-    this.http
-      .get<{error: boolean, message: string, news: any}>(
-        'http://localhost:3000/admin/haberler'
-      )
-      .pipe(
-        map(data => {
-          return {
-            news: data.news.map(newsObj => {
-              return {
-                id: newsObj.id,
-                createdAt: newsObj.createdAt,
-                createdBy: newsObj.createdBy,
-                updatedAt: newsObj.updatedAt,
-                updatedBy: newsObj.updatedBy,
-                title: newsObj.title,
-                content: newsObj.content,
-                newsImage: newsObj.newsImage,
-                isOnline: newsObj.isOnline
-              };
-            }),
-            maxNews: 10
-          };
-        })
-      )
-      .subscribe((transformedData) => {
-        this.newsList = transformedData.news;
-        this.newsUpdated.next([...this.newsList]);
-      });
+    try {
+      this.http
+        .get<{error: boolean, message: string, news: any}>(
+          'http://localhost:3000/admin/haberler'
+        )
+        .pipe(
+          map(data => {
+            return {
+              news: data.news.map(newsObj => {
+                return {
+                  id: newsObj.id,
+                  createdAt: newsObj.createdAt,
+                  createdBy: newsObj.createdBy,
+                  updatedAt: newsObj.updatedAt,
+                  updatedBy: newsObj.updatedBy,
+                  title: newsObj.title,
+                  content: newsObj.content,
+                  newsImage: newsObj.newsImage,
+                  isOnline: newsObj.isOnline
+                };
+              }),
+              maxNews: 10
+            };
+          })
+        )
+        .subscribe((transformedData) => {
+          this.newsList = transformedData.news;
+          this.newsUpdated.next([...this.newsList]);
+
+        });
+    } catch (error) {
+      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+    }
+
   }
 
 
@@ -55,54 +63,76 @@ export class NewsService {
 
 
   addNews(news: NewsModel) {
-    this.http
-      .post<{error: boolean, message: string, newsId: number}>(
-        'http://localhost:3000/admin/haberler', news
-      )
-      .subscribe((data) => {
-        console.log(data.message);
-        // Add Angular Component Snackbar OR Bootstrap Toasts
-        news.id = data.newsId;
-        this.newsList.push(news);
-        this.newsUpdated.next([...this.newsList]);
-      });
+    try {
 
+      this.http
+        .post<{error: boolean, message: string, newsId: number}>(
+          'http://localhost:3000/admin/haberler', news
+        )
+        .subscribe((data) => {
+          if (!data.error) {
+            news.id = data.newsId;
+            this.newsList.push(news);
+            this.newsUpdated.next([...this.newsList]);
+          } else {
+            this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+          }
+
+        });
+    } catch (error) {
+
+      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+    }
   }
 
 
   deleteNews(newsId: number) {
-     this.http
-      .delete<{error: boolean, message: string}>(
-        'http://localhost:3000/admin/haberler/' + newsId
-      )
-      .subscribe((data) => {
-        console.log(data.message);
-        const updatedNews = this.newsList.filter(news => news.id !== newsId);
-        this.newsList = updatedNews;
-        this.newsUpdated.next([...this.newsList]);
-      });
+    try {
+      this.http
+        .delete<{error: boolean, message: string}>(
+          'http://localhost:3000/admin/haberler/' + newsId
+        )
+        .subscribe((data) => {
+          if (!data.error) {
+            const updatedNews = this.newsList.filter(news => news.id !== newsId);
+            this.newsList = updatedNews;
+            this.newsUpdated.next([...this.newsList]);
+          } else {
+            this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+          }
+
+        });
+    } catch (error) {
+      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+    }
+
   }
 
 
   updateNews(news: NewsModel) {
-    this.http
-      .put<{error: boolean, message: string}>(
-        'http://localhost:3000/admin/haberler/' + news.id, news
-      )
-      .subscribe((data) => {
-        if (!data.error) {
-          // Add Angular Component Snackbar OR Bootstrap Toasts
-          this.newsList.forEach((item, i) => {
-            if (item.id == news.id) {
-              this.newsList[i] = news;
-            }
-          });
-          this.newsUpdated.next([...this.newsList]);
-        }
-        else {
-          console.log(data.message);
-        }
-      });
+    try {
+      this.http
+        .put<{error: boolean, message: string}>(
+          'http://localhost:3000/admin/haberler/' + news.id, news
+        )
+        .subscribe((data) => {
+          if (!data.error) {
+            // Add Angular Component Snackbar OR Bootstrap Toasts
+            this.newsList.forEach((item, i) => {
+              if (item.id == news.id) {
+                this.newsList[i] = news;
+              }
+            });
+            this.newsUpdated.next([...this.newsList]);
+          }
+          else {
+            this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+          }
+        });
+    } catch (error) {
+      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+    }
+
   }
 
 }

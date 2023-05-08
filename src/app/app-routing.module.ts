@@ -24,6 +24,7 @@ import { TeamsInDisqualifications } from "./admin/components/teams-in-disqualifi
 
 import { FixtureCreate } from "./admin/components/fixture-create/fixture-create.component";
 import { AdminScoreBoard } from "./admin/components/score-board/score-board.component";
+import { AdminPointBoard } from "./admin/components/point-board/point-board.component";
 
 import { PageNotFound } from "./admin/components/page-not-found/page-not-found.component";
 
@@ -53,6 +54,7 @@ const routes: Routes = [
 
   {path: 'admin/fikstur', component: FixtureCreate},
   {path: 'admin/skor-tablosu', component: AdminScoreBoard},
+  {path: 'admin/puan-tablosu', component: AdminPointBoard},
 
   {path: '**', pathMatch: "full", component: PageNotFound},
 ];

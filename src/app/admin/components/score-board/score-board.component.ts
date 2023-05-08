@@ -30,14 +30,14 @@ import { globalFunctions } from "../../functions/global.function";
 import { matchStatusList } from "../../assets/lists/match-status-list";
 import { townList } from "../../assets/lists/town-list-izmir";
 
-import { faCircleH, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { fontAwesomeIconList } from "../../assets/lists/font-awesome-icon-list";
 
 @Component({
     selector: 'app-admin-score-board',
     templateUrl: './score-board.component.html',
     styleUrls: ['../../../app.component.css', './score-board.component.css']
 })
-export class AdminScoreBoard {
+export class AdminScoreBoard implements OnInit, OnDestroy {
     headerTitle = 'SKOR TABLOSU';
     isLoading = false;
     seasonList: SeasonsModel[] = [];
@@ -54,8 +54,8 @@ export class AdminScoreBoard {
     private fixtureListSub: Subscription;
     matchStatusList: Array<any> = matchStatusList;
     townList: Array<any> = townList;
-    faCircleH = faCircleH;
-    faCircleInfo = faCircleInfo;
+
+    fontAwesomeIconList = fontAwesomeIconList;
 
     @Input() seasonSelectionId: number;
     @Input() leagueSelectionId: number;
@@ -70,14 +70,14 @@ export class AdminScoreBoard {
     @Input() townSelectionValue: string;
 
     displayedColumnsFixture: string[] = [
-                                            "matchNo", 
-                                            "homeTeam", 
-                                            "details", 
+                                            "matchNo",
+                                            "homeTeam",
+                                            "details",
                                             "awayTeam",
                                             "edit"
                                         ];
 
-    constructor( 
+    constructor(
         public seasonsService: SeasonsService,
         public leaguesService: LeaguesService,
         public groupstagesService: GroupStagesService,
@@ -91,11 +91,10 @@ export class AdminScoreBoard {
     ) {}
 
     ngOnInit(): void {
-        
+
         this.seasonsService.getSeasons();
         this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
             .subscribe((data: SeasonsModel[]) => {
-                this.isLoading = true;
                 if (data.length > 0) {
                     this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
                 } else {
@@ -103,65 +102,53 @@ export class AdminScoreBoard {
                     this.leagueList = [];
                     this.groupstageList = [];
                 }
-                this.isLoading = false;
             });
-        
+
         this.leagueListSub = this.leaguesService.getLeagueListUpdateListener()
             .subscribe((data: LeaguesModel[]) => {
-                this.isLoading = true;
                 if (data.length > 0) {
                     this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
                 } else {
                     this.leagueList = [];
                     this.groupstageList = [];
                 }
-                this.isLoading = false;
             });
 
         this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
             .subscribe((data: GroupStagesModel[]) => {
-                this.isLoading = true;
                 if (data.length > 0) {
                     this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
                 } else {
                     this.groupstageList = []
                 }
-                this.isLoading = false;
             });
 
-        this.isLoading = true;
+
         this.stadiumsService.getStadiums();
         this.stadiumListSub = this.stadiumsService.getStadiumListUpdateListener()
             .subscribe((data: StadiumsModel[]) => {
                 this.stadiumList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
-                this.isLoading = false;
             });
-        
-        this.isLoading = true;
+
+
         this.teamsService.getTeams();
         this.teamListSub = this.teamsService.getTeamListSubListener()
             .subscribe((data: TeamsModel[]) => {
                 this.teamList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
-                this.isLoading = false;
             });
-        
+
         this.fixtureListSub = this.fixtureService.getFixtureUpdateListener()
             .subscribe((data: FixtureModel[]) => {
                 this.fixtureList = data;
-                console.log(this.fixtureList);
             });
     }
 
-    onSeasonChange(seasonSelectionId: number) {
-        this.isLoading = true;
-        this.leaguesService.getLeagues(seasonSelectionId);
-        this.isLoading = false;
+    onSeasonChange(_seasonSelectionId: number) {
+        this.leaguesService.getLeagues(_seasonSelectionId);
     }
-    
-    onLeagueChange(leagueSelectionId: number) {
-        this.isLoading = true;
-        this.groupstagesService.getGroupstages(leagueSelectionId);
-        this.isLoading = false;
+
+    onLeagueChange(_leagueSelectionId: number) {
+        this.groupstagesService.getGroupstages(_leagueSelectionId);
     }
 
     onScoreChange(_matchNo: string, _homeTeamScore: number, _awayTeamScore: number) {
@@ -184,7 +171,7 @@ export class AdminScoreBoard {
                 match.homeTeamPoint = 1;
                 match.awayTeamPoint = 1;
             }
-        
+
             this.fixtureList[matchIndex] = match;
         } else if (_homeTeamScore == null && _awayTeamScore == null && _matchNo !== null) {
             let match = <FixtureModel>{};
@@ -196,10 +183,10 @@ export class AdminScoreBoard {
             match.matchStatus = 'NOTPLAYED';
             match.homeTeamPoint = null;
             match.awayTeamPoint = null;
-        
+
             this.fixtureList[matchIndex] = match;
         }
-        
+
     }
 
     onPointChange(_matchNo: string, _homeTeamPoint: number, _awayTeamPoint: number) {
@@ -214,7 +201,7 @@ export class AdminScoreBoard {
 
             this.fixtureList[matchIndex] = match;
         }
-        
+
     }
 
     onWinByForfeitChange(_matchNo: string, _winnerByForfeit: string) {
@@ -222,7 +209,7 @@ export class AdminScoreBoard {
         let match = <FixtureModel>{};
         match = this.fixtureList.find(f => f.matchNo == _matchNo);
         let matchIndex = this.fixtureList.findIndex(f => f.matchNo == _matchNo);
-    
+
         if (_winnerByForfeit == 'homeTeamWinByForfeit') {
             match.isHomeTeamWinByForfeit = true;
             match.isAwayTeamWinByForfeit = false;
@@ -240,10 +227,10 @@ export class AdminScoreBoard {
             } else {
                 match.matchStatus = 'NOTPLAYED';
             }
-            
+
         }
 
-    
+
         if (match.homeTeamScore == null && match.awayTeamScore == null) {
             if (_winnerByForfeit == 'homeTeamWinByForfeit') {
                 match.homeTeamScore = 3;
@@ -252,7 +239,7 @@ export class AdminScoreBoard {
                 match.homeTeamScore = 0;
                 match.awayTeamScore = 3;
             }
-    
+
             if (match.homeTeamScore > match.awayTeamScore) {
                 match.homeTeamPoint = 3;
                 match.awayTeamPoint = 0;
@@ -287,7 +274,7 @@ export class AdminScoreBoard {
 
     onSearch() {
 
-        
+
         let fixtureSearchIndex = <FixtureSearchModel>{};
         let arr_fixtureSearchValues = [];
 
@@ -335,7 +322,7 @@ export class AdminScoreBoard {
             });
         }
 
-        
+
     }
 
     numbersOnly(event): boolean {
@@ -345,20 +332,20 @@ export class AdminScoreBoard {
         }
         return true;
     }
-    
+
     findStadiumName(stadiumId: number): string {
         return !!stadiumId ? this.stadiumList.find(stadium => stadium.id == stadiumId).stadiumName : null;
     }
-    
+
     findTeamName(teamId: number): string {
         let team : TeamsModel = this.teamList.find(team => team.id == teamId);
         return !!team ? team.officialName : null;;
     }
-    
+
     findMatchStatus(status: string): string {
         return this.matchStatusList.find(s => s.name == status).value;
     }
-    
+
     findMatchStatusClass(status: string): string {
         return this.matchStatusList.find(s => s.name == status).class;
     }

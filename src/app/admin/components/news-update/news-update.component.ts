@@ -8,7 +8,7 @@ import { NewsModel } from "../../models/admin-news.model";
 import { NewsService } from "../../services/admin/admin-news.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 
-
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-admin-news-update-modal',
@@ -22,8 +22,52 @@ export class NewsUpdateModal {
   imagePreview: string;
   newsInfo = this.data.news;
 
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+      spellcheck: true,
+      height: '20rem',
+      minHeight: '0',
+      maxHeight: 'auto',
+      width: 'auto',
+      minWidth: '0',
+      translate: 'yes',
+      enableToolbar: true,
+      showToolbar: true,
+      defaultParagraphSeparator: '',
+      defaultFontName: '',
+      defaultFontSize: '',
+      fonts: [
+        {class: 'arial', name: 'Arial'},
+        {class: 'times-new-roman', name: 'Times New Roman'},
+        {class: 'calibri', name: 'Calibri'},
+        {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+      ],
+      customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText'
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+    uploadUrl: 'v1/image',
+    uploadWithCredentials: false,
+    sanitize: true,
+    toolbarPosition: 'top',
+    toolbarHiddenButtons: [
+      ['backgroundColor']
+    ]
+  }
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Data, 
+    @Inject(MAT_DIALOG_DATA) public data: Data,
     public newsService: NewsService,
     private _datePipe: DatePipe
     ) {
@@ -40,9 +84,9 @@ export class NewsUpdateModal {
       updatedAt: new FormControl(this.newsInfo.updatedAt, {validators: []}),
       updatedBy: new FormControl(this.newsInfo.updatedBy, {validators: []}),
       title: new FormControl(this.newsInfo.title, {validators: [Validators.required, Validators.maxLength(200)]}),
-      content: new FormControl(this.newsInfo.content, {validators: [Validators.required, Validators.maxLength(2000)]}),
+      content: new FormControl(this.newsInfo.content, {validators: [Validators.required, Validators.maxLength(65535)]}),
       newsImage: new FormControl(this.newsInfo.newsImage, {validators: [], asyncValidators: [imageUploadValidator]}),
-      isOnline: new FormControl(this.newsInfo.isOnline, {validators: [Validators.required]})
+      isOnline: new FormControl(!!this.newsInfo.isOnline, {validators: [Validators.required]})
     });
 
   }
@@ -74,6 +118,7 @@ export class NewsUpdateModal {
 
   onUpdateNews() {
 
+    console.log(this.newsUpdateForm.get('content').value);
     if (this.newsUpdateForm.valid) {
 
       this.isLoading = true;
