@@ -5,7 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { ExternalLinksModel } from "../../models/admin-externallinks.model";
 import { ExternalLinksService } from "../../services/admin/admin-externallinks.service";
 import { AdminExternalLinksCreateModal } from "../external-links-create/external-links-create.component";
-import { faBrandList } from "../../assets/lists/font-awesome-list";
+import { faBrandList } from "../../assets/lists/font-awesome-brand-list";
 
 
 @Component({
@@ -22,10 +22,10 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   private extLinksSubscription: Subscription;
   faBrandList = faBrandList;
 
-  displayedColumns: string[] = ["orderNo", 
-                                "linkName", 
-                                "url", 
-                                "isActive", 
+  displayedColumns: string[] = ["orderNo",
+                                "linkName",
+                                "url",
+                                "isActive",
                                 "actions"
                               ];
 

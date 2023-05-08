@@ -1,14 +1,13 @@
-import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
+import { Component, Inject, OnDestroy, OnInit, Input, Output } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { NewsModel } from "../../models/admin-news.model";
 import { NewsService } from "../../services/admin/admin-news.service";
 import { NewsUpdateModal } from "../news-update/news-update.component";
-import { NgForm } from "@angular/forms";
-import { style } from "@angular/animations";
 
-
+import { fontAwesomeIconList } from "../../assets/lists/font-awesome-icon-list";
 
 @Component({
   selector: 'app-admin-news-list',
@@ -21,7 +20,14 @@ export class NewsListComponent implements OnInit, OnDestroy {
   newsList: NewsModel[] = [];
   private newsSub: Subscription;
 
-  constructor(public newsService: NewsService, public dialog: MatDialog) {}
+  fontAwesomeIconList = fontAwesomeIconList;
+
+
+  constructor(
+    public newsService: NewsService,
+    public dialog: MatDialog,
+    private sanitizer: DomSanitizer
+    ) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -29,7 +35,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.newsSub = this.newsService.getNewsUpdateListener()
       .subscribe((data: NewsModel[]) => {
         // Sort data regarding the updateDate || createDate
-        this.newsList = data;
+        this.newsList = data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
         this.isLoading = false;
       });
 
@@ -40,6 +47,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.newsService.deleteNews(id);
     this.isLoading = false;
   }
+
 
   openEditDialog(news) {
     const dialogRef = this.dialog.open(NewsUpdateModal, {

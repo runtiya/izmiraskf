@@ -3,6 +3,8 @@
     <span>{{headerTitle}}</span>
   </mat-toolbar>
 
+
+
   <mat-card>
 
     <mat-spinner *ngIf="isLoading"></mat-spinner>
@@ -29,18 +31,29 @@
 
           <div class="col-lg-12 col-md-12 col-sm-12">
             <mat-form-field class="form-input">
-              <mat-label>Haber Metni</mat-label>
+
+              <angular-editor
+                matInput
+                formControlName="content"
+                [config]="editorConfig"
+                placeholder="Haber Metni">
+              </angular-editor>
+
               <textarea
+                hidden
                 matInput
                 type="text"
                 formControlName="content"
-                placeholder="Metin (en fazla 2000 karakter)"
+                placeholder="Metin (en fazla 4000 karakter)"
                 rows="8"
               ></textarea>
-              <mat-hint align="end">{{newsCreateForm.get('content').value ? newsCreateForm.get('content').value.length : 0}}/2000</mat-hint>
+
+              <!--<mat-hint align="end">{{newsCreateForm.get('content').value ? newsCreateForm.get('content').value.length : 0}}/4000</mat-hint>-->
               <mat-error *ngIf="newsCreateForm.get('content').invalid">Lütfen haber metni giriniz!</mat-error>
             </mat-form-field>
           </div>
+
+
 
           <div class="col-lg-9 col-md-9 col-sm-12">
             <button

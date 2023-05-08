@@ -42,9 +42,9 @@ function createNews(req, res, next) {
       newsInfo.createdBy,
       newsInfo.updatedAt,
       newsInfo.updatedBy,
-      newsInfo.title, 
-      newsInfo.content, 
-      newsInfo.newsImage, 
+      newsInfo.title,
+      newsInfo.content,
+      newsInfo.newsImage,
       newsInfo.isOnline
     ],
     (error, result) => {
@@ -65,7 +65,7 @@ function createNews(req, res, next) {
 
 function updateNews(req, res, next) {
   const newsInfo = req.body;
-  console.log(newsInfo)
+
   var message;
   connection.query(
     "update news set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, content = ?, newsimage = ?, isonline = ? where id = ?",
@@ -74,15 +74,15 @@ function updateNews(req, res, next) {
       newsInfo.createdBy,
       newsInfo.updatedAt,
       newsInfo.updatedBy,
-      newsInfo.title, 
-      newsInfo.content, 
-      newsInfo.newsImage, 
-      newsInfo.isOnline, 
+      newsInfo.title,
+      newsInfo.content,
+      newsInfo.newsImage,
+      newsInfo.isOnline,
       newsInfo.id
     ],
     (error, result) => {
       if (!error) {
-        console.log(result);
+        //console.log(result);
       } else {
         message = error.sqlMessage;
       }
@@ -104,7 +104,7 @@ function deleteNews(req, res, next) {
     [newsId],
     (error, result) => {
       if (!error) {
-        console.log(result);
+        //console.log(result);
       } else {
         message = error.sqlMessage;
       }

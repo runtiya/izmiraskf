@@ -24,7 +24,8 @@ import { globalFunctions } from "../../functions/global.function";
 
 import { fixtureKey3, fixtureKey4, fixtureKey5, fixtureKey6, fixtureKey7, fixtureKey8, fixtureKey9, fixtureKey10, fixtureKey11, fixtureKey12, fixtureKey13, fixtureKey14, fixtureKey15 } from "../../assets/lists/fixture-keys-list";
 import { matchStatusList } from "../../assets/lists/match-status-list";
-import { faCircleH, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+
+import { fontAwesomeIconList } from "../../assets/lists/font-awesome-icon-list";
 import { DatePipe } from "@angular/common";
 
 @Component({
@@ -50,24 +51,23 @@ export class FixtureCreate implements OnInit, OnDestroy {
   private stadiumListSub: Subscription;
 
   matchStatusList = matchStatusList;
-  faCircleH = faCircleH;
-  faCircleInfo = faCircleInfo;
+  fontAwesomeIconList = fontAwesomeIconList;
 
   @Input() seasonSelectionId: number;
   @Input() leagueSelectionId: number;
   @Input() groupstageSelectionId: number;
 
   displayedColumnsGroup: string[] = [
-                                      "orderNo", 
-                                      "status", 
-                                      "teamName", 
+                                      "orderNo",
+                                      "status",
+                                      "teamName",
                                       "stadiumName"
                                     ];
   displayedColumnsFixture: string[] = [
-                                        "matchNo", 
-                                        "homeTeam", 
-                                        "details", 
-                                        "awayTeam", 
+                                        "matchNo",
+                                        "homeTeam",
+                                        "details",
+                                        "awayTeam",
                                         "actions"
                                       ];
   groupByFixture: any[] = [];
@@ -129,7 +129,6 @@ export class FixtureCreate implements OnInit, OnDestroy {
       .subscribe((data: FixtureModel[]) => {
         this.fixtureList = data.sort((a, b) => a.orderNo - b.orderNo);
         this.groupByFixture = this.groupByToFixture(this.fixtureList);
-        
       });
 
     this.isLoading = false;
@@ -269,7 +268,7 @@ export class FixtureCreate implements OnInit, OnDestroy {
       return null
     }
   }
-  
+
 
   groupByToFixture(fixtureList: FixtureModel[]): any {
     this.groupByFixture = [];
@@ -408,6 +407,16 @@ export class FixtureCreate implements OnInit, OnDestroy {
 
   findMatchStatusClass(status: string): string {
     return this.matchStatusList.find(s => s.name == status).class;
+  }
+
+  findExpelledOrReceded(teamId: number): boolean {
+    let team: TeamsInGroupstagesModel = this.teamsingroupstagesList.find(team => team.teamId == teamId);
+    return !!team ? (team.isExpelled || team.isReceded) : false;
+  }
+
+  findExpelledOrRecededExplanation(teamId: number): string {
+    let team: TeamsInGroupstagesModel = this.teamsingroupstagesList.find(team => team.teamId == teamId);
+    return !!team ? team.explanation : null;
   }
 
 

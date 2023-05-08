@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
+
 @Component({
   selector: 'admin-header',
   templateUrl: './header.component.html',
@@ -9,12 +10,17 @@ export class AdminHeaderComponent {
 
   @Output() public sidenavToggle = new EventEmitter();
 
-  constructor(){}
+  constructor(
 
-  ngOnInit(){}
+  ){}
+
+  ngOnInit(){
+
+  }
 
   public onToggleSidenav = () => {
     this.sidenavToggle.emit();
   }
+
 
 }

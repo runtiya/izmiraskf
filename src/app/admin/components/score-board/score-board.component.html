@@ -5,244 +5,242 @@
 
     <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-    <div class="col-12">
-        <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <mat-form-field class="form-input">
-                    <mat-label>Sezonlar</mat-label>
-                    <mat-select
-                        matInput
-                        placeholder="Sezon"
-                        [(ngModel)]="seasonSelectionId"
-                        (selectionChange)="onSeasonChange(seasonSelectionId)"
-                    >
-                        <mat-option
-                            [value]="null"
-                        >
-                            {{'Seçiniz'}}
-                        </mat-option>
-                        <mat-option
-                            *ngFor="let season of seasonList"
-                            [value]="season.id"
-                        >
-                            {{season.seasonName}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-4 col-sm-6">
+          <mat-form-field class="form-input">
+              <mat-label>Sezonlar</mat-label>
+              <mat-select
+                  matInput
+                  placeholder="Sezon"
+                  [(ngModel)]="seasonSelectionId"
+                  (selectionChange)="onSeasonChange(seasonSelectionId)"
+              >
+                  <mat-option
+                      [value]="null"
+                  >
+                      {{'Seçiniz'}}
+                  </mat-option>
+                  <mat-option
+                      *ngFor="let season of seasonList"
+                      [value]="season.id"
+                  >
+                      {{season.seasonName}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <mat-form-field class="form-input">
-                    <mat-label>Ligler</mat-label>
-                    <mat-select
-                        matInput
-                        placeholder="Lig"
-                        [(ngModel)]="leagueSelectionId"
-                        (selectionChange)="onLeagueChange(leagueSelectionId)"
-                    >
-                        <mat-option
-                            [value]="null"
-                        >
-                            {{'Seçiniz'}}
-                        </mat-option>
-                        <mat-option
-                            *ngFor="let league of leagueList"
-                            [value]="league.id"
-                        >
-                            {{league.leagueName}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+          <mat-form-field class="form-input">
+              <mat-label>Ligler</mat-label>
+              <mat-select
+                  matInput
+                  placeholder="Lig"
+                  [(ngModel)]="leagueSelectionId"
+                  (selectionChange)="onLeagueChange(leagueSelectionId)"
+              >
+                  <mat-option
+                      [value]="null"
+                  >
+                      {{'Seçiniz'}}
+                  </mat-option>
+                  <mat-option
+                      *ngFor="let league of leagueList"
+                      [value]="league.id"
+                  >
+                      {{league.leagueName}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <mat-form-field class="form-input">
-                    <mat-label>Gruplar</mat-label>
-                    <mat-select
-                        matInput
-                        placeholder="Grup"
-                        [(ngModel)]="groupstageSelectionId"
-                    >
-                        <mat-option
-                            [value]="null"
-                        >
-                            {{'Seçiniz'}}
-                        </mat-option>
-                        <mat-option
-                            *ngFor="let group of groupstageList"
-                            [value]="group.id"
-                        >
-                            {{group.groupName}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+          <mat-form-field class="form-input">
+              <mat-label>Gruplar</mat-label>
+              <mat-select
+                  matInput
+                  placeholder="Grup"
+                  [(ngModel)]="groupstageSelectionId"
+              >
+                  <mat-option
+                      [value]="null"
+                  >
+                      {{'Seçiniz'}}
+                  </mat-option>
+                  <mat-option
+                      *ngFor="let group of groupstageList"
+                      [value]="group.id"
+                  >
+                      {{group.groupName}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <mat-form-field class="form-input">
-                    <mat-label>Maç Numarası</mat-label>
-                    <input 
-                        matInput 
-                        type="text"
-                        [(ngModel)]="matchNoInputValue"
-                    />
-                </mat-form-field>
-            </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+          <mat-form-field class="form-input">
+              <mat-label>Maç Numarası</mat-label>
+              <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="matchNoInputValue"
+              />
+          </mat-form-field>
+      </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <mat-form-field class="form-input">
-                    <mat-label>Sahalar</mat-label>
-                    <mat-select
-                        matInput
-                        placeholder="Saha"
-                        [(ngModel)]="stadiumSelectionId"
-                    >
-                        <mat-option
-                            [value]="null"
-                        >
-                            {{'Seçiniz'}}
-                        </mat-option>
-                        <mat-option
-                            *ngFor="let stadium of stadiumList"
-                            [value]="stadium.id"
-                        >
-                            {{stadium.stadiumName}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+          <mat-form-field class="form-input">
+              <mat-label>Sahalar</mat-label>
+              <mat-select
+                  matInput
+                  placeholder="Saha"
+                  [(ngModel)]="stadiumSelectionId"
+              >
+                  <mat-option
+                      [value]="null"
+                  >
+                      {{'Seçiniz'}}
+                  </mat-option>
+                  <mat-option
+                      *ngFor="let stadium of stadiumList"
+                      [value]="stadium.id"
+                  >
+                      {{stadium.stadiumName}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <mat-form-field class="form-input">
-                    <mat-label>Ev Sahibi Takım</mat-label>
-                    <mat-select
-                        matInput
-                        placeholder="Ev Sahibi Takım"
-                        [(ngModel)]="homeTeamSelectionId"
-                    >
-                        <mat-option
-                            [value]="null"
-                        >
-                            {{'Seçiniz'}}
-                        </mat-option>
-                        <mat-option
-                            *ngFor="let team of teamList"
-                            [value]="team.id"
-                        >
-                            {{team.officialName}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+          <mat-form-field class="form-input">
+              <mat-label>Ev Sahibi Takım</mat-label>
+              <mat-select
+                  matInput
+                  placeholder="Ev Sahibi Takım"
+                  [(ngModel)]="homeTeamSelectionId"
+              >
+                  <mat-option
+                      [value]="null"
+                  >
+                      {{'Seçiniz'}}
+                  </mat-option>
+                  <mat-option
+                      *ngFor="let team of teamList"
+                      [value]="team.id"
+                  >
+                      {{team.officialName}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <mat-form-field class="form-input">
-                    <mat-label>Misafir Takım</mat-label>
-                    <mat-select
-                        matInput
-                        placeholder="Misafir Takım"
-                        [(ngModel)]="awayTeamSelectionId"
-                    >
-                        <mat-option
-                            [value]="null"
-                        >
-                            {{'Seçiniz'}}
-                        </mat-option>
-                        <mat-option
-                            *ngFor="let team of teamList"
-                            [value]="team.id"
-                        >
-                            {{team.officialName}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+          <mat-form-field class="form-input">
+              <mat-label>Misafir Takım</mat-label>
+              <mat-select
+                  matInput
+                  placeholder="Misafir Takım"
+                  [(ngModel)]="awayTeamSelectionId"
+              >
+                  <mat-option
+                      [value]="null"
+                  >
+                      {{'Seçiniz'}}
+                  </mat-option>
+                  <mat-option
+                      *ngFor="let team of teamList"
+                      [value]="team.id"
+                  >
+                      {{team.officialName}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <mat-form-field class="form-input">
-                    <mat-label>Müsabaka Durumu</mat-label>
-                    <mat-select
-                        matInput
-                        placeholder="Müsabaka Durumu"
-                        [(ngModel)]="matchStatusSelectionValue"
-                    >
-                        <mat-option
-                            [value]="null"
-                        >
-                            {{'Seçiniz'}}
-                        </mat-option>
-                        <mat-option
-                            *ngFor="let status of matchStatusList"
-                            [value]="status.name"
-                        >
-                            <mat-icon class="{{findMatchStatusClass(status.name)}}">circle</mat-icon>
-                            {{status.value}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+          <mat-form-field class="form-input">
+              <mat-label>Müsabaka Durumu</mat-label>
+              <mat-select
+                  matInput
+                  placeholder="Müsabaka Durumu"
+                  [(ngModel)]="matchStatusSelectionValue"
+              >
+                  <mat-option
+                      [value]="null"
+                  >
+                      {{'Seçiniz'}}
+                  </mat-option>
+                  <mat-option
+                      *ngFor="let status of matchStatusList"
+                      [value]="status.name"
+                  >
+                      <mat-icon class="{{findMatchStatusClass(status.name)}}">circle</mat-icon>
+                      {{status.value}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <mat-form-field class="form-input">
-                    <mat-label>İlçe</mat-label>
-                    <mat-select
-                        matInput
-                        placeholder="İlçe"
-                        [(ngModel)]="townSelectionValue"
-                    >
-                        <mat-option
-                            *ngFor="let town of townList"
-                            [value]="town.name"
-                        >
-                            {{findTown(town.name)}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+          <mat-form-field class="form-input">
+              <mat-label>İlçe</mat-label>
+              <mat-select
+                  matInput
+                  placeholder="İlçe"
+                  [(ngModel)]="townSelectionValue"
+              >
+                  <mat-option
+                      *ngFor="let town of townList"
+                      [value]="town.name"
+                  >
+                      {{findTown(town.name)}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <mat-form-field class="form-input">
-                    <mat-label>Başlangıç Tarihi</mat-label>
-                    <input 
-                        matInput 
-                        type="datetime-local"
-                        [(ngModel)]="startDatePickedValue"
-                        onfocus="this.showPicker()"
-                    />
-                </mat-form-field>
-            </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+          <mat-form-field class="form-input">
+              <mat-label>Başlangıç Tarihi</mat-label>
+              <input
+                  matInput
+                  type="date"
+                  [(ngModel)]="startDatePickedValue"
+                  onfocus="this.showPicker()"
+              />
+          </mat-form-field>
+      </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <mat-form-field class="form-input">
-                    <mat-label>Bitiş Tarihi</mat-label>
-                    <input 
-                        matInput 
-                        type="datetime-local"
-                        [(ngModel)]="endDatePickedValue"
-                        onfocus="this.showPicker()"
-                    />
-                </mat-form-field>
-            </div>
-        </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+          <mat-form-field class="form-input">
+              <mat-label>Bitiş Tarihi</mat-label>
+              <input
+                  matInput
+                  type="date"
+                  [(ngModel)]="endDatePickedValue"
+                  onfocus="this.showPicker()"
+              />
+          </mat-form-field>
+      </div>
+  </div>
 
-        <button
-            mat-raised-button
-            type="button"
-            class="btn-search"
-            color="primary"
-            (click)="onSearch()"
-        >
-            <mat-icon>search</mat-icon>
-            Arama   
-        </button>
-    </div>
+  <button
+      mat-raised-button
+      type="button"
+      class="btn-search"
+      color="primary"
+      (click)="onSearch()"
+  >
+      <mat-icon>search</mat-icon>
+      Arama
+  </button>
 
     <div class="container-score-board">
         <div class="alert alert-light" *ngIf="fixtureList.length <= 0">
             <div class="" role="alert">
                 <mat-card-title>
                     <strong>Sonuç Bulunamadı!</strong>
-                    Arama anahtarlarınızı belirtiniz. 
+                    Arama anahtarlarınızı belirtiniz.
                 </mat-card-title>
                 <mat-card-subtitle>
                     En az iki arama anahtarı girilmesi zorunludur!
@@ -312,24 +310,24 @@
                         <div class="row" [align]="'center'">
                             <div class="col-lg-4 col-md-12 col-sm-12">
                                 <mat-card-title class="font-team">
-                                    <fa-icon 
-                                        *ngIf="fixture.homeTeamIsExpelled || fixture.homeTeamIsReceded" 
-                                        [icon]="faCircleInfo" 
-                                        class="icon-circle-info" 
-                                        matTooltip="{{fixture.homeTeamWeekOfExpelledOrReceded + '. hafta itibari ile ligden ' + (fixture.homeTeamIsExpelled ? 'ihraç edilmiştir!' : (fixture.homeTeamIsReceded ? 'çekilmiştir!' : ''))}}">
+                                    <fa-icon
+                                        *ngIf="fixture.homeTeamIsExpelled || fixture.homeTeamIsReceded"
+                                        [icon]="fontAwesomeIconList.faCircleInfo"
+                                        class="icon-circle-info"
+                                        matTooltip="{{fixture.homeTeamExpelledOrRecededExplanation}}">
                                     </fa-icon>
                                     {{findTeamName(fixture.homeTeamId)}}
-                                    <fa-icon 
-                                        *ngIf="fixture.isHomeTeamWinByForfeit" 
-                                        [icon]="faCircleH" 
-                                        class="icon-circle-h" 
+                                    <fa-icon
+                                        *ngIf="fixture.isHomeTeamWinByForfeit"
+                                        [icon]="fontAwesomeIconList.faCircleH"
+                                        class="icon-circle-h"
                                         matTooltip="Hükmen">
                                     </fa-icon>
                                 </mat-card-title>
                                 <mat-card-title>
                                     <mat-form-field class="form-input input-score">
                                         <mat-label>Skor</mat-label>
-                                        <input 
+                                        <input
                                             matInput
                                             #homeTeamScore
                                             type="number"
@@ -343,7 +341,7 @@
                                 <mat-card-title>
                                     <mat-form-field class="form-input input-point">
                                         <mat-label>Puan</mat-label>
-                                        <input 
+                                        <input
                                             matInput
                                             #homeTeamPoint
                                             type="number"
@@ -353,9 +351,9 @@
                                         >
                                     </mat-form-field>
                                 </mat-card-title>
-                                
+
                             </div>
-    
+
                             <div class="col-lg-4 col-md-12 col-sm-12">
                                 <mat-card-subtitle>
                                     <strong>
@@ -371,27 +369,27 @@
                                     <mat-icon class="{{findMatchStatusClass(fixture.matchStatus)}}" matTooltip="{{findMatchStatus(fixture.matchStatus)}}">circle</mat-icon>
                                 </mat-card-subtitle>
                             </div>
-    
+
                             <div class="col-lg-4 col-md-12 col-sm-12">
                                 <mat-card-title class="font-team">
-                                    <fa-icon 
-                                        *ngIf="fixture.awayTeamIsExpelled || fixture.awayTeamIsReceded" 
-                                        [icon]="faCircleInfo" 
-                                        class="icon-circle-info" 
-                                        matTooltip="{{fixture.awayTeamWeekOfExpelledOrReceded + '. hafta itibari ile ligden ' + (fixture.awayTeamIsExpelled ? 'ihraç edilmiştir!' : (fixture.awayTeamIsReceded ? 'çekilmiştir!' : ''))}}">
+                                    <fa-icon
+                                        *ngIf="fixture.awayTeamIsExpelled || fixture.awayTeamIsReceded"
+                                        [icon]="fontAwesomeIconList.faCircleInfo"
+                                        class="icon-circle-info"
+                                        matTooltip="{{fixture.awayTeamExpelledOrRecededExplanation}}">
                                     </fa-icon>
                                     {{findTeamName(fixture.awayTeamId)}}
-                                    <fa-icon 
-                                        *ngIf="fixture.isAwayTeamWinByForfeit" 
-                                        [icon]="faCircleH" 
-                                        class="icon-circle-h" 
+                                    <fa-icon
+                                        *ngIf="fixture.isAwayTeamWinByForfeit"
+                                        [icon]="fontAwesomeIconList.faCircleH"
+                                        class="icon-circle-h"
                                         matTooltip="Hükmen">
                                     </fa-icon>
                                 </mat-card-title>
                                 <mat-card-title>
                                     <mat-form-field class="form-input input-score">
                                         <mat-label>Skor</mat-label>
-                                        <input 
+                                        <input
                                             matInput
                                             #awayTeamScore
                                             type="number"
@@ -401,11 +399,11 @@
                                         >
                                     </mat-form-field>
                                 </mat-card-title>
-                               
+
                                 <mat-card-title>
                                     <mat-form-field class="form-input input-point">
                                         <mat-label>Puan</mat-label>
-                                        <input 
+                                        <input
                                             matInput
                                             #awayTeamPoint
                                             type="number"
@@ -462,6 +460,6 @@
             </div>
         </div>
     </div>
-    
-    
+
+
 </div>

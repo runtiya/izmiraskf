@@ -1,13 +1,17 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Subject } from "rxjs";
+import { Subject, Observable } from "rxjs";
 
 import { GroupStagesModel } from "../../models/admin-groupstages.model";
+
+
 
 @Injectable({providedIn: 'root'})
 export class GroupStagesService {
   private groupstageList: GroupStagesModel[] = [];
   private groupstageListSub = new Subject<GroupStagesModel[]>();
+  private weekSequence: Array<number>[] = [];
+  private weekSequenceSub = new Subject<Array<number>[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -32,6 +36,35 @@ export class GroupStagesService {
 
   getGroupStageListUpdateListener() {
     return this.groupstageListSub.asObservable();
+  }
+
+  getGroupWeeks(groupstageId: number) {
+    try {
+      this.http
+        .get<{error: boolean, message: string, weekSequence: Array<number>[]}>(
+          'http://localhost:3000/admin/gruplar/hafta-siralamasi/' + groupstageId
+        )
+        .subscribe((data) => {
+          if (!data.error) {
+            this.weekSequence = data.weekSequence;
+            this.weekSequenceSub.next([...this.weekSequence]);
+          } else {
+            console.log(data.message);
+          }
+        });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  getGroupWeeksUpdateListener() {
+    return this.weekSequenceSub.asObservable();
+  }
+
+  getPlayedLastMatchWeek(_groupstageId: number): Observable<any> {
+    return this.http.get<{error: boolean, message: string, currentWeek: number}>(
+      'http://localhost:3000/admin/gruplar/son-musabaka-haftasi/' + _groupstageId
+      );
   }
 
   createGroupStage(groupstageInfo: GroupStagesModel) {

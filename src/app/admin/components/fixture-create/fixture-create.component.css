@@ -1,4 +1,4 @@
-.button-fixture-clear, 
+.button-fixture-clear,
 .button-fixture-create,
 .button-match-create,
 .button-import,
@@ -58,5 +58,9 @@
 }
 
 .font-title-teamname {
-  font-size: small;
+  font-size: medium;
+}
+
+.font-match-score {
+  font-size: x-large;
 }

@@ -40,11 +40,12 @@ function getFixtureBySearchIndex(req, res, next) {
   let awayTeamIdSearchIndex = searchIndex.awayTeamId ? "awayTeamId = " + searchIndex.awayTeamId : "true";
   let matchStatusSearchIndex = searchIndex.matchStatus ? "matchStatus = " + JSON.stringify(searchIndex.matchStatus) : "true";
   let townSearchIndex = searchIndex.town ? "town = " + JSON.stringify(searchIndex.town) : "true";
-  let startDateSearchIndex = searchIndex.startDateSearchIndex ? "matchDate > " + searchIndex.startDateSearchIndex : "true";
-  let endDateSearchIndex = searchIndex.endDateSearchIndex ? "matchDate < " + searchIndex.endDateSearchIndex : "true";
+  let startDateSearchIndex = searchIndex.startDate ? "matchDate > " + JSON.stringify(searchIndex.startDate + " 00:00") : "true";
+  let endDateSearchIndex = searchIndex.endDate ? "matchDate < " + JSON.stringify(searchIndex.endDate + " 23:59") : "true";
+
 
   connection.query(
-    "select * from view_fixturesforsearch where " + seasonSearchIndex + " and " 
+    "select * from view_fixturesforsearch where " + seasonSearchIndex + " and "
                                                   + leagueSearchIndex + " and "
                                                   + groupstageSearchIndex + " and "
                                                   + matchNoSearchIndex + " and "
@@ -52,12 +53,15 @@ function getFixtureBySearchIndex(req, res, next) {
                                                   + homeTeamIdSearchIndex + " and "
                                                   + awayTeamIdSearchIndex + " and "
                                                   + matchStatusSearchIndex + " and "
-                                                  + townSearchIndex + " and true",
+                                                  + townSearchIndex + " and "
+                                                  + startDateSearchIndex + " and "
+                                                  + endDateSearchIndex + " and true ",
     (error, result) => {
       if (!error) {
         fixtureList = result;
       } else {
         message = error.sqlMessage;
+        console.log(message)
         fixtureList = [];
       }
 

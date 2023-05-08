@@ -4,7 +4,7 @@ function getGroupStages(req, res, next) {
   var groupstageList;
   const leagueId = req.params.leagueid;
   var message;
-  
+
 
   connection.query(
     "select * from view_groupstages where leagueid = ?",
@@ -24,7 +24,59 @@ function getGroupStages(req, res, next) {
       });
     }
   );
-  
+
+}
+
+function getWeekSequence(req, res, next) {
+  const groupstageId = req.params.id;
+  var weekSequence;
+  var message;
+
+  connection.query(
+    "select distinct(f.matchweek) as weekSequence from fixtures f join groupstages g on g.id = f.groupstageid where f.groupstageid = ? order by weekSequence",
+    [groupstageId],
+    (error, result) => {
+      if (!error) {
+        weekSequence = result;
+      } else {
+        message = error.sqlMessage;
+        weekSequence = [];
+      }
+
+      res.status(200).json({
+        error: !!error,
+        message: message || 'Week Sequence Info fetched successfully!',
+        weekSequence: weekSequence
+      });
+    }
+
+  );
+}
+
+function getPlayedLastMatchWeek(req, res, next) {
+  const groupstageId = req.params.id;
+  var matchWeek;
+  var message;
+
+  connection.query(
+    "select max(matchweek) as matchWeek from view_fixtures where groupstageid = ? and matchstatus = 'PLAYED'",
+    [groupstageId],
+    (error, result) => {
+      if (!error) {
+        matchWeek = result[0].matchWeek;
+      } else {
+        message = error.sqlMessage;
+        matchWeek = null;
+      }
+
+      res.status(200).json({
+        error: !!error,
+        message: message || 'Last Match Week fetched successfully!',
+        matchWeek: matchWeek
+      });
+    }
+
+  );
 }
 
 function createGroupStage(req, res, next) {
@@ -113,6 +165,8 @@ function deleteGroupStage(req, res, next) {
 }
 
 exports.getGroupStages = getGroupStages;
+exports.getWeekSequence = getWeekSequence;
+exports.getPlayedLastMatchWeek = getPlayedLastMatchWeek;
 exports.createGroupStage = createGroupStage;
 exports.updateGroupStage = updateGroupStage;
 exports.deleteGroupStage = deleteGroupStage;

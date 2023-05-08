@@ -12,15 +12,17 @@ const adminAboutITFFRoutes = require('./routes/admin/aboutitff');
 const adminStaffITFFRoutes = require('./routes/admin/staffitff');
 const adminExternalLinkRoutes = require('./routes/admin/externallinks');
 const adminDocumentsRoutes = require('./routes/admin/documents');
-const adminStadiumsRoutes = require('./routes/admin/stadiums');
 const adminTeamsRoutes = require('./routes/admin/teams');
+const adminStadiumsRoutes = require('./routes/admin/stadiums');
+const adminDisciplinaryBoardFiles = require('./routes/admin/disciplinaryboardfiles');
+const adminDisciplinaryBoardDecisions = require('./routes/admin/disciplinaryboarddecisions');
 const adminSeasonsRoutes = require('./routes/admin/seasons');
 const adminLeaguesRoutes = require('./routes/admin/leagues');
 const adminGroupsRoutes = require('./routes/admin/groupstages');
 const adminTeamsInGroupsRoutes = require('./routes/admin/teamsingroupstages');
 const adminFixtures = require('./routes/admin/fixtures');
-const adminDisciplinaryBoardFiles = require('./routes/admin/disciplinaryboardfiles');
-const adminDisciplinaryBoardDecisions = require('./routes/admin/disciplinaryboarddecisions');
+const adminPointBoard = require('./routes/admin/pointboard');
+
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit:'3000kb'}));
@@ -43,15 +45,16 @@ app.use('/admin/izmirtffiltemsilciligi', adminAboutITFFRoutes);
 app.use('/admin/izmirtffiltemsilciligi-personel', adminStaffITFFRoutes);
 app.use('/admin/disbaglantilar', adminExternalLinkRoutes);
 app.use('/admin/documents', adminDocumentsRoutes);
-app.use('/admin/sahalar', adminStadiumsRoutes);
 app.use('/admin/takimlar', adminTeamsRoutes);
+app.use('/admin/sahalar', adminStadiumsRoutes);
+app.use('/admin/disiplin-kurulu-dosyalari', adminDisciplinaryBoardFiles);
+app.use('/admin/disiplin-kurulu-kararlari', adminDisciplinaryBoardDecisions);
 app.use('/admin/sezonlar', adminSeasonsRoutes);
 app.use('/admin/ligler', adminLeaguesRoutes);
 app.use('/admin/grup-takim-eslesmeleri', adminTeamsInGroupsRoutes);
 app.use('/admin/gruplar', adminGroupsRoutes);
 app.use('/admin/fikstur', adminFixtures);
-app.use('/admin/disiplin-kurulu-dosyalari', adminDisciplinaryBoardFiles);
-app.use('/admin/disiplin-kurulu-kararlari', adminDisciplinaryBoardDecisions);
+app.use('/admin/puan-durumu', adminPointBoard);
 
 
 module.exports = app;

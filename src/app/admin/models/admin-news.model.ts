@@ -5,7 +5,7 @@ export interface NewsModel {
   updatedAt: Date,
   updatedBy: number,
   title: string;
-  content: string;
+  content: Text;
   newsImage: File;
   isOnline: boolean;
 }
