@@ -138,7 +138,6 @@ function clearDisciplinaryBoardDecisions(req, res, next) {
         ],
         (error, result) => {
             if (!error) {
-                console.log(result);
             } else {
                 message = error.sqlMessage;
             }

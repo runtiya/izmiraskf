@@ -4,18 +4,18 @@ const multer = require('multer');
 const disciplinaryBoardFileController = require('../../controllers/admin/disciplinaryboardfiles');
 
 const checkAuth = require('../../middlewares/check-auth');
-const checkImageMimeType = require('../../middlewares/check-image-mimetype');
+const extractTeamLogo = require('../../middlewares/extract-team-logo');
 
 const router = express.Router();
 
 
-router.get("/:seasonid", disciplinaryBoardFileController.getDisciplinaryBoardFiles);
+router.get("/:seasonid", checkAuth, disciplinaryBoardFileController.getDisciplinaryBoardFiles);
 
-router.post("", disciplinaryBoardFileController.createDisciplinaryBoardFile);
+router.post("", checkAuth, disciplinaryBoardFileController.createDisciplinaryBoardFile);
 
-router.put("/:id", disciplinaryBoardFileController.updateDisciplinaryBoardFile);
+router.put("/:id", checkAuth, disciplinaryBoardFileController.updateDisciplinaryBoardFile);
 
-router.delete("/:id", disciplinaryBoardFileController.deleteDisciplinaryBoardFile);
+router.delete("/:id", checkAuth, disciplinaryBoardFileController.deleteDisciplinaryBoardFile);
 
 
 module.exports = router;

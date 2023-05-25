@@ -46,8 +46,8 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header-row"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-detail-row"></tr>
+      <tr mat-header-row *matHeaderRowDef="tableColumns" class="table-header-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: tableColumns;" class="table-detail-row"></tr>
     </table>
 
     <mat-card>

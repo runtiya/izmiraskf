@@ -6,9 +6,7 @@
 
 
   <mat-card>
-
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-
       <form
         [formGroup]="newsCreateForm"
         (submit)="onAddNews()"

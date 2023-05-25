@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from "@angular/core";
+import { Component, Inject, Input, OnInit, OnDestroy } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
@@ -12,16 +12,20 @@ import { seasonYearList } from "../../assets/lists/season-year-list";
   templateUrl: './seasons-create.component.html',
   styleUrls: ['../../../app.component.css', './seasons-create.component.css']
 })
-export class AdminSeasonsCreateModal {
+export class AdminSeasonsCreateModal implements OnInit, OnDestroy {
   isLoading = false;
   pageMode: string = this.data.pageMode || 'create';
   seasonInfo = this.data.seasonInfo;
   seasonSubmitForm: FormGroup;
   seasonYearList = seasonYearList;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<AdminSeasonsCreateModal>, public seasonsService: SeasonsService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Data,
+    public dialogRef: MatDialogRef<AdminSeasonsCreateModal>,
+    public seasonsService: SeasonsService
+    ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoading = true;
     this.seasonSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.id : null, {validators: []}),
@@ -53,5 +57,9 @@ export class AdminSeasonsCreateModal {
     this.isLoading  = false;
 
     this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+
   }
 }

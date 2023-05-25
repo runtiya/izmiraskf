@@ -4,17 +4,17 @@ const multer = require('multer');
 const staffitffController = require('../../controllers/admin/staffitff');
 
 const checkAuth = require('../../middlewares/check-auth');
-const checkImageMimeType = require('../../middlewares/check-image-mimetype');
+const extractTeamLogo = require('../../middlewares/extract-team-logo');
 
 const router = express.Router();
 
 
-router.get("", staffitffController.getStaffList);
+router.get("", checkAuth, staffitffController.getStaffList);
 
-router.post("", staffitffController.createStaff);
+router.post("", checkAuth, staffitffController.createStaff);
 
-router.put("/:id", staffitffController.updateStaff);
+router.put("/:id", checkAuth, staffitffController.updateStaff);
 
-router.delete("/:id", staffitffController.deleteStaff)
+router.delete("/:id", checkAuth, staffitffController.deleteStaff)
 
 module.exports = router;

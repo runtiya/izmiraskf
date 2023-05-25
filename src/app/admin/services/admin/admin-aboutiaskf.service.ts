@@ -18,16 +18,20 @@ export class AboutIASKFService {
       .get<{error: boolean, message: string, aboutContent: AboutIASKFModel}>(
         'http://localhost:3000/admin/izmiraskf'
       )
-      .subscribe((data) => {
-        if (!data.error) {
-          this.aboutContent = data.aboutContent;
-          this.aboutContentSubject.next(this.aboutContent);
-        }
-        else {
-          console.log('error: ' + data.error)
-        }
+      .subscribe({
+        next: (data) => {
+          if (!data.error) {
+            this.aboutContent = data.aboutContent;
+            this.aboutContentSubject.next(this.aboutContent);
+          }
+          else {
+            console.log('error: ' + data.error)
+          }
+        },
+        error: (error) => {
 
-      })
+        }
+      });
   }
 
   getAboutContentListener() {
@@ -40,17 +44,22 @@ export class AboutIASKFService {
       .put<{error: boolean, message: string}>(
         'http://localhost:3000/admin/izmiraskf', aboutContent
       )
-      .subscribe((data) => {
-        if (!data.error) {
-          console.log(data.message);
-          // Add Angular Component Snackbar OR Bootstrap Toasts
-          this.aboutContentSubject.next(aboutContent);
-        }
-        else {
-          null;
+      .subscribe({
+        next: (data) => {
+          if (!data.error) {
+            console.log(data.message);
+            // Add Angular Component Snackbar OR Bootstrap Toasts
+            this.aboutContentSubject.next(aboutContent);
+          }
+          else {
+            null;
+
+          }
+        },
+        error: (error) => {
 
         }
-      })
+      });
   }
 
 }

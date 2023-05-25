@@ -29,11 +29,11 @@ export class AdminGroupList implements OnInit, OnDestroy {
   groupstageList: GroupStagesModel[] = [];
   private groupstageListSubscription: Subscription;
   groupPeriodSystemList = groupPeriodSystemList;
-  displayedColumns: string[] = [
-                                "seasonName", 
-                                "leagueName", 
-                                "groupName", 
-                                "periodSystem", 
+  tableColumns: string[] = [
+                                "seasonName",
+                                "leagueName",
+                                "groupName",
+                                "periodSystem",
                                 "actions"
                               ];
 
@@ -62,7 +62,7 @@ export class AdminGroupList implements OnInit, OnDestroy {
         this.leagueSelectionId = this.leagueList[0]["id"];
         this.groupstageService.getGroupstages(this.leagueSelectionId);
       });
-    
+
     this.groupstageListSubscription = this.groupstageService.getGroupStageListUpdateListener()
       .subscribe((data: GroupStagesModel[]) => {
         this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
@@ -94,7 +94,7 @@ export class AdminGroupList implements OnInit, OnDestroy {
           this.seasonSelectionId = this.seasonSelectionId || this.seasonList[0]["id"];
           this.leagueService.getLeagues(this.seasonSelectionId);
         });
-      
+
       this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
         .subscribe((data: LeaguesModel[]) => {
           this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);

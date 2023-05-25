@@ -1,0 +1,134 @@
+<mat-dialog-content class="mat-typography">
+  <div class="container">
+    <mat-card>
+      <mat-dialog-actions align="end">
+        <button mat-icon-button mat-dialog-close class="icon">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-dialog-actions>
+    </mat-card>
+
+    <form
+      [formGroup]="userSubmitForm"
+      (submit)="onSubmitForm()"
+      *ngIf="!isLoading"
+    >
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <button
+            mat-stroked-button
+            type="button"
+            color="primary"
+            class="btn-image-picker"
+            (click)="filePicker.click()"
+          >
+            Resim Seç
+          </button>
+          <input type="file" #filePicker (change)="onFilePicked($event)">
+          <div
+            class="image-preview"
+            *ngIf="imagePreview !== '' && imagePreview && userSubmitForm.get('profilePhoto').valid">
+            <img [src]="imagePreview" [alt]="userSubmitForm.value.fullName"/>
+          </div>
+          <mat-error *ngIf="!userSubmitForm.get('profilePhoto').valid">
+            Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+          </mat-error>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Ad Soyad</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="fullName"
+              placeholder="Ad Soyad"
+            >
+            <mat-hint align="end">{{userSubmitForm.get('fullName').value ? userSubmitForm.get('fullName').value.length : 0}}/200</mat-hint>
+            <mat-error *ngIf="userSubmitForm.get('fullName').invalid">
+              Lütfen ad ve soyad bilgisi giriniz! En fazla 200 karakter!
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Kullanıcı Adı</mat-label>
+            <input
+              matInput
+              type="email"
+              formControlName="userName"
+              placeholder="ad.soyad@izmiraskf.com"
+            >
+            <mat-hint align="end">{{userSubmitForm.get('userName').value ? userSubmitForm.get('userName').value.length : 0}}/200</mat-hint>
+            <mat-error *ngIf="userSubmitForm.get('userName').invalid">
+              Lütfen kullanıcı adı giriniz! En fazla 200 karakter!
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Şifre</mat-label>
+            <input
+              matInput
+              type="password"
+              formControlName="userPassword"
+              placeholder="Şifre"
+            >
+            <mat-hint align="end">{{userSubmitForm.get('userPassword').value ? userSubmitForm.get('userPassword').value.length : 0}}/200</mat-hint>
+            <mat-error *ngIf="userSubmitForm.get('userPassword').invalid">
+              Lütfen şifre bilgisi giriniz! En fazla 200 karakter!
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Yetki</mat-label>
+            <mat-select
+              matInput
+              formControlName="userType"
+              placeholder="Yetki"
+            >
+              <mat-option
+                *ngFor="let authority of userAuthorityList"
+                [value]="authority.name"
+              >
+                {{authority.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="userSubmitForm.get('userType').invalid">
+              Lütfen kullanıcı yetki bilgisi seçiniz!
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Aktif</mat-label>
+            <mat-select
+              matInput
+              formControlName="isActive"
+              placeholder="Aktif"
+            >
+              <mat-option [value]="true">Evet</mat-option>
+              <mat-option [value]="false">Hayır</mat-option>
+            </mat-select>
+            <mat-error *ngIf="userSubmitForm.get('isActive').invalid">
+              Lütfen bir değer seçiniz!
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-action-row>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+          >Oluştur</button>
+        </mat-action-row>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>

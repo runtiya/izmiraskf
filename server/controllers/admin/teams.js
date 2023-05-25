@@ -34,7 +34,7 @@ function createTeam(req, res, next) {
   var teamId;
   connection.query(
     "insert into teams(createdat, createdby, updatedat, updatedby, tffclubcode, officialname, shortname, logoimage, city, town, address, longitude, latitude, phonenumber, faxnumber, stadiumid, presidentname, colorcodes, websiteurl, isaskfmember, isvisible) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [ 
+    [
       teamInfo.createdAt,
       teamInfo.createdBy,
       teamInfo.updatedAt,
@@ -63,6 +63,7 @@ function createTeam(req, res, next) {
       } else {
         message = error.sqlMessage;
       }
+
       res.status(200).json({
         error: !!error,
         message: message || 'Team added successfully!',
@@ -75,10 +76,11 @@ function createTeam(req, res, next) {
 function updateTeam(req, res, next) {
   const teamInfo = req.body;
   var message;
-  var teamId;
+  var teamId = req.params.id;
+
   connection.query(
     "update teams set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, tffclubcode = ?, officialname = ?, shortname = ?, logoimage = ?, city = ?, town = ?, address = ?, longitude = ?, latitude = ?, phonenumber = ?, faxnumber = ?, stadiumid = ?, presidentname = ?, colorcodes = ?, websiteurl = ?, isaskfmember = ?, isvisible = ? where id = ?",
-    [ 
+    [
       teamInfo.createdAt,
       teamInfo.createdBy,
       teamInfo.updatedAt,
@@ -100,11 +102,11 @@ function updateTeam(req, res, next) {
       teamInfo.websiteURL,
       teamInfo.isASKFMember,
       teamInfo.isVisible,
-      teamInfo.id
+      teamInfo.id || teamId
     ],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }

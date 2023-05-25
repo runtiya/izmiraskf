@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg" style="background-color: #3F51B5;">
+<nav class="navbar navbar-expand-lg" style="background-color: #3F51B5;" *ngIf="userIsAuthenticated">
   <div class="container-fluid">
     <a
       class="navbar-brand"
-      routerLink="/admin"
+      routerLink="/admin/anasayfa"
     >
       <img
         [src]=""
@@ -29,7 +29,7 @@
           <a
             class="nav-link"
             aria-current="page"
-            routerLink="/admin"
+            routerLink="/admin/anasayfa"
           >Ana Sayfa</a>
         </li>
         <!-- Content Management -->
@@ -113,11 +113,50 @@
         </li>
         <!-- Logout -->
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="">Güvenli Çıkış</a>
+          <a class="nav-link" aria-current="page" routerLink="admin/kullanici-guvenli-cikis">Güvenli Çıkış</a>
         </li>
+
+        <li class="nav-item"><a class="nav-link" aria-current="page" routerLink="admin/kullanici-giris">Sistem Giriş</a></li>
       </ul>
 
     </div>
   </div>
 </nav>
+
+
+
+<nav class="navbar navbar-expand-lg" style="background-color: #3F51B5;" *ngIf="!userIsAuthenticated">
+  <div class="container-fluid">
+    <a
+      class="navbar-brand"
+      routerLink="/admin/anasayfa"
+    >
+      <img
+        [src]=""
+        alt="İzmir ASKF"
+        width="30"
+        height="24"
+      >
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarAdminPanel"
+      aria-controls="navbarAdminPanel"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarAdminPanel">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" aria-current="page" routerLink="admin/kullanici-giris">Sistem Giriş</a></li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
 

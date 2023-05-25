@@ -57,13 +57,13 @@ export class FixtureCreate implements OnInit, OnDestroy {
   @Input() leagueSelectionId: number;
   @Input() groupstageSelectionId: number;
 
-  displayedColumnsGroup: string[] = [
+  tableColumnsGroup: string[] = [
                                       "orderNo",
                                       "status",
                                       "teamName",
                                       "stadiumName"
                                     ];
-  displayedColumnsFixture: string[] = [
+  tableColumnsFixture: string[] = [
                                         "matchNo",
                                         "homeTeam",
                                         "details",

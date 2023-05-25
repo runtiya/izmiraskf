@@ -20,12 +20,17 @@ export class TeamsInGroupstagesService {
         .get<{error: boolean, message: string, teamsingroupstagesList: TeamsInGroupstagesModel[]}>(
           'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageId
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.teamsingroupstagesList = data.teamsingroupstagesList;
-            !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.teamsingroupstagesList = data.teamsingroupstagesList;
+              !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
         });
     } catch (error) {
@@ -43,14 +48,19 @@ export class TeamsInGroupstagesService {
         .get<{error: boolean, message: string, teamsList: TeamsModel[]}>(
           'http://localhost:3000/admin/grup-takim-eslesmeleri'
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.teamsList = data.teamsList;
-            this.teamsListSub.next([...this.teamsList]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.teamsList = data.teamsList;
+              this.teamsListSub.next([...this.teamsList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }
@@ -66,14 +76,19 @@ export class TeamsInGroupstagesService {
         .post<{error: boolean, message: string, teamsList: TeamsInGroupstagesModel[]}>(
           'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageSelectionId, teamsInGroupstagesList
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.teamsingroupstagesList = teamsInGroupstagesList;
-            !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.teamsingroupstagesList = teamsInGroupstagesList;
+              !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }
@@ -85,21 +100,26 @@ export class TeamsInGroupstagesService {
         .put<{error: boolean, message: string}>(
           'http://localhost:3000/admin/grup-takim-eslesmeleri', teamInfo
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.teamsingroupstagesList.forEach((item, i) => {
-              if (item.id == teamInfo.id) {
-                this.teamsingroupstagesList[i]["isExpelled"] = teamInfo.isExpelled;
-                this.teamsingroupstagesList[i]["isReceded"] = teamInfo.isReceded;
-                this.teamsingroupstagesList[i]["weekofExpelledorReceded"] = teamInfo.weekofExpelledorReceded;
-                this.teamsingroupstagesList[i]["explanation"] = teamInfo.explanation;
-              }
-              this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]);
-            })
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.teamsingroupstagesList.forEach((item, i) => {
+                if (item.id == teamInfo.id) {
+                  this.teamsingroupstagesList[i]["isExpelled"] = teamInfo.isExpelled;
+                  this.teamsingroupstagesList[i]["isReceded"] = teamInfo.isReceded;
+                  this.teamsingroupstagesList[i]["weekofExpelledorReceded"] = teamInfo.weekofExpelledorReceded;
+                  this.teamsingroupstagesList[i]["explanation"] = teamInfo.explanation;
+                }
+                this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]);
+              })
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }

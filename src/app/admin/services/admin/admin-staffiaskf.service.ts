@@ -40,9 +40,14 @@ export class StaffIASKFService {
         })
       )
       */
-      .subscribe((orderedData) => {
-        this.staffList = orderedData.staffList;
+      .subscribe({
+        next: (orderedData) => {
+          this.staffList = orderedData.staffList;
         this.staffListUpdated.next([...this.staffList]);
+        },
+        error: (error) => {
+
+        }
       });
     } catch (error) {
       console.log(error)
@@ -60,60 +65,71 @@ export class StaffIASKFService {
       .post<{error: boolean, message: string, staffId: number}>(
         'http://localhost:3000/admin/izmiraskf-personel', staffInfo
       )
-      .subscribe((data) => {
-        if (!data.error) {
-          console.log(data.message);
-          console.log(data.staffId);
-          staffInfo.id = data.staffId;
-          this.staffList.push(staffInfo);
-          this.staffListUpdated.next([...this.staffList]);
-        } else {
-          null;
+      .subscribe({
+        next: (data) => {
+          if (!data.error) {
+            console.log(data.message);
+            console.log(data.staffId);
+            staffInfo.id = data.staffId;
+            this.staffList.push(staffInfo);
+            this.staffListUpdated.next([...this.staffList]);
+          } else {
+            null;
+          }
+        },
+        error: (error) => {
+
         }
-      })
+      });
   }
 
 
   updateStaff(staffInfo: StaffIzmirAskfModel) {
-
     this.http
       .put<{error: boolean, message: string}>(
         'http://localhost:3000/admin/izmiraskf-personel/' + staffInfo.id, staffInfo
       )
-      .subscribe((data) => {
-        if (!data.error) {
-          // Replace updated object with the old one
-          this.staffList.forEach((item, i) => {
-            if (item.id == staffInfo.id) {
-              this.staffList[i] = staffInfo;
-            }
-          });
+      .subscribe({
+        next: (data) => {
+          if (!data.error) {
+            // Replace updated object with the old one
+            this.staffList.forEach((item, i) => {
+              if (item.id == staffInfo.id) {
+                this.staffList[i] = staffInfo;
+              }
+            });
 
-          this.staffListUpdated.next([...this.staffList]);
+            this.staffListUpdated.next([...this.staffList]);
+          }
+          else {
+            null;
+          }
+        },
+        error: (error) => {
+
         }
-        else {
-          null;
-        }
-      })
+      });
   }
 
   deleteStaff(staffId: number) {
-
     this.http
       .delete<{error: boolean, message: string}>(
         'http://localhost:3000/admin/izmiraskf-personel/' + staffId
       )
-      .subscribe((data) => {
-        if (!data.error) {
-          console.log(data.message);
-          const filteredStaffList = this.staffList.filter(staffList => staffList.id !== staffId);
-          this.staffList = filteredStaffList;
-          this.staffListUpdated.next([...this.staffList]);
-        } else {
-          null;
+      .subscribe({
+        next: (data) => {
+          if (!data.error) {
+            console.log(data.message);
+            const filteredStaffList = this.staffList.filter(staffList => staffList.id !== staffId);
+            this.staffList = filteredStaffList;
+            this.staffListUpdated.next([...this.staffList]);
+          } else {
+            null;
+          }
+        },
+        error: (error) => {
+
         }
-      })
+      });
   }
-
-
 }

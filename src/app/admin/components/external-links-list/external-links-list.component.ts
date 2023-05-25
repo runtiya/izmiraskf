@@ -22,7 +22,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   private extLinksSubscription: Subscription;
   faBrandList = faBrandList;
 
-  displayedColumns: string[] = ["orderNo",
+  tableColumns: string[] = ["orderNo",
                                 "linkName",
                                 "url",
                                 "isActive",

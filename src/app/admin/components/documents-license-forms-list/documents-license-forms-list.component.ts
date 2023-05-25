@@ -19,10 +19,10 @@ export class AdminDocumentLicenseForms {
   documents: DocumentsModel[] = [];
   private documentsSubscription: Subscription;
   documentCategory = documentCategoryList[2].name;
-  displayedColumns: string[] = [
-                                "orderNo", 
-                                "docName", 
-                                "docType", 
+  tableColumns: string[] = [
+                                "orderNo",
+                                "docName",
+                                "docType",
                                 "actions"
                               ];
 

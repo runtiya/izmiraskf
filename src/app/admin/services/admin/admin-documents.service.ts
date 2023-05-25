@@ -17,14 +17,19 @@ export class DocumentsService {
         .get<{error: boolean, message: string, documents: DocumentsModel[]}>(
           'http://localhost:3000/admin/documents/' + documentType
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.documentsList = data.documents;
-            this.documentsListSub.next([...this.documentsList]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.documentsList = data.documents;
+              this.documentsListSub.next([...this.documentsList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }
@@ -40,15 +45,20 @@ export class DocumentsService {
         .post<{error: boolean, message: string, documentId: number}>(
           'http://localhost:3000/admin/documents', documentInfo
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            documentInfo.id = data.documentId;
-            this.documentsList.push(documentInfo);
-            this.documentsListSub.next([...this.documentsList]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              documentInfo.id = data.documentId;
+              this.documentsList.push(documentInfo);
+              this.documentsListSub.next([...this.documentsList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }
@@ -60,19 +70,24 @@ export class DocumentsService {
         .put<{error: boolean, message: string}>(
           'http://localhost:3000/admin/documents/' + documentInfo.id, documentInfo
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            // Replace updated object with the old one
-            this.documentsList.forEach((item, i) => {
-              if (item.id == documentInfo.id) {
-                this.documentsList[i] = documentInfo;
-              }
-            });
-            this.documentsListSub.next([...this.documentsList]);
-          } else {
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              // Replace updated object with the old one
+              this.documentsList.forEach((item, i) => {
+                if (item.id == documentInfo.id) {
+                  this.documentsList[i] = documentInfo;
+                }
+              });
+              this.documentsListSub.next([...this.documentsList]);
+            } else {
+
+            }
+          },
+          error: (error) => {
 
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }
@@ -84,13 +99,18 @@ export class DocumentsService {
         .delete<{error: boolean, message: string}>(
           'http://localhost:3000/admin/documents/' + documentId
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            const filteredDocumentsList = this.documentsList.filter(document => document.id !== documentId);
-            this.documentsList = filteredDocumentsList;
-            this.documentsListSub.next([...this.documentsList]);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              const filteredDocumentsList = this.documentsList.filter(document => document.id !== documentId);
+              this.documentsList = filteredDocumentsList;
+              this.documentsListSub.next([...this.documentsList]);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }

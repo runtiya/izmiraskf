@@ -17,14 +17,18 @@ export class LeaguesService {
         .get<{error: boolean, message: string, leagueList: LeaguesModel[]}>(
           'http://localhost:3000/admin/ligler/' + seasonId
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.leagueList = data.leagueList;
-            this.leagueListSub.next([...this.leagueList]);
-          } else {
-            console.log(data.message);
-          }
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.leagueList = data.leagueList;
+              this.leagueListSub.next([...this.leagueList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
 
+          }
         });
     } catch (error) {
       console.log(error);
@@ -41,13 +45,18 @@ export class LeaguesService {
         .post<{error: boolean, message: string, leagueId: number}>(
           'http://localhost:3000/admin/ligler', leagueInfo
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            leagueInfo.id = data.leagueId;
-            this.leagueList.push(leagueInfo);
-            this.leagueListSub.next([...this.leagueList]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              leagueInfo.id = data.leagueId;
+              this.leagueList.push(leagueInfo);
+              this.leagueListSub.next([...this.leagueList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
         });
     } catch (error) {
@@ -61,18 +70,23 @@ export class LeaguesService {
         .put<{error: boolean, message: string}>(
           'http://localhost:3000/admin/ligler/' + leagueInfo.id, leagueInfo
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            // Replace updated object with the old one
-            this.leagueList.forEach((item, i) => {
-              if (item.id == leagueInfo.id) {
-                this.leagueList[i] = leagueInfo;
-              }
-            });
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              // Replace updated object with the old one
+              this.leagueList.forEach((item, i) => {
+                if (item.id == leagueInfo.id) {
+                  this.leagueList[i] = leagueInfo;
+                }
+              });
 
-            this.leagueListSub.next([...this.leagueList]);
-          } else {
-            console.log(data.message);
+              this.leagueListSub.next([...this.leagueList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
         });
     } catch (error) {
@@ -86,20 +100,23 @@ export class LeaguesService {
         .delete<{error: boolean, message: string}>(
           'http://localhost:3000/admin/ligler/' + leagueId
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            const filteredLeagueList = this.leagueList.filter(league => league.id !== leagueId);
-            this.leagueList = filteredLeagueList;
-            this.leagueListSub.next([...this.leagueList]);
-          }
-          else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              const filteredLeagueList = this.leagueList.filter(league => league.id !== leagueId);
+              this.leagueList = filteredLeagueList;
+              this.leagueListSub.next([...this.leagueList]);
+            }
+            else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
         });
     } catch (error) {
       console.log(error);
     }
   }
-
-
 }

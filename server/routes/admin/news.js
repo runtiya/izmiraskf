@@ -4,7 +4,7 @@ const multer = require('multer');
 const newsController = require('../../controllers/admin/news');
 
 const checkAuth = require('../../middlewares/check-auth');
-const checkImageMimeType = require('../../middlewares/check-image-mimetype');
+const extractTeamLogo = require('../../middlewares/extract-team-logo');
 
 const router = express.Router();
 
@@ -12,15 +12,15 @@ const router = express.Router();
 
 
 
-router.get("", newsController.getNews);
+router.get("", checkAuth, newsController.getNews);
 
-router.get("/:id", newsController.findNews);
+router.get("/:id", checkAuth, newsController.findNews);
 
-router.post("", newsController.createNews);
+router.post("", checkAuth, newsController.createNews);
 
-router.put("/:id", newsController.updateNews);
+router.put("/:id", checkAuth, newsController.updateNews);
 
-router.delete("/:id", newsController.deleteNews);
+router.delete("/:id", checkAuth, newsController.deleteNews);
 
 
 module.exports = router;

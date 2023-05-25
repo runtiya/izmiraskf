@@ -4,7 +4,7 @@ const multer = require('multer');
 const stadiumsController = require('../../controllers/admin/stadiums');
 
 const checkAuth = require('../../middlewares/check-auth');
-const checkImageMimeType = require('../../middlewares/check-image-mimetype');
+const extractTeamLogo = require('../../middlewares/extract-team-logo');
 
 const router = express.Router();
 
@@ -12,15 +12,15 @@ const router = express.Router();
 
 
 
-router.get("", stadiumsController.getStadiums);
+router.get("", checkAuth, stadiumsController.getStadiums);
 
-router.get("/:id", stadiumsController.findStadium);
+router.get("/:id", checkAuth, stadiumsController.findStadium);
 
-router.post("", stadiumsController.createStadium);
+router.post("", checkAuth, stadiumsController.createStadium);
 
-router.put("/:id", stadiumsController.updateStadium);
+router.put("/:id", checkAuth, stadiumsController.updateStadium);
 
-router.delete("/:id", stadiumsController.deleteStadium);
+router.delete("/:id", checkAuth, stadiumsController.deleteStadium);
 
 
 module.exports = router;
