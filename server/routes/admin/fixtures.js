@@ -4,21 +4,21 @@ const multer = require('multer');
 const fixturesController = require('../../controllers/admin/fixtures');
 
 const checkAuth = require('../../middlewares/check-auth');
-const checkImageMimeType = require('../../middlewares/check-image-mimetype');
+const extractTeamLogo = require('../../middlewares/extract-team-logo');
 
 const router = express.Router();
 
 
-router.get("/:groupstageid", fixturesController.getFixture);
+router.get("/:groupstageid", checkAuth, fixturesController.getFixture);
 
-router.put("/arama", fixturesController.getFixtureBySearchIndex);
+router.put("/arama", checkAuth, fixturesController.getFixtureBySearchIndex);
 
-router.post("/olustur", fixturesController.createFixture);
+router.post("/olustur", checkAuth, fixturesController.createFixture);
 
-router.put("/guncelle", fixturesController.updateFixture);
+router.put("/guncelle", checkAuth, fixturesController.updateFixture);
 
-router.delete("/sil/:id", fixturesController.deleteMatch);
+router.delete("/sil/:id", checkAuth, fixturesController.deleteMatch);
 
-router.delete("/temizle/:groupstageid", fixturesController.clearFixture)
+router.delete("/temizle/:groupstageid", checkAuth, fixturesController.clearFixture)
 
 module.exports = router;

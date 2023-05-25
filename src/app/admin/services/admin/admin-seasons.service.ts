@@ -17,14 +17,20 @@ export class SeasonsService {
         .get<{error: boolean, message: string, seasonList: SeasonsModel[]}>(
           'http://localhost:3000/admin/sezonlar'
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.seasonsList = data.seasonList;
-            this.seasonsListSub.next([...this.seasonsList]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.seasonsList = data.seasonList;
+              this.seasonsListSub.next([...this.seasonsList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
         });
+
     } catch (error) {
       console.log(error);
     }
@@ -40,15 +46,20 @@ export class SeasonsService {
         .post<{error: boolean, message: string, seasonId: number}>(
           'http://localhost:3000/admin/sezonlar', seasonInfo
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            seasonInfo.id = data.seasonId;
-            this.seasonsList.push(seasonInfo);
-            this.seasonsListSub.next([...this.seasonsList]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              seasonInfo.id = data.seasonId;
+              this.seasonsList.push(seasonInfo);
+              this.seasonsListSub.next([...this.seasonsList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }
@@ -60,20 +71,25 @@ export class SeasonsService {
         .put<{error: boolean, message: string}>(
           'http://localhost:3000/admin/sezonlar/' + seasonInfo.id, seasonInfo
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            // Replace updated object with the old one
-            this.seasonsList.forEach((item, i) => {
-              if (item.id == seasonInfo.id) {
-                this.seasonsList[i] = seasonInfo;
-                console.log(item)
-              }
-            });
-            this.seasonsListSub.next([...this.seasonsList]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              // Replace updated object with the old one
+              this.seasonsList.forEach((item, i) => {
+                if (item.id == seasonInfo.id) {
+                  this.seasonsList[i] = seasonInfo;
+                  console.log(item)
+                }
+              });
+              this.seasonsListSub.next([...this.seasonsList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }
@@ -85,15 +101,20 @@ export class SeasonsService {
         .delete<{error: boolean, message: string}>(
           'http://localhost:3000/admin/sezonlar/' + seasonId
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            const filteredSeasonsList = this.seasonsList.filter(season => season.id !== seasonId);
-            this.seasonsList = filteredSeasonsList;
-            this.seasonsListSub.next([...this.seasonsList]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              const filteredSeasonsList = this.seasonsList.filter(season => season.id !== seasonId);
+              this.seasonsList = filteredSeasonsList;
+              this.seasonsListSub.next([...this.seasonsList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }

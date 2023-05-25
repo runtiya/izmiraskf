@@ -3,6 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { globalFunctions } from "./admin/functions/global.function";
 
+import { AuthService } from "./admin/authentication/auth.service";
+
 
 @Component({
   selector: 'app-root',
@@ -16,7 +18,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private globalFunctions: globalFunctions,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private authService: AuthService
   ) {
 
   }
@@ -36,6 +39,8 @@ export class AppComponent implements OnInit {
         this.showSpinner = _displaySpinner;
       });
 
+      // Auto Authentication Control
+      this.authService.autoAuthUser();
 
   }
 

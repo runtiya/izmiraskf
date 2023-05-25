@@ -18,7 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select'
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -34,6 +34,8 @@ import { AppComponent } from './app.component';
 import { AdminHeaderComponent } from './admin/components/header/header.component';
 import { PageNotFound } from './admin/components/page-not-found/page-not-found.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AdminLogin } from "./admin/components/login/login.component";
+import { AdminLogout } from "./admin/components/logout/logout.component";
 
 import { AdminIzmirASKF } from './admin/components/aboutizmiraskf/aboutizmiraskf.component';
 import { AdminStaffIzmirAskf } from './admin/components/staff-izmiraskf-list/staff-izmiraskf-list.component';
@@ -92,15 +94,22 @@ import { AdminScoreBoard } from "./admin/components/score-board/score-board.comp
 
 import { AdminPointBoard } from "./admin/components/point-board/point-board.component";
 
+import { AdminUsersList } from "./admin/components/users-list/users-list.component";
+import { AdminUsersCreateModal } from "./admin/components/users-create/users-create.component";
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-
+import { AngularMaterialModule } from "./angular-material.module";
+import { AuthInterceptor } from './admin/authentication/auth-interceptor';
+import { ErrorInterceptor } from "./error/error-interceptor";
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminHeaderComponent,
     PageNotFound,
+    AdminLogin,
+    AdminLogout,
 
     AdminIzmirASKF,
     AdminStaffIzmirAskf,
@@ -157,7 +166,10 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 
     AdminScoreBoard,
 
-    AdminPointBoard
+    AdminPointBoard,
+
+    AdminUsersList,
+    AdminUsersCreateModal
 
   ],
   imports: [
@@ -193,13 +205,15 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     MatButtonToggleModule,
 
     FontAwesomeModule,
-    AngularEditorModule
+    AngularEditorModule,
+    AngularMaterialModule
 
   ],
   providers: [
     {provide: MatDialogRef, useValue: {}},
-    DatePipe
-
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })

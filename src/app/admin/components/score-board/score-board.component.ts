@@ -69,7 +69,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     @Input() endDatePickedValue: Date;
     @Input() townSelectionValue: string;
 
-    displayedColumnsFixture: string[] = [
+    tableColumnsFixture: string[] = [
                                             "matchNo",
                                             "homeTeam",
                                             "details",

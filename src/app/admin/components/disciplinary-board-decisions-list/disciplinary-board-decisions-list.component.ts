@@ -52,15 +52,15 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
 
     @Input() seasonSelectionId: number;
     @Input() disciplinaryBoardFileSelectionId: number;
-    displayedColumns: string[] = [
-                                    "leagueName", 
-                                    "teamName", 
-                                    "licenseNo", 
-                                    "fullName", 
-                                    "belongingTo", 
-                                    "penalType", 
-                                    "duration", 
-                                    "explanation", 
+    tableColumns: string[] = [
+                                    "leagueName",
+                                    "teamName",
+                                    "licenseNo",
+                                    "fullName",
+                                    "belongingTo",
+                                    "penalType",
+                                    "duration",
+                                    "explanation",
                                     "actions"
                                 ];
 
@@ -86,7 +86,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
                 this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
                 this.isLoading = false;
             });
-        
+
         this.isLoading = true;
         this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
             .subscribe((data: DisciplinaryBoardFileModel[]) => {
@@ -95,14 +95,14 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
                 this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
                 this.isLoading = false;
             });
-        
+
         this.isLoading = true;
         this.leaguesListSubscription = this.leaguesService.getLeagueListUpdateListener()
             .subscribe((data: LeaguesModel[]) => {
                 this.leaguesList = data.sort((a, b) => a.orderNo - b.orderNo);
                 this.isLoading = false;
             });
-        
+
         this.isLoading = true;
         this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisionsUpdateListener()
             .subscribe((data: DisciplinaryBoardDecisionModel[]) => {
@@ -118,7 +118,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
                 this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
                 this.isLoading = false;
             });
-        
+
     }
 
     onSeasonChange() {
@@ -149,7 +149,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
 
     findBelongingTo(belongingTo: string): string {
         return belongingTo ? this.disciplinaryBelongingToList.find(b => b.name == belongingTo).value : null;
-        
+
     }
 
     onCreate() {
@@ -202,6 +202,6 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
         this.leaguesListSubscription.unsubscribe();
         this.teamsListSubscription.unsubscribe();
         this.disciplinaryBoardFilesListSubscription.unsubscribe();
-        this.disciplinaryBoardDecisionsListSubscription.unsubscribe();   
+        this.disciplinaryBoardDecisionsListSubscription.unsubscribe();
     }
 }

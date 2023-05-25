@@ -4,18 +4,18 @@ const multer = require('multer');
 const seasonsController = require('../../controllers/admin/seasons');
 
 const checkAuth = require('../../middlewares/check-auth');
-const checkImageMimeType = require('../../middlewares/check-image-mimetype');
+const extractTeamLogo = require('../../middlewares/extract-team-logo');
 
 const router = express.Router();
 
 
-router.get("", seasonsController.getSeasons);
+router.get("", checkAuth, seasonsController.getSeasons);
 
-router.post("", seasonsController.createSeason);
+router.post("", checkAuth, seasonsController.createSeason);
 
-router.put("/:id", seasonsController.updateSeason);
+router.put("/:id", checkAuth, seasonsController.updateSeason);
 
-router.delete("/:id", seasonsController.deleteSeason)
+router.delete("/:id", checkAuth, seasonsController.deleteSeason)
 
 
 module.exports = router;

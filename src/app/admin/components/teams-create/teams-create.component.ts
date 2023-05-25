@@ -80,10 +80,11 @@ export class TeamsCreateModal implements OnInit {
   }
 
   onFilePicked(event: Event) {
+
     try {
 
       const file = (event.target as HTMLInputElement).files[0];
-      this.teamSubmitForm.patchValue({logoImage: file});
+      this.teamSubmitForm.patchValue({logoImage: file, fileName: 'test'});
       this.teamSubmitForm.get('logoImage').updateValueAndValidity();
       const reader = new FileReader();
       reader.onload = () => {
@@ -93,9 +94,11 @@ export class TeamsCreateModal implements OnInit {
     } catch (error) {
       console.log(error);
     }
+
   }
 
   onSubmitForm() {
+
     if (this.teamSubmitForm.valid) {
       this.isLoading = true;
       this.teamSubmitForm.get('colorCodes').enable();
@@ -113,6 +116,7 @@ export class TeamsCreateModal implements OnInit {
     else {
       return null;
     }
+
   }
 
   onOfficialNameChange(event: any) {

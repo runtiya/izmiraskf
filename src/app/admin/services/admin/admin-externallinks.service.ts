@@ -17,14 +17,19 @@ export class ExternalLinksService {
         .get<{error: boolean, message: string, externalLinks: ExternalLinksModel[]}>(
           'http://localhost:3000/admin/disbaglantilar'
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.extLinksList = data.externalLinks;
-            this.extLinksListSub.next([...this.extLinksList]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.extLinksList = data.externalLinks;
+              this.extLinksListSub.next([...this.extLinksList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }
@@ -40,17 +45,22 @@ export class ExternalLinksService {
         .post<{error: boolean, message: string, linkId: number}>(
           'http://localhost:3000/admin/disbaglantilar', linkInfo
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            console.log(data.message);
-            console.log(data.linkId);
-            linkInfo.id = data.linkId;
-            this.extLinksList.push(linkInfo);
-            this.extLinksListSub.next([...this.extLinksList]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              console.log(data.message);
+              console.log(data.linkId);
+              linkInfo.id = data.linkId;
+              this.extLinksList.push(linkInfo);
+              this.extLinksListSub.next([...this.extLinksList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }
@@ -62,19 +72,24 @@ export class ExternalLinksService {
         .put<{error: boolean, message: string}>(
           'http://localhost:3000/admin/disbaglantilar/' + linkInfo.id, linkInfo
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            // Replace updated object with the old one
-            this.extLinksList.forEach((item, i) => {
-              if (item.id == linkInfo.id) {
-                this.extLinksList[i] = linkInfo;
-              }
-            });
-            this.extLinksListSub.next([...this.extLinksList]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              // Replace updated object with the old one
+              this.extLinksList.forEach((item, i) => {
+                if (item.id == linkInfo.id) {
+                  this.extLinksList[i] = linkInfo;
+                }
+              });
+              this.extLinksListSub.next([...this.extLinksList]);
+            } else {
+              console.log(data.message);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }
@@ -86,14 +101,19 @@ export class ExternalLinksService {
         .delete<{error: boolean, message: string}>(
           'http://localhost:3000/admin/disbaglantilar/' + linkId
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            console.log(data.message);
-            const filteredLinksList = this.extLinksList.filter(link => link.id !== linkId);
-            this.extLinksList = filteredLinksList;
-            this.extLinksListSub.next([...this.extLinksList]);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              console.log(data.message);
+              const filteredLinksList = this.extLinksList.filter(link => link.id !== linkId);
+              this.extLinksList = filteredLinksList;
+              this.extLinksListSub.next([...this.extLinksList]);
+            }
+          },
+          error: (error) => {
+
           }
-        })
+        });
     } catch (error) {
       console.log(error);
     }

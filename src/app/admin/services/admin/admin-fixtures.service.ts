@@ -23,14 +23,19 @@ export class FixtureService {
         .get<{error: boolean, message: string, fixtureList: FixtureModel[]}>(
           'http://localhost:3000/admin/fikstur/' + groupstageId
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.fixtureList = data.fixtureList;
-            !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.fixtureList = data.fixtureList;
+              !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
+            } else {
+              console.log(data.message);
+            }
+            this.globalFunctions.showSpinner.next(false);
+          },
+          error: (error) => {
+
           }
-          this.globalFunctions.showSpinner.next(false);
         });
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
@@ -40,7 +45,6 @@ export class FixtureService {
   }
 
   getFixtureBySearchIndex(fixtureSearchIndex: FixtureSearchModel) {
-    
     try {
       this.globalFunctions.showSpinner.next(true);
       // Not known why http.get doesn't work!
@@ -48,21 +52,26 @@ export class FixtureService {
         .put<{error: boolean, message: string, fixtureList: FixtureModel[]}>(
           'http://localhost:3000/admin/fikstur/arama', fixtureSearchIndex
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.fixtureList = data.fixtureList;
-            !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-          } else {
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.fixtureList = data.fixtureList;
+              !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
+            } else {
+              console.log(data.message);
+            }
+            this.globalFunctions.showSpinner.next(false);
+          },
+          error: (error) => {
+
           }
-          this.globalFunctions.showSpinner.next(false);
         });
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
       console.log(error);
     }
-    
+
   }
 
   getFixtureUpdateListener() {
@@ -76,14 +85,19 @@ export class FixtureService {
         .post<{error: boolean, message: string, fixtureList: FixtureModel[]}>(
           'http://localhost:3000/admin/fikstur/olustur', _fixtureList
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.getFixture(_groupstageId);
-          } else {
-            this.globalFunctions.showSnackBar.next('Hata! Fikstür oluşturulamadı!');
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.getFixture(_groupstageId);
+            } else {
+              this.globalFunctions.showSnackBar.next('Hata! Fikstür oluşturulamadı!');
+              console.log(data.message);
+            }
+            this.globalFunctions.showSpinner.next(false);
+          },
+          error: (error) => {
+
           }
-          this.globalFunctions.showSpinner.next(false);
         });
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
@@ -99,20 +113,25 @@ export class FixtureService {
         .put<{error: boolean, message: string}>(
           'http://localhost:3000/admin/fikstur/guncelle', _fixtureList
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            // Replace updated object with the old one
-            for (let f = 0; f < _fixtureList.length; f++) {
-              let match = _fixtureList[f];
-              let index = this.fixtureList.findIndex(m => m.id == match.id);
-              this.fixtureList[index] = match;
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              // Replace updated object with the old one
+              for (let f = 0; f < _fixtureList.length; f++) {
+                let match = _fixtureList[f];
+                let index = this.fixtureList.findIndex(m => m.id == match.id);
+                this.fixtureList[index] = match;
+              }
+              this.fixtureListSub.next([...this.fixtureList]);
+            } else {
+              this.globalFunctions.showSnackBar.next('Hata! Müsabaka güncellenemedi');
+              console.log(data.message);
             }
-            this.fixtureListSub.next([...this.fixtureList]);
-          } else {
-            this.globalFunctions.showSnackBar.next('Hata! Müsabaka güncellenemedi');            
-            console.log(data.message);
+            this.globalFunctions.showSpinner.next(false);
+          },
+          error: (error) => {
+
           }
-          this.globalFunctions.showSpinner.next(false);
         });
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
@@ -151,14 +170,19 @@ export class FixtureService {
         .delete<{error: boolean, message: string}>(
           'http://localhost:3000/admin/fikstur/sil/' +_id
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.fixtureList = this.fixtureList.filter(fixture => fixture.id !== _id);
-            !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-          } else {
-            this.globalFunctions.showSnackBar.next('Hata! Müsabaka silinemedi!');
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.fixtureList = this.fixtureList.filter(fixture => fixture.id !== _id);
+              !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
+            } else {
+              this.globalFunctions.showSnackBar.next('Hata! Müsabaka silinemedi!');
+            }
+            this.globalFunctions.showSpinner.next(false);
+          },
+          error: (error) => {
+
           }
-          this.globalFunctions.showSpinner.next(false);
         });
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
@@ -174,15 +198,20 @@ export class FixtureService {
         .delete<{error: boolean, message: string}>(
           'http://localhost:3000/admin/fikstur/temizle/' + _groupstageId
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.fixtureList = [];
-            !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-          } else {
-            this.globalFunctions.showSnackBar.next('Hata! Fikstür silinemedi!');
-            console.log(data.message);
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.fixtureList = [];
+              !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
+            } else {
+              this.globalFunctions.showSnackBar.next('Hata! Fikstür silinemedi!');
+              console.log(data.message);
+            }
+            this.globalFunctions.showSpinner.next(false);
+          },
+          error: (error) => {
+
           }
-          this.globalFunctions.showSpinner.next(false);
         });
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);

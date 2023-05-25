@@ -19,15 +19,15 @@ export class AdminSeasonsList {
   isLoading = false;
   seasonsList: SeasonsModel[] = [];
   private seasonsListSubscription: Subscription;
-  displayedColumns: string[] = [
-                                "seasonName", 
-                                "seasonYear", 
-                                "isActive", 
+  tableColumns: string[] = [
+                                "seasonName",
+                                "seasonYear",
+                                "isActive",
                                 "actions"
                               ];
 
   constructor(
-              public seasonsService: SeasonsService, 
+              public seasonsService: SeasonsService,
               public dialog: MatDialog
             ) {}
 

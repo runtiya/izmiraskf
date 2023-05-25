@@ -1,0 +1,56 @@
+<div class="container">
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>{{headerTitle}}</span>
+  </mat-toolbar>
+
+  <mat-card>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <form
+      [formGroup]="userForm"
+      (submit)="onLogin()"
+      *ngIf="!isLoading"
+    >
+      <div class="col-12">
+        <mat-form-field class="form-input">
+          <mat-label>Kullanıcı Adı</mat-label>
+          <input
+            matInput
+            class="input"
+            type="email"
+            formControlName="userName"
+            placeholder="Kullanıcı Adı"
+          >
+          <mat-hint align="end">{{userForm.get('userName').value ? userForm.get('userName').value.length : 0}}/200</mat-hint>
+          <mat-error *ngIf="userForm.get('userName').invalid">
+            Lütfen kullanıcı adınızı giriniz! (örn: isim.soyisim@izmiraskf.com)
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-input">
+          <mat-label>Şifre</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="userPassword"
+            placeholder="Şifre"
+          >
+          <mat-hint align="end">{{userForm.get('userPassword').value ? userForm.get('userPassword').value.length : 0}}/200</mat-hint>
+          <mat-error *ngIf="userForm.get('userPassword').invalid">
+            Lütfen şifrenizi giriniz!
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <mat-action-row>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+        >
+          Giriş
+        </button>
+      </mat-action-row>
+    </form>
+  </mat-card>
+</div>

@@ -4,20 +4,20 @@ const multer = require('multer');
 const teamsingroupstagesController = require('../../controllers/admin/teamsingroupstages');
 
 const checkAuth = require('../../middlewares/check-auth');
-const checkImageMimeType = require('../../middlewares/check-image-mimetype');
+const extractTeamLogo = require('../../middlewares/extract-team-logo');
 
 const router = express.Router();
 
 
-router.get("/:groupstageId", teamsingroupstagesController.getTeamsInGroupstages);
+router.get("/:groupstageId", checkAuth, teamsingroupstagesController.getTeamsInGroupstages);
 
-router.get("", teamsingroupstagesController.getTeamsForGroupstages);
+router.get("", checkAuth, teamsingroupstagesController.getTeamsForGroupstages);
 
-router.post("/:groupstageId", teamsingroupstagesController.createTeamsInGroupstages);
+router.post("/:groupstageId", checkAuth, teamsingroupstagesController.createTeamsInGroupstages);
 
-router.put("", teamsingroupstagesController.updateTeamsForGroupstages)
+router.put("", checkAuth, teamsingroupstagesController.updateTeamsForGroupstages)
 
-router.delete("/:groupstageId", teamsingroupstagesController.deleteTeamsInGroupstages);
+router.delete("/:groupstageId", checkAuth, teamsingroupstagesController.deleteTeamsInGroupstages);
 
 
 module.exports = router;

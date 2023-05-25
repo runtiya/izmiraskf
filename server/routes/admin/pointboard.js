@@ -4,7 +4,7 @@ const multer = require('multer');
 const pointBoardController = require('../../controllers/admin/pointboard');
 
 const checkAuth = require('../../middlewares/check-auth');
-const checkImageMimeType = require('../../middlewares/check-image-mimetype');
+const extractTeamLogo = require('../../middlewares/extract-team-logo');
 
 const router = express.Router();
 

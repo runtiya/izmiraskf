@@ -8,7 +8,6 @@ export const imageUploadValidator = (control: AbstractControl): Promise<{[key: s
     return of(null);
   }
   const file = control.value as File;
-  console.log(file);
   const fileReader = new FileReader();
   const fileReaderObservable = new Observable((observer: Observer<{[key: string]: any}>) => {
     fileReader.addEventListener("loadend", () => {

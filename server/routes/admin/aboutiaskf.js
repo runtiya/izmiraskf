@@ -4,13 +4,13 @@ const multer = require('multer');
 const aboutiaskfController = require('../../controllers/admin/aboutiaskf');
 
 const checkAuth = require('../../middlewares/check-auth');
-const checkImageMimeType = require('../../middlewares/check-image-mimetype');
+const extractTeamLogo = require('../../middlewares/extract-team-logo');
 
 const router = express.Router();
 
 
-router.get("", aboutiaskfController.getAboutContent);
+router.get("", checkAuth, aboutiaskfController.getAboutContent);
 
-router.put("", aboutiaskfController.updateAboutContent);
+router.put("", checkAuth, aboutiaskfController.updateAboutContent);
 
 module.exports = router;

@@ -67,7 +67,7 @@ export class AdminPointBoard implements OnInit, OnDestroy {
   @Input() groupstageSelectionId: number;
   @Input() matchWeekSelectionValue: number;
 
-  displayedColumnsPointBoard: string[] = [
+  tableColumnsPointBoard: string[] = [
                                             "order",
                                             "team",
                                             "played",

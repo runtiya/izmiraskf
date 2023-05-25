@@ -4,18 +4,18 @@ const multer = require('multer');
 const externalLinksController = require('../../controllers/admin/externallinks');
 
 const checkAuth = require('../../middlewares/check-auth');
-const checkImageMimeType = require('../../middlewares/check-image-mimetype');
+const extractTeamLogo = require('../../middlewares/extract-team-logo');
 
 const router = express.Router();
 
 
-router.get("", externalLinksController.getExternalLinks);
+router.get("", checkAuth, externalLinksController.getExternalLinks);
 
-router.post("", externalLinksController.createExternalLink);
+router.post("", checkAuth, externalLinksController.createExternalLink);
 
-router.put("/:id", externalLinksController.updateExternalLink);
+router.put("/:id", checkAuth, externalLinksController.updateExternalLink);
 
-router.delete("/:id", externalLinksController.deleteExternalLink)
+router.delete("/:id", checkAuth, externalLinksController.deleteExternalLink)
 
 
 module.exports = router;

@@ -27,17 +27,17 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
   leagueCategoryList = leagueCategoryList;
   leagueTypeList = leagueTypeList;
   @Input() seasonSelectionId: number;
-  displayedColumns: string[] = [
-                                "leagueName", 
-                                "category", 
-                                "leagueType", 
-                                "isActive", 
+  tableColumns: string[] = [
+                                "leagueName",
+                                "category",
+                                "leagueType",
+                                "isActive",
                                 "actions"
                               ];
 
   constructor(
-    public leagueService: LeaguesService, 
-    public seasonsService: SeasonsService, 
+    public leagueService: LeaguesService,
+    public seasonsService: SeasonsService,
     public dialog: MatDialog
     ){}
 

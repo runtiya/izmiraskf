@@ -20,8 +20,9 @@ const adminSeasonsRoutes = require('./routes/admin/seasons');
 const adminLeaguesRoutes = require('./routes/admin/leagues');
 const adminGroupsRoutes = require('./routes/admin/groupstages');
 const adminTeamsInGroupsRoutes = require('./routes/admin/teamsingroupstages');
-const adminFixtures = require('./routes/admin/fixtures');
-const adminPointBoard = require('./routes/admin/pointboard');
+const adminFixturesRoutes = require('./routes/admin/fixtures');
+const adminPointBoardRoutes = require('./routes/admin/pointboard');
+const adminAuthenticationRoutes = require('./routes/admin/authentication');
 
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -53,8 +54,8 @@ app.use('/admin/sezonlar', adminSeasonsRoutes);
 app.use('/admin/ligler', adminLeaguesRoutes);
 app.use('/admin/grup-takim-eslesmeleri', adminTeamsInGroupsRoutes);
 app.use('/admin/gruplar', adminGroupsRoutes);
-app.use('/admin/fikstur', adminFixtures);
-app.use('/admin/puan-durumu', adminPointBoard);
-
+app.use('/admin/fikstur', adminFixturesRoutes);
+app.use('/admin/puan-durumu', adminPointBoardRoutes);
+app.use('/admin/kullanicilar', adminAuthenticationRoutes);
 
 module.exports = app;

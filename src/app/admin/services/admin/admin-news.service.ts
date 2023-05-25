@@ -64,20 +64,23 @@ export class NewsService {
 
   addNews(news: NewsModel) {
     try {
-
       this.http
         .post<{error: boolean, message: string, newsId: number}>(
           'http://localhost:3000/admin/haberler', news
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            news.id = data.newsId;
-            this.newsList.push(news);
-            this.newsUpdated.next([...this.newsList]);
-          } else {
-            this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-          }
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              news.id = data.newsId;
+              this.newsList.push(news);
+              this.newsUpdated.next([...this.newsList]);
+            } else {
+              this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+            }
+          },
+          error: (error) => {
 
+          }
         });
     } catch (error) {
 
@@ -92,15 +95,19 @@ export class NewsService {
         .delete<{error: boolean, message: string}>(
           'http://localhost:3000/admin/haberler/' + newsId
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            const updatedNews = this.newsList.filter(news => news.id !== newsId);
-            this.newsList = updatedNews;
-            this.newsUpdated.next([...this.newsList]);
-          } else {
-            this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-          }
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              const updatedNews = this.newsList.filter(news => news.id !== newsId);
+              this.newsList = updatedNews;
+              this.newsUpdated.next([...this.newsList]);
+            } else {
+              this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+            }
+          },
+          error: (error) => {
 
+          }
         });
     } catch (error) {
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
@@ -115,24 +122,27 @@ export class NewsService {
         .put<{error: boolean, message: string}>(
           'http://localhost:3000/admin/haberler/' + news.id, news
         )
-        .subscribe((data) => {
-          if (!data.error) {
-            // Add Angular Component Snackbar OR Bootstrap Toasts
-            this.newsList.forEach((item, i) => {
-              if (item.id == news.id) {
-                this.newsList[i] = news;
-              }
-            });
-            this.newsUpdated.next([...this.newsList]);
-          }
-          else {
-            this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              // Add Angular Component Snackbar OR Bootstrap Toasts
+              this.newsList.forEach((item, i) => {
+                if (item.id == news.id) {
+                  this.newsList[i] = news;
+                }
+              });
+              this.newsUpdated.next([...this.newsList]);
+            }
+            else {
+              this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+            }
+          },
+          error: (error) => {
+
           }
         });
     } catch (error) {
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
     }
-
   }
-
 }

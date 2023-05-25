@@ -1,5 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AdminLogin } from "./admin/components/login/login.component";
+import { AdminLogout } from "./admin/components/logout/logout.component";
 import { AdminStatistics } from "./admin/components/statistics/statistics.component";
 import { AboutStaffIASKFWrapComponent } from "./admin/components/about-staff-iaskf-wrap/about-staff-iaskf-wrap.component";
 import { AboutStaffITFFWrapComponent } from "./admin/components/about-staff-itff-wrap/about-staff-itff-wrap.component";
@@ -26,43 +28,52 @@ import { FixtureCreate } from "./admin/components/fixture-create/fixture-create.
 import { AdminScoreBoard } from "./admin/components/score-board/score-board.component";
 import { AdminPointBoard } from "./admin/components/point-board/point-board.component";
 
-import { PageNotFound } from "./admin/components/page-not-found/page-not-found.component";
+import { AdminUsersList } from "./admin/components/users-list/users-list.component";
 
+import { PageNotFound } from "./admin/components/page-not-found/page-not-found.component";
+import { AuthGuard } from "./admin/authentication/auth-guard";
+import { AuthModule } from "./admin/authentication/auth.module";
 
 const routes: Routes = [
-  {path: 'admin', component: AdminStatistics},
-  {path: 'admin/izmiraskf', component: AboutStaffIASKFWrapComponent},
-  {path: 'admin/izmirtffiltemsilciligi', component: AboutStaffITFFWrapComponent},
-  {path: 'admin/haberler', component: NewsWrapComponent},
-  {path: 'admin/disbaglantilar', component: AdminExternalLinks},
+  {path: 'admin/anasayfa', component: AdminStatistics, canActivate: [AuthGuard]},
+  {path: 'admin/kullanici-giris', component: AdminLogin},
+  {path: 'admin/kullanici-guvenli-cikis', component: AdminLogout},
+  {path: 'admin/izmiraskf', component: AboutStaffIASKFWrapComponent, canActivate: [AuthGuard]},
+  {path: 'admin/izmirtffiltemsilciligi', component: AboutStaffITFFWrapComponent, canActivate: [AuthGuard]},
+  {path: 'admin/haberler', component: NewsWrapComponent, canActivate: [AuthGuard]},
+  {path: 'admin/disbaglantilar', component: AdminExternalLinks, canActivate: [AuthGuard]},
 
-  {path: 'admin/amatorligstatuleri', component: AdminDocumentStatuses},
-  {path: 'admin/talimatlar', component: AdminDocumentInstructions},
-  {path: 'admin/lisansformlari', component: AdminDocumentLicenseForms},
-  {path: 'admin/belgeler', component: AdminDocumentDocuments},
+  {path: 'admin/amatorligstatuleri', component: AdminDocumentStatuses, canActivate: [AuthGuard]},
+  {path: 'admin/talimatlar', component: AdminDocumentInstructions, canActivate: [AuthGuard]},
+  {path: 'admin/lisansformlari', component: AdminDocumentLicenseForms, canActivate: [AuthGuard]},
+  {path: 'admin/belgeler', component: AdminDocumentDocuments, canActivate: [AuthGuard]},
 
-  {path: 'admin/sahalar', component: StadiumsListComponent},
-  {path: 'admin/takimlar', component: TeamsList},
-  {path: 'admin/disiplin-kurulu-dosyalari', component: AdminDisciplinaryBoardFilesList},
-  {path: 'admin/disiplin-kurulu-kararlari', component: AdminDisciplinaryBoardDecisionsList},
+  {path: 'admin/sahalar', component: StadiumsListComponent, canActivate: [AuthGuard]},
+  {path: 'admin/takimlar', component: TeamsList, canActivate: [AuthGuard]},
+  {path: 'admin/disiplin-kurulu-dosyalari', component: AdminDisciplinaryBoardFilesList, canActivate: [AuthGuard]},
+  {path: 'admin/disiplin-kurulu-kararlari', component: AdminDisciplinaryBoardDecisionsList, canActivate: [AuthGuard]},
 
-  {path: 'admin/sezonlar', component: AdminSeasonsList},
-  {path: 'admin/ligler', component: AdminLeaguesList},
-  {path: 'admin/gruplar', component: AdminGroupList},
-  {path: 'admin/gruplar/takimlar', component: TeamsInGroupstages},
-  {path: 'admin/gruplar/ihrac-ve-cekilme', component: TeamsInDisqualifications},
+  {path: 'admin/sezonlar', component: AdminSeasonsList, canActivate: [AuthGuard]},
+  {path: 'admin/ligler', component: AdminLeaguesList, canActivate: [AuthGuard]},
+  {path: 'admin/gruplar', component: AdminGroupList, canActivate: [AuthGuard]},
+  {path: 'admin/gruplar/takimlar', component: TeamsInGroupstages, canActivate: [AuthGuard]},
+  {path: 'admin/gruplar/ihrac-ve-cekilme', component: TeamsInDisqualifications, canActivate: [AuthGuard]},
 
-  {path: 'admin/fikstur', component: FixtureCreate},
-  {path: 'admin/skor-tablosu', component: AdminScoreBoard},
-  {path: 'admin/puan-tablosu', component: AdminPointBoard},
+  {path: 'admin/fikstur', component: FixtureCreate, canActivate: [AuthGuard]},
+  {path: 'admin/skor-tablosu', component: AdminScoreBoard, canActivate: [AuthGuard]},
+  {path: 'admin/puan-tablosu', component: AdminPointBoard, canActivate: [AuthGuard]},
+
+  {path: 'admin/kullanicilar', component: AdminUsersList, canActivate: [AuthGuard]},
+
 
   {path: '**', pathMatch: "full", component: PageNotFound},
+  {path: 'auth', loadChildren: () => import("./admin/authentication/auth.module").then(m => m.AuthModule)}
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-
+  providers: [AuthGuard]
 })
 export class AppRoutingModule {
 

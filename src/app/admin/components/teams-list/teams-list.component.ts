@@ -18,7 +18,7 @@ export class TeamsList implements OnInit, OnDestroy {
   teamsList: TeamsModel[] = [];
   private teamsListSub: Subscription;
 
-  constructor(public teamsService: TeamsService, public dialog: MatDialog) {}
+  constructor(private teamsService: TeamsService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -39,7 +39,6 @@ export class TeamsList implements OnInit, OnDestroy {
   }
 
   onEdit(teamInfo: TeamsModel) {
-    console.log(teamInfo);
     const dialogRef = this.dialog.open(TeamsCreateModal, {
       data: {
         pageMode: "edit",

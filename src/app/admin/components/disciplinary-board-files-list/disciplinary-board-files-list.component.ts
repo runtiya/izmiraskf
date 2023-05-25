@@ -19,19 +19,19 @@ export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
 
     headerTitle = "DİSİPLİN KURULU DOSYALARI";
     isLoading = false;
-    
+
     seasonsList: SeasonsModel[] = [];
     private seasonsListSubscription: Subscription;
     disciplinaryBoardFilesList: DisciplinaryBoardFileModel[] = [];
     private disciplinaryBoardFilesListSubscription: Subscription;
 
     @Input() seasonSelectionId: number;
-    displayedColumns: string[] = [
-                                    "seasonName", 
-                                    "caseNo", 
-                                    "caseDate", 
-                                    "title", 
-                                    "explanation", 
+    tableColumns: string[] = [
+                                    "seasonName",
+                                    "caseNo",
+                                    "caseDate",
+                                    "title",
+                                    "explanation",
                                     "actions"
                                 ];
 
@@ -51,7 +51,7 @@ export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
                 this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId);
                 this.isLoading = false;
             });
-        
+
         this.isLoading = true;
         this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
             .subscribe((data: DisciplinaryBoardFileModel[]) => {
@@ -73,7 +73,7 @@ export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
     }
 
     onCreate() {
-        
+
         const dialogRef = this.dialog.open(AdminDisciplinaryBoardCreateModal, {
           data: {
             pageMode: 'create',
@@ -82,7 +82,7 @@ export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
             disciplinaryBoardFileInfo: null
           }
         });
-        
+
     }
 
     onEdit(disciplinaryBoardFile: DisciplinaryBoardFileModel) {

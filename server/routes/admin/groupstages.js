@@ -4,22 +4,22 @@ const multer = require('multer');
 const groupsController = require('../../controllers/admin/groupstages');
 
 const checkAuth = require('../../middlewares/check-auth');
-const checkImageMimeType = require('../../middlewares/check-image-mimetype');
+const extractTeamLogo = require('../../middlewares/extract-team-logo');
 
 const router = express.Router();
 
 
-router.get("/hafta-siralamasi/:id", groupsController.getWeekSequence);
+router.get("/hafta-siralamasi/:id", checkAuth, groupsController.getWeekSequence);
 
-router.get("/son-musabaka-haftasi/:id", groupsController.getPlayedLastMatchWeek);
+router.get("/son-musabaka-haftasi/:id", checkAuth, groupsController.getPlayedLastMatchWeek);
 
-router.get("/:leagueid", groupsController.getGroupStages);
+router.get("/:leagueid", checkAuth, groupsController.getGroupStages);
 
-router.post("", groupsController.createGroupStage);
+router.post("", checkAuth, groupsController.createGroupStage);
 
-router.put("/:id", groupsController.updateGroupStage);
+router.put("/:id", checkAuth, groupsController.updateGroupStage);
 
-router.delete("/:id", groupsController.deleteGroupStage)
+router.delete("/:id", checkAuth, groupsController.deleteGroupStage)
 
 
 module.exports = router;
