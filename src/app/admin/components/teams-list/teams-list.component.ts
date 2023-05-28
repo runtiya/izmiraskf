@@ -3,8 +3,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 
 import { TeamsModel } from "../../models/admin-teams.model";
-import { TeamsService } from "../../services/admin/admin-teams.service";
-import { TeamsCreateModal } from "../teams-create/teams-create.component";
+import { TeamsService } from "../../services/admin-teams.service";
+import { AdminTeamsCreateModal } from "../teams-create/teams-create.component";
 
 
 @Component({
@@ -12,7 +12,7 @@ import { TeamsCreateModal } from "../teams-create/teams-create.component";
   templateUrl: './teams-list.component.html',
   styleUrls: ['../../../app.component.css', './teams-list.component.css']
 })
-export class TeamsList implements OnInit, OnDestroy {
+export class AdminTeamsList implements OnInit, OnDestroy {
   headerTitle = "TAKIMLAR";
   isLoading = false;
   teamsList: TeamsModel[] = [];
@@ -31,7 +31,7 @@ export class TeamsList implements OnInit, OnDestroy {
   }
 
   onCreate() {
-    const dialogRef = this.dialog.open(TeamsCreateModal, {
+    const dialogRef = this.dialog.open(AdminTeamsCreateModal, {
       data: {
         pageMode: "create"
       }
@@ -39,7 +39,7 @@ export class TeamsList implements OnInit, OnDestroy {
   }
 
   onEdit(teamInfo: TeamsModel) {
-    const dialogRef = this.dialog.open(TeamsCreateModal, {
+    const dialogRef = this.dialog.open(AdminTeamsCreateModal, {
       data: {
         pageMode: "edit",
         teamInfo: teamInfo

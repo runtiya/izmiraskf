@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
-import { LeaguesModel } from "../../models/admin-leagues.model";
+import { LeaguesModel } from "../models/admin-leagues.model";
 
 @Injectable({providedIn: 'root'})
 export class LeaguesService {

@@ -5,6 +5,6 @@ import { Component, Input } from "@angular/core";
   templateUrl: './news-wrap-component.component.html',
   styleUrls: ['../../../app.component.css', './news-wrap-component.component.css']
 })
-export class NewsWrapComponent {
+export class AdminNewsWrapComponent {
 
 }

@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
 import { UserModel } from "../models/admin-users.model";
 import { environment } from "../../../environments/environment";
 
-import { globalFunctions } from "../functions/global.function";
+import { globalFunctions } from "../../functions/global.function";
 
 
 @Injectable({providedIn: 'root'})

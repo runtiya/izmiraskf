@@ -7,14 +7,14 @@ import { DatePipe } from "@angular/common";
 
 
 import { DisciplinaryBoardDecisionModel } from "../../models/admin-disciplinaryboarddecisions.model";
-import { DisciplinaryBoardDecisionsService } from "../../services/admin/admin-disciplinaryboarddecisions.service";
+import { DisciplinaryBoardDecisionsService } from "../../services/admin-disciplinaryboarddecisions.service";
 
 import { DisciplinaryBoardFileModel } from "../../models/admin-disciplinaryboardfiles.model";
 import { LeaguesModel } from "../../models/admin-leagues.model";
 import { TeamsModel } from "../../models/admin-teams.model";
 
-import { disciplinaryBelongingToList } from "../../assets/lists/disciplinary-belongingto-list";
-import { disciplinaryPenalTypeList } from "../../assets/lists/disciplinary-penaltype-list";
+import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto-list";
+import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype-list";
 
 @Component({
     selector: 'app-admin-disciplinary-board-decisions-create',

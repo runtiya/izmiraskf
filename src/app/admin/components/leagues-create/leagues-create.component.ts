@@ -4,9 +4,9 @@ import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angul
 import { Data } from "@angular/router";
 
 
-import { LeaguesService } from "../../services/admin/admin-leagues.service";
-import { leagueCategoryList } from "../../assets/lists/league-category-list";
-import { leagueTypeList } from "../../assets/lists/league-type-list";
+import { LeaguesService } from "../../services/admin-leagues.service";
+import { leagueCategoryList } from "../../../assets/lists/league-category-list";
+import { leagueTypeList } from "../../../assets/lists/league-type-list";
 
 @Component({
   selector: 'app-admin-leagues-create',

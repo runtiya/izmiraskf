@@ -3,13 +3,13 @@ import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 
 import { SeasonsModel } from "../../models/admin-seasons.model";
-import { SeasonsService } from "../../services/admin/admin-seasons.service";
+import { SeasonsService } from "../../services/admin-seasons.service";
 import { LeaguesModel } from "../../models/admin-leagues.model";
-import { LeaguesService } from "../../services/admin/admin-leagues.service";
+import { LeaguesService } from "../../services/admin-leagues.service";
 import { AdminLeaguesCreateModal } from "../leagues-create/leagues-create.component";
 
-import { leagueCategoryList } from "../../assets/lists/league-category-list";
-import { leagueTypeList } from "../../assets/lists/league-type-list";
+import { leagueCategoryList } from "../../../assets/lists/league-category-list";
+import { leagueTypeList } from "../../../assets/lists/league-type-list";
 
 @Component({
   selector: 'app-admin-leagues-list',

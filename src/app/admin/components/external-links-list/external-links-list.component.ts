@@ -3,9 +3,9 @@ import { Subscription } from 'rxjs';
 import { MatDialog } from "@angular/material/dialog";
 
 import { ExternalLinksModel } from "../../models/admin-externallinks.model";
-import { ExternalLinksService } from "../../services/admin/admin-externallinks.service";
+import { ExternalLinksService } from "../../services/admin-externallinks.service";
 import { AdminExternalLinksCreateModal } from "../external-links-create/external-links-create.component";
-import { faBrandList } from "../../assets/lists/font-awesome-brand-list";
+import { faBrandList } from "../../../assets/lists/font-awesome-brand-list";
 
 
 @Component({

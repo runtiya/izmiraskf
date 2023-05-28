@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject, Observable } from "rxjs";
 
-import { GroupStagesModel } from "../../models/admin-groupstages.model";
+import { GroupStagesModel } from "../models/admin-groupstages.model";
 
 
 

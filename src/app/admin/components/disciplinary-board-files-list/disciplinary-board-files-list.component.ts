@@ -3,9 +3,9 @@ import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 
 import { DisciplinaryBoardFileModel } from "../../models/admin-disciplinaryboardfiles.model";
-import { DisciplinaryBoardFilesService } from "../../services/admin/admin-disciplinaryboardfiles.service";
+import { DisciplinaryBoardFilesService } from "../../services/admin-disciplinaryboardfiles.service";
 
-import { SeasonsService } from "../../services/admin/admin-seasons.service";
+import { SeasonsService } from "../../services/admin-seasons.service";
 import { SeasonsModel } from "../../models/admin-seasons.model";
 
 import { AdminDisciplinaryBoardCreateModal } from "../disciplinary-board-files-create/disciplinary-board-files-create.component";

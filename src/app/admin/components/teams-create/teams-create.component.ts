@@ -5,10 +5,10 @@ import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angul
 import { Data } from "@angular/router";
 import { Subscription } from "rxjs";
 
-import { TeamsService } from "../../services/admin/admin-teams.service";
-import { StadiumsService } from "../../services/admin/admin-stadiums.service";
+import { TeamsService } from "../../services/admin-teams.service";
+import { StadiumsService } from "../../services/admin-stadiums.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-import { townList } from "../../assets/lists/town-list-izmir";
+import { townList } from "../../../assets/lists/town-list-izmir";
 
 import { StadiumsModel } from "../../models/admin-stadiums.model";
 
@@ -20,7 +20,7 @@ import { StadiumsModel } from "../../models/admin-stadiums.model";
   styleUrls: ['../../../app.component.css', './teams-create.component.css']
 })
 
-export class TeamsCreateModal implements OnInit {
+export class AdminTeamsCreateModal implements OnInit {
   isLoading = false;
   pageMode: string = this.data.pageMode || 'create';
   teamInfo = this.data.teamInfo;
@@ -32,7 +32,7 @@ export class TeamsCreateModal implements OnInit {
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Data,
-              public dialogRef: MatDialogRef<TeamsCreateModal>,
+              public dialogRef: MatDialogRef<AdminTeamsCreateModal>,
               public teamService: TeamsService,
               public stadiumService: StadiumsService
             ) {}

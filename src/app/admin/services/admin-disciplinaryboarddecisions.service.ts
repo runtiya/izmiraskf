@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
-import { DisciplinaryBoardDecisionModel } from "../../models/admin-disciplinaryboarddecisions.model";
+import { DisciplinaryBoardDecisionModel } from "../models/admin-disciplinaryboarddecisions.model";
 
 @Injectable({ providedIn: 'root' })
 export class DisciplinaryBoardDecisionsService {

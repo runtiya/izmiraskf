@@ -4,8 +4,8 @@ import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angul
 import { Data } from "@angular/router";
 
 
-import { SeasonsService } from "../../services/admin/admin-seasons.service";
-import { seasonYearList } from "../../assets/lists/season-year-list";
+import { SeasonsService } from "../../services/admin-seasons.service";
+import { seasonYearList } from "../../../assets/lists/season-year-list";
 
 @Component({
   selector: 'app-admin-seasons-create',

@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
 
-import { DisciplinaryBoardFileModel } from "../../models/admin-disciplinaryboardfiles.model";
+import { DisciplinaryBoardFileModel } from "../models/admin-disciplinaryboardfiles.model";
 
 @Injectable({ providedIn: 'root' })
 export class DisciplinaryBoardFilesService {

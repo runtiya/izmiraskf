@@ -4,7 +4,7 @@ import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angul
 import { Data } from "@angular/router";
 
 import { StaffITFFModel } from "../../models/admin-staffizmirtff.model";
-import { StaffITFFService } from "../../services/admin/admin-staffitff.service";
+import { StaffITFFService } from "../../services/admin-staffitff.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 
 
@@ -13,14 +13,14 @@ import { imageUploadValidator } from "../../validators/image-upload.validator";
   templateUrl: './staff-izmirtff-create.component.html',
   styleUrls: ['../../../app.component.css', './staff-izmirtff-create.component.css']
 })
-export class CreateAdminStaffIzmirTFFModal {
+export class AdminCreateStaffIzmirTFFModal {
   isLoading = false;
   pageMode: string = this.data.mode || 'create';
   staffITFFSubmitForm: FormGroup;
   imagePreview: string;
   staffInfo = this.data.staffInfo;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<CreateAdminStaffIzmirTFFModal>, public staffService: StaffITFFService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<AdminCreateStaffIzmirTFFModal>, public staffService: StaffITFFService) {}
 
 
   ngOnInit() {

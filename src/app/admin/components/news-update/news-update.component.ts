@@ -5,7 +5,7 @@ import { Data } from "@angular/router";
 import { DatePipe } from "@angular/common";
 
 import { NewsModel } from "../../models/admin-news.model";
-import { NewsService } from "../../services/admin/admin-news.service";
+import { NewsService } from "../../services/admin-news.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 
 import { AngularEditorConfig } from '@kolkov/angular-editor';
@@ -15,7 +15,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
   templateUrl: './news-update.component.html',
   styleUrls: ['../../../app.component.css','./news-update.component.css']
 })
-export class NewsUpdateModal {
+export class AdminNewsUpdateModal {
 
   isLoading = false;
   newsUpdateForm: FormGroup;

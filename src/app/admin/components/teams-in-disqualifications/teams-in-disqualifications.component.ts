@@ -8,19 +8,19 @@ import { LeaguesModel } from "../../models/admin-leagues.model";
 import { SeasonsModel } from "../../models/admin-seasons.model";
 import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages.model";
 
-import { GroupStagesService } from "../../services/admin/admin-groupstages.service";
-import { LeaguesService } from "../../services/admin/admin-leagues.service";
-import { SeasonsService } from "../../services/admin/admin-seasons.service";
-import { TeamsInGroupstagesService } from "../../services/admin/admin-teams-in-groupstages.service";
+import { GroupStagesService } from "../../services/admin-groupstages.service";
+import { LeaguesService } from "../../services/admin-leagues.service";
+import { SeasonsService } from "../../services/admin-seasons.service";
+import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupstages.service";
 
-import { TeamsInDisqualificationsEditModal } from "../teams-in-disqualifications-edit/teams-in-disqualifications-edit.component";
+import { AdminTeamsInDisqualificationsEditModal } from "../teams-in-disqualifications-edit/teams-in-disqualifications-edit.component";
 
 @Component({
   selector: 'app-admin-teams-in-disqualifications',
   templateUrl: './teams-in-disqualifications.component.html',
   styleUrls: ['../../../app.component.css', './teams-in-disqualifications.component.css']
 })
-export class TeamsInDisqualifications implements OnInit, OnDestroy {
+export class AdminTeamsInDisqualifications implements OnInit, OnDestroy {
   headerTitle = "İHRAÇ VE ÇEKİLME";
   isLoading = false;
   seasonList: SeasonsModel[] = [];
@@ -87,7 +87,7 @@ export class TeamsInDisqualifications implements OnInit, OnDestroy {
 
   onEdit(id: number) {
     const team = this.teamsingroupstagesList.find(e => e.id == id);
-    const dialogRef = this.dialog.open(TeamsInDisqualificationsEditModal, {
+    const dialogRef = this.dialog.open(AdminTeamsInDisqualificationsEditModal, {
       data: {
         teamInfo: team
       }

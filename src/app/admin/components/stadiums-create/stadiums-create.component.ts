@@ -5,9 +5,9 @@ import { Data } from "@angular/router";
 
 
 import { StadiumsModel } from "../../models/admin-stadiums.model";
-import { StadiumsService } from "../../services/admin/admin-stadiums.service";
-import { townList } from "../../assets/lists/town-list-izmir";
-import { floorTypeList } from "../../assets/lists/floor-type-list";
+import { StadiumsService } from "../../services/admin-stadiums.service";
+import { townList } from "../../../assets/lists/town-list-izmir";
+import { floorTypeList } from "../../../assets/lists/floor-type-list";
 
 
 
@@ -16,7 +16,7 @@ import { floorTypeList } from "../../assets/lists/floor-type-list";
   templateUrl: './stadiums-create.component.html',
   styleUrls: ['../../../app.component.css', './stadiums-create.component.css']
 })
-export class StadiumsCreateModal {
+export class AdminStadiumsCreateModal {
 
   isLoading = false;
   stadiumsCreateForm: FormGroup;
@@ -25,7 +25,7 @@ export class StadiumsCreateModal {
   townListArray = townList;
   floorTypeListArray = floorTypeList;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<StadiumsCreateModal>, public stadiumService: StadiumsService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<AdminStadiumsCreateModal>, public stadiumService: StadiumsService) {}
 
   ngOnInit() {
 

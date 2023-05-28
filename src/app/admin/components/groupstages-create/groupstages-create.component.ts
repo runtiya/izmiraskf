@@ -7,11 +7,11 @@ import { Subscription } from "rxjs";
 import { LeaguesModel } from "../../models/admin-leagues.model";
 import { SeasonsModel } from "../../models/admin-seasons.model";
 
-import { GroupStagesService } from "../../services/admin/admin-groupstages.service";
-import { LeaguesService } from "../../services/admin/admin-leagues.service";
-import { SeasonsService } from "../../services/admin/admin-seasons.service";
+import { GroupStagesService } from "../../services/admin-groupstages.service";
+import { LeaguesService } from "../../services/admin-leagues.service";
+import { SeasonsService } from "../../services/admin-seasons.service";
 
-import { groupPeriodSystemList } from "../../assets/lists/group-period-system-list";
+import { groupPeriodSystemList } from "../../../assets/lists/group-period-system-list";
 
 @Component({
   selector: 'app-admin-groupstages-create',

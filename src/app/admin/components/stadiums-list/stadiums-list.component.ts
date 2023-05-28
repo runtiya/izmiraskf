@@ -3,13 +3,13 @@ import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 
 import { StadiumsModel } from "../../models/admin-stadiums.model";
-import { StadiumsService } from "../../services/admin/admin-stadiums.service";
-import { StadiumsCreateModal } from "../stadiums-create/stadiums-create.component";
+import { StadiumsService } from "../../services/admin-stadiums.service";
+import { AdminStadiumsCreateModal } from "../stadiums-create/stadiums-create.component";
 import { StaffITFFModel } from "../../models/admin-staffizmirtff.model";
 
-import { cityList } from "../../assets/lists/city-list-tr";
-import { townList } from "../../assets/lists/town-list-izmir";
-import { floorTypeList } from "../../assets/lists/floor-type-list";
+import { cityList } from "../../../assets/lists/city-list-tr";
+import { townList } from "../../../assets/lists/town-list-izmir";
+import { floorTypeList } from "../../../assets/lists/floor-type-list";
 
 
 
@@ -18,7 +18,7 @@ import { floorTypeList } from "../../assets/lists/floor-type-list";
   templateUrl: './stadiums-list.component.html',
   styleUrls: ['../../../app.component.css', './stadiums-list.component.css']
 })
-export class StadiumsListComponent implements OnInit, OnDestroy {
+export class AdminStadiumsListComponent implements OnInit, OnDestroy {
   title = 'SAHALAR';
   isLoading = false;
   stadiumsList: StadiumsModel[] = [];
@@ -42,7 +42,7 @@ export class StadiumsListComponent implements OnInit, OnDestroy {
   }
 
   onCreate() {
-    const dialogRef = this.dialog.open(StadiumsCreateModal, {
+    const dialogRef = this.dialog.open(AdminStadiumsCreateModal, {
       data: {
         pageMode: "create"
       }
@@ -50,7 +50,7 @@ export class StadiumsListComponent implements OnInit, OnDestroy {
   }
 
   onEdit(stadiumInfo: StaffITFFModel) {
-    const dialogRef = this.dialog.open(StadiumsCreateModal, {
+    const dialogRef = this.dialog.open(AdminStadiumsCreateModal, {
       data: {
         pageMode: "edit",
         stadiumInfo: stadiumInfo

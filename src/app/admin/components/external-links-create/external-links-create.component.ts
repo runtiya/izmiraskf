@@ -5,9 +5,9 @@ import { Data } from "@angular/router";
 
 
 import { ExternalLinksModel } from "../../models/admin-externallinks.model";
-import { ExternalLinksService } from "../../services/admin/admin-externallinks.service";
+import { ExternalLinksService } from "../../services/admin-externallinks.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-import { faBrandList } from "../../assets/lists/font-awesome-brand-list";
+import { faBrandList } from "../../../assets/lists/font-awesome-brand-list";
 
 
 @Component({

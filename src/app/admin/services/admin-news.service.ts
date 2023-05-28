@@ -5,7 +5,7 @@ import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 
 
-import { NewsModel } from "../../models/admin-news.model";
+import { NewsModel } from "../models/admin-news.model";
 
 import { globalFunctions } from "../../functions/global.function";
 

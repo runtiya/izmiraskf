@@ -3,8 +3,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 
 import { StaffIzmirAskfModel } from "../../models/admin-staffizmiraskf.model";
-import { StaffIASKFService } from "../../services/admin/admin-staffiaskf.service";
-import { CreateAdminStaffIzmirAskfModal } from "../staff-izmiraskf-create/staff-izmiraskf-create.component";
+import { StaffIASKFService } from "../../services/admin-staffiaskf.service";
+import { AdminCreateStaffIzmirAskfModal } from "../staff-izmiraskf-create/staff-izmiraskf-create.component";
 
 @Component({
   selector: 'app-admin-staffizmiraskf',
@@ -36,7 +36,7 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
   }
 
   onCreate() {
-    const dialogRef = this.dialog.open(CreateAdminStaffIzmirAskfModal, {
+    const dialogRef = this.dialog.open(AdminCreateStaffIzmirAskfModal, {
       data: {
         mode: 'create'
       }
@@ -44,7 +44,7 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
   }
 
   onEdit(staffInfo: StaffIzmirAskfModel) {
-    const dialogRef = this.dialog.open(CreateAdminStaffIzmirAskfModal, {
+    const dialogRef = this.dialog.open(AdminCreateStaffIzmirAskfModal, {
       data: {
         mode: 'edit',
         staffInfo: staffInfo

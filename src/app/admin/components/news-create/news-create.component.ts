@@ -6,7 +6,7 @@ import { FormBuilder } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { NewsModel } from "../../models/admin-news.model";
-import { NewsService } from "../../services/admin/admin-news.service";
+import { NewsService } from "../../services/admin-news.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 
 import { AngularEditorConfig } from '@kolkov/angular-editor';
@@ -16,7 +16,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
   templateUrl: './news-create.component.html',
   styleUrls: ['../../../app.component.css', './news-create.component.css']
 })
-export class NewsCreateComponent implements OnInit, OnDestroy {
+export class AdminNewsCreateComponent implements OnInit, OnDestroy {
   headerTitle = "HABER OLUŞTUR";
   isLoading = false;
   newsCreateForm: FormGroup;

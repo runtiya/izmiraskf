@@ -3,24 +3,24 @@ import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 
 import { DisciplinaryBoardDecisionModel } from "../../models/admin-disciplinaryboarddecisions.model";
-import { DisciplinaryBoardDecisionsService } from "../../services/admin/admin-disciplinaryboarddecisions.service";
+import { DisciplinaryBoardDecisionsService } from "../../services/admin-disciplinaryboarddecisions.service";
 
 import { DisciplinaryBoardFileModel } from "../../models/admin-disciplinaryboardfiles.model";
-import { DisciplinaryBoardFilesService } from "../../services/admin/admin-disciplinaryboardfiles.service";
+import { DisciplinaryBoardFilesService } from "../../services/admin-disciplinaryboardfiles.service";
 
-import { SeasonsService } from "../../services/admin/admin-seasons.service";
+import { SeasonsService } from "../../services/admin-seasons.service";
 import { SeasonsModel } from "../../models/admin-seasons.model";
 
 import { LeaguesModel } from "../../models/admin-leagues.model";
-import { LeaguesService } from "../../services/admin/admin-leagues.service";
+import { LeaguesService } from "../../services/admin-leagues.service";
 
 import { TeamsModel } from "../../models/admin-teams.model";
-import { TeamsService } from "../../services/admin/admin-teams.service";
+import { TeamsService } from "../../services/admin-teams.service";
 
 import { AdminDisciplinaryBoardDecisionsCreateModal } from "../disciplinary-board-decisions-create/disciplinary-board-decisions-create.component";
 
-import { disciplinaryPenalTypeList } from "../../assets/lists/disciplinary-penaltype-list";
-import { disciplinaryBelongingToList } from "../../assets/lists/disciplinary-belongingto-list";
+import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype-list";
+import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto-list";
 
 @Component({
     selector: 'app-admin-disciplinary-board-decisions-list',

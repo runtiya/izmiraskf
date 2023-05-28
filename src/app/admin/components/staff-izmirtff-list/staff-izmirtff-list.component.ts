@@ -3,8 +3,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 
 import { StaffITFFModel } from "../../models/admin-staffizmirtff.model";
-import { StaffITFFService } from "../../services/admin/admin-staffitff.service";
-import { CreateAdminStaffIzmirTFFModal } from "../staff-izmirtff-create/staff-izmirtff-create.component";
+import { StaffITFFService } from "../../services/admin-staffitff.service";
+import { AdminCreateStaffIzmirTFFModal } from "../staff-izmirtff-create/staff-izmirtff-create.component";
 
 @Component({
   selector: 'app-admin-staffizmirtff',
@@ -18,7 +18,7 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
   private staffizmirtffListSub: Subscription;
 
   constructor(
-    public staffService: StaffITFFService, 
+    public staffService: StaffITFFService,
     public dialog: MatDialog
   ) {}
 
@@ -39,7 +39,7 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
   }
 
   onCreate() {
-    const dialogRef = this.dialog.open(CreateAdminStaffIzmirTFFModal, {
+    const dialogRef = this.dialog.open(AdminCreateStaffIzmirTFFModal, {
       data: {
         mode: 'create'
       }
@@ -47,7 +47,7 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
   }
 
   onEdit(staffInfo: StaffITFFModel) {
-    const dialogRef = this.dialog.open(CreateAdminStaffIzmirTFFModal, {
+    const dialogRef = this.dialog.open(AdminCreateStaffIzmirTFFModal, {
       data: {
         mode: 'edit',
         staffInfo: staffInfo

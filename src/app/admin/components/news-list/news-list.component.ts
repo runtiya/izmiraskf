@@ -4,17 +4,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { NewsModel } from "../../models/admin-news.model";
-import { NewsService } from "../../services/admin/admin-news.service";
-import { NewsUpdateModal } from "../news-update/news-update.component";
+import { NewsService } from "../../services/admin-news.service";
+import { AdminNewsUpdateModal } from "../news-update/news-update.component";
 
-import { fontAwesomeIconList } from "../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
 
 @Component({
   selector: 'app-admin-news-list',
   templateUrl: './news-list.component.html',
   styleUrls: ['../../../app.component.css','./news-list.component.css']
 })
-export class NewsListComponent implements OnInit, OnDestroy {
+export class AdminNewsListComponent implements OnInit, OnDestroy {
   title = "HABERLER";
   isLoading = false;
   newsList: NewsModel[] = [];
@@ -50,7 +50,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
 
   openEditDialog(news) {
-    const dialogRef = this.dialog.open(NewsUpdateModal, {
+    const dialogRef = this.dialog.open(AdminNewsUpdateModal, {
       data: {
         news: news
       }
