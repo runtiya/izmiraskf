@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { map } from "rxjs/operators";
 
 
-import { StaffIzmirAskfModel } from "../../models/admin-staffizmiraskf.model";
+import { StaffIzmirAskfModel } from "../models/admin-staffizmiraskf.model";
 
 @Injectable({providedIn: 'root'})
 export class StaffIASKFService {

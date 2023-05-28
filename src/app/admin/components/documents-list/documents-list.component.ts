@@ -4,9 +4,9 @@ import { MatDialog } from "@angular/material/dialog";
 
 
 import { DocumentsModel } from "../../models/admin-documents.model";
-import { DocumentsService } from "../../services/admin/admin-documents.service";
+import { DocumentsService } from "../../services/admin-documents.service";
 import { AdminDocumentCreateModal } from "../documents-create/documents-create.component";
-import { documentCategoryList } from "../../assets/lists/documents-category-list";
+import { documentCategoryList } from "../../../assets/lists/documents-category-list";
 
 
 @Component({

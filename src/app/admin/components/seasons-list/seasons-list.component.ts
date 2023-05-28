@@ -4,7 +4,7 @@ import { MatDialog } from "@angular/material/dialog";
 
 
 import { SeasonsModel } from "../../models/admin-seasons.model";
-import { SeasonsService } from "../../services/admin/admin-seasons.service";
+import { SeasonsService } from "../../services/admin-seasons.service";
 import { AdminSeasonsCreateModal } from "../seasons-create/seasons-create.component";
 
 

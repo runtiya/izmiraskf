@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { globalFunctions } from "./admin/functions/global.function";
+import { globalFunctions } from "./functions/global.function";
 
 import { AuthService } from "./admin/authentication/auth.service";
 

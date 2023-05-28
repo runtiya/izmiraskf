@@ -6,13 +6,13 @@ import { Subscription } from "rxjs";
 import { DatePipe } from "@angular/common";
 
 import { DisciplinaryBoardFileModel } from "../../models/admin-disciplinaryboardfiles.model";
-import { DisciplinaryBoardFilesService } from "../../services/admin/admin-disciplinaryboardfiles.service";
+import { DisciplinaryBoardFilesService } from "../../services/admin-disciplinaryboardfiles.service";
 
-import { SeasonsService } from "../../services/admin/admin-seasons.service";
+import { SeasonsService } from "../../services/admin-seasons.service";
 import { SeasonsModel } from "../../models/admin-seasons.model";
 
 import { StaffITFFModel } from "../../models/admin-staffizmirtff.model";
-import { StaffITFFService } from "../../services/admin/admin-staffitff.service";
+import { StaffITFFService } from "../../services/admin-staffitff.service";
 
 @Component({
     selector: 'app-admin-disciplinary-board-files-create',
@@ -89,4 +89,4 @@ export class AdminDisciplinaryBoardCreateModal implements OnInit {
 
         this.dialogRef.close();
     }
-} 
+}

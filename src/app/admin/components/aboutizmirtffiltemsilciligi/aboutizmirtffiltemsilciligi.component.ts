@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from "rxjs";
 
 import { AboutITFFModel } from "../../models/admin-izmirtff.model";
-import { AboutITFFService } from "../../services/admin/admin-aboutitff.service";
+import { AboutITFFService } from "../../services/admin-aboutitff.service";
 
 @Component({
   selector: 'app-admin-izmirtff',

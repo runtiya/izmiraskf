@@ -6,31 +6,31 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { MatDialog } from "@angular/material/dialog";
 
 import { SeasonsModel } from "../../models/admin-seasons.model";
-import { SeasonsService } from "../../services/admin/admin-seasons.service";
+import { SeasonsService } from "../../services/admin-seasons.service";
 
 import { LeaguesModel } from "../../models/admin-leagues.model";
-import { LeaguesService } from "../../services/admin/admin-leagues.service";
+import { LeaguesService } from "../../services/admin-leagues.service";
 
 import { GroupStagesModel } from "../../models/admin-groupstages.model";
-import { GroupStagesService } from "../../services/admin/admin-groupstages.service";
+import { GroupStagesService } from "../../services/admin-groupstages.service";
 
 import { StadiumsModel } from "../../models/admin-stadiums.model";
-import { StadiumsService } from "../../services/admin/admin-stadiums.service";
+import { StadiumsService } from "../../services/admin-stadiums.service";
 
 import { TeamsModel } from "../../models/admin-teams.model";
-import { TeamsService } from "../../services/admin/admin-teams.service";
+import { TeamsService } from "../../services/admin-teams.service";
 
 import { FixtureModel } from "../../models/admin-fixture.model";
-import { FixtureService } from "../../services/admin/admin-fixtures.service";
+import { FixtureService } from "../../services/admin-fixtures.service";
 
 import { FixtureSearchModel } from "../../models/admin-fixture-search.model";
 
-import { globalFunctions } from "../../functions/global.function";
+import { globalFunctions } from "../../../functions/global.function";
 
-import { matchStatusList } from "../../assets/lists/match-status-list";
-import { townList } from "../../assets/lists/town-list-izmir";
+import { matchStatusList } from "../../../assets/lists/match-status-list";
+import { townList } from "../../../assets/lists/town-list-izmir";
 
-import { fontAwesomeIconList } from "../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
 
 @Component({
     selector: 'app-admin-score-board',

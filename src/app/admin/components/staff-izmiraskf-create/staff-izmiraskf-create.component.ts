@@ -6,7 +6,7 @@ import { ɵInjectableAnimationEngine } from "@angular/platform-browser/animation
 import { Data } from "@angular/router";
 
 import { StaffIzmirAskfModel } from "../../models/admin-staffizmiraskf.model";
-import { StaffIASKFService } from "../../services/admin/admin-staffiaskf.service";
+import { StaffIASKFService } from "../../services/admin-staffiaskf.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 
 
@@ -15,14 +15,14 @@ import { imageUploadValidator } from "../../validators/image-upload.validator";
   templateUrl: './staff-izmiraskf-create.component.html',
   styleUrls: ['../../../app.component.css', './staff-izmiraskf-create.component.css']
 })
-export class CreateAdminStaffIzmirAskfModal {
+export class AdminCreateStaffIzmirAskfModal {
   isLoading = false;
   pageMode: string = this.data.mode || 'create';
   staffIASKFSubmitForm: FormGroup;
   imagePreview: string;
   staffInfo = this.data.staffInfo;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<CreateAdminStaffIzmirAskfModal>, public staffService: StaffIASKFService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<AdminCreateStaffIzmirAskfModal>, public staffService: StaffIASKFService) {}
 
   ngOnInit() {
 

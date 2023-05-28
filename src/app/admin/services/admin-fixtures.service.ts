@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
-import { FixtureModel } from "../../models/admin-fixture.model";
-import { FixtureSearchModel } from "../../models/admin-fixture-search.model";
+import { FixtureModel } from "../models/admin-fixture.model";
+import { FixtureSearchModel } from "../models/admin-fixture-search.model";
 
 import { globalFunctions } from "../../functions/global.function";
 @Injectable({providedIn: 'root'})

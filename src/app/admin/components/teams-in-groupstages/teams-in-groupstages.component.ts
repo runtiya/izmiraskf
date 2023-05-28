@@ -11,19 +11,19 @@ import { SeasonsModel } from "../../models/admin-seasons.model";
 import { TeamsModel } from "../../models/admin-teams.model";
 import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages.model";
 
-import { GroupStagesService } from "../../services/admin/admin-groupstages.service";
-import { LeaguesService } from "../../services/admin/admin-leagues.service";
-import { SeasonsService } from "../../services/admin/admin-seasons.service";
-import { TeamsInGroupstagesService } from "../../services/admin/admin-teams-in-groupstages.service";
+import { GroupStagesService } from "../../services/admin-groupstages.service";
+import { LeaguesService } from "../../services/admin-leagues.service";
+import { SeasonsService } from "../../services/admin-seasons.service";
+import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupstages.service";
 
-import { townList } from "../../assets/lists/town-list-izmir";
+import { townList } from "../../../assets/lists/town-list-izmir";
 
 @Component({
   selector: 'app-admin-teams-in-groupstages',
   templateUrl: './teams-in-groupstages.component.html',
   styleUrls: ['../../../app.component.css', './teams-in-groupstages.component.css']
 })
-export class TeamsInGroupstages implements OnInit, OnDestroy {
+export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
   headerTitle = "GRUP-TAKIM EŞLEŞMESİ";
   isLoading = false;
   seasonList: SeasonsModel[] = [];

@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 
-import { DocumentsService } from "../../services/admin/admin-documents.service";
-import { documentCategoryList } from "../../assets/lists/documents-category-list";
+import { DocumentsService } from "../../services/admin-documents.service";
+import { documentCategoryList } from "../../../assets/lists/documents-category-list";
 
 import { fileUploadValidator } from "../../validators/file-upload.validator";
 

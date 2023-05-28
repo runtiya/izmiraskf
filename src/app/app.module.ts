@@ -31,26 +31,28 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 import { AppComponent } from './app.component';
+
+// Admin Components
 import { AdminHeaderComponent } from './admin/components/header/header.component';
-import { PageNotFound } from './admin/components/page-not-found/page-not-found.component';
+import { PageNotFound } from './application/components/page-not-found/page-not-found.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AdminLogin } from "./admin/components/login/login.component";
 import { AdminLogout } from "./admin/components/logout/logout.component";
 
 import { AdminIzmirASKF } from './admin/components/aboutizmiraskf/aboutizmiraskf.component';
 import { AdminStaffIzmirAskf } from './admin/components/staff-izmiraskf-list/staff-izmiraskf-list.component';
-import { CreateAdminStaffIzmirAskfModal } from "./admin/components/staff-izmiraskf-create/staff-izmiraskf-create.component";
-import { AboutStaffIASKFWrapComponent } from "./admin/components/about-staff-iaskf-wrap/about-staff-iaskf-wrap.component";
+import { AdminCreateStaffIzmirAskfModal } from "./admin/components/staff-izmiraskf-create/staff-izmiraskf-create.component";
+import { AdminAboutStaffIASKFWrapComponent } from "./admin/components/about-staff-iaskf-wrap/about-staff-iaskf-wrap.component";
 
 import { AdminIzmirTFFIlTemsilciligi } from './admin/components/aboutizmirtffiltemsilciligi/aboutizmirtffiltemsilciligi.component';
 import { AdminStaffIzmirTFF } from "./admin/components/staff-izmirtff-list/staff-izmirtff-list.component";
-import { CreateAdminStaffIzmirTFFModal } from "./admin/components/staff-izmirtff-create/staff-izmirtff-create.component";
-import { AboutStaffITFFWrapComponent } from "./admin/components/about-staff-itff-wrap/about-staff-itff-wrap.component";
+import { AdminCreateStaffIzmirTFFModal } from "./admin/components/staff-izmirtff-create/staff-izmirtff-create.component";
+import { AdminAboutStaffITFFWrapComponent } from "./admin/components/about-staff-itff-wrap/about-staff-itff-wrap.component";
 
-import { NewsCreateComponent } from './admin/components/news-create/news-create.component';
-import { NewsListComponent } from './admin/components/news-list/news-list.component';
-import { NewsUpdateModal } from './admin/components/news-update/news-update.component';
-import { NewsWrapComponent } from './admin/components/news-wrap-component/news-wrap-component.component';
+import { AdminNewsCreateComponent } from './admin/components/news-create/news-create.component';
+import { AdminNewsListComponent } from './admin/components/news-list/news-list.component';
+import { AdminNewsUpdateModal } from './admin/components/news-update/news-update.component';
+import { AdminNewsWrapComponent } from './admin/components/news-wrap-component/news-wrap-component.component';
 
 import { AdminExternalLinks } from "./admin/components/external-links-list/external-links-list.component";
 import { AdminExternalLinksCreateModal } from "./admin/components/external-links-create/external-links-create.component";
@@ -62,11 +64,11 @@ import { AdminDocumentInstructions } from "./admin/components/documents-instruct
 import { AdminDocumentLicenseForms } from "./admin/components/documents-license-forms-list/documents-license-forms-list.component";
 import { AdminDocumentDocuments } from "./admin/components/documents-documents-list/documents-documents-list.component";
 
-import { StadiumsListComponent } from "./admin/components/stadiums-list/stadiums-list.component";
-import { StadiumsCreateModal } from "./admin/components/stadiums-create/stadiums-create.component";
+import { AdminStadiumsListComponent } from "./admin/components/stadiums-list/stadiums-list.component";
+import { AdminStadiumsCreateModal } from "./admin/components/stadiums-create/stadiums-create.component";
 
-import { TeamsList } from "./admin/components/teams-list/teams-list.component";
-import { TeamsCreateModal } from './admin/components/teams-create/teams-create.component';
+import { AdminTeamsList } from "./admin/components/teams-list/teams-list.component";
+import { AdminTeamsCreateModal } from './admin/components/teams-create/teams-create.component';
 
 import { AdminDisciplinaryBoardFilesList } from "./admin/components/disciplinary-board-files-list/disciplinary-board-files-list.component";
 import { AdminDisciplinaryBoardCreateModal } from "./admin/components/disciplinary-board-files-create/disciplinary-board-files-create.component";
@@ -83,12 +85,12 @@ import { AdminLeaguesCreateModal } from './admin/components/leagues-create/leagu
 import { AdminGroupList } from "./admin/components/groupstages-list/groupstages-list.component";
 import { AdminGroupStagesCreateModal } from "./admin/components/groupstages-create/groupstages-create.component";
 
-import { TeamsInGroupstages } from "./admin/components/teams-in-groupstages/teams-in-groupstages.component";
-import { TeamsInDisqualifications } from "./admin/components/teams-in-disqualifications/teams-in-disqualifications.component";
-import { TeamsInDisqualificationsEditModal } from "./admin/components/teams-in-disqualifications-edit/teams-in-disqualifications-edit.component";
+import { AdminTeamsInGroupstages } from "./admin/components/teams-in-groupstages/teams-in-groupstages.component";
+import { AdminTeamsInDisqualifications } from "./admin/components/teams-in-disqualifications/teams-in-disqualifications.component";
+import { AdminTeamsInDisqualificationsEditModal } from "./admin/components/teams-in-disqualifications-edit/teams-in-disqualifications-edit.component";
 
-import { FixtureCreate } from "./admin/components/fixture-create/fixture-create.component";
-import { FixtureEditModal } from "./admin/components/fixture-edit/fixture-edit.component";
+import { AdminFixtureCreate } from "./admin/components/fixture-create/fixture-create.component";
+import { AdminFixtureEditModal } from "./admin/components/fixture-edit/fixture-edit.component";
 
 import { AdminScoreBoard } from "./admin/components/score-board/score-board.component";
 
@@ -96,6 +98,12 @@ import { AdminPointBoard } from "./admin/components/point-board/point-board.comp
 
 import { AdminUsersList } from "./admin/components/users-list/users-list.component";
 import { AdminUsersCreateModal } from "./admin/components/users-create/users-create.component";
+
+// Application Components
+import { ApplicationHeaderComponent } from "./application/components/header/header.component";
+
+
+
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AngularEditorModule } from '@kolkov/angular-editor';
@@ -106,6 +114,8 @@ import { ErrorInterceptor } from "./error/error-interceptor";
 @NgModule({
   declarations: [
     AppComponent,
+
+    //Admin Components
     AdminHeaderComponent,
     PageNotFound,
     AdminLogin,
@@ -113,18 +123,18 @@ import { ErrorInterceptor } from "./error/error-interceptor";
 
     AdminIzmirASKF,
     AdminStaffIzmirAskf,
-    CreateAdminStaffIzmirAskfModal,
-    AboutStaffIASKFWrapComponent,
+    AdminCreateStaffIzmirAskfModal,
+    AdminAboutStaffIASKFWrapComponent,
 
     AdminIzmirTFFIlTemsilciligi,
     AdminStaffIzmirTFF,
-    CreateAdminStaffIzmirTFFModal,
-    AboutStaffITFFWrapComponent,
+    AdminCreateStaffIzmirTFFModal,
+    AdminAboutStaffITFFWrapComponent,
 
-    NewsCreateComponent,
-    NewsListComponent,
-    NewsUpdateModal,
-    NewsWrapComponent,
+    AdminNewsCreateComponent,
+    AdminNewsListComponent,
+    AdminNewsUpdateModal,
+    AdminNewsWrapComponent,
 
     AdminExternalLinks,
     AdminExternalLinksCreateModal,
@@ -136,11 +146,11 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     AdminDocumentLicenseForms,
     AdminDocumentDocuments,
 
-    StadiumsListComponent,
-    StadiumsCreateModal,
+    AdminStadiumsListComponent,
+    AdminStadiumsCreateModal,
 
-    TeamsList,
-    TeamsCreateModal,
+    AdminTeamsList,
+    AdminTeamsCreateModal,
 
     AdminDisciplinaryBoardFilesList,
     AdminDisciplinaryBoardCreateModal,
@@ -157,19 +167,24 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     AdminGroupList,
     AdminGroupStagesCreateModal,
 
-    TeamsInGroupstages,
-    TeamsInDisqualifications,
-    TeamsInDisqualificationsEditModal,
+    AdminTeamsInGroupstages,
+    AdminTeamsInDisqualifications,
+    AdminTeamsInDisqualificationsEditModal,
 
-    FixtureCreate,
-    FixtureEditModal,
+    AdminFixtureCreate,
+    AdminFixtureEditModal,
 
     AdminScoreBoard,
 
     AdminPointBoard,
 
     AdminUsersList,
-    AdminUsersCreateModal
+    AdminUsersCreateModal,
+
+
+
+    //Application Components
+    ApplicationHeaderComponent
 
   ],
   imports: [

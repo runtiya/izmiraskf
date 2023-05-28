@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 
-import { AboutITFFModel } from "../../models/admin-izmirtff.model";
+import { AboutITFFModel } from "../models/admin-izmirtff.model";
 
 @Injectable({providedIn: 'root'})
 export class AboutITFFService {

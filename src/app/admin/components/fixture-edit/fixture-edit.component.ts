@@ -10,12 +10,12 @@ import { FixtureModel } from "../../models/admin-fixture.model";
 import { StadiumsModel } from "../../models/admin-stadiums.model";
 import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages.model";
 
-import { FixtureService } from "../../services/admin/admin-fixtures.service";
+import { FixtureService } from "../../services/admin-fixtures.service";
 
 import { fixtureFunctions } from "../../functions/fixture.function";
-import { globalFunctions } from "../../functions/global.function";
+import { globalFunctions } from "../../../functions/global.function";
 
-import { matchStatusList } from "../../assets/lists/match-status-list";
+import { matchStatusList } from "../../../assets/lists/match-status-list";
 import { DatePipe } from "@angular/common";
 
 
@@ -24,7 +24,7 @@ import { DatePipe } from "@angular/common";
   templateUrl: './fixture-edit.component.html',
   styleUrls: ['../../../app.component.css', './fixture-edit.component.css']
 })
-export class FixtureEditModal implements OnInit {
+export class AdminFixtureEditModal implements OnInit {
   isLoading = false;
   pageMode: string = this.data.pageMode || 'create';
   fixtureInfo: FixtureModel = this.data.fixtureInfo;
@@ -44,14 +44,14 @@ export class FixtureEditModal implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
-    public dialogRef: MatDialogRef<FixtureEditModal>,
+    public dialogRef: MatDialogRef<AdminFixtureEditModal>,
     public fixturesService: FixtureService,
     private _snackBar: MatSnackBar,
     private _datePipe: DatePipe,
     private globalFunctions: globalFunctions
 
   ) {
-    
+
   }
 
   ngOnInit(): void {
@@ -76,10 +76,10 @@ export class FixtureEditModal implements OnInit {
       orderNo: new FormControl(this.pageMode == 'edit' ? this.fixtureInfo.orderNo : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]})
     });
     this.isLoading = false;
-    
+
     // Set winnerByForfeit select-list
     this.inp_winnerByForfeit = this.fixtureSubmitForm.get('isHomeTeamWinByForfeit').value ? 'homeTeamWinByForfeit' : (this.fixtureSubmitForm.get('isAwayTeamWinByForfeit').value ? 'awayTeamWinByForfeit' : null);
-    
+
   }
 
   onHomeTeamChange(teamId: number) {
@@ -89,8 +89,8 @@ export class FixtureEditModal implements OnInit {
     } catch (error) {
       this.fixtureSubmitForm.get('stadiumId').setValue(null);
     }
-    
-    
+
+
   }
 
   onSubmitForm() {
@@ -106,9 +106,9 @@ export class FixtureEditModal implements OnInit {
     let checkMatch: boolean;
 
     if (this.fixtureSubmitForm.valid) {
-      
+
       if (this.pageMode == 'create') {
-        
+
         let matchNo = fixtureFunctions.setMatchNo(seasonId, leagueId, groupstageId, weekNumber, orderNo);
         checkMatch = this.fixturesService.checkMatch(this.fixtureSubmitForm.value, matchNo, null);
         if (checkMatch) {
@@ -131,11 +131,11 @@ export class FixtureEditModal implements OnInit {
         }
       }
       this.isLoading = false;
-      
+
     } else {
       this.globalFunctions.showSnackBar.next('Gerekli alanları doldurunuz!')
     }
-    
+
   }
 
   matchStatusClassFind(status: string): string {
@@ -157,7 +157,7 @@ export class FixtureEditModal implements OnInit {
   }
 
   onWinByForfeitChange(_winnerByForfeit: string) {
-    
+
     let homeTeamScore = this.fixtureSubmitForm.get('homeTeamScore').value;
     let awayTeamScore = this.fixtureSubmitForm.get('awayTeamScore').value;
 
@@ -166,7 +166,7 @@ export class FixtureEditModal implements OnInit {
       this.fixtureSubmitForm.get('isAwayTeamWinByForfeit').setValue(false);
       this.fixtureSubmitForm.get('matchStatus').setValue('BYFORFEIT');
       if (homeTeamScore == null && awayTeamScore == null) {
-        
+
       }
     } else if (_winnerByForfeit == 'awayTeamWinByForfeit') {
       this.fixtureSubmitForm.get('isHomeTeamWinByForfeit').setValue(false);
@@ -181,7 +181,7 @@ export class FixtureEditModal implements OnInit {
       } else if(homeTeamScore == null && awayTeamScore == null) {
         this.fixtureSubmitForm.get('matchStatus').setValue('NOTPLAYED');
       }
-      
+
     }
 
     if (homeTeamScore == null && awayTeamScore == null) {
@@ -218,7 +218,7 @@ export class FixtureEditModal implements OnInit {
       this.fixtureSubmitForm.get('homeTeamPoint').setValue(null);
       this.fixtureSubmitForm.get('awayTeamPoint').setValue(null);
     }
-    
+
   }
 
   onDelete(id: number) {

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { AboutIASKFModel } from "../../models/admin-izmiraskf.model";
-import { AboutIASKFService } from "../../services/admin/admin-aboutiaskf.service";
+import { AboutIASKFService } from "../../services/admin-aboutiaskf.service";
 
 
 @Component({

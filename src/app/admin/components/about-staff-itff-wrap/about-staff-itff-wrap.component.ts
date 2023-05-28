@@ -5,6 +5,6 @@ import { Component } from "@angular/core";
   templateUrl: './about-staff-itff-wrap.component.html',
   styleUrls: ['../../../app.component.css', './about-staff-itff-wrap.component.css']
 })
-export class AboutStaffITFFWrapComponent {
+export class AdminAboutStaffITFFWrapComponent {
 
 }

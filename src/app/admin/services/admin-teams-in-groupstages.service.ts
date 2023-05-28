@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
-import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages.model";
-import { TeamsModel } from "../../models/admin-teams.model";
+import { TeamsInGroupstagesModel } from "../models/admin-teams-in-groupstages.model";
+import { TeamsModel } from "../models/admin-teams.model";
 
 @Injectable({providedIn: 'root'})
 export class TeamsInGroupstagesService {

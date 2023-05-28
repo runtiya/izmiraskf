@@ -3,9 +3,9 @@ import { HttpClient } from "@angular/common/http";
 import { Subject, Observable } from "rxjs";
 import { concatMap, map } from "rxjs/operators";
 
-import { PointBoardModel } from "../../models/admin-pointboard.model";
+import { PointBoardModel } from "../models/admin-pointboard.model";
 
-import { GroupStagesService } from "../admin/admin-groupstages.service";
+import { GroupStagesService } from "../services/admin-groupstages.service";
 
 import { globalFunctions } from "../../functions/global.function";
 

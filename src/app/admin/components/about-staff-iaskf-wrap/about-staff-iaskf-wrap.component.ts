@@ -5,6 +5,6 @@ import { Component } from "@angular/core";
   templateUrl: './about-staff-iaskf-wrap.component.html',
   styleUrls: ['../../../app.component.css', './about-staff-iaskf-wrap.component.css']
 })
-export class AboutStaffIASKFWrapComponent {
+export class AdminAboutStaffIASKFWrapComponent {
 
 }

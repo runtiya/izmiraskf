@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Subject } from "rxjs";
 
-import { TeamsModel } from "../../models/admin-teams.model";
+import { TeamsModel } from "../models/admin-teams.model";
 
 @Injectable({ providedIn: 'root' })
 export class TeamsService {

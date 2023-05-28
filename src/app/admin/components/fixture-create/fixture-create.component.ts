@@ -10,22 +10,22 @@ import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages
 import { FixtureModel } from "../../models/admin-fixture.model";
 import { StadiumsModel } from "../../models/admin-stadiums.model";
 
-import { GroupStagesService } from "../../services/admin/admin-groupstages.service";
-import { LeaguesService } from "../../services/admin/admin-leagues.service";
-import { SeasonsService } from "../../services/admin/admin-seasons.service";
-import { TeamsInGroupstagesService } from "../../services/admin/admin-teams-in-groupstages.service";
-import { FixtureService } from "../../services/admin/admin-fixtures.service";
-import { StadiumsService } from "../../services/admin/admin-stadiums.service";
+import { GroupStagesService } from "../../services/admin-groupstages.service";
+import { LeaguesService } from "../../services/admin-leagues.service";
+import { SeasonsService } from "../../services/admin-seasons.service";
+import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupstages.service";
+import { FixtureService } from "../../services/admin-fixtures.service";
+import { StadiumsService } from "../../services/admin-stadiums.service";
 
-import { FixtureEditModal } from "../fixture-edit/fixture-edit.component";
+import { AdminFixtureEditModal } from "../fixture-edit/fixture-edit.component";
 
 import { fixtureFunctions } from "../../functions/fixture.function";
-import { globalFunctions } from "../../functions/global.function";
+import { globalFunctions } from "../../../functions/global.function";
 
 import { fixtureKey3, fixtureKey4, fixtureKey5, fixtureKey6, fixtureKey7, fixtureKey8, fixtureKey9, fixtureKey10, fixtureKey11, fixtureKey12, fixtureKey13, fixtureKey14, fixtureKey15 } from "../../assets/lists/fixture-keys-list";
-import { matchStatusList } from "../../assets/lists/match-status-list";
+import { matchStatusList } from "../../../assets/lists/match-status-list";
 
-import { fontAwesomeIconList } from "../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
 import { DatePipe } from "@angular/common";
 
 @Component({
@@ -33,7 +33,7 @@ import { DatePipe } from "@angular/common";
   templateUrl: './fixture-create.component.html',
   styleUrls: ['../../../app.component.css', './fixture-create.component.css']
 })
-export class FixtureCreate implements OnInit, OnDestroy {
+export class AdminFixtureCreate implements OnInit, OnDestroy {
   headerTitle = "FİKSTÜR OLUŞTUR";
   isLoading = false;
 
@@ -298,7 +298,7 @@ export class FixtureCreate implements OnInit, OnDestroy {
     matchDay.matchNo = null;
     matchDay.groupstageId = this.groupstageSelectionId;
 
-    const dialogRef = this.dialog.open(FixtureEditModal, {
+    const dialogRef = this.dialog.open(AdminFixtureEditModal, {
       data: {
         pageMode: 'create',
         fixtureInfo: matchDay,
@@ -314,7 +314,7 @@ export class FixtureCreate implements OnInit, OnDestroy {
   onEdit(matchDay: FixtureModel, matchWeek: number) {
     matchDay.matchWeek = matchWeek;
 
-    const dialogRef = this.dialog.open(FixtureEditModal, {
+    const dialogRef = this.dialog.open(AdminFixtureEditModal, {
       data: {
         pageMode: 'edit',
         fixtureInfo: matchDay,

@@ -6,20 +6,20 @@ import { Data } from "@angular/router";
 import { Subscription } from "rxjs";
 
 
-import { TeamsInGroupstagesService } from "../../services/admin/admin-teams-in-groupstages.service";
+import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupstages.service";
 
 @Component({
   selector: 'app-admin-teams-in-disqualifications-edit',
   templateUrl: './teams-in-disqualifications-edit.component.html',
   styleUrls: ['../../../app.component.css', './teams-in-disqualifications-edit.component.css']
 })
-export class TeamsInDisqualificationsEditModal implements OnInit {
+export class AdminTeamsInDisqualificationsEditModal implements OnInit {
   isLoading = false;
   teamInfo = this.data.teamInfo;
   teamSubmitForm: FormGroup
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Data,
-              public dialogRef: MatDialogRef<TeamsInDisqualificationsEditModal>,
+              public dialogRef: MatDialogRef<AdminTeamsInDisqualificationsEditModal>,
               public teamsingroupstagesService: TeamsInGroupstagesService
             ) {}
 
