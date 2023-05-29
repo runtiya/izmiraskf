@@ -7,8 +7,8 @@ import { AboutITFFService } from "../../services/admin-aboutitff.service";
 
 @Component({
   selector: 'app-admin-izmirtff',
-  templateUrl: './aboutizmirtffiltemsilciligi.component.html',
-  styleUrls: ['../../../app.component.css', './aboutizmirtffiltemsilciligi.component.css']
+  templateUrl: './about-izmirtffiltemsilciligi.component.html',
+  styleUrls: ['../../../app.component.css', './about-izmirtffiltemsilciligi.component.css']
 })
 export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
   headerTitle = 'İZMİR TFF İL TEMSİLCİLİĞİ';

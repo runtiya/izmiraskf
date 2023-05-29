@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 
-//import {  } from "../../models/application-teams.model";
+import { TeamsModel } from "../../models/application-teams.model";
+import { TeamsService } from "../../services/application-teams.service";
 
 @Component({
   selector: 'app-application-teamslist',
@@ -12,16 +13,17 @@ import { Subscription } from "rxjs";
 export class ApplicationTeamsList implements OnInit, OnDestroy {
   headerTitle = "TAKIMLAR";
   isLoading = false;
-  //teamsList: TeamsModel[] = [];
+  teamsList: TeamsModel[] = [];
   private teamsListSub: Subscription;
 
   constructor(
-    //private teamsService: TeamsService,
+    private teamsService: TeamsService,
     public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
 
+    this.teamsService.getTeams();
   }
 
   ngOnDestroy(): void {

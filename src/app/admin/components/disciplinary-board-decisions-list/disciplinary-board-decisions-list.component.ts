@@ -202,6 +202,6 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
         this.leaguesListSubscription.unsubscribe();
         this.teamsListSubscription.unsubscribe();
         this.disciplinaryBoardFilesListSubscription.unsubscribe();
-        this.disciplinaryBoardDecisionsListSubscription.unsubscribe();
+        //this.disciplinaryBoardDecisionsListSubscription.unsubscribe();
     }
 }

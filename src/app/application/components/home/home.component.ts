@@ -4,11 +4,11 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE }  from "@angular/materi
 
 
 @Component({
-  selector: 'app-admin-statistics',
-  templateUrl: './statistics.component.html',
-  styleUrls: ['../../../app.component.css', './statistics.component.css']
+  selector: 'app-application-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['../../../app.component.css', './home.component.css']
 })
-export class AdminStatistics {
+export class ApplicationHome {
   headerTitle = "ANA SAYFA";
 
 

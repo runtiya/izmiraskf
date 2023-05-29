@@ -11,27 +11,6 @@ export class TeamsService {
 
   constructor(private http: HttpClient) { }
 
-  /*
-  getTeams() {
-    try {
-      this.http
-        .get<{error: boolean, message: string, teamList: TeamsModel[]}>(
-          'http://localhost:3000/admin/takimlar'
-        )
-        .subscribe((data) => {
-          if (!data.error) {
-            this.teamList = data.teamList;
-            this.teamListSub.next([...this.teamList]);
-          } else {
-            console.log(data.message);
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  */
-
   getTeams() {
     try {
       this.http

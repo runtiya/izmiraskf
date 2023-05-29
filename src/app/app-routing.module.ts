@@ -1,8 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+
+// Admin Routing
 import { AdminLogin } from "./admin/components/login/login.component";
 import { AdminLogout } from "./admin/components/logout/logout.component";
-import { AdminStatistics } from "./admin/components/statistics/statistics.component";
+import { AdminHome } from "./admin/components/home/home.component";
 import { AdminAboutStaffIASKFWrapComponent } from "./admin/components/about-staff-iaskf-wrap/about-staff-iaskf-wrap.component";
 import { AdminAboutStaffITFFWrapComponent } from "./admin/components/about-staff-itff-wrap/about-staff-itff-wrap.component";
 import { AdminNewsWrapComponent } from "./admin/components/news-wrap-component/news-wrap-component.component";
@@ -30,12 +32,16 @@ import { AdminPointBoard } from "./admin/components/point-board/point-board.comp
 
 import { AdminUsersList } from "./admin/components/users-list/users-list.component";
 
-import { PageNotFound } from "./application/components/page-not-found/page-not-found.component";
 import { AuthGuard } from "./admin/authentication/auth-guard";
 import { AuthModule } from "./admin/authentication/auth.module";
 
+// Application Routing
+import { PageNotFound } from "./application/components/page-not-found/page-not-found.component";
+
+import { ApplicationHome } from "./application/components/home/home.component";
+
 const routes: Routes = [
-  {path: 'admin/anasayfa', component: AdminStatistics, canActivate: [AuthGuard]},
+  {path: 'admin/anasayfa', component: AdminHome, canActivate: [AuthGuard]},
   {path: 'admin/kullanici-giris', component: AdminLogin},
   {path: 'admin/kullanici-guvenli-cikis', component: AdminLogout},
   {path: 'admin/izmiraskf', component: AdminAboutStaffIASKFWrapComponent, canActivate: [AuthGuard]},
@@ -65,9 +71,16 @@ const routes: Routes = [
 
   {path: 'admin/kullanicilar', component: AdminUsersList, canActivate: [AuthGuard]},
 
+  {path: 'auth', loadChildren: () => import("./admin/authentication/auth.module").then(m => m.AuthModule)},
+
+
+
+  {path: '', component: ApplicationHome},
+  {path: 'anasayfa', component: ApplicationHome},
+
+
 
   {path: '**', pathMatch: "full", component: PageNotFound},
-  {path: 'auth', loadChildren: () => import("./admin/authentication/auth.module").then(m => m.AuthModule)}
 ];
 
 @NgModule({
