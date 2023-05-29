@@ -31,20 +31,22 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 
 // Admin Components
-import { AdminHeaderComponent } from './admin/components/header/header.component';
-import { PageNotFound } from './application/components/page-not-found/page-not-found.component';
-import { AppRoutingModule } from './app-routing.module';
 import { AdminLogin } from "./admin/components/login/login.component";
 import { AdminLogout } from "./admin/components/logout/logout.component";
 
-import { AdminIzmirASKF } from './admin/components/aboutizmiraskf/aboutizmiraskf.component';
+import { AdminHeaderComponent } from './admin/components/header/header.component';
+
+import { AdminHome } from "./admin/components/home/home.component";
+
+import { AdminIzmirASKF } from './admin/components/about-izmiraskf/about-izmiraskf.component';
 import { AdminStaffIzmirAskf } from './admin/components/staff-izmiraskf-list/staff-izmiraskf-list.component';
 import { AdminCreateStaffIzmirAskfModal } from "./admin/components/staff-izmiraskf-create/staff-izmiraskf-create.component";
 import { AdminAboutStaffIASKFWrapComponent } from "./admin/components/about-staff-iaskf-wrap/about-staff-iaskf-wrap.component";
 
-import { AdminIzmirTFFIlTemsilciligi } from './admin/components/aboutizmirtffiltemsilciligi/aboutizmirtffiltemsilciligi.component';
+import { AdminIzmirTFFIlTemsilciligi } from './admin/components/about-izmirtffiltemsilciligi/about-izmirtffiltemsilciligi.component';
 import { AdminStaffIzmirTFF } from "./admin/components/staff-izmirtff-list/staff-izmirtff-list.component";
 import { AdminCreateStaffIzmirTFFModal } from "./admin/components/staff-izmirtff-create/staff-izmirtff-create.component";
 import { AdminAboutStaffITFFWrapComponent } from "./admin/components/about-staff-itff-wrap/about-staff-itff-wrap.component";
@@ -100,6 +102,7 @@ import { AdminUsersList } from "./admin/components/users-list/users-list.compone
 import { AdminUsersCreateModal } from "./admin/components/users-create/users-create.component";
 
 // Application Components
+import { PageNotFound } from './application/components/page-not-found/page-not-found.component';
 import { ApplicationHeaderComponent } from "./application/components/header/header.component";
 
 
@@ -116,10 +119,12 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     AppComponent,
 
     //Admin Components
-    AdminHeaderComponent,
-    PageNotFound,
     AdminLogin,
     AdminLogout,
+
+    AdminHeaderComponent,
+
+    AdminHome,
 
     AdminIzmirASKF,
     AdminStaffIzmirAskf,
@@ -184,6 +189,7 @@ import { ErrorInterceptor } from "./error/error-interceptor";
 
 
     //Application Components
+    PageNotFound,
     ApplicationHeaderComponent
 
   ],

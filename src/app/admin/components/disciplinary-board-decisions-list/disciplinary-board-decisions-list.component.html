@@ -151,6 +151,12 @@
             <tr mat-header-row *matHeaderRowDef="tableColumns" class="table-header-row"></tr>
           <tr mat-row *matRowDef="let row; columns: tableColumns;" class="table-detail-row"></tr>
         </table>
+
+        <mat-card>
+          <mat-card-content>
+            <mat-card-subtitle>Toplam Kayıt Sayısı: {{disciplinaryBoardDecisionsList.length}}</mat-card-subtitle>
+          </mat-card-content>
+        </mat-card>
     </div>
 
 </div>

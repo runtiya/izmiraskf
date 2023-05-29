@@ -8,8 +8,8 @@ import { AboutIASKFService } from "../../services/admin-aboutiaskf.service";
 
 @Component({
   selector: 'app-admin-izmiraskf',
-  templateUrl: './aboutizmiraskf.component.html',
-  styleUrls: ['../../../app.component.css', './aboutizmiraskf.component.css']
+  templateUrl: './about-izmiraskf.component.html',
+  styleUrls: ['../../../app.component.css', './about-izmiraskf.component.css']
 })
 export class AdminIzmirASKF implements OnInit, OnDestroy {
   headerTitle = 'İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU';
