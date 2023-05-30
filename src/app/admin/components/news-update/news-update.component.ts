@@ -118,7 +118,6 @@ export class AdminNewsUpdateModal {
 
   onUpdateNews() {
 
-    console.log(this.newsUpdateForm.get('content').value);
     if (this.newsUpdateForm.valid) {
 
       this.isLoading = true;

@@ -55,7 +55,7 @@ export class AdminUsersCreateModal implements OnInit, OnDestroy {
       };
       reader.readAsDataURL(file);
     } catch (error) {
-      console.log(error);
+
     }
 
   }

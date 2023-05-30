@@ -1,0 +1,111 @@
+<div class="container">
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>{{headerTitle}}</span>
+  </mat-toolbar>
+
+  <mat-card class="card-abouttext">
+    <mat-card-header>
+      <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"  alt="Image of a Shiba Inu">
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field>
+            <mat-label>Hakkımızda</mat-label>
+            <textarea
+              matInput
+              readonly="true"
+              id="input-abouttext"
+              [value]="aboutcontent.aboutText"
+              [rows]="autoAdjustRows()"
+            ></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <mat-form-field>
+            <mat-label>Telefon</mat-label>
+            <fa-icon
+              matTextPrefix=""
+              class="icon"
+              [icon]="fontAwesomeIconList.faPhone"
+            ></fa-icon>
+            <input
+              matInput
+              type="text"
+              readonly="true"
+              [value]="aboutcontent.phoneNumber"
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <mat-form-field>
+            <mat-label>Fax</mat-label>
+            <fa-icon
+              matTextPrefix=""
+              class="icon"
+              [icon]="fontAwesomeIconList.faFax"
+            ></fa-icon>
+            <input
+              matInput
+              type="text"
+              readonly="true"
+              [value]="aboutcontent.faxNumber"
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <mat-form-field>
+            <mat-label>E-Posta</mat-label>
+            <fa-icon
+              matTextPrefix=""
+              class="icon"
+              [icon]="fontAwesomeIconList.faEnvelope"
+            ></fa-icon>
+            <input
+              matInput
+              type="text"
+              readonly="true"
+              [value]="aboutcontent.email"
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="col-12">
+          <mat-form-field>
+            <mat-label>Adres</mat-label>
+            <fa-icon
+              matTextPrefix=""
+              class="icon"
+              [icon]="fontAwesomeIconList.faLocationDot"
+            ></fa-icon>
+            <textarea
+              matInput
+              type="text"
+              readonly="true"
+              [value]="aboutcontent.address"
+              rows="1"
+            ></textarea>
+
+          </mat-form-field>
+        </div>
+
+        <div class="col-12">
+          <google-map
+            width="auto"
+            [center]="center"
+            [zoom]="zoom"
+          >
+            <map-marker
+              *ngFor="let marker of markerPositions"
+              [position]="{marker}"
+            ></map-marker>
+          </google-map>
+        </div>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

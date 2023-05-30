@@ -23,17 +23,17 @@ export class TeamsService {
               this.teamList = data.teamList;
               this.teamListSub.next([...this.teamList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
-            console.log(error)
+
             this.teamList = [];
             this.teamListSub.next([]);
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -58,7 +58,7 @@ export class TeamsService {
               this.teamList.push(teamInfo);
               this.teamListSub.next([...this.teamList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -66,7 +66,7 @@ export class TeamsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -107,7 +107,7 @@ export class TeamsService {
               });
               this.teamListSub.next([...this.teamList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -115,7 +115,7 @@ export class TeamsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -133,7 +133,7 @@ export class TeamsService {
               this.teamListSub.next([...this.teamList]);
             }
             else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -141,7 +141,7 @@ export class TeamsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 }

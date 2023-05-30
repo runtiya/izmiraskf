@@ -5,7 +5,7 @@ function getNews(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_news",
+    "select * from view_admin_news",
     (error, result) => {
       if (!error) {
         newsList = result;
@@ -82,7 +82,7 @@ function updateNews(req, res, next) {
     ],
     (error, result) => {
       if (!error) {
-        //console.log(result);
+        //
       } else {
         message = error.sqlMessage;
       }
@@ -104,7 +104,7 @@ function deleteNews(req, res, next) {
     [newsId],
     (error, result) => {
       if (!error) {
-        //console.log(result);
+        //
       } else {
         message = error.sqlMessage;
       }

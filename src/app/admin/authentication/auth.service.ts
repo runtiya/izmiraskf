@@ -172,7 +172,14 @@ export class AuthService {
     this.userName = null;
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
-    this.router.navigate(["/admin/kullanici-giris"]);
+
+    let url = this.router.url;
+    if (url.includes('admin')) {
+      this.router.navigate(["/admin/kullanici-giris"]);
+    } else {
+
+    }
+
   }
 
   private setAuthTimer(duration: number) {

@@ -67,7 +67,7 @@ export class PointBoardService {
           });
       }
     } catch (error) {
-      console.log(error)
+
       this.globalFunctions.showSpinner.next(false);
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
     }

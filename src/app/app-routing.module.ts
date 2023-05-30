@@ -40,6 +40,13 @@ import { PageNotFound } from "./application/components/page-not-found/page-not-f
 
 import { ApplicationHome } from "./application/components/home/home.component";
 
+import { ApplicationIzmirASKF } from "./application/components/about-izmiraskf/about-izmiraskf.component";
+import { ApplicationStaffIzmirAskf } from "./application/components/staff-izmiraskf-list/staff-izmiraskf-list.component";
+
+import { ApplicationIzmirTFFIlTemsilciligi } from "./application/components/about-tffizmiriltemsilciligi/about-tffizmiriltemsilciligi.component";
+import { ApplicationStaffIzmirTFF } from "./application/components/staff-izmirtff-list/staff-izmirtff-list.component";
+
+
 const routes: Routes = [
   {path: 'admin/anasayfa', component: AdminHome, canActivate: [AuthGuard]},
   {path: 'admin/kullanici-giris', component: AdminLogin},
@@ -78,7 +85,11 @@ const routes: Routes = [
   {path: '', component: ApplicationHome},
   {path: 'anasayfa', component: ApplicationHome},
 
+  {path: 'izmiraskf/hakkimizda', component: ApplicationIzmirASKF},
+  {path: 'izmiraskf/yonetim-kurulu', component: ApplicationStaffIzmirAskf},
 
+  {path: 'tffiltemsilciligi/hakkimizda', component: ApplicationIzmirTFFIlTemsilciligi},
+  {path: 'tffiltemsilciligi/yonetim-kurulu', component: ApplicationStaffIzmirTFF},
 
   {path: '**', pathMatch: "full", component: PageNotFound},
 ];

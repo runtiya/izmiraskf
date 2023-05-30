@@ -29,7 +29,7 @@ export class FixtureService {
               this.fixtureList = data.fixtureList;
               !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
             } else {
-              console.log(data.message);
+
             }
             this.globalFunctions.showSpinner.next(false);
           },
@@ -40,7 +40,7 @@ export class FixtureService {
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-      console.log(error);
+
     }
   }
 
@@ -58,7 +58,7 @@ export class FixtureService {
               this.fixtureList = data.fixtureList;
               !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
             } else {
-              console.log(data.message);
+
             }
             this.globalFunctions.showSpinner.next(false);
           },
@@ -69,7 +69,7 @@ export class FixtureService {
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-      console.log(error);
+
     }
 
   }
@@ -91,7 +91,7 @@ export class FixtureService {
               this.getFixture(_groupstageId);
             } else {
               this.globalFunctions.showSnackBar.next('Hata! Fikstür oluşturulamadı!');
-              console.log(data.message);
+
             }
             this.globalFunctions.showSpinner.next(false);
           },
@@ -102,7 +102,7 @@ export class FixtureService {
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-      console.log(error);
+
     }
   }
 
@@ -125,7 +125,7 @@ export class FixtureService {
               this.fixtureListSub.next([...this.fixtureList]);
             } else {
               this.globalFunctions.showSnackBar.next('Hata! Müsabaka güncellenemedi');
-              console.log(data.message);
+
             }
             this.globalFunctions.showSpinner.next(false);
           },
@@ -136,7 +136,7 @@ export class FixtureService {
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-      console.log(error);
+
     }
   }
 
@@ -187,7 +187,7 @@ export class FixtureService {
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-      console.log(error)
+
     }
   }
 
@@ -205,7 +205,7 @@ export class FixtureService {
               !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
             } else {
               this.globalFunctions.showSnackBar.next('Hata! Fikstür silinemedi!');
-              console.log(data.message);
+
             }
             this.globalFunctions.showSpinner.next(false);
           },
@@ -216,7 +216,7 @@ export class FixtureService {
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-      console.log(error)
+
     }
   }
 }

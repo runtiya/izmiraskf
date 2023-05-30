@@ -4,12 +4,12 @@ const path = require('path');
 
 const app = express();
 
-
+// Admin Routes
 const adminNewsRoutes = require('./routes/admin/news');
-const adminAboutIASKFRoutes = require('./routes/admin/aboutiaskf');
-const adminStaffIASKFRoutes = require('./routes/admin/staffiaskf');
-const adminAboutITFFRoutes = require('./routes/admin/aboutitff');
-const adminStaffITFFRoutes = require('./routes/admin/staffitff');
+const adminAboutIASKFRoutes = require('./routes/admin/aboutizmiraskf');
+const adminStaffIASKFRoutes = require('./routes/admin/staffizmiraskf');
+const adminAboutITFFRoutes = require('./routes/admin/aboutizmirtff');
+const adminStaffITFFRoutes = require('./routes/admin/staffizmirtff');
 const adminExternalLinkRoutes = require('./routes/admin/externallinks');
 const adminDocumentsRoutes = require('./routes/admin/documents');
 const adminTeamsRoutes = require('./routes/admin/teams');
@@ -25,6 +25,13 @@ const adminPointBoardRoutes = require('./routes/admin/pointboard');
 const adminAuthenticationRoutes = require('./routes/admin/authentication');
 
 
+// Application Routes
+const applicationAboutIASKFRoutes = require('./routes/application/aboutizmiraskf');
+const applicationStaffIASKFRoutes = require('./routes/application/staffizmiraskf');
+const applicationAboutITFFRoutes = require('./routes/application/aboutizmirtff');
+const applicationStaffITFFRoutes = require('./routes/application/staffizmirtff');
+
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit:'3000kb'}));
 
@@ -38,12 +45,12 @@ app.use((req, res, next) => {
 });
 
 
-
+// Admin app-use
 app.use('/admin/haberler', adminNewsRoutes);
-app.use('/admin/izmiraskf', adminAboutIASKFRoutes);
-app.use('/admin/izmiraskf-personel', adminStaffIASKFRoutes);
-app.use('/admin/izmirtffiltemsilciligi', adminAboutITFFRoutes);
-app.use('/admin/izmirtffiltemsilciligi-personel', adminStaffITFFRoutes);
+app.use('/admin/izmiraskf/hakkimizda', adminAboutIASKFRoutes);
+app.use('/admin/izmiraskf/yonetim-kurulu', adminStaffIASKFRoutes);
+app.use('/admin/tffiltemsilciligi/hakkimizda', adminAboutITFFRoutes);
+app.use('/admin/tffiltemsilciligi/yonetim-kurulu', adminStaffITFFRoutes);
 app.use('/admin/disbaglantilar', adminExternalLinkRoutes);
 app.use('/admin/documents', adminDocumentsRoutes);
 app.use('/admin/takimlar', adminTeamsRoutes);
@@ -57,5 +64,12 @@ app.use('/admin/gruplar', adminGroupsRoutes);
 app.use('/admin/fikstur', adminFixturesRoutes);
 app.use('/admin/puan-durumu', adminPointBoardRoutes);
 app.use('/admin/kullanicilar', adminAuthenticationRoutes);
+
+
+// Application app-use
+app.use('/izmiraskf/hakkimizda', applicationAboutIASKFRoutes);
+app.use('/izmiraskf/yonetim-kurulu', applicationStaffIASKFRoutes);
+app.use('/tffiltemsilciligi/hakkimizda', applicationAboutITFFRoutes);
+app.use('/tffiltemsilciligi/yonetim-kurulu', applicationStaffITFFRoutes);
 
 module.exports = app;

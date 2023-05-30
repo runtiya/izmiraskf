@@ -51,7 +51,7 @@ export class AdminCreateStaffIzmirAskfModal {
       };
       reader.readAsDataURL(file);
     } catch (error) {
-      console.log(error);
+
     }
   }
 

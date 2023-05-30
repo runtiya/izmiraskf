@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from "rxjs";
 
-import { AboutITFFModel } from "../../models/admin-izmirtff.model";
+import { AboutITFFModel } from "../../models/admin-aboutizmirtff.model";
 import { AboutITFFService } from "../../services/admin-aboutitff.service";
 
 @Component({
@@ -17,6 +17,12 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
   aboutcontent: AboutITFFModel;
   private aboutcontentSubscription: Subscription;
 
+  latitude = 38.4377387;
+  longitude = 27.1409411;
+  zoom = 15;
+  center: google.maps.LatLngLiteral = {lat: this.latitude, lng: this.longitude};
+  markerPositions: google.maps.LatLngLiteral[] = [];
+
   constructor(public aboutitffService: AboutITFFService) {}
 
   ngOnInit() {
@@ -30,11 +36,21 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
           phoneNumber: new FormControl(data.phoneNumber, {validators: [Validators.maxLength(100)]}),
           faxNumber: new FormControl(data.faxNumber, {validators: [Validators.maxLength(100)]}),
           email: new FormControl(data.email, {validators: [Validators.maxLength(100)]}),
-          longitude: new FormControl(data.longitude, {validators: []}),
           latitude: new FormControl(data.latitude, {validators: []}),
+          longitude: new FormControl(data.longitude, {validators: []}),
         });
         this.isLoading = false;
       });
+  }
+
+  addMarker(event: google.maps.MapMouseEvent) {
+    if (event.latLng != null) {
+      this.markerPositions = [];
+      this.markerPositions.push(event.latLng.toJSON());
+
+      this.aboutITFFform.get('latitude').setValue(event.latLng.lat());
+      this.aboutITFFform.get('longitude').setValue(event.latLng.lng());
+    }
   }
 
   onUpdateAboutText() {

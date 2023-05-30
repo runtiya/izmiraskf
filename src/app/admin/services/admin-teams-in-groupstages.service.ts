@@ -26,7 +26,7 @@ export class TeamsInGroupstagesService {
               this.teamsingroupstagesList = data.teamsingroupstagesList;
               !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -34,7 +34,7 @@ export class TeamsInGroupstagesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -54,7 +54,7 @@ export class TeamsInGroupstagesService {
               this.teamsList = data.teamsList;
               this.teamsListSub.next([...this.teamsList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -62,7 +62,7 @@ export class TeamsInGroupstagesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -82,7 +82,7 @@ export class TeamsInGroupstagesService {
               this.teamsingroupstagesList = teamsInGroupstagesList;
               !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -90,7 +90,7 @@ export class TeamsInGroupstagesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -113,7 +113,7 @@ export class TeamsInGroupstagesService {
                 this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]);
               })
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -121,7 +121,7 @@ export class TeamsInGroupstagesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 }

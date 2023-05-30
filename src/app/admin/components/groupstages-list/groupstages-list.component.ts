@@ -125,8 +125,6 @@ export class AdminGroupList implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(this.seasonSelectionId);
-      console.log(this.leagueSelectionId);
       this.isLoading = true;
       this.seasonsService.getSeasons();
       this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
@@ -156,7 +154,6 @@ export class AdminGroupList implements OnInit, OnDestroy {
   }
 
   onSeasonChange(seasonId: number) {
-    console.log(seasonId);
     this.isLoading = true;
     this.leagueSelectionId = null;
     this.leagueService.getLeagues(seasonId);

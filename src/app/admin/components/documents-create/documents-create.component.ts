@@ -53,7 +53,7 @@ export class AdminDocumentCreateModal {
       };
       reader.readAsDataURL(file);
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -68,7 +68,7 @@ export class AdminDocumentCreateModal {
       this.isLoading = false;
       this.dialogRef.close();
     } else {
-      console.log(this.documentSubmitForm.value);
+
     }
   }
 

@@ -23,7 +23,7 @@ export class DocumentsService {
               this.documentsList = data.documents;
               this.documentsListSub.next([...this.documentsList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -31,7 +31,7 @@ export class DocumentsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -52,7 +52,7 @@ export class DocumentsService {
               this.documentsList.push(documentInfo);
               this.documentsListSub.next([...this.documentsList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -60,7 +60,7 @@ export class DocumentsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -89,7 +89,7 @@ export class DocumentsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -112,7 +112,7 @@ export class DocumentsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 }

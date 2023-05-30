@@ -23,7 +23,7 @@ export class ExternalLinksService {
               this.extLinksList = data.externalLinks;
               this.extLinksListSub.next([...this.extLinksList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -31,7 +31,7 @@ export class ExternalLinksService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -48,13 +48,11 @@ export class ExternalLinksService {
         .subscribe({
           next: (data) => {
             if (!data.error) {
-              console.log(data.message);
-              console.log(data.linkId);
               linkInfo.id = data.linkId;
               this.extLinksList.push(linkInfo);
               this.extLinksListSub.next([...this.extLinksList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -62,7 +60,7 @@ export class ExternalLinksService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -83,7 +81,7 @@ export class ExternalLinksService {
               });
               this.extLinksListSub.next([...this.extLinksList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -91,7 +89,7 @@ export class ExternalLinksService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -104,7 +102,7 @@ export class ExternalLinksService {
         .subscribe({
           next: (data) => {
             if (!data.error) {
-              console.log(data.message);
+
               const filteredLinksList = this.extLinksList.filter(link => link.id !== linkId);
               this.extLinksList = filteredLinksList;
               this.extLinksListSub.next([...this.extLinksList]);
@@ -115,7 +113,7 @@ export class ExternalLinksService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 }

@@ -3,8 +3,9 @@ const connection = require('../../functions/database').connectDatabase();
 function getStaffList(req, res, next) {
   var staffList;
   var message;
+
   connection.query(
-    "select * from view_staffiaskf", (error, result) => {
+    "select * from view_admin_staffitff", (error, result) => {
       if (!error) {
         staffList = result;
       }
@@ -26,28 +27,26 @@ function createStaff(req, res, next) {
   const staffInfo = req.body;
   var message;
   var staffId;
+
   connection.query(
-    "insert into staffiaskf(createdat, createdby, updatedat, updatedby, title, fullname, phone, email, profileimage, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "insert into staffitff(createdat, createdby, updatedat, updatedby, title, fullname, phone, email, profileimage, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       staffInfo.createdAt,
       staffInfo.createdBy,
       staffInfo.updatedAt,
       staffInfo.updatedBy,
-      staffInfo.title, 
-      staffInfo.fullName, 
-      staffInfo.phone, 
-      staffInfo.email, 
-      staffInfo.profileImage, 
-      staffInfo.isVisible, 
-      staffInfo.orderNo
-    ],
+      staffInfo.title,
+      staffInfo.fullName,
+      staffInfo.phone,
+      staffInfo.email,
+      staffInfo.profileImage,
+      staffInfo.isVisible,
+      staffInfo.orderNo],
     (error, result) => {
       if (!error) {
         staffId = result.insertId;
-        console.log(result)
       } else {
         message = error.sqlMessage;
-        console.log(error)
       }
       res.status(200).json({
         error: !!error,
@@ -61,25 +60,26 @@ function createStaff(req, res, next) {
 function updateStaff(req, res, next) {
   const staffInfo = req.body;
   var message;
+
   connection.query(
-    "update staffiaskf set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, fullname = ?, phone = ?, email = ?, profileimage = ?, isvisible = ?, orderno = ? where id = ?",
+    "update staffitff set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, fullname = ?, phone = ?, email = ?, profileimage = ?, isvisible = ?, orderno = ? where id = ?",
     [
       staffInfo.createdAt,
       staffInfo.createdBy,
       staffInfo.updatedAt,
       staffInfo.updatedBy,
-      staffInfo.title, 
-      staffInfo.fullName, 
-      staffInfo.phone, 
-      staffInfo.email, 
-      staffInfo.profileImage, 
-      staffInfo.isVisible, 
-      staffInfo.orderNo, 
+      staffInfo.title,
+      staffInfo.fullName,
+      staffInfo.phone,
+      staffInfo.email,
+      staffInfo.profileImage,
+      staffInfo.isVisible,
+      staffInfo.orderNo,
       staffInfo.id
     ],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }
@@ -94,11 +94,11 @@ function deleteStaff(req, res, next) {
   var staffId =  req.params.id;
   var message;
   connection.query(
-    "delete from staffiaskf where id = ?",
+    "delete from staffitff where id = ?",
     [staffId],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }

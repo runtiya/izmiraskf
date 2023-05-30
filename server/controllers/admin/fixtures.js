@@ -6,7 +6,7 @@ function getFixture(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_fixtures where groupstageId = ?",
+    "select * from view_admin_fixtures where groupstageId = ?",
     [groupstageId],
     (error, result) => {
       if (!error) {
@@ -45,7 +45,7 @@ function getFixtureBySearchIndex(req, res, next) {
 
 
   connection.query(
-    "select * from view_fixturesforsearch where " + seasonSearchIndex + " and "
+    "select * from view_admin_fixturesforsearch where " + seasonSearchIndex + " and "
                                                   + leagueSearchIndex + " and "
                                                   + groupstageSearchIndex + " and "
                                                   + matchNoSearchIndex + " and "
@@ -61,7 +61,6 @@ function getFixtureBySearchIndex(req, res, next) {
         fixtureList = result;
       } else {
         message = error.sqlMessage;
-        console.log(message)
         fixtureList = [];
       }
 
@@ -118,7 +117,6 @@ function createFixture(req, res, next) {
       );
     }
   } catch (_error) {
-    console.log(_error);
     connection.rollback(() => {
       _error = true;
     });
@@ -176,7 +174,6 @@ function updateFixture(req, res, next) {
       );
     }
   } catch (_error) {
-    console.log(_error);
     connection.rollback(() => {
       _error = true;
     });

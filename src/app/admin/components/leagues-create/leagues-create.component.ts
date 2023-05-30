@@ -50,7 +50,6 @@ export class AdminLeaguesCreateModal {
   }
 
   onSubmitForm() {
-    console.log(this.leagueSubmitForm.value)
 
     if (this.leagueSubmitForm.valid) {
       this.isLoading = true;
@@ -62,7 +61,6 @@ export class AdminLeaguesCreateModal {
       this.isLoading = false;
       this.dialogRef.close();
     } else {
-      console.log(this.leagueSubmitForm.value);
     }
 
   }

@@ -27,7 +27,7 @@ export class GroupStagesService {
               this.groupstageList = data.groupstageList;
               this.groupstageListSub.next([...this.groupstageList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -35,7 +35,7 @@ export class GroupStagesService {
           }
         });
     } catch (error) {
-      console.log(error)
+
     }
   }
 
@@ -55,7 +55,7 @@ export class GroupStagesService {
               this.weekSequence = data.weekSequence;
               this.weekSequenceSub.next([...this.weekSequence]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -63,7 +63,7 @@ export class GroupStagesService {
           }
         });
     } catch (error) {
-      console.log(error)
+
     }
   }
 
@@ -92,7 +92,7 @@ export class GroupStagesService {
               this.groupstageListSub.next([...this.groupstageList]);
               */
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -100,7 +100,7 @@ export class GroupStagesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -127,7 +127,7 @@ export class GroupStagesService {
               this.groupstageListSub.next([...this.groupstageList]);
               */
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -135,7 +135,7 @@ export class GroupStagesService {
           }
         });
     } catch (error) {
-      console.log(error)
+
     }
   }
 
@@ -152,7 +152,7 @@ export class GroupStagesService {
               this.groupstageList = filteredGroupstageList;
               this.groupstageListSub.next([...this.groupstageList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -160,7 +160,7 @@ export class GroupStagesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 }

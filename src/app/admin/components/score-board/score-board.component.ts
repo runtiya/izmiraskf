@@ -355,7 +355,6 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     }
 
     onSave() {
-        console.log(this.fixtureList);
         this.fixtureService.updateFixture(this.fixtureList);
     }
 

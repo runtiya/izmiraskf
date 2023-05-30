@@ -23,7 +23,7 @@ export class SeasonsService {
               this.seasonsList = data.seasonList;
               this.seasonsListSub.next([...this.seasonsList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -32,7 +32,7 @@ export class SeasonsService {
         });
 
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -53,7 +53,7 @@ export class SeasonsService {
               this.seasonsList.push(seasonInfo);
               this.seasonsListSub.next([...this.seasonsList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -61,7 +61,7 @@ export class SeasonsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -78,12 +78,11 @@ export class SeasonsService {
               this.seasonsList.forEach((item, i) => {
                 if (item.id == seasonInfo.id) {
                   this.seasonsList[i] = seasonInfo;
-                  console.log(item)
                 }
               });
               this.seasonsListSub.next([...this.seasonsList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -91,7 +90,7 @@ export class SeasonsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -108,7 +107,7 @@ export class SeasonsService {
               this.seasonsList = filteredSeasonsList;
               this.seasonsListSub.next([...this.seasonsList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -116,7 +115,7 @@ export class SeasonsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 }
