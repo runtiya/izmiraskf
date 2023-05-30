@@ -56,7 +56,7 @@ export class AdminExternalLinksCreateModal implements OnInit {
       };
       reader.readAsDataURL(file);
     } catch (error) {
-      console.log(error);
+
     }
   }
 

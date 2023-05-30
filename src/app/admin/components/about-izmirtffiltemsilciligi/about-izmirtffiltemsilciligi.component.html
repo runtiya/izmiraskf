@@ -35,7 +35,7 @@
             matInput
             type="text"
             formControlName="address"
-            rows="2"
+            rows="1"
             placeholder="Adres (en fazla 2000 karakter)"
           >
           </textarea>
@@ -86,15 +86,24 @@
         </mat-form-field>
       </div>
 
-      <div class="col-lg-6 col-md-12 col-sm-12">
-        <div id="googleMap">
-
-        </div>
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <google-map
+          width="auto"
+          [center]="center"
+          [zoom]="zoom"
+          (mapClick)="addMarker($event)"
+        >
+          <map-marker
+            *ngFor="let marker of markerPositions"
+            [position]="marker"
+          ></map-marker>
+        </google-map>
       </div>
     </div>
 
 
       <button
+        class="btn btn-save"
         mat-raised-button
         color="primary"
         type="submit"

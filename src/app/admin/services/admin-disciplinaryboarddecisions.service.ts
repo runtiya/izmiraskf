@@ -27,7 +27,7 @@ export class DisciplinaryBoardDecisionsService {
               this.disciplinaryBoardDecisionList = data.disciplinaryBoardDecisionList;
               !!this.disciplinaryBoardDecisionList ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -35,7 +35,7 @@ export class DisciplinaryBoardDecisionsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -56,7 +56,7 @@ export class DisciplinaryBoardDecisionsService {
               this.disciplinaryBoardDecisionList.push(disciplinaryBoardDecisionInfo);
               this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -64,7 +64,7 @@ export class DisciplinaryBoardDecisionsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -84,7 +84,7 @@ export class DisciplinaryBoardDecisionsService {
               });
               this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -92,7 +92,7 @@ export class DisciplinaryBoardDecisionsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 

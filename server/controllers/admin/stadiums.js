@@ -6,7 +6,7 @@ function getStadiums(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_stadiums",
+    "select * from view_admin_stadiums",
     (error, result) => {
       if (!error) {
         stadiumList = result;
@@ -37,7 +37,7 @@ function createStadium(req, res, next) {
   var stadiumId;
   connection.query(
     "insert into stadiums(createdat, createdby, updatedat, updatedby, stadiumname, city, town, address, stadiumimage, audiencecapacity, sizelength, sizewidth, floortype, haslightning, hasseating, hasdisabledtribune, hasclosedcircuitcamerasystem)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [ 
+    [
       stadiumInfo.createdAt,
       stadiumInfo.createdBy,
       stadiumInfo.updatedAt,
@@ -76,7 +76,7 @@ function updateStadium(req, res, next) {
   var message;
   connection.query(
     "update stadiums set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, stadiumname = ?, city = ?, town = ?, address = ?, stadiumimage = ?, audiencecapacity = ?, sizelength = ?, sizewidth = ?, floortype = ?, haslightning = ?, hasseating = ?, hasdisabledtribune = ?, hasclosedcircuitcamerasystem = ? where id = ?",
-    [ 
+    [
       stadiumInfo.createdAt,
       stadiumInfo.createdBy,
       stadiumInfo.updatedAt,
@@ -98,7 +98,7 @@ function updateStadium(req, res, next) {
     ],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }
@@ -118,7 +118,7 @@ function deleteStadium(req, res, next) {
     [stadiumId],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }

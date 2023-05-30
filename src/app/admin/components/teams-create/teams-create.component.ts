@@ -92,7 +92,7 @@ export class AdminTeamsCreateModal implements OnInit {
       };
       reader.readAsDataURL(file);
     } catch (error) {
-      console.log(error);
+
     }
 
   }

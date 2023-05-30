@@ -23,7 +23,7 @@ export class StadiumsService {
               this.stadiumList = data.stadiums;
               this.stadiumListSub.next([...this.stadiumList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -31,7 +31,7 @@ export class StadiumsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -48,13 +48,11 @@ export class StadiumsService {
         .subscribe({
           next: (data) => {
             if (!data.error) {
-              console.log(data.message);
-              console.log(data.stadiumId);
               stadiumInfo.id = data.stadiumId;
               this.stadiumList.push(stadiumInfo);
               this.stadiumListSub.next([...this.stadiumList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -62,7 +60,7 @@ export class StadiumsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -80,7 +78,7 @@ export class StadiumsService {
               this.stadiumList[index] = stadiumInfo;
               this.stadiumListSub.next([...this.stadiumList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -88,7 +86,7 @@ export class StadiumsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -101,13 +99,13 @@ export class StadiumsService {
         .subscribe({
           next: (data) => {
             if (!data.error) {
-              console.log(data.message);
+
               const filteredStadiumList = this.stadiumList.filter(stadium => stadium.id !== stadiumId);
               this.stadiumList = filteredStadiumList;
               this.stadiumListSub.next([...this.stadiumList]);
             }
             else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -115,7 +113,7 @@ export class StadiumsService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 }

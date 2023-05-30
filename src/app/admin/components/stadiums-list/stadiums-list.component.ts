@@ -37,7 +37,7 @@ export class AdminStadiumsListComponent implements OnInit, OnDestroy {
       .subscribe((data: StadiumsModel[]) => {
         this.stadiumsList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
         this.isLoading = false;
-        console.log(this.stadiumsList)
+
       });
   }
 

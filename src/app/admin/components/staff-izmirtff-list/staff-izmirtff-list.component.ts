@@ -6,8 +6,10 @@ import { StaffITFFModel } from "../../models/admin-staffizmirtff.model";
 import { StaffITFFService } from "../../services/admin-staffitff.service";
 import { AdminCreateStaffIzmirTFFModal } from "../staff-izmirtff-create/staff-izmirtff-create.component";
 
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+
 @Component({
-  selector: 'app-admin-staffizmirtff',
+  selector: 'app-admin-staffizmirtff-list',
   templateUrl: './staff-izmirtff-list.component.html',
   styleUrls: ['../../../app.component.css', './staff-izmirtff-list.component.css']
 })
@@ -16,6 +18,8 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
   isLoading = false;
   staffizmirtffList: StaffITFFModel[] = [];
   private staffizmirtffListSub: Subscription;
+
+  fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
     public staffService: StaffITFFService,
@@ -27,7 +31,7 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
     this.staffService.getStaff();
     this.staffizmirtffListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffITFFModel[]) => {
-        this.staffizmirtffList = data.sort((a, b) => a.orderNo - b.orderNo);
+        this.staffizmirtffList = data;
         this.isLoading = false;
       });
   }

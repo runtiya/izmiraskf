@@ -313,14 +313,14 @@
                                     <fa-icon
                                         *ngIf="fixture.homeTeamIsExpelled || fixture.homeTeamIsReceded"
                                         [icon]="fontAwesomeIconList.faCircleInfo"
-                                        class="icon-circle-info"
+                                        class="icon icon-circle-info"
                                         matTooltip="{{fixture.homeTeamExpelledOrRecededExplanation}}">
                                     </fa-icon>
                                     {{findTeamName(fixture.homeTeamId)}}
                                     <fa-icon
                                         *ngIf="fixture.isHomeTeamWinByForfeit"
                                         [icon]="fontAwesomeIconList.faCircleH"
-                                        class="icon-circle-h"
+                                        class="icon icon-circle-h"
                                         matTooltip="Hükmen">
                                     </fa-icon>
                                 </mat-card-title>
@@ -375,14 +375,14 @@
                                     <fa-icon
                                         *ngIf="fixture.awayTeamIsExpelled || fixture.awayTeamIsReceded"
                                         [icon]="fontAwesomeIconList.faCircleInfo"
-                                        class="icon-circle-info"
+                                        class="icon icon-circle-info"
                                         matTooltip="{{fixture.awayTeamExpelledOrRecededExplanation}}">
                                     </fa-icon>
                                     {{findTeamName(fixture.awayTeamId)}}
                                     <fa-icon
                                         *ngIf="fixture.isAwayTeamWinByForfeit"
                                         [icon]="fontAwesomeIconList.faCircleH"
-                                        class="icon-circle-h"
+                                        class="icon icon-circle-h"
                                         matTooltip="Hükmen">
                                     </fa-icon>
                                 </mat-card-title>

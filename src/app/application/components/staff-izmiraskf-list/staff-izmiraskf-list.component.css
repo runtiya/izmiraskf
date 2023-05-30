@@ -1,0 +1,7 @@
+.profileImageBorder > img {
+  border-radius: 50%;
+}
+
+.mat-mdc-card {
+  box-shadow: none;
+}

@@ -84,7 +84,7 @@
               <fa-icon
                 *ngIf="team.isExpelled || team.isReceded"
                 [icon]="fontAwesomeIconList.faCircleInfo"
-                class="icon-circle-info"
+                class="icon icon-circle-info"
                 matTooltip="{{findExpelledOrRecededExplanation(team.teamId)}}">
             </fa-icon>
               {{team.isExpelled ? 'İHRAÇ' : (team.isReceded ? 'ÇEKİLME' : '')}}
@@ -195,14 +195,14 @@
                 <fa-icon
                     *ngIf="findExpelledOrReceded(matchDay.homeTeamId)"
                     [icon]="fontAwesomeIconList.faCircleInfo"
-                    class="icon-circle-info"
+                    class="icon icon-circle-info"
                     matTooltip="{{findExpelledOrRecededExplanation(matchDay.homeTeamId)}}">
                 </fa-icon>
                   {{findTeamName(matchDay.homeTeamId) || 'BAY'}}
                 <fa-icon
                   *ngIf="matchDay.isHomeTeamWinByForfeit"
                   [icon]="fontAwesomeIconList.faCircleH"
-                  class="icon-circle-h"
+                  class="icon icon-circle-h"
                   matTooltip="Hükmen Galip">
                 </fa-icon>
             </mat-card-title>
@@ -260,14 +260,14 @@
                 <fa-icon
                   *ngIf="matchDay.isAwayTeamWinByForfeit"
                   [icon]="fontAwesomeIconList.faCircleH"
-                  class="icon-circle-h"
+                  class="icon icon-circle-h"
                   matTooltip="Hükmen Galip">
                 </fa-icon>
                 {{findTeamName(matchDay.awayTeamId) || 'BAY'}}
                 <fa-icon
                   *ngIf="findExpelledOrReceded(matchDay.awayTeamId)"
                   [icon]="fontAwesomeIconList.faCircleInfo"
-                  class="icon-circle-info"
+                  class="icon icon-circle-info"
                   matTooltip="{{findExpelledOrRecededExplanation(matchDay.awayTeamId)}}">
                 </fa-icon>
               </mat-card-title>

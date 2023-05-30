@@ -44,7 +44,7 @@ export class AdminUsersList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: UserModel[]) => {
           this.usersList = data;
-          console.log(this.usersList);
+
         },
         error: (error) => {
 

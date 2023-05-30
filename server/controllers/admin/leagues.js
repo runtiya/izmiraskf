@@ -6,7 +6,7 @@ function getLeagues(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_leagues where seasonid = ?",
+    "select * from view_admin_leagues where seasonid = ?",
     [seasonId],
     (error, result) => {
       if (!error) {
@@ -31,7 +31,7 @@ function createLeague(req, res, next) {
 
   connection.query(
     "insert into leagues(createdat, createdby, updatedat, updatedby, seasonid, leaguename, category, leaguetype, isactive, orderno) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [ 
+    [
       leagueInfo.createdAt,
       leagueInfo.createdBy,
       leagueInfo.updatedAt,
@@ -64,7 +64,7 @@ function updateLeague(req, res, next) {
 
   connection.query(
     "update leagues set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonid = ?, leaguename = ?, category = ?, leaguetype = ?, isactive = ?, orderno = ? where id = ?",
-    [ 
+    [
       leagueInfo.createdAt,
       leagueInfo.createdBy,
       leagueInfo.updatedAt,
@@ -79,7 +79,7 @@ function updateLeague(req, res, next) {
     ],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }
@@ -93,13 +93,13 @@ function updateLeague(req, res, next) {
 function deleteLeague(req, res, next) {
   var leagueId =  req.params.id;
   var message;
-  
+
   connection.query(
     "delete from leagues where id = ?",
     [leagueId],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }

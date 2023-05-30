@@ -6,7 +6,7 @@ function getExternalLinks(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_externallinks",
+    "select * from view_admin_externallinks",
     (error, result) => {
       if (!error) {
         extlinkList = result;
@@ -26,7 +26,7 @@ function getExternalLinks(req, res, next) {
 // Create a external link
 function createExternalLink(req, res, next) {
   const linkInfo = req.body;
-  console.log(linkInfo)
+
   var message;
   var linkId;
   connection.query(
@@ -36,12 +36,12 @@ function createExternalLink(req, res, next) {
       linkInfo.createdBy,
       linkInfo.updatedAt,
       linkInfo.updatedBy,
-      linkInfo.linkName, 
-      linkInfo.url, 
-      linkInfo.linkType, 
-      linkInfo.iconImage, 
-      linkInfo.faBrand, 
-      linkInfo.orderNo, 
+      linkInfo.linkName,
+      linkInfo.url,
+      linkInfo.linkType,
+      linkInfo.iconImage,
+      linkInfo.faBrand,
+      linkInfo.orderNo,
       linkInfo.isActive
     ],
     (error, result) => {
@@ -69,18 +69,18 @@ function updateExternalLink(req, res, next) {
       linkInfo.createdBy,
       linkInfo.updatedAt,
       linkInfo.updatedBy,
-      linkInfo.linkName, 
-      linkInfo.url, 
-      linkInfo.linkType, 
-      linkInfo.iconImage, 
-      linkInfo.faBrand, 
-      linkInfo.orderNo, 
-      linkInfo.isActive, 
+      linkInfo.linkName,
+      linkInfo.url,
+      linkInfo.linkType,
+      linkInfo.iconImage,
+      linkInfo.faBrand,
+      linkInfo.orderNo,
+      linkInfo.isActive,
       linkInfo.id
     ],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }
@@ -101,7 +101,7 @@ function deleteExternalLink(req, res, next) {
     [linkId],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }

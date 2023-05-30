@@ -5,7 +5,7 @@ function getSeasons(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_seasons",
+    "select * from view_admin_seasons",
     (error, result) => {
       if (!error) {
         seasonList = result;
@@ -28,7 +28,7 @@ function createSeason(req, res, next) {
   var seasonId;
   connection.query(
     "insert into seasons(createdat, createdby, updatedat, updatedby, seasonname, seasonyear, isactive)values (?, ?, ?, ?, ?, ?, ?)",
-    [ 
+    [
       seasonInfo.createdAt,
       seasonInfo.createdBy,
       seasonInfo.updatedAt,
@@ -58,7 +58,7 @@ function updateSeason(req, res, next) {
   var seasonId = req.params.id;
   connection.query(
     "update seasons set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonname = ?, seasonyear = ?, isactive = ?  where id = ?",
-    [ 
+    [
       seasonInfo.createdAt,
       seasonInfo.createdBy,
       seasonInfo.updatedAt,
@@ -70,7 +70,7 @@ function updateSeason(req, res, next) {
     ],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }
@@ -89,7 +89,7 @@ function deleteSeason(req, res, next) {
     [seasonId],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }

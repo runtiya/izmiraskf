@@ -55,7 +55,6 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
             const filteredLeagueList = data.filter(league => league.seasonId === this.seasonSelectionId);
             this.leagueList = filteredLeagueList.sort((a, b) => a.orderNo - b.orderNo);
             this.isLoading = false;
-            console.log(this.leagueList)
           });
       });
 

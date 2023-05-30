@@ -5,7 +5,7 @@ function getTeams(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_teams",
+    "select * from view_admin_teams",
     (error, result) => {
       if (!error) {
         teamList = result;
@@ -126,7 +126,7 @@ function deleteTeam(req, res, next) {
     [teamId],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }

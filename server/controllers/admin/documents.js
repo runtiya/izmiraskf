@@ -156,7 +156,7 @@ function getDocuments(req, res, next) {
 
 function createDocument(req, res, next) {
   const document = req.body;
-  console.log(document);
+
   res.status(200).json({
     error: false,
     message: 'Document added successfully!',
@@ -166,7 +166,7 @@ function createDocument(req, res, next) {
 
 function updateDocument(req, res, next) {
   const document = req.body;
-  console.log(document);
+
   res.status(200).json({
     error: false,
     message: 'Document updated successfully!'
@@ -175,7 +175,7 @@ function updateDocument(req, res, next) {
 
 function deleteDocument(req, res, next) {
   const documentId = req.params.id;
-  console.log(documentId);
+
   res.status(200).json({
     error: false,
     message: 'Document deleted successfully!'

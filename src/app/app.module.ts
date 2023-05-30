@@ -105,10 +105,15 @@ import { AdminUsersCreateModal } from "./admin/components/users-create/users-cre
 import { PageNotFound } from './application/components/page-not-found/page-not-found.component';
 import { ApplicationHeaderComponent } from "./application/components/header/header.component";
 
+import { ApplicationIzmirASKF } from "./application/components/about-izmiraskf/about-izmiraskf.component";
+import { ApplicationStaffIzmirAskf } from "./application/components/staff-izmiraskf-list/staff-izmiraskf-list.component";
 
+import { ApplicationIzmirTFFIlTemsilciligi } from "./application/components/about-tffizmiriltemsilciligi/about-tffizmiriltemsilciligi.component";
+import { ApplicationStaffIzmirTFF } from "./application/components/staff-izmirtff-list/staff-izmirtff-list.component";
 
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AngularMaterialModule } from "./angular-material.module";
 import { AuthInterceptor } from './admin/authentication/auth-interceptor';
@@ -190,7 +195,13 @@ import { ErrorInterceptor } from "./error/error-interceptor";
 
     //Application Components
     PageNotFound,
-    ApplicationHeaderComponent
+    ApplicationHeaderComponent,
+
+    ApplicationIzmirASKF,
+    ApplicationStaffIzmirAskf,
+
+    ApplicationIzmirTFFIlTemsilciligi,
+    ApplicationStaffIzmirTFF
 
   ],
   imports: [
@@ -226,8 +237,10 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     MatButtonToggleModule,
 
     FontAwesomeModule,
+    GoogleMapsModule,
     AngularEditorModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+
 
   ],
   providers: [

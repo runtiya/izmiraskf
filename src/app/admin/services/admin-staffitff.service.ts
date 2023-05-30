@@ -18,39 +18,25 @@ export class StaffITFFService {
     try {
       this.http
         .get<{ error: boolean, message: string, staffList: StaffITFFModel[] }>(
-          'http://localhost:3000/admin/izmirtffiltemsilciligi-personel'
+          'http://localhost:3000/admin/tffiltemsilciligi/yonetim-kurulu'
         )
-        /*
-        .pipe(
-          map(data => {
-            return {
-              staffList: data.staffList.map(staffList => {
-                return {
-                  id: staffList.id,
-                  title: staffList.title,
-                  name: staffList.name,
-                  phone: staffList.phone,
-                  email: staffList.email,
-                  profileImage: staffList.profileImage,
-                  isVisible: staffList.isVisible,
-                  order: staffList.order
-                }
-              })
-            }
-          })
-        )
-        */
         .subscribe({
-          next: (orderedData) => {
-            this.staffList = orderedData.staffList;
-            this.staffListUpdated.next([...this.staffList]);
+          next: (data) => {
+            if (!data.error) {
+              this.staffList = data.staffList;
+              this.staffListUpdated.next([...this.staffList]);
+            } else {
+              this.staffList = [];
+              this.staffListUpdated.next([]);
+            }
+
           },
           error: (error) => {
 
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
 
   }
@@ -62,18 +48,16 @@ export class StaffITFFService {
   createStaff(staffInfo: StaffITFFModel) {
     this.http
       .post<{ error: boolean, message: string, staffId: number }>(
-        'http://localhost:3000/admin/izmirtffiltemsilciligi-personel', staffInfo
+        'http://localhost:3000/admin/tffiltemsilciligi/yonetim-kurulu', staffInfo
       )
       .subscribe({
         next: (data) => {
           if (!data.error) {
-            console.log(data.message);
-            console.log(data.staffId);
             staffInfo.id = data.staffId;
             this.staffList.push(staffInfo);
             this.staffListUpdated.next([...this.staffList]);
           } else {
-            console.log(data.message);
+
           }
         },
         error: (error) => {
@@ -86,7 +70,7 @@ export class StaffITFFService {
   updateStaff(staffInfo: StaffITFFModel) {
     this.http
       .put<{ error: boolean, message: string }>(
-        'http://localhost:3000/admin/izmirtffiltemsilciligi-personel/' + staffInfo.id, staffInfo
+        'http://localhost:3000/admin/tffiltemsilciligi/yonetim-kurulu/' + staffInfo.id, staffInfo
       )
       .subscribe({
         next: (data) => {
@@ -113,17 +97,17 @@ export class StaffITFFService {
   deleteStaff(staffId: number) {
     this.http
       .delete<{ error: boolean, message: string }>(
-        'http://localhost:3000/admin/izmirtffiltemsilciligi-personel/' + staffId
+        'http://localhost:3000/admin/tffiltemsilciligi/yonetim-kurulu/' + staffId
       )
       .subscribe({
         next: (data) => {
           if (!data.error) {
-            console.log(data.message);
+
             const filteredStaffList = this.staffList.filter(staff => staff.id !== staffId);
             this.staffList = filteredStaffList;
             this.staffListUpdated.next([...this.staffList]);
           } else {
-            console.log(data.message);
+
           }
         },
         error: (error) => {

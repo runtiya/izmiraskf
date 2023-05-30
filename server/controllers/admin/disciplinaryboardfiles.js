@@ -6,7 +6,7 @@ function getDisciplinaryBoardFiles(req, res, next) {
     const seasonId = req.params.seasonid;
 
     connection.query(
-        "select * from view_disciplinaryboardfiles where seasonid = ?",
+        "select * from view_admin_disciplinaryboardfiles where seasonid = ?",
         [
             seasonId
         ],
@@ -50,7 +50,6 @@ function createDisciplinaryBoardFile(req, res, next) {
             if (!error) {
                 disciplinaryBoardFileId = result.insertId;
             } else {
-                console.log(error.sqlMessage);
                 message = error.sqlMessage;
             }
 
@@ -84,7 +83,7 @@ function updateDisciplinaryBoardFile(req, res, next) {
         ],
         (error, result) => {
             if (!error) {
-                console.log(result);
+
             } else {
                 message = error.sqlMessage;
             }
@@ -108,7 +107,7 @@ function deleteDisciplinaryBoardFile(req, res, next) {
         ],
         (error, result) => {
             if (!error) {
-                console.log(result);
+
             } else {
                 message = error.sqlMessage;
             }

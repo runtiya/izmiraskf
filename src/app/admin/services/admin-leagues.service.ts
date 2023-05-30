@@ -23,7 +23,7 @@ export class LeaguesService {
               this.leagueList = data.leagueList;
               this.leagueListSub.next([...this.leagueList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -31,7 +31,7 @@ export class LeaguesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -52,7 +52,7 @@ export class LeaguesService {
               this.leagueList.push(leagueInfo);
               this.leagueListSub.next([...this.leagueList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -60,7 +60,7 @@ export class LeaguesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -82,7 +82,7 @@ export class LeaguesService {
 
               this.leagueListSub.next([...this.leagueList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -90,7 +90,7 @@ export class LeaguesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -108,7 +108,7 @@ export class LeaguesService {
               this.leagueListSub.next([...this.leagueList]);
             }
             else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -116,7 +116,7 @@ export class LeaguesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 }

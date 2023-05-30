@@ -18,39 +18,25 @@ export class StaffIASKFService {
     try {
       this.http
       .get<{error: boolean, message: string, staffList: any}>(
-        'http://localhost:3000/admin/izmiraskf-personel'
+        'http://localhost:3000/admin/izmiraskf/yonetim-kurulu'
       )
-      /*
-      .pipe(
-        map(data => {
-          return {
-            staffList: data.staffList.map(staffList => {
-              return {
-                id: staffList.id,
-                title: staffList.title,
-                name: staffList.name,
-                phone: staffList.phone,
-                email: staffList.email,
-                profileImage: staffList.profileImage,
-                isVisible: staffList.isVisible,
-                order: staffList.order
-              }
-            })
-          }
-        })
-      )
-      */
       .subscribe({
-        next: (orderedData) => {
-          this.staffList = orderedData.staffList;
-        this.staffListUpdated.next([...this.staffList]);
+        next: (data) => {
+          if (!data.error) {
+            this.staffList = data.staffList;
+            this.staffListUpdated.next([...this.staffList]);
+          } else {
+            this.staffList = [];
+            this.staffListUpdated.next([]);
+          }
+
         },
         error: (error) => {
 
         }
       });
     } catch (error) {
-      console.log(error)
+
     }
 
   }
@@ -63,13 +49,11 @@ export class StaffIASKFService {
 
     this.http
       .post<{error: boolean, message: string, staffId: number}>(
-        'http://localhost:3000/admin/izmiraskf-personel', staffInfo
+        'http://localhost:3000/admin/izmiraskf/yonetim-kurulu', staffInfo
       )
       .subscribe({
         next: (data) => {
           if (!data.error) {
-            console.log(data.message);
-            console.log(data.staffId);
             staffInfo.id = data.staffId;
             this.staffList.push(staffInfo);
             this.staffListUpdated.next([...this.staffList]);
@@ -87,7 +71,7 @@ export class StaffIASKFService {
   updateStaff(staffInfo: StaffIzmirAskfModel) {
     this.http
       .put<{error: boolean, message: string}>(
-        'http://localhost:3000/admin/izmiraskf-personel/' + staffInfo.id, staffInfo
+        'http://localhost:3000/admin/izmiraskf/yonetim-kurulu/' + staffInfo.id, staffInfo
       )
       .subscribe({
         next: (data) => {
@@ -114,12 +98,12 @@ export class StaffIASKFService {
   deleteStaff(staffId: number) {
     this.http
       .delete<{error: boolean, message: string}>(
-        'http://localhost:3000/admin/izmiraskf-personel/' + staffId
+        'http://localhost:3000/admin/izmiraskf/yonetim-kurulu/' + staffId
       )
       .subscribe({
         next: (data) => {
           if (!data.error) {
-            console.log(data.message);
+
             const filteredStaffList = this.staffList.filter(staffList => staffList.id !== staffId);
             this.staffList = filteredStaffList;
             this.staffListUpdated.next([...this.staffList]);

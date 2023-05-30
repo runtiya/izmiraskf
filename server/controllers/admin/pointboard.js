@@ -35,7 +35,7 @@ function getLastMatchWeek(req, res, next) {
   var message;
 
   connection.query(
-    "select max(matchweek) as matchWeek from view_fixtures where groupstageid = ? and matchstatus = 'PLAYED'",
+    "select max(matchweek) as matchWeek from view_admin_fixtures where groupstageid = ? and matchstatus = 'PLAYED'",
     [groupstageId],
     (error, result) => {
       if (!error) {

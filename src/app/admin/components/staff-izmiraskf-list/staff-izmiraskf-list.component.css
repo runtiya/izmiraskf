@@ -1,0 +1,10 @@
+.icon {
+  margin-right: 0.25rem;
+}
+.color-isvisible-true {
+  color: green;
+}
+
+.color-isvisible-false {
+  color: red;
+}

@@ -8,7 +8,7 @@ function getTeamsInGroupstages(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_teamsingroupstages where groupstageId = ?",
+    "select * from view_admin_teamsingroupstages where groupstageId = ?",
     [groupstageId],
     (error, result) => {
       if (!error) {
@@ -30,7 +30,7 @@ function getTeamsForGroupstages(req, res, next) {
   var teamsList;
   var message;
   connection.query(
-    "select * from view_teamsforgroupstages",
+    "select * from view_admin_teamsforgroupstages",
     (error, result) => {
       if (!error) {
         teamsList = result;
@@ -93,7 +93,6 @@ function createTeamsInGroupstages(req, res, next) {
       }
 
     } catch (err) {
-      console.log(err)
       connection.rollback(() => {
         error = true;
         message = err.message;
@@ -113,8 +112,6 @@ function createTeamsInGroupstages(req, res, next) {
 function updateTeamsForGroupstages(req, res, next) {
   const teamInfo = req.body;
   var message;
-
-  console.log(teamInfo);
 
   connection.query(
     "update teamsingroupstages set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, isexpelled = ?, isreceded = ?, weekofexpelledorreceded = ?, explanation = ? where id = ?",
@@ -148,14 +145,12 @@ function deleteTeamsInGroupstages(req, res, next) {
   const groupstageId = req.params.groupstageId;
   var message;
 
-  console.log(groupstageId);
-
   connection.query(
     "delete from teamsingroupstages where groupstageId = ?",
     [groupstageId],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }

@@ -7,7 +7,7 @@ function getGroupStages(req, res, next) {
 
 
   connection.query(
-    "select * from view_groupstages where leagueid = ?",
+    "select * from view_admin_groupstages where leagueid = ?",
     [leagueId],
     (error, result) => {
       if (!error) {
@@ -59,7 +59,7 @@ function getPlayedLastMatchWeek(req, res, next) {
   var message;
 
   connection.query(
-    "select max(matchweek) as matchWeek from view_fixtures where groupstageid = ? and matchstatus = 'PLAYED'",
+    "select max(matchweek) as matchWeek from view_admin_fixtures where groupstageid = ? and matchstatus = 'PLAYED'",
     [groupstageId],
     (error, result) => {
       if (!error) {
@@ -131,7 +131,7 @@ function updateGroupStage(req, res, next) {
     ],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }
@@ -152,7 +152,7 @@ function deleteGroupStage(req, res, next) {
     [groupId],
     (error, result) => {
       if (!error) {
-        console.log(result);
+
       } else {
         message = error.sqlMessage;
       }

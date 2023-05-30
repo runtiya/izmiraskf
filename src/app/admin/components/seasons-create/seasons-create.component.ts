@@ -47,7 +47,7 @@ export class AdminSeasonsCreateModal implements OnInit, OnDestroy {
       this.isLoading = false;
       this.dialogRef.close();
     } else {
-      console.log(this.seasonSubmitForm.value);
+
     }
   }
 

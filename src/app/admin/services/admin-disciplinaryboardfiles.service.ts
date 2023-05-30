@@ -27,7 +27,7 @@ export class DisciplinaryBoardFilesService {
               this.disciplinaryBoardFileList = data.disciplinaryBoardFileList;
               !!this.disciplinaryBoardFileList ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -35,7 +35,7 @@ export class DisciplinaryBoardFilesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -56,7 +56,7 @@ export class DisciplinaryBoardFilesService {
               this.disciplinaryBoardFileList.push(disciplinaryBoardFileInfo);
               this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -64,7 +64,7 @@ export class DisciplinaryBoardFilesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -84,7 +84,7 @@ export class DisciplinaryBoardFilesService {
               });
               this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -92,7 +92,7 @@ export class DisciplinaryBoardFilesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 
@@ -109,7 +109,7 @@ export class DisciplinaryBoardFilesService {
               this.disciplinaryBoardFileList = filteredDisciplinaryBoardFileList;
               this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);
             } else {
-              console.log(data.message);
+
             }
           },
           error: (error) => {
@@ -117,7 +117,7 @@ export class DisciplinaryBoardFilesService {
           }
         });
     } catch (error) {
-      console.log(error);
+
     }
   }
 }

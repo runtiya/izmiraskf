@@ -8,7 +8,7 @@ function getUsers(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_users",
+    "select * from view_admin_users",
     [],
     (error, result) => {
       if (!error) {
@@ -68,7 +68,7 @@ function createUser(req, res, next) {
         );
       });
   } catch (error) {
-    console.log(error);
+
     res.status(200).json({
       error: !!error,
       message: error,
@@ -88,7 +88,7 @@ function userLogin(req, res, next) {
   var _error = false;
 
   connection.query(
-    "select * from view_users where username = ? and isactive = ?",
+    "select * from view_admin_users where username = ? and isactive = ?",
     [
       userInfo.userName,
       true

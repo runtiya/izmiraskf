@@ -41,7 +41,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
         this.extLinksRelatedLinks = this.extLinks.filter(link => link.linkType == "RELATEDLINK");
         this.extLinksSocialMediaLinks = this.extLinks.filter(link => link.linkType == "SOCIALMEDIA");
         this.isLoading = false;
-        console.log(this.extLinks);
+
       });
   }
 

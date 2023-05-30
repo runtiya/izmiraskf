@@ -3,12 +3,11 @@ import { Observable, Observer, of } from "rxjs";
 import { fileMimeTypeList } from "../assets/lists/file-mime-type-list";
 
 export const fileUploadValidator = (control: AbstractControl): Promise<{[key: string]: any}> | Observable<{[key: string]: any}> => {
-  console.log('control.value');
+
   if (typeof(control.value) === 'string' || !control.value) {
     return of(null);
   }
   const file = control.value as File;
-  console.log(file);
   const fileReader = new FileReader();
   const fileReaderObservable = new Observable((observer: Observer<{[key: string]: any}>) => {
     fileReader.addEventListener("loadend", () => {

@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 
-import { AboutITFFModel } from "../models/admin-izmirtff.model";
+import { AboutITFFModel } from "../models/admin-aboutizmirtff.model";
 
 @Injectable({providedIn: 'root'})
 export class AboutITFFService {
@@ -16,7 +16,7 @@ export class AboutITFFService {
   getAboutContent() {
     this.http
       .get<{error: boolean, message: string, aboutContent: AboutITFFModel}>(
-        'http://localhost:3000/admin/izmirtffiltemsilciligi'
+        'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda'
       )
       .subscribe({
         next: (data) => {
@@ -25,7 +25,7 @@ export class AboutITFFService {
             this.aboutContentSubject.next(this.aboutContent);
           }
           else {
-            console.log('error: ' + data.error)
+
           }
         },
         error: (error) => {
@@ -42,12 +42,12 @@ export class AboutITFFService {
 
     this.http
       .put<{error: boolean, message: string}>(
-        'http://localhost:3000/admin/izmirtffiltemsilciligi', aboutContent
+        'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda', aboutContent
       )
       .subscribe({
         next: (data) => {
           if (!data.error) {
-            console.log(data.message);
+
             // Add Angular Component Snackbar OR Bootstrap Toasts
             this.aboutContentSubject.next(aboutContent);
           }

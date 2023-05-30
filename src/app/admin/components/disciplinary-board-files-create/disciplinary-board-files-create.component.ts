@@ -63,7 +63,6 @@ export class AdminDisciplinaryBoardCreateModal implements OnInit {
     }
 
     onSubmitForm() {
-        console.log(this.disciplinaryBoardFilesSubmitForm.value);
         let currentDate = this._datePipe.transform((new Date), 'yyyy-MM-ddTHH:mm');
 
         if (this.disciplinaryBoardFilesSubmitForm.valid) {
@@ -78,7 +77,7 @@ export class AdminDisciplinaryBoardCreateModal implements OnInit {
             this.isLoading = false;
             this.dialogRef.close();
         } else {
-            console.log(this.disciplinaryBoardFilesSubmitForm.value);
+
         }
     }
 

@@ -8,7 +8,6 @@ const MIME_TYPE_MAP = {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log('test 1')
     const isValid = MIME_TYPE_MAP[file.mimetype];
     let error = new Error("Invalid mime type");
     if (isValid) {
@@ -17,7 +16,6 @@ const storage = multer.diskStorage({
     cb(error, "server/images");
   },
   filename: (req, file, cb) => {
-    console.log('test 2')
     //const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
     const name = file.originalname
       .toLowerCase()

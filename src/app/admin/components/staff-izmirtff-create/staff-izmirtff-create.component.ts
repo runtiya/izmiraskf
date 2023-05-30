@@ -50,7 +50,7 @@ export class AdminCreateStaffIzmirTFFModal {
       };
       reader.readAsDataURL(file);
     } catch (error) {
-      console.log(error);
+
     }
   }
 

@@ -61,7 +61,6 @@ export class AdminGroupStagesCreateModal implements OnInit {
   }
 
   onSubmitForm() {
-    console.log(this.groupstageSubmitForm.value);
 
     if (this.groupstageSubmitForm.valid) {
       this.isLoading = true;
@@ -74,7 +73,7 @@ export class AdminGroupStagesCreateModal implements OnInit {
       this.isLoading = false;
       this.dialogRef.close();
     } else {
-      console.log(this.groupstageSubmitForm.value);
+
     }
   }
 

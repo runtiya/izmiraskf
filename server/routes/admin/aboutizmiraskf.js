@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 
-const aboutitffController = require('../../controllers/admin/aboutitff');
+const aboutizmiraskfController = require('../../controllers/admin/aboutizmiraskf');
 
 const checkAuth = require('../../middlewares/check-auth');
 const extractTeamLogo = require('../../middlewares/extract-team-logo');
@@ -9,8 +9,8 @@ const extractTeamLogo = require('../../middlewares/extract-team-logo');
 const router = express.Router();
 
 
-router.get("", checkAuth, aboutitffController.getAboutContent);
+router.get("", checkAuth, aboutizmiraskfController.getAboutContent);
 
-router.put("", checkAuth, aboutitffController.updateAboutContent);
+router.put("", checkAuth, aboutizmiraskfController.updateAboutContent);
 
 module.exports = router;
