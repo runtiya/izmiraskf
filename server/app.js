@@ -30,6 +30,9 @@ const applicationAboutIASKFRoutes = require('./routes/application/aboutizmiraskf
 const applicationStaffIASKFRoutes = require('./routes/application/staffizmiraskf');
 const applicationAboutITFFRoutes = require('./routes/application/aboutizmirtff');
 const applicationStaffITFFRoutes = require('./routes/application/staffizmirtff');
+
+const applicationTeamsRoutes = require('./routes/application/teams');
+
 const applicationNewsRoutes = require('./routes/application/news');
 const applicationStadiumsRoutes = require('./routes/application/stadiums');
 
@@ -44,7 +47,6 @@ const applicationPointBoardRoutes = require('./routes/application/pointboard');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit:'3000kb'}));
-
 
 // CORS - Cross-Origin Resource Sharing
 app.use((req, res, next) => {
@@ -81,6 +83,7 @@ app.use('/izmiraskf/hakkimizda', applicationAboutIASKFRoutes);
 app.use('/izmiraskf/yonetim-kurulu', applicationStaffIASKFRoutes);
 app.use('/tffiltemsilciligi/hakkimizda', applicationAboutITFFRoutes);
 app.use('/tffiltemsilciligi/yonetim-kurulu', applicationStaffITFFRoutes);
+app.use('/takimlar', applicationTeamsRoutes);
 app.use('/haberler', applicationNewsRoutes);
 app.use('/sahalar', applicationStadiumsRoutes);
 

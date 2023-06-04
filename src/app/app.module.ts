@@ -117,6 +117,8 @@ import { ApplicationNewsDetails } from "./application/components/news-details/ne
 import { ApplicationStadiumList } from "./application/components/stadiums-list/stadiums-list.component";
 import { ApplicationStadiumDetails } from "./application/components/stadiums-details/stadiums-details.component";
 
+import { ApplicationTeamsList } from './application/components/teams-list/teams-list.component';
+import { ApplicationTeamDetails } from './application/components/teams-details/teams-details.component';
 
 import { ApplicationDisciplinaryBoardDecisionsList } from "./application/components/disciplinary-board-decisions-list/disciplinary-board-decisions-list.component";
 
@@ -126,6 +128,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AngularMaterialModule } from "./angular-material.module";
 import { AuthInterceptor } from './admin/authentication/auth-interceptor';
 import { ErrorInterceptor } from "./error/error-interceptor";
+
 
 @NgModule({
   declarations: [
@@ -205,17 +208,20 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     PageNotFound,
     ApplicationHeaderComponent,
 
+    ApplicationNewsList,
+    ApplicationNewsDetails,
+
     ApplicationIzmirASKF,
     ApplicationStaffIzmirAskf,
 
     ApplicationIzmirTFFIlTemsilciligi,
     ApplicationStaffIzmirTFF,
 
-    ApplicationNewsList,
-    ApplicationNewsDetails,
-
     ApplicationStadiumList,
     ApplicationStadiumDetails,
+
+    ApplicationTeamsList,
+    ApplicationTeamDetails,
 
     ApplicationDisciplinaryBoardDecisionsList
 
