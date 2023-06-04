@@ -46,6 +46,9 @@ import { ApplicationStaffIzmirAskf } from "./application/components/staff-izmira
 import { ApplicationIzmirTFFIlTemsilciligi } from "./application/components/about-tffizmiriltemsilciligi/about-tffizmiriltemsilciligi.component";
 import { ApplicationStaffIzmirTFF } from "./application/components/staff-izmirtff-list/staff-izmirtff-list.component";
 
+import { ApplicationTeamsList } from "./application/components/teams-list/teams-list.component";
+import { ApplicationTeamDetails } from "./application/components/teams-details/teams-details.component";
+
 import { ApplicationNewsList } from "./application/components/news-list/news-list.component";
 import { ApplicationNewsDetails } from "./application/components/news-details/news-details.component";
 
@@ -97,6 +100,8 @@ const routes: Routes = [
 
   {path: 'tffiltemsilciligi/hakkimizda', component: ApplicationIzmirTFFIlTemsilciligi},
   {path: 'tffiltemsilciligi/yonetim-kurulu', component: ApplicationStaffIzmirTFF},
+  {path: 'takimlar', component: ApplicationTeamsList},
+  {path: 'takimlar/detaylar/:id', pathMatch:"full", component: ApplicationTeamDetails},
 
   {path: 'haberler', component: ApplicationNewsList},
   {path: 'haberler/detaylar/:id', pathMatch:"full", component: ApplicationNewsDetails},

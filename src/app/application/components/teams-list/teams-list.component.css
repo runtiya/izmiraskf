@@ -1,0 +1,22 @@
+/*
+.team-colors {
+  border-style: solid;
+  border-color: #ffffff;
+  border-width: x-large;
+  transform: rotate(90deg);
+  /*
+  background: linear-gradient(
+    to top,
+    #121212 0%,
+    #121212 50%,
+    paleturquoise 50%,
+    paleturquoise 100%
+  );
+}
+*/
+
+
+mat-card-title {
+    font-size: medium;
+  }
+  
