@@ -51,8 +51,8 @@ import { AdminStaffIzmirTFF } from "./admin/components/staff-izmirtff-list/staff
 import { AdminCreateStaffIzmirTFFModal } from "./admin/components/staff-izmirtff-create/staff-izmirtff-create.component";
 import { AdminAboutStaffITFFWrapComponent } from "./admin/components/about-staff-itff-wrap/about-staff-itff-wrap.component";
 
-import { AdminNewsCreateComponent } from './admin/components/news-create/news-create.component';
-import { AdminNewsListComponent } from './admin/components/news-list/news-list.component';
+import { AdminNewsCreate } from './admin/components/news-create/news-create.component';
+import { AdminNewsList } from './admin/components/news-list/news-list.component';
 import { AdminNewsUpdateModal } from './admin/components/news-update/news-update.component';
 import { AdminNewsWrapComponent } from './admin/components/news-wrap-component/news-wrap-component.component';
 
@@ -66,7 +66,7 @@ import { AdminDocumentInstructions } from "./admin/components/documents-instruct
 import { AdminDocumentLicenseForms } from "./admin/components/documents-license-forms-list/documents-license-forms-list.component";
 import { AdminDocumentDocuments } from "./admin/components/documents-documents-list/documents-documents-list.component";
 
-import { AdminStadiumsListComponent } from "./admin/components/stadiums-list/stadiums-list.component";
+import { AdminStadiumsList } from "./admin/components/stadiums-list/stadiums-list.component";
 import { AdminStadiumsCreateModal } from "./admin/components/stadiums-create/stadiums-create.component";
 
 import { AdminTeamsList } from "./admin/components/teams-list/teams-list.component";
@@ -111,6 +111,12 @@ import { ApplicationStaffIzmirAskf } from "./application/components/staff-izmira
 import { ApplicationIzmirTFFIlTemsilciligi } from "./application/components/about-tffizmiriltemsilciligi/about-tffizmiriltemsilciligi.component";
 import { ApplicationStaffIzmirTFF } from "./application/components/staff-izmirtff-list/staff-izmirtff-list.component";
 
+import { ApplicationNewsList } from "./application/components/news-list/news-list.component";
+import { ApplicationNewsDetails } from "./application/components/news-details/news-details.component";
+
+import { ApplicationStadiumList } from "./application/components/stadiums-list/stadiums-list.component";
+import { ApplicationStadiumDetails } from "./application/components/stadiums-details/stadiums-details.component";
+
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -141,8 +147,8 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     AdminCreateStaffIzmirTFFModal,
     AdminAboutStaffITFFWrapComponent,
 
-    AdminNewsCreateComponent,
-    AdminNewsListComponent,
+    AdminNewsCreate,
+    AdminNewsList,
     AdminNewsUpdateModal,
     AdminNewsWrapComponent,
 
@@ -156,7 +162,7 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     AdminDocumentLicenseForms,
     AdminDocumentDocuments,
 
-    AdminStadiumsListComponent,
+    AdminStadiumsList,
     AdminStadiumsCreateModal,
 
     AdminTeamsList,
@@ -201,7 +207,13 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     ApplicationStaffIzmirAskf,
 
     ApplicationIzmirTFFIlTemsilciligi,
-    ApplicationStaffIzmirTFF
+    ApplicationStaffIzmirTFF,
+
+    ApplicationNewsList,
+    ApplicationNewsDetails,
+
+    ApplicationStadiumList,
+    ApplicationStadiumDetails
 
   ],
   imports: [

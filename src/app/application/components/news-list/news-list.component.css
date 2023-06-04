@@ -1,0 +1,7 @@
+img {
+  margin-right: 0.5rem;
+}
+
+.card-news-list:hover {
+  cursor: pointer;
+}

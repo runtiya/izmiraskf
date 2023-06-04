@@ -16,7 +16,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
   templateUrl: './news-create.component.html',
   styleUrls: ['../../../app.component.css', './news-create.component.css']
 })
-export class AdminNewsCreateComponent implements OnInit, OnDestroy {
+export class AdminNewsCreate implements OnInit, OnDestroy {
   headerTitle = "HABER OLUŞTUR";
   isLoading = false;
   newsCreateForm: FormGroup;

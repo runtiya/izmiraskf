@@ -1,0 +1,7 @@
+img {
+  margin-right: 0.5rem;
+}
+
+.card-stadiums-list:hover {
+  cursor: pointer;
+}

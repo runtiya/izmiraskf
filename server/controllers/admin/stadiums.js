@@ -36,7 +36,7 @@ function createStadium(req, res, next) {
   var message;
   var stadiumId;
   connection.query(
-    "insert into stadiums(createdat, createdby, updatedat, updatedby, stadiumname, city, town, address, stadiumimage, audiencecapacity, sizelength, sizewidth, floortype, haslightning, hasseating, hasdisabledtribune, hasclosedcircuitcamerasystem)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "insert into stadiums(createdat, createdby, updatedat, updatedby, stadiumname, city, town, address, phonenumber, stadiumimage, audiencecapacity, sizelength, sizewidth, floortype, haslightning, hasseating, hasdisabledtribune, hasclosedcircuitcamerasystem)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       stadiumInfo.createdAt,
       stadiumInfo.createdBy,
@@ -46,6 +46,7 @@ function createStadium(req, res, next) {
       stadiumInfo.city,
       stadiumInfo.town,
       stadiumInfo.address,
+      stadiumInfo.phoneNumber,
       stadiumInfo.stadiumImage,
       stadiumInfo.audienceCapacity,
       stadiumInfo.sizeLength,
@@ -75,7 +76,7 @@ function updateStadium(req, res, next) {
   const stadiumInfo = req.body;
   var message;
   connection.query(
-    "update stadiums set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, stadiumname = ?, city = ?, town = ?, address = ?, stadiumimage = ?, audiencecapacity = ?, sizelength = ?, sizewidth = ?, floortype = ?, haslightning = ?, hasseating = ?, hasdisabledtribune = ?, hasclosedcircuitcamerasystem = ? where id = ?",
+    "update stadiums set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, stadiumname = ?, city = ?, town = ?, address = ?, phonenumber = ?, stadiumimage = ?, audiencecapacity = ?, sizelength = ?, sizewidth = ?, floortype = ?, haslightning = ?, hasseating = ?, hasdisabledtribune = ?, hasclosedcircuitcamerasystem = ? where id = ?",
     [
       stadiumInfo.createdAt,
       stadiumInfo.createdBy,
@@ -85,6 +86,7 @@ function updateStadium(req, res, next) {
       stadiumInfo.city,
       stadiumInfo.town,
       stadiumInfo.address,
+      stadiumInfo.phoneNumber,
       stadiumInfo.stadiumImage,
       stadiumInfo.audienceCapacity,
       stadiumInfo.sizeLength,

@@ -20,8 +20,6 @@ function getNews(req, res, next) {
         news: newsList
       });
     });
-
-
 }
 
 
