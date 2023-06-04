@@ -5,6 +5,7 @@ export interface DisciplinaryBoardDecisionModel {
     updatedAt: Date,
     updatedBy: number,
     disciplinaryBoardFileId: number,
+    caseNo: string,
     leagueId: number,
     teamId: number,
     fullName: string,

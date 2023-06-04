@@ -1,0 +1,93 @@
+<div class="container">
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>{{headerTitle}}</span>
+  </mat-toolbar>
+
+  <mat-card>
+    <div class="row">
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <mat-card-header>
+          <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="">
+        </mat-card-header>
+      </div>
+
+      <div class="col-lg-9 col-md-12 col-sm-12">
+        <mat-card-content>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td>Ad:</td>
+                    <td>{{stadium.stadiumName ? stadium.stadiumName : '-'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>İl:</td>
+                    <td>{{onCityList(stadium.city) ? onCityList(stadium.city) : '-'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>İlçe:</td>
+                    <td>{{onTownList(stadium.town) ? onTownList(stadium.town) : '-'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Adres:</td>
+                    <td>{{stadium.address ? stadium.address : '-'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Telefon:</td>
+                    <td>{{stadium.phoneNumber ? stadium.phoneNumber : '-'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td>Seyirci Kapasitesi:</td>
+                    <td>{{stadium.audienceCapacity ? stadium.audienceCapacity : 'Belirtilmemiş'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Saha Ölçüsü:</td>
+                    <td>{{stadium.sizeLength && stadium.sizeWidth ? stadium.sizeLength + 'm' + ' x ' + stadium.sizeWidth + 'm' : 'Belirtilmemiş'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Zemin:</td>
+                    <td>{{onFloorTypeList(stadium.floorType) ? onFloorTypeList(stadium.floorType) : 'Belirtilmemiş'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Işıklandırma:</td>
+                    <td>{{stadium.hasLightning == null ? 'Belirtilmemiş' : stadium.hasLightning ? 'Evet' : 'Hayır'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Koltuklandırma:</td>
+                    <td>{{stadium.hasSeating == null ? 'Belirtilmemiş' : stadium.hasSeating ? 'Evet' : 'Hayır'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Engelli Tribünü:</td>
+                    <td>{{stadium.hasDisabledTribune == null ? 'Belirtilmemiş' : stadium.hasDisabledTribune ? 'Evet' : 'Hayır'}}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Kapalı Devre Kamera Sistemi:</td>
+                    <td>{{stadium.hasClosedCircuitCameraSystem == null ? 'Belirtilmemiş' : stadium.hasClosedCircuitCameraSystem ? 'Evet' : 'Hayır'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </mat-card-content>
+      </div>
+    </div>
+
+  </mat-card>
+</div>

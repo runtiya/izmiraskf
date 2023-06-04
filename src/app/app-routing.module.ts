@@ -52,7 +52,7 @@ import { ApplicationNewsDetails } from "./application/components/news-details/ne
 import { ApplicationStadiumList } from "./application/components/stadiums-list/stadiums-list.component";
 import { ApplicationStadiumDetails } from "./application/components/stadiums-details/stadiums-details.component";
 
-
+import { ApplicationDisciplinaryBoardDecisionsList } from "./application/components/disciplinary-board-decisions-list/disciplinary-board-decisions-list.component";
 
 const routes: Routes = [
   {path: 'admin/anasayfa', component: AdminHome, canActivate: [AuthGuard]},
@@ -103,6 +103,8 @@ const routes: Routes = [
 
   {path: 'sahalar', component: ApplicationStadiumList},
   {path: 'sahalar/detaylar/:id', pathMatch:"full", component: ApplicationStadiumDetails},
+
+  {path: 'disiplin-kurulu-kararlari', component: ApplicationDisciplinaryBoardDecisionsList},
 
   {path: '**', pathMatch: "full", component: PageNotFound},
 ];

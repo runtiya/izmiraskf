@@ -19,7 +19,7 @@ export class DisciplinaryBoardDecisionsService {
     try {
       this.http
         .get<{ error: boolean, message: string, disciplinaryBoardDecisionList: DisciplinaryBoardDecisionModel[] }>(
-          'http://localhost:3000/admin/disiplin-kurulu-kararlari/' + disciplinaryBoardFileId
+          'http://localhost:3000/disiplin-kurulu-kararlari/' + disciplinaryBoardFileId
         )
         .subscribe({
           next: (data) => {

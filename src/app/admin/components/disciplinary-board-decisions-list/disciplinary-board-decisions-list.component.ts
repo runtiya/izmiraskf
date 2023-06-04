@@ -53,16 +53,16 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
     @Input() seasonSelectionId: number;
     @Input() disciplinaryBoardFileSelectionId: number;
     tableColumns: string[] = [
-                                    "leagueName",
-                                    "teamName",
-                                    "licenseNo",
-                                    "fullName",
-                                    "belongingTo",
-                                    "penalType",
-                                    "duration",
-                                    "explanation",
-                                    "actions"
-                                ];
+                                "leagueName",
+                                "teamName",
+                                "licenseNo",
+                                "fullName",
+                                "belongingTo",
+                                "penalType",
+                                "duration",
+                                "explanation",
+                                "actions"
+                              ];
 
 
     constructor(
