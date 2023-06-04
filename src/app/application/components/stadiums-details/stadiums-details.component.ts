@@ -20,9 +20,13 @@ import { floorTypeList } from "../../../assets/lists/floor-type-list";
 export class ApplicationStadiumDetails implements OnInit, OnDestroy {
   headerTitle = "";
   isLoading = false;
-  stadium: StadiumsModel;
+  stadium: StadiumsModel = <StadiumsModel>{};
   private stadiumSub: Subscription;
   url_stadiumId: number;
+
+  cityList = cityList;
+  townList = townList;
+  floorTypeList = floorTypeList;
 
   constructor(
     private router: ActivatedRoute,
@@ -39,13 +43,43 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
           .subscribe({
             next: (data: StadiumsModel) => {
               this.stadium = data;
-              console.log(this.stadium);
+              this.headerTitle = data.stadiumName;
             },
             error: (error) => {
 
             }
           });
       })
+  }
+
+  onCityList(city: string) {
+    if (city == null || city == undefined) {
+      return null
+    }
+    else {
+      let cityObj = this.cityList.find(e => e.name === city);
+      return cityObj.value;
+    }
+  }
+
+  onTownList(town: string) {
+    if (town == null || town == undefined) {
+      return null
+    }
+    else {
+      let townObj = this.townList.find(e => e.name === town);
+      return townObj.value;
+    }
+  }
+
+  onFloorTypeList(floorType: string) {
+    if (floorType == null || floorType == undefined) {
+      return null
+    }
+    else {
+      let floorTypeObj = this.floorTypeList.find(e => e.name === floorType);
+      return floorTypeObj.value;
+    }
   }
 
   ngOnDestroy(): void {

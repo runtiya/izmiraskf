@@ -58,6 +58,7 @@ function createStadium(req, res, next) {
       stadiumInfo.hasClosedCircuitCameraSystem
     ],
     (error, result) => {
+
       if (!error) {
         stadiumId = result.insertId;
       } else {
@@ -130,7 +131,6 @@ function deleteStadium(req, res, next) {
       });
   });
 }
-
 
 exports.getStadiums = getStadiums;
 exports.findStadium = findStadium;

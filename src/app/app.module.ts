@@ -118,6 +118,8 @@ import { ApplicationStadiumList } from "./application/components/stadiums-list/s
 import { ApplicationStadiumDetails } from "./application/components/stadiums-details/stadiums-details.component";
 
 
+import { ApplicationDisciplinaryBoardDecisionsList } from "./application/components/disciplinary-board-decisions-list/disciplinary-board-decisions-list.component";
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { AngularEditorModule } from '@kolkov/angular-editor';
@@ -213,7 +215,9 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     ApplicationNewsDetails,
 
     ApplicationStadiumList,
-    ApplicationStadiumDetails
+    ApplicationStadiumDetails,
+
+    ApplicationDisciplinaryBoardDecisionsList
 
   ],
   imports: [

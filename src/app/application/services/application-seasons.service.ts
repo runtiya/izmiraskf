@@ -15,7 +15,7 @@ export class SeasonsService {
     try {
       this.http
         .get<{error: boolean, message: string, seasonList: SeasonsModel[]}>(
-          'http://localhost:3000/admin/sezonlar'
+          'http://localhost:3000/sezonlar'
         )
         .subscribe({
           next: (data) => {

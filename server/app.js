@@ -33,6 +33,14 @@ const applicationStaffITFFRoutes = require('./routes/application/staffizmirtff')
 const applicationNewsRoutes = require('./routes/application/news');
 const applicationStadiumsRoutes = require('./routes/application/stadiums');
 
+const applicationDisciplinaryBoardFiles = require('./routes/application/disciplinaryboardfiles');
+const applicationDisciplinaryBoardDecisions = require('./routes/application/disciplinaryboarddecisions');
+const applicationSeasonsRoutes = require('./routes/application/seasons');
+const applicationLeaguesRoutes = require('./routes/application/leagues');
+const applicationGroupsRoutes = require('./routes/application/groupstages');
+const applicationTeamsInGroupsRoutes = require('./routes/application/teamsingroupstages');
+const applicationFixturesRoutes = require('./routes/application/fixtures');
+const applicationPointBoardRoutes = require('./routes/application/pointboard');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit:'3000kb'}));
@@ -75,5 +83,14 @@ app.use('/tffiltemsilciligi/hakkimizda', applicationAboutITFFRoutes);
 app.use('/tffiltemsilciligi/yonetim-kurulu', applicationStaffITFFRoutes);
 app.use('/haberler', applicationNewsRoutes);
 app.use('/sahalar', applicationStadiumsRoutes);
+
+app.use('/disiplin-kurulu-dosyalari', applicationDisciplinaryBoardFiles);
+app.use('/disiplin-kurulu-kararlari', applicationDisciplinaryBoardDecisions);
+app.use('/sezonlar', applicationSeasonsRoutes);
+app.use('/ligler', applicationLeaguesRoutes);
+app.use('/grup-takim-eslesmeleri', applicationTeamsInGroupsRoutes);
+app.use('/gruplar', applicationGroupsRoutes);
+app.use('/fikstur', applicationFixturesRoutes);
+app.use('/puan-durumu', applicationPointBoardRoutes);
 
 module.exports = app;

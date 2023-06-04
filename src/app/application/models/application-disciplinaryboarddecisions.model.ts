@@ -1,8 +1,9 @@
 export interface DisciplinaryBoardDecisionModel {
     id: number,
     disciplinaryBoardFileId: number,
-    leagueId: number,
-    teamId: number,
+    caseNo: string,
+    leagueName: string,
+    teamOfficialName: string,
     fullName: string,
     licenseNo: string,
     belongingTo: string,

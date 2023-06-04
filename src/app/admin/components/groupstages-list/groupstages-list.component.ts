@@ -54,6 +54,7 @@ export class AdminGroupList implements OnInit, OnDestroy {
         this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
         this.seasonSelectionId = this.seasonList[0]["id"];
         this.leagueService.getLeagues(this.seasonSelectionId);
+
       });
 
     this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()

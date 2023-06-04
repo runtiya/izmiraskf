@@ -1,0 +1,122 @@
+<div class="container">
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>{{ headerTitle }}</span>
+  </mat-toolbar>
+
+  <div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <mat-form-field>
+        <mat-label>Sezonlar</mat-label>
+        <mat-select
+          matInput
+          placeholder="Sezon"
+          [(ngModel)]="seasonSelectionId"
+          (selectionChange)="onSeasonChange()"
+        >
+          <mat-option *ngFor="let season of seasonsList" [value]="season.id">
+            {{ season.seasonName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <mat-form-field>
+        <mat-label>Dosyalar</mat-label>
+        <mat-select
+          matInput
+          placeholder="Dosya"
+          [(ngModel)]="disciplinaryBoardFileSelectionId"
+          (selectionChange)="onFileNoChange()"
+        >
+          <mat-option
+            *ngFor="let file of disciplinaryBoardFilesList"
+            [value]="file.id"
+          >
+            {{ file.caseNo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <table
+    mat-table
+    [dataSource]="disciplinaryBoardDecisionsList"
+    class="mat-elevation-z8"
+  >
+    <ng-container matColumnDef="leagueName">
+      <th mat-header-cell *matHeaderCellDef="">Lig</th>
+      <td mat-cell *matCellDef="let decision">
+        {{ decision.leagueName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="teamName">
+      <th mat-header-cell *matHeaderCellDef="">Takım</th>
+      <td mat-cell *matCellDef="let decision">
+        {{ decision.teamOfficialName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="licenseNo">
+      <th mat-header-cell *matHeaderCellDef="">Lisans No.</th>
+      <td mat-cell *matCellDef="let decision">{{ decision.licenseNo }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="fullName">
+      <th mat-header-cell *matHeaderCellDef="">Ad-Soyad</th>
+      <td mat-cell *matCellDef="let decision">{{ decision.fullName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="belongingTo">
+      <th mat-header-cell *matHeaderCellDef="">Görev</th>
+      <td mat-cell *matCellDef="let decision">
+        {{ findBelongingTo(decision.belongingTo) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="penalType">
+      <th mat-header-cell *matHeaderCellDef="">Ceza</th>
+      <td mat-cell *matCellDef="let decision">
+        {{ findPenalType(decision.penalType) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="duration">
+      <th mat-header-cell *matHeaderCellDef="">Süre</th>
+      <td mat-cell *matCellDef="let decision">{{ decision.duration }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="explanation">
+      <th mat-header-cell *matHeaderCellDef="">Açıklama</th>
+      <td mat-cell *matCellDef="let decision">
+        <mat-icon
+          *ngIf="decision.explanation"
+          matTooltip="{{ decision.explanation }}"
+          >info</mat-icon
+        >
+      </td>
+    </ng-container>
+
+    <tr
+      mat-header-row
+      *matHeaderRowDef="tableColumns"
+      class="table-header-row"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: tableColumns"
+      class="table-detail-row"
+    ></tr>
+  </table>
+
+  <mat-card>
+    <mat-card-content>
+      <mat-card-subtitle
+        >Toplam Kayıt Sayısı:
+        {{ disciplinaryBoardDecisionsList.length }}</mat-card-subtitle
+      >
+    </mat-card-content>
+  </mat-card>
+</div>

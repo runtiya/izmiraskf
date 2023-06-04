@@ -1,0 +1,8 @@
+mat-card-content, mat-card-header {
+  background-color: transparent;
+}
+
+.mat-mdc-card {
+  box-shadow: none;
+}
+
