@@ -32,7 +32,7 @@ export class StadiumsService {
           error: (error) => {
 
           }
-        })
+        });
     } catch (error) {
 
     }
@@ -69,4 +69,5 @@ export class StadiumsService {
   getStadiumByIdUpdateListener() {
     return this.stadiumSub.asObservable();
   }
+
 }
