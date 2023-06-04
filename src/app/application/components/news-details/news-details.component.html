@@ -1,0 +1,61 @@
+<div class="container">
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>{{headerTitle}}</span>
+  </mat-toolbar>
+
+  <mat-card>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+    <form
+      [formGroup]="newsForm"
+      *ngIf="!isLoading"
+    >
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="form-input">
+            <mat-label>Haber Başlığı</mat-label>
+            <input
+              readonly
+              matInput
+              type="text"
+              formControlName="title"
+              placeholder="Haber Başlığı"
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="col-12">
+          <mat-form-field class="form-input">
+            <mat-label>Yayın Tarihi</mat-label>
+            <input
+              readonly
+              matInput
+              type="text"
+              formControlName="createdAt"
+              placeholder="Yayın Tarihi"
+              [value]="newsForm.get('createdAt').value | date: 'dd.MM.yyyy HH:mm'"
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="col-12">
+          <mat-form-field class="form-input">
+            <mat-label>Haber İçeriği</mat-label>
+            <angular-editor
+              matInput
+              formControlName="content"
+              [config]="editorConfig"
+            >
+            </angular-editor>
+
+            <textarea
+              hidden
+              matInput
+              formControlName="content"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

@@ -22,7 +22,7 @@ export class NewsService {
   getNews() {
     try {
       this.http
-        .get<{error: boolean, message: string, news: any}>(
+        .get<{error: boolean, message: string, news: NewsModel[]}>(
           'http://localhost:3000/admin/haberler'
         )
         .pipe(

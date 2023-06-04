@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
 
-import { StadiumsModel } from "../../models/admin-stadiums.model";
-import { StadiumsService } from "../../services/admin-stadiums.service";
-import { AdminStadiumsCreateModal } from "../stadiums-create/stadiums-create.component";
+import { StadiumsModel } from "../../models/application-stadiums.model";
+import { StadiumsService } from "../../services/application-stadiums.service";
 
 import { cityList } from "../../../assets/lists/city-list-tr";
 import { townList } from "../../../assets/lists/town-list-izmir";
@@ -13,12 +13,12 @@ import { floorTypeList } from "../../../assets/lists/floor-type-list";
 
 
 @Component({
-  selector: 'app-admin-stadiums-list',
+  selector: 'app-application-stadiums-list',
   templateUrl: './stadiums-list.component.html',
   styleUrls: ['../../../app.component.css', './stadiums-list.component.css']
 })
-export class AdminStadiumsList implements OnInit, OnDestroy {
-  title = 'SAHALAR';
+export class ApplicationStadiumList implements OnInit, OnDestroy {
+  headerTitle = "SAHALAR";
   isLoading = false;
   stadiumsList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
@@ -29,46 +29,25 @@ export class AdminStadiumsList implements OnInit, OnDestroy {
 
   constructor(
     public stadiumService: StadiumsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoading = true;
     this.stadiumService.getStadiums();
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe({
         next: (data: StadiumsModel[]) => {
-          this.stadiumsList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
+          this.stadiumsList = data;
           this.isLoading = false;
+
+
         },
         error: (error) => {
 
         }
       });
-
-  }
-
-  onCreate() {
-    const dialogRef = this.dialog.open(AdminStadiumsCreateModal, {
-      data: {
-        pageMode: "create"
-      }
-    });
-  }
-
-  onEdit(stadiumInfo: StadiumsModel) {
-    const dialogRef = this.dialog.open(AdminStadiumsCreateModal, {
-      data: {
-        pageMode: "edit",
-        stadiumInfo: stadiumInfo
-      }
-    });
-  }
-
-  onDelete(id: number) {
-    this.isLoading = true;
-    this.stadiumService.deleteStadium(id);
-    this.isLoading = false;
   }
 
   onCityList(city: string) {
@@ -101,7 +80,11 @@ export class AdminStadiumsList implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  showStadiumDetails(_id: number) {
+    this.router.navigate(['/sahalar/detaylar', _id]);
+  }
+
+  ngOnDestroy(): void {
     this.stadiumListSub.unsubscribe();
   }
 }
