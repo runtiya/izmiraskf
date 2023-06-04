@@ -32,7 +32,9 @@ export class StadiumsService {
           error: (error) => {
 
           }
-        })
+
+        });
+
     } catch (error) {
 
     }
