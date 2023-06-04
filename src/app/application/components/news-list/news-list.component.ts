@@ -2,20 +2,20 @@ import { Component, Inject, OnDestroy, OnInit, Input, Output } from "@angular/co
 import { Subscription } from "rxjs";
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Router } from "@angular/router";
 
-import { NewsModel } from "../../models/admin-news.model";
-import { NewsService } from "../../services/admin-news.service";
-import { AdminNewsUpdateModal } from "../news-update/news-update.component";
+import { NewsModel } from "../../models/application-news.model";
+import { NewsService } from "../../services/application-news.service";
 
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
 
 @Component({
-  selector: 'app-admin-news-list',
+  selector: 'app-application-news-list',
   templateUrl: './news-list.component.html',
   styleUrls: ['../../../app.component.css','./news-list.component.css']
 })
-export class AdminNewsList implements OnInit, OnDestroy {
-  title = "HABERLER";
+export class ApplicationNewsList implements OnInit, OnDestroy {
+  headerTitle = "HABERLER";
   isLoading = false;
   newsList: NewsModel[] = [];
   private newsSub: Subscription;
@@ -25,41 +25,25 @@ export class AdminNewsList implements OnInit, OnDestroy {
 
   constructor(
     public newsService: NewsService,
-    public dialog: MatDialog,
-    private sanitizer: DomSanitizer
+    private router: Router
     ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoading = true;
     this.newsService.getNews();
     this.newsSub = this.newsService.getNewsUpdateListener()
       .subscribe((data: NewsModel[]) => {
-        // Sort data regarding the updateDate || createDate
-        this.newsList = data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
+        this.newsList = data;
+        console.log(this.newsList);
         this.isLoading = false;
       });
-
   }
 
-  onDelete(id: number) {
-    this.isLoading = true;
-    this.newsService.deleteNews(id);
-    this.isLoading = false;
+  showNewsDetails(_id: number) {
+    this.router.navigate(['/haberler/detaylar', _id]);
   }
-
-
-  openEditDialog(news) {
-    const dialogRef = this.dialog.open(AdminNewsUpdateModal, {
-      data: {
-        news: news
-      }
-    });
-  }
-
 
   ngOnDestroy(): void {
     this.newsSub.unsubscribe();
   }
-
 }

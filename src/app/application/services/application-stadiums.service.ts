@@ -9,13 +9,16 @@ export class StadiumsService {
   private stadiumList: StadiumsModel[] = [];
   private stadiumListSub = new Subject<StadiumsModel[]>();
 
+  private stadium: StadiumsModel;
+  private stadiumSub = new Subject<StadiumsModel>();
+
   constructor(private http: HttpClient) {}
 
   getStadiums() {
     try {
       this.http
         .get<{error: boolean, message: string, stadiums: StadiumsModel[]}>(
-          'http://localhost:3000/admin/sahalar'
+          'http://localhost:3000/sahalar'
         )
         .subscribe({
           next: (data) => {
@@ -29,7 +32,9 @@ export class StadiumsService {
           error: (error) => {
 
           }
+
         });
+
     } catch (error) {
 
     }
@@ -37,5 +42,33 @@ export class StadiumsService {
 
   getStadiumListUpdateListener() {
     return this.stadiumListSub.asObservable();
+  }
+
+  getStadiumById(_id: number) {
+    try {
+      this.http
+        .get<{error: boolean, message:string, stadium: StadiumsModel}>(
+          'http://localhost:3000/sahalar/' + _id
+        )
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.stadium = data.stadium;
+              this.stadiumSub.next(this.stadium);
+            } else {
+
+            }
+          },
+          error: (error) => {
+
+          }
+        });
+    } catch (error) {
+
+    }
+  }
+
+  getStadiumByIdUpdateListener() {
+    return this.stadiumSub.asObservable();
   }
 }

@@ -14,6 +14,9 @@ export class NewsService {
   private newsList: NewsModel[] = [];
   private newsUpdated = new Subject<NewsModel[]>();
 
+  private newsById: NewsModel;
+  private newsByIdSubject = new Subject<NewsModel>();
+
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
@@ -22,8 +25,8 @@ export class NewsService {
   getNews() {
     try {
       this.http
-        .get<{error: boolean, message: string, news: any}>(
-          'http://localhost:3000/admin/haberler'
+        .get<{error: boolean, message: string, news: NewsModel[]}>(
+          'http://localhost:3000/haberler'
         )
         .pipe(
           map(data => {
@@ -32,9 +35,7 @@ export class NewsService {
                 return {
                   id: newsObj.id,
                   createdAt: newsObj.createdAt,
-                  createdBy: newsObj.createdBy,
                   updatedAt: newsObj.updatedAt,
-                  updatedBy: newsObj.updatedBy,
                   title: newsObj.title,
                   content: newsObj.content,
                   newsImage: newsObj.newsImage,
@@ -56,8 +57,35 @@ export class NewsService {
 
   }
 
-
   getNewsUpdateListener() {
     return this.newsUpdated.asObservable();
+  }
+
+  getNewsById(id: number) {
+    try {
+      this.http
+        .get<{error: boolean, message: string, news: NewsModel}>(
+          'http://localhost:3000/haberler/' + id
+        )
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.newsById = data.news;
+              this.newsByIdSubject.next(this.newsById);
+            } else {
+
+            }
+          },
+          error: (error) => {
+
+          }
+        })
+    } catch (error) {
+
+    }
+  }
+
+  getNewsByIdUpdateListener() {
+    return this.newsByIdSubject.asObservable();
   }
 }

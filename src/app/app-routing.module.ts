@@ -16,7 +16,7 @@ import { AdminDocumentLicenseForms } from "./admin/components/documents-license-
 import { AdminDocumentDocuments } from "./admin/components/documents-documents-list/documents-documents-list.component";
 
 import { AdminTeamsList } from "./admin/components/teams-list/teams-list.component";
-import { AdminStadiumsListComponent } from "./admin/components/stadiums-list/stadiums-list.component";
+import { AdminStadiumsList } from "./admin/components/stadiums-list/stadiums-list.component";
 import { AdminDisciplinaryBoardFilesList } from "./admin/components/disciplinary-board-files-list/disciplinary-board-files-list.component";
 import { AdminDisciplinaryBoardDecisionsList } from "./admin/components/disciplinary-board-decisions-list/disciplinary-board-decisions-list.component";
 
@@ -47,6 +47,13 @@ import { ApplicationIzmirTFFIlTemsilciligi } from "./application/components/abou
 import { ApplicationStaffIzmirTFF } from "./application/components/staff-izmirtff-list/staff-izmirtff-list.component";
 import { ApplicationTeamsList } from "./application/components/teams-list/teams-list.component";
 
+import { ApplicationNewsList } from "./application/components/news-list/news-list.component";
+import { ApplicationNewsDetails } from "./application/components/news-details/news-details.component";
+
+import { ApplicationStadiumList } from "./application/components/stadiums-list/stadiums-list.component";
+import { ApplicationStadiumDetails } from "./application/components/stadiums-details/stadiums-details.component";
+
+
 
 const routes: Routes = [
   {path: 'admin/anasayfa', component: AdminHome, canActivate: [AuthGuard]},
@@ -62,7 +69,7 @@ const routes: Routes = [
   {path: 'admin/lisansformlari', component: AdminDocumentLicenseForms, canActivate: [AuthGuard]},
   {path: 'admin/belgeler', component: AdminDocumentDocuments, canActivate: [AuthGuard]},
 
-  {path: 'admin/sahalar', component: AdminStadiumsListComponent, canActivate: [AuthGuard]},
+  {path: 'admin/sahalar', component: AdminStadiumsList, canActivate: [AuthGuard]},
   {path: 'admin/takimlar', component: AdminTeamsList, canActivate: [AuthGuard]},
   {path: 'admin/disiplin-kurulu-dosyalari', component: AdminDisciplinaryBoardFilesList, canActivate: [AuthGuard]},
   {path: 'admin/disiplin-kurulu-kararlari', component: AdminDisciplinaryBoardDecisionsList, canActivate: [AuthGuard]},
@@ -92,6 +99,12 @@ const routes: Routes = [
   {path: 'tffiltemsilciligi/hakkimizda', component: ApplicationIzmirTFFIlTemsilciligi},
   {path: 'tffiltemsilciligi/yonetim-kurulu', component: ApplicationStaffIzmirTFF},
   {path: 'takimlar', component: ApplicationTeamsList},
+
+  {path: 'haberler', component: ApplicationNewsList},
+  {path: 'haberler/detaylar/:id', pathMatch:"full", component: ApplicationNewsDetails},
+
+  {path: 'sahalar', component: ApplicationStadiumList},
+  {path: 'sahalar/detaylar/:id', pathMatch:"full", component: ApplicationStadiumDetails},
 
   {path: '**', pathMatch: "full", component: PageNotFound},
 ];

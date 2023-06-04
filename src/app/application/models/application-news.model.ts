@@ -1,8 +1,9 @@
 export interface NewsModel {
-    id: number;
-    title: string;
-    content: Text;
-    newsImage: File;
-    isOnline: boolean;
-  }
-  
+  id: number;
+  createdAt: Date,
+  updatedAt: Date,
+  title: string;
+  content: Text;
+  newsImage: File;
+  isOnline: boolean;
+}
