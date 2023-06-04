@@ -19,13 +19,6 @@ const MIME_TYPE_MAP = {
 
 router.get("", teamsController.getTeams);
 
-//router.get("/:id", checkAuth, teamsController.findTeam);
-
-//router.post("", checkAuth, extractTeamLogo, teamsController.createTeam);
-
-//router.put("/:id", checkAuth, extractTeamLogo, teamsController.updateTeam);
-
-//router.delete("/:id", checkAuth, teamsController.deleteTeam);
-
+router.get("/:id", teamsController.getTeamById);
 
 module.exports = router;

@@ -9,6 +9,9 @@ export class TeamsService {
   private teamList: TeamsModel[] = [];
   private teamListSub = new Subject<TeamsModel[]>();
 
+  private team: TeamsModel;
+  private teamSub = new Subject<TeamsModel>();
+
   constructor(private http: HttpClient) { }
 
   getTeams() {
@@ -40,4 +43,33 @@ export class TeamsService {
   getTeamListSubListener() {
     return this.teamListSub.asObservable();
   }
+
+  getTeamById(_id: number) {
+    try {
+      this.http
+        .get<{error: boolean, message:string, team: TeamsModel}>(
+          'http://localhost:3000/takimlar/' + _id
+        )
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.team = data.team;
+              this.teamSub.next(this.team);
+            } else {
+
+            }
+          },
+          error: (error) => {
+
+          }
+        });
+    } catch (error) {
+
+    }
+  }
+
+  getTeamByIdUpdateListener() {
+    return this.teamSub.asObservable();
+  }
+
 }

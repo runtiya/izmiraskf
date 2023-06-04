@@ -210,18 +210,12 @@ import { ApplicationTeamsList } from './application/components/teams-list/teams-
     ApplicationIzmirTFFIlTemsilciligi,
     ApplicationStaffIzmirTFF,
 
-<<<<<<< HEAD
-    ApplicationTeamsList
-
-    
-=======
-    ApplicationNewsList,
-    ApplicationNewsDetails,
-
     ApplicationStadiumList,
-    ApplicationStadiumDetails
->>>>>>> 437fa64cb8e9db367e81ab2c7e1499b6994b3a0d
-
+    ApplicationStadiumDetails,
+    ApplicationTeamsList,
+    ApplicationNewsList,
+    ApplicationNewsDetails
+  
   ],
   imports: [
     BrowserModule,
