@@ -30,7 +30,7 @@ const applicationAboutIASKFRoutes = require('./routes/application/aboutizmiraskf
 const applicationStaffIASKFRoutes = require('./routes/application/staffizmiraskf');
 const applicationAboutITFFRoutes = require('./routes/application/aboutizmirtff');
 const applicationStaffITFFRoutes = require('./routes/application/staffizmirtff');
-
+const applicationTeamsRoutes = require('./routes/application/teams');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit:'3000kb'}));
@@ -71,5 +71,6 @@ app.use('/izmiraskf/hakkimizda', applicationAboutIASKFRoutes);
 app.use('/izmiraskf/yonetim-kurulu', applicationStaffIASKFRoutes);
 app.use('/tffiltemsilciligi/hakkimizda', applicationAboutITFFRoutes);
 app.use('/tffiltemsilciligi/yonetim-kurulu', applicationStaffITFFRoutes);
+app.use('/takimlar', applicationTeamsRoutes);
 
 module.exports = app;

@@ -118,6 +118,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AngularMaterialModule } from "./angular-material.module";
 import { AuthInterceptor } from './admin/authentication/auth-interceptor';
 import { ErrorInterceptor } from "./error/error-interceptor";
+import { ApplicationTeamsList } from './application/components/teams-list/teams-list.component';
 
 @NgModule({
   declarations: [
@@ -201,7 +202,11 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     ApplicationStaffIzmirAskf,
 
     ApplicationIzmirTFFIlTemsilciligi,
-    ApplicationStaffIzmirTFF
+    ApplicationStaffIzmirTFF,
+
+    ApplicationTeamsList
+
+    
 
   ],
   imports: [

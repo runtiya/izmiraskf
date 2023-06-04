@@ -45,6 +45,7 @@ import { ApplicationStaffIzmirAskf } from "./application/components/staff-izmira
 
 import { ApplicationIzmirTFFIlTemsilciligi } from "./application/components/about-tffizmiriltemsilciligi/about-tffizmiriltemsilciligi.component";
 import { ApplicationStaffIzmirTFF } from "./application/components/staff-izmirtff-list/staff-izmirtff-list.component";
+import { ApplicationTeamsList } from "./application/components/teams-list/teams-list.component";
 
 
 const routes: Routes = [
@@ -90,6 +91,7 @@ const routes: Routes = [
 
   {path: 'tffiltemsilciligi/hakkimizda', component: ApplicationIzmirTFFIlTemsilciligi},
   {path: 'tffiltemsilciligi/yonetim-kurulu', component: ApplicationStaffIzmirTFF},
+  {path: 'takimlar', component: ApplicationTeamsList},
 
   {path: '**', pathMatch: "full", component: PageNotFound},
 ];
