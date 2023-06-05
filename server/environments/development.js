@@ -7,6 +7,7 @@ const environment = {
     port: 3306,
     password: '17Nisan1996',
     database: 'izmiraskf'
+
   }
 };
 
