@@ -6,8 +6,10 @@ import { ActivatedRoute } from "@angular/router";
 import { TeamsModel } from "../../models/application-teams.model";
 import { TeamsService } from "../../services/application-teams.service";
 
-import { Router } from "express";
-import { ParamMap } from "@angular/router";
+import { globalFunctions } from "../../../functions/global.function";
+
+import { GoogleMapsModel } from "../../../models/google-maps.model";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
 
 @Component({
   selector: 'app-application-teams-details',
@@ -15,18 +17,28 @@ import { ParamMap } from "@angular/router";
   styleUrls: ['../../../app.component.css', './teams-details.component.css']
 })
 export class ApplicationTeamDetails implements OnInit, OnDestroy {
-  headerTitle = "";
+  toolbarTitle = "";
   isLoading = false;
-  team: TeamsModel;
+  team: TeamsModel = <TeamsModel>{};
   private teamSub: Subscription;
   url_teamId: number;
 
+  LatLngLiteral = <GoogleMapsModel>{};
+  zoom = 18;
+  center: google.maps.LatLngLiteral = null;
+  markerPositions: google.maps.LatLngLiteral[] = [];
+
+  fontAwesomeIconList = fontAwesomeIconList;
+
   constructor(
-    private teamsService: TeamsService, 
-    public dialog: MatDialog, 
-    private router: ActivatedRoute) {}
+    private teamsService: TeamsService,
+    public dialog: MatDialog,
+    private router: ActivatedRoute,
+    private globalFunctions: globalFunctions
+  ) {}
 
   ngOnInit(): void {
+    this.team.colorCodes = "#000000;#000000";
     this.router.paramMap
       .subscribe(params => {
         this.url_teamId = Number(params.get('id'));
@@ -36,7 +48,11 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
           .subscribe({
             next: (data: TeamsModel) => {
               this.team = data;
-              console.log(this.team);
+              this.toolbarTitle = data.officialName;
+              this.globalFunctions.setToolbarTitle(this.toolbarTitle);
+              if (this.team.latitude !== null && this.team.longitude !== null) {
+                this.center = {lat: this.team.latitude, lng: this.team.longitude};
+              }
             },
             error: (error) => {
 
@@ -46,6 +62,6 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.teamSub.unsubscribe();
   }
 }

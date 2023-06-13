@@ -10,6 +10,8 @@ import { ActivatedRoute } from "@angular/router";
 import { NewsModel } from "../../models/application-news.model";
 import { NewsService } from "../../services/application-news.service";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
@@ -19,8 +21,8 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 })
 export class ApplicationNewsDetails implements OnInit, OnDestroy {
   isLoading = false;
-  headerTitle = "HABER DETAYLARI";
-  news: NewsModel;
+  toolbarTitle = "HABER DETAYLARI";
+  news: NewsModel = <NewsModel>{};
   private newsSub: Subscription;
   url_newsId: number;
   newsForm: FormGroup;
@@ -72,11 +74,12 @@ export class ApplicationNewsDetails implements OnInit, OnDestroy {
   constructor(
     private router: ActivatedRoute,
     private newsService: NewsService,
-    private _dateAdapter: DateAdapter<Date>
+    private _dateAdapter: DateAdapter<Date>,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
-
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.newsForm = new FormGroup({
       createdAt: new FormControl(null, {validators: []}),
       title: new FormControl(null, {validators: []}),
@@ -95,9 +98,6 @@ export class ApplicationNewsDetails implements OnInit, OnDestroy {
               this.newsForm.get('createdAt').setValue(this.news.createdAt);
               this.newsForm.get('title').setValue(this.news.title);
               this.newsForm.get('content').setValue(this.news.content);
-
-              console.log(this.news);
-              console.log(this.newsForm.get('createdAt').value)
             },
             error: (error) => {
 

@@ -1,5 +1,4 @@
 export interface ExternalLinksModel {
-  id: number,
   linkName: string,
   url: string,
   linkType: string,

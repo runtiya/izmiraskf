@@ -12,8 +12,6 @@ import { townList } from "../../../assets/lists/town-list-izmir";
 
 import { StadiumsModel } from "../../models/admin-stadiums.model";
 
-
-
 @Component({
   selector: 'app-admin-teams-create',
   templateUrl: './teams-create.component.html',

@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { AboutIASKFModel } from "../../models/application-aboutizmiraskf.model";
 import { AboutIASKFService } from "../../services/application-aboutiaskf.service";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 import { GoogleMapsModel } from "../../../models/google-maps.model";
 
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
@@ -15,7 +17,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-lis
   styleUrls: ['../../../app.component.css', './about-izmiraskf.component.css']
 })
 export class ApplicationIzmirASKF implements OnInit, OnDestroy {
-  headerTitle = "İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU";
+  toolbarTitle = "İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU";
   isLoading = false;
   //aboutcontent: AboutIASKFModel;
   aboutcontent = <AboutIASKFModel>{};
@@ -27,23 +29,24 @@ export class ApplicationIzmirASKF implements OnInit, OnDestroy {
 
   latitude = 38.4377387;
   longitude = 27.1409411;
-  zoom = 15;
+  zoom = 18;
 
   center: google.maps.LatLngLiteral = {lat: this.latitude, lng: this.longitude};
   markerPositions: google.maps.LatLngLiteral[] = [];
 
   constructor(
     public aboutiaskfService : AboutIASKFService,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.aboutiaskfService.getAboutContent();
-
     this.aboutcontentSubscription = this.aboutiaskfService.getAboutContentListener()
       .subscribe({
         next: (data: AboutIASKFModel) => {
           this.aboutcontent = data;
-
+          console.log('Test')
         },
         error: (error) => {
 
@@ -67,6 +70,6 @@ export class ApplicationIzmirASKF implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.aboutcontentSubscription.unsubscribe();
   }
 }

@@ -11,9 +11,12 @@ import { DisciplinaryBoardFilesService } from "../../services/application-discip
 import { SeasonsService } from "../../services/application-seasons.service";
 import { SeasonsModel } from "../../models/application-seasons.model";
 
-
 import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype-list";
 import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto-list";
+
+import { ApplicationDisciplinaryBoardDecisionsDetailsModal } from "../disciplinary-board-decisions-details/disciplinary-board-decisions-details.component";
+
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-application-disciplinary-board-decisions-list',
@@ -21,8 +24,7 @@ import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-
   styleUrls: ['../../../app.component.css', './disciplinary-board-decisions-list.component.css']
 })
 export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
-
-  headerTitle = "DİSİPLİN KURULU KARARLARI";
+  toolbarTitle = "DİSİPLİN KURULU KARARLARI";
   isLoading = false;
 
   seasonsList: SeasonsModel[] = [];
@@ -30,6 +32,7 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
 
   disciplinaryBoardFilesList: DisciplinaryBoardFileModel[] = [];
   private disciplinaryBoardFilesListSubscription: Subscription;
+  disciplinaryBoardFileDetails: DisciplinaryBoardFileModel = <DisciplinaryBoardFileModel>{};
 
   disciplinaryBoardDecisionsList: DisciplinaryBoardDecisionModel[] = [];
   private disciplinaryBoardDecisionsListSubscription: Subscription;
@@ -47,41 +50,72 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
                               "belongingTo",
                               "penalType",
                               "duration",
-                              "explanation"
+                              "actions"
                             ];
 
   constructor(
     public disciplinaryBoardDecisionsService: DisciplinaryBoardDecisionsService,
     public disciplinaryBoardFilesService: DisciplinaryBoardFilesService,
     public seasonsService: SeasonsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
-      .subscribe((data: SeasonsModel[]) => {
-          this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+      .subscribe({
+        next: (data: SeasonsModel[]) => {
+          this.seasonsList = data;
           this.seasonSelectionId = this.seasonsList[0]["id"];
           this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId);
           this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+        },
+        error: (error) => {
 
+        }
       });
 
 
     this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
-      .subscribe((data: DisciplinaryBoardFileModel[]) => {
-          this.disciplinaryBoardFilesList = data.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
+      .subscribe({
+        next: (data: DisciplinaryBoardFileModel[]) => {
+          this.disciplinaryBoardFilesList = data;
           this.disciplinaryBoardFileSelectionId = this.disciplinaryBoardFilesList[0]["id"];
+          this.disciplinaryBoardFileDetails = this.disciplinaryBoardFilesList[0];
           this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+
+        },
+        error: (error) => {
+
+        }
       });
 
     this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisionsUpdateListener()
-      .subscribe((data: DisciplinaryBoardDecisionModel[]) => {
+      .subscribe({
+        next: (data: DisciplinaryBoardDecisionModel[]) => {
+
           const filteredDisciplinaryBoardDecisionsList = data.filter(decision => decision.disciplinaryBoardFileId === this.disciplinaryBoardFileSelectionId);
           this.disciplinaryBoardDecisionsList = filteredDisciplinaryBoardDecisionsList;
+          //this.disciplinaryBoardDecisionsList = data;
+        },
+        error: (error) => {
 
-      });
+        }
+      })
+
+  }
+
+  onSearch() {
+    if (this.disciplinaryBoardFileSelectionId !== null) {
+      this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+      this.disciplinaryBoardFileDetails = this.disciplinaryBoardFileSelectionId !== null ? this.disciplinaryBoardFilesList.find(file => file.id == this.disciplinaryBoardFileSelectionId) : null;
+    } else {
+      // Show error message here
+      alert('Dosya Numarası seçiniz')
+    }
+
   }
 
   onSeasonChange() {
@@ -91,6 +125,7 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
 
   onFileNoChange() {
       this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+      this.disciplinaryBoardFileDetails = this.disciplinaryBoardFileSelectionId !== null ? this.disciplinaryBoardFilesList.find(file => file.id == this.disciplinaryBoardFileSelectionId) : null;
   }
 
   findPenalType(penalType: string): string {
@@ -98,10 +133,21 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
   }
 
   findBelongingTo(belongingTo: string): string {
-      return belongingTo ? this.disciplinaryBelongingToList.find(b => b.name == belongingTo).value : null;
+    return belongingTo ? this.disciplinaryBelongingToList.find(b => b.name == belongingTo).value : null;
+  }
+
+  openDisciplinaryBoardDecisionDetailsModal(disciplinaryBoardDecision: DisciplinaryBoardDecisionModel) {
+    const dialogRef = this.dialog.open(ApplicationDisciplinaryBoardDecisionsDetailsModal, {
+      data: {
+        disciplinaryBoardDecisionInfo: disciplinaryBoardDecision,
+        disciplinaryBoardFileInfo: this.disciplinaryBoardFileDetails
+      }
+    });
   }
 
   ngOnDestroy(): void {
-
+    this.seasonsListSubscription.unsubscribe();
+    this.disciplinaryBoardFilesListSubscription.unsubscribe();
+    //this.disciplinaryBoardDecisionsListSubscription.unsubscribe();
   }
 }

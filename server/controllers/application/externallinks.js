@@ -3,10 +3,14 @@ const connection = require('../../functions/database').connectDatabase();
 // Get all external links list
 function getExternalLinks(req, res, next) {
   var extlinkList;
+  const linkType = req.params.linktype;
   var message;
 
   connection.query(
-    "select * from view_application_externallinks",
+    "select * from view_application_externallinks where linktype = ?",
+    [
+      linkType
+    ],
     (error, result) => {
       if (!error) {
         extlinkList = result;

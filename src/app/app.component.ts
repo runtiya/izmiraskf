@@ -1,9 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { globalFunctions } from "./functions/global.function";
 
 import { AuthService } from "./admin/authentication/auth.service";
+import { ExternalLinksModel } from "./application/models/application-externallinks.model";
+import { ExternalLinksService } from "./application/services/application-externallinks.service";
 
 
 @Component({
@@ -15,8 +18,13 @@ export class AppComponent implements OnInit {
   title = 'izmiraskf';
   snackBarDuration = 3000; //milisecond
   showSpinner: boolean;
+  externalLinksList: ExternalLinksModel[] = [];
+  private externalLinksListSub: Subscription;
+  userIsAuthenticated = false;
+  private authListenerSubs: Subscription;
 
   constructor(
+    private externalLinksService: ExternalLinksService,
     private globalFunctions: globalFunctions,
     private _snackBar: MatSnackBar,
     private authService: AuthService
@@ -27,9 +35,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.globalFunctions.showSnackBar.subscribe(message => {
       this._snackBar.open(message, 'Tamam', {
-          horizontalPosition: "end",
-          verticalPosition: "top",
-          duration: this.snackBarDuration
+        horizontalPosition: "end",
+        verticalPosition: "top",
+        duration: this.snackBarDuration
       });
     });
 
@@ -39,8 +47,18 @@ export class AppComponent implements OnInit {
         this.showSpinner = _displaySpinner;
       });
 
-      // Auto Authentication Control
-      this.authService.autoAuthUser();
+    // Auto Authentication Control
+    this.authService.autoAuthUser();
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authListenerSubs = this.authService.getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        setTimeout(() => {
+          this.userIsAuthenticated = isAuthenticated;
+        }, 0);
+      });
+
+
+    this.externalLinksService.getLinks('SOCIALMEDIA');
 
   }
 

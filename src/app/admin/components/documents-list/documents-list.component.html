@@ -1,61 +1,59 @@
+<div>
+  <mat-card class="create-card">
+    <button
+      class="create-button"
+      mat-fab
+      color="primary"
+      matTooltip="Oluştur"
+      (click)="onCreate()"
+    >
+      <mat-icon>add_circle</mat-icon>
+    </button>
+  </mat-card>
 
-<div class="container">
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>{{headerTitle}}</span>
-  </mat-toolbar>
+  <table mat-table [dataSource]="documents" class="mat-elevation-z8">
+    <ng-container matColumnDef="orderNo">
+      <th mat-header-cell *matHeaderCellDef="">Sıra</th>
+      <td mat-cell *matCellDef="let doc">{{ doc.orderNo }}</td>
+    </ng-container>
 
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <ng-container matColumnDef="docName">
+      <th mat-header-cell *matHeaderCellDef="">Dosya Adı</th>
+      <td mat-cell *matCellDef="let doc">{{ doc.docName }}</td>
+    </ng-container>
 
-  <div class="col-lg-12 col-md-12 col-sm-12">
-    <mat-card class="create-card">
-      <button
-        class="create-button"
-        mat-fab
-        color="primary"
-        matTooltip="Oluştur"
-        (click)="onCreate()">
-        <mat-icon>add_circle</mat-icon>
-      </button>
-    </mat-card>
+    <ng-container matColumnDef="docType">
+      <th mat-header-cell *matHeaderCellDef="">Dosya Türü</th>
+      <td mat-cell *matCellDef="let doc">{{ doc.mimeType }}</td>
+    </ng-container>
 
-    <table mat-table [dataSource]="documents" class="mat-elevation-z8">
-      <ng-container matColumnDef="orderNo">
-        <th mat-header-cell *matHeaderCellDef="">Sıra</th>
-        <td mat-cell *matCellDef="let doc">{{doc.orderNo}}</td>
-      </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef=""></th>
+      <td mat-cell *matCellDef="let doc">
+        <button mat-button color="primary" (click)="onEdit(doc)">
+          Düzenle
+        </button>
+        <button mat-button color="warn" (click)="onDelete(doc.id)">Sil</button>
+      </td>
+    </ng-container>
 
-      <ng-container matColumnDef="docName">
-        <th mat-header-cell *matHeaderCellDef="">Dosya Adı</th>
-        <td mat-cell *matCellDef="let doc">{{doc.docName}}</td>
-      </ng-container>
+    <tr
+      mat-header-row
+      *matHeaderRowDef="tableColumns"
+      class="table-header-row"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: tableColumns"
+      class="table-detail-row"
+    ></tr>
+  </table>
 
-      <ng-container matColumnDef="docType">
-        <th mat-header-cell *matHeaderCellDef="">Dosya Türü</th>
-        <td mat-cell *matCellDef="let doc">{{doc.mimeType}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef=""></th>
-        <td mat-cell *matCellDef="let doc">
-          <button mat-button color="primary" (click)="onEdit(doc)">
-            Düzenle
-          </button>
-          <button mat-button color="warn" (click)="onDelete(doc.id)">
-            Sil
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="tableColumns" class="table-header-row"></tr>
-      <tr mat-row *matRowDef="let row; columns: tableColumns;" class="table-detail-row"></tr>
-    </table>
-
-    <mat-card>
-      <mat-card-content>
-        <mat-card-subtitle>Toplam Kayıt Sayısı: {{documents.length}}</mat-card-subtitle>
-      </mat-card-content>
-    </mat-card>
-
-  </div>
-
+  <mat-card>
+    <mat-card-content>
+      <mat-card-subtitle
+        >Toplam Kayıt Sayısı: {{ documents.length }}</mat-card-subtitle
+      >
+    </mat-card-content>
+  </mat-card>
 </div>

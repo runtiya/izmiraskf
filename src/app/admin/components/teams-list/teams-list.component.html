@@ -1,10 +1,4 @@
-<div class="container">
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>{{headerTitle}}</span>
-  </mat-toolbar>
-
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-
+<div>
   <div class="col-lg-12 col-md-12 col-sm-12">
     <mat-card class="create-card">
       <button
@@ -12,27 +6,67 @@
         mat-fab
         color="primary"
         matTooltip="Oluştur"
-        (click)="onCreate()">
+        (click)="onCreate()"
+      >
         <mat-icon>add_circle</mat-icon>
       </button>
     </mat-card>
 
     <div class="row">
-      <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let team of teamsList">
+      <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let team of teamsList">
         <mat-card>
           <mat-card-header>
             <mat-card-title-group>
               <!-- Logo Does NOT Exist -->
-              <img *ngIf="!team.logo" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{team.shortName || team.officialName}}">
+              <img
+                *ngIf="!team.logo"
+                mat-card-avatar
+                src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                alt="{{ team.shortName || team.officialName }}"
+              />
               <!-- Logo Exists -->
-              <img *ngIf="team.logo" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{team.shortName || team.officialName}}">
-              <mat-card-title>{{team.shortName || team.officialName}}</mat-card-title>
-              <mat-card-subtitle>Üye: {{team.isMember ? 'Evet' : 'Hayır'}}</mat-card-subtitle>
-              <mat-card-subtitle>Aktif: {{team.isVisible ? 'Evet' : 'Hayır'}}</mat-card-subtitle>
+              <img
+                *ngIf="team.logo"
+                mat-card-avatar
+                src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                alt="{{ team.shortName || team.officialName }}"
+              />
+              <mat-card-title>{{
+                team.shortName || team.officialName
+              }}</mat-card-title>
+              <mat-card-subtitle
+                >
+                Üye:
+                <fa-icon
+                  [icon]="fontAwesomeIconList.faCircle"
+                  matTooltip="{{ team.isASKFMember ? 'Evet' : 'Hayır' }}"
+                  class="{{ team.isASKFMember ? 'team-member-yes' : 'team-member-no' }}"
+                ></fa-icon>
+                </mat-card-subtitle
+              >
+              <mat-card-subtitle
+                >Aktif:
+                <fa-icon
+                  [icon]="fontAwesomeIconList.faCircle"
+                  matTooltip="{{ team.isVisible ? 'Evet' : 'Hayır' }}"
+                  class="{{ team.isVisible ? 'team-active-yes' : 'team-active-no' }}"
+                ></fa-icon>
+                </mat-card-subtitle
+              >
+              <!--
               <mat-card-subtitle>
-                <mat-icon class="team-color" [ngStyle]="{'color': team.colorCodes.split(';')[0]}">circle</mat-icon>
-                <mat-icon class="team-color" [ngStyle]="{'color': team.colorCodes.split(';')[1]}">circle</mat-icon>
+                <mat-icon
+                  class="team-color"
+                  [ngStyle]="{ color: team.colorCodes.split(';')[0] }"
+                  >circle</mat-icon
+                >
+                <mat-icon
+                  class="team-color"
+                  [ngStyle]="{ color: team.colorCodes.split(';')[1] }"
+                  >circle</mat-icon
+                >
               </mat-card-subtitle>
+              -->
             </mat-card-title-group>
           </mat-card-header>
 
@@ -42,7 +76,6 @@
             <a mat-button color="primary" (click)="onEdit(team)">Düzenle</a>
             <a mat-button color="warn" (click)="onDelete(team.id)">Sil</a>
           </mat-action-row>
-
         </mat-card>
       </div>
     </div>

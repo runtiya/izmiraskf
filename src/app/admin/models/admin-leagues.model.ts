@@ -5,6 +5,7 @@ export interface LeaguesModel {
   updatedAt: Date,
   updatedBy: number,
   seasonId: number,
+  seasonName: string,
   leagueName: string,
   category: string,
   leagueType: string,

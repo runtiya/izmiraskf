@@ -5,13 +5,15 @@ import { Subscription } from "rxjs";
 import { AboutITFFModel } from "../../models/admin-aboutizmirtff.model";
 import { AboutITFFService } from "../../services/admin-aboutitff.service";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 @Component({
   selector: 'app-admin-izmirtff',
   templateUrl: './about-izmirtffiltemsilciligi.component.html',
   styleUrls: ['../../../app.component.css', './about-izmirtffiltemsilciligi.component.css']
 })
 export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
-  headerTitle = 'İZMİR TFF İL TEMSİLCİLİĞİ';
+  toolbarTitle = "İZMİR TFF İL TEMSİLCİLİĞİ";
   isLoading = false;
   aboutITFFform: FormGroup;
   aboutcontent: AboutITFFModel;
@@ -19,14 +21,20 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
 
   latitude = 38.4377387;
   longitude = 27.1409411;
-  zoom = 15;
-  center: google.maps.LatLngLiteral = {lat: this.latitude, lng: this.longitude};
+  zoom = 18;
+  center: google.maps.LatLngLiteral = null;
   markerPositions: google.maps.LatLngLiteral[] = [];
 
-  constructor(public aboutitffService: AboutITFFService) {}
+  constructor(
+    public aboutitffService: AboutITFFService,
+    private globalFunctions: globalFunctions
+    ) {
+
+    }
 
   ngOnInit() {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.aboutitffService.getAboutContent();
     this.aboutcontentSubscription = this.aboutitffService.getAboutContentListener()
       .subscribe((data: AboutITFFModel) => {
@@ -39,6 +47,9 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
           latitude: new FormControl(data.latitude, {validators: []}),
           longitude: new FormControl(data.longitude, {validators: []}),
         });
+        this.latitude = this.aboutITFFform.get('latitude').value;
+        this.longitude = this.aboutITFFform.get('longitude').value;
+        this.center = {lat: this.latitude, lng: this.longitude};
         this.isLoading = false;
       });
   }

@@ -1,11 +1,23 @@
-<admin-header></admin-header>
-<app-application-header></app-application-header>
+<div id="page-container">
+  <div id="content-wrap">
+    <header class="header">
 
-<main>
-  <router-outlet>
-    <div *ngIf="showSpinner">
-      <mat-spinner></mat-spinner>
-    </div>
-  </router-outlet>
-</main>
-
+      <admin-header *ngIf="userIsAuthenticated"></admin-header>
+      <app-application-header *ngIf="!userIsAuthenticated"></app-application-header>
+    </header>
+    <main>
+      <div class="container">
+        <app-admin-toolbar-title *ngIf="userIsAuthenticated"></app-admin-toolbar-title>
+        <app-application-toolbar-title *ngIf="!userIsAuthenticated"></app-application-toolbar-title>
+        <router-outlet>
+          <div *ngIf="showSpinner">
+            <mat-spinner></mat-spinner>
+          </div>
+        </router-outlet>
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <app-application-footer></app-application-footer>
+    </footer>
+  </div>
+</div>

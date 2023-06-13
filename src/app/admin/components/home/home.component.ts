@@ -3,9 +3,7 @@ import { FormControl, NgForm } from "@angular/forms";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE }  from "@angular/material/core";
 import { Subscription } from "rxjs";
 
-import { StadiumsService } from "../../services/admin-stadiums.service";
-
-
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-admin-home',
@@ -13,15 +11,15 @@ import { StadiumsService } from "../../services/admin-stadiums.service";
   styleUrls: ['../../../app.component.css', './home.component.css']
 })
 export class AdminHome implements OnInit, OnDestroy {
-  headerTitle = "ANA SAYFA";
+  toolbarTitle = "ANA SAYFA";
 
 
   constructor(
-    private stadiumsService: StadiumsService
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
-
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
   }
 
   ngOnDestroy(): void {

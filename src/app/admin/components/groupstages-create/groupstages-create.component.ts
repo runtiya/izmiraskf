@@ -50,6 +50,7 @@ export class AdminGroupStagesCreateModal implements OnInit {
       leagueId: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.leagueId : this.data.leagueSelectionId, {validators: [Validators.required]}),
       groupName: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.groupName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       periodSystem: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.periodSystem : groupPeriodSystemList[1].value, {validators: [Validators.required]}),
+      isActive: new FormControl(this.pageMode == 'edit' ? !!this.groupstageInfo.isActive : true, {validators: [Validators.required]}),
       orderNo: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.orderNo : 1, {validators: [Validators.required]})
     })
     this.isLoading = false;

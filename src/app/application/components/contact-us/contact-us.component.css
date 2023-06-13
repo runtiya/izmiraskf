@@ -1,0 +1,25 @@
+.mat-mdc-card {
+  box-shadow: none;
+}
+
+.mat-mdc-card-header {
+  display: block;
+}
+
+.icon {
+  padding-right: 0.5rem;
+}
+
+.card-toolbar-title {
+  background-color: #3F51B5;
+  color: whitesmoke;
+}
+
+.mat-mdc-card-header {
+  padding: 0;
+}
+
+.btn-send {
+  width: 100%;
+  margin-top: 0.5rem;
+}

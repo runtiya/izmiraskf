@@ -1,5 +1,5 @@
-<mat-dialog-content class="mat-typography">
-  <div class="container">
+<div>
+  <mat-dialog-content class="mat-typography">
     <mat-card>
       <mat-dialog-actions align="end">
         <button mat-icon-button mat-dialog-close class="icon">
@@ -21,18 +21,14 @@
                 type="text"
                 formControlName="teamOfficialName"
                 readonly
-              >
+              />
             </mat-form-field>
           </div>
 
           <div class="col-lg-4 col-md-4 col-sm-12">
             <mat-form-field class="form-input">
               <mat-label>İşlem</mat-label>
-              <mat-select
-                matInput
-                formControlName="status"
-                placeholder="İşlem"
-              >
+              <mat-select matInput formControlName="status" placeholder="İşlem">
                 <mat-option [value]="null">SEÇİNİZ</mat-option>
                 <mat-option [value]="'isExpelled'">İHRAÇ</mat-option>
                 <mat-option [value]="'isReceded'">ÇEKİLME</mat-option>
@@ -49,7 +45,8 @@
                 formControlName="weekofExpelledorReceded"
                 placeholder="Hafta"
               />
-              <mat-error *ngIf="teamSubmitForm.get('weekofExpelledorReceded').invalid"
+              <mat-error
+                *ngIf="teamSubmitForm.get('weekofExpelledorReceded').invalid"
                 >Lütfen bir sayı giriniz! (1-999)
               </mat-error>
             </mat-form-field>
@@ -63,8 +60,15 @@
                 type="text"
                 placeholder="Açıklama"
                 formControlName="explanation"
+              />
+              <mat-hint align="end"
+                >{{
+                  teamSubmitForm.get("explanation").value
+                    ? teamSubmitForm.get("explanation").value.length
+                    : 0
+                }}
+                / 200</mat-hint
               >
-              <mat-hint align="end">{{teamSubmitForm.get('explanation').value ? teamSubmitForm.get('explanation').value.length : 0 }} / 200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('explanation').invalid">
                 En fazla 200 karakter!
               </mat-error>
@@ -72,14 +76,12 @@
           </div>
 
           <mat-action-row>
-            <button
-              mat-raised-button
-              color="primary"
-              type="submit"
-            >Kaydet</button>
+            <button mat-raised-button color="primary" type="submit">
+              Kaydet
+            </button>
           </mat-action-row>
         </div>
       </form>
     </mat-card>
-  </div>
-</mat-dialog-content>
+  </mat-dialog-content>
+</div>

@@ -1,11 +1,11 @@
-<div class="container">
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>{{headerTitle}}</span>
-  </mat-toolbar>
-
+<div>
   <mat-card class="card-abouttext">
     <mat-card-header>
-      <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"  alt="Image of a Shiba Inu">
+      <img
+        mat-card-md-image
+        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+        alt="Image of a Shiba Inu"
+      />
     </mat-card-header>
     <mat-card-content>
       <div class="row">
@@ -35,7 +35,7 @@
               type="text"
               readonly="true"
               [value]="aboutcontent.phoneNumber"
-            >
+            />
           </mat-form-field>
         </div>
 
@@ -52,7 +52,7 @@
               type="text"
               readonly="true"
               [value]="aboutcontent.faxNumber"
-            >
+            />
           </mat-form-field>
         </div>
 
@@ -69,7 +69,7 @@
               type="text"
               readonly="true"
               [value]="aboutcontent.email"
-            >
+            />
           </mat-form-field>
         </div>
 
@@ -93,6 +93,7 @@
 
         <div class="col-12">
           <google-map
+            *ngIf="center"
             width="auto"
             [center]="center"
             [zoom]="zoom"
@@ -102,8 +103,20 @@
               [position]="{marker}"
             ></map-marker>
           </google-map>
-        </div>
 
+          <div class="alert" *ngIf="!center">
+            <div class="" role="alert">
+              <mat-card-title>
+                <strong>Harita Yüklenemedi!</strong>
+                Harita bilgisi bulunamadı.
+              </mat-card-title>
+              <mat-card-subtitle>
+                Bir sorun olduğunu düşünüyorsanız lütfen uygulama yöneticisi ile
+                görüşünüz!
+              </mat-card-subtitle>
+            </div>
+          </div>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>

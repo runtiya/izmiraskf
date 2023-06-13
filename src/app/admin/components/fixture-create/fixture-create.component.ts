@@ -34,7 +34,7 @@ import { DatePipe } from "@angular/common";
   styleUrls: ['../../../app.component.css', './fixture-create.component.css']
 })
 export class AdminFixtureCreate implements OnInit, OnDestroy {
-  headerTitle = "FİKSTÜR OLUŞTUR";
+  toolbarTitle = "FİKSTÜR OLUŞTUR";
   isLoading = false;
 
   seasonList: SeasonsModel[] = [];
@@ -58,18 +58,18 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
   @Input() groupstageSelectionId: number;
 
   tableColumnsGroup: string[] = [
-                                      "orderNo",
-                                      "status",
-                                      "teamName",
-                                      "stadiumName"
-                                    ];
+                                  "orderNo",
+                                  "status",
+                                  "teamName",
+                                  "stadiumName"
+                                ];
   tableColumnsFixture: string[] = [
-                                        "matchNo",
-                                        "homeTeam",
-                                        "details",
-                                        "awayTeam",
-                                        "actions"
-                                      ];
+                                    "matchNo",
+                                    "homeTeam",
+                                    "details",
+                                    "awayTeam",
+                                    "actions"
+                                  ];
   groupByFixture: any[] = [];
   constructor(public seasonsService: SeasonsService,
               public leaguesService: LeaguesService,
@@ -83,8 +83,8 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
             ) {}
 
   ngOnInit(): void {
-
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.stadiumsService.getStadiums();
     this.stadiumListSub = this.stadiumsService.getStadiumListUpdateListener()
       .subscribe((data: StadiumsModel[]) => {

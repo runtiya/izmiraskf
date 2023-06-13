@@ -1,12 +1,5 @@
-mat-card-content {
-  background-color: transparent;
-}
-
-.mat-mdc-card {
-  box-shadow: none;
-}
 
 mat-card-title {
-  font-size: small;
+  font-size: medium;
 }
 

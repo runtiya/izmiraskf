@@ -10,6 +10,8 @@ import { SeasonsModel } from "../../models/admin-seasons.model";
 
 import { AdminDisciplinaryBoardCreateModal } from "../disciplinary-board-files-create/disciplinary-board-files-create.component";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 @Component({
     selector: 'app-admin-disciplinary-board-files-list',
     templateUrl: './disciplinary-board-files-list.component.html',
@@ -17,7 +19,7 @@ import { AdminDisciplinaryBoardCreateModal } from "../disciplinary-board-files-c
 })
 export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
 
-    headerTitle = "DİSİPLİN KURULU DOSYALARI";
+    toolbarTitle = "DİSİPLİN KURULU DOSYALARI";
     isLoading = false;
 
     seasonsList: SeasonsModel[] = [];
@@ -38,11 +40,13 @@ export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
     constructor(
         public disciplinaryBoardFilesService: DisciplinaryBoardFilesService,
         public seasonsService: SeasonsService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private globalFunctions: globalFunctions
     ) {}
 
     ngOnInit(): void {
         this.isLoading = true;
+        this.globalFunctions.setToolbarTitle(this.toolbarTitle);
         this.seasonsService.getSeasons();
         this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
             .subscribe((data: SeasonsModel[]) => {

@@ -3,7 +3,8 @@
   }
 
 .btn-disciplinary-board-decisions-actions {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  width: 100%;
 }
 
 .btn-import-disciplinary-board-decisions {
@@ -14,4 +15,8 @@
 .btn-export-disciplinary-board-decisions {
   background-color: darkorange !important;
   color: white !important;
+}
+
+.mat-mdc-card {
+  box-shadow: none;
 }

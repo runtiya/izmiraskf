@@ -43,7 +43,7 @@ function createDisciplinaryBoardFile(req, res, next) {
             disciplinaryBoardFileInfo.caseNo,
             disciplinaryBoardFileInfo.caseDate,
             disciplinaryBoardFileInfo.title,
-            disciplinaryBoardFileInfo.participants.toString(),
+            disciplinaryBoardFileInfo.participants,
             disciplinaryBoardFileInfo.explanation
         ],
         (error, result) => {
@@ -77,7 +77,7 @@ function updateDisciplinaryBoardFile(req, res, next) {
             disciplinaryBoardFileInfo.caseNo,
             disciplinaryBoardFileInfo.caseDate,
             disciplinaryBoardFileInfo.title,
-            disciplinaryBoardFileInfo.participants.toString(),
+            disciplinaryBoardFileInfo.participants,
             disciplinaryBoardFileInfo.explanation,
             disciplinaryBoardFileInfo.id
         ],

@@ -15,7 +15,7 @@ import { documentCategoryList } from "../../../assets/lists/documents-category-l
   styleUrls: ['../../../app.component.css', './documents-list.component.css']
 })
 export class AdminDocumentList {
-  headerTitle = 'TÜM BELGELER';
+  toolbarTitle = "TÜM BELGELER";
   isLoading = false;
   documents: DocumentsModel[] = [];
   private documentsSubscription: Subscription;

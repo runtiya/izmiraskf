@@ -10,7 +10,9 @@ import { cityList } from "../../../assets/lists/city-list-tr";
 import { townList } from "../../../assets/lists/town-list-izmir";
 import { floorTypeList } from "../../../assets/lists/floor-type-list";
 
+import { GoogleMapsModel } from "../../../models/google-maps.model";
 
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-application-stadiums-details',
@@ -18,7 +20,7 @@ import { floorTypeList } from "../../../assets/lists/floor-type-list";
   styleUrls: ['../../../app.component.css', './stadiums-details.component.css']
 })
 export class ApplicationStadiumDetails implements OnInit, OnDestroy {
-  headerTitle = "";
+  toolbarTitle = "";
   isLoading = false;
   stadium: StadiumsModel = <StadiumsModel>{};
   private stadiumSub: Subscription;
@@ -28,9 +30,15 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
   townList = townList;
   floorTypeList = floorTypeList;
 
+  LatLngLiteral = <GoogleMapsModel>{};
+  zoom = 18;
+  center: google.maps.LatLngLiteral = null;
+  markerPositions: google.maps.LatLngLiteral[] = [];
+
   constructor(
     private router: ActivatedRoute,
-    private stadiumsService: StadiumsService
+    private stadiumsService: StadiumsService,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +51,12 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
           .subscribe({
             next: (data: StadiumsModel) => {
               this.stadium = data;
-              this.headerTitle = data.stadiumName;
+              this.toolbarTitle = data.stadiumName;
+              this.globalFunctions.setToolbarTitle(this.toolbarTitle);
+
+              if (this.stadium.latitude !== null && this.stadium.longitude !== null) {
+                this.center = {lat: this.stadium.latitude, lng: this.stadium.longitude};
+              }
             },
             error: (error) => {
 
@@ -82,7 +95,13 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  addMarker(event: google.maps.MapMouseEvent) {
+    if (event.latLng != null) {
+      this.markerPositions.push(event.latLng.toJSON());
+    }
+  }
 
+  ngOnDestroy(): void {
+    this.stadiumSub.unsubscribe();
   }
 }

@@ -1,221 +1,267 @@
-<mat-dialog-content class="mat-typography">
-    <div class="container">
-        <mat-card>
-            <mat-dialog-actions align="end">
-                <button mat-icon-button mat-dialog-close class="icon">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </mat-dialog-actions>
-        </mat-card>
+<div>
+  <mat-dialog-content class="mat-typography">
+    <mat-card>
+      <mat-dialog-actions align="end">
+        <button mat-icon-button mat-dialog-close class="icon">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-dialog-actions>
 
-        <form 
-            [formGroup]="disciplinaryBoardDecisionsSubmitForm"
-            (submit)="onSubmitForm()"
-            *ngIf="!isLoading"
-        >
-            <div class="row">
-                <!-- SeasonSelectedValue - Not Part of FormGroup/Model, using just for information -->
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Sezon</mat-label>
-                        <input
-                            matInput 
-                            readonly
-                            type="text"
-                            [value]="seasonSelectedValue"
-                            placeholder="Sezon"
-                        >
-                    </mat-form-field>
-                </div>
+      <form
+        [formGroup]="disciplinaryBoardDecisionsSubmitForm"
+        (submit)="onSubmitForm()"
+        *ngIf="!isLoading"
+      >
+        <div class="row">
+          <!-- SeasonSelectedValue - Not Part of FormGroup/Model, using just for information -->
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Sezon</mat-label>
+              <input
+                matInput
+                readonly
+                type="text"
+                [value]="seasonSelectedValue"
+                placeholder="Sezon"
+              />
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Dosya Numarası</mat-label>
-                        <mat-select
-                            matInput
-                            formControlName="disciplinaryBoardFileId"
-                            placeholder="Dosya Numarası"
-                        >
-                            <mat-option
-                                *ngFor="let file of disciplinaryBoardFilesList"
-                                [value]="file.id"
-                            >
-                                {{file.caseNo}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Dosya Numarası</mat-label>
+              <mat-select
+                matInput
+                formControlName="disciplinaryBoardFileId"
+                placeholder="Dosya Numarası"
+              >
+                <mat-option
+                  *ngFor="let file of disciplinaryBoardFilesList"
+                  [value]="file.id"
+                >
+                  {{ file.caseNo }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Lig</mat-label>
-                        <mat-select
-                            matInput
-                            formControlName="leagueId"
-                            placeholder="Lig Adı"
-                        >
-                            <mat-option
-                                *ngFor="let league of leaguesList"
-                                [value]="league.id"
-                            >
-                                {{league.leagueName}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Lig</mat-label>
+              <mat-select
+                matInput
+                formControlName="leagueId"
+                placeholder="Lig Adı"
+              >
+                <mat-option
+                  *ngFor="let league of leaguesList"
+                  [value]="league.id"
+                >
+                  {{ league.leagueName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Takım</mat-label>
-                        <mat-select
-                            matInput
-                            formControlName="teamId"
-                            placeholder="Takım Adı"
-                        >
-                            <mat-option
-                                *ngFor="let team of teamsList"
-                                [value]="team.id"
-                            >
-                                {{team.officialName}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Takım</mat-label>
+              <mat-select
+                matInput
+                formControlName="teamId"
+                placeholder="Takım Adı"
+              >
+                <mat-option *ngFor="let team of teamsList" [value]="team.id">
+                  {{ team.officialName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Ad-Soyad</mat-label>
-                        <input
-                            matInput 
-                            type="text"
-                            formControlName="fullName"
-                            placeholder="Ad Soyad"
-                        >
-                        <mat-hint align="end">{{disciplinaryBoardDecisionsSubmitForm.get('fullName').value ? disciplinaryBoardDecisionsSubmitForm.get('fullName').value.length : 0}}/200</mat-hint>
-                        <mat-error *ngIf="disciplinaryBoardDecisionsSubmitForm.get('fullName').invalid">
-                            En fazla 200 karakter!
-                          </mat-error>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Ad-Soyad</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="fullName"
+                placeholder="Ad Soyad"
+              />
+              <mat-hint align="end"
+                >{{
+                  disciplinaryBoardDecisionsSubmitForm.get("fullName").value
+                    ? disciplinaryBoardDecisionsSubmitForm.get("fullName").value
+                        .length
+                    : 0
+                }}/200</mat-hint
+              >
+              <mat-error
+                *ngIf="
+                  disciplinaryBoardDecisionsSubmitForm.get('fullName').invalid
+                "
+              >
+                En fazla 200 karakter!
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Lisans Numarası</mat-label>
-                        <input
-                            matInput 
-                            type="text"
-                            formControlName="licenseNo"
-                            placeholder="Lisans Numarası"
-                        >
-                        <mat-hint align="end">{{disciplinaryBoardDecisionsSubmitForm.get('licenseNo').value ? disciplinaryBoardDecisionsSubmitForm.get('licenseNo').value.length : 0}}/200</mat-hint>
-                        <mat-error *ngIf="disciplinaryBoardDecisionsSubmitForm.get('licenseNo').invalid">
-                            En fazla 200 karakter!
-                          </mat-error>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Lisans Numarası</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="licenseNo"
+                placeholder="Lisans Numarası"
+              />
+              <mat-hint align="end"
+                >{{
+                  disciplinaryBoardDecisionsSubmitForm.get("licenseNo").value
+                    ? disciplinaryBoardDecisionsSubmitForm.get("licenseNo")
+                        .value.length
+                    : 0
+                }}/200</mat-hint
+              >
+              <mat-error
+                *ngIf="
+                  disciplinaryBoardDecisionsSubmitForm.get('licenseNo').invalid
+                "
+              >
+                En fazla 200 karakter!
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Görevi</mat-label>
-                        <mat-select
-                            matInput
-                            formControlName="belongingTo"
-                            placeholder="Görevi"
-                        >
-                            <mat-option
-                                [value]="null"
-                            >
-                                {{'Seçiniz'}}
-                            </mat-option>
-                            <mat-option
-                                *ngFor="let belongingTo of disciplinaryBelongingToList"
-                                [value]="belongingTo.name"
-                            >
-                                {{belongingTo.value}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Görevi</mat-label>
+              <mat-select
+                matInput
+                formControlName="belongingTo"
+                placeholder="Görevi"
+              >
+                <mat-option [value]="null">
+                  {{ "Seçiniz" }}
+                </mat-option>
+                <mat-option
+                  *ngFor="let belongingTo of disciplinaryBelongingToList"
+                  [value]="belongingTo.name"
+                >
+                  {{ belongingTo.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Ceza</mat-label>
-                        <mat-select
-                            matInput
-                            formControlName="penalType"
-                            placeholder="Lig Adı"
-                        >
-                            <mat-option
-                                [value]="null"
-                            >
-                                {{'Seçiniz'}}
-                            </mat-option>
-                            <mat-option
-                                *ngFor="let penalType of disciplinaryPenalTypeList"
-                                [value]="penalType.name"
-                            >
-                                {{penalType.value}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Ceza</mat-label>
+              <mat-select
+                matInput
+                formControlName="penalType"
+                placeholder="Lig Adı"
+              >
+                <mat-option [value]="null">
+                  {{ "Seçiniz" }}
+                </mat-option>
+                <mat-option
+                  *ngFor="let penalType of disciplinaryPenalTypeList"
+                  [value]="penalType.name"
+                >
+                  {{ penalType.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Ceza Süresi</mat-label>
-                        <input
-                            matInput 
-                            type="text"
-                            formControlName="duration"
-                            placeholder="Ceza Süresi"
-                        >
-                        <mat-hint align="end">{{disciplinaryBoardDecisionsSubmitForm.get('duration').value ? disciplinaryBoardDecisionsSubmitForm.get('duration').value.length : 0}}/200</mat-hint>
-                        <mat-error *ngIf="disciplinaryBoardDecisionsSubmitForm.get('duration').invalid">
-                            En fazla 200 karakter!
-                          </mat-error>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Ceza Süresi</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="duration"
+                placeholder="Ceza Süresi"
+              />
+              <mat-hint align="end"
+                >{{
+                  disciplinaryBoardDecisionsSubmitForm.get("duration").value
+                    ? disciplinaryBoardDecisionsSubmitForm.get("duration").value
+                        .length
+                    : 0
+                }}/200</mat-hint
+              >
+              <mat-error
+                *ngIf="
+                  disciplinaryBoardDecisionsSubmitForm.get('duration').invalid
+                "
+              >
+                En fazla 200 karakter!
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Açıklama</mat-label>
-                        <input
-                            matInput 
-                            type="text"
-                            formControlName="explanation"
-                            placeholder="Açıklama"
-                        >
-                        <mat-hint align="end">{{disciplinaryBoardDecisionsSubmitForm.get('explanation').value ? disciplinaryBoardDecisionsSubmitForm.get('explanation').value.length : 0}}/200</mat-hint>
-                        <mat-error *ngIf="disciplinaryBoardDecisionsSubmitForm.get('explanation').invalid">
-                            En fazla 200 karakter!
-                          </mat-error>
-                    </mat-form-field>
-                </div>
-            </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Açıklama</mat-label>
+              <textarea
+                matInput
+                type="text"
+                formControlName="explanation"
+                placeholder="Açıklama"
+                rows="3"
+              >
+              </textarea>
+              <mat-hint align="end"
+                >{{
+                  disciplinaryBoardDecisionsSubmitForm.get("explanation").value
+                    ? disciplinaryBoardDecisionsSubmitForm.get("explanation")
+                        .value.length
+                    : 0
+                }}/2000</mat-hint
+              >
+              <mat-error
+                *ngIf="
+                  disciplinaryBoardDecisionsSubmitForm.get('explanation')
+                    .invalid
+                "
+              >
+                En fazla 2000 karakter!
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
 
-            <mat-action-row>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  *ngIf="data.pageMode == 'create'"
-                  type="submit"
-                  >Oluştur</button>
-        
-                <button
-                  mat-raised-button
-                  color="primary"
-                  *ngIf="data.pageMode == 'edit'"
-                  type="submit"
-                  >Düzenle</button>
-        
-                <button
-                  mat-raised-button
-                  color="warn"
-                  *ngIf="data.pageMode == 'edit'"
-                  type="button"
-                  (click)="onDelete(disciplinaryBoardDecisionsSubmitForm.id)"
-                  >Sil</button>
-              </mat-action-row>
-        </form>
-    </div>
-</mat-dialog-content>
+        <mat-action-row>
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="data.pageMode == 'create'"
+            type="submit"
+          >
+            Oluştur
+          </button>
+
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="data.pageMode == 'edit'"
+            type="submit"
+          >
+            Düzenle
+          </button>
+
+          <button
+            mat-raised-button
+            color="warn"
+            *ngIf="data.pageMode == 'edit'"
+            type="button"
+            (click)="onDelete(disciplinaryBoardDecisionsSubmitForm.id)"
+          >
+            Sil
+          </button>
+        </mat-action-row>
+      </form>
+    </mat-card>
+  </mat-dialog-content>
+</div>

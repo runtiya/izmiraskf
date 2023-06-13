@@ -1,285 +1,302 @@
-<mat-dialog-content class="mat-typography">
-    <div class="container">
-        <mat-card>
-            <mat-dialog-actions align="end">
-                <button mat-icon-button mat-dialog-close class="icon">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </mat-dialog-actions>
-        </mat-card>
+<div>
+  <mat-dialog-content class="mat-typography">
+    <mat-card>
+      <mat-dialog-actions align="end">
+        <button mat-icon-button mat-dialog-close class="icon">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-dialog-actions>
 
-        <mat-toolbar class="toolbar toolbar-title">
-            <span>{{'Müsabaka No: ' + (fixtureSubmitForm.get('matchNo').value || '-')}}</span>
-        </mat-toolbar>
+      <mat-toolbar class="toolbar toolbar-title" color="primary">
+        <span>{{
+          "Müsabaka No: " + (fixtureSubmitForm.get("matchNo").value || "-")
+        }}</span>
+      </mat-toolbar>
 
-        <form
-            [formGroup]="fixtureSubmitForm"
-            (submit)="onSubmitForm()"
-            *ngIf="!isLoading" 
-        >
-            <div class="row">
-                
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Müsabaka Tarihi</mat-label>
-                        <input 
-                            matInput 
-                            type="datetime-local"
-                            formControlName="matchDate"
-                            onfocus="this.showPicker()"
-                        >
-                    </mat-form-field>
-                </div>
+      <form
+        [formGroup]="fixtureSubmitForm"
+        (submit)="onSubmitForm()"
+        *ngIf="!isLoading"
+      >
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Müsabaka Tarihi</mat-label>
+              <input
+                matInput
+                type="datetime-local"
+                formControlName="matchDate"
+                onfocus="this.showPicker()"
+              />
+            </mat-form-field>
+          </div>
 
-                
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Saha</mat-label>
+              <mat-select
+                matInput
+                formControlName="stadiumId"
+                placeholder="Saha"
+              >
+                <mat-option [value]="null">
+                  {{ "Seçiniz" }}
+                </mat-option>
+                <mat-option
+                  *ngFor="let stadium of stadiumList"
+                  [value]="stadium.id"
+                >
+                  {{ stadium.stadiumName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Saha</mat-label>
-                        <mat-select
-                            matInput
-                            formControlName="stadiumId"
-                            placeholder="Saha"
-                        >
-                            <mat-option [value]="null">
-                                {{'Seçiniz'}}
-                            </mat-option>
-                            <mat-option
-                                *ngFor="let stadium of stadiumList"
-                                [value]="stadium.id"
-                            >
-                                {{stadium.stadiumName}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Ev Sahibi Takım</mat-label>
+              <mat-select
+                matInput
+                formControlName="homeTeamId"
+                placeholder="Ev Sahibi Takım"
+                (selectionChange)="
+                  onHomeTeamChange(fixtureSubmitForm.get('homeTeamId').value)
+                "
+              >
+                <mat-option
+                  *ngFor="let team of teamsingroupstagesList"
+                  [value]="team.teamId"
+                >
+                  {{ team.teamOfficialName }}
+                </mat-option>
+                <mat-option [value]="null">
+                  {{ "Bay" }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="fixtureSubmitForm.get('homeTeamId').invalid">
+                Lütfen bir takım seçiniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Ev Sahibi Takım</mat-label>
-                        <mat-select
-                            matInput
-                            formControlName="homeTeamId"
-                            placeholder="Ev Sahibi Takım"
-                            (selectionChange)="onHomeTeamChange(fixtureSubmitForm.get('homeTeamId').value)"
-                        >
-                            <mat-option
-                                *ngFor="let team of teamsingroupstagesList"
-                                [value]="team.teamId"
-                            >
-                                {{team.teamOfficialName}}
-                            </mat-option>
-                            <mat-option [value]="null">
-                                {{'Bay'}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="fixtureSubmitForm.get('homeTeamId').invalid">
-                            Lütfen bir takım seçiniz!
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Misafir Takım</mat-label>
+              <mat-select
+                matInput
+                formControlName="awayTeamId"
+                placeholder="Misafir Takım"
+              >
+                <mat-option
+                  *ngFor="let team of teamsingroupstagesList"
+                  [value]="team.teamId"
+                >
+                  {{ team.teamOfficialName }}
+                </mat-option>
+                <mat-option [value]="null">
+                  {{ "Bay" }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="fixtureSubmitForm.get('awayTeamId').invalid">
+                Lütfen bir takım seçiniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Misafir Takım</mat-label>
-                        <mat-select
-                            matInput
-                            formControlName="awayTeamId"
-                            placeholder="Misafir Takım"
-                        >
-                            <mat-option
-                                *ngFor="let team of teamsingroupstagesList"
-                                [value]="team.teamId"
-                            >
-                                {{team.teamOfficialName}}
-                            </mat-option>
-                            <mat-option [value]="null">
-                                {{'Bay'}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="fixtureSubmitForm.get('awayTeamId').invalid">
-                            Lütfen bir takım seçiniz!
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-3 col-md-3 col-sm-6">
+            <mat-form-field class="form-input">
+              <mat-label>Puan</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="homeTeamPoint"
+                placeholder="Ev Sahibi Takım Puan"
+              />
+              <mat-hint>Ev Sahibi Takım</mat-hint>
+              <mat-error *ngIf="fixtureSubmitForm.get('homeTeamPoint').invalid">
+                (1-999)
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                
+          <div class="col-lg-3 col-md-3 col-sm-6">
+            <mat-form-field class="form-input">
+              <mat-label>Skor</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="homeTeamScore"
+                placeholder="Ev Sahibi Takım Skor"
+                (change)="onScoresChange()"
+              />
+              <mat-hint>Ev Sahibi Takım</mat-hint>
+              <mat-error *ngIf="fixtureSubmitForm.get('homeTeamScore').invalid">
+                (1-999)
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-3 col-md-3 col-sm-6">
-                    <mat-form-field class="form-input">
-                        <mat-label>Puan</mat-label>
-                        <input 
-                            matInput
-                            type="number"
-                            formControlName="homeTeamPoint"
-                            placeholder="Ev Sahibi Takım Puan"
-                        >
-                        <mat-hint>Ev Sahibi Takım</mat-hint>
-                        <mat-error *ngIf="fixtureSubmitForm.get('homeTeamPoint').invalid">
-                            (1-999)
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-3 col-md-3 col-sm-6">
+            <mat-form-field class="form-input">
+              <mat-label>Skor</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="awayTeamScore"
+                placeholder="Misafir Takım Skor"
+                (change)="onScoresChange()"
+              />
+              <mat-hint>Misafir Takım</mat-hint>
+              <mat-error *ngIf="fixtureSubmitForm.get('awayTeamScore').invalid">
+                (1-999)
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-3 col-md-3 col-sm-6">
-                    <mat-form-field class="form-input">
-                        <mat-label>Skor</mat-label>
-                        <input 
-                            matInput
-                            type="number"
-                            formControlName="homeTeamScore"
-                            placeholder="Ev Sahibi Takım Skor"
-                            (change)="onScoresChange()"
-                        >
-                        <mat-hint>Ev Sahibi Takım</mat-hint>
-                        <mat-error *ngIf="fixtureSubmitForm.get('homeTeamScore').invalid">
-                            (1-999)
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-3 col-md-3 col-sm-6">
+            <mat-form-field class="form-input">
+              <mat-label>Puan</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="awayTeamPoint"
+                placeholder="Misafir Takım Puan"
+              />
+              <mat-hint>Misafir Takım</mat-hint>
+              <mat-error *ngIf="fixtureSubmitForm.get('awayTeamPoint').invalid">
+                (1-999)
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-3 col-md-3 col-sm-6">
-                    <mat-form-field class="form-input">
-                        <mat-label>Skor</mat-label>
-                        <input 
-                            matInput
-                            type="number"
-                            formControlName="awayTeamScore"
-                            placeholder="Misafir Takım Skor"
-                            (change)="onScoresChange()"
-                        >
-                        <mat-hint>Misafir Takım</mat-hint>
-                        <mat-error *ngIf="fixtureSubmitForm.get('awayTeamScore').invalid">
-                            (1-999)
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <mat-form-field class="">
+              <mat-label>Hükmen Galip</mat-label>
+              <mat-select
+                matInput
+                [(value)]="inp_winnerByForfeit"
+                #winnerByForfeit
+                placeholder="Hükmen Galip"
+                (selectionChange)="onWinByForfeitChange(winnerByForfeit.value)"
+              >
+                <mat-option [value]="null">Seçiniz</mat-option>
+                <mat-option [value]="'homeTeamWinByForfeit'"
+                  >Ev Sahibi Takım</mat-option
+                >
+                <mat-option [value]="'awayTeamWinByForfeit'"
+                  >Misafir Takım</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6">
+            <mat-form-field class="form-input">
+              <mat-label>Müsabaka Durumu</mat-label>
+              <mat-select
+                matInput
+                formControlName="matchStatus"
+                placeholder="Müsabaka Durumu"
+              >
+                <mat-option
+                  *ngFor="let status of matchStatusList"
+                  [value]="status.name"
+                >
+                  <mat-icon class="{{ matchStatusClassFind(status.name) }}"
+                    >circle</mat-icon
+                  >
+                  {{ status.value }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="fixtureSubmitForm.get('matchStatus').invalid">
+                Lütfen bir değer seçiniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-3 col-md-3 col-sm-6">
-                    <mat-form-field class="form-input">
-                        <mat-label>Puan</mat-label>
-                        <input 
-                            matInput
-                            type="number"
-                            formControlName="awayTeamPoint"
-                            placeholder="Misafir Takım Puan"
-                        >
-                        <mat-hint>Misafir Takım</mat-hint>
-                        <mat-error *ngIf="fixtureSubmitForm.get('awayTeamPoint').invalid">
-                            (1-999)
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-2 col-md-2 col-sm-6">
+            <mat-form-field class="form-input">
+              <mat-label>Hafta</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="matchWeek"
+                placeholder="Hafta"
+              />
+              <mat-error *ngIf="fixtureSubmitForm.get('matchWeek').invalid">
+                Lütfen hafta numarası giriniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <mat-form-field class="">
-                        <mat-label>Hükmen Galip</mat-label>
-                        <mat-select
-                            matInput
-                            [(value)]="inp_winnerByForfeit"
-                            #winnerByForfeit
-                            placeholder="Hükmen Galip"
-                            (selectionChange)="onWinByForfeitChange(winnerByForfeit.value)"
-                        >
-                            <mat-option [value]="null">Seçiniz</mat-option>
-                            <mat-option [value]="'homeTeamWinByForfeit'">Ev Sahibi Takım</mat-option>
-                            <mat-option [value]="'awayTeamWinByForfeit'">Misafir Takım</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <mat-form-field class="form-input">
-                        <mat-label>Müsabaka Durumu</mat-label>
-                        <mat-select
-                            matInput
-                            formControlName="matchStatus"
-                            placeholder="Müsabaka Durumu"
-                        >
-                            <mat-option
-                                *ngFor="let status of matchStatusList"
-                                [value]="status.name"
-                            >
-                                <mat-icon class="{{matchStatusClassFind(status.name)}}">circle</mat-icon>
-                                {{status.value}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="fixtureSubmitForm.get('matchStatus').invalid">
-                            Lütfen bir değer seçiniz!
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-2 col-md-2 col-sm-6">
+            <mat-form-field class="form-input">
+              <mat-label>Sıra No (1-99)</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="orderNo"
+                placeholder="Sıralama Numarası"
+              />
+              <mat-error *ngIf="fixtureSubmitForm.get('orderNo').invalid">
+                Lütfen sıralama numarası giriniz! (1-999)
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-                <div class="col-lg-2 col-md-2 col-sm-6">
-                    <mat-form-field class="form-input">
-                        <mat-label>Hafta</mat-label>
-                        <input 
-                            matInput
-                            type="number"
-                            formControlName="matchWeek"
-                            placeholder="Hafta"
-                        >
-                        <mat-error *ngIf="fixtureSubmitForm.get('matchWeek').invalid">
-                            Lütfen hafta numarası giriniz!
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Açıklama</mat-label>
+              <textarea
+                matInput
+                cols="3"
+                formControlName="explanation"
+                placeholder="Açıklama"
+              >
+              </textarea>
+              <mat-hint align="end"
+                >{{
+                  fixtureSubmitForm.get("explanation").value
+                    ? fixtureSubmitForm.get("explanation").value.length
+                    : 0
+                }}/200</mat-hint
+              >
+              <mat-error *ngIf="fixtureSubmitForm.get('explanation').invalid">
+                En fazla 200 karakter!
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
 
-                <div class="col-lg-2 col-md-2 col-sm-6">
-                    <mat-form-field class="form-input">
-                        <mat-label>Sıra No (1-99)</mat-label>
-                        <input 
-                            matInput
-                            type="number"
-                            formControlName="orderNo"
-                            placeholder="Sıralama Numarası"
-                        >
-                        <mat-error *ngIf="fixtureSubmitForm.get('orderNo').invalid">
-                            Lütfen sıralama numarası giriniz! (1-999)
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+        <mat-action-row>
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="data.pageMode == 'create'"
+            type="submit"
+          >
+            Oluştur
+          </button>
 
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <mat-form-field class="form-input">
-                        <mat-label>Açıklama</mat-label>
-                        <textarea 
-                            matInput 
-                            cols="3"
-                            formControlName="explanation"
-                            placeholder="Açıklama"
-                        >
-                        </textarea>
-                        <mat-hint align="end">{{fixtureSubmitForm.get('explanation').value ? fixtureSubmitForm.get('explanation').value.length : 0}}/200</mat-hint>
-                        <mat-error *ngIf="fixtureSubmitForm.get('explanation').invalid">
-                            En fazla 200 karakter!
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-            </div>
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="data.pageMode == 'edit'"
+            type="submit"
+          >
+            Düzenle
+          </button>
 
-            <mat-action-row>
-                <button
-                    mat-raised-button
-                    color="primary"
-                    *ngIf="data.pageMode == 'create'"
-                    type="submit"
-                >Oluştur</button>
-
-                <button
-                    mat-raised-button
-                    color="primary"
-                    *ngIf="data.pageMode == 'edit'"
-                    type="submit"
-                >Düzenle</button>
-
-                <button
-                    mat-raised-button
-                    color="warn"
-                    *ngIf="data.pageMode == 'edit'"
-                    type="button"
-                    (click)="onDelete(fixtureSubmitForm.get('id').value)"
-                >Sil</button>
-            </mat-action-row>
-        </form>
-    </div>
-</mat-dialog-content>
+          <button
+            mat-raised-button
+            color="warn"
+            *ngIf="data.pageMode == 'edit'"
+            type="button"
+            (click)="onDelete(fixtureSubmitForm.get('id').value)"
+          >
+            Sil
+          </button>
+        </mat-action-row>
+      </form>
+    </mat-card>
+  </mat-dialog-content>
+</div>

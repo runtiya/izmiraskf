@@ -19,3 +19,11 @@
 mat-card-title {
   font-size: medium;
 }
+
+.team-active-yes, .team-member-yes {
+  color: green;
+}
+
+.team-active-no, .team-member-no {
+  color: red;
+}

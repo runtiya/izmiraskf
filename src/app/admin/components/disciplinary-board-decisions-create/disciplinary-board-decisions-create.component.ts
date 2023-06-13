@@ -57,7 +57,7 @@ export class AdminDisciplinaryBoardDecisionsCreateModal implements OnInit {
             belongingTo: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardDecisionInfo.belongingTo : null, {validators: [Validators.maxLength(200)]}),
             penalType: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardDecisionInfo.penalType : null, {validators: [Validators.maxLength(200)]}),
             duration: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardDecisionInfo.duration : null, {validators: [Validators.maxLength(200)]}),
-            explanation: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardDecisionInfo.explanation : null, {validators: [Validators.maxLength(200)]})
+            explanation: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardDecisionInfo.explanation : null, {validators: [Validators.maxLength(2000)]})
         });
 
 

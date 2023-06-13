@@ -9,6 +9,8 @@ import { NewsModel } from "../../models/admin-news.model";
 import { NewsService } from "../../services/admin-news.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
@@ -17,7 +19,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
   styleUrls: ['../../../app.component.css', './news-create.component.css']
 })
 export class AdminNewsCreate implements OnInit, OnDestroy {
-  headerTitle = "HABER OLUŞTUR";
+  toolbarTitle = "HABER OLUŞTUR";
   isLoading = false;
   newsCreateForm: FormGroup;
   imagePreview: string;
@@ -74,11 +76,12 @@ export class AdminNewsCreate implements OnInit, OnDestroy {
     private _dateAdapter: DateAdapter<Date>,
     private _datePipe: DatePipe,
     public newsService: NewsService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private globalFunctions: globalFunctions
     ) {}
 
   ngOnInit(): void {
-
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.newsCreateForm = new FormGroup({
       createdAt: new FormControl(null, {validators: []}),
       createdBy: new FormControl(null, {validators: []}),

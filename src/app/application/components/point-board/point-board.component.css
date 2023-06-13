@@ -1,0 +1,24 @@
+.div-point-board {
+  margin-top: 2rem;
+}
+
+.toolbar {
+  margin-bottom: 1rem;
+}
+
+.font-pointtotal {
+  font-weight:bold;
+}
+
+.mat-mdc-card-content {
+  box-shadow: none;
+  padding: 0;
+}
+
+.team-in-pointboard {
+  cursor: pointer;
+}
+
+.team-in-pointboard:hover {
+  font-weight: bold;
+}

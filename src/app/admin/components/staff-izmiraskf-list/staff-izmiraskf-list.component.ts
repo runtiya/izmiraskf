@@ -6,6 +6,7 @@ import { StaffIzmirAskfModel } from "../../models/admin-staffizmiraskf.model";
 import { StaffIASKFService } from "../../services/admin-staffiaskf.service";
 import { AdminCreateStaffIzmirAskfModal } from "../staff-izmiraskf-create/staff-izmiraskf-create.component";
 
+import { globalFunctions } from "../../../functions/global.function";
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
 
 @Component({
@@ -14,7 +15,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-lis
   styleUrls: ['../../../app.component.css', './staff-izmiraskf-list.component.css']
 })
 export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
-  headerTitle = "İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU YÖNETİM KURULU";
+  toolbarTitle = "İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU YÖNETİM KURULU";
   isLoading = false;
   staffizmiraskfList: StaffIzmirAskfModel[] = [];
   private staffizmiraskfListSub: Subscription;
@@ -23,11 +24,13 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
 
   constructor(
     public staffService: StaffIASKFService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit() {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.staffService.getStaff();
     this.staffizmiraskfListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffIzmirAskfModel[]) => {
@@ -37,9 +40,7 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
     this.staffService.deleteStaff(id);
-    this.isLoading = false;
   }
 
   onCreate() {

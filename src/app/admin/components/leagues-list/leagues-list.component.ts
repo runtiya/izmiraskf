@@ -11,6 +11,8 @@ import { AdminLeaguesCreateModal } from "../leagues-create/leagues-create.compon
 import { leagueCategoryList } from "../../../assets/lists/league-category-list";
 import { leagueTypeList } from "../../../assets/lists/league-type-list";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 @Component({
   selector: 'app-admin-leagues-list',
   templateUrl: './leagues-list.component.html',
@@ -18,7 +20,7 @@ import { leagueTypeList } from "../../../assets/lists/league-type-list";
   styleUrls: ['../../../app.component.css', './leagues-list.component.css']
 })
 export class AdminLeaguesList implements OnInit, OnDestroy {
-  headerTitle = 'LİGLER';
+  toolbarTitle = 'LİGLER';
   isLoading = false;
   seasonsList: SeasonsModel[] = [];
   private seasonsListSubscription: Subscription;
@@ -28,22 +30,25 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
   leagueTypeList = leagueTypeList;
   @Input() seasonSelectionId: number;
   tableColumns: string[] = [
-                                "leagueName",
-                                "category",
-                                "leagueType",
-                                "isActive",
-                                "actions"
-                              ];
+                            "seasonName",
+                            "leagueName",
+                            "category",
+                            "leagueType",
+                            "isActive",
+                            "actions"
+                          ];
 
   constructor(
     public leagueService: LeaguesService,
     public seasonsService: SeasonsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions
     ){}
 
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
       .subscribe((data: SeasonsModel[]) => {

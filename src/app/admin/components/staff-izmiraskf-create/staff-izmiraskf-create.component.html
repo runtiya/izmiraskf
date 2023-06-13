@@ -1,5 +1,5 @@
-<mat-dialog-content class="mat-typography">
-  <div class="container">
+<div>
+  <mat-dialog-content class="mat-typography">
     <mat-card>
       <mat-dialog-actions align="end">
         <button mat-icon-button mat-dialog-close class="icon">
@@ -22,7 +22,13 @@
                 formControlName="title"
                 placeholder="Unvan"
               />
-              <mat-hint align="end">{{staffIASKFSubmitForm.get('title').value ? staffIASKFSubmitForm.get('title').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  staffIASKFSubmitForm.get("title").value
+                    ? staffIASKFSubmitForm.get("title").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="staffIASKFSubmitForm.get('title').invalid">
                 Lütfen unvan giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -38,7 +44,13 @@
                 formControlName="fullName"
                 placeholder="Ad - Soyad"
               />
-              <mat-hint align="end">{{staffIASKFSubmitForm.get('fullName').value ? staffIASKFSubmitForm.get('fullName').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  staffIASKFSubmitForm.get("fullName").value
+                    ? staffIASKFSubmitForm.get("fullName").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="staffIASKFSubmitForm.get('fullName').invalid"
                 >Lütfen ad-soyad giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -54,7 +66,13 @@
                 formControlName="phone"
                 placeholder="Telefon No"
               />
-              <mat-hint align="end">{{staffIASKFSubmitForm.get('phone').value ? staffIASKFSubmitForm.get('phone').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  staffIASKFSubmitForm.get("phone").value
+                    ? staffIASKFSubmitForm.get("phone").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="staffIASKFSubmitForm.get('phone').invalid"
                 >Lütfen unvan giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -70,7 +88,13 @@
                 formControlName="email"
                 placeholder="E-posta"
               />
-              <mat-hint align="end">{{staffIASKFSubmitForm.get('email').value ? staffIASKFSubmitForm.get('email').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  staffIASKFSubmitForm.get("email").value
+                    ? staffIASKFSubmitForm.get("email").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="staffIASKFSubmitForm.get('email').invalid"
                 >Lütfen unvan giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -86,10 +110,14 @@
             >
               Resim Seç
             </button>
-            <input type="file" #filePicker (change)="onFilePicked($event)"/>
+            <input type="file" #filePicker (change)="onFilePicked($event)" />
             <div
               class="image-preview"
-              *ngIf="imagePreview !== '' && imagePreview && staffIASKFSubmitForm.get('profileImage').valid"
+              *ngIf="
+                imagePreview !== '' &&
+                imagePreview &&
+                staffIASKFSubmitForm.get('profileImage').valid
+              "
             >
               <img
                 [src]="imagePreview"
@@ -140,14 +168,16 @@
             color="primary"
             *ngIf="data.mode === 'create'"
             type="submit"
-            >Oluştur
+          >
+            Oluştur
           </button>
           <button
             mat-raised-button
             color="primary"
             *ngIf="data.mode === 'edit'"
             type="submit"
-            >Düzenle
+          >
+            Düzenle
           </button>
           <button
             mat-raised-button
@@ -155,10 +185,11 @@
             *ngIf="data.mode === 'edit'"
             type="button"
             (click)="onDelete(staffIASKFSubmitForm.value.id)"
-            >Sil
+          >
+            Sil
           </button>
         </mat-action-row>
       </form>
     </mat-card>
-  </div>
-</mat-dialog-content>
+  </mat-dialog-content>
+</div>

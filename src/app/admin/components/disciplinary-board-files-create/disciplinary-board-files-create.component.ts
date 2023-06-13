@@ -56,8 +56,8 @@ export class AdminDisciplinaryBoardCreateModal implements OnInit {
             caseNo: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.caseNo : null, {validators: [Validators.required, Validators.maxLength(200)]}),
             caseDate: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.caseDate : null, {validators: [Validators.required]}),
             title: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.title : "İZMİR İL DİSİPLİN KURULU KARARLARI", {validators: [Validators.required, Validators.maxLength(200)]}),
-            participants: new FormControl(this.pageMode == 'edit' ? (typeof(this.disciplinaryBoardFileInfo.participants) == 'string' ? this.disciplinaryBoardFileInfo.participants.split(',').map(Number) : this.disciplinaryBoardFileInfo.participants)  : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-            explanation: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.explanation : null, {validators: [Validators.maxLength(200)]})
+            participants: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.participants : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+            explanation: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.explanation : null, {validators: [Validators.maxLength(2000)]})
         });
         this.isLoading = false;
     }

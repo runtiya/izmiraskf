@@ -5,6 +5,8 @@ import { Subscription } from "rxjs";
 import { StaffITFFModel } from "../../models/application-staffizmirtff.model";
 import { StaffITFFService } from "../../services/application-staffitff.service";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
 
 @Component({
@@ -13,7 +15,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-lis
   styleUrls: ['../../../app.component.css', './staff-izmirtff-list.component.css']
 })
 export class ApplicationStaffIzmirTFF implements OnInit, OnDestroy {
-  headerTitle = "İZMİR TFF İL TEMSİLCİLİĞİ YÖNETİM KURULU";
+  toolbarTitle = "İZMİR TFF İL TEMSİLCİLİĞİ YÖNETİM KURULU";
   isLoading = false;
   staffizmirtffList: StaffITFFModel[] = [];
   private staffizmirtffListSub: Subscription;
@@ -21,16 +23,17 @@ export class ApplicationStaffIzmirTFF implements OnInit, OnDestroy {
   fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
-    public staffService: StaffITFFService
+    public staffService: StaffITFFService,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.staffService.getStaff();
     this.staffizmirtffListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffITFFModel[]) => {
         this.staffizmirtffList = data;
-        console.log(data)
         this.isLoading = false;
       });
   }

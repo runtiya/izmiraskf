@@ -5,8 +5,11 @@ import { RouterModule, Routes } from "@angular/router";
 import { AdminLogin } from "./admin/components/login/login.component";
 import { AdminLogout } from "./admin/components/logout/logout.component";
 import { AdminHome } from "./admin/components/home/home.component";
-import { AdminAboutStaffIASKFWrapComponent } from "./admin/components/about-staff-iaskf-wrap/about-staff-iaskf-wrap.component";
-import { AdminAboutStaffITFFWrapComponent } from "./admin/components/about-staff-itff-wrap/about-staff-itff-wrap.component";
+
+import { AdminStaffIzmirAskf } from "./admin/components/staff-izmiraskf-list/staff-izmiraskf-list.component";
+import { AdminIzmirASKF } from "./admin/components/about-izmiraskf/about-izmiraskf.component";
+import { AdminIzmirTFFIlTemsilciligi } from "./admin/components/about-izmirtffiltemsilciligi/about-izmirtffiltemsilciligi.component";
+import { AdminStaffIzmirTFF } from "./admin/components/staff-izmirtff-list/staff-izmirtff-list.component";
 import { AdminNewsWrapComponent } from "./admin/components/news-wrap-component/news-wrap-component.component";
 import { AdminExternalLinks } from "./admin/components/external-links-list/external-links-list.component";
 
@@ -57,12 +60,18 @@ import { ApplicationStadiumDetails } from "./application/components/stadiums-det
 
 import { ApplicationDisciplinaryBoardDecisionsList } from "./application/components/disciplinary-board-decisions-list/disciplinary-board-decisions-list.component";
 
+import { ApplicationPointBoardFixtureWrap } from "./application/components/pointboard-fixture-wrap/pointboard-fixture-wrap.component";
+
+import { ApplicationContactUs } from "./application/components/contact-us/contact-us.component";
+
 const routes: Routes = [
   {path: 'admin/anasayfa', component: AdminHome, canActivate: [AuthGuard]},
   {path: 'admin/kullanici-giris', component: AdminLogin},
   {path: 'admin/kullanici-guvenli-cikis', component: AdminLogout},
-  {path: 'admin/izmiraskf', component: AdminAboutStaffIASKFWrapComponent, canActivate: [AuthGuard]},
-  {path: 'admin/izmirtffiltemsilciligi', component: AdminAboutStaffITFFWrapComponent, canActivate: [AuthGuard]},
+  {path: 'admin/izmiraskf', component: AdminIzmirASKF, canActivate: [AuthGuard]},
+  {path: 'admin/izmiraskf/yonetim-kurulu', component: AdminStaffIzmirAskf, canActivate: [AuthGuard]},
+  {path: 'admin/izmirtffiltemsilciligi', component: AdminIzmirTFFIlTemsilciligi, canActivate: [AuthGuard]},
+  {path: 'admin/izmirtffiltemsilciligi/yonetim-kurulu', component: AdminStaffIzmirTFF, canActivate: [AuthGuard]},
   {path: 'admin/haberler', component: AdminNewsWrapComponent, canActivate: [AuthGuard]},
   {path: 'admin/disbaglantilar', component: AdminExternalLinks, canActivate: [AuthGuard]},
 
@@ -110,6 +119,10 @@ const routes: Routes = [
   {path: 'sahalar/detaylar/:id', pathMatch:"full", component: ApplicationStadiumDetails},
 
   {path: 'disiplin-kurulu-kararlari', component: ApplicationDisciplinaryBoardDecisionsList},
+
+  {path: 'puan-tablosu-fikstur', component: ApplicationPointBoardFixtureWrap},
+
+  {path: 'iletisim', component: ApplicationContactUs},
 
   {path: '**', pathMatch: "full", component: PageNotFound},
 ];

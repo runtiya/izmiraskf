@@ -1,142 +1,163 @@
-<mat-dialog-content class="mat-typography">
-  <div class="container">
+<div>
+  <mat-dialog-content class="mat-typography">
     <mat-card>
       <mat-dialog-actions align="end">
         <button mat-icon-button mat-dialog-close class="icon">
           <mat-icon>close</mat-icon>
         </button>
       </mat-dialog-actions>
+
+      <form
+        [formGroup]="groupstageSubmitForm"
+        (submit)="onSubmitForm()"
+        *ngIf="!isLoading"
+      >
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Sezon</mat-label>
+              <mat-select
+                matInput
+                formControlName="seasonId"
+                placeholder="Sezon"
+                (selectionChange)="onSeasonChange()"
+              >
+                <mat-option
+                  *ngFor="let season of seasonList"
+                  [value]="season.id"
+                >
+                  {{ season.seasonName }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="groupstageSubmitForm.get('seasonId').invalid">
+                Lütfen bir değer seçiniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Lig</mat-label>
+              <mat-select matInput formControlName="leagueId" placeholder="Lig">
+                <mat-option
+                  *ngFor="let league of leagueList"
+                  [value]="league.id"
+                >
+                  {{ league.leagueName }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="groupstageSubmitForm.get('leagueId').invalid">
+                Lütfen bir değer seçiniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Grup Adı</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="groupName"
+                placeholder="Grup"
+              />
+              <mat-hint align="end"
+                >{{
+                  groupstageSubmitForm.get("groupName").value
+                    ? groupstageSubmitForm.get("groupName").value.length
+                    : 0
+                }}/200</mat-hint
+              >
+              <mat-error *ngIf="groupstageSubmitForm.get('groupName').invalid">
+                Lütfen grup adı giriniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Fikstür Anahtarı</mat-label>
+              <mat-select
+                matInput
+                formControlName="periodSystem"
+                placeholder="Fikstrü Anahtarı"
+              >
+                <mat-option
+                  *ngFor="let period of groupPeriodSystemList"
+                  [value]="period.value"
+                >
+                  {{ period.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="groupstageSubmitForm.get('periodSystem').invalid">
+              Lütfen bir değer seçiniz!
+            </mat-error>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Yayında mı?</mat-label>
+              <mat-select
+                matInput
+                formControlName="isActive"
+                placeholder="Evet"
+              >
+                <mat-option [value]="true">Evet</mat-option>
+                <mat-option [value]="false">Hayır</mat-option>
+              </mat-select>
+              <mat-error *ngIf="groupstageSubmitForm.get('isActive').invalid">
+                Lütfen bir değer seçiniz!
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="form-input">
+              <mat-label>Sıra No (1-999)</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="orderNo"
+                placeholder="Sıralama Numarası"
+              />
+              <mat-error *ngIf="groupstageSubmitForm.get('orderNo').invalid"
+                >Lütfen sıralama numarası giriniz! (1-999)
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <mat-action-row>
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="data.pageMode == 'create'"
+            type="submit"
+          >
+            Oluştur
+          </button>
+
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="data.pageMode == 'edit'"
+            type="submit"
+          >
+            Düzenle
+          </button>
+
+          <button
+            mat-raised-button
+            color="warn"
+            *ngIf="data.pageMode == 'edit'"
+            type="button"
+            (click)="onDelete(groupstageSubmitForm.value.id)"
+          >
+            Sil
+          </button>
+        </mat-action-row>
+      </form>
     </mat-card>
-
-
-    <form
-      [formGroup]="groupstageSubmitForm"
-      (submit)="onSubmitForm()"
-      *ngIf="!isLoading"
-    >
-      <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12">
-          <mat-form-field class="form-input">
-            <mat-label>Sezon</mat-label>
-            <mat-select
-              matInput
-              formControlName="seasonId"
-              placeholder="Sezon"
-              (selectionChange)="onSeasonChange()"
-            >
-              <mat-option
-                *ngFor="let season of seasonList"
-                [value]="season.id"
-              >
-                {{season.seasonName}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="groupstageSubmitForm.get('seasonId').invalid">
-              Lütfen bir değer seçiniz!
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-
-        <div class="col-lg-6 col-md-6 col-sm-12">
-          <mat-form-field class="form-input">
-            <mat-label>Lig</mat-label>
-            <mat-select
-              matInput
-              formControlName="leagueId"
-              placeholder="Lig"
-            >
-              <mat-option
-                *ngFor="let league of leagueList"
-                [value]="league.id"
-              >
-                {{league.leagueName}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="groupstageSubmitForm.get('leagueId').invalid">
-              Lütfen bir değer seçiniz!
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="col-lg-6 col-md-6 col-sm-12">
-          <mat-form-field class="form-input">
-            <mat-label>Grup Adı</mat-label>
-            <input
-              matInput
-              type="text"
-              formControlName="groupName"
-              placeholder="Grup"
-            />
-            <mat-hint align="end">{{groupstageSubmitForm.get('groupName').value ? groupstageSubmitForm.get('groupName').value.length : 0}}/200</mat-hint>
-            <mat-error *ngIf="groupstageSubmitForm.get('groupName').invalid">
-              Lütfen grup adı giriniz!
-            </mat-error>
-          </mat-form-field>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6 col-sm-12">
-          <mat-form-field class="form-input">
-            <mat-label>Fikstür Anahtarı</mat-label>
-            <mat-select
-              matInput
-              formControlName="periodSystem"
-              placeholder="Fikstrü Anahtarı"
-            >
-              <mat-option
-                *ngFor="let period of groupPeriodSystemList"
-                [value]="period.value"
-              >
-                {{period.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-error *ngIf="groupstageSubmitForm.get('periodSystem').invalid">
-            Lütfen bir değer seçiniz!
-          </mat-error>
-        </div>
-
-        <div class="col-lg-3 col-md-6 col-sm-12">
-          <mat-form-field class="form-input">
-            <mat-label>Sıra No (1-999)</mat-label>
-            <input
-              matInput
-              type="number"
-              formControlName="orderNo"
-              placeholder="Sıralama Numarası"
-            />
-            <mat-error *ngIf="groupstageSubmitForm.get('orderNo').invalid"
-              >Lütfen sıralama numarası giriniz! (1-999)
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-
-
-      <mat-action-row>
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="data.pageMode == 'create'"
-          type="submit"
-          >Oluştur</button>
-
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="data.pageMode == 'edit'"
-          type="submit"
-          >Düzenle</button>
-
-        <button
-          mat-raised-button
-          color="warn"
-          *ngIf="data.pageMode == 'edit'"
-          type="button"
-          (click)="onDelete(groupstageSubmitForm.value.id)"
-          >Sil</button>
-      </mat-action-row>
-    </form>
-  </div>
-</mat-dialog-content>
+  </mat-dialog-content>
+</div>

@@ -22,6 +22,8 @@ import { AdminDisciplinaryBoardDecisionsCreateModal } from "../disciplinary-boar
 import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype-list";
 import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto-list";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 @Component({
     selector: 'app-admin-disciplinary-board-decisions-list',
     templateUrl: './disciplinary-board-decisions-list.component.html',
@@ -29,7 +31,7 @@ import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-
 })
 export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
 
-    headerTitle = "DİSİPLİN KURULU KARARLARI";
+    toolbarTitle = "DİSİPLİN KURULU KARARLARI";
     isLoading = false;
 
     seasonsList: SeasonsModel[] = [];
@@ -71,11 +73,13 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
         public seasonsService: SeasonsService,
         public leaguesService: LeaguesService,
         public teamsService: TeamsService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private globalFunctions: globalFunctions
     ) {}
 
     ngOnInit(): void {
         this.isLoading = true;
+        this.globalFunctions.setToolbarTitle(this.toolbarTitle);
         this.seasonsService.getSeasons();
         this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
             .subscribe((data: SeasonsModel[]) => {
@@ -149,7 +153,6 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
 
     findBelongingTo(belongingTo: string): string {
         return belongingTo ? this.disciplinaryBelongingToList.find(b => b.name == belongingTo).value : null;
-
     }
 
     onCreate() {

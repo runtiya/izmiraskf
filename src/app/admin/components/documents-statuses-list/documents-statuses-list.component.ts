@@ -8,28 +8,35 @@ import { DocumentsService } from "../../services/admin-documents.service";
 import { AdminDocumentCreateModal } from "../documents-create/documents-create.component";
 import { documentCategoryList } from "../../../assets/lists/documents-category-list";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 @Component({
   selector: 'app-admin-documents-statuses-list',
   templateUrl: '../documents-list/documents-list.component.html',
   styleUrls: ['../../../app.component.css', '../documents-list/documents-list.component.css']
 })
 export class AdminDocumentStatuses {
-  headerTitle = 'AMATÖR LİG STATÜLERİ';
+  toolbarTitle = "AMATÖR LİG STATÜLERİ"
   isLoading = false;
   documents: DocumentsModel[] = [];
   private documentsSubscription: Subscription;
   documentCategory = documentCategoryList[0].name;
   tableColumns: string[] = [
-                                "orderNo",
-                                "docName",
-                                "docType",
-                                "actions"
-                              ];
+                              "orderNo",
+                              "docName",
+                              "docType",
+                              "actions"
+                            ];
 
-  constructor(public documentService: DocumentsService, public dialog: MatDialog) {}
+  constructor(
+    public documentService: DocumentsService,
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.documentService.getDocuments(this.documentCategory);
     this.documentsSubscription = this.documentService.getDocumentsListSubListener()
       .subscribe((data: DocumentsModel[]) => {

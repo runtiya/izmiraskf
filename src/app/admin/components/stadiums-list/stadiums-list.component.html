@@ -1,131 +1,53 @@
-<div class="container">
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>{{title}}</span>
-  </mat-toolbar>
-
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-
-  <div class="col-lg-12 col-md-12 col-sm-12">
+<div>
+  <div class="col-12">
     <mat-card class="create-card">
       <button
         class="create-button"
         mat-fab
         color="primary"
         matTooltip="Oluştur"
-        (click)="onCreate()">
+        (click)="onCreate()"
+      >
         <mat-icon>add_circle</mat-icon>
       </button>
     </mat-card>
   </div>
 
-  <mat-accordion *ngIf="stadiumsList.length > 0 && !isLoading">
-    <mat-expansion-panel *ngFor="let stadium of stadiumsList">
-      <mat-expansion-panel-header>
-        {{stadium.stadiumName}}
-      </mat-expansion-panel-header>
-
+  <div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12" *ngFor="let stadium of stadiumsList">
       <mat-card>
-        <mat-card-content>
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-              <table class="table table-borderless">
-                <tbody>
-                  <tr>
-                    <td>Ad:</td>
-                    <td>{{stadium.stadiumName ? stadium.stadiumName : '-'}}</td>
-                  </tr>
+        <mat-card-header>
+          <mat-card-title-group>
+            <!-- Logo Does NOT Exist -->
+            <img
+              *ngIf="!stadium.stadiumImage"
+              mat-card-avatar
+              src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+              alt="{{ stadium.stadiumName }}"
+            />
+            <!-- Logo Exists -->
+            <img
+              *ngIf="stadium.stadiumImage"
+              mat-card-avatar
+              src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+              alt="{{ team.shortName || team.officialName }}"
+            />
+            <mat-card-title>{{
+              stadium.stadiumName
+            }}</mat-card-title>
+            <mat-card-subtitle
+              >İlçe: {{ onTownList(stadium.town) }}</mat-card-subtitle
+            >
+          </mat-card-title-group>
+        </mat-card-header>
 
-                  <tr>
-                    <td>İl:</td>
-                    <td>{{onCityList(stadium.city) ? onCityList(stadium.city) : '-'}}</td>
-                  </tr>
-
-                  <tr>
-                    <td>İlçe:</td>
-                    <td>{{onTownList(stadium.town) ? onTownList(stadium.town) : '-'}}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Adres:</td>
-                    <td>{{stadium.address ? stadium.address : '-'}}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Telefon:</td>
-                    <td>{{stadium.phoneNumber ? stadium.phoneNumber : '-'}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-12">
-              <table class="table table-borderless">
-                <tbody>
-                  <tr>
-                    <td>Seyirci Kapasitesi:</td>
-                    <td>{{stadium.audienceCapacity ? stadium.audienceCapacity : 'Belirtilmemiş'}}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Saha Ölçüsü:</td>
-                    <td>{{stadium.sizeLength && stadium.sizeWidth ? stadium.sizeLength + 'm' + ' x ' + stadium.sizeWidth + 'm' : 'Belirtilmemiş'}}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Zemin:</td>
-                    <td>{{onFloorTypeList(stadium.floorType) ? onFloorTypeList(stadium.floorType) : 'Belirtilmemiş'}}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Işıklandırma:</td>
-                    <td>{{stadium.hasLightning == null ? 'Belirtilmemiş' : stadium.hasLightning ? 'Evet' : 'Hayır'}}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Koltuklandırma:</td>
-                    <td>{{stadium.hasSeating == null ? 'Belirtilmemiş' : stadium.hasSeating ? 'Evet' : 'Hayır'}}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Engelli Tribünü:</td>
-                    <td>{{stadium.hasDisabledTribune == null ? 'Belirtilmemiş' : stadium.hasDisabledTribune ? 'Evet' : 'Hayır'}}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Kapalı Devre Kamera Sistemi:</td>
-                    <td>{{stadium.hasClosedCircuitCameraSystem == null ? 'Belirtilmemiş' : stadium.hasClosedCircuitCameraSystem ? 'Evet' : 'Hayır'}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </mat-card-content>
-
-
+        <mat-card-content></mat-card-content>
 
         <mat-action-row>
-          <button
-            mat-raised-button
-            type="button"
-            color="primary"
-            (click)="onEdit(stadium)"
-          >Düzenle</button>
-
-          <button
-            mat-raised-button
-            type="button"
-            color="warn"
-            (click)="onDelete(stadium.id)"
-          >Sil</button>
+          <a mat-button color="primary" (click)="onEdit(stadium)">Düzenle</a>
+          <a mat-button color="warn" (click)="onDelete(stadium.id)">Sil</a>
         </mat-action-row>
       </mat-card>
-
-    </mat-expansion-panel>
-  </mat-accordion>
-
-  <mat-card *ngIf="stadiumsList.length <= 0 && !isLoading">
-    <mat-card-content>
-      SAHA BULUNAMADI!
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </div>
 </div>

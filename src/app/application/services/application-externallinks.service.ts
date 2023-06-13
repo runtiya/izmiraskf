@@ -11,11 +11,11 @@ export class ExternalLinksService {
 
   constructor(private http: HttpClient) {}
 
-  getLinks() {
+  getLinks(_linkType: string) {
     try {
       this.http
         .get<{error: boolean, message: string, externalLinks: ExternalLinksModel[]}>(
-          'http://localhost:3000/admin/disbaglantilar'
+          'http://localhost:3000/disbaglantilar/' + _linkType
         )
         .subscribe({
           next: (data) => {

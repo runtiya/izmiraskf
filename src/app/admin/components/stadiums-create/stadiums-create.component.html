@@ -1,5 +1,5 @@
-<mat-dialog-content class="mat-typography">
-  <div class="container">
+<div>
+  <mat-dialog-content class="mat-typography">
     <mat-card>
       <mat-dialog-actions align="end">
         <button mat-icon-button mat-dialog-close class="icon">
@@ -22,7 +22,13 @@
                 formControlName="stadiumName"
                 placeholder="Saha Adı"
               />
-              <mat-hint align="end">{{stadiumsCreateForm.get('stadiumName').value ? stadiumsCreateForm.get('stadiumName').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  stadiumsCreateForm.get("stadiumName").value
+                    ? stadiumsCreateForm.get("stadiumName").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="stadiumsCreateForm.get('stadiumName').invalid">
                 Lütfen saha adı giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -56,7 +62,13 @@
                 formControlName="phoneNumber"
                 placeholder="Telefon No"
               />
-              <mat-hint align="end">{{stadiumsCreateForm.get('phoneNumber').value ? stadiumsCreateForm.get('phoneNumber').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  stadiumsCreateForm.get("phoneNumber").value
+                    ? stadiumsCreateForm.get("phoneNumber").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="stadiumsCreateForm.get('phoneNumber').invalid">
                 Lütfen telefon numarası giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -74,7 +86,13 @@
                 rows="2"
               >
               </textarea>
-              <mat-hint align="end">{{stadiumsCreateForm.get('address').value ? stadiumsCreateForm.get('address').value.length : 0}}/2000</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  stadiumsCreateForm.get("address").value
+                    ? stadiumsCreateForm.get("address").value.length
+                    : 0
+                }}/2000</mat-hint
+              >
               <mat-error *ngIf="stadiumsCreateForm.get('address').invalid">
                 Lütfen adres giriniz! (en fazla 2000 karakter)
               </mat-error>
@@ -163,9 +181,9 @@
                 formControlName="hasLightning"
                 placeholder="Işıklandırma"
               >
-              <mat-option [value]="null">Belirtilmemiş</mat-option>
-              <mat-option [value]="true">Evet</mat-option>
-              <mat-option [value]="false">Hayır</mat-option>
+                <mat-option [value]="null">Belirtilmemiş</mat-option>
+                <mat-option [value]="true">Evet</mat-option>
+                <mat-option [value]="false">Hayır</mat-option>
               </mat-select>
 
               <mat-error *ngIf="stadiumsCreateForm.get('hasLightning').invalid">
@@ -182,9 +200,9 @@
                 formControlName="hasSeating"
                 placeholder="Koltuklandırma"
               >
-              <mat-option [value]="null">Belirtilmemiş</mat-option>
-              <mat-option [value]="true">Evet</mat-option>
-              <mat-option [value]="false">Hayır</mat-option>
+                <mat-option [value]="null">Belirtilmemiş</mat-option>
+                <mat-option [value]="true">Evet</mat-option>
+                <mat-option [value]="false">Hayır</mat-option>
               </mat-select>
 
               <mat-error *ngIf="stadiumsCreateForm.get('hasSeating').invalid">
@@ -201,12 +219,14 @@
                 formControlName="hasDisabledTribune"
                 placeholder="Engelli Tribünü"
               >
-              <mat-option [value]="null">Belirtilmemiş</mat-option>
-              <mat-option [value]="true">Evet</mat-option>
-              <mat-option [value]="false">Hayır</mat-option>
+                <mat-option [value]="null">Belirtilmemiş</mat-option>
+                <mat-option [value]="true">Evet</mat-option>
+                <mat-option [value]="false">Hayır</mat-option>
               </mat-select>
 
-              <mat-error *ngIf="stadiumsCreateForm.get('hasDisabledTribune').invalid">
+              <mat-error
+                *ngIf="stadiumsCreateForm.get('hasDisabledTribune').invalid"
+              >
                 Lütfen bir değer seçiniz!
               </mat-error>
             </mat-form-field>
@@ -220,12 +240,16 @@
                 formControlName="hasClosedCircuitCameraSystem"
                 placeholder="Kapalı Devre Kamera Sistemi"
               >
-              <mat-option [value]="null">Belirtilmemiş</mat-option>
-              <mat-option [value]="true">Evet</mat-option>
-              <mat-option [value]="false">Hayır</mat-option>
+                <mat-option [value]="null">Belirtilmemiş</mat-option>
+                <mat-option [value]="true">Evet</mat-option>
+                <mat-option [value]="false">Hayır</mat-option>
               </mat-select>
 
-              <mat-error *ngIf="stadiumsCreateForm.get('hasClosedCircuitCameraSystem').invalid">
+              <mat-error
+                *ngIf="
+                  stadiumsCreateForm.get('hasClosedCircuitCameraSystem').invalid
+                "
+              >
                 Lütfen bir değer seçiniz!
               </mat-error>
             </mat-form-field>
@@ -256,8 +280,9 @@
           *ngIf="data.pageMode === 'edit'"
           type="button"
           (click)="onDelete(stadiumsCreateForm.value.id)"
-          >Sil</a>
+          >Sil</a
+        >
       </form>
     </mat-card>
-  </div>
-</mat-dialog-content>
+  </mat-dialog-content>
+</div>

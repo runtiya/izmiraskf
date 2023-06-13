@@ -1,4 +1,4 @@
-mat-card-title {
+.card-team-name {
   font-size: medium;
 }
 
@@ -62,3 +62,4 @@ mat-card-title {
   background-color: #3F51B5;
   color: whitesmoke;
 }
+

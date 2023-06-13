@@ -15,13 +15,15 @@ import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupst
 
 import { AdminTeamsInDisqualificationsEditModal } from "../teams-in-disqualifications-edit/teams-in-disqualifications-edit.component";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 @Component({
   selector: 'app-admin-teams-in-disqualifications',
   templateUrl: './teams-in-disqualifications.component.html',
   styleUrls: ['../../../app.component.css', './teams-in-disqualifications.component.css']
 })
 export class AdminTeamsInDisqualifications implements OnInit, OnDestroy {
-  headerTitle = "İHRAÇ VE ÇEKİLME";
+  toolbarTitle = "İHRAÇ VE ÇEKİLME";
   isLoading = false;
   seasonList: SeasonsModel[] = [];
   private seasonListSub: Subscription;
@@ -42,12 +44,12 @@ export class AdminTeamsInDisqualifications implements OnInit, OnDestroy {
               public leaguesService: LeaguesService,
               public groupstagesService: GroupStagesService,
               public teamsingroupstagesService: TeamsInGroupstagesService,
-              private _snackBar: MatSnackBar,
-              public dialog: MatDialog
+              public dialog: MatDialog,
+              private globalFunctions: globalFunctions
             ) {}
 
   ngOnInit(): void {
-
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
       .subscribe((data: SeasonsModel[]) => {

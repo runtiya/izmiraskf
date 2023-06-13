@@ -18,13 +18,15 @@ import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupst
 
 import { townList } from "../../../assets/lists/town-list-izmir";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 @Component({
   selector: 'app-admin-teams-in-groupstages',
   templateUrl: './teams-in-groupstages.component.html',
   styleUrls: ['../../../app.component.css', './teams-in-groupstages.component.css']
 })
 export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
-  headerTitle = "GRUP-TAKIM EŞLEŞMESİ";
+  toolbarTitle = "GRUP-TAKIM EŞLEŞMESİ";
   isLoading = false;
   seasonList: SeasonsModel[] = [];
   private seasonListSub: Subscription;
@@ -51,12 +53,14 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
               public leaguesService: LeaguesService,
               public groupstagesService: GroupStagesService,
               public teamsingroupstagesService: TeamsInGroupstagesService,
-              private _snackBar: MatSnackBar
+              private _snackBar: MatSnackBar,
+              private globalFunctions: globalFunctions
             ) {}
 
   ngOnInit(): void {
 
     this.seasonsService.getSeasons();
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
       .subscribe((data: SeasonsModel[]) => {
         this.isLoading = true;
@@ -66,6 +70,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
           this.leaguesService.getLeagues(this.seasonSelectionId);
         } else {
           this.seasonList = [];
+          this.seasonSelectionId = null;
         }
 
         this.isLoading = false;
@@ -80,6 +85,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
           this.groupstagesService.getGroupstages(this.leagueSelectionId);
         } else {
           this.leagueList = [];
+          this.leagueSelectionId = null;
         }
 
         this.isLoading = false;
@@ -93,7 +99,8 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
           this.groupstageSelectionId = this.groupstageList[0]["id"];
           this.teamsingroupstagesService.getTeamsInGroupstages(this.groupstageSelectionId);
         } else {
-          this.groupstageList = []
+          this.groupstageList = [];
+          this.groupstageSelectionId = null;
         }
 
         this.isLoading = false;
@@ -181,11 +188,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
 
       this.teamsingroupstagesList.push(castTeam);
     } else {
-      this._snackBar.open('Grup seçiniz!', 'Tamam', {
-        horizontalPosition: "end",
-        verticalPosition: "top",
-        duration: 3000
-      });
+      this.globalFunctions.showSnackBar.next("Grup seçiniz");
     }
 
   }

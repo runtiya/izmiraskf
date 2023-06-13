@@ -1,7 +1,4 @@
-.mat-mdc-card {
-  box-shadow: none;
-}
-
 .btn-save {
-  margin-top: 1rem;
+  margin: 2rem 0;
+  width: 100%;
 }

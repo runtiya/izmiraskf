@@ -1,41 +1,32 @@
-<div class="container">
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>{{headerTitle}}</span>
-  </mat-toolbar>
-
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-
+<div>
   <mat-card *ngFor="let news of newsList">
-    <mat-card-content
-      class="card-news-list"
-      (click)="showNewsDetails(news.id)"
-    >
+    <mat-card-content class="card-news-list" (click)="showNewsDetails(news.id)">
       <div class="d-flex align-items-center">
-        <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="">
+        <img
+          mat-card-md-image
+          src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+          alt=""
+        />
         <div>
-          <mat-card-title>{{news.title}}</mat-card-title>
-          <mat-card-subtitle>{{news.createdAt | date : "dd.MM.yyyy"}}</mat-card-subtitle>
+          <mat-card-title>{{ news.title }}</mat-card-title>
+          <mat-card-subtitle>{{
+            news.createdAt | date : "dd.MM.yyyy"
+          }}</mat-card-subtitle>
         </div>
       </div>
     </mat-card-content>
 
     <mat-action-row>
-      <button
-        mat-button
-        color="primary"
-        (click)="showNewsDetails(news.id)"
-      >Göster
+      <button mat-button color="primary" (click)="showNewsDetails(news.id)">
+        Göster
       </button>
     </mat-action-row>
   </mat-card>
 
-
   <!-- No News Content Text -->
   <mat-card *ngIf="newsList.length <= 0 && !isLoading">
     <mat-card-content>
-      <mat-card-title>
-        HABER BULUNAMADI!
-      </mat-card-title>
+      <mat-card-title> HABER BULUNAMADI! </mat-card-title>
     </mat-card-content>
   </mat-card>
 </div>

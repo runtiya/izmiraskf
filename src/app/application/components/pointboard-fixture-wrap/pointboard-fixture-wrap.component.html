@@ -1,0 +1,94 @@
+<div>
+  <div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <mat-form-field class="form-input">
+        <mat-label>Sezonlar</mat-label>
+        <mat-select
+          matInput
+          placeholder="Sezon"
+          [(ngModel)]="seasonSelectionId"
+          (selectionChange)="onSeasonChange()"
+        >
+          <mat-option *ngFor="let season of seasonList" [value]="season.id">
+            {{ season.seasonName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <mat-form-field class="form-input">
+        <mat-label>Ligler</mat-label>
+        <mat-select
+          matInput
+          placeholder="Lig"
+          [(ngModel)]="leagueSelectionId"
+          (selectionChange)="onLeagueChange()"
+        >
+          <mat-option *ngFor="let league of leagueList" [value]="league.id">
+            {{ league.leagueName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <mat-form-field class="form-input">
+        <mat-label>Gruplar</mat-label>
+        <mat-select
+          matInput
+          placeholder="Grup"
+          [(ngModel)]="groupstageSelectionId"
+          (selectionChange)="onGroupStageChange()"
+        >
+          <mat-option *ngFor="let group of groupstageList" [value]="group.id">
+            {{ group.groupName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <mat-form-field class="form-input">
+        <mat-label>Hafta</mat-label>
+        <mat-select
+          matInput
+          placeholder="Hafta"
+          [(ngModel)]="matchWeekSelectionValue"
+        >
+          <mat-option
+            *ngFor="let week of weekSequenceList"
+            [value]="week.weekSequence"
+          >
+            {{ week.weekSequence + ". Hafta" }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12">
+      <button
+        mat-raised-button
+        type="button"
+        class="btn-search"
+        color="primary"
+        (click)="onSearch()"
+      >
+        <mat-icon>search</mat-icon>
+        Arama
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8 col-md-12 col-sm-12">
+      <app-application-point-board></app-application-point-board>
+    </div>
+
+    <div class="col-lg-4 col-md-12 col-sm-12">
+      <app-application-fixture-by-week></app-application-fixture-by-week>
+    </div>
+  </div>
+
+
+</div>

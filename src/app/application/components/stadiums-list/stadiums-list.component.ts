@@ -10,7 +10,7 @@ import { cityList } from "../../../assets/lists/city-list-tr";
 import { townList } from "../../../assets/lists/town-list-izmir";
 import { floorTypeList } from "../../../assets/lists/floor-type-list";
 
-
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-application-stadiums-list',
@@ -18,7 +18,7 @@ import { floorTypeList } from "../../../assets/lists/floor-type-list";
   styleUrls: ['../../../app.component.css', './stadiums-list.component.css']
 })
 export class ApplicationStadiumList implements OnInit, OnDestroy {
-  headerTitle = "SAHALAR";
+  toolbarTitle = "SAHALAR";
   isLoading = false;
   stadiumsList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
@@ -30,11 +30,13 @@ export class ApplicationStadiumList implements OnInit, OnDestroy {
   constructor(
     public stadiumService: StadiumsService,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.stadiumService.getStadiums();
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe({

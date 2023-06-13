@@ -1,23 +1,28 @@
-<div class="container">
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>{{headerTitle}}</span>
-  </mat-toolbar>
-
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-
+<div>
   <div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let stadium of stadiumsList">
-      <mat-card >
+    <div
+      class="col-lg-6 col-md-6 col-sm-12"
+      *ngFor="let stadium of stadiumsList"
+    >
+      <mat-card>
         <mat-card-content
           class="card-stadiums-list"
           (click)="showStadiumDetails(stadium.id)"
         >
           <div class="d-flex align-items-center">
-            <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="">
+            <img
+              mat-card-sm-image
+              src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+              alt=""
+            />
             <div>
-              <mat-card-title>{{stadium.stadiumName}}</mat-card-title>
-              <mat-card-subtitle>{{'İlçe: ' + onTownList(stadium.town)}}</mat-card-subtitle>
-              <mat-card-subtitle>{{'Zemin Türü: ' + onFloorTypeList(stadium.floorType)}}</mat-card-subtitle>
+              <mat-card-title>{{ stadium.stadiumName }}</mat-card-title>
+              <mat-card-subtitle *ngIf="stadium.town">{{
+                "İlçe: " + onTownList(stadium.town)
+              }}</mat-card-subtitle>
+              <mat-card-subtitle *ngIf="stadium.floorType">{{
+                "Zemin Türü: " + onFloorTypeList(stadium.floorType)
+              }}</mat-card-subtitle>
             </div>
           </div>
         </mat-card-content>
@@ -33,5 +38,4 @@
       </mat-card>
     </div>
   </div>
-
 </div>
