@@ -15,7 +15,7 @@ import { AdminUsersCreateModal } from "../users-create/users-create.component";
   styleUrls: ['../../../app.component.css', './users-list.component.css']
 })
 export class AdminUsersList implements OnInit, OnDestroy {
-  headerTitle = "KULLANICILAR";
+  toolbarTitle = "KULLANICILAR";
   isLoading = false;
   usersList: UserModel[] = [];
   private usersListSub: Subscription;

@@ -1,4 +1,26 @@
 import {
+
+} from "@fortawesome/angular-fontawesome";
+
+import {
+
+} from "@fortawesome/fontawesome-svg-core";
+
+import {
+  faFacebook,
+  faTwitter,
+  faInstagram,
+  faLinkedin,
+  faYoutube,
+  faSnapchat,
+  faTiktok
+} from "@fortawesome/free-brands-svg-icons";
+
+import {
+
+} from "@fortawesome/free-regular-svg-icons";
+
+import {
   faCircle,
   faCircleH,
   faCircleInfo,
@@ -6,8 +28,13 @@ import {
   faFax,
   faEnvelope,
   faLocationDot,
-  faSort
+  faSort,
+  faLocationPin,
+  faStopwatch,
+
 } from "@fortawesome/free-solid-svg-icons";
+
+
 
 export const fontAwesomeIconList = {
   faCircle: faCircle,
@@ -17,5 +44,14 @@ export const fontAwesomeIconList = {
   faFax: faFax,
   faEnvelope: faEnvelope,
   faLocationDot: faLocationDot,
-  faSort: faSort
+  faSort: faSort,
+  faLocationPin: faLocationPin,
+  faStopwatch: faStopwatch,
+  faFacebook: faFacebook,
+  faTwitter: faTwitter,
+  faInstagram: faInstagram,
+  faLinkedin: faLinkedin,
+  faYoutube: faYoutube,
+  faSnapchat: faSnapchat,
+  faTiktok: faTiktok
 }

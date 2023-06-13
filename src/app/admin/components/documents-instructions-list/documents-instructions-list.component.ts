@@ -8,13 +8,15 @@ import { DocumentsService } from "../../services/admin-documents.service";
 import { AdminDocumentCreateModal } from "../documents-create/documents-create.component";
 import { documentCategoryList } from "../../../assets/lists/documents-category-list";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 @Component({
   selector: 'app-admin-documents-instruction-list',
   templateUrl: '../documents-list/documents-list.component.html',
   styleUrls: ['../../../app.component.css', '../documents-list/documents-list.component.css']
 })
 export class AdminDocumentInstructions {
-  headerTitle = 'TALİMATLAR';
+  toolbarTitle = "TALİMATLAR";
   isLoading = false;
   documents: DocumentsModel[] = [];
   private documentsSubscription: Subscription;
@@ -26,10 +28,15 @@ export class AdminDocumentInstructions {
                                 "actions"
                               ];
 
-  constructor(public documentService: DocumentsService, public dialog: MatDialog) {}
+  constructor(
+    public documentService: DocumentsService,
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.documentService.getDocuments(this.documentCategory);
     this.documentsSubscription = this.documentService.getDocumentsListSubListener()
       .subscribe((data: DocumentsModel[]) => {

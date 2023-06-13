@@ -1,21 +1,28 @@
-<div class="container">
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>{{headerTitle}}</span>
-  </mat-toolbar>
-
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-
+<div>
   <div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let staffizmirtff of staffizmirtffList">
+    <div
+      class="col-lg-6 col-md-6 col-sm-12"
+      *ngFor="let staffizmirtff of staffizmirtffList"
+    >
       <mat-card>
         <mat-card-header>
           <mat-card-title-group>
             <div class="profileImageBorder">
-              <img *ngIf="staffizmirtff.profileImage" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{staffizmirtff.title}}">
-              <img *ngIf="!staffizmirtff.profileImage" mat-card-avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s" alt="{{staffizmirtff.title}}">
+              <img
+                *ngIf="staffizmirtff.profileImage"
+                mat-card-avatar
+                src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                alt="{{ staffizmirtff.title }}"
+              />
+              <img
+                *ngIf="!staffizmirtff.profileImage"
+                mat-card-avatar
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s"
+                alt="{{ staffizmirtff.title }}"
+              />
             </div>
-            <mat-card-title>{{staffizmirtff.fullName}}</mat-card-title>
-            <mat-card-subtitle>{{staffizmirtff.title}}</mat-card-subtitle>
+            <mat-card-title>{{ staffizmirtff.fullName }}</mat-card-title>
+            <mat-card-subtitle>{{ staffizmirtff.title }}</mat-card-subtitle>
           </mat-card-title-group>
         </mat-card-header>
 
@@ -27,7 +34,7 @@
               class="icon"
               [icon]="fontAwesomeIconList.faPhone"
             ></fa-icon>
-            {{staffizmirtff.phone}}
+            {{ staffizmirtff.phone }}
           </mat-card-subtitle>
 
           <mat-card-subtitle *ngIf="staffizmirtff.email">
@@ -36,7 +43,7 @@
               class="icon"
               [icon]="fontAwesomeIconList.faEnvelope"
             ></fa-icon>
-            {{staffizmirtff.email}}
+            {{ staffizmirtff.email }}
           </mat-card-subtitle>
         </mat-card-content>
       </mat-card>

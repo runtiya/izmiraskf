@@ -15,13 +15,12 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-lis
   styleUrls: ['../../../app.component.css','./news-list.component.css']
 })
 export class AdminNewsList implements OnInit, OnDestroy {
-  title = "HABERLER";
+  toolbarTitle = "HABERLER";
   isLoading = false;
   newsList: NewsModel[] = [];
   private newsSub: Subscription;
 
   fontAwesomeIconList = fontAwesomeIconList;
-
 
   constructor(
     public newsService: NewsService,

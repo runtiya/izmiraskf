@@ -7,7 +7,7 @@ import { SeasonsModel } from "../../models/admin-seasons.model";
 import { SeasonsService } from "../../services/admin-seasons.service";
 import { AdminSeasonsCreateModal } from "../seasons-create/seasons-create.component";
 
-
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-admin-seasons-list',
@@ -15,7 +15,7 @@ import { AdminSeasonsCreateModal } from "../seasons-create/seasons-create.compon
   styleUrls: ['../../../app.component.css', './seasons-list.component.css']
 })
 export class AdminSeasonsList {
-  headerTitle = 'SEZONLAR';
+  toolbarTitle = "SEZONLAR";
   isLoading = false;
   seasonsList: SeasonsModel[] = [];
   private seasonsListSubscription: Subscription;
@@ -27,12 +27,14 @@ export class AdminSeasonsList {
                               ];
 
   constructor(
-              public seasonsService: SeasonsService,
-              public dialog: MatDialog
-            ) {}
+    public seasonsService: SeasonsService,
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
       .subscribe((data: SeasonsModel[]) => {

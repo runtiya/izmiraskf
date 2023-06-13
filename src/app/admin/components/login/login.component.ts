@@ -8,21 +8,25 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { UserModel } from "../../models/admin-users.model";
 import { AuthService } from "../../authentication/auth.service";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 @Component({
   selector: 'app-admin-login',
   templateUrl: './login.component.html',
   styleUrls: ['../../../app.component.css', './login.component.css']
 })
 export class AdminLogin implements OnInit, OnDestroy {
-  headerTitle = "SİSTEM GİRİŞ";
+  toolbarTitle = "SİSTEM GİRİŞ";
   isLoading = false;
   userForm: FormGroup;
 
   constructor(
-    public authService: AuthService
+    private authService: AuthService,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
 
     this.userForm = new FormGroup({
       id: new FormControl(null, {validators: []}),

@@ -21,7 +21,7 @@ export class FixtureService {
       this.globalFunctions.showSpinner.next(true);
       this.http
         .get<{error: boolean, message: string, fixtureList: FixtureModel[]}>(
-          'http://localhost:3000/admin/fikstur/' + groupstageId
+          'http://localhost:3000/fikstur/' + groupstageId
         )
         .subscribe({
           next: (data) => {
@@ -50,7 +50,7 @@ export class FixtureService {
       // Not known why http.get doesn't work!
       this.http
         .put<{error: boolean, message: string, fixtureList: FixtureModel[]}>(
-          'http://localhost:3000/admin/fikstur/arama', fixtureSearchIndex
+          'http://localhost:3000/fikstur/arama', fixtureSearchIndex
         )
         .subscribe({
           next: (data) => {

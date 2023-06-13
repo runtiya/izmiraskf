@@ -1,0 +1,23 @@
+.mat-mdc-card {
+  box-shadow: none;
+}
+
+.table-detail-row {
+  cursor: pointer;
+}
+
+.btn-search {
+  width: 100%;
+}
+
+.card-disciplinary-board-file {
+  margin-top: 2rem;
+}
+
+.mat-elevation-z8 {
+  box-shadow: none;
+}
+
+.card-disciplinary-board-file > mat-card > mat-card-content {
+  padding: 0 !important;
+}

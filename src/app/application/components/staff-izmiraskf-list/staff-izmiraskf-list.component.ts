@@ -5,6 +5,8 @@ import { Subscription } from "rxjs";
 import { StaffIzmirAskfModel } from "../../models/application-staffizmiraskf.model";
 import { StaffIASKFService } from "../../services/application-staffiaskf.service";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
 
 @Component({
@@ -13,7 +15,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-lis
   styleUrls: ['../../../app.component.css', './staff-izmiraskf-list.component.css']
 })
 export class ApplicationStaffIzmirAskf implements OnInit, OnDestroy {
-  headerTitle = "İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU YÖNETİM KURULU";
+  toolbarTitle = "İZMİR ASKF YÖNETİM KURULU";
   isLoading = false;
   staffizmiraskfList: StaffIzmirAskfModel[] = [];
   private staffizmiraskfListSub: Subscription;
@@ -21,16 +23,17 @@ export class ApplicationStaffIzmirAskf implements OnInit, OnDestroy {
   fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
-    public staffService: StaffIASKFService
+    public staffService: StaffIASKFService,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.staffService.getStaff();
     this.staffizmiraskfListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffIzmirAskfModel[]) => {
         this.staffizmiraskfList = data;
-        console.log(data)
       });
     this.isLoading = false;
   }

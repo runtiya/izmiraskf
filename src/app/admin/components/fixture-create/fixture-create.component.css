@@ -64,3 +64,16 @@
 .font-match-score {
   font-size: x-large;
 }
+
+
+.div-fixture-list {
+  margin-top: 2rem;
+}
+
+.toolbar {
+  margin-bottom: 1rem;
+}
+
+.button-fixture-clear, .button-fixture-create, .button-match-create, .button-import, .button-export {
+  width: 100%;
+}

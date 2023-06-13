@@ -31,6 +31,8 @@ const applicationStaffIASKFRoutes = require('./routes/application/staffizmiraskf
 const applicationAboutITFFRoutes = require('./routes/application/aboutizmirtff');
 const applicationStaffITFFRoutes = require('./routes/application/staffizmirtff');
 
+const applicationExternalLinkRoutes = require('./routes/application/externallinks');
+
 const applicationTeamsRoutes = require('./routes/application/teams');
 
 const applicationNewsRoutes = require('./routes/application/news');
@@ -74,7 +76,7 @@ app.use('/admin/ligler', adminLeaguesRoutes);
 app.use('/admin/grup-takim-eslesmeleri', adminTeamsInGroupsRoutes);
 app.use('/admin/gruplar', adminGroupsRoutes);
 app.use('/admin/fikstur', adminFixturesRoutes);
-app.use('/admin/puan-durumu', adminPointBoardRoutes);
+app.use('/admin/puan-tablosu', adminPointBoardRoutes);
 app.use('/admin/kullanicilar', adminAuthenticationRoutes);
 
 
@@ -83,6 +85,7 @@ app.use('/izmiraskf/hakkimizda', applicationAboutIASKFRoutes);
 app.use('/izmiraskf/yonetim-kurulu', applicationStaffIASKFRoutes);
 app.use('/tffiltemsilciligi/hakkimizda', applicationAboutITFFRoutes);
 app.use('/tffiltemsilciligi/yonetim-kurulu', applicationStaffITFFRoutes);
+app.use('/disbaglantilar', applicationExternalLinkRoutes);
 app.use('/takimlar', applicationTeamsRoutes);
 app.use('/haberler', applicationNewsRoutes);
 app.use('/sahalar', applicationStadiumsRoutes);
@@ -94,6 +97,6 @@ app.use('/ligler', applicationLeaguesRoutes);
 app.use('/grup-takim-eslesmeleri', applicationTeamsInGroupsRoutes);
 app.use('/gruplar', applicationGroupsRoutes);
 app.use('/fikstur', applicationFixturesRoutes);
-app.use('/puan-durumu', applicationPointBoardRoutes);
+app.use('/puan-tablosu', applicationPointBoardRoutes);
 
 module.exports = app;

@@ -6,6 +6,8 @@ import { StaffITFFModel } from "../../models/admin-staffizmirtff.model";
 import { StaffITFFService } from "../../services/admin-staffitff.service";
 import { AdminCreateStaffIzmirTFFModal } from "../staff-izmirtff-create/staff-izmirtff-create.component";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
 
 @Component({
@@ -14,7 +16,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-lis
   styleUrls: ['../../../app.component.css', './staff-izmirtff-list.component.css']
 })
 export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
-  headerTitle = "İZMİR TFF İL TEMSİLCİLİĞİ YÖNETİM KURULU";
+  toolbarTitle = "İZMİR TFF İL TEMSİLCİLİĞİ YÖNETİM KURULU";
   isLoading = false;
   staffizmirtffList: StaffITFFModel[] = [];
   private staffizmirtffListSub: Subscription;
@@ -23,11 +25,13 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
 
   constructor(
     public staffService: StaffITFFService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit() {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.staffService.getStaff();
     this.staffizmirtffListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffITFFModel[]) => {

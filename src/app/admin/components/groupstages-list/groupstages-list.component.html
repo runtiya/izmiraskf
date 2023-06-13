@@ -1,10 +1,4 @@
-<div class="container">
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>{{headerTitle}}</span>
-  </mat-toolbar>
-
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-
+<div>
   <div class="col-12">
     <div class="row">
       <mat-form-field class="form-input">
@@ -15,15 +9,11 @@
           [(ngModel)]="seasonSelectionId"
           (selectionChange)="onSeasonChange(seasonSelectionId)"
         >
-          <mat-option
-            *ngFor="let season of seasonList"
-            [value]="season.id"
-          >
-            {{season.seasonName}}
+          <mat-option *ngFor="let season of seasonList" [value]="season.id">
+            {{ season.seasonName }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-
 
       <mat-form-field class="form-input">
         <mat-label>Lig</mat-label>
@@ -33,11 +23,8 @@
           [(ngModel)]="leagueSelectionId"
           (selectionChange)="onLeagueChange(leagueSelectionId)"
         >
-          <mat-option
-            *ngFor="let league of leagueList"
-            [value]="league.id"
-          >
-            {{league.leagueName}}
+          <mat-option *ngFor="let league of leagueList" [value]="league.id">
+            {{ league.leagueName }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -49,30 +36,40 @@
         mat-fab
         color="primary"
         matTooltip="Oluştur"
-        (click)="onCreate()">
+        (click)="onCreate()"
+      >
         <mat-icon>add_circle</mat-icon>
       </button>
     </mat-card>
 
     <table mat-table [dataSource]="groupstageList" class="mat-elevation-z8">
       <ng-container matColumnDef="seasonName">
-        <th mat-header-cell *matHeaderCellDef="">Sezon Adı</th>
-        <td mat-cell *matCellDef="let group">{{group.seasonName}}</td>
+        <th mat-header-cell *matHeaderCellDef="">Sezon</th>
+        <td mat-cell *matCellDef="let group">{{ group.seasonName }}</td>
       </ng-container>
 
       <ng-container matColumnDef="leagueName">
-        <th mat-header-cell *matHeaderCellDef="">Lig Adı</th>
-        <td mat-cell *matCellDef="let group">{{group.leagueName}}</td>
+        <th mat-header-cell *matHeaderCellDef="">Lig</th>
+        <td mat-cell *matCellDef="let group">{{ group.leagueName }}</td>
       </ng-container>
 
       <ng-container matColumnDef="groupName">
-        <th mat-header-cell *matHeaderCellDef="">Grup Adı</th>
-        <td mat-cell *matCellDef="let group">{{group.groupName}}</td>
+        <th mat-header-cell *matHeaderCellDef="">Grup</th>
+        <td mat-cell *matCellDef="let group">{{ group.groupName }}</td>
       </ng-container>
 
       <ng-container matColumnDef="periodSystem">
         <th mat-header-cell *matHeaderCellDef="">Fikstür Anahtarı</th>
-        <td mat-cell *matCellDef="let group">{{findPeriodSystem(group.periodSystem)}}</td>
+        <td mat-cell *matCellDef="let group">
+          {{ findPeriodSystem(group.periodSystem) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef="">Yayında</th>
+        <td mat-cell *matCellDef="let group">
+          {{ group.isActive ? "Evet" : "Hayır" }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
@@ -87,15 +84,24 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="tableColumns" class="table-header-row"></tr>
-      <tr mat-row *matRowDef="let row; columns: tableColumns;" class="table-detail-row"></tr>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="tableColumns"
+        class="table-header-row"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: tableColumns"
+        class="table-detail-row"
+      ></tr>
     </table>
 
     <mat-card>
       <mat-card-content>
-        <mat-card-subtitle>Toplam Kayıt Sayısı: {{groupstageList.length}}</mat-card-subtitle>
+        <mat-card-subtitle
+          >Toplam Kayıt Sayısı: {{ groupstageList.length }}</mat-card-subtitle
+        >
       </mat-card-content>
     </mat-card>
   </div>
-
 </div>

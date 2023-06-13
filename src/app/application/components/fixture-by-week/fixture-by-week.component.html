@@ -1,0 +1,103 @@
+<div class="div-fixture-by-week">
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>{{toolbarTitle}}</span>
+  </mat-toolbar>
+
+  <mat-card *ngFor="let fixture of fixtureList">
+    <mat-card-header class="card-fixture-header justify-content-center">
+      <mat-card-subtitle class="stadium-in-fixture" (click)="showStadiumDetails(fixture.stadiumId)">
+        <fa-icon
+          [icon]="fontAwesomeIconList.faLocationPin"
+          class="icon icon-location-pin"
+          matTooltip="Stadyum"
+        >
+        </fa-icon>
+        {{ fixture.stadiumName || 'Saha Belirtilmedi' }}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        <fa-icon
+          [icon]="fontAwesomeIconList.faStopwatch"
+          class="icon icon-stop-watch"
+          matTooltip="Tarih"
+        >
+        </fa-icon>
+        {{ getMatchDate(fixture.matchDate) || 'Tarih Belirlenmedi' }}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        <mat-icon
+          class="{{ findMatchStatusClass(fixture.matchStatus) }}"
+          matTooltip="{{ findMatchStatus(fixture.matchStatus) }}"
+          >circle
+        </mat-icon>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="card-fixture-content">
+      <div class="row">
+        <div class="col-4">
+          <div class="div-matchday matchday-hometeam-info team-in-fixture" (click)="showTeamDetails(fixture.homeTeamId)">
+            <img mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{fixture.homeTeamOfficialName}}">
+            <mat-card-title class="text-teamname text-hometeam">
+              {{fixture.homeTeamShortName || homeTeamOfficialName || "BAY"}}
+              <fa-icon
+                *ngIf="fixture.isHomeTeamWinByForfeit"
+                [icon]="fontAwesomeIconList.faCircleH"
+                class="icon icon-circle-h"
+                matTooltip="Hükmen Galip"
+              >
+              </fa-icon>
+            </mat-card-title>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <mat-card-title class="title-score">
+            {{ (fixture.homeTeamScore !== null ? fixture.homeTeamScore  : '')
+                + " - "
+                + (fixture.awayTeamScore !== null ? fixture.awayTeamScore : '')
+            }}
+          </mat-card-title>
+        </div>
+
+        <div class="col-4">
+          <div class="div-matchday matchday-awayteam-info team-in-fixture" (click)="showTeamDetails(fixture.awayTeamId)">
+            <img mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{fixture.awayTeamOfficialName}}">
+            <mat-card-title class="text-teamname text-hometeam">
+              {{fixture.awayTeamShortName || awayTeamOfficialName || "BAY"}}
+              <fa-icon
+                *ngIf="fixture.isAwayTeamWinByForfeit"
+                [icon]="fontAwesomeIconList.faCircleH"
+                class="icon icon-circle-h"
+                matTooltip="Hükmen Galip"
+              >
+              </fa-icon>
+            </mat-card-title>
+          </div>
+        </div>
+      </div>
+
+
+      <!--
+      <div class="d-flex justify-content-center">
+        <div>
+          <img mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{fixture.homeTeamOfficialName}}">
+        </div>
+        <mat-card-title>
+          {{fixture.homeTeamShortName || homeTeamOfficialName || "BAY"}}
+        </mat-card-title>
+
+        <mat-card-title>
+          {{ (fixture.homeTeamScore || '') + " - " + (fixture.awayTeamScore || '') }}
+        </mat-card-title>
+
+        <mat-card-title>
+          {{fixture.awayTeamShortName || awayTeamOfficialName || "BAY"}}
+        </mat-card-title>
+        <div>
+          <img mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{fixture.awayTeamOfficialName}}">
+        </div>
+      </div>
+      -->
+    </mat-card-content>
+  </mat-card>
+</div>

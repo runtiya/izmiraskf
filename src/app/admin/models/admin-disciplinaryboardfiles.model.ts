@@ -8,6 +8,6 @@ export interface DisciplinaryBoardFileModel {
     caseNo: string,
     caseDate: Date,
     title: string,
-    participants: Array<number>,
+    participants: string,
     explanation: string
 }

@@ -6,5 +6,6 @@ mat-action-row button {
     margin-right: 1rem;
 }
 
-
-
+.toolbar {
+  margin-bottom: 1rem;
+}

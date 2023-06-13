@@ -1,10 +1,4 @@
-<div class="container">
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>{{headerTitle}}</span>
-  </mat-toolbar>
-
-
-
+<div>
   <mat-card>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
       <form
@@ -55,7 +49,7 @@
 
           <div class="col-lg-9 col-md-9 col-sm-12">
             <button
-                mat-stroked-button
+                mat-raised-button
                 type="button"
                 color="primary"
                 (click)="filePicker.click()"
@@ -84,8 +78,10 @@
         </div>
 
         <mat-action-row>
-          <button mat-raised-button color="primary" type="submit">Oluştur</button>
-          <button mat-raised-button type="button" (click)="onClearNewsForm()">Temizle</button>
+          <div class="d-flex align-items-center">
+            <button mat-raised-button color="primary" type="submit">Oluştur</button>
+            <button mat-raised-button type="button" (click)="onClearNewsForm()">Temizle</button>
+          </div>
         </mat-action-row>
       </form>
   </mat-card>

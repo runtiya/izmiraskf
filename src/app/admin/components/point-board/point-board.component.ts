@@ -23,13 +23,16 @@ import { StadiumsService } from "../../services/admin-stadiums.service";
 import { TeamsModel } from "../../models/admin-teams.model";
 import { TeamsService } from "../../services/admin-teams.service";
 
-import { FixtureModel } from "../../models/admin-fixture.model";
-import { FixtureService } from "../../services/admin-fixtures.service";
-
 import { PointBoardModel } from "../../models/admin-pointboard.model";
 import { PointBoardService } from "../../services/admin-pointboard.service";
 
+import { FixtureModel } from "../../models/admin-fixture.model";
+import { FixtureSearchModel } from "../../models/admin-fixture-search.model";
+import { FixtureService } from "../../services/admin-fixtures.service";
+
 import { globalFunctions } from "../../../functions/global.function";
+import { fixtureFunctions } from "../../functions/fixture.function";
+import { matchStatusList } from "../../../assets/lists/match-status-list";
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
 
 @Component({
@@ -38,7 +41,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-lis
   styleUrls: ['../../../app.component.css', './point-board.component.css']
 })
 export class AdminPointBoard implements OnInit, OnDestroy {
-  headerTitle = 'PUAN DURUMU';
+  toolbarTitle = "PUAN TABLOSU";
   isLoading = false;
   seasonList: SeasonsModel[] = [];
   private seasonListSub: Subscription;
@@ -55,11 +58,13 @@ export class AdminPointBoard implements OnInit, OnDestroy {
   private stadiumListSub: Subscription;
   teamList: TeamsModel[] = [];
   private teamListSub: Subscription;
-  fixtureList: FixtureModel[] = [];
-  private fixtureListSub: Subscription;
   pointBoardList: PointBoardModel[] = [];
   private pointBoardListSub: Subscription;
+  fixtureList: FixtureModel[] = [];
+  private fixtureListSub: Subscription;
+  fixtureSearchIndex = <FixtureSearchModel>{};
 
+  matchStatusList = matchStatusList;
   fontAwesomeIconList = fontAwesomeIconList;
 
   @Input() seasonSelectionId: number;
@@ -68,17 +73,24 @@ export class AdminPointBoard implements OnInit, OnDestroy {
   @Input() matchWeekSelectionValue: number;
 
   tableColumnsPointBoard: string[] = [
-                                            "order",
-                                            "team",
-                                            "played",
-                                            "win",
-                                            "draw",
-                                            "lose",
-                                            "goalScored",
-                                            "goalConceded",
-                                            "goalAverage",
-                                            "totalPoints"
-                                          ];
+                                      "order",
+                                      "team",
+                                      "played",
+                                      "win",
+                                      "draw",
+                                      "lose",
+                                      "goalScored",
+                                      "goalConceded",
+                                      "goalAverage",
+                                      "totalPoints"
+                                    ];
+
+  tableColumnsFixture: string[] = [
+                                    "matchNo",
+                                    "homeTeam",
+                                    "details",
+                                    "awayTeam",
+                                  ];
 
   constructor(
     public seasonsService: SeasonsService,
@@ -87,16 +99,16 @@ export class AdminPointBoard implements OnInit, OnDestroy {
     public teamsingroupstageService: TeamsInGroupstagesService,
     public stadiumsService: StadiumsService,
     public teamsService: TeamsService,
-    public fixtureService: FixtureService,
     public pointboardService: PointBoardService,
+    public fixtureService: FixtureService,
     public dialog: MatDialog,
     private _datePipe: DatePipe,
-    private _snackBar: MatSnackBar,
-    private globalFunctions: globalFunctions
+    private globalFunctions: globalFunctions,
+    private fixtureFunctions: fixtureFunctions
   ) {}
 
   ngOnInit(): void {
-
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
         .subscribe((data: SeasonsModel[]) => {
@@ -132,7 +144,17 @@ export class AdminPointBoard implements OnInit, OnDestroy {
                 this.groupstagesService.getPlayedLastMatchWeek(this.groupstageSelectionId)
                   .subscribe((data: any) => {
                     this.matchWeekSelectionValue = data.matchWeek;
+
+                    // Get Point Board
                     this.pointboardService.getPointBoard(this.groupstageSelectionId, this.matchWeekSelectionValue);
+
+                    // Get Fixture
+                    this.fixtureSearchIndex.seasonId = this.seasonSelectionId || null;
+                    this.fixtureSearchIndex.leagueId = this.leagueSelectionId || null;
+                    this.fixtureSearchIndex.groupstageId = this.groupstageSelectionId || null;
+                    this.fixtureSearchIndex.matchWeek = this.matchWeekSelectionValue || null;
+                    this.fixtureService.getFixtureBySearchIndex(this.fixtureSearchIndex);
+
                   });
                 this.teamsingroupstageService.getTeamsInGroupstages(this.groupstageSelectionId);
             } else {
@@ -152,18 +174,21 @@ export class AdminPointBoard implements OnInit, OnDestroy {
           this.weekSequenceList = data;
         });
 
-
+    this.pointBoardListSub = this.pointboardService.getPointBoardUpdateListener()
+      .subscribe((data: PointBoardModel[]) => {
+        this.pointBoardList = data;
+      });
 
     this.fixtureListSub = this.fixtureService.getFixtureUpdateListener()
-        .subscribe((data: FixtureModel[]) => {
-            this.fixtureList = data;
-        });
+      .subscribe({
+        next: (data: FixtureModel[]) => {
+          this.fixtureList = data;
+          console.log(this.fixtureList)
+        },
+        error: (error) => {
 
-    this.pointBoardListSub = this.pointboardService.getPointBoardUpdateListener()
-        .subscribe((data: PointBoardModel[]) => {
-          this.pointBoardList = data;
-        });
-
+        }
+      });
 
   }
 
@@ -185,22 +210,53 @@ export class AdminPointBoard implements OnInit, OnDestroy {
   }
 
   onSearch() {
+    // Get Point Board
     this.pointboardService.getPointBoard(this.groupstageSelectionId, this.matchWeekSelectionValue);
+
+    // Get Fixture
+    this.fixtureSearchIndex.seasonId = this.seasonSelectionId || null;
+    this.fixtureSearchIndex.leagueId = this.leagueSelectionId || null;
+    this.fixtureSearchIndex.groupstageId = this.groupstageSelectionId || null;
+    this.fixtureSearchIndex.matchWeek = this.matchWeekSelectionValue || null;
+    this.fixtureService.getFixtureBySearchIndex(this.fixtureSearchIndex);
   }
 
-  findExpelledOrRecededTeam(_teamId: number): boolean {
-    let team = this.expelledOrRecededTeamsInGroupstageList.find(team => team.teamId == _teamId);
+  findSeasonName(seasonId: number) {
+    return this.seasonList.find(s => s.id == seasonId).seasonName;
+  }
 
+  findLeagueName(leagueId: number) {
+    return this.leagueList.find(l => l.id == leagueId).leagueName;
+  }
+
+  findGroupstageName(groupstageId: number) {
+    return this.groupstageList.find(gs => gs.id == groupstageId).groupName;
+  }
+
+  findMatchStatus(status: string): string {
+    return this.matchStatusList.find(s => s.name == status).value;
+  }
+
+  findMatchStatusClass(status: string): string {
+    return this.matchStatusList.find(s => s.name == status).class;
+  }
+
+  findExpelledOrReceded(_teamId: number): boolean {
+    let team = this.expelledOrRecededTeamsInGroupstageList.find(team => team.teamId == _teamId);
     return !!team;
   }
 
   findExpelledOrRecededExplanation(_teamId: number): string {
     let team = this.expelledOrRecededTeamsInGroupstageList.find(team => team.teamId == _teamId);
-
     return !!team ? team.explanation : '';
+  }
 
+  getLocalDateForLongDate(_date: Date): string {
+    return this.globalFunctions.registerLocalDateForLongDate(_date);
+  }
 
-
+  getLocalDateForShortTime(_date: Date): string {
+    return this.globalFunctions.registerLocalDateForShortTime(_date);
   }
 
   ngOnDestroy(): void {
@@ -208,6 +264,7 @@ export class AdminPointBoard implements OnInit, OnDestroy {
     this.leagueListSub.unsubscribe();
     this.groupstageListSub.unsubscribe();
     this.weekSequenceListSub.unsubscribe();
+    this.pointBoardListSub.unsubscribe();
     this.fixtureListSub.unsubscribe();
   }
 }

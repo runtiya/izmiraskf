@@ -1,6 +1,7 @@
 export interface PointBoardModel {
   teamId: number,
-  teamName: string,
+  teamOfficialName: string,
+  teamShortName: string,
   teamLogo: File,
   matchPlayed: number,
   matchWin: number,

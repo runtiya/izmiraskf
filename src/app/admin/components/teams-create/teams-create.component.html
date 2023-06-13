@@ -1,5 +1,5 @@
-<mat-dialog-content class="mat-typography">
-  <div class="container">
+<div>
+  <mat-dialog-content class="mat-typography">
     <mat-card>
       <mat-dialog-actions align="end">
         <button mat-icon-button mat-dialog-close class="icon">
@@ -7,16 +7,13 @@
         </button>
       </mat-dialog-actions>
 
-
       <form
         [formGroup]="teamSubmitForm"
         (submit)="onSubmitForm()"
         *ngIf="!isLoading"
       >
-
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12">
-
             <button
               mat-stroked-button
               type="button"
@@ -26,11 +23,19 @@
             >
               Resim Seç
             </button>
-            <input type="file" #filePicker (change)="onFilePicked($event)">
+            <input type="file" #filePicker (change)="onFilePicked($event)" />
             <div
               class="image-preview"
-              *ngIf="imagePreview !== '' && imagePreview && teamSubmitForm.get('logoImage').valid">
-              <img [src]="imagePreview" [alt]="teamSubmitForm.value.officialName"/>
+              *ngIf="
+                imagePreview !== '' &&
+                imagePreview &&
+                teamSubmitForm.get('logoImage').valid
+              "
+            >
+              <img
+                [src]="imagePreview"
+                [alt]="teamSubmitForm.value.officialName"
+              />
             </div>
             <mat-error *ngIf="!teamSubmitForm.get('logoImage').valid">
               Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
@@ -45,8 +50,14 @@
                 type="text"
                 formControlName="TFFClubCode"
                 placeholder="TFF Kulüp Kodu"
+              />
+              <mat-hint align="end"
+                >{{
+                  teamSubmitForm.get("TFFClubCode").value
+                    ? teamSubmitForm.get("TFFClubCode").value.length
+                    : 0
+                }}/200</mat-hint
               >
-              <mat-hint align="end">{{teamSubmitForm.get('TFFClubCode').value ? teamSubmitForm.get('TFFClubCode').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('TFFClubCode').invalid">
                 Lütfen TFF Kulüp Kodu giriniz! En fazla 200 karakter!
               </mat-error>
@@ -62,8 +73,14 @@
                 formControlName="officialName"
                 placeholder="Kulüp Resmi Adı"
                 (keyup)="onOfficialNameChange($event)"
+              />
+              <mat-hint align="end"
+                >{{
+                  teamSubmitForm.get("officialName").value
+                    ? teamSubmitForm.get("officialName").value.length
+                    : 0
+                }}/200</mat-hint
               >
-              <mat-hint align="end">{{teamSubmitForm.get('officialName').value ? teamSubmitForm.get('officialName').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('officialName').invalid">
                 Lütfen Kulüp Adı giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -72,14 +89,20 @@
 
           <div class="col-lg-6 col-md-12 col-sm-12">
             <mat-form-field class="form-input">
-              <mat-label>Kısaltma</mat-label>
+              <mat-label>Kısa Adı</mat-label>
               <input
                 matInput
                 type="text"
                 formControlName="shortName"
-                placeholder="Kulüp Kısaltması"
+                placeholder="Kulüp Kısa Adı"
+              />
+              <mat-hint align="end"
+                >{{
+                  teamSubmitForm.get("shortName").value
+                    ? teamSubmitForm.get("shortName").value.length
+                    : 0
+                }}/200</mat-hint
               >
-              <mat-hint align="end">{{teamSubmitForm.get('shortName').value ? teamSubmitForm.get('shortName').value.length : 0}}/200</mat-hint>
               <mat-error *ngIf="teamSubmitForm.get('shortName').invalid">
                 Lütfen Kulüp Adı kısaltması giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -97,7 +120,13 @@
                 rows="2"
               >
               </textarea>
-              <mat-hint align="end">{{teamSubmitForm.get('address').value ? teamSubmitForm.get('address').value.length : 0}}/2000</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  teamSubmitForm.get("address").value
+                    ? teamSubmitForm.get("address").value.length
+                    : 0
+                }}/2000</mat-hint
+              >
               <mat-error *ngIf="teamSubmitForm.get('address').invalid">
                 Lütfen adres giriniz! (en fazla 2000 karakter)
               </mat-error>
@@ -116,7 +145,7 @@
                   *ngFor="let stadium of stadiumsList"
                   [value]="stadium.id"
                 >
-                  {{stadium.stadiumName}}
+                  {{ stadium.stadiumName }}
                 </mat-option>
               </mat-select>
 
@@ -135,9 +164,16 @@
                 formControlName="presidentName"
                 placeholder="Ad Soyad"
               />
-              <mat-hint align="end">{{teamSubmitForm.get('presidentName').value ? teamSubmitForm.get('presidentName').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  teamSubmitForm.get("presidentName").value
+                    ? teamSubmitForm.get("presidentName").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="teamSubmitForm.get('presidentName').invalid">
-                Lütfen Kulüp Başkanı isim bilgisi giriniz! (en fazla 200 karakter)
+                Lütfen Kulüp Başkanı isim bilgisi giriniz! (en fazla 200
+                karakter)
               </mat-error>
             </mat-form-field>
           </div>
@@ -151,7 +187,13 @@
                 formControlName="websiteURL"
                 placeholder="URL"
               />
-              <mat-hint align="end">{{teamSubmitForm.get('websiteURL').value ? teamSubmitForm.get('websiteURL').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  teamSubmitForm.get("websiteURL").value
+                    ? teamSubmitForm.get("websiteURL").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="teamSubmitForm.get('websiteURL').invalid">
                 Lütfen internet adresi giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -161,16 +203,12 @@
           <div class="col-lg-4 col-md-6 col-sm-12">
             <mat-form-field class="form-input">
               <mat-label>İlçe</mat-label>
-              <mat-select
-                matInput
-                formControlName="town"
-                placeholder="İlçe"
-              >
+              <mat-select matInput formControlName="town" placeholder="İlçe">
                 <mat-option
                   *ngFor="let town of townListArray"
                   [value]="town.name"
                 >
-                  {{town.value}}
+                  {{ town.value }}
                 </mat-option>
               </mat-select>
 
@@ -189,7 +227,13 @@
                 formControlName="phoneNumber"
                 placeholder="Telefon No"
               />
-              <mat-hint align="end">{{teamSubmitForm.get('phoneNumber').value ? teamSubmitForm.get('phoneNumber').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  teamSubmitForm.get("phoneNumber").value
+                    ? teamSubmitForm.get("phoneNumber").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="teamSubmitForm.get('phoneNumber').invalid">
                 Lütfen telefon numarası giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -205,7 +249,13 @@
                 formControlName="faxNumber"
                 placeholder="Fax No"
               />
-              <mat-hint align="end">{{teamSubmitForm.get('faxNumber').value ? teamSubmitForm.get('faxNumber').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  teamSubmitForm.get("faxNumber").value
+                    ? teamSubmitForm.get("faxNumber").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="teamSubmitForm.get('faxNumber').invalid">
                 Lütfen fax numarası giriniz! (en fazla 200 karakter)
               </mat-error>
@@ -232,14 +282,16 @@
             <input
               type="color"
               id="colorCode0"
-              value="{{teamSubmitForm.get('colorCodes').value.split(';')[0]}}"
-              (change)="getColorCodeHex()">
+              value="{{ teamSubmitForm.get('colorCodes').value.split(';')[0] }}"
+              (change)="getColorCodeHex()"
+            />
 
-              <input
+            <input
               type="color"
               id="colorCode1"
-              value="{{teamSubmitForm.get('colorCodes').value.split(';')[1]}}"
-              (change)="getColorCodeHex()">
+              value="{{ teamSubmitForm.get('colorCodes').value.split(';')[1] }}"
+              (change)="getColorCodeHex()"
+            />
           </div>
 
           <div class="col-lg-4 col-md-6 col-sm-12">
@@ -250,8 +302,8 @@
                 formControlName="isASKFMember"
                 placeholder="Üye"
               >
-              <mat-option [value]="true">Evet</mat-option>
-              <mat-option [value]="false">Hayır</mat-option>
+                <mat-option [value]="true">Evet</mat-option>
+                <mat-option [value]="false">Hayır</mat-option>
               </mat-select>
 
               <mat-error *ngIf="teamSubmitForm.get('isASKFMember').invalid">
@@ -268,8 +320,8 @@
                 formControlName="isVisible"
                 placeholder="Aktif"
               >
-              <mat-option [value]="true">Evet</mat-option>
-              <mat-option [value]="false">Hayır</mat-option>
+                <mat-option [value]="true">Evet</mat-option>
+                <mat-option [value]="false">Hayır</mat-option>
               </mat-select>
 
               <mat-error *ngIf="teamSubmitForm.get('isVisible').invalid">
@@ -278,21 +330,24 @@
             </mat-form-field>
           </div>
 
-
           <mat-action-row>
             <button
               mat-raised-button
               color="primary"
               *ngIf="data.pageMode == 'create'"
               type="submit"
-            >Oluştur</button>
+            >
+              Oluştur
+            </button>
 
             <button
               mat-raised-button
               color="primary"
               *ngIf="data.pageMode == 'edit'"
               type="submit"
-            >Düzenle</button>
+            >
+              Düzenle
+            </button>
 
             <button
               mat-raised-button
@@ -300,10 +355,12 @@
               *ngIf="data.pageMode == 'edit'"
               type="button"
               (click)="onDelete(teamSubmitForm.value.id)"
-            >Sil</button>
+            >
+              Sil
+            </button>
           </mat-action-row>
         </div>
       </form>
     </mat-card>
-  </div>
-</mat-dialog-content>
+  </mat-dialog-content>
+</div>

@@ -1,12 +1,11 @@
-<mat-dialog-content class="mat-typography">
-  <div class="container">
+<div>
+  <mat-dialog-content class="mat-typography">
     <mat-card>
       <mat-dialog-actions align="end">
         <button mat-icon-button mat-dialog-close class="icon">
           <mat-icon>close</mat-icon>
         </button>
       </mat-dialog-actions>
-
 
       <form
         [formGroup]="staffITFFSubmitForm"
@@ -23,11 +22,16 @@
                 formControlName="title"
                 placeholder="Unvan"
               />
-              <mat-hint align="end">{{staffITFFSubmitForm.get('title').value ? staffITFFSubmitForm.get('title').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  staffITFFSubmitForm.get("title").value
+                    ? staffITFFSubmitForm.get("title").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="staffITFFSubmitForm.get('title').invalid">
                 Lütfen unvan giriniz! (en fazla 200 karakter)
-              </mat-error
-              >
+              </mat-error>
             </mat-form-field>
           </div>
 
@@ -40,7 +44,13 @@
                 formControlName="fullName"
                 placeholder="Ad - Soyad"
               />
-              <mat-hint align="end">{{staffITFFSubmitForm.get('fullName').value ? staffITFFSubmitForm.get('fullName').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  staffITFFSubmitForm.get("fullName").value
+                    ? staffITFFSubmitForm.get("fullName").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="staffITFFSubmitForm.get('fullName').invalid"
                 >Lütfen ad-soyad giriniz! (en fazla 200 karakter)</mat-error
               >
@@ -56,7 +66,13 @@
                 formControlName="phone"
                 placeholder="Telefon No"
               />
-              <mat-hint align="end">{{staffITFFSubmitForm.get('phone').value ? staffITFFSubmitForm.get('phone').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  staffITFFSubmitForm.get("phone").value
+                    ? staffITFFSubmitForm.get("phone").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="staffITFFSubmitForm.get('phone').invalid"
                 >Lütfen unvan giriniz! (en fazla 200 karakter)</mat-error
               >
@@ -72,11 +88,16 @@
                 formControlName="email"
                 placeholder="E-posta"
               />
-              <mat-hint align="end">{{staffITFFSubmitForm.get('email').value ? staffITFFSubmitForm.get('email').value.length : 0}}/200</mat-hint>
+              <mat-hint align="end"
+                >{{
+                  staffITFFSubmitForm.get("email").value
+                    ? staffITFFSubmitForm.get("email").value.length
+                    : 0
+                }}/200</mat-hint
+              >
               <mat-error *ngIf="staffITFFSubmitForm.get('email').invalid">
                 Lütfen unvan giriniz! (en fazla 200 karakter)
-              </mat-error
-              >
+              </mat-error>
             </mat-form-field>
           </div>
 
@@ -89,10 +110,14 @@
             >
               Resim Seç
             </button>
-            <input type="file" #filePicker (change)="onFilePicked($event)"/>
+            <input type="file" #filePicker (change)="onFilePicked($event)" />
             <div
               class="image-preview"
-              *ngIf="imagePreview !== '' && imagePreview && staffITFFSubmitForm.get('profileImage').valid"
+              *ngIf="
+                imagePreview !== '' &&
+                imagePreview &&
+                staffITFFSubmitForm.get('profileImage').valid
+              "
             >
               <img
                 [src]="imagePreview"
@@ -117,8 +142,7 @@
               </mat-select>
               <mat-error *ngIf="staffITFFSubmitForm.get('isVisible').invalid">
                 Lütfen bir değer seçiniz!
-              </mat-error
-              >
+              </mat-error>
             </mat-form-field>
           </div>
 
@@ -133,8 +157,7 @@
               />
               <mat-error *ngIf="staffITFFSubmitForm.get('orderNo').invalid">
                 Lütfen sıralama numarası giriniz! (1-999)
-              </mat-error
-              >
+              </mat-error>
             </mat-form-field>
           </div>
         </div>
@@ -145,14 +168,16 @@
             color="primary"
             *ngIf="data.mode == 'create'"
             type="submit"
-            >Oluştur
+          >
+            Oluştur
           </button>
           <button
             mat-raised-button
             color="primary"
             *ngIf="data.mode == 'edit'"
             type="submit"
-            >Düzenle
+          >
+            Düzenle
           </button>
           <button
             mat-raised-button
@@ -160,10 +185,11 @@
             *ngIf="data.mode == 'edit'"
             type="button"
             (click)="onDelete(staffITFFSubmitForm.value.id)"
-            >Sil
+          >
+            Sil
           </button>
         </mat-action-row>
       </form>
     </mat-card>
-  </div>
-</mat-dialog-content>
+  </mat-dialog-content>
+</div>

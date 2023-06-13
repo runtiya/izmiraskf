@@ -1,22 +1,8 @@
-/*
-.team-colors {
-  border-style: solid;
-  border-color: #ffffff;
-  border-width: x-large;
-  transform: rotate(90deg);
-  /*
-  background: linear-gradient(
-    to top,
-    #121212 0%,
-    #121212 50%,
-    paleturquoise 50%,
-    paleturquoise 100%
-  );
+img {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
 }
-*/
 
-
-mat-card-title {
-    font-size: medium;
-  }
-  
+.card-teams-list:hover {
+  cursor: pointer;
+}

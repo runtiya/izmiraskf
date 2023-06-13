@@ -2,6 +2,7 @@ export interface FixtureSearchModel {
     seasonId: number,
     leagueId: number,
     groupstageId: number,
+    matchWeek: number,
     matchNo: string,
     stadiumId: number,
     homeTeamId: number,

@@ -1,17 +1,11 @@
-<mat-dialog-content class="mat-typography">
-  <div class="container">
+<div>
+  <mat-dialog-content class="mat-typography">
     <mat-card>
       <mat-dialog-actions align="end">
-        <button
-          mat-icon-button
-          class="icon"
-          mat-dialog-close
-          >
+        <button mat-icon-button class="icon" mat-dialog-close>
           <mat-icon>close</mat-icon>
         </button>
       </mat-dialog-actions>
-
-      <mat-spinner *ngIf="isLoading"></mat-spinner>
 
       <form
         [formGroup]="newsUpdateForm"
@@ -25,9 +19,17 @@
             type="text"
             formControlName="title"
             placeholder="Başlık (en fazla 200 karakter)"
+          />
+          <mat-hint align="end"
+            >{{
+              newsUpdateForm.get("title").value
+                ? newsUpdateForm.get("title").value.length
+                : 0
+            }}/200</mat-hint
           >
-          <mat-hint align="end">{{newsUpdateForm.get('title').value ? newsUpdateForm.get('title').value.length : 0}}/200</mat-hint>
-          <mat-error *ngIf="newsUpdateForm.get('title').invalid">Lütfen haber başlığı giriniz!</mat-error>
+          <mat-error *ngIf="newsUpdateForm.get('title').invalid"
+            >Lütfen haber başlığı giriniz!</mat-error
+          >
         </mat-form-field>
 
         <mat-form-field class="form-input">
@@ -37,7 +39,8 @@
             matInput
             formControlName="content"
             [config]="editorConfig"
-            placeholder="Haber Metni">
+            placeholder="Haber Metni"
+          >
           </angular-editor>
 
           <textarea
@@ -50,9 +53,10 @@
           ></textarea>
 
           <!--<mat-hint align="end">{{newsUpdateForm.get('content').value ? newsUpdateForm.get('content').value.length : 0}}/4000</mat-hint>-->
-          <mat-error *ngIf="newsUpdateForm.get('content').invalid">Lütfen haber metni giriniz!</mat-error>
+          <mat-error *ngIf="newsUpdateForm.get('content').invalid"
+            >Lütfen haber metni giriniz!</mat-error
+          >
         </mat-form-field>
-
 
         <div class="row">
           <div class="col-md-4">
@@ -61,8 +65,10 @@
               type="button"
               color="primary"
               (click)="filePicker.click()"
-              >Resim Seç</button>
-            <input type="file" #filePicker (change)="onFilePicked($event)">
+            >
+              Resim Seç
+            </button>
+            <input type="file" #filePicker (change)="onFilePicked($event)" />
           </div>
           <div class="col-md-4"></div>
           <div class="col-md-4">
@@ -72,26 +78,38 @@
                 matInput
                 formControlName="isOnline"
                 placeholder="Evet"
-                >
+              >
                 <mat-option [value]="true">Evet</mat-option>
                 <mat-option [value]="false">Hayır</mat-option>
               </mat-select>
-              <mat-error *ngIf="newsUpdateForm.get('isOnline').invalid">Lütfen bir değer seçiniz!</mat-error>
+              <mat-error *ngIf="newsUpdateForm.get('isOnline').invalid"
+                >Lütfen bir değer seçiniz!</mat-error
+              >
             </mat-form-field>
           </div>
         </div>
 
-        <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && newsUpdateForm.get('newsImage').valid">
-          <img [src]="imagePreview" [alt]="newsUpdateForm.value.title">
+        <div
+          class="image-preview"
+          *ngIf="
+            imagePreview !== '' &&
+            imagePreview &&
+            newsUpdateForm.get('newsImage').valid
+          "
+        >
+          <img [src]="imagePreview" [alt]="newsUpdateForm.value.title" />
         </div>
-        <mat-error *ngIf="!newsUpdateForm.get('newsImage').valid">Lütfen geçerli bir resim seçiniz! (en fazla 5MB)</mat-error>
+        <mat-error *ngIf="!newsUpdateForm.get('newsImage').valid"
+          >Lütfen geçerli bir resim seçiniz! (en fazla 5MB)</mat-error
+        >
 
         <button
           mat-raised-button
           color="primary"
           type="submit"
           [mat-dialog-close]="true"
-        >Güncelle
+        >
+          Güncelle
         </button>
         <button
           mat-raised-button
@@ -99,11 +117,10 @@
           color="warn"
           (click)="onDelete(newsInfo.id)"
           [mat-dialog-close]="true"
-        >Sil
+        >
+          Sil
         </button>
-
       </form>
     </mat-card>
-  </div>
-
-</mat-dialog-content>
+  </mat-dialog-content>
+</div>

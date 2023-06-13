@@ -11,3 +11,10 @@
   height: 100%;
 }
 
+mat-action-row {
+  padding: 0 !important;
+}
+
+mat-action-row > div > button {
+  width: 50%;
+}

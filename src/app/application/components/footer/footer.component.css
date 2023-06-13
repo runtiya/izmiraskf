@@ -1,0 +1,18 @@
+.container {
+  text-align: center;
+}
+.body-footer {
+  background-color: #3F51B5;
+}
+
+.fa-brands {
+  margin-left: 0.25rem;
+  font-size: large;
+  color: whitesmoke !important;
+}
+
+mat-card-subtitle {
+  color: whitesmoke;
+  margin: 0.5rem 0;
+}
+

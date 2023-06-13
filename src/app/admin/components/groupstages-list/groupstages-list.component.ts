@@ -14,13 +14,15 @@ import { AdminGroupStagesCreateModal } from "../groupstages-create/groupstages-c
 
 import { groupPeriodSystemList } from "../../../assets/lists/group-period-system-list";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 @Component({
   selector: 'app-admin-groupstages-list',
   templateUrl: './groupstages-list.component.html',
   styleUrls: ['../../../app.component.css', './groupstages-list.component.css']
 })
 export class AdminGroupList implements OnInit, OnDestroy {
-  headerTitle = 'GRUPLAR';
+  toolbarTitle = 'GRUPLAR';
   isLoading = false;
   seasonList: SeasonsModel[] = [];
   private seasonsListSubscription: Subscription;
@@ -30,12 +32,13 @@ export class AdminGroupList implements OnInit, OnDestroy {
   private groupstageListSubscription: Subscription;
   groupPeriodSystemList = groupPeriodSystemList;
   tableColumns: string[] = [
-                                "seasonName",
-                                "leagueName",
-                                "groupName",
-                                "periodSystem",
-                                "actions"
-                              ];
+                              "seasonName",
+                              "leagueName",
+                              "groupName",
+                              "periodSystem",
+                              "isActive",
+                              "actions"
+                            ];
 
   @Input() seasonSelectionId: number;
   @Input() leagueSelectionId: number;
@@ -43,11 +46,13 @@ export class AdminGroupList implements OnInit, OnDestroy {
   constructor(public groupstageService: GroupStagesService,
               public leagueService: LeaguesService,
               public seasonsService: SeasonsService,
-              public dialog: MatDialog
+              public dialog: MatDialog,
+              private globalFunctions: globalFunctions
             ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
       .subscribe((data: SeasonsModel[]) => {

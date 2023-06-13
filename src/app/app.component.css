@@ -21,7 +21,7 @@ mat-card-header, mat-card-content {
 mat-action-row {
   display: block;
   border: none;
-  margin: .25rem 0px;
+  /*margin: .25rem 0px;*/
 }
 
 /* Mat-Card Component End */
@@ -56,9 +56,6 @@ tr.table-header-row {
 
 /* Class Attributes Start */
 
-.toolbar-title {
-  margin: 1rem 0;
-}
 
 .create-card {
   height: 100%;
@@ -105,3 +102,52 @@ input[type="file"] {
   color: red;
 }
 /* Match Status Class Attributes End */
+
+/* Social Media Class Attributes Begin */
+.fa-facebook-f {
+  color: #1877F2;
+}
+
+.fa-twitter {
+  color: #1DA1F2;
+}
+
+.fa-square-instagram {
+  color: #E1306C;
+}
+
+.fa-youtube {
+  color: #FF0000;
+}
+
+.fa-linkedin-in {
+  color: #0077B5;
+}
+
+.fa-tiktok {
+  color: #000000;
+}
+
+.fa-snapchat {
+  color: #FFFC00;
+}
+
+/* Social Media Class Attributes End */
+
+
+#page-container {
+  position: relative;
+  min-height: 90vh;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem;    /* Footer height */
+}
+
+#footer {
+  background-color: #3F51B5;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;            /* Footer height */
+}

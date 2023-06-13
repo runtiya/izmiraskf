@@ -18,7 +18,7 @@ export class TeamsInGroupstagesService {
     try {
       this.http
         .get<{error: boolean, message: string, teamsingroupstagesList: TeamsInGroupstagesModel[]}>(
-          'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageId
+          'http://localhost:3000/grup-takim-eslesmeleri/' + groupstageId
         )
         .subscribe({
           next: (data) => {
@@ -46,7 +46,7 @@ export class TeamsInGroupstagesService {
     try {
       this.http
         .get<{error: boolean, message: string, teamsList: TeamsModel[]}>(
-          'http://localhost:3000/admin/grup-takim-eslesmeleri'
+          'http://localhost:3000/grup-takim-eslesmeleri'
         )
         .subscribe({
           next: (data) => {

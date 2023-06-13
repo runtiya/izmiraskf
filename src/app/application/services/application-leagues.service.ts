@@ -15,7 +15,7 @@ export class LeaguesService {
     try {
       this.http
         .get<{error: boolean, message: string, leagueList: LeaguesModel[]}>(
-          'http://localhost:3000/admin/ligler/' + seasonId
+          'http://localhost:3000/ligler/' + seasonId
         )
         .subscribe({
           next: (data) => {

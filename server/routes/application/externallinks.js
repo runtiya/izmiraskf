@@ -8,7 +8,7 @@ const extractTeamLogo = require('../../middlewares/extract-team-logo');
 const router = express.Router();
 
 
-router.get("", externalLinksController.getExternalLinks);
+router.get("/:linktype", externalLinksController.getExternalLinks);
 
 
 

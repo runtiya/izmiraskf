@@ -34,6 +34,7 @@ function getFixtureBySearchIndex(req, res, next) {
   let seasonSearchIndex = searchIndex.seasonId ? "seasonId = " + searchIndex.seasonId : "true";
   let leagueSearchIndex = searchIndex.leagueId ? "leagueId = " + searchIndex.leagueId : "true";
   let groupstageSearchIndex = searchIndex.groupstageId ? "groupstageId = " + searchIndex.groupstageId : "true";
+  let matchWeekSearchIndex = searchIndex.matchWeek ? "matchweek = " + searchIndex.matchWeek : "true";
   let matchNoSearchIndex = searchIndex.matchNo ? "matchNo = " + JSON.stringify(searchIndex.matchNo) : "true";
   let stadiumIdSearchIndex = searchIndex.stadiumId ? "stadiumId = " + searchIndex.stadiumId : "true";
   let homeTeamIdSearchIndex = searchIndex.homeTeamId ? "homeTeamId = " + searchIndex.homeTeamId : "true";
@@ -48,6 +49,7 @@ function getFixtureBySearchIndex(req, res, next) {
     "select * from view_admin_fixturesforsearch where " + seasonSearchIndex + " and "
                                                   + leagueSearchIndex + " and "
                                                   + groupstageSearchIndex + " and "
+                                                  + matchWeekSearchIndex + " and "
                                                   + matchNoSearchIndex + " and "
                                                   + stadiumIdSearchIndex + " and "
                                                   + homeTeamIdSearchIndex + " and "

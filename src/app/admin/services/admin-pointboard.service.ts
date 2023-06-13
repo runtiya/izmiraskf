@@ -79,7 +79,7 @@ export class PointBoardService {
 
   getCurrentPointBoard(_groupstageId: number, _matchWeek: number): Observable<any> {
     return this.http.get<{error: boolean, message: string, pointBoard: PointBoardModel[]}>(
-      'http://localhost:3000/admin/puan-durumu/' + _groupstageId + '/' + _matchWeek
+      'http://localhost:3000/admin/puan-tablosu/' + _groupstageId + '/' + _matchWeek
       );
   }
 }

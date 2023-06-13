@@ -6,6 +6,8 @@ import { TeamsModel } from "../../models/admin-teams.model";
 import { TeamsService } from "../../services/admin-teams.service";
 import { AdminTeamsCreateModal } from "../teams-create/teams-create.component";
 
+import { globalFunctions } from "../../../functions/global.function";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
 
 @Component({
   selector: 'app-admin-teamslist',
@@ -13,15 +15,22 @@ import { AdminTeamsCreateModal } from "../teams-create/teams-create.component";
   styleUrls: ['../../../app.component.css', './teams-list.component.css']
 })
 export class AdminTeamsList implements OnInit, OnDestroy {
-  headerTitle = "TAKIMLAR";
+  toolbarTitle = "TAKIMLAR";
   isLoading = false;
   teamsList: TeamsModel[] = [];
   private teamsListSub: Subscription;
 
-  constructor(private teamsService: TeamsService, public dialog: MatDialog) {}
+  fontAwesomeIconList = fontAwesomeIconList;
+
+  constructor(
+    private teamsService: TeamsService,
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.teamsService.getTeams();
     this.teamsListSub = this.teamsService.getTeamListSubListener()
       .subscribe((data: TeamsModel[]) => {

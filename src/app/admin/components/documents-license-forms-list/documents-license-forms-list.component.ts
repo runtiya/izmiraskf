@@ -2,11 +2,12 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from 'rxjs';
 import { MatDialog } from "@angular/material/dialog";
 
-
 import { DocumentsModel } from "../../models/admin-documents.model";
 import { DocumentsService } from "../../services/admin-documents.service";
 import { AdminDocumentCreateModal } from "../documents-create/documents-create.component";
 import { documentCategoryList } from "../../../assets/lists/documents-category-list";
+
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-admin-documents-license-forms-list',
@@ -14,7 +15,7 @@ import { documentCategoryList } from "../../../assets/lists/documents-category-l
   styleUrls: ['../../../app.component.css', '../documents-list/documents-list.component.css']
 })
 export class AdminDocumentLicenseForms {
-  headerTitle = 'LİSANS FORMLARI';
+  toolbarTitle = "LİSANS FORMLARI";
   isLoading = false;
   documents: DocumentsModel[] = [];
   private documentsSubscription: Subscription;
@@ -26,10 +27,15 @@ export class AdminDocumentLicenseForms {
                                 "actions"
                               ];
 
-  constructor(public documentService: DocumentsService, public dialog: MatDialog) {}
+  constructor(
+    public documentService: DocumentsService,
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.documentService.getDocuments(this.documentCategory);
     this.documentsSubscription = this.documentService.getDocumentsListSubListener()
       .subscribe((data: DocumentsModel[]) => {

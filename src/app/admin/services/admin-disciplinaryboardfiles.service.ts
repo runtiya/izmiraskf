@@ -25,7 +25,7 @@ export class DisciplinaryBoardFilesService {
           next: (data) => {
             if (!data.error) {
               this.disciplinaryBoardFileList = data.disciplinaryBoardFileList;
-              !!this.disciplinaryBoardFileList ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
+              this.disciplinaryBoardFileList.length > 0 ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
             } else {
 
             }

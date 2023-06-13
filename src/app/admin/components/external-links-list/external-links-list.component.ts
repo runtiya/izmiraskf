@@ -6,7 +6,7 @@ import { ExternalLinksModel } from "../../models/admin-externallinks.model";
 import { ExternalLinksService } from "../../services/admin-externallinks.service";
 import { AdminExternalLinksCreateModal } from "../external-links-create/external-links-create.component";
 import { faBrandList } from "../../../assets/lists/font-awesome-brand-list";
-
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-admin-external-links-list',
@@ -14,7 +14,7 @@ import { faBrandList } from "../../../assets/lists/font-awesome-brand-list";
   styleUrls: ['../../../app.component.css', './external-links-list.component.css']
 })
 export class AdminExternalLinks implements OnInit, OnDestroy {
-  headerTitle = 'DIŞ BAĞLANTILAR';
+  toolbarTitle = 'DIŞ BAĞLANTILAR';
   isLoading = false;
   extLinks: ExternalLinksModel[] = [];
   extLinksRelatedLinks: ExternalLinksModel[] = [];
@@ -22,26 +22,29 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   private extLinksSubscription: Subscription;
   faBrandList = faBrandList;
 
-  tableColumns: string[] = ["orderNo",
-                                "linkName",
-                                "url",
-                                "isActive",
-                                "actions"
-                              ];
+  tableColumns: string[] = [
+                              "orderNo",
+                              "linkName",
+                              "url",
+                              "isActive",
+                              "actions"
+                            ];
 
-  constructor(public extLinkService: ExternalLinksService, public dialog: MatDialog) {}
+  constructor(
+    public extLinkService: ExternalLinksService,
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions
+  ) {}
 
 
   ngOnInit(): void {
-    this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.extLinkService.getLinks();
     this.extLinksSubscription = this.extLinkService.getExternalLinksSubListener()
       .subscribe((data: ExternalLinksModel[]) => {
         this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
         this.extLinksRelatedLinks = this.extLinks.filter(link => link.linkType == "RELATEDLINK");
         this.extLinksSocialMediaLinks = this.extLinks.filter(link => link.linkType == "SOCIALMEDIA");
-        this.isLoading = false;
-
       });
   }
 
@@ -79,9 +82,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
     this.extLinkService.deleteLink(id);
-    this.isLoading = false;
   }
 
   ngOnDestroy(): void {

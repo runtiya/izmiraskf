@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AboutIASKFModel } from "../../models/admin-aboutizmiraskf.model";
 import { AboutIASKFService } from "../../services/admin-aboutiaskf.service";
 
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-admin-izmiraskf',
@@ -12,7 +13,7 @@ import { AboutIASKFService } from "../../services/admin-aboutiaskf.service";
   styleUrls: ['../../../app.component.css', './about-izmiraskf.component.css']
 })
 export class AdminIzmirASKF implements OnInit, OnDestroy {
-  headerTitle = 'İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU';
+  toolbarTitle = "İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU";
   isLoading = false;
   aboutIASKFform: FormGroup;
   aboutcontent: AboutIASKFModel;
@@ -20,14 +21,18 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
 
   latitude = 38.4377387;
   longitude = 27.1409411;
-  zoom = 15;
-  center: google.maps.LatLngLiteral = {lat: this.latitude, lng: this.longitude};
+  zoom = 18;
+  center: google.maps.LatLngLiteral = null;
   markerPositions: google.maps.LatLngLiteral[] = [];
 
-  constructor(public aboutiaskfService : AboutIASKFService) {}
+  constructor(
+    public aboutiaskfService : AboutIASKFService,
+    private globalFunctions: globalFunctions
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.aboutiaskfService.getAboutContent();
     this.aboutcontentSubscription = this.aboutiaskfService.getAboutContentListener()
       .subscribe((data: AboutIASKFModel) => {
@@ -40,6 +45,9 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
           latitude: new FormControl(data.latitude, {validators: []}),
           longitude: new FormControl(data.longitude, {validators: []})
         });
+        this.latitude = this.aboutIASKFform.get('latitude').value;
+        this.longitude = this.aboutIASKFform.get('longitude').value;
+        this.center = {lat: this.latitude, lng: this.longitude};
         this.isLoading = false;
       });
   }
@@ -56,9 +64,7 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
 
   onUpdateAboutText() {
     if (this.aboutIASKFform.valid) {
-      this.isLoading = true;
       this.aboutiaskfService.updateAboutContent(this.aboutIASKFform.value);
-      this.isLoading = false;
     }
     else {
       return null;

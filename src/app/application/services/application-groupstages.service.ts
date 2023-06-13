@@ -4,8 +4,6 @@ import { Subject, Observable } from "rxjs";
 
 import { GroupStagesModel } from "../models/application-groupstages.model";
 
-
-
 @Injectable({providedIn: 'root'})
 export class GroupStagesService {
   private groupstageList: GroupStagesModel[] = [];
@@ -19,7 +17,7 @@ export class GroupStagesService {
     try {
       this.http
         .get<{error: boolean, message: string, groupstageList: GroupStagesModel[]}>(
-          'http://localhost:3000/admin/gruplar/' + leagueId
+          'http://localhost:3000/gruplar/' + leagueId
         )
         .subscribe({
           next: (data) => {
@@ -47,7 +45,7 @@ export class GroupStagesService {
     try {
       this.http
         .get<{error: boolean, message: string, weekSequence: Array<number>[]}>(
-          'http://localhost:3000/admin/gruplar/hafta-siralamasi/' + groupstageId
+          'http://localhost:3000/gruplar/hafta-siralamasi/' + groupstageId
         )
         .subscribe({
           next: (data) => {
@@ -73,7 +71,7 @@ export class GroupStagesService {
 
   getPlayedLastMatchWeek(_groupstageId: number): Observable<any> {
     return this.http.get<{error: boolean, message: string, currentWeek: number}>(
-      'http://localhost:3000/admin/gruplar/son-musabaka-haftasi/' + _groupstageId
+      'http://localhost:3000/gruplar/son-musabaka-haftasi/' + _groupstageId
       );
   }
 }

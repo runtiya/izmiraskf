@@ -11,8 +11,4 @@ const router = express.Router();
 router.get("/:groupstageid/:matchweek", pointBoardController.getPointBoard);
 
 
-
-
-
-
 module.exports = router;

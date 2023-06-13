@@ -12,6 +12,7 @@ export interface TeamsModel {
   phoneNumber: string,
   faxNumber: string,
   stadiumId: number,
+  stadiumName: string,
   presidentName: string,
   colorCodes: string,
   websiteURL: string,

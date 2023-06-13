@@ -6,12 +6,17 @@ import { Router } from "@angular/router";
 
 import { AboutIASKFModel } from "../models/admin-aboutizmiraskf.model";
 
+import { globalFunctions } from "../../functions/global.function";
+
 @Injectable({providedIn: 'root'})
 export class AboutIASKFService {
   private aboutContent: AboutIASKFModel;
   private aboutContentSubject = new Subject<AboutIASKFModel>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+    ) {}
 
   getAboutContent() {
     this.http
@@ -25,11 +30,11 @@ export class AboutIASKFService {
             this.aboutContentSubject.next(this.aboutContent);
           }
           else {
-
+            this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
           }
         },
         error: (error) => {
-
+          this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
         }
       });
   }
@@ -47,17 +52,15 @@ export class AboutIASKFService {
       .subscribe({
         next: (data) => {
           if (!data.error) {
-
-            // Add Angular Component Snackbar OR Bootstrap Toasts
             this.aboutContentSubject.next(aboutContent);
+            this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
           }
           else {
-            null;
-
+            this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
           }
         },
         error: (error) => {
-
+          this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
         }
       });
   }

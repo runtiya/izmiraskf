@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,7 +26,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { DatePipe } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
+import localeTr from "@angular/common/locales/tr";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
@@ -37,19 +38,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AdminLogin } from "./admin/components/login/login.component";
 import { AdminLogout } from "./admin/components/logout/logout.component";
 
-import { AdminHeaderComponent } from './admin/components/header/header.component';
+import { AdminHeader } from './admin/components/header/header.component';
+import { AdminToolbarTitle } from "./admin/components/toolbar-title/toolbar-title.component";
 
 import { AdminHome } from "./admin/components/home/home.component";
 
 import { AdminIzmirASKF } from './admin/components/about-izmiraskf/about-izmiraskf.component';
 import { AdminStaffIzmirAskf } from './admin/components/staff-izmiraskf-list/staff-izmiraskf-list.component';
 import { AdminCreateStaffIzmirAskfModal } from "./admin/components/staff-izmiraskf-create/staff-izmiraskf-create.component";
-import { AdminAboutStaffIASKFWrapComponent } from "./admin/components/about-staff-iaskf-wrap/about-staff-iaskf-wrap.component";
 
 import { AdminIzmirTFFIlTemsilciligi } from './admin/components/about-izmirtffiltemsilciligi/about-izmirtffiltemsilciligi.component';
 import { AdminStaffIzmirTFF } from "./admin/components/staff-izmirtff-list/staff-izmirtff-list.component";
 import { AdminCreateStaffIzmirTFFModal } from "./admin/components/staff-izmirtff-create/staff-izmirtff-create.component";
-import { AdminAboutStaffITFFWrapComponent } from "./admin/components/about-staff-itff-wrap/about-staff-itff-wrap.component";
 
 import { AdminNewsCreate } from './admin/components/news-create/news-create.component';
 import { AdminNewsList } from './admin/components/news-list/news-list.component';
@@ -103,7 +103,8 @@ import { AdminUsersCreateModal } from "./admin/components/users-create/users-cre
 
 // Application Components
 import { PageNotFound } from './application/components/page-not-found/page-not-found.component';
-import { ApplicationHeaderComponent } from "./application/components/header/header.component";
+import { ApplicationHeader } from "./application/components/header/header.component";
+import { ApplicationToolbarTitle } from "./application/components/toolbar-title/toolbar-title.component";
 
 import { ApplicationIzmirASKF } from "./application/components/about-izmiraskf/about-izmiraskf.component";
 import { ApplicationStaffIzmirAskf } from "./application/components/staff-izmiraskf-list/staff-izmiraskf-list.component";
@@ -121,6 +122,15 @@ import { ApplicationTeamsList } from './application/components/teams-list/teams-
 import { ApplicationTeamDetails } from './application/components/teams-details/teams-details.component';
 
 import { ApplicationDisciplinaryBoardDecisionsList } from "./application/components/disciplinary-board-decisions-list/disciplinary-board-decisions-list.component";
+import { ApplicationDisciplinaryBoardDecisionsDetailsModal } from "./application/components/disciplinary-board-decisions-details/disciplinary-board-decisions-details.component";
+
+import { ApplicationPointBoard } from "./application/components/point-board/point-board.component";
+import { ApplicationFixtureByWeek } from "./application/components/fixture-by-week/fixture-by-week.component";
+import { ApplicationPointBoardFixtureWrap } from "./application/components/pointboard-fixture-wrap/pointboard-fixture-wrap.component";
+
+import { ApplicationContactUs } from "./application/components/contact-us/contact-us.component";
+
+import { ApplicationFooter } from "./application/components/footer/footer.component";
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -138,19 +148,19 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     AdminLogin,
     AdminLogout,
 
-    AdminHeaderComponent,
+    AdminHeader,
+
+    AdminToolbarTitle,
 
     AdminHome,
 
     AdminIzmirASKF,
     AdminStaffIzmirAskf,
     AdminCreateStaffIzmirAskfModal,
-    AdminAboutStaffIASKFWrapComponent,
 
     AdminIzmirTFFIlTemsilciligi,
     AdminStaffIzmirTFF,
     AdminCreateStaffIzmirTFFModal,
-    AdminAboutStaffITFFWrapComponent,
 
     AdminNewsCreate,
     AdminNewsList,
@@ -206,7 +216,8 @@ import { ErrorInterceptor } from "./error/error-interceptor";
 
     //Application Components
     PageNotFound,
-    ApplicationHeaderComponent,
+    ApplicationHeader,
+    ApplicationToolbarTitle,
 
     ApplicationNewsList,
     ApplicationNewsDetails,
@@ -223,7 +234,16 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     ApplicationTeamsList,
     ApplicationTeamDetails,
 
-    ApplicationDisciplinaryBoardDecisionsList
+    ApplicationDisciplinaryBoardDecisionsList,
+    ApplicationDisciplinaryBoardDecisionsDetailsModal,
+
+    ApplicationPointBoard,
+    ApplicationFixtureByWeek,
+    ApplicationPointBoardFixtureWrap,
+
+    ApplicationContactUs,
+
+    ApplicationFooter
 
   ],
   imports: [
@@ -269,8 +289,13 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     {provide: MatDialogRef, useValue: {}},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: LOCALE_ID, useValue: 'tr-TR'},
     DatePipe,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    registerLocaleData(localeTr);
+  }
+}

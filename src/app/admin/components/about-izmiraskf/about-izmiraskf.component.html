@@ -1,11 +1,5 @@
-<div class="container">
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>{{headerTitle}}</span>
-  </mat-toolbar>
-
+<div class="card-aboutizmiraskf">
   <mat-card>
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
-
     <form
       [formGroup]="aboutIASKFform"
       (submit)="onUpdateAboutText()"
