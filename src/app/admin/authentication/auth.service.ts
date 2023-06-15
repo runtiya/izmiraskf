@@ -20,6 +20,8 @@ export class AuthService {
 
   private usersList: UserModel[] = [];
   private usersListSub = new Subject<UserModel[]>();
+  private authenticatedUser: UserModel;
+  private authenticatedUserListener = new Subject<UserModel>();
 
   constructor(
     private http: HttpClient,
@@ -75,6 +77,10 @@ export class AuthService {
     return this.usersListSub.asObservable();
   }
 
+  getAuthenticatedUserListener() {
+    return this.authenticatedUserListener.asObservable();
+  }
+
   createUser(userForm: UserModel) {
     try {
       this.globalFunctions.showSpinner.next(true);
@@ -124,6 +130,8 @@ export class AuthService {
                 this.userName = data.user.userName.toString();
                 this.userType = data.user.userType.toString();
                 this.authStatusListener.next(true);
+                this.authenticatedUser = data.user;
+                this.authenticatedUserListener.next(this.authenticatedUser);
                 const now = new Date();
                 const expirationDate = new Date(
                   now.getTime() + expiresInDuration * 1000
@@ -172,6 +180,8 @@ export class AuthService {
     this.userName = null;
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
+    this.authenticatedUser = <UserModel>{};
+    this.authenticatedUserListener.next(this.authenticatedUser);
 
     let url = this.router.url;
     if (url.includes('admin')) {

@@ -33,6 +33,7 @@ function createNews(req, res, next) {
   const newsInfo = req.body;
   var message;
   var newsId;
+
   connection.query(
     "insert into news(createdat, createdby, updatedat, updatedby, title, content, newsimage, isonline)values (?, ?, ?, ?, ?, ?, ?, ?)",
     [

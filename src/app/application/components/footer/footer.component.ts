@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { Subscription } from "rxjs";
-import { Router } from "@angular/router";
 
 import { AuthService } from "../../../admin/authentication/auth.service";
 import { ExternalLinksModel } from "../../models/application-externallinks.model";
@@ -25,7 +24,6 @@ export class ApplicationFooter implements OnInit, OnDestroy {
 
   constructor(
     private externalLinksService: ExternalLinksService,
-    private router: Router,
     private globalFunctions: globalFunctions
   ) {}
 

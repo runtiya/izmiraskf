@@ -375,6 +375,14 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     return town ? townList.find(t => t.name == town).value : 'Seçiniz';
   }
 
+  getLocalDateForLongDate(_date: Date): string {
+    return this.globalFunctions.registerLocalDateForLongDate(_date);
+  }
+
+  getLocalDateForShortTime(_date: Date): string {
+    return this.globalFunctions.registerLocalDateForShortTime(_date);
+  }
+
   onSave() {
     this.fixtureService.updateFixture(this.fixtureList);
   }

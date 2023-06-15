@@ -92,6 +92,20 @@
         </li>
       </ul>
 
+      <div class="d-flex socialmedia-band">
+        <mat-card-subtitle class="socialmedia-selector" *ngFor="let link of externalLinksList">
+          <fa-icon
+            [icon]="findIconFaIcon(link.faBrand)"
+            matTooltip="{{link.linkName}}"
+            class="{{findIconFaClass(link.faBrand)}}"
+            (click)="routeToURL(link.url)"
+          >
+          </fa-icon>
+        </mat-card-subtitle>
+      </div>
+
     </div>
+
+
   </div>
 </nav>

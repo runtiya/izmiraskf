@@ -25,11 +25,14 @@
         <mat-form-field class="form-input">
           <mat-label>Şifre</mat-label>
           <input
+            id="passwordField"
             matInput
             type="password"
             formControlName="userPassword"
             placeholder="Şifre"
           >
+          <mat-icon matSuffix (click)="changePasswordType()" *ngIf="!isPasswordVisible" matTooltip="Şifreyi Göster">visibility</mat-icon>
+          <mat-icon matSuffix (click)="changePasswordType()" *ngIf="isPasswordVisible" matTooltip="Şifreyi Gizle">visibility_off</mat-icon>
           <mat-hint align="end">{{userForm.get('userPassword').value ? userForm.get('userPassword').value.length : 0}}/200</mat-hint>
           <mat-error *ngIf="userForm.get('userPassword').invalid">
             Lütfen şifrenizi giriniz!

@@ -19,6 +19,7 @@ export class AdminLogin implements OnInit, OnDestroy {
   toolbarTitle = "SİSTEM GİRİŞ";
   isLoading = false;
   userForm: FormGroup;
+  @Input() isPasswordVisible: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -41,6 +42,19 @@ export class AdminLogin implements OnInit, OnDestroy {
       userType: new FormControl(null, {validators: []}),
       isActive: new FormControl(null, {validators: []})
     });
+
+  }
+
+  changePasswordType(): void {
+    console.log(this.isPasswordVisible)
+    const field = document.getElementById('passwordField') as HTMLElement;
+    if (this.isPasswordVisible) {
+      field.setAttribute('type', 'password');
+      this.isPasswordVisible = false;
+    } else {
+      field.setAttribute('type', 'text');
+      this.isPasswordVisible = true;
+    }
 
   }
 

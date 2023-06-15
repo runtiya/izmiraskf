@@ -237,14 +237,16 @@
                     }}
                   </mat-card-subtitle>
                   <mat-card-subtitle class="subtitle-matchday-detail">
-                    <strong>{{
+                  {{
                       findStadium(matchDay.stadiumId) || "Belirtilmemiş"
-                    }}</strong>
+                    }}
                   </mat-card-subtitle>
                   <mat-card-subtitle class="subtitle-matchday-detail">
-                    <strong>{{
-                      matchDay.matchDate | date : "dd.MM.yyyy HH:mm"
-                    }}</strong>
+                    {{
+                      getLocalDateForLongDate(matchDay.matchDate) +
+                      " " +
+                      getLocalDateForShortTime(matchDay.matchDate)
+                    }}
                   </mat-card-subtitle>
                   <mat-card-subtitle>
                     <mat-icon

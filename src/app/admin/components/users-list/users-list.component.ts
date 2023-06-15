@@ -9,6 +9,8 @@ import { userAuthorityList } from "../../assets/lists/user-authority-list";
 
 import { AdminUsersCreateModal } from "../users-create/users-create.component";
 
+import { globalFunctions } from "../../../functions/global.function";
+
 @Component({
   selector: 'app-admin-userslist',
   templateUrl: './users-list.component.html',
@@ -35,10 +37,12 @@ export class AdminUsersList implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.authService.getUsersList();
     this.usersListSub = this.authService.getUsersListListener()
       .subscribe({
@@ -62,7 +66,12 @@ export class AdminUsersList implements OnInit, OnDestroy {
   }
 
   onEdit(userInfo: UserModel) {
-
+    const dialogRef = this.dialog.open(AdminUsersCreateModal, {
+      data: {
+        pageMode: "edit",
+        userInfo: userInfo
+      }
+    });
   }
 
   onDelete(_id: number) {

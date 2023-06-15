@@ -379,14 +379,12 @@
 
               <div class="col-lg-4 col-md-12 col-sm-12">
                 <mat-card-subtitle>
-                  <strong>
                     {{ findStadiumName(fixture.stadiumId) }}
-                  </strong>
                 </mat-card-subtitle>
                 <mat-card-subtitle>
-                  <strong>
-                    {{ fixture.matchDate | date : "dd.MM.yyyy HH:mm" }}
-                  </strong>
+                    {{  getLocalDateForLongDate(fixture.matchDate) +
+                      " " +
+                      getLocalDateForShortTime(fixture.matchDate) }}
                 </mat-card-subtitle>
                 <mat-card-subtitle>
                   <mat-icon

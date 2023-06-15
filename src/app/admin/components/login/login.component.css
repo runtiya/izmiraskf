@@ -1,5 +1,10 @@
+.card-login {
+  text-align: -webkit-center;
+}
+
 .mat-mdc-card {
-  width: 50%;
+  width: 100%;
+  box-shadow: none;
 }
 
 button {
