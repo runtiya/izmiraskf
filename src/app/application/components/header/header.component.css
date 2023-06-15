@@ -1,3 +1,9 @@
 .nav-item .nav-link {
   color: white;
 }
+
+.fa-brands {
+  margin-left: 0.25rem;
+  font-size: large;
+  color: whitesmoke !important;
+}

@@ -47,6 +47,7 @@ const applicationTeamsInGroupsRoutes = require('./routes/application/teamsingrou
 const applicationFixturesRoutes = require('./routes/application/fixtures');
 const applicationPointBoardRoutes = require('./routes/application/pointboard');
 
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit:'3000kb'}));
 

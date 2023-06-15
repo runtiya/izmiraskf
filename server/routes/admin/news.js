@@ -16,9 +16,9 @@ router.get("", checkAuth, newsController.getNews);
 
 router.get("/:id", checkAuth, newsController.findNews);
 
-router.post("", checkAuth, newsController.createNews);
+router.post("", checkAuth, extractTeamLogo, newsController.createNews);
 
-router.put("/:id", checkAuth, newsController.updateNews);
+router.put("/:id", checkAuth, extractTeamLogo, newsController.updateNews);
 
 router.delete("/:id", checkAuth, newsController.deleteNews);
 

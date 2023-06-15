@@ -63,10 +63,19 @@ export class NewsService {
 
 
   addNews(news: NewsModel) {
+
+    const image = new FormData();
+    image.append('image', news.newsImage, 'testImage');
+
+    const body = {
+      element1: image,
+      news: news
+    }
+
     try {
       this.http
         .post<{error: boolean, message: string, newsId: number}>(
-          'http://localhost:3000/admin/haberler', news
+          'http://localhost:3000/admin/haberler', body
         )
         .subscribe({
           next: (data) => {

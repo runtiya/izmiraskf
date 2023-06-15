@@ -19,6 +19,8 @@ export class AdminUsersCreateModal implements OnInit, OnDestroy {
   userSubmitForm: FormGroup;
   userAuthorityList = userAuthorityList;
   imagePreview: string;
+  pageMode: string = this.data.pageMode || 'create';
+  userInfo = this.data.userInfo;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
@@ -28,17 +30,17 @@ export class AdminUsersCreateModal implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userSubmitForm = new FormGroup({
-      id: new FormControl(null, {validators: []}),
-      createdAt: new FormControl(null, {validators: []}),
-      createdBy: new FormControl(null, {validators: []}),
-      updatedAt: new FormControl(null, {validators: []}),
-      updatedBy: new FormControl(null, {validators: []}),
-      fullName: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      userName: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      userPassword: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      profilePhoto: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
-      userType: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      isActive: new FormControl(null, {validators: [Validators.required]}),
+      id: new FormControl(this.pageMode == 'edit' ? this.userInfo.id : null, {validators: []}),
+      createdAt: new FormControl(this.pageMode == 'edit' ? this.userInfo.createdAt : null, {validators: []}),
+      createdBy: new FormControl(this.pageMode == 'edit' ? this.userInfo.createdBy : null, {validators: []}),
+      updatedAt: new FormControl(this.pageMode == 'edit' ? this.userInfo.updatedAt : null, {validators: []}),
+      updatedBy: new FormControl(this.pageMode == 'edit' ? this.userInfo.updatedBy : null, {validators: []}),
+      fullName: new FormControl(this.pageMode == 'edit' ? this.userInfo.fullName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+      userName: new FormControl(this.pageMode == 'edit' ? this.userInfo.userName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+      userPassword: new FormControl(this.pageMode == 'edit' ? this.userInfo.userPassword : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+      profilePhoto: new FormControl(this.pageMode == 'edit' ? this.userInfo.profilePhoto : null, {validators: [], asyncValidators: [imageUploadValidator]}),
+      userType: new FormControl(this.pageMode == 'edit' ? this.userInfo.userType : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+      isActive: new FormControl(this.pageMode == 'edit' ? this.userInfo.isActive : null, {validators: [Validators.required]}),
     });
   }
 

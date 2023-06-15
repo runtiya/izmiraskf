@@ -419,6 +419,13 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
     return !!team ? team.explanation : null;
   }
 
+  getLocalDateForLongDate(_date: Date): string {
+    return this.globalFunctions.registerLocalDateForLongDate(_date);
+  }
+
+  getLocalDateForShortTime(_date: Date): string {
+    return this.globalFunctions.registerLocalDateForShortTime(_date);
+  }
 
   ngOnDestroy(): void {
     this.seasonListSub.unsubscribe();

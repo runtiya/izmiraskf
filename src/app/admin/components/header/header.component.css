@@ -1,3 +1,11 @@
 .nav-item .nav-link {
   color: white;
 }
+
+.mat-mdc-card-avatar {
+  margin: 0 0.5rem;
+}
+
+mat-card-subtitle {
+  color: whitesmoke;
+}

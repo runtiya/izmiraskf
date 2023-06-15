@@ -24,13 +24,15 @@ export class ApplicationNewsList implements OnInit, OnDestroy {
 
   fontAwesomeIconList = fontAwesomeIconList;
 
+
   constructor(
     public newsService: NewsService,
     private router: Router,
-    private globalFunctions: globalFunctions
+    private globalFunctions: globalFunctions,
     ) {}
 
   ngOnInit(): void {
+
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.newsService.getNews();
     this.newsSub = this.newsService.getNewsUpdateListener()

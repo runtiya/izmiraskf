@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 
@@ -16,7 +16,6 @@ import { globalFunctions } from "../../../functions/global.function";
 @Component({
   selector: 'app-admin-leagues-list',
   templateUrl: './leagues-list.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
   styleUrls: ['../../../app.component.css', './leagues-list.component.css']
 })
 export class AdminLeaguesList implements OnInit, OnDestroy {

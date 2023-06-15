@@ -58,9 +58,8 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
             ) {}
 
   ngOnInit(): void {
-
-    this.seasonsService.getSeasons();
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
+    this.seasonsService.getSeasons();
     this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
       .subscribe((data: SeasonsModel[]) => {
         this.isLoading = true;
