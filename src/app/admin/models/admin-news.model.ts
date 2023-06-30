@@ -6,6 +6,7 @@ export interface NewsModel {
   updatedBy: number,
   title: string;
   content: Text;
-  newsImage: File;
-  isOnline: boolean;
+  imagePath: string,
+  imageAttachment: File,
+  isVisible: boolean;
 }

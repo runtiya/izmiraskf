@@ -1,6 +1,6 @@
 import { AbstractControl } from "@angular/forms";
 import { Observable, Observer, of } from "rxjs";
-import { fileMimeTypeList } from "../assets/lists/file-mime-type-list";
+import { fileMimeTypeList } from "../../assets/lists/file-mime-type.list";
 
 export const fileUploadValidator = (control: AbstractControl): Promise<{[key: string]: any}> | Observable<{[key: string]: any}> => {
 
@@ -11,12 +11,11 @@ export const fileUploadValidator = (control: AbstractControl): Promise<{[key: st
   const fileReader = new FileReader();
   const fileReaderObservable = new Observable((observer: Observer<{[key: string]: any}>) => {
     fileReader.addEventListener("loadend", () => {
-      const arr = new Uint8Array(fileReader.result as ArrayBuffer).subarray(0, 4);
-
+      //const arr = new Uint8Array(fileReader.result as ArrayBuffer).subarray(0, 4);
       let isValid = false;
       const mimeTypeArray = fileMimeTypeList;
 
-      isValid = (mimeTypeArray.find((element) => {return element == file.type}) ? true : false) && file.size < 5242880; // 5MB limitation
+      isValid = (mimeTypeArray.find((element) => {return element == file.type}) ? true : false) && file.size < 10485760; // 10MB limitation
 
       if (isValid) {
         observer.next(null);

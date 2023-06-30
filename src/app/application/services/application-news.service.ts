@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 
-
 import { NewsModel } from "../models/application-news.model";
 
 import { globalFunctions } from "../../functions/global.function";
@@ -17,6 +16,9 @@ export class NewsService {
   private newsById: NewsModel;
   private newsByIdSubject = new Subject<NewsModel>();
 
+  private newsForSliderList: NewsModel[] = [];
+  private newsForSliderListSubject = new Subject<NewsModel[]>();
+
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
@@ -25,9 +27,10 @@ export class NewsService {
   getNews() {
     try {
       this.http
-        .get<{error: boolean, message: string, news: NewsModel[]}>(
-          'http://localhost:3000/haberler'
+        .get<{error: boolean, message: string, newsList: NewsModel[]}>(
+          'http://localhost:3000/haberler/list'
         )
+        /*
         .pipe(
           map(data => {
             return {
@@ -46,8 +49,9 @@ export class NewsService {
             };
           })
         )
+        */
         .subscribe((transformedData) => {
-          this.newsList = transformedData.news;
+          this.newsList = transformedData.newsList;
           this.newsUpdated.next([...this.newsList]);
 
         });
@@ -65,7 +69,7 @@ export class NewsService {
     try {
       this.http
         .get<{error: boolean, message: string, news: NewsModel}>(
-          'http://localhost:3000/haberler/' + id
+          'http://localhost:3000/haberler/news-id/' + id
         )
         .subscribe({
           next: (data) => {
@@ -87,5 +91,33 @@ export class NewsService {
 
   getNewsByIdUpdateListener() {
     return this.newsByIdSubject.asObservable();
+  }
+
+  getNewsForSlider() {
+    try {
+      this.http
+        .get<{error: boolean, message: string, newsList: NewsModel[]}>(
+          'http://localhost:3000/haberler/hot-topics'
+        )
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.newsForSliderList = data.newsList;
+              this.newsForSliderListSubject.next([...this.newsForSliderList]);
+            } else {
+
+            }
+          },
+          error: (error) => {
+
+          }
+        });
+    } catch (error) {
+
+    }
+  }
+
+  getNewsForSliderUpdateListener() {
+    return this.newsForSliderListSubject.asObservable();
   }
 }

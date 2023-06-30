@@ -6,7 +6,7 @@ import { Data } from "@angular/router";
 import { StaffITFFModel } from "../../models/admin-staffizmirtff.model";
 import { StaffITFFService } from "../../services/admin-staffitff.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-admin-staffizmirtff-create',
@@ -20,18 +20,28 @@ export class AdminCreateStaffIzmirTFFModal {
   imagePreview: string;
   staffInfo = this.data.staffInfo;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<AdminCreateStaffIzmirTFFModal>, public staffService: StaffITFFService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Data,
+    public dialogRef: MatDialogRef<AdminCreateStaffIzmirTFFModal>,
+    public staffService: StaffITFFService,
+    private globalFunctions: globalFunctions
+  ) {}
 
 
   ngOnInit() {
 
     this.staffITFFSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.staffInfo.id : null, {validators: []}),
+      createdAt: new FormControl(this.pageMode == 'edit' ? this.staffInfo.createdAt : null, {validators: []}),
+      createdBy: new FormControl(this.pageMode == 'edit' ? this.staffInfo.createdBy : null, {validators: []}),
+      updatedAt: new FormControl(this.pageMode == 'edit' ? this.staffInfo.updatedAt : null, {validators: []}),
+      updatedBy: new FormControl(this.pageMode == 'edit' ? this.staffInfo.updatedBy : null, {validators: []}),
       title: new FormControl(this.pageMode == 'edit' ? this.staffInfo.title : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       fullName: new FormControl(this.pageMode == 'edit' ? this.staffInfo.fullName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       phone: new FormControl(this.pageMode == 'edit' ? this.staffInfo.phone : null, {validators: [Validators.maxLength(200)]}),
       email: new FormControl(this.pageMode == 'edit' ? this.staffInfo.email : null, {validators: [Validators.maxLength(200)]}),
-      profileImage: new FormControl(this.pageMode == 'edit' ? this.staffInfo.profileImage : null, {validators: [], asyncValidators: [imageUploadValidator]}),
+      imagePath: new FormControl(this.pageMode == 'edit' ? this.staffInfo.imagePath : null, {validators: []}),
+      imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
       isVisible: new FormControl(this.pageMode == 'edit' ? !!this.staffInfo.isVisible : true, {validators: [Validators.required]}),
       orderNo: new FormControl(this.pageMode == 'edit' ? this.staffInfo.orderNo : 1, {validators: [Validators.required, Validators.maxLength(3), Validators.min(1), Validators.max(999)]})
     });
@@ -42,16 +52,22 @@ export class AdminCreateStaffIzmirTFFModal {
     try {
 
       const file = (event.target as HTMLInputElement).files[0];
-      this.staffITFFSubmitForm.patchValue({profileImage: file});
-      this.staffITFFSubmitForm.get('profileImage').updateValueAndValidity();
+      this.staffITFFSubmitForm.patchValue({imageAttachment: file});
+      this.staffITFFSubmitForm.get('imageAttachment').updateValueAndValidity();
       const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
+      reader.onloadend = () => {
+        let _imagePath = this.staffITFFSubmitForm.get('imageAttachment').valid ? reader.result as string : null;
+        this.staffITFFSubmitForm.get('imagePath').setValue(_imagePath);
       };
       reader.readAsDataURL(file);
     } catch (error) {
 
     }
+  }
+
+  filePickerRemove() {
+    this.staffITFFSubmitForm.get('imageAttachment').setValue(null);
+    this.staffITFFSubmitForm.get('imagePath').setValue(null);
   }
 
   onSubmitForm() {
@@ -60,9 +76,11 @@ export class AdminCreateStaffIzmirTFFModal {
 
       this.isLoading = true;
       if (this.pageMode === "create") {
+        this.staffITFFSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
         this.staffService.createStaff(this.staffITFFSubmitForm.value);
       }
       else {
+        this.staffITFFSubmitForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
         this.staffService.updateStaff(this.staffITFFSubmitForm.value);
       }
       this.isLoading = false;

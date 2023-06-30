@@ -7,7 +7,7 @@ import { TeamsService } from "../../services/admin-teams.service";
 import { AdminTeamsCreateModal } from "../teams-create/teams-create.component";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-admin-teamslist',

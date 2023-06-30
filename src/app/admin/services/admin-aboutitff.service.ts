@@ -19,24 +19,29 @@ export class AboutITFFService {
     ) {}
 
   getAboutContent() {
-    this.http
-      .get<{error: boolean, message: string, aboutContent: AboutITFFModel}>(
-        'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda'
-      )
-      .subscribe({
-        next: (data) => {
-          if (!data.error) {
-            this.aboutContent = data.aboutContent;
-            this.aboutContentSubject.next(this.aboutContent);
+    try {
+      this.http
+        .get<{error: boolean, message: string, aboutContent: AboutITFFModel}>(
+          'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda'
+        )
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.aboutContent = data.aboutContent;
+              this.aboutContentSubject.next(this.aboutContent);
+            }
+            else {
+              this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
+            }
+          },
+          error: (error) => {
+            this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
           }
-          else {
-            this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
-          }
-        },
-        error: (error) => {
-          this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
-        }
-      });
+        });
+    } catch (error) {
+
+    }
+
   }
 
   getAboutContentListener() {
@@ -44,25 +49,32 @@ export class AboutITFFService {
   }
 
   updateAboutContent(aboutContent: AboutITFFModel) {
+    try {
+      const formData = new FormData();
+      formData.append('image', aboutContent.imageAttachment);
+      formData.append('aboutContent', JSON.stringify(aboutContent));
+      this.http
+        .put<{error: boolean, message: string}>(
+          'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda', formData
+        )
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.aboutContentSubject.next(aboutContent);
+              this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
+            }
+            else {
+              this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
+            }
+          },
+          error: (error) => {
+            this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
+          }
+        });
+    } catch (error) {
 
-    this.http
-      .put<{error: boolean, message: string}>(
-        'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda', aboutContent
-      )
-      .subscribe({
-        next: (data) => {
-          if (!data.error) {
-            this.aboutContentSubject.next(aboutContent);
-            this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
-          }
-          else {
-            this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
-          }
-        },
-        error: (error) => {
-          this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
-        }
-      });
+    }
+
   }
 
 }

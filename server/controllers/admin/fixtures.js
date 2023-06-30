@@ -1,30 +1,5 @@
 const connection = require('../../functions/database').connectDatabase();
 
-function getFixture(req, res, next) {
-  const groupstageId = req.params.groupstageid;
-  var fixtureList;
-  var message;
-
-  connection.query(
-    "select * from view_admin_fixtures where groupstageId = ?",
-    [groupstageId],
-    (error, result) => {
-      if (!error) {
-        fixtureList = result;
-      } else {
-        message = error.sqlMessage;
-        fixtureList = [];
-      }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Fixtures fetched successfully!',
-        fixtureList: fixtureList
-      });
-    }
-  );
-}
-
 function getFixtureBySearchIndex(req, res, next) {
   const searchIndex = req.body;
   var fixtureList;
@@ -46,18 +21,18 @@ function getFixtureBySearchIndex(req, res, next) {
 
 
   connection.query(
-    "select * from view_admin_fixturesforsearch where " + seasonSearchIndex + " and "
-                                                  + leagueSearchIndex + " and "
-                                                  + groupstageSearchIndex + " and "
-                                                  + matchWeekSearchIndex + " and "
-                                                  + matchNoSearchIndex + " and "
-                                                  + stadiumIdSearchIndex + " and "
-                                                  + homeTeamIdSearchIndex + " and "
-                                                  + awayTeamIdSearchIndex + " and "
-                                                  + matchStatusSearchIndex + " and "
-                                                  + townSearchIndex + " and "
-                                                  + startDateSearchIndex + " and "
-                                                  + endDateSearchIndex + " and true ",
+    "select * from view_admin_fixtures where " + seasonSearchIndex + " and "
+                                               + leagueSearchIndex + " and "
+                                               + groupstageSearchIndex + " and "
+                                               + matchWeekSearchIndex + " and "
+                                               + matchNoSearchIndex + " and "
+                                               + stadiumIdSearchIndex + " and "
+                                               + homeTeamIdSearchIndex + " and "
+                                               + awayTeamIdSearchIndex + " and "
+                                               + matchStatusSearchIndex + " and "
+                                               + townSearchIndex + " and "
+                                               + startDateSearchIndex + " and "
+                                               + endDateSearchIndex + " and true ",
     (error, result) => {
       if (!error) {
         fixtureList = result;
@@ -76,14 +51,14 @@ function getFixtureBySearchIndex(req, res, next) {
 }
 
 function createFixture(req, res, next) {
-  var _fixtureList = req.body;
+  var _matchList = req.body;
   var message;
   var _error = false;
 
 
   try {
-    for (let m = 0; m < _fixtureList.length; m++) {
-      var match = _fixtureList[m];
+    for (let m = 0; m < _matchList.length; m++) {
+      var match = _matchList[m];
       connection.query(
         "insert into fixtures(createdat, createdby, updatedat, updatedby, groupstageid, matchno, matchweek, matchdate, matchstatus, stadiumid, hometeamid, hometeamscore, ishometeamwinbyforfeit, hometeampoint, awayteamid, awayteamscore, isawayteamwinbyforfeit, awayteampoint, explanation, orderno) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
@@ -125,8 +100,7 @@ function createFixture(req, res, next) {
   } finally {
     res.status(200).json({
       error: _error,
-      message: message || 'Fixture created successfully!',
-      fixtureList: _fixtureList
+      message: message || 'Fixture created successfully!'
     });
   }
 }
@@ -228,7 +202,6 @@ function clearFixture(req, res, next) {
 }
 
 
-exports.getFixture = getFixture;
 exports.getFixtureBySearchIndex = getFixtureBySearchIndex;
 exports.createFixture = createFixture;
 exports.updateFixture = updateFixture;

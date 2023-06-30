@@ -23,14 +23,16 @@ import { TeamsService } from "../../services/admin-teams.service";
 import { FixtureModel } from "../../models/admin-fixture.model";
 import { FixtureService } from "../../services/admin-fixtures.service";
 
-import { FixtureSearchModel } from "../../models/admin-fixture-search.model";
+import { FixtureSearchModel } from "../../models/admin-fixture-search-index.model";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { fixtureFunctions } from "../../functions/fixture.function";
 
-import { matchStatusList } from "../../../assets/lists/match-status-list";
-import { townList } from "../../../assets/lists/town-list-izmir";
+import { matchStatusList } from "../../../assets/lists/match-status.list";
+import { townList } from "../../../assets/lists/town-izmir.list";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
+import { MatchModel } from "../../models/admin-match.model";
 
 @Component({
   selector: 'app-admin-score-board',
@@ -54,6 +56,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
   private teamListSub: Subscription;
   fixtureList: FixtureModel[] = [];
   private fixtureListSub: Subscription;
+  matchList: MatchModel[] = [];
   matchStatusList: Array<any> = matchStatusList;
   townList: Array<any> = townList;
 
@@ -71,6 +74,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
   @Input() startDatePickedValue: Date;
   @Input() endDatePickedValue: Date;
   @Input() townSelectionValue: string;
+  @Input() fixtureSearchIndex: FixtureSearchModel;
 
   tableColumnsFixture: string[] = [
                                     "matchNo",
@@ -88,9 +92,9 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     public teamsService: TeamsService,
     public fixtureService: FixtureService,
     public dialog: MatDialog,
-    private _datePipe: DatePipe,
     private _snackBar: MatSnackBar,
-    private globalFunctions: globalFunctions
+    private globalFunctions: globalFunctions,
+    private fixtureFunctions: fixtureFunctions
   ) { }
 
   ngOnInit(): void {
@@ -292,58 +296,43 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     this.fixtureList[matchIndex] = match;
   }
 
+
   onSearch() {
-    let fixtureSearchIndex = <FixtureSearchModel>{};
     let arr_fixtureSearchValues = [];
+    this.fixtureSearchIndex = this.fixtureFunctions.setFixtureSearchModel(
+      this.seasonSelectionId || null,
+      this.leagueSelectionId || null,
+      this.groupstageSelectionId || null,
+      this.matchWeekSelectionValue || null,
+      this.matchNoInputValue || null,
+      this.stadiumSelectionId || null,
+      this.homeTeamSelectionId || null,
+      this.awayTeamSelectionId || null,
+      this.matchStatusSelectionValue || null,
+      this.townSelectionValue || null,
+      this.startDatePickedValue || null,
+      this.endDatePickedValue || null
+    );
 
-    fixtureSearchIndex.seasonId = this.seasonSelectionId || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.seasonId);
-
-    fixtureSearchIndex.leagueId = this.leagueSelectionId || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.leagueId);
-
-    fixtureSearchIndex.groupstageId = this.groupstageSelectionId || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.groupstageId);
-
-    fixtureSearchIndex.matchWeek = this.matchWeekSelectionValue || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.matchWeek);
-
-    fixtureSearchIndex.matchNo = this.matchNoInputValue || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.matchNo);
-
-    fixtureSearchIndex.stadiumId = this.stadiumSelectionId || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.stadiumId);
-
-    fixtureSearchIndex.homeTeamId = this.homeTeamSelectionId || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.homeTeamId);
-
-    fixtureSearchIndex.awayTeamId = this.awayTeamSelectionId || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.awayTeamId);
-
-    fixtureSearchIndex.matchStatus = this.matchStatusSelectionValue || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.matchStatus);
-
-    fixtureSearchIndex.town = this.townSelectionValue || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.town);
-
-    fixtureSearchIndex.startDate = this.startDatePickedValue || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.startDate);
-
-    fixtureSearchIndex.endDate = this.endDatePickedValue || null;
-    arr_fixtureSearchValues.push(fixtureSearchIndex.endDate);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.seasonId);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.leagueId);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.groupstageId);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.matchWeek);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.matchNo);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.stadiumId);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.homeTeamId);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.awayTeamId);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.matchStatus);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.town);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.startDate);
+    arr_fixtureSearchValues.push(this.fixtureSearchIndex.endDate);
 
     let _filteredSearchKeys = arr_fixtureSearchValues.filter(v => v !== null);
     if (_filteredSearchKeys.length >= 2) {
-      this.fixtureService.getFixtureBySearchIndex(fixtureSearchIndex);
+      this.fixtureService.getFixtureBySearchIndex(this.fixtureSearchIndex);
     } else {
-      this._snackBar.open('En az iki arama anahtarı giriniz!', 'Tamam', {
-        horizontalPosition: "end",
-        verticalPosition: "top",
-        duration: 3000
-      });
+      this.globalFunctions.showSnackBar.next('En az iki arama anahtarı giriniz!');
     }
-
-
   }
 
   numbersOnly(event): boolean {
@@ -363,6 +352,11 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     return !!team ? team.officialName : null;;
   }
 
+  findTeamLogo(teamId: number): string {
+    let team : TeamsModel = this.teamList.find(team => team.id == teamId);
+    return !!team ? team.imagePath : null;;
+  }
+
   findMatchStatus(status: string): string {
     return this.matchStatusList.find(s => s.name == status).value;
   }
@@ -375,16 +369,16 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     return town ? townList.find(t => t.name == town).value : 'Seçiniz';
   }
 
-  getLocalDateForLongDate(_date: Date): string {
-    return this.globalFunctions.registerLocalDateForLongDate(_date);
-  }
+  getMatchDate(_date: Date): string {
+    const longDate = this.globalFunctions.registerLocalDateForLongDate(_date);
+    const shortTime = this.globalFunctions.registerLocalDateForShortTime(_date);
 
-  getLocalDateForShortTime(_date: Date): string {
-    return this.globalFunctions.registerLocalDateForShortTime(_date);
+    return longDate || shortTime ? (longDate + " " + shortTime) : null;
   }
 
   onSave() {
-    this.fixtureService.updateFixture(this.fixtureList);
+    this.matchList = this.fixtureFunctions.convertModelFixtureToMatch(this.fixtureList);
+    this.fixtureService.updateFixture(this.matchList, this.fixtureSearchIndex);
   }
 
   ngOnDestroy(): void {

@@ -22,5 +22,26 @@ function getAboutContent(req, res, next) {
   );
 }
 
+function getLogoPath(req, res, next) {
+  var logoPath = null;
+
+  connection.query(
+    "select imagepath from view_application_aboutiaskf",
+    (error, result) => {
+      if (!error) {
+        logoPath = result[0].imagePath;
+      } else {
+
+      }
+
+      res.status(200).json({
+        error: !!error,
+        logoPath: logoPath
+      })
+    }
+  )
+}
+
 
 exports.getAboutContent = getAboutContent;
+exports.getLogoPath = getLogoPath;

@@ -9,8 +9,8 @@
         <fa-icon
           [icon]="fontAwesomeIconList.faCircle"
           class="icon icon-circle"
-          [ngStyle]="{ color: news.isOnline ? 'green' : 'red' }"
-          matTooltip="{{ news.isOnline ? 'Yayında' : 'Yayında Değil' }}"
+          [ngStyle]="{ color: news.isVisible ? 'green' : 'red' }"
+          matTooltip="{{ news.isVisible ? 'Yayında' : 'Yayında Değil' }}"
         >
         </fa-icon>
         {{ news.title }}
@@ -24,7 +24,7 @@
           <mat-card-subtitle><b>Haber No:</b> {{ news.id }}</mat-card-subtitle>
           <mat-card-subtitle
             ><b>Yayında:</b>
-            {{ news.isOnline ? "Evet" : "Hayır" }}</mat-card-subtitle
+            {{ news.isVisible ? "Evet" : "Hayır" }}</mat-card-subtitle
           >
           <mat-card-subtitle
             ><b>Yayın Tarihi:</b>
@@ -44,14 +44,14 @@
 
         <mat-divider></mat-divider>
 
-        <mat-card-content class="container">
+        <mat-card-content class="image-preview">
           <p></p>
           <p [innerHTML]="news.content"></p>
           <img
-            mat-card-image
-            src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-            width="30%"
-            alt="Photo of a Shiba Inu"
+            *ngIf="news.imagePath"
+            mat-card-xl-image
+            [src]="news.imagePath"
+            [alt]="news.title"
           />
         </mat-card-content>
 

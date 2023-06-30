@@ -5,7 +5,7 @@ import { Subscription } from "rxjs";
 import { UserModel } from "../../models/admin-users.model";
 import { AuthService } from "../../authentication/auth.service";
 
-import { userAuthorityList } from "../../assets/lists/user-authority-list";
+import { userAuthorityList } from "../../assets/lists/user-authority.list";
 
 import { AdminUsersCreateModal } from "../users-create/users-create.component";
 

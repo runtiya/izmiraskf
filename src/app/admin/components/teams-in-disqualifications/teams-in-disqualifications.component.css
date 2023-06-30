@@ -1,0 +1,11 @@
+.mat-mdc-card-avatar {
+  margin-bottom: 0;
+}
+
+.team-status-expelorrecede {
+  background-color: tomato;
+}
+
+.mdc-data-table__header-cell, .mdc-data-table__cell {
+  text-align: start;
+}

@@ -1,10 +1,4 @@
-.button-fixture-clear,
-.button-fixture-create,
-.button-match-create,
-.button-import,
-.button-export {
-  margin-bottom: 1rem;
-}
+
 .button-import {
   background-color: green !important;
   color: white !important;
@@ -19,17 +13,12 @@
   margin-bottom: 1rem;
 }
 
-
 .icon-danger {
   color: red;
 }
 
 .icon-warning {
   color: orange;
-}
-
-.team-status-expelorrecede {
-  background-color: tomato;
 }
 
 .icon-match-status {
@@ -42,7 +31,7 @@
 }
 
 .match-status-played {
-  color: greenyellow;
+  color: green;
 }
 
 .match-status-postponed {
@@ -55,6 +44,10 @@
 
 .icon-circle-h {
   color: red;
+}
+
+.icon-warning {
+  color: orange;
 }
 
 .font-title-teamname {
@@ -74,6 +67,11 @@
   margin-bottom: 1rem;
 }
 
-.button-fixture-clear, .button-fixture-create, .button-match-create, .button-import, .button-export {
+.button {
   width: 100%;
+  margin-bottom: 1rem;
+}
+
+.image-teamlogo-fixturecreate {
+  margin-bottom: 0;
 }

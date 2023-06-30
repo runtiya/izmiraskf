@@ -1,4 +1,5 @@
 const connection = require('../../functions/database').connectDatabase();
+const imagesFunction = require('../../functions/images');
 
 function getTeams(req, res, next) {
   var teamList;
@@ -29,11 +30,20 @@ function findTeam(req, res, next) {
 
 
 function createTeam(req, res, next) {
-  const teamInfo = req.body;
+  const teamInfo = JSON.parse(req.body.teamInfo);
   var message;
   var teamId;
+
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const imagePath = imagesFunction.setImagePath(url, "/images/teams/", req.file.filename);
+    teamInfo.imagePath = imagePath;
+  } else {
+    teamInfo.imagePath = null;
+  }
+
   connection.query(
-    "insert into teams(createdat, createdby, updatedat, updatedby, tffclubcode, officialname, shortname, logoimage, city, town, address, longitude, latitude, phonenumber, faxnumber, stadiumid, presidentname, colorcodes, websiteurl, isaskfmember, isvisible) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "insert into teams(createdat, createdby, updatedat, updatedby, tffclubcode, officialname, shortname, imagepath, city, town, address, longitude, latitude, phonenumber, faxnumber, stadiumid, presidentname, colorcodes, websiteurl, isaskfmember, isvisible) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       teamInfo.createdAt,
       teamInfo.createdBy,
@@ -42,7 +52,7 @@ function createTeam(req, res, next) {
       teamInfo.TFFClubCode,
       teamInfo.officialName,
       teamInfo.shortName,
-      teamInfo.logoImage,
+      teamInfo.imagePath,
       teamInfo.city,
       teamInfo.town,
       teamInfo.address,
@@ -74,12 +84,22 @@ function createTeam(req, res, next) {
 
 
 function updateTeam(req, res, next) {
-  const teamInfo = req.body;
+  const teamInfo = JSON.parse(req.body.teamInfo);
   var message;
   var teamId = req.params.id;
 
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const imagePath = imagesFunction.setImagePath(url, "/images/teams/", req.file.filename);
+    teamInfo.imagePath = imagePath;
+  } else {
+    if (!teamInfo.imagePath) {
+      teamInfo.imagePath = null;
+    }
+  }
+
   connection.query(
-    "update teams set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, tffclubcode = ?, officialname = ?, shortname = ?, logoimage = ?, city = ?, town = ?, address = ?, longitude = ?, latitude = ?, phonenumber = ?, faxnumber = ?, stadiumid = ?, presidentname = ?, colorcodes = ?, websiteurl = ?, isaskfmember = ?, isvisible = ? where id = ?",
+    "update teams set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, tffclubcode = ?, officialname = ?, shortname = ?, imagepath = ?, city = ?, town = ?, address = ?, longitude = ?, latitude = ?, phonenumber = ?, faxnumber = ?, stadiumid = ?, presidentname = ?, colorcodes = ?, websiteurl = ?, isaskfmember = ?, isvisible = ? where id = ?",
     [
       teamInfo.createdAt,
       teamInfo.createdBy,
@@ -88,7 +108,7 @@ function updateTeam(req, res, next) {
       teamInfo.TFFClubCode,
       teamInfo.officialName,
       teamInfo.shortName,
-      teamInfo.logoImage,
+      teamInfo.imagePath,
       teamInfo.city,
       teamInfo.town,
       teamInfo.address,

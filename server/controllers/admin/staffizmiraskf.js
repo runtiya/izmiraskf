@@ -1,4 +1,5 @@
 const connection = require('../../functions/database').connectDatabase();
+const imagesFunction = require('../../functions/images');
 
 function getStaffList(req, res, next) {
   var staffList;
@@ -23,11 +24,20 @@ function getStaffList(req, res, next) {
 
 
 function createStaff(req, res, next) {
-  const staffInfo = req.body;
+  const staffInfo = JSON.parse(req.body.staffInfo);
   var message;
   var staffId;
+
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const imagePath = imagesFunction.setImagePath(url, "/images/staff/", req.file.filename);
+    staffInfo.imagePath = imagePath;
+  } else {
+    staffInfo.imagePath = null;
+  }
+
   connection.query(
-    "insert into staffiaskf(createdat, createdby, updatedat, updatedby, title, fullname, phone, email, profileimage, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "insert into staffiaskf(createdat, createdby, updatedat, updatedby, title, fullname, phone, email, imagepath, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       staffInfo.createdAt,
       staffInfo.createdBy,
@@ -37,7 +47,7 @@ function createStaff(req, res, next) {
       staffInfo.fullName,
       staffInfo.phone,
       staffInfo.email,
-      staffInfo.profileImage,
+      staffInfo.imagePath,
       staffInfo.isVisible,
       staffInfo.orderNo
     ],
@@ -57,10 +67,21 @@ function createStaff(req, res, next) {
 }
 
 function updateStaff(req, res, next) {
-  const staffInfo = req.body;
+  const staffInfo = JSON.parse(req.body.staffInfo);
   var message;
+
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const imagePath = imagesFunction.setImagePath(url, "/images/staff/", req.file.filename);
+    staffInfo.imagePath = imagePath;
+  } else {
+    if (!staffInfo.imagePath) {
+      staffInfo.imagePath = null;
+    }
+  }
+
   connection.query(
-    "update staffiaskf set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, fullname = ?, phone = ?, email = ?, profileimage = ?, isvisible = ?, orderno = ? where id = ?",
+    "update staffiaskf set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, fullname = ?, phone = ?, email = ?, imagepath = ?, isvisible = ?, orderno = ? where id = ?",
     [
       staffInfo.createdAt,
       staffInfo.createdBy,
@@ -70,7 +91,7 @@ function updateStaff(req, res, next) {
       staffInfo.fullName,
       staffInfo.phone,
       staffInfo.email,
-      staffInfo.profileImage,
+      staffInfo.imagePath,
       staffInfo.isVisible,
       staffInfo.orderNo,
       staffInfo.id

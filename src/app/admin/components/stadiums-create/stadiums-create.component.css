@@ -1,8 +1,24 @@
+mat-form-field {
+  width: 100%;
+}
+
+mat-action-row button {
+  margin-right: 1rem;
+}
+
 .mat-mdc-card {
   box-shadow: none;
 }
 
-button {
-  margin-right: 1rem;
+.btn-image-picker {
+  margin-right: 0.5rem;
+}
+
+.image-preview img {
+  margin: 0.5rem 0;
+}
+
+.image-preview img {
+  height: 100%;
 }
 

@@ -1,6 +1,6 @@
 import { AbstractControl } from "@angular/forms";
 import { Observable, Observer, of } from "rxjs";
-import { imageMimeTypeList } from "../assets/lists/image-mime-type-list";
+import { imageMimeTypeList } from "../../assets/lists/image-mime-type.list";
 
 export const imageUploadValidator = (control: AbstractControl): Promise<{[key: string]: any}> | Observable<{[key: string]: any}> => {
 

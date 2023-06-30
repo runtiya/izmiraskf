@@ -6,37 +6,38 @@ import { Data } from "@angular/router";
 import { Subscription } from "rxjs";
 
 import { TeamsService } from "../../services/admin-teams.service";
-import { StadiumsService } from "../../services/admin-stadiums.service";
-import { imageUploadValidator } from "../../validators/image-upload.validator";
-import { townList } from "../../../assets/lists/town-list-izmir";
-
 import { StadiumsModel } from "../../models/admin-stadiums.model";
+import { StadiumsService } from "../../services/admin-stadiums.service";
+
+import { imageUploadValidator } from "../../validators/image-upload.validator";
+import { townList } from "../../../assets/lists/town-izmir.list";
+import { globalFunctions } from "../../../functions/global.function";
+
 
 @Component({
   selector: 'app-admin-teams-create',
   templateUrl: './teams-create.component.html',
   styleUrls: ['../../../app.component.css', './teams-create.component.css']
 })
-
 export class AdminTeamsCreateModal implements OnInit {
   isLoading = false;
   pageMode: string = this.data.pageMode || 'create';
   teamInfo = this.data.teamInfo;
   teamSubmitForm: FormGroup;
-  imagePreview: string;
   townListArray = townList;
   stadiumsList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data,
-              public dialogRef: MatDialogRef<AdminTeamsCreateModal>,
-              public teamService: TeamsService,
-              public stadiumService: StadiumsService
-            ) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Data,
+    public dialogRef: MatDialogRef<AdminTeamsCreateModal>,
+    public teamService: TeamsService,
+    public stadiumService: StadiumsService,
+    private globalFunctions: globalFunctions
+  ) {}
 
   ngOnInit() {
-
     this.isLoading = true;
     this.stadiumService.getStadiums();
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
@@ -45,10 +46,15 @@ export class AdminTeamsCreateModal implements OnInit {
 
         this.teamSubmitForm = new FormGroup({
           id: new FormControl(this.pageMode == 'edit' ? this.teamInfo.id : null, {validators: []}),
+          createdAt: new FormControl(this.pageMode == 'edit' ? this.teamInfo.createdAt : null, {validators: []}),
+          createdBy: new FormControl(this.pageMode == 'edit' ? this.teamInfo.createdBy : null, {validators: []}),
+          updatedAt: new FormControl(this.pageMode == 'edit' ? this.teamInfo.updatedAt : null, {validators: []}),
+          updatedBy: new FormControl(this.pageMode == 'edit' ? this.teamInfo.updatedBy : null, {validators: []}),
           TFFClubCode: new FormControl(this.pageMode == 'edit' ? this.teamInfo.TFFClubCode : null, {validators: [Validators.maxLength(200)]}),
           officialName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.officialName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
           shortName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.shortName : null, {validators: [Validators.maxLength(200)]}),
-          logoImage: new FormControl(this.pageMode == 'edit' ? this.teamInfo.logoImage : null, {validators: [], asyncValidators: [imageUploadValidator]}),
+          imagePath: new FormControl(this.pageMode == 'edit' ? this.teamInfo.imagePath : null, {validators: []}),
+          imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
           city: new FormControl('IZMIR', {validators: [Validators.required, Validators.maxLength(200)]}),
           town: new FormControl(this.pageMode == 'edit' ? this.teamInfo.town : null, {validators: [Validators.required, Validators.maxLength(200)]}),
           address: new FormControl(this.pageMode == 'edit' ? this.teamInfo.address : null, {validators: [Validators.maxLength(2000)]}),
@@ -60,10 +66,9 @@ export class AdminTeamsCreateModal implements OnInit {
           presidentName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.presidentName : null, {validators: [Validators.maxLength(200)]}),
           colorCodes: new FormControl({value: this.pageMode == 'edit' ? this.teamInfo.colorCodes : '#FF0000;#FFFFFF', disabled: true},  {validators: [Validators.required]}),
           websiteURL: new FormControl(this.pageMode == 'edit' ? this.teamInfo.websiteURL : null, {validators: [Validators.maxLength(200)]}),
-          isASKFMember: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isMember : false, {validators: []}),
+          isASKFMember: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isASKFMember : false, {validators: []}),
           isVisible: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isVisible : true, {validators: []}),
         });
-
         this.isLoading = false;
       })
 
@@ -78,43 +83,24 @@ export class AdminTeamsCreateModal implements OnInit {
   }
 
   onFilePicked(event: Event) {
-
     try {
-
       const file = (event.target as HTMLInputElement).files[0];
-      this.teamSubmitForm.patchValue({logoImage: file, fileName: 'test'});
-      this.teamSubmitForm.get('logoImage').updateValueAndValidity();
+      this.teamSubmitForm.patchValue({imageAttachment: file});
+      this.teamSubmitForm.get('imageAttachment').updateValueAndValidity();
       const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
+      reader.onloadend = () => {
+        let _imagePath = this.teamSubmitForm.get('imageAttachment').valid ? reader.result as string : null;
+        this.teamSubmitForm.get('imagePath').setValue(_imagePath);
       };
       reader.readAsDataURL(file);
     } catch (error) {
 
     }
-
   }
 
-  onSubmitForm() {
-
-    if (this.teamSubmitForm.valid) {
-      this.isLoading = true;
-      this.teamSubmitForm.get('colorCodes').enable();
-      if (this.pageMode === "create") {
-        this.teamService.createTeam(this.teamSubmitForm.value);
-      }
-      else {
-        this.teamService.updateTeam(this.teamSubmitForm.value);
-      }
-      this.teamSubmitForm.get('colorCodes').disable();
-      this.isLoading = false;
-
-      this.dialogRef.close();
-    }
-    else {
-      return null;
-    }
-
+  filePickerRemove() {
+    this.teamSubmitForm.get('imageAttachment').setValue(null);
+    this.teamSubmitForm.get('imagePath').setValue(null);
   }
 
   onOfficialNameChange(event: any) {
@@ -128,6 +114,30 @@ export class AdminTeamsCreateModal implements OnInit {
     const colorCodes = color0 + ';' + color1;
     this.teamSubmitForm.get('colorCodes').setValue(colorCodes);
     this.teamSubmitForm.get('colorCodes').disable();
+  }
+
+  onSubmitForm() {
+
+    if (this.teamSubmitForm.valid) {
+      this.isLoading = true;
+      this.teamSubmitForm.get('colorCodes').enable();
+      if (this.pageMode === "create") {
+        this.teamSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
+        this.teamService.createTeam(this.teamSubmitForm.value);
+      }
+      else {
+        this.teamSubmitForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
+        this.teamService.updateTeam(this.teamSubmitForm.value);
+      }
+      this.teamSubmitForm.get('colorCodes').disable();
+      this.isLoading = false;
+
+      this.dialogRef.close();
+    }
+    else {
+      return null;
+    }
+
   }
 
 }

@@ -1,176 +1,134 @@
+const connection = require('../../functions/database').connectDatabase();
+const filesFunction = require('../../functions/files');
+
 function getDocuments(req, res, next) {
-  const documentType = req.params.type;
-  const documents = [
-    {
-      id: 1,
-      docName: 'File #1',
-      content: null,
-      mimeType: 'pdf',
-      category: 'AMATORLIGSTATULERI',
-      orderNo: 1
-    },
-    {
-      id: 2,
-      docName: 'File #2',
-      content: null,
-      mimeType: 'pdf',
-      category: 'AMATORLIGSTATULERI',
-      orderNo: 2
-    },
-    {
-      id: 3,
-      docName: 'File #3',
-      content: null,
-      mimeType: 'docx',
-      category: 'AMATORLIGSTATULERI',
-      orderNo: 3
-    },
-    {
-      id: 4,
-      docName: 'File #4',
-      content: null,
-      mimeType: 'xlsx',
-      category: 'AMATORLIGSTATULERI',
-      orderNo: 4
-    },
-    {
-      id: 5,
-      docName: 'File #5',
-      content: null,
-      mimeType: 'pdf',
-      category: 'AMATORLIGSTATULERI',
-      orderNo: 5
-    },
-    {
-      id: 6,
-      docName: 'File #6',
-      content: null,
-      mimeType: 'pdf',
-      category: 'AMATORLIGSTATULERI',
-      orderNo: 6
-    },
-    {
-      id: 7,
-      docName: 'File #1',
-      content: null,
-      mimeType: 'pdf',
-      category: 'TALIMATLAR',
-      orderNo: 1
-    },
-    {
-      id: 8,
-      docName: 'File #2',
-      content: null,
-      mimeType: 'pdf',
-      category: 'TALIMATLAR',
-      orderNo: 2
-    },
-    {
-      id: 9,
-      docName: 'File #3',
-      content: null,
-      mimeType: 'docx',
-      category: 'TALIMATLAR',
-      orderNo: 3
-    },
-    {
-      id: 10,
-      docName: 'File #4',
-      content: null,
-      mimeType: 'xlsx',
-      category: 'TALIMATLAR',
-      orderNo: 4
-    },
-    {
-      id: 11,
-      docName: 'File #1',
-      content: null,
-      mimeType: 'pdf',
-      category: 'LISANSFORMLARI',
-      orderNo: 1
-    },
-    {
-      id: 12,
-      docName: 'File #2',
-      content: null,
-      mimeType: 'docx',
-      category: 'LISANSFORMLARI',
-      orderNo: 2
-    },
-    {
-      id: 13,
-      docName: 'File #3',
-      content: null,
-      mimeType: 'docx',
-      category: 'LISANSFORMLARI',
-      orderNo: 3
-    },
-    {
-      id: 14,
-      docName: 'File #4',
-      content: null,
-      mimeType: 'pdf',
-      category: 'LISANSFORMLARI',
-      orderNo: 4
-    },
-    {
-      id: 15,
-      docName: 'File #5',
-      content: null,
-      mimeType: 'pdf',
-      category: 'LISANSFORMLARI',
-      orderNo: 5
-    },
-    {
-      id: 16,
-      docName: 'File #1',
-      content: null,
-      mimeType: 'pdf',
-      category: 'BELGELER',
-      orderNo: 1
-    },
-    {
-      id: 17,
-      docName: 'File #2',
-      content: null,
-      mimeType: 'pdf',
-      category: 'BELGELER',
-      orderNo: 2
-    },
-    {
-      id: 18,
-      docName: 'File #3',
-      content: null,
-      mimeType: 'pdf',
-      category: 'BELGELER',
-      orderNo: 3
-    },
-  ];
-  const filteredDocs = documents.filter(doc => doc.category == documentType);
-  res.status(200).json({
-    error: false,
-    message: 'Documents fetched successfully!',
-    documents: filteredDocs
-  });
+  const category = req.params.category;
+  var documentsList;
+  var message;
+
+  connection.query(
+    "select * from view_admin_documents where category = ?",
+    [category],
+    (error, result) => {
+      if (!error) {
+        documentsList = result;
+      } else {
+        message = error.sqlMessage;
+        documentsList = [];
+      }
+
+      res.status(200).json({
+        error: false,
+        message: message || 'Documents fetched successfully!',
+        documentsList: documentsList
+      });
+    }
+  );
 }
 
 function createDocument(req, res, next) {
-  const document = req.body;
+  const documentInfo = JSON.parse(req.body.documentInfo);
+  const category = req.params.category;
+  var documentId;
+  var message;
 
-  res.status(200).json({
-    error: false,
-    message: 'Document added successfully!',
-    documentId: null
-  });
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const filePath = filesFunction.setFilePath(url, category, req.file.filename);
+    documentInfo.filePath = filePath;
+    documentInfo.fileName = req.file.filename;
+    documentInfo.fileMimeType = req.file.mimetype;
+    documentInfo.fileSize = req.file.size;
+
+  } else {
+    documentInfo.filePath = null;
+    documentInfo.fileName = null;
+    documentInfo.fileMimeType = null;
+    documentInfo.fileSize = null;
+  }
+
+  connection.query(
+    "insert into documents(createdat, createdby, updatedat, updatedby, documentname, filename, filemimetype, filesize, filepath, category, orderno) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      documentInfo.createdAt,
+      documentInfo.createdBy,
+      documentInfo.updatedAt,
+      documentInfo.updatedBy,
+      documentInfo.documentName,
+      documentInfo.fileName,
+      documentInfo.fileMimeType,
+      documentInfo.fileSize,
+      documentInfo.filePath,
+      category || documentInfo.category,
+      documentInfo.orderNo
+    ],
+    (error, result) => {
+      if (!error) {
+        documentId = result.insertId;
+      } else {
+        message = error.sqlMessage;
+      }
+
+      res.status(200).json({
+        error: false,
+        message: message || 'Document added successfully!',
+        documentId: documentId
+      });
+    }
+  )
 }
 
 function updateDocument(req, res, next) {
-  const document = req.body;
 
-  res.status(200).json({
-    error: false,
-    message: 'Document updated successfully!'
-  });
+  const documentInfo = JSON.parse(req.body.documentInfo);
+  const category = req.params.category;
+  const documentId = req.params.id;
+  var message;
+
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const filePath = filesFunction.setFilePath(url, category, req.file.filename);
+    documentInfo.filePath = filePath;
+    documentInfo.fileName = req.file.filename;
+    documentInfo.fileMimeType = req.file.mimetype;
+    documentInfo.fileSize = req.file.size;
+  } else {
+    if (!documentInfo.filePath) {
+      documentInfo.filePath = null;
+      documentInfo.fileName = null;
+      documentInfo.fileMimeType = null;
+      documentInfo.fileSize = null;
+    }
+  }
+
+  connection.query(
+    "update documents set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, documentname = ?, filename = ?, filemimetype = ?, filesize = ?, filepath = ?, category = ?, orderno = ? where id = ?",
+    [
+      documentInfo.createdAt,
+      documentInfo.createdBy,
+      documentInfo.updatedAt,
+      documentInfo.updatedBy,
+      documentInfo.documentName,
+      documentInfo.fileName,
+      documentInfo.fileMimeType,
+      documentInfo.fileSize,
+      documentInfo.filePath,
+      category || documentInfo.category,
+      documentInfo.orderNo,
+      documentId || documentInfo.id
+    ],
+    (error, result) => {
+      if (!error) {
+      } else {
+        message = error.sqlMessage;
+      }
+
+      res.status(200).json({
+        error: false,
+        message: message || 'Document updated successfully!',
+      });
+    }
+  )
 }
 
 function deleteDocument(req, res, next) {

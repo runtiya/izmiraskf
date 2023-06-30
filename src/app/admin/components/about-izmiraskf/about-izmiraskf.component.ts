@@ -6,6 +6,7 @@ import { AboutIASKFModel } from "../../models/admin-aboutizmiraskf.model";
 import { AboutIASKFService } from "../../services/admin-aboutiaskf.service";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { imageUploadValidator } from "../../validators/image-upload.validator";
 
 @Component({
   selector: 'app-admin-izmiraskf',
@@ -37,6 +38,10 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
     this.aboutcontentSubscription = this.aboutiaskfService.getAboutContentListener()
       .subscribe((data: AboutIASKFModel) => {
         this.aboutIASKFform = new FormGroup({
+          updatedAt: new FormControl(data.updatedAt, {validators: []}),
+          updatedBy: new FormControl(data.updatedBy, {validators: []}),
+          imagePath: new FormControl(data.imagePath, {validators: []}),
+          imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
           aboutText: new FormControl(data.aboutText, {validators: [Validators.maxLength(4000)]}),
           address: new FormControl(data.address, {validators: [Validators.maxLength(2000)]}),
           phoneNumber: new FormControl(data.phoneNumber, {validators: [Validators.maxLength(100)]}),
@@ -62,8 +67,34 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
     }
   }
 
+  onFilePicked(event: Event) {
+    try {
+      const file = (event.target as HTMLInputElement).files[0];
+      this.aboutIASKFform.patchValue({imageAttachment: file});
+      this.aboutIASKFform.get('imageAttachment').updateValueAndValidity();
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        let _imagePath = this.aboutIASKFform.get('imageAttachment').valid ? reader.result as string : null;
+        this.aboutIASKFform.get('imagePath').setValue(_imagePath);
+      };
+      reader.onload = () => {
+        this.aboutIASKFform.get('imagePath').setValue(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+
+    }
+
+  }
+
+  filePickerRemove() {
+    this.aboutIASKFform.get('imageAttachment').setValue(null);
+    this.aboutIASKFform.get('imagePath').setValue(null);
+  }
+
   onUpdateAboutText() {
     if (this.aboutIASKFform.valid) {
+      this.aboutIASKFform.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
       this.aboutiaskfService.updateAboutContent(this.aboutIASKFform.value);
     }
     else {

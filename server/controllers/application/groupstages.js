@@ -63,10 +63,10 @@ function getPlayedLastMatchWeek(req, res, next) {
     [groupstageId],
     (error, result) => {
       if (!error) {
-        matchWeek = result[0].matchWeek;
+        matchWeek = result[0].matchWeek || 1;
       } else {
         message = error.sqlMessage;
-        matchWeek = null;
+        matchWeek = 1;
       }
 
       res.status(200).json({

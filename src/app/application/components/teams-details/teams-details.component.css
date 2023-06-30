@@ -1,3 +1,7 @@
 .mat-mdc-card {
   box-shadow: none;
 }
+
+img {
+  height: 100%;
+}

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from "@angu
 import { Subscription } from "rxjs";
 
 import { AuthService } from "../../authentication/auth.service";
+import { GlobalIzmirASKFService } from "../../../services/global-izmiraskf.service";
 import { UserModel } from "../../models/admin-users.model";
 
 @Component({
@@ -13,17 +14,35 @@ export class AdminHeader implements OnInit, OnDestroy {
 
   authenticatedUser: UserModel = <UserModel>{};
   private authenticatedUserSub: Subscription;
+  logoPath: string = null;
+  private logoPathSubscription: Subscription;
   @Output() public sidenavToggle = new EventEmitter();
 
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private globalIzmirASKFService: GlobalIzmirASKFService
   ){}
 
   ngOnInit(): void {
     this.authenticatedUserSub = this.authService.getAuthenticatedUserListener()
-      .subscribe((data: UserModel) => {
-        this.authenticatedUser = data;
+      .subscribe({
+        next: (data: UserModel) => {
+          this.authenticatedUser = data;
+        },
+        error: (error) => {
+
+        }
+      });
+
+    this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
+      .subscribe({
+        next: (data: string) => {
+          this.logoPath = data;
+        },
+        error: (error) => {
+
+        }
       });
   }
 

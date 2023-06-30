@@ -43,6 +43,7 @@ export class DisciplinaryBoardDecisionsService {
     return this.disciplinaryBoardDecisionListSub.asObservable();
   }
 
+
   createDisciplinaryBoardDecision(disciplinaryBoardDecisionInfo: DisciplinaryBoardDecisionModel) {
     try {
       this.http
@@ -67,6 +68,7 @@ export class DisciplinaryBoardDecisionsService {
 
     }
   }
+
 
   updateDisciplinaryBoardDecision(disciplinaryBoardDecisionInfo: DisciplinaryBoardDecisionModel) {
     try {

@@ -1,0 +1,22 @@
+.mat-mdc-card {
+  box-shadow: none;
+}
+
+.card-externallink{
+  padding: 0.5rem 0;
+}
+
+.card-externallink:hover {
+  transition: 200ms ease-in;
+  background-color: rgba(63, 81, 181, 0.75);
+}
+
+
+a {
+  text-decoration: none;
+}
+
+.mat-mdc-card-avatar {
+  margin-bottom: 0;
+}
+

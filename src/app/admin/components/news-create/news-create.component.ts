@@ -10,7 +10,6 @@ import { NewsService } from "../../services/admin-news.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 
 import { globalFunctions } from "../../../functions/global.function";
-
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
@@ -22,7 +21,6 @@ export class AdminNewsCreate implements OnInit, OnDestroy {
   toolbarTitle = "HABER OLUŞTUR";
   isLoading = false;
   newsCreateForm: FormGroup;
-  imagePreview: string;
 
   newsContent = '';
 
@@ -89,8 +87,9 @@ export class AdminNewsCreate implements OnInit, OnDestroy {
       updatedBy: new FormControl(null, {validators: []}),
       title: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)]}),
       content: new FormControl(this.newsContent, {validators: [Validators.required, Validators.maxLength(65535)]}),
-      newsImage: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
-      isOnline: new FormControl(true, {validators: [Validators.required]})
+      imagePath: new FormControl(null, {validators: []}),
+      imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
+      isVisible: new FormControl(true, {validators: [Validators.required]})
     });
 
   }
@@ -98,30 +97,35 @@ export class AdminNewsCreate implements OnInit, OnDestroy {
   onFilePicked(event: Event) {
     try {
       const file = (event.target as HTMLInputElement).files[0];
-      this.newsCreateForm.patchValue({newsImage: file});
-      this.newsCreateForm.get('newsImage').updateValueAndValidity();
+      this.newsCreateForm.patchValue({imageAttachment: file});
+      this.newsCreateForm.get('imageAttachment').updateValueAndValidity();
       const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
+      reader.onloadend = () => {
+        let _imagePath = this.newsCreateForm.get('imageAttachment').valid ? reader.result as string : null;
+        this.newsCreateForm.get('imagePath').setValue(_imagePath);
       };
       reader.readAsDataURL(file);
     } catch (error) {
 
     }
+  }
 
+  filePickerRemove() {
+    this.newsCreateForm.get('imageAttachment').setValue(null);
+    this.newsCreateForm.get('imagePath').setValue(null);
   }
 
   onClearNewsForm() {
     this.newsCreateForm.reset();
-    this.imagePreview = null;
+    this.newsCreateForm.get('imageAttachment').setValue(null);
+    this.newsCreateForm.get('imagePath').setValue(null);
   }
 
   onAddNews() {
 
     if (this.newsCreateForm.valid) {
       this.isLoading = true;
-      let createdAt = this._datePipe.transform((new Date), 'yyyy-MM-ddTHH:mm');
-      this.newsCreateForm.get('createdAt').setValue(createdAt);
+      this.newsCreateForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
       this.newsService.addNews(this.newsCreateForm.value);
       this.isLoading = false;
 

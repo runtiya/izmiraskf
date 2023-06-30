@@ -14,7 +14,7 @@ import { globalFunctions } from "../../../functions/global.function";
   templateUrl: './seasons-list.component.html',
   styleUrls: ['../../../app.component.css', './seasons-list.component.css']
 })
-export class AdminSeasonsList {
+export class AdminSeasonsList implements OnInit, OnDestroy {
   toolbarTitle = "SEZONLAR";
   isLoading = false;
   seasonsList: SeasonsModel[] = [];

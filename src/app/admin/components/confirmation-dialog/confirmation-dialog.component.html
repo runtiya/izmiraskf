@@ -1,0 +1,39 @@
+<div>
+  <mat-dialog-content class="mat-typography">
+    <mat-card>
+      <mat-dialog-actions align="end">
+        <button mat-icon-button mat-dialog-close class="icon">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-dialog-actions>
+
+      <mat-card-header>
+        <mat-card-title>{{confirmationTitle}}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-card-subtitle>{{confirmationMessage}}</mat-card-subtitle>
+      </mat-card-content>
+
+      <mat-action-row>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="dialogRef.close(true)"
+        >
+          Evet
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          (click)="dialogRef.close(false)"
+        >
+          Hayır
+        </button>
+      </mat-action-row>
+
+    </mat-card>
+  </mat-dialog-content>
+</div>

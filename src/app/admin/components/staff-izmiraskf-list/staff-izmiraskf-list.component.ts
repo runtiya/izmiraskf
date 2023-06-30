@@ -7,7 +7,7 @@ import { StaffIASKFService } from "../../services/admin-staffiaskf.service";
 import { AdminCreateStaffIzmirAskfModal } from "../staff-izmiraskf-create/staff-izmiraskf-create.component";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-admin-staffizmiraskf-list',

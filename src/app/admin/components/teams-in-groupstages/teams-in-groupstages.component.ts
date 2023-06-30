@@ -14,9 +14,10 @@ import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages
 import { GroupStagesService } from "../../services/admin-groupstages.service";
 import { LeaguesService } from "../../services/admin-leagues.service";
 import { SeasonsService } from "../../services/admin-seasons.service";
+import { TeamsService } from "../../services/admin-teams.service";
 import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupstages.service";
 
-import { townList } from "../../../assets/lists/town-list-izmir";
+import { townList } from "../../../assets/lists/town-izmir.list";
 
 import { globalFunctions } from "../../../functions/global.function";
 
@@ -49,13 +50,14 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
 
   townList = townList;
 
-  constructor(public seasonsService: SeasonsService,
-              public leaguesService: LeaguesService,
-              public groupstagesService: GroupStagesService,
-              public teamsingroupstagesService: TeamsInGroupstagesService,
-              private _snackBar: MatSnackBar,
-              private globalFunctions: globalFunctions
-            ) {}
+  constructor(
+    private seasonsService: SeasonsService,
+    private leaguesService: LeaguesService,
+    private groupstagesService: GroupStagesService,
+    private teamsService: TeamsService,
+    private teamsingroupstagesService: TeamsInGroupstagesService,
+    private globalFunctions: globalFunctions
+  ) {}
 
   ngOnInit(): void {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
@@ -93,6 +95,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
     this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
       .subscribe((data: GroupStagesModel[]) => {
         this.isLoading = true;
+        this.teamsingroupstagesList = []
         if (data.length > 0) {
           this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
           this.groupstageSelectionId = this.groupstageList[0]["id"];
@@ -112,20 +115,19 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
         if (data.length > 0) {
           this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
         } else {
-          this.teamsingroupstagesList = []
+          this.teamsingroupstagesList = [];
         }
         this.isLoading = false;
       });
 
-    this.teamsingroupstagesService.getTeams();
-    this.teamsListSub = this.teamsingroupstagesService.getTeamsUpdateListener()
+    this.teamsService.getTeams();
+    this.teamsListSub = this.teamsService.getTeamListSubListener()
       .subscribe((data: TeamsModel[]) => {
         this.isLoading = true;
         this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
         this.filteredTeamsList = this.teamsList;
         this.isLoading = false;
       });
-
 
     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith(''),

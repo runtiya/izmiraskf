@@ -3,7 +3,7 @@ const multer = require('multer');
 
 const disciplinaryBoardFileController = require('../../controllers/application/disciplinaryboardfiles');
 
-const extractTeamLogo = require('../../middlewares/extract-team-logo');
+const extractImage = require('../../middlewares/extract-image');
 
 const router = express.Router();
 

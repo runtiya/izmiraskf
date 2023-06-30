@@ -31,6 +31,7 @@ function createUser(req, res, next) {
   const userInfo = req.body;
   const _password = userInfo.userPassword;
   var message;
+  var userId;
 
   try {
     bcrypt.hash(_password, 10)
@@ -54,7 +55,8 @@ function createUser(req, res, next) {
           ],
           (error, result) => {
             if (!error) {
-
+              userId = result.insertId;
+              userInfo.id = userId;
             } else {
               message = error.sqlMessage;
             }
@@ -75,6 +77,72 @@ function createUser(req, res, next) {
       user: userInfo
     });
   }
+}
+
+function updateUser(req, res, next) {
+  const userInfo = req.body;
+  const userId = req.params.id;
+  var _error = false;
+  var message;
+  var _user;
+
+  connection.query(
+    "select * from view_admin_users where id = ?",
+    [
+      userInfo.id
+    ],
+    async (error, result) => {
+      if (!error) {
+        _user = result[0] || null;
+        if (_user) {
+          let isValidCredential = await bcrypt.compare(userInfo.userPassword, _user.userPassword);
+          if (isValidCredential) {
+            connection.query(
+              "update users set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, fullname = ?, profilephoto = ?, usertype = ?, isactive = ? where id = ?",
+              [
+                userInfo.createdAt,
+                userInfo.createdBy,
+                userInfo.updatedAt,
+                userInfo.updatedBy,
+                userInfo.fullName,
+                userInfo.profilePhoto,
+                userInfo.userType,
+                userInfo.isActive,
+                userInfo.id
+              ],
+              (error, result) => {
+                if (!error) {
+
+                } else {
+                  message = error.sqlMessage;
+                }
+              }
+            )
+          } else {
+            //Wrong Password
+            _error = true;
+            message = 'User Authentication failed!',
+            snackBarMessage = 'Hatalı Şifre girdiniz!'
+          }
+        } else {
+          // Wrong Username - not possible in this case
+          _error = true;
+          message = 'User Authentication failed!',
+          snackBarMessage = 'Hatalı Kullanıcı Adı girdiniz!'
+        }
+      } else {
+        // System error
+        _error = true;
+        message = error.sqlMessage;
+      }
+
+      res.status(200).json({
+        error: _error,
+        message: message || 'Authentication confirmed successfully!',
+        snackBarMessage: snackBarMessage
+      });
+    }
+  );
 }
 
 function userLogin(req, res, next) {
@@ -156,5 +224,6 @@ function deleteUser(req, res, next) {
 
 exports.getUsers = getUsers;
 exports.createUser = createUser;
+exports.updateUser = updateUser;
 exports.userLogin = userLogin;
 exports.deleteUser = deleteUser;

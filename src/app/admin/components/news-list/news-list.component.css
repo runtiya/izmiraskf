@@ -1,5 +1,11 @@
-
+.div-news-list {
+  margin-bottom: 1rem;
+}
 
 .icon-circle {
   margin-right: 0.25rem;
+}
+
+.image-preview img {
+  height: 100%;
 }

@@ -1,0 +1,36 @@
+<div>
+  <div class="row">
+    <div
+      class="col-lg-6 col-md-6 col-sm-12"
+      *ngFor="let document of documentsList"
+    >
+      <mat-card>
+        <mat-card-content
+          class="card-document-list"
+          (click)="onDownload(document.filePath, document.fileName)"
+        >
+          <mat-card-title>{{document.documentName}}</mat-card-title>
+          <mat-card-subtitle>
+            <fa-icon
+              [icon]="findMimeTypeIcon(document.fileMimeType)"
+              class="icon icon-attachment"
+              matTooltip="{{findMimeType(document.fileMimeType)}}"
+            >
+            </fa-icon>
+            {{document.fileName}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>{{getFileSize(document.fileSize)}}</mat-card-subtitle>
+        </mat-card-content>
+        <mat-action-row>
+          <button
+            mat-button
+            color="primary"
+            (click)="onDownload(document.filePath, document.fileName)"
+          >
+            İndir
+          </button>
+        </mat-action-row>
+      </mat-card>
+    </div>
+  </div>
+</div>

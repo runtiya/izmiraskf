@@ -31,6 +31,7 @@ export class PointBoardService {
                 _matchWeek = data.matchWeek;
                 this.getCurrentPointBoard(_groupstageId, _matchWeek)
                   .subscribe((data) => {
+
                     if (!data.error) {
                       this.pointBoardList = data.pointBoard;
                       this.pointBoardListSub.next([...this.pointBoardList]);
@@ -67,7 +68,6 @@ export class PointBoardService {
           });
       }
     } catch (error) {
-
       this.globalFunctions.showSpinner.next(false);
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
     }

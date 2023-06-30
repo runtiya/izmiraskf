@@ -4,8 +4,8 @@
       <div class="d-flex align-items-center">
         <img
           mat-card-md-image
-          src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-          alt=""
+          [src]="news.imagePath"
+          [alt]="news.title"
         />
         <div>
           <mat-card-title>{{ news.title }}</mat-card-title>

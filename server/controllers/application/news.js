@@ -17,7 +17,7 @@ function getNews(req, res, next) {
       res.status(200).json({
         error: !!error,
         message: message || 'News fetched successfully!',
-        news: newsList
+        newsList: newsList
       });
     });
 }
@@ -48,5 +48,28 @@ function getNewsById(req, res, next) {
   );
 }
 
+function getNewsForSlider(req, res, next) {
+  var newsList;
+  var message;
+
+  connection.query(
+    "select * from view_application_newsforslider",
+    (error, result) => {
+      if (!error) {
+        newsList = result;
+      } else {
+        message = error.sqlMessage;
+        newsList = [];
+      }
+
+      res.status(200).json({
+        error: !!error,
+        message: message || 'News fetched successfully!',
+        newsList: newsList
+      });
+    });
+}
+
 exports.getNews = getNews;
 exports.getNewsById = getNewsById;
+exports.getNewsForSlider = getNewsForSlider;

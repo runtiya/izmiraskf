@@ -7,7 +7,7 @@ import { Data } from "@angular/router";
 import { ExternalLinksModel } from "../../models/admin-externallinks.model";
 import { ExternalLinksService } from "../../services/admin-externallinks.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-import { faBrandList } from "../../../assets/lists/font-awesome-brand-list";
+import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
 
 
 @Component({
@@ -37,7 +37,8 @@ export class AdminExternalLinksCreateModal implements OnInit {
       linkName: new FormControl(this.pageMode == 'edit' ? this.linkInfo.linkName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       url: new FormControl(this.pageMode == 'edit' ? this.linkInfo.url : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       linkType: new FormControl(this.pageMode == 'edit' ? this.linkInfo.linkType : this.linkType, {validators: []}),
-      iconImage: new FormControl(this.pageMode == 'edit' ? this.linkInfo.iconImage : null, {validators: [], asyncValidators: [imageUploadValidator]}),
+      imagePath: new FormControl(this.pageMode == 'edit' ? this.linkInfo.imagePath : null, {validators: []}),
+      imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
       faBrand: new FormControl(this.pageMode == 'edit' ? this.linkInfo.faBrand : null, {validators: [this.linkType == "SOCIALMEDIA" ? Validators.required : Validators.maxLength(1)]}),
       orderNo: new FormControl(this.pageMode == 'edit' ? this.linkInfo.orderNo : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]}),
       isActive: new FormControl(this.pageMode == 'edit' ? !!this.linkInfo.isActive : true, {validators: [Validators.required, Validators.maxLength(3)]}),
@@ -46,18 +47,23 @@ export class AdminExternalLinksCreateModal implements OnInit {
 
   onFilePicked(event: Event) {
     try {
-
       const file = (event.target as HTMLInputElement).files[0];
-      this.extLinkSubmitForm.patchValue({iconImage: file});
-      this.extLinkSubmitForm.get('iconImage').updateValueAndValidity();
+      this.extLinkSubmitForm.patchValue({imageAttachment: file});
+      this.extLinkSubmitForm.get('imageAttachment').updateValueAndValidity();
       const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
+      reader.onloadend = () => {
+        let _imagePath = this.extLinkSubmitForm.get('imageAttachment').valid ? reader.result as string : null;
+        this.extLinkSubmitForm.get('imagePath').setValue(_imagePath);
       };
       reader.readAsDataURL(file);
     } catch (error) {
 
     }
+  }
+
+  filePickerRemove() {
+    this.extLinkSubmitForm.get('imageAttachment').setValue(null);
+    this.extLinkSubmitForm.get('imagePath').setValue(null);
   }
 
   onSubmitForm() {

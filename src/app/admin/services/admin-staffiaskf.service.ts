@@ -46,53 +46,69 @@ export class StaffIASKFService {
   }
 
   createStaff(staffInfo: StaffIzmirAskfModel) {
+    try {
+      const formData = new FormData();
+      formData.append('image', staffInfo.imageAttachment);
+      formData.append('staffInfo', JSON.stringify(staffInfo));
 
-    this.http
-      .post<{error: boolean, message: string, staffId: number}>(
-        'http://localhost:3000/admin/izmiraskf/yonetim-kurulu', staffInfo
-      )
-      .subscribe({
-        next: (data) => {
-          if (!data.error) {
-            staffInfo.id = data.staffId;
-            this.staffList.push(staffInfo);
-            this.staffListUpdated.next([...this.staffList]);
-          } else {
-            null;
+      this.http
+        .post<{error: boolean, message: string, staffId: number}>(
+          'http://localhost:3000/admin/izmiraskf/yonetim-kurulu', formData
+        )
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              staffInfo.id = data.staffId;
+              this.staffList.push(staffInfo);
+              this.staffListUpdated.next([...this.staffList]);
+            } else {
+              null;
+            }
+          },
+          error: (error) => {
+
           }
-        },
-        error: (error) => {
+        });
+    } catch (error) {
 
-        }
-      });
+    }
+
   }
 
-
   updateStaff(staffInfo: StaffIzmirAskfModel) {
-    this.http
-      .put<{error: boolean, message: string}>(
-        'http://localhost:3000/admin/izmiraskf/yonetim-kurulu/' + staffInfo.id, staffInfo
-      )
-      .subscribe({
-        next: (data) => {
-          if (!data.error) {
-            // Replace updated object with the old one
-            this.staffList.forEach((item, i) => {
-              if (item.id == staffInfo.id) {
-                this.staffList[i] = staffInfo;
-              }
-            });
+    try {
+      const formData = new FormData();
+      formData.append('image', staffInfo.imageAttachment);
+      formData.append('staffInfo', JSON.stringify(staffInfo));
 
-            this.staffListUpdated.next([...this.staffList]);
-          }
-          else {
-            null;
-          }
-        },
-        error: (error) => {
+      this.http
+        .put<{error: boolean, message: string}>(
+          'http://localhost:3000/admin/izmiraskf/yonetim-kurulu/' + staffInfo.id, formData
+        )
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              // Replace updated object with the old one
+              this.staffList.forEach((item, i) => {
+                if (item.id == staffInfo.id) {
+                  this.staffList[i] = staffInfo;
+                }
+              });
 
-        }
-      });
+              this.staffListUpdated.next([...this.staffList]);
+            }
+            else {
+              null;
+            }
+          },
+          error: (error) => {
+
+          }
+        });
+    } catch (error) {
+
+    }
+
   }
 
   deleteStaff(staffId: number) {

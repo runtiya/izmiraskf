@@ -17,20 +17,7 @@
         <mat-card>
           <mat-card-header>
             <mat-card-title-group>
-              <!-- Logo Does NOT Exist -->
-              <img
-                *ngIf="!team.logo"
-                mat-card-avatar
-                src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                alt="{{ team.shortName || team.officialName }}"
-              />
-              <!-- Logo Exists -->
-              <img
-                *ngIf="team.logo"
-                mat-card-avatar
-                src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                alt="{{ team.shortName || team.officialName }}"
-              />
+              <img mat-card-avatar [src]="team.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{team.officialName}}">
               <mat-card-title>{{
                 team.shortName || team.officialName
               }}

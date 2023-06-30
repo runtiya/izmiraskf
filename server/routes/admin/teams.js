@@ -4,7 +4,7 @@ const fs = require('fs');
 const teamsController = require('../../controllers/admin/teams');
 
 const checkAuth = require('../../middlewares/check-auth');
-const extractTeamLogo = require('../../middlewares/extract-team-logo');
+const extractImage = require('../../middlewares/extract-image');
 
 const router = express.Router();
 
@@ -24,9 +24,9 @@ router.get("", checkAuth, teamsController.getTeams);
 
 router.get("/:id", checkAuth, teamsController.findTeam);
 
-router.post("", checkAuth, extractTeamLogo, teamsController.createTeam);
+router.post("", checkAuth, extractImage, teamsController.createTeam);
 
-router.put("/:id", checkAuth, extractTeamLogo, teamsController.updateTeam);
+router.put("/:id", checkAuth, extractImage, teamsController.updateTeam);
 
 router.delete("/:id", checkAuth, teamsController.deleteTeam);
 

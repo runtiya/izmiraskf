@@ -5,7 +5,7 @@ export interface StadiumsModel {
   town: string,
   address: string,
   phoneNumber: string,
-  stadiumImage: File,
+  imagePath: string,
   longitude: number,
   latitude: number,
   audienceCapacity: number,

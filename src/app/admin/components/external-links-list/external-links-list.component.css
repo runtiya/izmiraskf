@@ -4,8 +4,17 @@ mat-divider {
 
 .external-link {
   display: block;
-  width: 100px;
+  width: 150px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-decoration: none;
+}
+
+.mdc-data-table__header-cell, .mdc-data-table__cell {
+  text-align: start;
+}
+
+.mat-mdc-card-avatar {
+  margin-bottom: 0;
 }

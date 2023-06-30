@@ -5,7 +5,7 @@ import { Data } from "@angular/router";
 
 
 import { SeasonsService } from "../../services/admin-seasons.service";
-import { seasonYearList } from "../../../assets/lists/season-year-list";
+import { seasonYearList } from "../../../assets/lists/season-year.list";
 
 @Component({
   selector: 'app-admin-seasons-create',

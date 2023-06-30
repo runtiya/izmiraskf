@@ -18,20 +18,9 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title-group>
-            <!-- Logo Does NOT Exist -->
-            <img
-              *ngIf="!stadium.stadiumImage"
-              mat-card-avatar
-              src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="{{ stadium.stadiumName }}"
-            />
-            <!-- Logo Exists -->
-            <img
-              *ngIf="stadium.stadiumImage"
-              mat-card-avatar
-              src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="{{ team.shortName || team.officialName }}"
-            />
+            <div class="profileImageBorder">
+              <img mat-card-avatar [src]="stadium.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{stadium.stadiumName}}">
+            </div>
             <mat-card-title>{{
               stadium.stadiumName
             }}</mat-card-title>

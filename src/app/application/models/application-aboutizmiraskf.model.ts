@@ -1,4 +1,5 @@
 export interface AboutIASKFModel {
+  imagePath: string,
   aboutText: string,
   address: string,
   phoneNumber: string,

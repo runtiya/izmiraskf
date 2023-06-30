@@ -9,7 +9,7 @@ import { PointBoardModel } from "../../models/application-pointboard.model";
 import { PointBoardService } from "../../services/application-pointboard.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-application-point-board',
@@ -82,7 +82,6 @@ export class ApplicationPointBoard implements OnInit, OnDestroy {
   }
 
   showTeamDetails(_teamId: number) {
-    alert(_teamId)
     this.router.navigate(['/takimlar/detaylar', _teamId]);
   }
 

@@ -6,12 +6,12 @@ import { StadiumsModel } from "../../models/admin-stadiums.model";
 import { StadiumsService } from "../../services/admin-stadiums.service";
 import { AdminStadiumsCreateModal } from "../stadiums-create/stadiums-create.component";
 
-import { cityList } from "../../../assets/lists/city-list-tr";
-import { townList } from "../../../assets/lists/town-list-izmir";
-import { floorTypeList } from "../../../assets/lists/floor-type-list";
+import { cityList } from "../../../assets/lists/city-tr.list";
+import { townList } from "../../../assets/lists/town-izmir.list";
+import { floorTypeList } from "../../../assets/lists/floor-type.list";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-admin-stadiums-list',

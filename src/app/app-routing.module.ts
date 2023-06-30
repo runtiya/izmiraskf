@@ -13,10 +13,7 @@ import { AdminStaffIzmirTFF } from "./admin/components/staff-izmirtff-list/staff
 import { AdminNewsWrapComponent } from "./admin/components/news-wrap-component/news-wrap-component.component";
 import { AdminExternalLinks } from "./admin/components/external-links-list/external-links-list.component";
 
-import { AdminDocumentStatuses } from "./admin/components/documents-statuses-list/documents-statuses-list.component";
-import { AdminDocumentInstructions } from "./admin/components/documents-instructions-list/documents-instructions-list.component";
-import { AdminDocumentLicenseForms } from "./admin/components/documents-license-forms-list/documents-license-forms-list.component";
-import { AdminDocumentDocuments } from "./admin/components/documents-documents-list/documents-documents-list.component";
+import { AdminDocumentList } from "./admin/components/documents-list/documents-list.component";
 
 import { AdminTeamsList } from "./admin/components/teams-list/teams-list.component";
 import { AdminStadiumsList } from "./admin/components/stadiums-list/stadiums-list.component";
@@ -31,7 +28,7 @@ import { AdminTeamsInDisqualifications } from "./admin/components/teams-in-disqu
 
 import { AdminFixtureCreate } from "./admin/components/fixture-create/fixture-create.component";
 import { AdminScoreBoard } from "./admin/components/score-board/score-board.component";
-import { AdminPointBoard } from "./admin/components/point-board/point-board.component";
+import { AdminPointBoardFixtureWrap } from "./admin/components/pointboard-fixture-wrap/pointboard-fixture-wrap.component";
 
 import { AdminUsersList } from "./admin/components/users-list/users-list.component";
 
@@ -62,6 +59,8 @@ import { ApplicationDisciplinaryBoardDecisionsList } from "./application/compone
 
 import { ApplicationPointBoardFixtureWrap } from "./application/components/pointboard-fixture-wrap/pointboard-fixture-wrap.component";
 
+import { ApplicationDocumentList } from "./application/components/documents-list/documents-list.component";
+
 import { ApplicationContactUs } from "./application/components/contact-us/contact-us.component";
 
 const routes: Routes = [
@@ -75,10 +74,7 @@ const routes: Routes = [
   {path: 'admin/haberler', component: AdminNewsWrapComponent, canActivate: [AuthGuard]},
   {path: 'admin/disbaglantilar', component: AdminExternalLinks, canActivate: [AuthGuard]},
 
-  {path: 'admin/amatorligstatuleri', component: AdminDocumentStatuses, canActivate: [AuthGuard]},
-  {path: 'admin/talimatlar', component: AdminDocumentInstructions, canActivate: [AuthGuard]},
-  {path: 'admin/lisansformlari', component: AdminDocumentLicenseForms, canActivate: [AuthGuard]},
-  {path: 'admin/belgeler', component: AdminDocumentDocuments, canActivate: [AuthGuard]},
+  {path: 'admin/dokumanlar/:category', pathMatch:"full", component: AdminDocumentList, canActivate: [AuthGuard]},
 
   {path: 'admin/sahalar', component: AdminStadiumsList, canActivate: [AuthGuard]},
   {path: 'admin/takimlar', component: AdminTeamsList, canActivate: [AuthGuard]},
@@ -93,7 +89,7 @@ const routes: Routes = [
 
   {path: 'admin/fikstur', component: AdminFixtureCreate, canActivate: [AuthGuard]},
   {path: 'admin/skor-tablosu', component: AdminScoreBoard, canActivate: [AuthGuard]},
-  {path: 'admin/puan-tablosu', component: AdminPointBoard, canActivate: [AuthGuard]},
+  {path: 'admin/puan-tablosu', component: AdminPointBoardFixtureWrap, canActivate: [AuthGuard]},
 
   {path: 'admin/kullanicilar', component: AdminUsersList, canActivate: [AuthGuard]},
 
@@ -121,6 +117,8 @@ const routes: Routes = [
   {path: 'disiplin-kurulu-kararlari', component: ApplicationDisciplinaryBoardDecisionsList},
 
   {path: 'puan-tablosu-fikstur', component: ApplicationPointBoardFixtureWrap},
+
+  {path: 'dokumanlar/:category', pathMatch:"full", component: ApplicationDocumentList},
 
   {path: 'iletisim', component: ApplicationContactUs},
 

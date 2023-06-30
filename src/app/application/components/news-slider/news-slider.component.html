@@ -1,0 +1,27 @@
+<div>
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>{{'HABERLER VE DUYURULAR'}}</span>
+  </mat-toolbar>
+
+  <div id="carouselNewsSlider" class="carousel carousel-dark slide" data-bs-ride="carousel">
+
+    <div class="carousel-inner">
+      <div class="carousel-item {{(index == 0) ? 'active' : null}}" *ngFor="let news of newsList; let index = index" data-bs-interval="2000">
+        <mat-card class="card-news-list" (click)="showNewsDetails(news.id)">
+          <img mat-card-xl-image [src]="news.imagePath" class="d-block w-100" [alt]="news.title">
+          <div class="carousel-caption d-md-block">
+            <mat-card-title>{{news.title}}</mat-card-title>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <button class="carousel-control carousel-control-prev" type="button" data-bs-target="#carouselNewsSlider" data-bs-slide="prev">
+      <span class="carousel-control-icon carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control carousel-control-next" type="button" data-bs-target="#carouselNewsSlider" data-bs-slide="next">
+      <span class="carousel-control-icon carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>

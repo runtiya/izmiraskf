@@ -29,7 +29,7 @@
     <table mat-table [dataSource]="leagueList" class="mat-elevation-z8">
       <ng-container matColumnDef="seasonName">
         <th mat-header-cell *matHeaderCellDef="">Sezon</th>
-        <td mat-cell *matCellDef="let league">{{ league.seasonName }}</td>
+        <td mat-cell *matCellDef="let league">{{ league.seasonName || findSeasonName(league.seasonId) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="leagueName">

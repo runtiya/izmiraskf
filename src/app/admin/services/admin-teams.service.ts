@@ -47,9 +47,13 @@ export class TeamsService {
 
   createTeam(teamInfo: TeamsModel) {
     try {
+      const formData = new FormData();
+      formData.append('image', teamInfo.imageAttachment);
+      formData.append('teamInfo', JSON.stringify(teamInfo));
+
       this.http
         .post<{ error: boolean, message: string, teamId: number }>(
-          'http://localhost:3000/admin/takimlar', teamInfo
+          'http://localhost:3000/admin/takimlar', formData
         )
         .subscribe({
           next: (data) => {
@@ -71,30 +75,14 @@ export class TeamsService {
   }
 
   updateTeam(teamInfo: TeamsModel) {
-    /*
-    const postData = new FormData();
-    const _teamInfo: {key: string, value: any}[] = [];
-
-    for (const key in teamInfo) {
-      if (teamInfo.hasOwnProperty(key)) {
-        const value = teamInfo[key];
-        _teamInfo.push({key, value});
-      }
-    }
-
-    _teamInfo.forEach(element => {
-      postData.append(element.key, JSON.stringify(element.value));
-
-    });
-
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-    */
-
     try {
+      const formData = new FormData();
+      formData.append('image', teamInfo.imageAttachment);
+      formData.append('teamInfo', JSON.stringify(teamInfo));
+
       this.http
         .put<{ error: boolean, message: string }>(
-          'http://localhost:3000/admin/takimlar/' + teamInfo.id, teamInfo,
+          'http://localhost:3000/admin/takimlar/' + teamInfo.id, formData,
         )
         .subscribe({
           next: (data) => {

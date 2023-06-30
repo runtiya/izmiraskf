@@ -8,7 +8,7 @@ import { AdminCreateStaffIzmirTFFModal } from "../staff-izmirtff-create/staff-iz
 
 import { globalFunctions } from "../../../functions/global.function";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-admin-staffizmirtff-list',

@@ -3,12 +3,12 @@ const multer = require('multer');
 
 const documentsController = require('../../controllers/application/documents');
 
-const extractTeamLogo = require('../../middlewares/extract-team-logo');
+const extractImage = require('../../middlewares/extract-image');
 
 const router = express.Router();
 
 
-router.get("/:type", documentsController.getDocuments);
+router.get("/:category", documentsController.getDocuments);
 
 
 

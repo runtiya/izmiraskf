@@ -4,12 +4,10 @@ const multer = require('multer');
 const fixturesController = require('../../controllers/admin/fixtures');
 
 const checkAuth = require('../../middlewares/check-auth');
-const extractTeamLogo = require('../../middlewares/extract-team-logo');
+const extractImage = require('../../middlewares/extract-image');
 
 const router = express.Router();
 
-
-router.get("/:groupstageid", checkAuth, fixturesController.getFixture);
 
 router.put("/arama", checkAuth, fixturesController.getFixtureBySearchIndex);
 
