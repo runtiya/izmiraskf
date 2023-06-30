@@ -9,7 +9,7 @@ import { NewsService } from "../../services/application-news.service";
 
 import { globalFunctions } from "../../../functions/global.function";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-application-news-list',

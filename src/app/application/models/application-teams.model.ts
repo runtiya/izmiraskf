@@ -3,7 +3,7 @@ export interface TeamsModel {
   TFFClubCode: string,
   officialName: string,
   shortName: string,
-  logoImage: File,
+  imagePath: string,
   city: string,
   town: string,
   address: string,

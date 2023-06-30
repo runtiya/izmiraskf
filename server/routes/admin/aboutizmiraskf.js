@@ -4,13 +4,13 @@ const multer = require('multer');
 const aboutizmiraskfController = require('../../controllers/admin/aboutizmiraskf');
 
 const checkAuth = require('../../middlewares/check-auth');
-const extractTeamLogo = require('../../middlewares/extract-team-logo');
+const extractImage = require('../../middlewares/extract-image');
 
 const router = express.Router();
 
 
 router.get("", checkAuth, aboutizmiraskfController.getAboutContent);
 
-router.put("", checkAuth, aboutizmiraskfController.updateAboutContent);
+router.put("", checkAuth, extractImage, aboutizmiraskfController.updateAboutContent);
 
 module.exports = router;

@@ -8,7 +8,8 @@ export interface StaffITFFModel {
   fullName: string,
   phone: string,
   email: string,
-  profileImage: File,
+  imagePath: string,
+  imageAttachment: File,
   isVisible: boolean,
   orderNo: number
 }

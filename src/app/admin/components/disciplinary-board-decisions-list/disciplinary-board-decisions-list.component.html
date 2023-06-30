@@ -49,43 +49,44 @@
   </mat-card>
 
   <mat-card>
-    <mat-action-row>
-      <div class="row">
-        <div class="col-lg-2 col-md-3 col-sm-4">
-          <button
-            class="btn-disciplinary-board-decisions-actions btn-clear-disciplinary-board-decisions"
-            mat-raised-button
-            color="warn"
-            matTooltip="Temizle"
-            (click)="onClear()"
-          >
-            Temizle
-          </button>
-        </div>
-
-        <div class="col-lg-2 col-md-3 col-sm-4">
-          <button
-            class="btn-disciplinary-board-decisions-actions btn-export-disciplinary-board-decisions"
-            mat-raised-button
-            matTooltip="Dışa Aktar"
-            (click)="onExport()"
-          >
-            Dışa Aktar
-          </button>
-        </div>
-
-        <div class="col-lg-2 col-md-3 col-sm-4">
-          <button
-            class="btn-disciplinary-board-decisions-actions btn-import-disciplinary-board-decisions"
-            mat-raised-button
-            matTooltip="İçe Aktar"
-            (click)="onImport()"
-          >
-            İçe Aktar
-          </button>
-        </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <button
+          class="btn-disciplinary-board-decisions-actions btn-clear-disciplinary-board-decisions"
+          mat-raised-button
+          color="warn"
+          matTooltip="Temizle"
+          (click)="onClear()"
+        >
+          Temizle
+        </button>
       </div>
-    </mat-action-row>
+
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <button
+          [disabled]="disciplinaryBoardDecisionsList.length <= 0"
+          class="btn-disciplinary-board-decisions-actions btn-export-disciplinary-board-decisions {{disciplinaryBoardDecisionsList.length <= 0 ? 'disabled' : null}}"
+          mat-raised-button
+          matTooltip="Dışa Aktar"
+          (click)="onExport()"
+        >
+          Dışa Aktar
+        </button>
+      </div>
+
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <button
+          class="btn-disciplinary-board-decisions-actions btn-import-disciplinary-board-decisions"
+          mat-raised-button
+          matTooltip="İçe Aktar"
+          (click)="filePicker.click()"
+        >
+          İçe Aktar
+        </button>
+        <input type="file" name="file" #filePicker (change)="onFilePicked($event)" />
+      </div>
+
+    </div>
   </mat-card>
 
   <mat-card>

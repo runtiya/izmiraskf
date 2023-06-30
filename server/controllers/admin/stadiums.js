@@ -1,5 +1,5 @@
 const connection = require('../../functions/database').connectDatabase();
-
+const imagesFunction = require('../../functions/images');
 
 function getStadiums(req, res, next) {
   var stadiumList;
@@ -32,11 +32,20 @@ function findStadium(req, res, next) {
 
 
 function createStadium(req, res, next) {
-  const stadiumInfo = req.body;
+  const stadiumInfo = JSON.parse(req.body.stadiumInfo);
   var message;
   var stadiumId;
+
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const imagePath = imagesFunction.setImagePath(url, "/images/stadiums/", req.file.filename);
+    stadiumInfo.imagePath = imagePath;
+  } else {
+    stadiumInfo.imagePath = null;
+  }
+
   connection.query(
-    "insert into stadiums(createdat, createdby, updatedat, updatedby, stadiumname, city, town, address, phonenumber, stadiumimage, audiencecapacity, sizelength, sizewidth, floortype, haslightning, hasseating, hasdisabledtribune, hasclosedcircuitcamerasystem)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "insert into stadiums(createdat, createdby, updatedat, updatedby, stadiumname, city, town, address, phonenumber, imagepath, audiencecapacity, sizelength, sizewidth, floortype, haslightning, hasseating, hasdisabledtribune, hasclosedcircuitcamerasystem)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       stadiumInfo.createdAt,
       stadiumInfo.createdBy,
@@ -47,7 +56,7 @@ function createStadium(req, res, next) {
       stadiumInfo.town,
       stadiumInfo.address,
       stadiumInfo.phoneNumber,
-      stadiumInfo.stadiumImage,
+      stadiumInfo.imagePath,
       stadiumInfo.audienceCapacity,
       stadiumInfo.sizeLength,
       stadiumInfo.sizeWidth,
@@ -74,10 +83,22 @@ function createStadium(req, res, next) {
 
 
 function updateStadium(req, res, next) {
-  const stadiumInfo = req.body;
+  const stadiumInfo = JSON.parse(req.body.stadiumInfo);
   var message;
+  var stadiumId = req.params.id;
+
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const imagePath = imagesFunction.setImagePath(url, "/images/stadiums/", req.file.filename);
+    stadiumInfo.imagePath = imagePath;
+  } else {
+    if (!stadiumInfo.imagePath) {
+      stadiumInfo.imagePath = null;
+    }
+  }
+
   connection.query(
-    "update stadiums set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, stadiumname = ?, city = ?, town = ?, address = ?, phonenumber = ?, stadiumimage = ?, audiencecapacity = ?, sizelength = ?, sizewidth = ?, floortype = ?, haslightning = ?, hasseating = ?, hasdisabledtribune = ?, hasclosedcircuitcamerasystem = ? where id = ?",
+    "update stadiums set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, stadiumname = ?, city = ?, town = ?, address = ?, phonenumber = ?, imagepath = ?, audiencecapacity = ?, sizelength = ?, sizewidth = ?, floortype = ?, haslightning = ?, hasseating = ?, hasdisabledtribune = ?, hasclosedcircuitcamerasystem = ? where id = ?",
     [
       stadiumInfo.createdAt,
       stadiumInfo.createdBy,
@@ -88,7 +109,7 @@ function updateStadium(req, res, next) {
       stadiumInfo.town,
       stadiumInfo.address,
       stadiumInfo.phoneNumber,
-      stadiumInfo.stadiumImage,
+      stadiumInfo.imagePath,
       stadiumInfo.audienceCapacity,
       stadiumInfo.sizeLength,
       stadiumInfo.sizeWidth,
@@ -97,7 +118,7 @@ function updateStadium(req, res, next) {
       stadiumInfo.hasSeating,
       stadiumInfo.hasDisabledTribune,
       stadiumInfo.hasClosedCircuitCameraSystem,
-      stadiumInfo.id
+      stadiumId || stadiumInfo.id
     ],
     (error, result) => {
       if (!error) {

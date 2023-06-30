@@ -67,9 +67,11 @@
                   *ngFor="let team of teamsingroupstagesList"
                   [value]="team.teamId"
                 >
-                  {{ team.teamOfficialName }}
+                  <img mat-card-avatar [src]="team.teamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="team.teamShortName || team.teamOfficialName">
+                  {{ team.teamShortName || team.teamOfficialName }}
                 </mat-option>
                 <mat-option [value]="null">
+                  <img mat-card-avatar [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="'BAY'">
                   {{ "Bay" }}
                 </mat-option>
               </mat-select>
@@ -91,9 +93,11 @@
                   *ngFor="let team of teamsingroupstagesList"
                   [value]="team.teamId"
                 >
+                  <img mat-card-avatar [src]="team.teamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="team.teamShortName || team.teamOfficialName">
                   {{ team.teamOfficialName }}
                 </mat-option>
                 <mat-option [value]="null">
+                  <img mat-card-avatar [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="'BAY'">
                   {{ "Bay" }}
                 </mat-option>
               </mat-select>

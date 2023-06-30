@@ -14,26 +14,44 @@
   <table mat-table [dataSource]="documents" class="mat-elevation-z8">
     <ng-container matColumnDef="orderNo">
       <th mat-header-cell *matHeaderCellDef="">Sıra</th>
-      <td mat-cell *matCellDef="let doc">{{ doc.orderNo }}</td>
+      <td mat-cell *matCellDef="let document">{{ document.orderNo }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="docName">
+    <ng-container matColumnDef="fileName">
       <th mat-header-cell *matHeaderCellDef="">Dosya Adı</th>
-      <td mat-cell *matCellDef="let doc">{{ doc.docName }}</td>
+      <td mat-cell *matCellDef="let document">{{ document.documentName }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="docType">
+    <ng-container matColumnDef="fileMimeType">
       <th mat-header-cell *matHeaderCellDef="">Dosya Türü</th>
-      <td mat-cell *matCellDef="let doc">{{ doc.mimeType }}</td>
+      <td mat-cell *matCellDef="let document">
+        <fa-icon
+          [icon]="findMimeTypeIcon(document.fileMimeType)"
+          class="icon icon-attachment"
+          matTooltip="{{findMimeType(document.fileMimeType)}}"
+        >
+        </fa-icon>
+        {{ findMimeType(document.fileMimeType) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fileSize">
+      <th mat-header-cell *matHeaderCellDef="">Dosya Boyutu</th>
+      <td mat-cell *matCellDef="let document">
+        {{ getFileSize(document.fileSize) }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef=""></th>
-      <td mat-cell *matCellDef="let doc">
-        <button mat-button color="primary" (click)="onEdit(doc)">
+      <td mat-cell *matCellDef="let document">
+        <button mat-button (click)="onDownload(document.filePath, document.fileName)">
+          İndir
+        </button>
+        <button mat-button color="primary" (click)="onEdit(document)">
           Düzenle
         </button>
-        <button mat-button color="warn" (click)="onDelete(doc.id)">Sil</button>
+        <button mat-button color="warn" (click)="onDelete(document.id)">Sil</button>
       </td>
     </ng-container>
 

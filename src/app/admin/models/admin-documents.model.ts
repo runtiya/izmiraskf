@@ -4,9 +4,12 @@ export interface DocumentsModel {
   createdBy: number,
   updatedAt: Date,
   updatedBy: number,
-  docName: string,
-  content: File,
-  mimeType: string,
+  documentName: string,
+  fileName: string,
+  fileMimeType: string,
+  fileSize: number,
+  filePath: string,
+  fileAttachment: File,
   category: string,
   orderNo: number
 }

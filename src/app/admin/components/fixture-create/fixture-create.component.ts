@@ -3,29 +3,36 @@ import { Subscription } from "rxjs";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from "@angular/material/dialog";
 
-import { GroupStagesModel } from "../../models/admin-groupstages.model";
-import { LeaguesModel } from "../../models/admin-leagues.model";
 import { SeasonsModel } from "../../models/admin-seasons.model";
-import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages.model";
-import { FixtureModel } from "../../models/admin-fixture.model";
-import { StadiumsModel } from "../../models/admin-stadiums.model";
-
-import { GroupStagesService } from "../../services/admin-groupstages.service";
-import { LeaguesService } from "../../services/admin-leagues.service";
 import { SeasonsService } from "../../services/admin-seasons.service";
+
+import { LeaguesModel } from "../../models/admin-leagues.model";
+import { LeaguesService } from "../../services/admin-leagues.service";
+
+import { GroupStagesModel } from "../../models/admin-groupstages.model";
+import { GroupStagesService } from "../../services/admin-groupstages.service";
+
+import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages.model";
 import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupstages.service";
+
 import { FixtureService } from "../../services/admin-fixtures.service";
+import { FixtureModel } from "../../models/admin-fixture.model";
+import { FixtureSearchModel } from "../../models/admin-fixture-search-index.model";
+import { MatchModel } from "../../models/admin-match.model";
+
+import { StadiumsModel } from "../../models/admin-stadiums.model";
 import { StadiumsService } from "../../services/admin-stadiums.service";
 
 import { AdminFixtureEditModal } from "../fixture-edit/fixture-edit.component";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { fixtureFunctions } from "../../functions/fixture.function";
 import { globalFunctions } from "../../../functions/global.function";
 
-import { fixtureKey3, fixtureKey4, fixtureKey5, fixtureKey6, fixtureKey7, fixtureKey8, fixtureKey9, fixtureKey10, fixtureKey11, fixtureKey12, fixtureKey13, fixtureKey14, fixtureKey15 } from "../../assets/lists/fixture-keys-list";
-import { matchStatusList } from "../../../assets/lists/match-status-list";
+import { fixtureKey3, fixtureKey4, fixtureKey5, fixtureKey6, fixtureKey7, fixtureKey8, fixtureKey9, fixtureKey10, fixtureKey11, fixtureKey12, fixtureKey13, fixtureKey14, fixtureKey15 } from "../../assets/lists/fixture-keys.list";
+import { matchStatusList } from "../../../assets/lists/match-status.list";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 import { DatePipe } from "@angular/common";
 
 @Component({
@@ -34,7 +41,7 @@ import { DatePipe } from "@angular/common";
   styleUrls: ['../../../app.component.css', './fixture-create.component.css']
 })
 export class AdminFixtureCreate implements OnInit, OnDestroy {
-  toolbarTitle = "FİKSTÜR OLUŞTUR";
+  toolbarTitle = "FİKSTÜR";
   isLoading = false;
 
   seasonList: SeasonsModel[] = [];
@@ -53,16 +60,13 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
   matchStatusList = matchStatusList;
   fontAwesomeIconList = fontAwesomeIconList;
 
+  fixtureSearchIndex: FixtureSearchModel = <FixtureSearchModel>{};
+
   @Input() seasonSelectionId: number;
   @Input() leagueSelectionId: number;
   @Input() groupstageSelectionId: number;
 
-  tableColumnsGroup: string[] = [
-                                  "orderNo",
-                                  "status",
-                                  "teamName",
-                                  "stadiumName"
-                                ];
+
   tableColumnsFixture: string[] = [
                                     "matchNo",
                                     "homeTeam",
@@ -71,67 +75,108 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
                                     "actions"
                                   ];
   groupByFixture: any[] = [];
-  constructor(public seasonsService: SeasonsService,
-              public leaguesService: LeaguesService,
-              public groupstagesService: GroupStagesService,
-              public teamsingroupstagesService: TeamsInGroupstagesService,
-              public fixturesService: FixtureService,
-              public stadiumsService: StadiumsService,
-              public dialog: MatDialog,
-              private _datePipe: DatePipe,
-              private globalFunctions: globalFunctions
-            ) {}
+  constructor(
+    private seasonsService: SeasonsService,
+    private leaguesService: LeaguesService,
+    private groupstagesService: GroupStagesService,
+    private teamsingroupstagesService: TeamsInGroupstagesService,
+    private fixturesService: FixtureService,
+    private stadiumsService: StadiumsService,
+    public dialog: MatDialog,
+    private globalFunctions: globalFunctions,
+    private fixtureFunctions: fixtureFunctions
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
+
+    this.seasonsService.getSeasons();
+    this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
+      .subscribe({
+        next: (data: SeasonsModel[]) => {
+          if (data.length > 0) {
+            this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+            this.seasonSelectionId = this.seasonList[0]["id"];
+            this.leaguesService.getLeagues(this.seasonSelectionId);
+          } else {
+            this.seasonList = [];
+            this.leagueList = [];
+            this.groupstageList = [];
+            this.teamsingroupstagesList = [];
+            this.fixtureList = [];
+          }
+        },
+        error: (error) => {
+
+        }
+      });
+
+
+    this.leagueListSub = this.leaguesService.getLeagueListUpdateListener()
+      .subscribe({
+        next: (data: LeaguesModel[]) => {
+          if (data.length > 0) {
+            this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
+            this.leagueSelectionId = this.leagueList[0]["id"];
+            this.groupstagesService.getGroupstages(this.leagueSelectionId);
+          } else {
+            this.groupstageList = [];
+            this.teamsingroupstagesList = [];
+            this.fixtureList = [];
+          }
+        },
+        error: (error) => {
+
+        }
+      });
+
+
+    this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
+      .subscribe({
+        next: (data: GroupStagesModel[]) => {
+          if (data.length > 0) {
+            this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
+            this.groupstageSelectionId = this.groupstageList[0]["id"];
+          } else {
+            this.groupstageSelectionId = null;
+            this.teamsingroupstagesList = [];
+            this.fixtureList = [];
+          }
+          //this.onSearch();
+        },
+        error: (error) => {
+        }
+      });
+
+      this.teamsingroupstagesListSub = this.teamsingroupstagesService.getTeamsInGroupstagesUpdateListener()
+      .subscribe({
+        next: (data: TeamsInGroupstagesModel[]) => {
+          if (data.length > 0) {
+            this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
+          } else {
+            this.teamsingroupstagesList = [];
+          }
+        },
+        error: (error) => {
+        }
+      });
+
+
+    this.fixtureListSub = this.fixturesService.getFixtureUpdateListener()
+      .subscribe({
+        next: (data: FixtureModel[]) => {
+          this.fixtureList = data.sort((a, b) => a.orderNo - b.orderNo);
+          this.groupByFixture = this.groupByToFixture(this.fixtureList);
+        },
+        error: (error) => {
+        }
+      });
+
     this.stadiumsService.getStadiums();
     this.stadiumListSub = this.stadiumsService.getStadiumListUpdateListener()
       .subscribe((data: StadiumsModel[]) => {
         this.stadiumList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
       });
-
-
-    this.seasonsService.getSeasons();
-    this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
-      .subscribe((data: SeasonsModel[]) => {
-        this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-        this.seasonSelectionId = this.seasonList[0]["id"];
-        this.leaguesService.getLeagues(this.seasonSelectionId);
-      });
-
-
-    this.leagueListSub = this.leaguesService.getLeagueListUpdateListener()
-      .subscribe((data: LeaguesModel[]) => {
-        this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
-        this.leagueSelectionId = this.leagueList[0]["id"];
-        this.groupstagesService.getGroupstages(this.leagueSelectionId);
-
-      });
-
-
-    this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
-      .subscribe((data: GroupStagesModel[]) => {
-        this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
-        this.groupstageSelectionId = this.groupstageList[0]["id"];
-        this.teamsingroupstagesService.getTeamsInGroupstages(this.groupstageSelectionId);
-        this.fixturesService.getFixture(this.groupstageSelectionId);
-      });
-
-
-    this.teamsingroupstagesListSub = this.teamsingroupstagesService.getTeamsInGroupstagesUpdateListener()
-      .subscribe((data: TeamsInGroupstagesModel[]) => {
-        this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
-      });
-
-
-    this.fixtureListSub = this.fixturesService.getFixtureUpdateListener()
-      .subscribe((data: FixtureModel[]) => {
-        this.fixtureList = data.sort((a, b) => a.orderNo - b.orderNo);
-        this.groupByFixture = this.groupByToFixture(this.fixtureList);
-      });
-
-    this.isLoading = false;
   }
 
 
@@ -148,10 +193,20 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
   }
 
   onGroupstageChange(groupstageSelectionId: number) {
-    this.isLoading = true;
-    this.teamsingroupstagesService.getTeamsInGroupstages(groupstageSelectionId);
-    this.fixturesService.getFixture(groupstageSelectionId);
-    this.isLoading = false;
+
+  }
+
+
+  onSearch() {
+    this.teamsingroupstagesService.getTeamsInGroupstages(this.groupstageSelectionId);
+
+    this.fixtureSearchIndex = this.fixtureFunctions.setFixtureSearchModel(
+      this.seasonSelectionId,
+      this.leagueSelectionId,
+      this.groupstageSelectionId,
+      null, null, null, null, null, null, null, null, null
+    );
+    this.fixturesService.getFixtureBySearchIndex(this.fixtureSearchIndex);
   }
 
   buildFixtureList() {
@@ -161,7 +216,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
       const fixtureKeyCount: number = teamsList.length;
       const periodSystem = this.groupstageList.find(g => g.id == this.groupstageSelectionId).periodSystem;
       var fixtureKey = [];
-      var _fixtureList: FixtureModel[] = [];
+      var _matchList: MatchModel[] = [];
 
       switch (fixtureKeyCount) {
         case 3:
@@ -222,51 +277,39 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
             let homeTeam = teamsList.find(team => team.orderNo == ((ps%2 == 1) ? homeTeamOrderNo : awayTeamOrderNo));
             let awayTeam = teamsList.find(team => team.orderNo == ((ps%2 == 1) ? awayTeamOrderNo : homeTeamOrderNo));
 
-            var matchDraft = <FixtureModel>{};
-            matchDraft = this.createDraft(homeTeam, awayTeam, week, orderNo);
-            _fixtureList.push(matchDraft);
+
+            var matchDraft: MatchModel = this.createDraft(homeTeam, awayTeam, week, orderNo);
+            _matchList.push(matchDraft);
           }
         }
       }
-      this.fixturesService.createFixture(_fixtureList, this.groupstageSelectionId);
+      this.fixturesService.createFixture(_matchList, this.fixtureSearchIndex);
     } catch (error) {
       this.globalFunctions.showSnackBar.next('Hata!');
-      _fixtureList = [];
+      _matchList = [];
       this.groupByFixture = this.groupByToFixture(this.fixtureList);
     }
     this.isLoading = false;
   }
 
-  createDraft(_homeTeam: TeamsInGroupstagesModel, _awayTeam: TeamsInGroupstagesModel, _weekNumber: number, _orderNo: number): FixtureModel {
-    try {
-      const seasonId = this.seasonSelectionId;
-      const leagueId = this.leagueSelectionId;
-      const groupstageId = this.groupstageSelectionId;
-      const teamsingroupstagesList = this.teamsingroupstagesList;
+  createDraft(homeTeam: TeamsInGroupstagesModel, awayTeam: TeamsInGroupstagesModel, weekNumber: number, orderNo: number): MatchModel {
+    const seasonId = this.seasonSelectionId;
+    const leagueId = this.leagueSelectionId;
+    const groupstageId = this.groupstageSelectionId;
+    const teamsingroupstagesList = this.teamsingroupstagesList;
 
-      var matchDraft = <FixtureModel>{};
-      matchDraft.id = null;
-      matchDraft.groupstageId = groupstageId;
-      matchDraft.matchNo = fixtureFunctions.setMatchNo(seasonId, leagueId, groupstageId, _weekNumber, _orderNo);
-      matchDraft.matchWeek = _weekNumber;
-      matchDraft.orderNo = _orderNo;
-      matchDraft.matchStatus = 'NOTPLAYED';
-      matchDraft.stadiumId = _homeTeam ? _homeTeam.teamStadiumId : null;
-      matchDraft.homeTeamId = _homeTeam ? _homeTeam.teamId : null;
-      matchDraft.homeTeamScore = null;
-      matchDraft.homeTeamPoint = null;
-      matchDraft.isHomeTeamWinByForfeit = false;
-      matchDraft.awayTeamId = _awayTeam ? _awayTeam.teamId : null;
-      matchDraft.awayTeamScore = null;
-      matchDraft.awayTeamPoint = null;
-      matchDraft.isAwayTeamWinByForfeit = false;
+    let matchDraft: MatchModel;
+    matchDraft = this.fixtureFunctions.setMatchDraft(
+      homeTeam,
+      awayTeam,
+      weekNumber,
+      orderNo,
+      seasonId,
+      leagueId,
+      groupstageId
+    );
 
-      return matchDraft;
-
-    } catch (error) {
-      this.globalFunctions.showSnackBar.next('Hata!');
-      return null
-    }
+    return matchDraft;
   }
 
 
@@ -280,21 +323,33 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
       }, {});
     };
 
-    const groupByToFixture = Object.entries(groupBy('matchWeek')(fixtureList))
+    const _groupByToFixture = Object.entries(groupBy('matchWeek')(fixtureList))
       .map(([key, value]) => ({ week: key, matchList: value }));
 
-    return groupByToFixture;
+    return _groupByToFixture;
   }
 
 
   clearFixtureList() {
-    this.isLoading = true;
-    this.fixturesService.clearFixture(this.groupstageSelectionId);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İşlemi Onaylıyor musunuz?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.fixturesService.clearFixture(this.groupstageSelectionId);
+          }
+        }
+      });
   }
 
   onCreateMatch() {
-    let matchDay = <FixtureModel>{};
+    let matchDay = <MatchModel>{};
     matchDay.matchNo = null;
     matchDay.groupstageId = this.groupstageSelectionId;
 
@@ -311,7 +366,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
     });
   }
 
-  onEdit(matchDay: FixtureModel, matchWeek: number) {
+  onEdit(matchDay: MatchModel, matchWeek: number) {
     matchDay.matchWeek = matchWeek;
 
     const dialogRef = this.dialog.open(AdminFixtureEditModal, {
@@ -344,7 +399,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
   swapMatch(matchNo: string) {
     const match = this.fixtureList.find(m => m.matchNo == matchNo);
     const indexNo = this.fixtureList.findIndex(m => m.matchNo == matchNo);
-    let matchTemp = <FixtureModel>{};
+    let matchTemp = <MatchModel>{};
 
     matchTemp.id = match.id ? match.id : null;
     matchTemp.groupstageId = match.groupstageId;
@@ -367,9 +422,16 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
 
     matchTemp.orderNo = match.orderNo;
 
-    var _fixtureList: FixtureModel[] = [];
-    _fixtureList.push(matchTemp);
-    this.fixturesService.updateFixture(_fixtureList);
+    var _matchList: MatchModel[] = [];
+    _matchList.push(matchTemp);
+
+    let fixtureSearchIndex: FixtureSearchModel = this.fixtureFunctions.setFixtureSearchModel(
+      this.seasonSelectionId,
+      this.leagueSelectionId,
+      this.groupstageSelectionId,
+      null, null, null, null, null, null, null, null, null
+    )
+    this.fixturesService.updateFixture(_matchList, fixtureSearchIndex);
   }
 
   numbersOnly(event: any): boolean {
@@ -401,6 +463,13 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
     return !!team ? team.teamOfficialName : null;;
   }
 
+
+  findTeamLogo(teamId: number): string {
+    let team : TeamsInGroupstagesModel = this.teamsingroupstagesList.find(team => team.teamId == teamId);
+    return !!team ? team.teamImagePath : null;;
+  }
+
+
   findMatchStatus(status: string): string {
     return this.matchStatusList.find(s => s.name == status).value;
   }
@@ -419,12 +488,12 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
     return !!team ? team.explanation : null;
   }
 
-  getLocalDateForLongDate(_date: Date): string {
-    return this.globalFunctions.registerLocalDateForLongDate(_date);
-  }
 
-  getLocalDateForShortTime(_date: Date): string {
-    return this.globalFunctions.registerLocalDateForShortTime(_date);
+  getMatchDate(_date: Date): string {
+    const longDate = this.globalFunctions.registerLocalDateForLongDate(_date);
+    const shortTime = this.globalFunctions.registerLocalDateForShortTime(_date);
+
+    return longDate || shortTime ? (longDate + " " + shortTime) : null;
   }
 
   ngOnDestroy(): void {

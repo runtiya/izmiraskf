@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { Subscription } from "rxjs";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 
 import { DisciplinaryBoardDecisionModel } from "../../models/admin-disciplinaryboarddecisions.model";
 import { DisciplinaryBoardDecisionsService } from "../../services/admin-disciplinaryboarddecisions.service";
+import { GeneralDisciplinaryBoardDecisionExportModel } from "../../../models/general-disciplinaryboarddecisions-export.model";
 
 import { DisciplinaryBoardFileModel } from "../../models/admin-disciplinaryboardfiles.model";
 import { DisciplinaryBoardFilesService } from "../../services/admin-disciplinaryboardfiles.service";
@@ -19,10 +21,12 @@ import { TeamsService } from "../../services/admin-teams.service";
 
 import { AdminDisciplinaryBoardDecisionsCreateModal } from "../disciplinary-board-decisions-create/disciplinary-board-decisions-create.component";
 
-import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype-list";
-import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto-list";
+import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype.list";
+import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto.list";
 
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 import { globalFunctions } from "../../../functions/global.function";
+import * as XLSX from 'xlsx';
 
 @Component({
     selector: 'app-admin-disciplinary-board-decisions-list',
@@ -52,6 +56,8 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
     disciplinaryPenalTypeList = disciplinaryPenalTypeList;
     disciplinaryBelongingToList = disciplinaryBelongingToList;
 
+    disciplinaryBoardDecisionsSubmitForm: FormGroup;
+
     @Input() seasonSelectionId: number;
     @Input() disciplinaryBoardFileSelectionId: number;
     tableColumns: string[] = [
@@ -68,14 +74,15 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
 
 
     constructor(
-        public disciplinaryBoardDecisionsService: DisciplinaryBoardDecisionsService,
-        public disciplinaryBoardFilesService: DisciplinaryBoardFilesService,
-        public seasonsService: SeasonsService,
-        public leaguesService: LeaguesService,
-        public teamsService: TeamsService,
-        public dialog: MatDialog,
-        private globalFunctions: globalFunctions
-    ) {}
+      public disciplinaryBoardDecisionsService: DisciplinaryBoardDecisionsService,
+      public disciplinaryBoardFilesService: DisciplinaryBoardFilesService,
+      public seasonsService: SeasonsService,
+      public leaguesService: LeaguesService,
+      public teamsService: TeamsService,
+      public dialog: MatDialog,
+      private globalFunctions: globalFunctions,
+    ) {
+    }
 
     ngOnInit(): void {
         this.isLoading = true;
@@ -139,20 +146,44 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
         this.isLoading = false;
     }
 
+    findDisciplinaryBoardFileId(disciplinaryBoardFileName: string): number {
+      return this.disciplinaryBoardFilesList.find(f => f.caseNo == disciplinaryBoardFileName).id || null;
+    }
+
+    findDisciplinaryBoardCaseNoValue(fileId: number): string {
+      return this.disciplinaryBoardFilesList.find(f => f.id == fileId).caseNo || null;
+    }
+
     findLeagueName(leagueId: number): string {
-        return this.leaguesList.find(l => l.id == leagueId).leagueName || null;
+      return this.leaguesList.find(l => l.id == leagueId).leagueName || null;
+    }
+
+    findLeagueId(leagueName: string): number {
+      return this.leaguesList.find(l => l.leagueName == leagueName).id || null;
     }
 
     findTeamName(teamId: number): string {
-        return this.teamsList.find(t => t.id == teamId).shortName || this.teamsList.find(t => t.id == teamId).officialName || null;
+      return this.teamsList.find(t => t.id == teamId).officialName || null;
+    }
+
+    findTeamId(teamName: string): number {
+      return this.teamsList.find(t => t.officialName == teamName).id || null;
     }
 
     findPenalType(penalType: string): string {
-        return penalType ? this.disciplinaryPenalTypeList.find(p => p.name == penalType).value : null;
+      return penalType ? this.disciplinaryPenalTypeList.find(p => p.name == penalType).value : null;
+    }
+
+    findPenalTypeName(penalTypeValue: string): string {
+      return penalTypeValue ? this.disciplinaryPenalTypeList.find(p => p.value == penalTypeValue).name : null;
     }
 
     findBelongingTo(belongingTo: string): string {
-        return belongingTo ? this.disciplinaryBelongingToList.find(b => b.name == belongingTo).value : null;
+      return belongingTo ? this.disciplinaryBelongingToList.find(b => b.name == belongingTo).value : null;
+    }
+
+    findBelongingToName(belongingToValue: string): string {
+      return belongingToValue ? this.disciplinaryBelongingToList.find(b => b.value == belongingToValue).name : null;
     }
 
     onCreate() {
@@ -178,6 +209,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
                 disciplinaryBoardDecisionInfo: disciplinaryBoardDecision
             }
         });
+
     }
 
     onDelete(disciplinaryBoardDecisionId: number) {
@@ -187,17 +219,154 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
     }
 
     onClear() {
-        this.isLoading = true;
-        this.disciplinaryBoardDecisionsService.clearDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
-        this.isLoading = false;
+      const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+        data: {
+          title: 'İşlemi Onaylıyor musunuz?',
+          message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+        }
+      });
+
+      dialogRef.afterClosed()
+        .subscribe({
+          next: (data) => {
+            if (data) {
+              this.disciplinaryBoardDecisionsService.clearDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+            }
+          }
+        });
     }
+
+
+    onFilePicked(event: Event) {
+      try {
+        const file = (event.target as HTMLInputElement).files[0];
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          const data: string = e.target.result;
+          const workBook: XLSX.WorkBook = XLSX.read(data, {type: 'binary'});
+          const sheetName: string = workBook.SheetNames[0];
+          const workSheet: XLSX.WorkSheet = workBook.Sheets[sheetName];
+          const jsonData: any[] = XLSX.utils.sheet_to_json(workSheet, {header: 1});
+
+          // Filter to remove null rows. Get only filled rows
+          const filteredData = jsonData.filter(r => r[0] != null || r[1] != null || r[2] != null || r[3] != null);
+          this.buildDisciplinaryBoardDecisionSubmitFormGroup();
+          this.patchFileToTable(filteredData);
+        };
+
+        reader.readAsBinaryString(file);
+      } catch (error) {
+
+      }
+    }
+
+    buildDisciplinaryBoardDecisionSubmitFormGroup() {
+      this.disciplinaryBoardDecisionsSubmitForm = new FormGroup({
+        id: new FormControl(null, {validators: []}),
+        createdAt: new FormControl(null, {validators: []}),
+        createdBy: new FormControl(null, {validators: []}),
+        updatedAt: new FormControl(null, {validators: []}),
+        updatedBy: new FormControl(null, {validators: []}),
+        disciplinaryBoardFileId: new FormControl(null, {validators: [Validators.required]}),
+        leagueId: new FormControl(null, {validators: [Validators.required]}),
+        teamId: new FormControl(null, {validators: [Validators.required]}),
+        fullName: new FormControl(null, {validators: [Validators.maxLength(200)]}),
+        licenseNo: new FormControl(null, {validators: [Validators.maxLength(200)]}),
+        belongingTo: new FormControl(null, {validators: [Validators.maxLength(200)]}),
+        penalType: new FormControl(null, {validators: [Validators.maxLength(200)]}),
+        duration: new FormControl(null, {validators: [Validators.maxLength(200)]}),
+        explanation: new FormControl(null, {validators: [Validators.maxLength(2000)]})
+    });
+    }
+
+    patchFileToTable(fileData: any[]) {
+      var disciplinaryBoardDecisionImportedFormsList: DisciplinaryBoardDecisionModel[] = [];
+      // Starts loop with 1 to skip header row in file!
+      for (let i = 1; i < fileData.length; i++) {
+        const row = fileData[i];
+
+        let _disciplinaryBoardFileId = this.findDisciplinaryBoardFileId(row[0]);
+        let _leagueId = this.findLeagueId(row[1]);
+        let _teamId = this.findTeamId(row[2]);
+        let _fullName = row[3];
+        let _licenseNo = row[4];
+        let _belongingTo = this.findBelongingToName(row[5]);
+        let _penalType = this.findPenalTypeName(row[6]);
+        let _duration = row[7];
+        let _explanation = row[8];
+
+        this.disciplinaryBoardDecisionsSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
+        this.disciplinaryBoardDecisionsSubmitForm.get('disciplinaryBoardFileId').setValue(_disciplinaryBoardFileId);
+        this.disciplinaryBoardDecisionsSubmitForm.get('leagueId').setValue(_leagueId);
+        this.disciplinaryBoardDecisionsSubmitForm.get('teamId').setValue(_teamId);
+        this.disciplinaryBoardDecisionsSubmitForm.get('fullName').setValue(_fullName);
+        this.disciplinaryBoardDecisionsSubmitForm.get('licenseNo').setValue(_licenseNo);
+        this.disciplinaryBoardDecisionsSubmitForm.get('belongingTo').setValue(_belongingTo);
+        this.disciplinaryBoardDecisionsSubmitForm.get('penalType').setValue(_penalType);
+        this.disciplinaryBoardDecisionsSubmitForm.get('duration').setValue(_duration);
+        this.disciplinaryBoardDecisionsSubmitForm.get('explanation').setValue(_explanation);
+
+        if (this.disciplinaryBoardDecisionsSubmitForm.valid) {
+          disciplinaryBoardDecisionImportedFormsList.push(this.disciplinaryBoardDecisionsSubmitForm.value);
+          this.disciplinaryBoardDecisionsSubmitForm.reset();
+        } else {
+          this.globalFunctions.showSnackBar.next('Hata! Yüklenen dosyada ' + i + '. satır hatalıdır!');
+          disciplinaryBoardDecisionImportedFormsList = [];
+          break;
+        }
+      }
+
+      this.onImport(disciplinaryBoardDecisionImportedFormsList);
+    }
+
+    patchTableToFile(tableData: any[]): any[] {
+      var fileData: any[] = [];
+      for (let i = 0; i < tableData.length; i++) {
+        const row = tableData[i];
+
+        let generalDisciplinaryBoardDecisionsExport = <GeneralDisciplinaryBoardDecisionExportModel>{};
+        generalDisciplinaryBoardDecisionsExport.Dosya_No = this.findDisciplinaryBoardCaseNoValue(this.disciplinaryBoardFileSelectionId);
+        generalDisciplinaryBoardDecisionsExport.Lig_Adi = this.findLeagueName(row["leagueId"]);
+        generalDisciplinaryBoardDecisionsExport.Takim_Adi = this.findTeamName(row["teamId"]);
+        generalDisciplinaryBoardDecisionsExport.Lisans_No = row["licenseNo"];
+        generalDisciplinaryBoardDecisionsExport.Ad_Soyad = row["fullName"];
+        generalDisciplinaryBoardDecisionsExport.Gorevi = this.findBelongingTo(row["belongingTo"]);
+        generalDisciplinaryBoardDecisionsExport.Ceza_Türü = this.findPenalType(row["penalType"]);
+        generalDisciplinaryBoardDecisionsExport.Sure = row["duration"];
+        generalDisciplinaryBoardDecisionsExport.Aciklama = row["explanation"];
+
+        fileData.push(generalDisciplinaryBoardDecisionsExport);
+      }
+      return fileData;
+    }
+
 
     onExport() {
+      const _fileData = this.patchTableToFile(this.disciplinaryBoardDecisionsList);
+      const _fileName = 'Disiplin_Kurulu_Kararlari_' + this.findDisciplinaryBoardCaseNoValue(this.disciplinaryBoardFileSelectionId);
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(_fileData);
+      const workbook: XLSX.WorkBook = { Sheets: { 'Disiplin_Kurulu_Kararlari' : worksheet }, SheetNames: ['Disiplin_Kurulu_Kararlari'] };
+      const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
+      //const data: Blob = new Blob([buffer], { type: 'application/octet-stream' });
+      const data: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url: string = window.URL.createObjectURL(data);
+      const link: HTMLAnchorElement = document.createElement('a');
+      link.href = url;
+      link.download = `${_fileName}.xlsx`;
+      link.click();
+      window.URL.revokeObjectURL(url);
+      link.remove();
     }
 
-    onImport() {
 
+    onImport(disciplinaryBoardDecisionImportedFormsList: DisciplinaryBoardDecisionModel[]) {
+      if (disciplinaryBoardDecisionImportedFormsList.length > 0) {
+        for (let i = 0; i < disciplinaryBoardDecisionImportedFormsList.length; i++) {
+          const disciplinaryBoardDecisionInfo = disciplinaryBoardDecisionImportedFormsList[i];
+          this.disciplinaryBoardDecisionsService.createDisciplinaryBoardDecision(disciplinaryBoardDecisionInfo);
+        }
+      }
     }
 
     ngOnDestroy(): void {

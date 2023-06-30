@@ -41,9 +41,13 @@ export class ExternalLinksService {
 
   createLink(linkInfo: ExternalLinksModel) {
     try {
+      const formData = new FormData();
+      formData.append('image', linkInfo.imageAttachment);
+      formData.append('linkInfo', JSON.stringify(linkInfo));
+
       this.http
         .post<{error: boolean, message: string, linkId: number}>(
-          'http://localhost:3000/admin/disbaglantilar', linkInfo
+          'http://localhost:3000/admin/disbaglantilar', formData
         )
         .subscribe({
           next: (data) => {
@@ -66,9 +70,13 @@ export class ExternalLinksService {
 
   updateLink(linkInfo: ExternalLinksModel) {
     try {
+      const formData = new FormData();
+      formData.append('image', linkInfo.imageAttachment);
+      formData.append('linkInfo', JSON.stringify(linkInfo));
+
       this.http
         .put<{error: boolean, message: string}>(
-          'http://localhost:3000/admin/disbaglantilar/' + linkInfo.id, linkInfo
+          'http://localhost:3000/admin/disbaglantilar/' + linkInfo.id, formData
         )
         .subscribe({
           next: (data) => {

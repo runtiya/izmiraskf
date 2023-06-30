@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from "rxjs";
 
 import { AboutITFFModel } from "../../models/admin-aboutizmirtff.model";
 import { AboutITFFService } from "../../services/admin-aboutitff.service";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { imageUploadValidator } from "../../validators/image-upload.validator";
 
 @Component({
   selector: 'app-admin-izmirtff',
@@ -39,6 +40,10 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
     this.aboutcontentSubscription = this.aboutitffService.getAboutContentListener()
       .subscribe((data: AboutITFFModel) => {
         this.aboutITFFform = new FormGroup({
+          updatedAt: new FormControl(data.updatedAt, {validators: []}),
+          updatedBy: new FormControl(data.updatedBy, {validators: []}),
+          imagePath: new FormControl(data.imagePath, {validators: []}),
+          imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
           aboutText: new FormControl(data.aboutText, {validators: [Validators.maxLength(4000)]}),
           address: new FormControl(data.address, {validators: [Validators.maxLength(2000)]}),
           phoneNumber: new FormControl(data.phoneNumber, {validators: [Validators.maxLength(100)]}),
@@ -64,12 +69,32 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
     }
   }
 
+  onFilePicked(event: Event) {
+    try {
+      const file = (event.target as HTMLInputElement).files[0];
+      this.aboutITFFform.patchValue({imageAttachment: file});
+      this.aboutITFFform.get('imageAttachment').updateValueAndValidity();
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        let _imagePath = this.aboutITFFform.get('imageAttachment').valid ? reader.result as string : null;
+        this.aboutITFFform.get('imagePath').setValue(_imagePath);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+
+    }
+
+  }
+
+  filePickerRemove() {
+    this.aboutITFFform.get('imageAttachment').setValue(null);
+    this.aboutITFFform.get('imagePath').setValue(null);
+  }
+
   onUpdateAboutText() {
     if (this.aboutITFFform.valid) {
-
-      this.isLoading = true;
+      this.aboutITFFform.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
       this.aboutitffService.updateAboutContent(this.aboutITFFform.value);
-      this.isLoading = false;
     } else {
       return null;
     }

@@ -12,8 +12,8 @@
           <div class="d-flex align-items-center">
             <img
               mat-card-sm-image
-              src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt=""
+              [src]="stadium.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'"
+              [alt]="stadium.stadiumName"
             />
             <div>
               <mat-card-title>{{ stadium.stadiumName }}</mat-card-title>

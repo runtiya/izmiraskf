@@ -1,4 +1,5 @@
 const connection = require('../../functions/database').connectDatabase();
+const imagesFunction = require('../../functions/images');
 
 // Get all external links list
 function getExternalLinks(req, res, next) {
@@ -25,12 +26,20 @@ function getExternalLinks(req, res, next) {
 
 // Create a external link
 function createExternalLink(req, res, next) {
-  const linkInfo = req.body;
-
+  const linkInfo = JSON.parse(req.body.linkInfo);
   var message;
   var linkId;
+
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const imagePath = imagesFunction.setImagePath(url, "/images/icons/", req.file.filename);
+    linkInfo.imagePath = imagePath;
+  } else {
+    linkInfo.imagePath = null;
+  }
+
   connection.query(
-    "insert into externallinks(createdat, createdby, updatedat, updatedby, linkname, url, linktype, iconimage, fabrand, orderno, isactive)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "insert into externallinks(createdat, createdby, updatedat, updatedby, linkname, url, linktype, imagepath, fabrand, orderno, isactive)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       linkInfo.createdAt,
       linkInfo.createdBy,
@@ -39,7 +48,7 @@ function createExternalLink(req, res, next) {
       linkInfo.linkName,
       linkInfo.url,
       linkInfo.linkType,
-      linkInfo.iconImage,
+      linkInfo.imagePath,
       linkInfo.faBrand,
       linkInfo.orderNo,
       linkInfo.isActive
@@ -60,10 +69,21 @@ function createExternalLink(req, res, next) {
 
 // Update an external link by id
 function updateExternalLink(req, res, next) {
-  const linkInfo = req.body;
+  const linkInfo = JSON.parse(req.body.linkInfo);
   var message;
+
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const imagePath = imagesFunction.setImagePath(url, "/images/icons/", req.file.filename);
+    linkInfo.imagePath = imagePath;
+  } else {
+    if (!linkInfo.imagePath) {
+      linkInfo.imagePath = null;
+    }
+  }
+
   connection.query(
-    "update externallinks set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, linkname = ?, url = ?, linktype = ?, iconimage = ?, fabrand = ?, orderno = ?, isactive = ? where id = ?",
+    "update externallinks set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, linkname = ?, url = ?, linktype = ?, imagepath = ?, fabrand = ?, orderno = ?, isactive = ? where id = ?",
     [
       linkInfo.createdAt,
       linkInfo.createdBy,
@@ -72,7 +92,7 @@ function updateExternalLink(req, res, next) {
       linkInfo.linkName,
       linkInfo.url,
       linkInfo.linkType,
-      linkInfo.iconImage,
+      linkInfo.imagePath,
       linkInfo.faBrand,
       linkInfo.orderNo,
       linkInfo.isActive,

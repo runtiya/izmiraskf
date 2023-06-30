@@ -1,0 +1,60 @@
+<div>
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>GRUP ({{ teamsingroupstagesList.length }})</span>
+  </mat-toolbar>
+
+  <table
+    mat-table
+    [dataSource]="teamsingroupstagesList"
+    class="mat-elevation-z8"
+  >
+    <ng-container matColumnDef="orderNo">
+      <th mat-header-cell *matHeaderCellDef="">Sıra</th>
+      <td mat-cell *matCellDef="let team">{{ team.orderNo }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef=""></th>
+      <td mat-cell *matCellDef="let team">
+        <div class="d-flex align-items-center">
+          <fa-icon
+            *ngIf="team.isExpelled || team.isReceded"
+            [icon]="fontAwesomeIconList.faCircleInfo"
+            class="icon icon-circle-info"
+            matTooltip="{{ findExpelledOrRecededExplanation(team.teamId) }}"
+          >
+          </fa-icon>
+          {{ team.isExpelled ? "İHRAÇ" : team.isReceded ? "ÇEKİLME" : "" }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="teamName">
+      <th mat-header-cell *matHeaderCellDef="">Takım Adı</th>
+      <td mat-cell *matCellDef="let team">
+        <img mat-card-avatar class="image-teamlogo-fixturecreate" [src]="team.teamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="team.teamShortName ||teamOfficialName">
+        {{ team.teamShortName || team.teamOfficialName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="stadiumName">
+      <th mat-header-cell *matHeaderCellDef="">Saha</th>
+      <td mat-cell *matCellDef="let team">
+        {{ team.teamStadiumName || "Belirtilmemiş" }}
+      </td>
+    </ng-container>
+
+    <tr
+      mat-header-row
+      *matHeaderRowDef="tableColumnsGroup"
+      class="table-header-row"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: tableColumnsGroup"
+      class="table-detail-row {{
+        row.isExpelled || row.isReceded ? 'team-status-expelorrecede' : null
+      }}"
+    ></tr>
+  </table>
+</div>

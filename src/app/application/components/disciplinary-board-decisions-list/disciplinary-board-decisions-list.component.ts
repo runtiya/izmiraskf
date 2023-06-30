@@ -11,8 +11,8 @@ import { DisciplinaryBoardFilesService } from "../../services/application-discip
 import { SeasonsService } from "../../services/application-seasons.service";
 import { SeasonsModel } from "../../models/application-seasons.model";
 
-import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype-list";
-import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto-list";
+import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype.list";
+import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto.list";
 
 import { ApplicationDisciplinaryBoardDecisionsDetailsModal } from "../disciplinary-board-decisions-details/disciplinary-board-decisions-details.component";
 

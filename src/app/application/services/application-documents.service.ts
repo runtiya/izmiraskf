@@ -11,16 +11,16 @@ export class DocumentsService {
 
   constructor(private http: HttpClient) {}
 
-  getDocuments(documentType: string) {
+  getDocuments(category: string) {
     try {
       this.http
-        .get<{error: boolean, message: string, documents: DocumentsModel[]}>(
-          'http://localhost:3000/admin/documents/' + documentType
+        .get<{error: boolean, message: string, documentsList: DocumentsModel[]}>(
+          'http://localhost:3000/dokumanlar/' + category
         )
         .subscribe({
           next: (data) => {
             if (!data.error) {
-              this.documentsList = data.documents;
+              this.documentsList = data.documentsList;
               this.documentsListSub.next([...this.documentsList]);
             } else {
 

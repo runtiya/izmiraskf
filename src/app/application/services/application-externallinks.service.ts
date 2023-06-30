@@ -8,6 +8,7 @@ import { ExternalLinksModel } from "../models/application-externallinks.model";
 export class ExternalLinksService {
   private extLinksList: ExternalLinksModel[] = [];
   private extLinksListSub = new Subject<ExternalLinksModel[]>();
+  private extRelatedLinksListSub = new Subject<ExternalLinksModel[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +22,12 @@ export class ExternalLinksService {
           next: (data) => {
             if (!data.error) {
               this.extLinksList = data.externalLinks;
-              this.extLinksListSub.next([...this.extLinksList]);
+              if (_linkType == 'SOCIALMEDIA') {
+                this.extLinksListSub.next([...this.extLinksList]);
+              } else if(_linkType == 'RELATEDLINK') {
+                this.extRelatedLinksListSub.next([...this.extLinksList]);
+              }
+
             } else {
 
             }
@@ -37,5 +43,9 @@ export class ExternalLinksService {
 
   getExternalLinksSubListener() {
     return this.extLinksListSub.asObservable();
+  }
+
+  getExternalRelatedLinksSubListener() {
+    return this.extRelatedLinksListSub.asObservable();
   }
 }

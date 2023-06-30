@@ -65,22 +65,29 @@
               mat-stroked-button
               type="button"
               color="primary"
+              class="btn-image-picker"
               (click)="filePicker.click()"
-            >
-              Resim Seç
-            </button>
-            <input type="file" #filePicker (change)="onFilePicked($event)" />
+            >Resim Seç</button>
+            <button
+              mat-stroked-button
+              type="button"
+              color="warn"
+              class="btn-image-picker"
+              *ngIf="extLinkSubmitForm.value.imagePath !== '' && extLinkSubmitForm.value.imagePath && extLinkSubmitForm.get('imageAttachment').valid"
+              (click)="filePickerRemove()"
+            >Kaldır</button>
+            <input type="file" name="image" #filePicker (change)="onFilePicked($event)" />
             <div
               class="image-preview"
-              *ngIf="
-                imagePreview !== '' &&
-                imagePreview &&
-                extLinkSubmitForm.get('iconImage').valid
-              "
+              *ngIf="extLinkSubmitForm.value.imagePath"
             >
-              <img [src]="imagePreview" [alt]="extLinkSubmitForm.value.title" />
+              <img
+                mat-card-lg-image
+                [src]="extLinkSubmitForm.value.imagePath"
+                [alt]="toolbarTitle"
+              />
             </div>
-            <mat-error *ngIf="!extLinkSubmitForm.get('iconImage').valid">
+            <mat-error *ngIf="!extLinkSubmitForm.get('imageAttachment').valid">
               Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
             </mat-error>
           </div>

@@ -1,3 +1,21 @@
+#page-container {
+  position: relative;
+  min-height: 90vh;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem;    /* Footer height */
+}
+
+#footer {
+  background-color: #3F51B5;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;            /* Footer height */
+}
+
+
 /* Mat-Card Component Start */
 
 /*
@@ -87,7 +105,7 @@ input[type="file"] {
 }
 
 .match-status-played {
-  color: greenyellow;
+  color: green;
 }
 
 .match-status-postponed {
@@ -130,20 +148,3 @@ input[type="file"] {
 
 /* Social Media Class Attributes End */
 
-
-#page-container {
-  position: relative;
-  min-height: 90vh;
-}
-
-#content-wrap {
-  padding-bottom: 2.5rem;    /* Footer height */
-}
-
-#footer {
-  background-color: #3F51B5;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 2.5rem;            /* Footer height */
-}

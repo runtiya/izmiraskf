@@ -1,0 +1,37 @@
+.div-fixture-by-week {
+  margin-top: 2rem;
+}
+
+.toolbar {
+  margin-bottom: 1rem;
+}
+
+.title-score {
+  font-size: xx-large;
+}
+
+.mat-mdc-card-header-text {
+  text-align: center;
+}
+
+.card-fixture-header {
+  text-align: center;
+}
+
+.card-fixture-content {
+  text-align: center;
+}
+
+.icon-circle-h {
+  color: red;
+  font-size: medium;
+  overflow: unset;
+}
+
+.text-teamname {
+  font-size: small;
+}
+
+.mat-mdc-card{
+  box-shadow: none;
+}

@@ -6,13 +6,12 @@ mat-action-row button {
   box-shadow: none;
 }
 
-input[type="file"] {
-  visibility: hidden;
+.btn-image-picker {
+  margin-right: 0.5rem;
 }
 
-.image-preview {
-  height: 10rem;
-  margin: 1rem 0;
+.image-preview img {
+  margin: 0.5rem 0;
 }
 
 .image-preview img {

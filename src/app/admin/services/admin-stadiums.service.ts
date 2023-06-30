@@ -41,9 +41,13 @@ export class StadiumsService {
 
   createStadium(stadiumInfo: StadiumsModel) {
     try {
+      const formData = new FormData();
+      formData.append('image', stadiumInfo.imageAttachment);
+      formData.append('stadiumInfo', JSON.stringify(stadiumInfo));
+
       this.http
         .post<{error: boolean, message: string, stadiumId: number}>(
-          'http://localhost:3000/admin/sahalar', stadiumInfo
+          'http://localhost:3000/admin/sahalar', formData
         )
         .subscribe({
           next: (data) => {
@@ -66,9 +70,13 @@ export class StadiumsService {
 
   updateStadium(stadiumInfo: StadiumsModel) {
     try {
+      const formData = new FormData();
+      formData.append('image', stadiumInfo.imageAttachment);
+      formData.append('stadiumInfo', JSON.stringify(stadiumInfo));
+
       this.http
         .put<{error: boolean, message: string}>(
-          'http://localhost:3000/admin/sahalar/' + stadiumInfo.id, stadiumInfo
+          'http://localhost:3000/admin/sahalar/' + stadiumInfo.id, formData
         )
         .subscribe({
           next: (data) => {

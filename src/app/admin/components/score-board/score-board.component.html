@@ -315,6 +315,7 @@
             <p></p>
             <div class="row" [align]="'center'">
               <div class="col-lg-4 col-md-12 col-sm-12">
+                <img mat-card-avatar [src]="fixture.homeTeamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="fixture.homeTeamShortName || fixture.homeTeamOfficialName || 'BAY'">
                 <mat-card-title class="font-team">
                   <fa-icon
                     *ngIf="
@@ -327,7 +328,7 @@
                     }}"
                   >
                   </fa-icon>
-                  {{ findTeamName(fixture.homeTeamId) }}
+                  {{ fixture.homeTeamShortName || fixture.homeTeamOfficialName || 'BAY' }}
                   <fa-icon
                     *ngIf="fixture.isHomeTeamWinByForfeit"
                     [icon]="fontAwesomeIconList.faCircleH"
@@ -379,12 +380,10 @@
 
               <div class="col-lg-4 col-md-12 col-sm-12">
                 <mat-card-subtitle>
-                    {{ findStadiumName(fixture.stadiumId) }}
+                    {{ fixture.stadiumName || 'Saha Belirtilmemiş' }}
                 </mat-card-subtitle>
                 <mat-card-subtitle>
-                    {{  getLocalDateForLongDate(fixture.matchDate) +
-                      " " +
-                      getLocalDateForShortTime(fixture.matchDate) }}
+                    {{  getMatchDate(fixture.matchDate) || 'Tarih Belirtilmemiş' }}
                 </mat-card-subtitle>
                 <mat-card-subtitle>
                   <mat-icon
@@ -396,7 +395,16 @@
               </div>
 
               <div class="col-lg-4 col-md-12 col-sm-12">
+                <img mat-card-avatar [src]="fixture.awayTeamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="fixture.awayTeamShortName || fixture.awayTeamOfficialName || 'BAY'">
                 <mat-card-title class="font-team">
+                  <fa-icon
+                    *ngIf="fixture.isAwayTeamWinByForfeit"
+                    [icon]="fontAwesomeIconList.faCircleH"
+                    class="icon icon-circle-h"
+                    matTooltip="Hükmen"
+                  >
+                  </fa-icon>
+                  {{ fixture.awayTeamShortName || fixture.awayTeamOfficialName || 'BAY' }}
                   <fa-icon
                     *ngIf="
                       fixture.awayTeamIsExpelled || fixture.awayTeamIsReceded
@@ -406,14 +414,6 @@
                     matTooltip="{{
                       fixture.awayTeamExpelledOrRecededExplanation
                     }}"
-                  >
-                  </fa-icon>
-                  {{ findTeamName(fixture.awayTeamId) }}
-                  <fa-icon
-                    *ngIf="fixture.isAwayTeamWinByForfeit"
-                    [icon]="fontAwesomeIconList.faCircleH"
-                    class="icon icon-circle-h"
-                    matTooltip="Hükmen"
                   >
                   </fa-icon>
                 </mat-card-title>

@@ -3,13 +3,13 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 
-
 import { StadiumsModel } from "../../models/admin-stadiums.model";
 import { StadiumsService } from "../../services/admin-stadiums.service";
-import { townList } from "../../../assets/lists/town-list-izmir";
-import { floorTypeList } from "../../../assets/lists/floor-type-list";
 
-
+import { townList } from "../../../assets/lists/town-izmir.list";
+import { floorTypeList } from "../../../assets/lists/floor-type.list";
+import { imageUploadValidator } from "../../validators/image-upload.validator";
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-admin-stadiums-update-modal',
@@ -17,7 +17,6 @@ import { floorTypeList } from "../../../assets/lists/floor-type-list";
   styleUrls: ['../../../app.component.css', './stadiums-create.component.css']
 })
 export class AdminStadiumsCreateModal {
-
   isLoading = false;
   stadiumsCreateForm: FormGroup;
   pageMode : string = this.data.pageMode || 'create';
@@ -25,18 +24,28 @@ export class AdminStadiumsCreateModal {
   townListArray = townList;
   floorTypeListArray = floorTypeList;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<AdminStadiumsCreateModal>, public stadiumService: StadiumsService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Data,
+    public dialogRef: MatDialogRef<AdminStadiumsCreateModal>,
+    private stadiumService: StadiumsService,
+    private globalFunctions: globalFunctions
+  ) {}
 
   ngOnInit() {
 
     this.stadiumsCreateForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.id : null, {validators: []}),
+      createdAt: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.createdAt : null, {validators: []}),
+      createdBy: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.createdBy : null, {validators: []}),
+      updatedAt: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.updatedAt : null, {validators: []}),
+      updatedBy: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.updatedBy : null, {validators: []}),
       stadiumName: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.stadiumName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       city: new FormControl('IZMIR', {validators: [Validators.required, Validators.maxLength(200)]}),
       town: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.town : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       address: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.address : null, {validators: [Validators.maxLength(2000)]}),
       phoneNumber: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.phoneNumber : null, {validators: [Validators.maxLength(200)]}),
-      stadiumImage: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.stadiumImage : null, {validators: [], asyncValidators: []}),
+      imagePath: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.imagePath : null, {validators: []}),
+      imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
       longitude: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.longitude : null, {validators: []}),
       latitude: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.latitude : null, {validators: []}),
       audienceCapacity: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.audienceCapacity : null, {validators: [Validators.min(0), Validators.max(99999)]}),
@@ -51,11 +60,25 @@ export class AdminStadiumsCreateModal {
 
   }
 
-  onDelete(id: number) {
-    this.isLoading = true;
-    this.stadiumService.deleteStadium(id);
-    this.isLoading = false;
-    this.dialogRef.close();
+  onFilePicked(event: Event) {
+    try {
+      const file = (event.target as HTMLInputElement).files[0];
+      this.stadiumsCreateForm.patchValue({imageAttachment: file});
+      this.stadiumsCreateForm.get('imageAttachment').updateValueAndValidity();
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        let _imagePath = this.stadiumsCreateForm.get('imageAttachment').valid ? reader.result as string : null;
+        this.stadiumsCreateForm.get('imagePath').setValue(_imagePath);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+
+    }
+  }
+
+  filePickerRemove() {
+    this.stadiumsCreateForm.get('imageAttachment').setValue(null);
+    this.stadiumsCreateForm.get('imagePath').setValue(null);
   }
 
   onSubmitForm() {
@@ -63,9 +86,11 @@ export class AdminStadiumsCreateModal {
     if (this.stadiumsCreateForm.valid) {
       this.isLoading = true;
       if (this.pageMode === "create") {
+        this.stadiumsCreateForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
         this.stadiumService.createStadium(this.stadiumsCreateForm.value);
       }
       else {
+        this.stadiumsCreateForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
         this.stadiumService.updateStadium(this.stadiumsCreateForm.value);
       }
       this.isLoading = false;
@@ -74,7 +99,13 @@ export class AdminStadiumsCreateModal {
     else {
       return null;
     }
+  }
 
+  onDelete(id: number) {
+    this.isLoading = true;
+    this.stadiumService.deleteStadium(id);
+    this.isLoading = false;
+    this.dialogRef.close();
   }
 
 }

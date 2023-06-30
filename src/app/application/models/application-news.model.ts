@@ -4,6 +4,6 @@ export interface NewsModel {
   updatedAt: Date,
   title: string;
   content: Text;
-  newsImage: File;
+  imagePath: string;
   isOnline: boolean;
 }

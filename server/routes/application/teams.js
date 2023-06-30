@@ -4,7 +4,7 @@ const fs = require('fs');
 const teamsController = require('../../controllers/application/teams');
 
 const checkAuth = require('../../middlewares/check-auth');
-const extractTeamLogo = require('../../middlewares/extract-team-logo');
+const extractImage = require('../../middlewares/extract-image');
 
 const router = express.Router();
 

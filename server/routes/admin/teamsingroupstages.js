@@ -4,7 +4,7 @@ const multer = require('multer');
 const teamsingroupstagesController = require('../../controllers/admin/teamsingroupstages');
 
 const checkAuth = require('../../middlewares/check-auth');
-const extractTeamLogo = require('../../middlewares/extract-team-logo');
+const extractImage = require('../../middlewares/extract-image');
 
 const router = express.Router();
 

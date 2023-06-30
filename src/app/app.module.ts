@@ -20,7 +20,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select'
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
@@ -61,10 +61,6 @@ import { AdminExternalLinksCreateModal } from "./admin/components/external-links
 
 import { AdminDocumentList } from "./admin/components/documents-list/documents-list.component";
 import { AdminDocumentCreateModal } from "./admin/components/documents-create/documents-create.component";
-import { AdminDocumentStatuses } from "./admin/components/documents-statuses-list/documents-statuses-list.component";
-import { AdminDocumentInstructions } from "./admin/components/documents-instructions-list/documents-instructions-list.component";
-import { AdminDocumentLicenseForms } from "./admin/components/documents-license-forms-list/documents-license-forms-list.component";
-import { AdminDocumentDocuments } from "./admin/components/documents-documents-list/documents-documents-list.component";
 
 import { AdminStadiumsList } from "./admin/components/stadiums-list/stadiums-list.component";
 import { AdminStadiumsCreateModal } from "./admin/components/stadiums-create/stadiums-create.component";
@@ -93,18 +89,28 @@ import { AdminTeamsInDisqualificationsEditModal } from "./admin/components/teams
 
 import { AdminFixtureCreate } from "./admin/components/fixture-create/fixture-create.component";
 import { AdminFixtureEditModal } from "./admin/components/fixture-edit/fixture-edit.component";
+import { AdminTeamsInGroupstagesInFixtureCreate } from "./admin/components/teamsingroupstages-in-fixturecreate/teamsingroupstages-in-fixturecreate.component";
 
 import { AdminScoreBoard } from "./admin/components/score-board/score-board.component";
 
 import { AdminPointBoard } from "./admin/components/point-board/point-board.component";
+import { AdminFixtureByWeek } from "./admin/components/fixture-by-week/fixture-by-week.component";
+import { AdminPointBoardFixtureWrap } from "./admin/components/pointboard-fixture-wrap/pointboard-fixture-wrap.component";
 
 import { AdminUsersList } from "./admin/components/users-list/users-list.component";
 import { AdminUsersCreateModal } from "./admin/components/users-create/users-create.component";
+
+import { AdminConfirmationDialogModal } from "./admin/components/confirmation-dialog/confirmation-dialog.component";
 
 // Application Components
 import { PageNotFound } from './application/components/page-not-found/page-not-found.component';
 import { ApplicationHeader } from "./application/components/header/header.component";
 import { ApplicationToolbarTitle } from "./application/components/toolbar-title/toolbar-title.component";
+
+import { ApplicationHome } from "./application/components/home/home.component";
+import { ApplicationNewsSlider } from "./application/components/news-slider/news-slider.component";
+import { ApplicationDocumentCategoryListInHome } from "./application/components/document-category-list-in-home/document-category-list-in-home.component";
+import { ApplicationExternalLinksInHome } from "./application/components/external-links-in-home/external-links-in-home.component";
 
 import { ApplicationIzmirASKF } from "./application/components/about-izmiraskf/about-izmiraskf.component";
 import { ApplicationStaffIzmirAskf } from "./application/components/staff-izmiraskf-list/staff-izmiraskf-list.component";
@@ -127,6 +133,8 @@ import { ApplicationDisciplinaryBoardDecisionsDetailsModal } from "./application
 import { ApplicationPointBoard } from "./application/components/point-board/point-board.component";
 import { ApplicationFixtureByWeek } from "./application/components/fixture-by-week/fixture-by-week.component";
 import { ApplicationPointBoardFixtureWrap } from "./application/components/pointboard-fixture-wrap/pointboard-fixture-wrap.component";
+
+import { ApplicationDocumentList } from "./application/components/documents-list/documents-list.component";
 
 import { ApplicationContactUs } from "./application/components/contact-us/contact-us.component";
 
@@ -172,10 +180,6 @@ import { ErrorInterceptor } from "./error/error-interceptor";
 
     AdminDocumentList,
     AdminDocumentCreateModal,
-    AdminDocumentStatuses,
-    AdminDocumentInstructions,
-    AdminDocumentLicenseForms,
-    AdminDocumentDocuments,
 
     AdminStadiumsList,
     AdminStadiumsCreateModal,
@@ -204,20 +208,28 @@ import { ErrorInterceptor } from "./error/error-interceptor";
 
     AdminFixtureCreate,
     AdminFixtureEditModal,
+    AdminTeamsInGroupstagesInFixtureCreate,
 
     AdminScoreBoard,
 
     AdminPointBoard,
+    AdminFixtureByWeek,
+    AdminPointBoardFixtureWrap,
 
     AdminUsersList,
     AdminUsersCreateModal,
 
-
+    AdminConfirmationDialogModal,
 
     //Application Components
     PageNotFound,
     ApplicationHeader,
     ApplicationToolbarTitle,
+
+    ApplicationHome,
+    ApplicationNewsSlider,
+    ApplicationDocumentCategoryListInHome,
+    ApplicationExternalLinksInHome,
 
     ApplicationNewsList,
     ApplicationNewsDetails,
@@ -240,6 +252,8 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     ApplicationPointBoard,
     ApplicationFixtureByWeek,
     ApplicationPointBoardFixtureWrap,
+
+    ApplicationDocumentList,
 
     ApplicationContactUs,
 

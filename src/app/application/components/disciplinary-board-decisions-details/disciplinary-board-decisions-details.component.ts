@@ -10,8 +10,8 @@ import { DisciplinaryBoardDecisionModel } from "../../models/application-discipl
 
 import { globalFunctions } from "../../../functions/global.function";
 
-import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto-list";
-import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype-list";
+import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto.list";
+import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype.list";
 
 @Component({
     selector: 'app-application-disciplinary-board-decisions-details',

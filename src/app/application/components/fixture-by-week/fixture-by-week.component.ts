@@ -7,8 +7,8 @@ import { FixtureService } from "../../services/application-fixtures.service";
 
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
-import { matchStatusList } from "../../../assets/lists/match-status-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
+import { matchStatusList } from "../../../assets/lists/match-status.list";
 
 @Component({
   selector: 'app-application-fixture-by-week',

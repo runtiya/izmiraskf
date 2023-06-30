@@ -13,6 +13,37 @@
         *ngIf="!isLoading"
       >
         <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <button
+              mat-stroked-button
+              type="button"
+              color="primary"
+              class="btn-image-picker"
+              (click)="filePicker.click()"
+            >Resim Seç</button>
+            <button
+              mat-stroked-button
+              type="button"
+              color="warn"
+              class="btn-image-picker"
+              *ngIf="staffIASKFSubmitForm.value.imagePath !== '' && staffIASKFSubmitForm.value.imagePath && staffIASKFSubmitForm.get('imageAttachment').valid"
+              (click)="filePickerRemove()"
+            >Kaldır</button>
+            <input type="file" name="image" #filePicker (change)="onFilePicked($event)" />
+            <div
+              class="image-preview"
+            >
+              <img
+                mat-card-lg-image
+                [src]="staffIASKFSubmitForm.value.imagePath || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'"
+                [alt]="toolbarTitle"
+              />
+            </div>
+            <mat-error *ngIf="!staffIASKFSubmitForm.get('imageAttachment').valid">
+              Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+            </mat-error>
+          </div>
+
           <div class="col-lg-6 col-md-6 col-sm-12">
             <mat-form-field class="form-input">
               <mat-label>Unvan</mat-label>
@@ -102,34 +133,6 @@
           </div>
 
           <div class="col-lg-6 col-md-6 col-sm-12">
-            <button
-              mat-stroked-button
-              type="button"
-              color="primary"
-              (click)="filePicker.click()"
-            >
-              Resim Seç
-            </button>
-            <input type="file" #filePicker (change)="onFilePicked($event)" />
-            <div
-              class="image-preview"
-              *ngIf="
-                imagePreview !== '' &&
-                imagePreview &&
-                staffIASKFSubmitForm.get('profileImage').valid
-              "
-            >
-              <img
-                [src]="imagePreview"
-                [alt]="staffIASKFSubmitForm.value.title"
-              />
-            </div>
-            <mat-error *ngIf="!staffIASKFSubmitForm.get('profileImage').valid"
-              >Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
-            </mat-error>
-          </div>
-
-          <div class="col-lg-3 col-md-3 col-sm-12">
             <mat-form-field class="form-input">
               <mat-label>Aktif mi?</mat-label>
               <mat-select
@@ -146,7 +149,7 @@
             </mat-form-field>
           </div>
 
-          <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="col-lg-6 col-md-6 col-sm-12">
             <mat-form-field class="form-input">
               <mat-label>Sıra No (1-999)</mat-label>
               <input

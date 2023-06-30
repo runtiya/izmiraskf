@@ -1,8 +1,9 @@
 export interface DocumentsModel {
-  id: number,
-  docName: string,
-  content: File,
-  mimeType: string,
+  documentName: string,
+  fileName: string,
+  fileMimeType: string,
+  fileSize: number,
+  filePath: string,
   category: string,
   orderNo: number
 }

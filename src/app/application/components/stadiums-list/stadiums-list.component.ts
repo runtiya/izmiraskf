@@ -6,9 +6,9 @@ import { Router } from "@angular/router";
 import { StadiumsModel } from "../../models/application-stadiums.model";
 import { StadiumsService } from "../../services/application-stadiums.service";
 
-import { cityList } from "../../../assets/lists/city-list-tr";
-import { townList } from "../../../assets/lists/town-list-izmir";
-import { floorTypeList } from "../../../assets/lists/floor-type-list";
+import { cityList } from "../../../assets/lists/city-tr.list";
+import { townList } from "../../../assets/lists/town-izmir.list";
+import { floorTypeList } from "../../../assets/lists/floor-type.list";
 
 import { globalFunctions } from "../../../functions/global.function";
 

@@ -1,6 +1,9 @@
-.btn-search {
-  width: 100%;
-  margin-bottom: 2rem;
+.div-point-board {
+  margin-top: 2rem;
+}
+
+.toolbar {
+  margin-bottom: 1rem;
 }
 
 .font-pointtotal {
@@ -12,44 +15,10 @@
   padding: 0;
 }
 
-table {
-  box-shadow: none;
+.mat-mdc-card-avatar {
+  margin-bottom: 0;
 }
 
-.font-title-teamname {
-  font-size: medium;
-}
-
-.font-match-score {
-  font-size: x-large;
-}
-
-.container-fixture {
-  margin: 1rem 0;
-}
-
-
-.icon-match-status {
-  font-size: x-small;
-  overflow: unset;
-}
-
-.match-status-notplayed {
-  color: grey;
-}
-
-.match-status-played {
-  color: greenyellow;
-}
-
-.match-status-postponed {
-  color: orange;
-}
-
-.match-status-byforfeit {
-  color: red;
-}
-
-.icon-circle-h {
-  color: red;
+.mdc-data-table__cell {
+  text-align: start;
 }

@@ -6,7 +6,7 @@ import { Data } from "@angular/router";
 import { AuthService } from "../../authentication/auth.service";
 import { UserModel } from "../../models/admin-users.model";
 
-import { userAuthorityList } from "../../assets/lists/user-authority-list";
+import { userAuthorityList } from "../../assets/lists/user-authority.list";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 
 @Component({
@@ -37,10 +37,10 @@ export class AdminUsersCreateModal implements OnInit, OnDestroy {
       updatedBy: new FormControl(this.pageMode == 'edit' ? this.userInfo.updatedBy : null, {validators: []}),
       fullName: new FormControl(this.pageMode == 'edit' ? this.userInfo.fullName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       userName: new FormControl(this.pageMode == 'edit' ? this.userInfo.userName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      userPassword: new FormControl(this.pageMode == 'edit' ? this.userInfo.userPassword : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+      userPassword: new FormControl(this.pageMode == 'edit' ? null : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       profilePhoto: new FormControl(this.pageMode == 'edit' ? this.userInfo.profilePhoto : null, {validators: [], asyncValidators: [imageUploadValidator]}),
       userType: new FormControl(this.pageMode == 'edit' ? this.userInfo.userType : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      isActive: new FormControl(this.pageMode == 'edit' ? this.userInfo.isActive : null, {validators: [Validators.required]}),
+      isActive: new FormControl(this.pageMode == 'edit' ? !!this.userInfo.isActive : null, {validators: [Validators.required]}),
     });
   }
 
@@ -64,7 +64,11 @@ export class AdminUsersCreateModal implements OnInit, OnDestroy {
 
   onSubmitForm() {
     if (this.userSubmitForm.valid) {
-      this.authService.createUser(this.userSubmitForm.value);
+      if (this.pageMode === "create") {
+        this.authService.createUser(this.userSubmitForm.value);
+      } else {
+        this.authService.updateUser(this.userSubmitForm.value);
+      }
 
       this.dialogRef.close();
     } else {

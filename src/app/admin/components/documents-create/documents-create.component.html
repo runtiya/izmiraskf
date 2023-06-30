@@ -11,6 +11,7 @@
         [formGroup]="documentSubmitForm"
         (submit)="onSubmitForm()"
         *ngIf="!isLoading"
+        enctype="multipart/form-data"
       >
         <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12">
@@ -19,43 +20,56 @@
               <input
                 matInput
                 type="text"
-                formControlName="docName"
+                formControlName="documentName"
                 placeholder="Dosya Adı"
               />
               <mat-hint align="end"
                 >{{
-                  documentSubmitForm.get("docName").value
-                    ? documentSubmitForm.get("docName").value.length
+                  documentSubmitForm.get("documentName").value
+                    ? documentSubmitForm.get("documentName").value.length
                     : 0
                 }}/200</mat-hint
               >
-              <mat-error *ngIf="documentSubmitForm.get('docName').invalid"
+              <mat-error *ngIf="documentSubmitForm.get('documentName').invalid"
                 >Lütfen dosya adı giriniz! (en fazla 200 karakter)</mat-error
               >
             </mat-form-field>
           </div>
 
-          <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="col-lg-8 col-md-6 col-sm-12">
             <button
               mat-stroked-button
               type="button"
               color="primary"
+              class="btn-file-picker"
               (click)="filePicker.click()"
-            >
-              Dosya Seç
-            </button>
+            >Dosya Seç</button>
+            <button
+              mat-stroked-button
+              type="button"
+              color="warn"
+              class="btn-file-picker"
+              *ngIf="(documentSubmitForm.value.fileName !== '' && documentSubmitForm.value.filePath) || documentSubmitForm.value.fileAttachment"
+              (click)="filePickerRemove()"
+            >Kaldır</button>
             <input type="file" #filePicker (change)="onFilePicked($event)" />
             <div
               class="document-preview"
-              *ngIf="
-                documentPreview !== '' &&
-                documentPreview &&
-                documentSubmitForm.get('content').valid
-              "
             >
-              <mat-card-subtitle>{{ documentPreview }}</mat-card-subtitle>
-              <mat-error *ngIf="!documentSubmitForm.get('content').valid">
-                Lütfen geçerli bir dosya seçiniz! (en fazla 5MB)
+              <mat-card-subtitle *ngIf="documentSubmitForm.value.fileName">
+                <fa-icon
+                  [icon]="findMimeTypeIcon(documentSubmitForm.value.fileMimeType)"
+                  class="icon icon-attachment"
+                >
+                </fa-icon>
+                {{ documentSubmitForm.value.fileAttachment ? documentSubmitForm.value.fileAttachment.name : documentSubmitForm.value.fileName }}
+
+              </mat-card-subtitle>
+              <mat-card-subtitle *ngIf="documentSubmitForm.value.fileName">
+                {{ documentSubmitForm.value.fileAttachment ? getFileSize(documentSubmitForm.value.fileAttachment.size) : getFileSize(documentSubmitForm.get('fileSize').value) }}
+              </mat-card-subtitle>
+              <mat-error *ngIf="!documentSubmitForm.get('fileAttachment').valid || !documentSubmitForm.get('fileName').valid">
+                Lütfen geçerli bir dosya seçiniz! (en fazla 10MB)
               </mat-error>
             </div>
           </div>

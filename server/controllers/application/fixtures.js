@@ -1,30 +1,5 @@
 const connection = require('../../functions/database').connectDatabase();
 
-function getFixture(req, res, next) {
-  const groupstageId = req.params.groupstageid;
-  var fixtureList;
-  var message;
-
-  connection.query(
-    "select * from view_application_fixtures where groupstageId = ?",
-    [groupstageId],
-    (error, result) => {
-      if (!error) {
-        fixtureList = result;
-      } else {
-        message = error.sqlMessage;
-        fixtureList = [];
-      }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Fixtures fetched successfully!',
-        fixtureList: fixtureList
-      });
-    }
-  );
-}
-
 function getFixtureBySearchIndex(req, res, next) {
   const searchIndex = req.body;
   var fixtureList;
@@ -46,18 +21,18 @@ function getFixtureBySearchIndex(req, res, next) {
 
 
   connection.query(
-    "select * from view_application_fixturesforsearch where " + seasonSearchIndex + " and "
-                                                              + leagueSearchIndex + " and "
-                                                              + groupstageSearchIndex + " and "
-                                                              + matchWeekSearchIndex + " and "
-                                                              + matchNoSearchIndex + " and "
-                                                              + stadiumIdSearchIndex + " and "
-                                                              + homeTeamIdSearchIndex + " and "
-                                                              + awayTeamIdSearchIndex + " and "
-                                                              + matchStatusSearchIndex + " and "
-                                                              + townSearchIndex + " and "
-                                                              + startDateSearchIndex + " and "
-                                                              + endDateSearchIndex + " and true ",
+    "select * from view_application_fixtures where " + seasonSearchIndex + " and "
+                                                     + leagueSearchIndex + " and "
+                                                     + groupstageSearchIndex + " and "
+                                                     + matchWeekSearchIndex + " and "
+                                                     + matchNoSearchIndex + " and "
+                                                     + stadiumIdSearchIndex + " and "
+                                                     + homeTeamIdSearchIndex + " and "
+                                                     + awayTeamIdSearchIndex + " and "
+                                                     + matchStatusSearchIndex + " and "
+                                                     + townSearchIndex + " and "
+                                                     + startDateSearchIndex + " and "
+                                                     + endDateSearchIndex + " and true ",
     (error, result) => {
       if (!error) {
         fixtureList = result;
@@ -75,6 +50,5 @@ function getFixtureBySearchIndex(req, res, next) {
   );
 }
 
-exports.getFixture = getFixture;
-exports.getFixtureBySearchIndex = getFixtureBySearchIndex;
 
+exports.getFixtureBySearchIndex = getFixtureBySearchIndex;

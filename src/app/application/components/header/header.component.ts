@@ -2,12 +2,13 @@ import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from "@angu
 import { Subscription } from "rxjs";
 
 import { AuthService } from "../../../admin/authentication/auth.service";
+import { GlobalIzmirASKFService } from "../../../services/global-izmiraskf.service";
 import { ExternalLinksModel } from "../../models/application-externallinks.model";
 import { ExternalLinksService } from "../../services/application-externallinks.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { faBrandList } from "../../../assets/lists/font-awesome-brand-list";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 @Component({
@@ -21,15 +22,19 @@ export class ApplicationHeader implements OnInit, OnDestroy {
   faBrandList = faBrandList;
   fontAwesomeIconList = fontAwesomeIconList;
   @Output() public sidenavToggle = new EventEmitter();
+  logoPath: string = null;
+  private logoPathSubscription: Subscription;
 
 
   constructor(
     private authService: AuthService,
+    private globalIzmirASKFService: GlobalIzmirASKFService,
     private externalLinksService: ExternalLinksService,
     private globalFunctions: globalFunctions
   ){}
 
   ngOnInit(): void {
+
     this.externalLinksListSub = this.externalLinksService.getExternalLinksSubListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
@@ -39,6 +44,17 @@ export class ApplicationHeader implements OnInit, OnDestroy {
 
         }
       });
+
+    this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
+      .subscribe({
+        next: (data: string) => {
+          this.logoPath = data;
+        },
+        error: (error) => {
+
+        }
+      });
+
   }
 
   findIconFaIcon(_faBrand: string): IconDefinition {

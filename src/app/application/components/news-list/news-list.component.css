@@ -1,7 +1,12 @@
 img {
   margin-right: 0.5rem;
+  height: 100%;
 }
 
 .card-news-list:hover {
   cursor: pointer;
+}
+
+mat-card-content {
+  margin-bottom: 0.25rem;
 }

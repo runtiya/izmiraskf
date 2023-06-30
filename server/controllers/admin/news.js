@@ -1,4 +1,5 @@
 const connection = require('../../functions/database').connectDatabase();
+const imagesFunction = require('../../functions/images');
 
 function getNews(req, res, next) {
   var newsList;
@@ -30,12 +31,20 @@ function findNews(req, res, next) {
 
 
 function createNews(req, res, next) {
-  const newsInfo = req.body;
+  const newsInfo = JSON.parse(req.body.newsInfo);;
   var message;
   var newsId;
 
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const imagePath = imagesFunction.setImagePath(url, "/images/news/", req.file.filename);
+    newsInfo.imagePath = imagePath;
+  } else {
+    newsInfo.imagePath = null;
+  }
+
   connection.query(
-    "insert into news(createdat, createdby, updatedat, updatedby, title, content, newsimage, isonline)values (?, ?, ?, ?, ?, ?, ?, ?)",
+    "insert into news(createdat, createdby, updatedat, updatedby, title, content, imagepath, isvisible)values (?, ?, ?, ?, ?, ?, ?, ?)",
     [
       newsInfo.createdAt,
       newsInfo.createdBy,
@@ -43,8 +52,8 @@ function createNews(req, res, next) {
       newsInfo.updatedBy,
       newsInfo.title,
       newsInfo.content,
-      newsInfo.newsImage,
-      newsInfo.isOnline
+      newsInfo.imagePath,
+      newsInfo.isVisible
     ],
     (error, result) => {
       if (!error) {
@@ -63,11 +72,24 @@ function createNews(req, res, next) {
 
 
 function updateNews(req, res, next) {
-  const newsInfo = req.body;
+  const newsInfo = JSON.parse(req.body.newsInfo);;
+  var message;
+  var newsId = req.params.id;
+
+
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const imagePath = imagesFunction.setImagePath(url, "/images/news/", req.file.filename);
+    newsInfo.imagePath = imagePath;
+  } else {
+    if (!newsInfo.imagePath) {
+      newsInfo.imagePath = null;
+    }
+  }
 
   var message;
   connection.query(
-    "update news set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, content = ?, newsimage = ?, isonline = ? where id = ?",
+    "update news set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, content = ?, imagepath = ?, isvisible = ? where id = ?",
     [
       newsInfo.createdAt,
       newsInfo.createdBy,
@@ -75,9 +97,9 @@ function updateNews(req, res, next) {
       newsInfo.updatedBy,
       newsInfo.title,
       newsInfo.content,
-      newsInfo.newsImage,
-      newsInfo.isOnline,
-      newsInfo.id
+      newsInfo.imagePath,
+      newsInfo.isVisible,
+      newsId || newsInfo.id
     ],
     (error, result) => {
       if (!error) {

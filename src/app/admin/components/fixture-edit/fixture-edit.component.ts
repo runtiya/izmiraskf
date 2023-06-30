@@ -1,10 +1,8 @@
 import { Component, Inject, Input, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Data } from "@angular/router";
-import { MatDatepicker, MatDatepickerInputEvent } from "@angular/material/datepicker";
-import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 import { FixtureModel } from "../../models/admin-fixture.model";
 import { StadiumsModel } from "../../models/admin-stadiums.model";
@@ -15,8 +13,9 @@ import { FixtureService } from "../../services/admin-fixtures.service";
 import { fixtureFunctions } from "../../functions/fixture.function";
 import { globalFunctions } from "../../../functions/global.function";
 
-import { matchStatusList } from "../../../assets/lists/match-status-list";
-import { DatePipe } from "@angular/common";
+import { matchStatusList } from "../../../assets/lists/match-status.list";
+import { MatchModel } from "../../models/admin-match.model";
+import { FixtureSearchModel } from "../../models/admin-fixture-search-index.model";
 
 
 @Component({
@@ -46,10 +45,8 @@ export class AdminFixtureEditModal implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Data,
     public dialogRef: MatDialogRef<AdminFixtureEditModal>,
     public fixturesService: FixtureService,
-    private _snackBar: MatSnackBar,
-    private _datePipe: DatePipe,
-    private globalFunctions: globalFunctions
-
+    private globalFunctions: globalFunctions,
+    private fixtureFunctions: fixtureFunctions
   ) {
 
   }
@@ -58,6 +55,10 @@ export class AdminFixtureEditModal implements OnInit {
     this.isLoading = true;
     this.fixtureSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.fixtureInfo.id : null, {validators: []}),
+      createdAt: new FormControl(this.pageMode == 'edit' ? this.fixtureInfo.createdAt : null, {validators: []}),
+      createdBy: new FormControl(this.pageMode == 'edit' ? this.fixtureInfo.createdBy : null, {validators: []}),
+      updatedAt: new FormControl(this.pageMode == 'edit' ? this.fixtureInfo.updatedAt : null, {validators: []}),
+      updatedBy: new FormControl(this.pageMode == 'edit' ? this.fixtureInfo.updatedBy : null, {validators: []}),
       groupstageId: new FormControl(this.fixtureInfo.groupstageId, {validators: [Validators.required]}),
       matchNo: new FormControl(this.pageMode == 'edit' ? this.fixtureInfo.matchNo : null, {validators: [Validators.maxLength(200)]}),
       matchWeek: new FormControl(this.pageMode == 'edit' ? this.fixtureInfo.matchWeek : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]}),
@@ -95,38 +96,50 @@ export class AdminFixtureEditModal implements OnInit {
 
   onSubmitForm() {
     this.isLoading = true;
+    let fixtureSearchIndex: FixtureSearchModel = this.fixtureFunctions.setFixtureSearchModel(
+      this.seasonSelectionId,
+      this.leagueSelectionId,
+      this.groupstageSelectionId,
+      null, null, null, null, null, null, null, null, null
+    );
 
-    let seasonId = this.seasonSelectionId;
-    let leagueId = this.leagueSelectionId;
-    let groupstageId = this.groupstageSelectionId;
     let weekNumber = this.fixtureSubmitForm.get('matchWeek').value;
     let orderNo = this.fixtureSubmitForm.get('orderNo').value;
 
-    var _fixtureList: FixtureModel[] = [];
+    var _matchList: MatchModel[] = [];
     let checkMatch: boolean;
 
     if (this.fixtureSubmitForm.valid) {
-
+      // create
       if (this.pageMode == 'create') {
-
-        let matchNo = fixtureFunctions.setMatchNo(seasonId, leagueId, groupstageId, weekNumber, orderNo);
+        let matchNo = this.fixtureFunctions.setMatchNo(this.seasonSelectionId, this.leagueSelectionId, this.groupstageSelectionId, weekNumber, orderNo);
         checkMatch = this.fixturesService.checkMatch(this.fixtureSubmitForm.value, matchNo, null);
+        // create - checkMatch success
         if (checkMatch) {
           this.fixtureSubmitForm.get('matchNo').setValue(matchNo);
-          _fixtureList.push(this.fixtureSubmitForm.value);
-          this.fixturesService.createFixture(_fixtureList, groupstageId);
+          this.fixtureSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
+          _matchList.push(this.fixtureSubmitForm.value);
+          this.fixturesService.createFixture(_matchList, fixtureSearchIndex);
           this.dialogRef.close();
-        } else {
+        }
+        // create - checkMatch not success
+        else {
           this.globalFunctions.showSnackBar.next('Hafta ve Sıra Numarasına sahip başka bir maç bulundu!');
         }
-      } else {
+      }
+      // update
+      else {
         let isSameMatch = (weekNumber == this.preMatchWeek && orderNo == this.preOrderNo);
         checkMatch = this.fixturesService.checkMatch(this.fixtureSubmitForm.value, null, isSameMatch);
+        // update - checkMatch success
         if (checkMatch) {
-          _fixtureList.push(this.fixtureSubmitForm.value);
-          this.fixturesService.updateFixture(_fixtureList);
+          this.fixtureSubmitForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
+          _matchList.push(this.fixtureSubmitForm.value);
+          this.fixturesService.updateFixture(_matchList, fixtureSearchIndex);
           this.dialogRef.close();
-        } else {
+        }
+        // update - checkMatch not success
+        else {
           this.globalFunctions.showSnackBar.next('Hafta ve Sıra Numarasına sahip başka bir maç bulundu!');
         }
       }

@@ -45,20 +45,36 @@
             </mat-form-field>
           </div>
 
-
-
           <div class="col-lg-9 col-md-9 col-sm-12">
             <button
-                mat-raised-button
-                type="button"
-                color="primary"
-                (click)="filePicker.click()"
-                >Resim Seç</button>
-              <input type="file" #filePicker (change)="onFilePicked($event)"/>
-              <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && newsCreateForm.get('newsImage').valid">
-                <img [src]="imagePreview" [alt]="newsCreateForm.value.title">
-              </div>
-              <mat-error *ngIf="!newsCreateForm.get('newsImage').valid">Lütfen geçerli bir resim seçiniz! (en fazla 5MB)</mat-error>
+              mat-stroked-button
+              type="button"
+              color="primary"
+              class="btn-image-picker"
+              (click)="filePicker.click()"
+            >Resim Seç</button>
+            <button
+              mat-stroked-button
+              type="button"
+              color="warn"
+              class="btn-image-picker"
+              *ngIf="newsCreateForm.value.imagePath !== '' && newsCreateForm.value.imagePath && newsCreateForm.get('imageAttachment').valid"
+              (click)="filePickerRemove()"
+            >Kaldır</button>
+            <input type="file" name="image" #filePicker (change)="onFilePicked($event)" />
+            <div
+              class="image-preview"
+              *ngIf="newsCreateForm.value.imagePath"
+            >
+              <img
+                mat-card-xl-image
+                [src]="newsCreateForm.value.imagePath"
+                [alt]="toolbarTitle"
+              />
+            </div>
+            <mat-error *ngIf="!newsCreateForm.get('imageAttachment').valid">
+              Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+            </mat-error>
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-12">
@@ -66,13 +82,13 @@
               <mat-label>Yayında mı?</mat-label>
               <mat-select
                 matInput
-                formControlName="isOnline"
+                formControlName="isVisible"
                 placeholder="Evet"
                 >
                 <mat-option [value]="true">Evet</mat-option>
                 <mat-option [value]="false">Hayır</mat-option>
               </mat-select>
-              <mat-error *ngIf="newsCreateForm.get('isOnline').invalid">Lütfen bir değer seçiniz!</mat-error>
+              <mat-error *ngIf="newsCreateForm.get('isVisible').invalid">Lütfen bir değer seçiniz!</mat-error>
             </mat-form-field>
           </div>
         </div>

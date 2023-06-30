@@ -8,8 +8,8 @@ import { LeaguesModel } from "../../models/admin-leagues.model";
 import { LeaguesService } from "../../services/admin-leagues.service";
 import { AdminLeaguesCreateModal } from "../leagues-create/leagues-create.component";
 
-import { leagueCategoryList } from "../../../assets/lists/league-category-list";
-import { leagueTypeList } from "../../../assets/lists/league-type-list";
+import { leagueCategoryList } from "../../../assets/lists/league-category.list";
+import { leagueTypeList } from "../../../assets/lists/league-type.list";
 
 import { globalFunctions } from "../../../functions/global.function";
 
@@ -70,6 +70,10 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
     this.isLoading = false;
   }
 
+  findSeasonName(seasonId: number): string {
+    return this.seasonsList.find(s => s.id == seasonId).seasonName;
+  }
+
   findLeagueCategory(category: LeaguesModel["category"]) {
     return leagueCategoryList.find(e => { return e.name == category}).value;
   }
@@ -82,7 +86,7 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AdminLeaguesCreateModal, {
       data: {
         pageMode: 'create',
-        seasonList: this.seasonsList,
+        seasonName: this.seasonsList.find(s => s.id == this.seasonSelectionId).seasonName,
         seasonSelectionId: this.seasonSelectionId
       }
     });
@@ -93,7 +97,7 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
       data: {
         pageMode: 'edit',
         leagueInfo: leagueInfo,
-        seasonList: this.seasonsList,
+        seasonName: this.seasonsList.find(s => s.id == this.seasonSelectionId).seasonName,
         seasonSelectionId: this.seasonSelectionId
       }
     });

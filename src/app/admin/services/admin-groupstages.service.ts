@@ -86,17 +86,14 @@ export class GroupStagesService {
         .subscribe({
           next: (data) => {
             if (!data.error) {
-              /*
               groupstageInfo.id = data.groupstageId;
               this.groupstageList.push(groupstageInfo);
               this.groupstageListSub.next([...this.groupstageList]);
-              */
             } else {
 
             }
           },
           error: (error) => {
-
           }
         });
     } catch (error) {
@@ -113,25 +110,19 @@ export class GroupStagesService {
         .subscribe({
           next: (data) => {
             if (!data.error) {
-              /*
+              // Replace updated object with the old one
               this.groupstageList.forEach((item, i) => {
                 if (item.id == groupstageInfo.id) {
                   this.groupstageList[i] = groupstageInfo;
-                  if (item.leagueId !== groupstageInfo.leagueId) {
-                    const filteredGroupstageList = this.groupstageList.filter(group => group.leagueId !== groupstageInfo.leagueId);
-                    this.groupstageList = filteredGroupstageList;
-                  }
                 }
               });
 
               this.groupstageListSub.next([...this.groupstageList]);
-              */
             } else {
 
             }
           },
           error: (error) => {
-
           }
         });
     } catch (error) {

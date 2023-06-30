@@ -1,0 +1,14 @@
+<div>
+  <mat-card>
+    <mat-toolbar class="toolbar toolbar-title">
+      <span>{{'BAĞLANTILAR'}}</span>
+    </mat-toolbar>
+
+    <mat-card-content class="card-externallink" *ngFor="let link of extLinksRelatedLinks">
+      <a href="{{link.url}}" target="_blank" rel="noopener noreferrer" class="d-flex align-items-center">
+        <img mat-card-avatar [src]="link.imagePath" [alt]="link.linkName">
+        <mat-card-subtitle>{{link.linkName}}</mat-card-subtitle>
+      </a>
+    </mat-card-content>
+  </mat-card>
+</div>

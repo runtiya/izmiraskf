@@ -7,7 +7,7 @@ import { StaffITFFService } from "../../services/application-staffitff.service";
 
 import { globalFunctions } from "../../../functions/global.function";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-application-staffizmirtff-list',

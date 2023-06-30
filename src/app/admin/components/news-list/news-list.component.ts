@@ -7,7 +7,7 @@ import { NewsModel } from "../../models/admin-news.model";
 import { NewsService } from "../../services/admin-news.service";
 import { AdminNewsUpdateModal } from "../news-update/news-update.component";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-admin-news-list',
@@ -35,7 +35,6 @@ export class AdminNewsList implements OnInit, OnDestroy {
       .subscribe((data: NewsModel[]) => {
         // Sort data regarding the updateDate || createDate
         this.newsList = data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
         this.isLoading = false;
       });
 

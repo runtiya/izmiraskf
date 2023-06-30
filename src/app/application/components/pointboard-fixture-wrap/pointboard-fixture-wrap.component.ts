@@ -21,7 +21,7 @@ import { PointBoardModel } from "../../models/application-pointboard.model";
 import { PointBoardService } from "../../services/application-pointboard.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 
 @Component({
@@ -94,22 +94,21 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
           this.groupstagesService.getPlayedLastMatchWeek(this.groupstageSelectionId)
             .subscribe({
               next: (data: any) => {
-                this.matchWeekSelectionValue = data.matchWeek;
-                //Get Point Board
-                this.pointboardService.getPointBoard(this.groupstageSelectionId, this.matchWeekSelectionValue);
-
-                // Get Fixture
-                this.fixtureSearchIndex.seasonId = this.seasonSelectionId || null;
-                this.fixtureSearchIndex.leagueId = this.leagueSelectionId || null;
-                this.fixtureSearchIndex.groupstageId = this.groupstageSelectionId || null;
-                this.fixtureSearchIndex.matchWeek = this.matchWeekSelectionValue || null;
-                this.fixtureService.getFixtureBySearchIndex(this.fixtureSearchIndex);
+                // call onSearch only if matchWeekSelectionValue is null before assignment, means work only page loaded.
+                // Subsequently, only the onSearch button will be searched.
+                if (!this.matchWeekSelectionValue) {
+                  this.teamsingroupstageService.getTeamsInGroupstages(this.groupstageSelectionId);
+                  this.matchWeekSelectionValue = data.matchWeek;
+                  this.onSearch();
+                } else {
+                  this.matchWeekSelectionValue = data.matchWeek;
+                }
               },
               error: (error) => {
 
               }
             });
-          this.teamsingroupstageService.getTeamsInGroupstages(this.groupstageSelectionId);
+
         },
         error: (error) => {
 
@@ -137,10 +136,12 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
 
   onGroupStageChange() {
     this.groupstagesService.getGroupWeeks(this.groupstageSelectionId);
-    this.teamsingroupstageService.getTeamsInGroupstages(this.groupstageSelectionId);
   }
 
   onSearch() {
+    // Get Teams In Disqualifications
+    this.teamsingroupstageService.getTeamsInGroupstages(this.groupstageSelectionId);
+
     //Get Point Board
     this.pointboardService.getPointBoard(this.groupstageSelectionId, this.matchWeekSelectionValue);
 

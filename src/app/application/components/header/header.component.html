@@ -5,7 +5,8 @@
       routerLink="/"
     >
       <img
-        [src]=""
+        [src]="logoPath"
+        mat-card-sm-image
         alt="İzmir ASKF"
         width="30"
         height="24"
@@ -78,9 +79,16 @@
         <li class="nav-item">
           <a class="nav-link" aria-current="page" routerLink="/puan-tablosu-fikstur">Puan Durumu ve Fikstür</a>
         </li>
-        <!-- Downloads -->
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/dosyalar">Dosyalar</a>
+        <!-- Documents -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">Dokümanlar</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="dokumanlar/amatorligstatuleri">Amatör Lig Statüleri</a></li>
+            <li><a class="dropdown-item" routerLink="dokumanlar/talimatlar">Talimatlar</a></li>
+            <li><a class="dropdown-item" routerLink="dokumanlar/lisansformlari">Lisans Formları</a></li>
+            <li><a class="dropdown-item" routerLink="dokumanlar/belgeler">Belgeler</a></li>
+          </ul>
         </li>
         <!-- Logout -->
         <li class="nav-item">
@@ -91,21 +99,19 @@
           <a class="nav-link" aria-current="page" routerLink="admin/kullanici-giris">Sistem Giriş</a>
         </li>
       </ul>
-
-      <div class="d-flex socialmedia-band">
-        <mat-card-subtitle class="socialmedia-selector" *ngFor="let link of externalLinksList">
-          <fa-icon
-            [icon]="findIconFaIcon(link.faBrand)"
-            matTooltip="{{link.linkName}}"
-            class="{{findIconFaClass(link.faBrand)}}"
-            (click)="routeToURL(link.url)"
-          >
-          </fa-icon>
-        </mat-card-subtitle>
-      </div>
-
     </div>
 
+    <div class="d-flex socialmedia-band">
+      <mat-card-subtitle class="socialmedia-selector" *ngFor="let link of externalLinksList">
+        <fa-icon
+          [icon]="findIconFaIcon(link.faBrand)"
+          matTooltip="{{link.linkName}}"
+          class="{{findIconFaClass(link.faBrand)}}"
+          (click)="routeToURL(link.url)"
+        >
+        </fa-icon>
+      </mat-card-subtitle>
+    </div>
 
   </div>
 </nav>

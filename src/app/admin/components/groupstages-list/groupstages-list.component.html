@@ -1,33 +1,40 @@
 <div>
   <div class="col-12">
     <div class="row">
-      <mat-form-field class="form-input">
-        <mat-label>Sezon</mat-label>
-        <mat-select
-          matInput
-          placeholder="Sezon"
-          [(ngModel)]="seasonSelectionId"
-          (selectionChange)="onSeasonChange(seasonSelectionId)"
-        >
-          <mat-option *ngFor="let season of seasonList" [value]="season.id">
-            {{ season.seasonName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <mat-form-field class="form-input">
+          <mat-label>Sezon</mat-label>
+          <mat-select
+            matInput
+            placeholder="Sezon"
+            [(ngModel)]="seasonSelectionId"
+            (selectionChange)="onSeasonChange(seasonSelectionId)"
+          >
+            <mat-option *ngFor="let season of seasonList" [value]="season.id">
+              {{ season.seasonName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field class="form-input">
-        <mat-label>Lig</mat-label>
-        <mat-select
-          matInput
-          placeholder="Lig"
-          [(ngModel)]="leagueSelectionId"
-          (selectionChange)="onLeagueChange(leagueSelectionId)"
-        >
-          <mat-option *ngFor="let league of leagueList" [value]="league.id">
-            {{ league.leagueName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <mat-form-field class="form-input">
+          <mat-label>Lig</mat-label>
+          <mat-select
+            matInput
+            placeholder="Lig"
+            [(ngModel)]="leagueSelectionId"
+            (selectionChange)="onLeagueChange(leagueSelectionId)"
+          >
+            <mat-option *ngFor="let league of leagueList" [value]="league.id">
+              {{ league.leagueName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
     </div>
 
     <mat-card class="create-card">
@@ -45,12 +52,12 @@
     <table mat-table [dataSource]="groupstageList" class="mat-elevation-z8">
       <ng-container matColumnDef="seasonName">
         <th mat-header-cell *matHeaderCellDef="">Sezon</th>
-        <td mat-cell *matCellDef="let group">{{ group.seasonName }}</td>
+        <td mat-cell *matCellDef="let group">{{ group.seasonName || findSeasonName(group.seasonId) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="leagueName">
         <th mat-header-cell *matHeaderCellDef="">Lig</th>
-        <td mat-cell *matCellDef="let group">{{ group.leagueName }}</td>
+        <td mat-cell *matCellDef="let group">{{ group.leagueName || findLeagueName(group.leagueId) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="groupName">

@@ -5,8 +5,8 @@ import { Data } from "@angular/router";
 
 
 import { LeaguesService } from "../../services/admin-leagues.service";
-import { leagueCategoryList } from "../../../assets/lists/league-category-list";
-import { leagueTypeList } from "../../../assets/lists/league-type-list";
+import { leagueCategoryList } from "../../../assets/lists/league-category.list";
+import { leagueTypeList } from "../../../assets/lists/league-type.list";
 
 @Component({
   selector: 'app-admin-leagues-create',
@@ -17,7 +17,9 @@ export class AdminLeaguesCreateModal {
   isLoading = false;
   pageMode: string = this.data.pageMode || 'create';
   leagueInfo = this.data.leagueInfo;
-  seasonList = this.data.seasonList;
+  //seasonList = this.data.seasonList;
+  seasonName = this.data.seasonName;
+  seasonSelectionId = this.data.seasonSelectionId;
   leagueSubmitForm: FormGroup;
   leagueCategoryList = leagueCategoryList;
   leagueTypeList = leagueTypeList;
@@ -29,7 +31,7 @@ export class AdminLeaguesCreateModal {
     this.isLoading = true;
     this.leagueSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.id : null, {validators: []}),
-      seasonId: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.seasonId : this.data.seasonSelectionId, {validators: [Validators.required]}),
+      seasonId: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.seasonId : this.seasonSelectionId, {validators: [Validators.required]}),
       leagueName: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.leagueName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       category: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.category : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       leagueType: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.leagueType : leagueTypeList[0]["name"], {validators: [Validators.required, Validators.maxLength(200)]}),

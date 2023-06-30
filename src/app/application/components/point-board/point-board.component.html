@@ -1,4 +1,4 @@
-<div class="div-point-board">
+<div class="div-point-board" *ngIf="pointBoardList.length > 0">
   <mat-toolbar class="toolbar toolbar-title">
     <span>{{toolbarTitle}}</span>
   </mat-toolbar>
@@ -118,4 +118,17 @@
       </mat-card-subtitle>
     </mat-card-content>
   </mat-card>
+</div>
+
+<div class="alert" *ngIf="pointBoardList.length <= 0">
+  <div class="" role="alert">
+    <mat-card-title>
+      <strong>Sonuç Bulunamadı!</strong>
+      Aradığınız kriterlere ait kayıt bulunamadı.
+    </mat-card-title>
+    <mat-card-subtitle>
+      Bir sorun olduğunu düşünüyorsanız lütfen uygulama yöneticisi ile
+      görüşünüz!
+    </mat-card-subtitle>
+  </div>
 </div>

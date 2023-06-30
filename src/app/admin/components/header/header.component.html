@@ -5,10 +5,9 @@
       routerLink="/admin/anasayfa"
     >
       <img
-        [src]=""
-        alt="İzmir ASKF"
-        width="30"
-        height="24"
+        mat-card-sm-image
+        [src]="logoPath"
+        [alt]="'İZMİR ASKF'"
       >
     </a>
     <button
@@ -65,10 +64,10 @@
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">Dokümanlar</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="admin/amatorligstatuleri">Amatör Lig Statüleri</a></li>
-            <li><a class="dropdown-item" routerLink="admin/talimatlar">Talimatlar</a></li>
-            <li><a class="dropdown-item" routerLink="admin/lisansformlari">Lisans Formları</a></li>
-            <li><a class="dropdown-item" routerLink="admin/belgeler">Belgeler</a></li>
+            <li><a class="dropdown-item" routerLink="admin/dokumanlar/amatorligstatuleri">Amatör Lig Statüleri</a></li>
+            <li><a class="dropdown-item" routerLink="admin/dokumanlar/talimatlar">Talimatlar</a></li>
+            <li><a class="dropdown-item" routerLink="admin/dokumanlar/lisansformlari">Lisans Formları</a></li>
+            <li><a class="dropdown-item" routerLink="admin/dokumanlar/belgeler">Belgeler</a></li>
           </ul>
         </li>
         <!-- Info Center -->
@@ -113,6 +112,7 @@
           >Araçlar</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" routerLink="admin/kullanicilar">Kullanıcılar</a></li>
+            <li><a class="dropdown-item" routerLink="admin/dokumanlar/aktarmadosyalari">Aktarma Dosyaları</a></li>
           </ul>
         </li>
         <!-- Logout -->

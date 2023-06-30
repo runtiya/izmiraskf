@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+
 const app = express();
 
 // Admin Routes
@@ -24,7 +25,6 @@ const adminFixturesRoutes = require('./routes/admin/fixtures');
 const adminPointBoardRoutes = require('./routes/admin/pointboard');
 const adminAuthenticationRoutes = require('./routes/admin/authentication');
 
-
 // Application Routes
 const applicationAboutIASKFRoutes = require('./routes/application/aboutizmiraskf');
 const applicationStaffIASKFRoutes = require('./routes/application/staffizmiraskf');
@@ -32,7 +32,7 @@ const applicationAboutITFFRoutes = require('./routes/application/aboutizmirtff')
 const applicationStaffITFFRoutes = require('./routes/application/staffizmirtff');
 
 const applicationExternalLinkRoutes = require('./routes/application/externallinks');
-
+const applicationDocumentsRoutes = require('./routes/application/documents');
 const applicationTeamsRoutes = require('./routes/application/teams');
 
 const applicationNewsRoutes = require('./routes/application/news');
@@ -46,10 +46,27 @@ const applicationGroupsRoutes = require('./routes/application/groupstages');
 const applicationTeamsInGroupsRoutes = require('./routes/application/teamsingroupstages');
 const applicationFixturesRoutes = require('./routes/application/fixtures');
 const applicationPointBoardRoutes = require('./routes/application/pointboard');
+const { url } = require('inspector');
 
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit:'3000kb'}));
+
+app.use("/images/", express.static(path.join("server/images")));
+app.use("/images/teams", express.static(path.join("server/images/teams")));
+app.use("/images/stadiums", express.static(path.join("server/images/stadiums")));
+app.use("/images/news", express.static(path.join("server/images/news")));
+app.use("/images/staff", express.static(path.join("server/images/staff")));
+
+
+app.use("/files/", express.static(path.join("server/files")));
+app.use("/files/documents", express.static(path.join("server/files/documents")));
+app.use("/files/instructions", express.static(path.join("server/files/instructions")));
+app.use("/files/license-forms", express.static(path.join("server/files/license-forms")));
+app.use("/files/statuses", express.static(path.join("server/files/statuses")));
+app.use("/files/template-files", express.static(path.join("server/files/template-files")));
+
+
 
 // CORS - Cross-Origin Resource Sharing
 app.use((req, res, next) => {
@@ -67,7 +84,7 @@ app.use('/admin/izmiraskf/yonetim-kurulu', adminStaffIASKFRoutes);
 app.use('/admin/tffiltemsilciligi/hakkimizda', adminAboutITFFRoutes);
 app.use('/admin/tffiltemsilciligi/yonetim-kurulu', adminStaffITFFRoutes);
 app.use('/admin/disbaglantilar', adminExternalLinkRoutes);
-app.use('/admin/documents', adminDocumentsRoutes);
+app.use('/admin/dokumanlar', adminDocumentsRoutes);
 app.use('/admin/takimlar', adminTeamsRoutes);
 app.use('/admin/sahalar', adminStadiumsRoutes);
 app.use('/admin/disiplin-kurulu-dosyalari', adminDisciplinaryBoardFiles);
@@ -86,18 +103,19 @@ app.use('/izmiraskf/hakkimizda', applicationAboutIASKFRoutes);
 app.use('/izmiraskf/yonetim-kurulu', applicationStaffIASKFRoutes);
 app.use('/tffiltemsilciligi/hakkimizda', applicationAboutITFFRoutes);
 app.use('/tffiltemsilciligi/yonetim-kurulu', applicationStaffITFFRoutes);
-app.use('/disbaglantilar', applicationExternalLinkRoutes);
-app.use('/takimlar', applicationTeamsRoutes);
 app.use('/haberler', applicationNewsRoutes);
+app.use('/takimlar', applicationTeamsRoutes);
 app.use('/sahalar', applicationStadiumsRoutes);
-
 app.use('/disiplin-kurulu-dosyalari', applicationDisciplinaryBoardFiles);
 app.use('/disiplin-kurulu-kararlari', applicationDisciplinaryBoardDecisions);
+app.use('/puan-tablosu', applicationPointBoardRoutes);
+app.use('/dokumanlar', applicationDocumentsRoutes);
+
 app.use('/sezonlar', applicationSeasonsRoutes);
 app.use('/ligler', applicationLeaguesRoutes);
 app.use('/grup-takim-eslesmeleri', applicationTeamsInGroupsRoutes);
 app.use('/gruplar', applicationGroupsRoutes);
 app.use('/fikstur', applicationFixturesRoutes);
-app.use('/puan-tablosu', applicationPointBoardRoutes);
 
+app.use('/disbaglantilar', applicationExternalLinkRoutes);
 module.exports = app;

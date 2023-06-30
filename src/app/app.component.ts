@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { globalFunctions } from "./functions/global.function";
 
 import { AuthService } from "./admin/authentication/auth.service";
-import { ExternalLinksModel } from "./application/models/application-externallinks.model";
+import { GlobalIzmirASKFService } from "./services/global-izmiraskf.service";
 import { ExternalLinksService } from "./application/services/application-externallinks.service";
 
 
@@ -18,16 +18,15 @@ export class AppComponent implements OnInit {
   title = 'izmiraskf';
   snackBarDuration = 3000; //milisecond
   showSpinner: boolean;
-  externalLinksList: ExternalLinksModel[] = [];
-  private externalLinksListSub: Subscription;
   userIsAuthenticated = false;
   private authListenerSubs: Subscription;
 
   constructor(
-    private externalLinksService: ExternalLinksService,
     private globalFunctions: globalFunctions,
     private _snackBar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
+    private externalLinksService: ExternalLinksService,
+    private globalIzmirASKFService: GlobalIzmirASKFService
   ) {
 
   }
@@ -57,9 +56,8 @@ export class AppComponent implements OnInit {
         }, 0);
       });
 
-
+    this.globalIzmirASKFService.getLogoPath();
     this.externalLinksService.getLinks('SOCIALMEDIA');
-
   }
 
 }

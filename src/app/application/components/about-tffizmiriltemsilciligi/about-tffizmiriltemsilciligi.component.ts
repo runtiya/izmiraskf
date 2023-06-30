@@ -9,7 +9,7 @@ import { globalFunctions } from "../../../functions/global.function";
 
 import { GoogleMapsModel } from "../../../models/google-maps.model";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon-list";
+import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-application-izmirtff',
@@ -46,7 +46,6 @@ export class ApplicationIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
       .subscribe({
         next: (data: AboutITFFModel) => {
           this.aboutcontent = data;
-
         },
         error: (error) => {
 

@@ -7,7 +7,7 @@ import { DatePipe } from "@angular/common";
 import { NewsModel } from "../../models/admin-news.model";
 import { NewsService } from "../../services/admin-news.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-
+import { globalFunctions } from "../../../functions/global.function";
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
@@ -19,7 +19,6 @@ export class AdminNewsUpdateModal {
 
   isLoading = false;
   newsUpdateForm: FormGroup;
-  imagePreview: string;
   newsInfo = this.data.news;
 
   editorConfig: AngularEditorConfig = {
@@ -69,13 +68,15 @@ export class AdminNewsUpdateModal {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
     public newsService: NewsService,
-    private _datePipe: DatePipe
+    private _datePipe: DatePipe,
+    private globalFunctions: globalFunctions
     ) {
 
   }
 
 
   ngOnInit() {
+    console.log(this.newsInfo)
 
     this.newsUpdateForm = new FormGroup({
       id: new FormControl(this.newsInfo.id, {validators: []}),
@@ -85,27 +86,32 @@ export class AdminNewsUpdateModal {
       updatedBy: new FormControl(this.newsInfo.updatedBy, {validators: []}),
       title: new FormControl(this.newsInfo.title, {validators: [Validators.required, Validators.maxLength(200)]}),
       content: new FormControl(this.newsInfo.content, {validators: [Validators.required, Validators.maxLength(65535)]}),
-      newsImage: new FormControl(this.newsInfo.newsImage, {validators: [], asyncValidators: [imageUploadValidator]}),
-      isOnline: new FormControl(!!this.newsInfo.isOnline, {validators: [Validators.required]})
+      imagePath: new FormControl(this.newsInfo.imagePath, {validators: []}),
+      imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
+      isVisible: new FormControl(!!this.newsInfo.isVisible, {validators: [Validators.required]})
     });
 
   }
 
   onFilePicked(event: Event) {
     try {
-
       const file = (event.target as HTMLInputElement).files[0];
-      this.newsUpdateForm.patchValue({newsImage: file});
-      this.newsUpdateForm.get('newsImage').updateValueAndValidity();
+      this.newsUpdateForm.patchValue({imageAttachment: file});
+      this.newsUpdateForm.get('imageAttachment').updateValueAndValidity();
       const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
+      reader.onloadend = () => {
+        let _imagePath = this.newsUpdateForm.get('imageAttachment').valid ? reader.result as string : null;
+        this.newsUpdateForm.get('imagePath').setValue(_imagePath);
       };
       reader.readAsDataURL(file);
     } catch (error) {
 
     }
+  }
 
+  filePickerRemove() {
+    this.newsUpdateForm.get('imageAttachment').setValue(null);
+    this.newsUpdateForm.get('imagePath').setValue(null);
   }
 
   onDelete(id: number) {
@@ -115,17 +121,13 @@ export class AdminNewsUpdateModal {
 
   }
 
-
   onUpdateNews() {
 
     if (this.newsUpdateForm.valid) {
-
       this.isLoading = true;
-      let updatedAt = this._datePipe.transform((new Date), 'yyyy-MM-ddTHH:mm');
-      this.newsUpdateForm.get('updatedAt').setValue(updatedAt);
+      this.newsUpdateForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
       this.newsService.updateNews(this.newsUpdateForm.value);
       this.isLoading = false;
-
     } else {
       return null;
     }

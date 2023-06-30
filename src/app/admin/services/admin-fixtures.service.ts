@@ -3,9 +3,12 @@ import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
 import { FixtureModel } from "../models/admin-fixture.model";
-import { FixtureSearchModel } from "../models/admin-fixture-search.model";
+import { FixtureSearchModel } from "../models/admin-fixture-search-index.model";
+import { MatchModel } from "../models/admin-match.model";
 
 import { globalFunctions } from "../../functions/global.function";
+import { fixtureFunctions } from "../functions/fixture.function";
+
 @Injectable({providedIn: 'root'})
 export class FixtureService {
   private fixtureList: FixtureModel[] = [];
@@ -13,36 +16,9 @@ export class FixtureService {
 
   constructor(
     private http: HttpClient,
-    private globalFunctions: globalFunctions
+    private globalFunctions: globalFunctions,
+    private fixtureFunctions: fixtureFunctions
   ) {}
-
-  getFixture(groupstageId: number) {
-    try {
-      this.globalFunctions.showSpinner.next(true);
-      this.http
-        .get<{error: boolean, message: string, fixtureList: FixtureModel[]}>(
-          'http://localhost:3000/admin/fikstur/' + groupstageId
-        )
-        .subscribe({
-          next: (data) => {
-            if (!data.error) {
-              this.fixtureList = data.fixtureList;
-              !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-            } else {
-
-            }
-            this.globalFunctions.showSpinner.next(false);
-          },
-          error: (error) => {
-
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSpinner.next(false);
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-
-    }
-  }
 
   getFixtureBySearchIndex(fixtureSearchIndex: FixtureSearchModel) {
     try {
@@ -78,51 +54,47 @@ export class FixtureService {
     return this.fixtureListSub.asObservable();
   }
 
-  createFixture(_fixtureList: FixtureModel[], _groupstageId: number) {
+  createFixture(_matchList: MatchModel[], _fixtureSearchIndex: FixtureSearchModel) {
     try {
-      this.globalFunctions.showSpinner.next(false);
+      this.globalFunctions.showSpinner.next(true);
       this.http
-        .post<{error: boolean, message: string, fixtureList: FixtureModel[]}>(
-          'http://localhost:3000/admin/fikstur/olustur', _fixtureList
+        .post<{error: boolean, message: string}>(
+          'http://localhost:3000/admin/fikstur/olustur', _matchList
         )
         .subscribe({
           next: (data) => {
             if (!data.error) {
-              this.getFixture(_groupstageId);
+              this.getFixtureBySearchIndex(_fixtureSearchIndex);
+              this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
             } else {
-              this.globalFunctions.showSnackBar.next('Hata! Fikstür oluşturulamadı!');
+              this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
 
             }
             this.globalFunctions.showSpinner.next(false);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
           }
         });
     } catch (error) {
       this.globalFunctions.showSpinner.next(false);
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+      this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
 
     }
   }
 
-  updateFixture(_fixtureList: FixtureModel[]) {
+  updateFixture(_matchList: MatchModel[], _fixtureSearchIndex: FixtureSearchModel) {
     try {
       this.globalFunctions.showSpinner.next(true);
       this.http
         .put<{error: boolean, message: string}>(
-          'http://localhost:3000/admin/fikstur/guncelle', _fixtureList
+          'http://localhost:3000/admin/fikstur/guncelle', _matchList
         )
         .subscribe({
           next: (data) => {
             if (!data.error) {
-              // Replace updated object with the old one
-              for (let f = 0; f < _fixtureList.length; f++) {
-                let match = _fixtureList[f];
-                let index = this.fixtureList.findIndex(m => m.id == match.id);
-                this.fixtureList[index] = match;
-              }
-              this.fixtureListSub.next([...this.fixtureList]);
+              this.getFixtureBySearchIndex(_fixtureSearchIndex);
+              this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
             } else {
               this.globalFunctions.showSnackBar.next('Hata! Müsabaka güncellenemedi');
 
@@ -191,12 +163,12 @@ export class FixtureService {
     }
   }
 
-  clearFixture(_groupstageId: number) {
+  clearFixture(groupstageId: number) {
     try {
       this.globalFunctions.showSpinner.next(true);
       this.http
         .delete<{error: boolean, message: string}>(
-          'http://localhost:3000/admin/fikstur/temizle/' + _groupstageId
+          'http://localhost:3000/admin/fikstur/temizle/' + groupstageId
         )
         .subscribe({
           next: (data) => {

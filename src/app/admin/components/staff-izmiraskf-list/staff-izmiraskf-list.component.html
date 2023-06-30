@@ -18,8 +18,7 @@
         <mat-card-header>
           <mat-card-title-group>
             <div class="profileImageBorder">
-              <img *ngIf="staffizmiraskf.profileImage" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="{{staffizmiraskf.title}}">
-              <img *ngIf="!staffizmiraskf.profileImage" mat-card-avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s" alt="{{staffizmiraskf.title}}">
+              <img mat-card-avatar [src]="staffizmiraskf.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{staffizmiraskf.title}}">
             </div>
             <mat-card-title>{{staffizmiraskf.fullName}}</mat-card-title>
             <mat-card-subtitle>{{staffizmiraskf.title}}</mat-card-subtitle>

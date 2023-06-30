@@ -11,6 +11,8 @@ router.post('/signup', authenticationController.createUser);
 
 router.post('/login', authenticationController.userLogin);
 
+router.put('/profileupdate/:id', checkAuth, authenticationController.updateUser);
+
 router.delete('/:id', checkAuth, authenticationController.deleteUser);
 
 module.exports = router;

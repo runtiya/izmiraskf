@@ -1,4 +1,5 @@
 export interface AboutITFFModel {
+  imagePath: string,
   aboutText: string,
   address: string,
   phoneNumber: string,

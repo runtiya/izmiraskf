@@ -81,12 +81,12 @@ export class AuthService {
     return this.authenticatedUserListener.asObservable();
   }
 
-  createUser(userForm: UserModel) {
+  createUser(userInfo: UserModel) {
     try {
       this.globalFunctions.showSpinner.next(true);
       this.http
         .post<{error: boolean, message: string, user: UserModel}>(
-          'http://localhost:3000/admin/kullanicilar/signup', userForm
+          'http://localhost:3000/admin/kullanicilar/signup', userInfo
         )
         .subscribe({
           next: (data) => {
@@ -109,6 +109,34 @@ export class AuthService {
       this.authStatusListener.next(false);
       this.globalFunctions.showSpinner.next(false);
       this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+    }
+  }
+
+  updateUser(userInfo: UserModel) {
+    try {
+      this.http
+        .put<{error: boolean, message: string, snackBarMessage: string}>(
+          'http://localhost:3000/admin/kullanicilar/profileupdate/' + userInfo.id, userInfo
+        )
+        .subscribe({
+          next: (data) => {
+            if (!data.error) {
+              this.usersList.forEach((item, i) => {
+                if (item.id == userInfo.id) {
+                  this.usersList[i] = userInfo;
+                }
+              });
+              this.usersListSub.next([...this.usersList]);
+            } else {
+              this.globalFunctions.showSnackBar.next(data.snackBarMessage);
+            }
+          },
+          error: (error) => {
+
+          }
+        });
+    } catch (error) {
+
     }
   }
 

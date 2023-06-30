@@ -1,6 +1,8 @@
 export interface AboutIASKFModel {
   updatedAt: Date,
   updatedBy: number,
+  imagePath: string,
+  imageAttachment: File,
   aboutText: string,
   address: string,
   phoneNumber: string,
