@@ -1,8 +1,15 @@
 .btn-news-router {
   width: 100%;
+  height: 3.5rem;
+  margin: 0.5rem 0;
 }
 
 .btn-disciplinaryboard-router {
   width: 100%;
   height: 3.5rem;
+  margin: 0.5rem 0;
+}
+
+.mat-mdc-card {
+  box-shadow: none;
 }

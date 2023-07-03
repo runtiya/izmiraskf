@@ -29,6 +29,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeTr from "@angular/common/locales/tr";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts'
 
 
 import { AppComponent } from './app.component';
@@ -139,6 +140,8 @@ import { ApplicationDocumentList } from "./application/components/documents-list
 import { ApplicationContactUs } from "./application/components/contact-us/contact-us.component";
 
 import { ApplicationFooter } from "./application/components/footer/footer.component";
+
+import { ApplicationStatisticsGoalByLeague } from "./application/components/statistics-goal-by-league/statistics-goal-by-league.component";
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -257,7 +260,8 @@ import { ErrorInterceptor } from "./error/error-interceptor";
 
     ApplicationContactUs,
 
-    ApplicationFooter
+    ApplicationFooter,
+    ApplicationStatisticsGoalByLeague
 
   ],
   imports: [
@@ -291,6 +295,7 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     MatAutocompleteModule,
     MatSnackBarModule,
     MatButtonToggleModule,
+    CanvasJSAngularChartsModule,
 
     FontAwesomeModule,
     GoogleMapsModule,

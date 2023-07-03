@@ -46,7 +46,6 @@ export class AdminLogin implements OnInit, OnDestroy {
   }
 
   changePasswordType(): void {
-    console.log(this.isPasswordVisible)
     const field = document.getElementById('passwordField') as HTMLElement;
     if (this.isPasswordVisible) {
       field.setAttribute('type', 'password');

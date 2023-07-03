@@ -13,8 +13,8 @@ const adminAboutITFFRoutes = require('./routes/admin/aboutizmirtff');
 const adminStaffITFFRoutes = require('./routes/admin/staffizmirtff');
 const adminExternalLinkRoutes = require('./routes/admin/externallinks');
 const adminDocumentsRoutes = require('./routes/admin/documents');
-const adminTeamsRoutes = require('./routes/admin/teams');
 const adminStadiumsRoutes = require('./routes/admin/stadiums');
+const adminTeamsRoutes = require('./routes/admin/teams');
 const adminDisciplinaryBoardFiles = require('./routes/admin/disciplinaryboardfiles');
 const adminDisciplinaryBoardDecisions = require('./routes/admin/disciplinaryboarddecisions');
 const adminSeasonsRoutes = require('./routes/admin/seasons');
@@ -26,18 +26,15 @@ const adminPointBoardRoutes = require('./routes/admin/pointboard');
 const adminAuthenticationRoutes = require('./routes/admin/authentication');
 
 // Application Routes
+const applicationNewsRoutes = require('./routes/application/news');
 const applicationAboutIASKFRoutes = require('./routes/application/aboutizmiraskf');
 const applicationStaffIASKFRoutes = require('./routes/application/staffizmiraskf');
 const applicationAboutITFFRoutes = require('./routes/application/aboutizmirtff');
 const applicationStaffITFFRoutes = require('./routes/application/staffizmirtff');
-
 const applicationExternalLinkRoutes = require('./routes/application/externallinks');
 const applicationDocumentsRoutes = require('./routes/application/documents');
-const applicationTeamsRoutes = require('./routes/application/teams');
-
-const applicationNewsRoutes = require('./routes/application/news');
 const applicationStadiumsRoutes = require('./routes/application/stadiums');
-
+const applicationTeamsRoutes = require('./routes/application/teams');
 const applicationDisciplinaryBoardFiles = require('./routes/application/disciplinaryboardfiles');
 const applicationDisciplinaryBoardDecisions = require('./routes/application/disciplinaryboarddecisions');
 const applicationSeasonsRoutes = require('./routes/application/seasons');
@@ -46,6 +43,8 @@ const applicationGroupsRoutes = require('./routes/application/groupstages');
 const applicationTeamsInGroupsRoutes = require('./routes/application/teamsingroupstages');
 const applicationFixturesRoutes = require('./routes/application/fixtures');
 const applicationPointBoardRoutes = require('./routes/application/pointboard');
+const applicationStatisticsRoutes = require('./routes/application/statistics');
+
 const { url } = require('inspector');
 
 
@@ -57,6 +56,7 @@ app.use("/images/teams", express.static(path.join("server/images/teams")));
 app.use("/images/stadiums", express.static(path.join("server/images/stadiums")));
 app.use("/images/news", express.static(path.join("server/images/news")));
 app.use("/images/staff", express.static(path.join("server/images/staff")));
+app.use("/images/statics", express.static(path.join("server/images/statics")));
 
 
 app.use("/files/", express.static(path.join("server/files")));
@@ -99,23 +99,23 @@ app.use('/admin/kullanicilar', adminAuthenticationRoutes);
 
 
 // Application app-use
+app.use('/haberler', applicationNewsRoutes);
 app.use('/izmiraskf/hakkimizda', applicationAboutIASKFRoutes);
 app.use('/izmiraskf/yonetim-kurulu', applicationStaffIASKFRoutes);
 app.use('/tffiltemsilciligi/hakkimizda', applicationAboutITFFRoutes);
 app.use('/tffiltemsilciligi/yonetim-kurulu', applicationStaffITFFRoutes);
-app.use('/haberler', applicationNewsRoutes);
-app.use('/takimlar', applicationTeamsRoutes);
+app.use('/disbaglantilar', applicationExternalLinkRoutes);
+app.use('/dokumanlar', applicationDocumentsRoutes);
 app.use('/sahalar', applicationStadiumsRoutes);
+app.use('/takimlar', applicationTeamsRoutes);
 app.use('/disiplin-kurulu-dosyalari', applicationDisciplinaryBoardFiles);
 app.use('/disiplin-kurulu-kararlari', applicationDisciplinaryBoardDecisions);
-app.use('/puan-tablosu', applicationPointBoardRoutes);
-app.use('/dokumanlar', applicationDocumentsRoutes);
-
 app.use('/sezonlar', applicationSeasonsRoutes);
 app.use('/ligler', applicationLeaguesRoutes);
 app.use('/grup-takim-eslesmeleri', applicationTeamsInGroupsRoutes);
 app.use('/gruplar', applicationGroupsRoutes);
 app.use('/fikstur', applicationFixturesRoutes);
+app.use('/puan-tablosu', applicationPointBoardRoutes);
+app.use('/statistics', applicationStatisticsRoutes);
 
-app.use('/disbaglantilar', applicationExternalLinkRoutes);
 module.exports = app;

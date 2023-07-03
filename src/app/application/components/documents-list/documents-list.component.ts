@@ -42,7 +42,6 @@ export class ApplicationDocumentList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: DocumentsModel[]) => {
           this.documentsList = data;
-          console.log(data)
         }
       })
   }

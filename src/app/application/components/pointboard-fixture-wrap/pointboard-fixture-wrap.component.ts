@@ -64,54 +64,79 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
     this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
-          this.seasonList = data;
-          this.seasonSelectionId = this.seasonList[0].id;
-          this.leaguesService.getLeagues(this.seasonSelectionId);
+          if (data.length > 0) {
+            this.seasonList = data;
+            this.seasonSelectionId = this.seasonList[0].id;
+            this.leaguesService.getLeagues(this.seasonSelectionId);
+          } else {
+            this.seasonList = [];
+            this.leagueList = [];
+            this.groupstageList = [];
+            this.weekSequenceList = [];
+
+            this.seasonSelectionId = null;
+            this.leagueSelectionId = null;
+            this.groupstageSelectionId = null;
+            this.matchWeekSelectionValue = null;
+          }
         },
         error: (error) => {
-
         }
       });
 
     this.leagueListSub = this.leaguesService.getLeagueListUpdateListener()
       .subscribe({
         next: (data: LeaguesModel[]) => {
-          this.leagueList = data;
-          this.leagueSelectionId = this.leagueList[0].id;
-          this.groupstagesService.getGroupstages(this.leagueSelectionId);
+          if (data.length > 0) {
+            this.leagueList = data;
+            this.leagueSelectionId = this.leagueList[0].id;
+            this.groupstagesService.getGroupstages(this.leagueSelectionId);
+          } else {
+            this.leagueList = [];
+            this.groupstageList = [];
+            this.weekSequenceList = [];
+
+            this.leagueSelectionId = null;
+            this.groupstageSelectionId = null;
+            this.matchWeekSelectionValue = null;
+          }
         },
         error: (error) => {
-
         }
       });
 
     this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
       .subscribe({
         next: (data: GroupStagesModel[]) => {
-          this.groupstageList = data;
-          this.groupstageSelectionId = this.groupstageList[0].id;
-          this.groupstagesService.getGroupWeeks(this.groupstageSelectionId);
-          this.groupstagesService.getPlayedLastMatchWeek(this.groupstageSelectionId)
-            .subscribe({
-              next: (data: any) => {
-                // call onSearch only if matchWeekSelectionValue is null before assignment, means work only page loaded.
-                // Subsequently, only the onSearch button will be searched.
-                if (!this.matchWeekSelectionValue) {
-                  this.teamsingroupstageService.getTeamsInGroupstages(this.groupstageSelectionId);
-                  this.matchWeekSelectionValue = data.matchWeek;
-                  this.onSearch();
-                } else {
-                  this.matchWeekSelectionValue = data.matchWeek;
+          if (data.length > 0) {
+            this.groupstageList = data;
+            this.groupstageSelectionId = this.groupstageList[0].id;
+            this.groupstagesService.getGroupWeeks(this.groupstageSelectionId);
+            this.groupstagesService.getPlayedLastMatchWeek(this.groupstageSelectionId)
+              .subscribe({
+                next: (data: any) => {
+                  // call onSearch only if matchWeekSelectionValue is null before assignment, means work only page loaded.
+                  // Subsequently, only the onSearch button will be searched.
+                  if (!this.matchWeekSelectionValue) {
+                    this.teamsingroupstageService.getTeamsInGroupstages(this.groupstageSelectionId);
+                    this.matchWeekSelectionValue = data.matchWeek;
+                    this.onSearch();
+                  } else {
+                    this.matchWeekSelectionValue = data.matchWeek;
+                  }
+                },
+                error: (error) => {
                 }
-              },
-              error: (error) => {
+              });
+          } else {
+            this.groupstageList = [];
+            this.weekSequenceList = [];
 
-              }
-            });
-
+            this.groupstageSelectionId = null;
+            this.matchWeekSelectionValue = null;
+          }
         },
         error: (error) => {
-
         }
       });
 

@@ -40,5 +40,5 @@ export interface FixtureModel {
   awayTeamWeekOfExpelledOrReceded: number,
   awayTeamExpelledOrRecededExplanation: string,
   explanation: string,
-  orderNo: number,
+  orderNo: number
 }
