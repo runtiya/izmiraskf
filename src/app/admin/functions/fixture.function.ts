@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { FixtureSearchModel } from "../models/admin-fixture-search-index.model";
 import { MatchModel } from '../models/admin-match.model';

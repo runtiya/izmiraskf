@@ -18,7 +18,6 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class ApplicationHome implements OnInit, OnDestroy {
   toolbarTitle = "ANA SAYFA";
-  bannerImageSrc = 'http://localhost:3000/images/Ataturk.jpg';
 
   constructor(
     private newsService: NewsService,

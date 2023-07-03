@@ -64,7 +64,6 @@ export class ApplicationPointBoard implements OnInit, OnDestroy {
           this.pointBoardList = data;
         },
         error: (error) => {
-
         }
       });
 

@@ -76,8 +76,6 @@ export class AdminNewsUpdateModal {
 
 
   ngOnInit() {
-    console.log(this.newsInfo)
-
     this.newsUpdateForm = new FormGroup({
       id: new FormControl(this.newsInfo.id, {validators: []}),
       createdAt: new FormControl(this.newsInfo.createdAt, {validators: []}),

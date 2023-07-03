@@ -178,6 +178,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
       var castTeam = <TeamsInGroupstagesModel>{};
       castTeam.id = null;
       castTeam.teamId = selectedTeam.id;
+      castTeam.teamImagePath = selectedTeam.imagePath;
       castTeam.teamOfficialName = selectedTeam.officialName;
       castTeam.teamShortName = selectedTeam.shortName;
       castTeam.groupstageId = this.groupstageSelectionId;
