@@ -16,7 +16,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class AdminSeasonsList implements OnInit, OnDestroy {
   toolbarTitle = "SEZONLAR";
-  isLoading = false;
+  isLoading: boolean = false;
   seasonsList: SeasonsModel[] = [];
   private seasonsListSubscription: Subscription;
   tableColumns: string[] = [
@@ -36,7 +36,7 @@ export class AdminSeasonsList implements OnInit, OnDestroy {
     this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
-    this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
+    this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe((data: SeasonsModel[]) => {
         this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
         this.isLoading = false;

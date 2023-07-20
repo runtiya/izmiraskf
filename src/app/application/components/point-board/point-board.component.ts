@@ -18,7 +18,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.lis
 })
 export class ApplicationPointBoard implements OnInit, OnDestroy {
   toolbarTitle = "PUAN TABLOSU";
-  isLoading = false;
+  isLoading: boolean = false;
   teamsingroupstageList: TeamsInGroupstagesModel[] = [];
   private teamsingroupstageListSub: Subscription;
   expelledOrRecededTeamsInGroupstageList: TeamsInGroupstagesModel[] = [];

@@ -109,13 +109,15 @@
       <mat-card-subtitle
         *ngFor="let teamsindisqualification of teamsingroupstageList"
       >
-        <fa-icon
-        *ngIf="findExpelledOrRecededTeam(teamsindisqualification.teamId)"
-        class="icon icon-info"
-        [icon]="fontAwesomeIconList.faCircleInfo"
-        >
-        </fa-icon>
-        {{ findExpelledOrRecededExplanation(teamsindisqualification.teamId) }}
+        <div *ngIf="findExpelledOrRecededTeam(teamsindisqualification.teamId)">
+          <fa-icon
+            class="icon icon-info"
+            [icon]="fontAwesomeIconList.faCircleInfo"
+          >
+          </fa-icon>
+          {{ findExpelledOrRecededExplanation(teamsindisqualification.teamId) }}
+        </div>
+
       </mat-card-subtitle>
     </mat-card-content>
   </mat-card>

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
+import { ActivatedRoute } from "@angular/router";
 
 import { DisciplinaryBoardFileModel } from "../../models/admin-disciplinaryboardfiles.model";
 import { DisciplinaryBoardFilesService } from "../../services/admin-disciplinaryboardfiles.service";
@@ -11,6 +12,8 @@ import { SeasonsModel } from "../../models/admin-seasons.model";
 import { AdminDisciplinaryBoardCreateModal } from "../disciplinary-board-files-create/disciplinary-board-files-create.component";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { disciplinaryBoardFunctions } from "../../functions/disciplinaryboard.function";
+import { disciplinaryCommitteesList } from "../../../assets/lists/disciplinary-committees.list";
 
 @Component({
     selector: 'app-admin-disciplinary-board-files-list',
@@ -19,13 +22,16 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
 
-    toolbarTitle = "DİSİPLİN KURULU DOSYALARI";
-    isLoading = false;
+    toolbarTitle = null;
+    isLoading: boolean = false;
 
     seasonsList: SeasonsModel[] = [];
     private seasonsListSubscription: Subscription;
     disciplinaryBoardFilesList: DisciplinaryBoardFileModel[] = [];
     private disciplinaryBoardFilesListSubscription: Subscription;
+
+    url_caseType: string = null;
+    disciplinaryCommitteesList = disciplinaryCommitteesList;
 
     @Input() seasonSelectionId: number;
     tableColumns: string[] = [
@@ -41,71 +47,83 @@ export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
         public disciplinaryBoardFilesService: DisciplinaryBoardFilesService,
         public seasonsService: SeasonsService,
         public dialog: MatDialog,
-        private globalFunctions: globalFunctions
+        private globalFunctions: globalFunctions,
+        private disciplinaryBoardFunctions: disciplinaryBoardFunctions,
+        private router: ActivatedRoute,
     ) {}
 
     ngOnInit(): void {
         this.isLoading = true;
-        this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-        this.seasonsService.getSeasons();
-        this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
+        this.router.paramMap
+          .subscribe(params => {
+            this.url_caseType = params.get('casetype').toUpperCase();
+            this.toolbarTitle = disciplinaryCommitteesList.find(c => c.name == this.url_caseType).pageFileTitle;
+            this.globalFunctions.setToolbarTitle(this.toolbarTitle);
+            this.seasonsService.getSeasons();
+          });
+
+        this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
             .subscribe((data: SeasonsModel[]) => {
-                this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-                this.seasonSelectionId = this.seasonsList[0]["id"];
-                this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId);
-                this.isLoading = false;
+              this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+              this.seasonSelectionId = this.seasonsList[0]["id"];
+              this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
+              this.isLoading = false;
             });
 
         this.isLoading = true;
         this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
             .subscribe((data: DisciplinaryBoardFileModel[]) => {
-                const filteredDisciplinaryBoardFilesList = data.filter(file => file.seasonId == this.seasonSelectionId);
-                this.disciplinaryBoardFilesList = filteredDisciplinaryBoardFilesList.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
-                this.isLoading = false;
+              const filteredDisciplinaryBoardFilesList = data.filter(file => file.seasonId == this.seasonSelectionId && file.caseType == this.url_caseType);
+              this.disciplinaryBoardFilesList = filteredDisciplinaryBoardFilesList.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
+              this.isLoading = false;
             })
     }
 
     onSeasonChange(seasonChangedID: number) {
-        this.isLoading = true;
-        this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(seasonChangedID);
-        this.isLoading = false;
+      this.isLoading = true;
+      this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(seasonChangedID, this.url_caseType);
+      this.isLoading = false;
     }
 
     findSeasonName(seasonId: number): string {
-        let seasonName = this.seasonsList.find(season => season.id == seasonId).seasonName;
-        return seasonName || 'Bilinmiyor';
+      let seasonName = this.seasonsList.find(season => season.id == seasonId).seasonName;
+      return seasonName || 'Bilinmiyor';
     }
 
     onCreate() {
-
-        const dialogRef = this.dialog.open(AdminDisciplinaryBoardCreateModal, {
-          data: {
-            pageMode: 'create',
-            seasonList: this.seasonsList,
-            seasonSelectionId: this.seasonSelectionId,
-            disciplinaryBoardFileInfo: null
-          }
-        });
+      const dialogRef = this.dialog.open(AdminDisciplinaryBoardCreateModal, {
+        data: {
+          pageMode: 'create',
+          seasonList: this.seasonsList,
+          seasonSelectionId: this.seasonSelectionId,
+          caseType: this.url_caseType,
+          disciplinaryBoardFileInfo: null
+        }
+      });
 
     }
 
     onEdit(disciplinaryBoardFile: DisciplinaryBoardFileModel) {
-        const dialogRef = this.dialog.open(AdminDisciplinaryBoardCreateModal, {
-            data: {
-              pageMode: 'edit',
-              seasonList: this.seasonsList,
-              seasonSelectionId: this.seasonSelectionId,
-              disciplinaryBoardFileInfo: disciplinaryBoardFile
-            }
-          });
+      const dialogRef = this.dialog.open(AdminDisciplinaryBoardCreateModal, {
+          data: {
+            pageMode: 'edit',
+            seasonList: this.seasonsList,
+            seasonSelectionId: this.seasonSelectionId,
+            caseType: this.url_caseType,
+            disciplinaryBoardFileInfo: disciplinaryBoardFile
+          }
+        });
     }
 
     onDelete(fileId: number) {
-        this.isLoading = true;
-        this.disciplinaryBoardFilesService.deleteDisciplinaryBoardFile(fileId);
-        this.isLoading = false;
+      this.isLoading = true;
+      this.disciplinaryBoardFilesService.deleteDisciplinaryBoardFile(fileId);
+      this.isLoading = false;
     }
 
+    onCreateNews(disciplinaryBoardFile: DisciplinaryBoardFileModel) {
+      this.disciplinaryBoardFunctions.createNewsForDisciplinaryBoardAnnouncement(disciplinaryBoardFile);
+    }
 
     ngOnDestroy(): void {
         this.seasonsListSubscription.unsubscribe();

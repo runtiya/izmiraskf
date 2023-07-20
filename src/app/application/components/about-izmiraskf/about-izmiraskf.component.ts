@@ -18,7 +18,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.lis
 })
 export class ApplicationIzmirASKF implements OnInit, OnDestroy {
   toolbarTitle = "İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU";
-  isLoading = false;
+  isLoading: boolean = false;
   //aboutcontent: AboutIASKFModel;
   aboutcontent = <AboutIASKFModel>{};
   private aboutcontentSubscription: Subscription;

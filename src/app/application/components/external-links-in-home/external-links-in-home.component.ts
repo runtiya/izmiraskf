@@ -26,7 +26,7 @@ export class ApplicationExternalLinksInHome implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.extLinksSubscription = this.externalLinksService.getExternalRelatedLinksSubListener()
+    this.extLinksSubscription = this.externalLinksService.getExternalRelatedLinksUpdateListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
           this.extLinksRelatedLinks = data;

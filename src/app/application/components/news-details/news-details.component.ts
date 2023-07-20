@@ -20,7 +20,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
   styleUrls: ['../../../app.component.css', './news-details.component.css']
 })
 export class ApplicationNewsDetails implements OnInit, OnDestroy {
-  isLoading = false;
+  isLoading: boolean = false;
   toolbarTitle = "HABER DETAYLARI";
   news: NewsModel = <NewsModel>{};
   private newsSub: Subscription;

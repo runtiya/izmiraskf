@@ -15,7 +15,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class AdminExternalLinks implements OnInit, OnDestroy {
   toolbarTitle = 'DIŞ BAĞLANTILAR';
-  isLoading = false;
+  isLoading: boolean = false;
   extLinks: ExternalLinksModel[] = [];
   extLinksRelatedLinks: ExternalLinksModel[] = [];
   extLinksSocialMediaLinks: ExternalLinksModel[] = [];
@@ -40,7 +40,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.extLinkService.getLinks();
-    this.extLinksSubscription = this.extLinkService.getExternalLinksSubListener()
+    this.extLinksSubscription = this.extLinkService.getExternalLinksUpdateListener()
       .subscribe((data: ExternalLinksModel[]) => {
         this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
         this.extLinksRelatedLinks = this.extLinks.filter(link => link.linkType == "RELATEDLINK");
@@ -57,7 +57,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.extLinksSubscription = this.extLinkService.getExternalLinksSubListener()
+      this.extLinksSubscription = this.extLinkService.getExternalLinksUpdateListener()
         .subscribe((data: ExternalLinksModel[]) => {
           this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
         })
@@ -74,7 +74,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.extLinksSubscription = this.extLinkService.getExternalLinksSubListener()
+      this.extLinksSubscription = this.extLinkService.getExternalLinksUpdateListener()
         .subscribe((data: ExternalLinksModel[]) => {
           this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
         })

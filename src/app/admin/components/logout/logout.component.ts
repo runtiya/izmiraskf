@@ -7,7 +7,7 @@ import { AuthService } from "../../authentication/auth.service";
   styleUrls: ['../../../app.component.css', './logout.component.css']
 })
 export class AdminLogout implements OnInit {
-  isLoading = false;
+  isLoading: boolean = false;
 
   constructor(
     public authService: AuthService

@@ -1,6 +1,11 @@
-.mdc-data-table__header-cell, .mdc-data-table__cell {
-    font-size: small;
-  }
+.mdc-data-table__header-cell,
+.mdc-data-table__cell {
+  font-size: small;
+}
+
+.form-input {
+  width: 100%;
+}
 
 .btn-disciplinary-board-decisions-actions {
   margin-bottom: 1rem;

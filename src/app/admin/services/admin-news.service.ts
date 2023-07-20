@@ -79,7 +79,6 @@ export class NewsService {
       const formData = new FormData();
       formData.append('image', newsInfo.imageAttachment);
       formData.append('newsInfo', JSON.stringify(newsInfo));
-
       this.http
         .post<{error: boolean, message: string, newsId: number}>(
           'http://localhost:3000/admin/haberler', formData
@@ -90,6 +89,7 @@ export class NewsService {
               newsInfo.id = data.newsId;
               this.newsList.push(newsInfo);
               this.newsUpdated.next([...this.newsList]);
+              this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
             } else {
               this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
             }

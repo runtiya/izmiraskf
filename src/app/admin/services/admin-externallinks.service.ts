@@ -35,7 +35,7 @@ export class ExternalLinksService {
     }
   }
 
-  getExternalLinksSubListener() {
+  getExternalLinksUpdateListener() {
     return this.extLinksListSub.asObservable();
   }
 

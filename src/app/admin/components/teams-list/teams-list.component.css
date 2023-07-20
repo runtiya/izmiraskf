@@ -28,3 +28,6 @@ mat-card-title {
   color: red;
 }
 
+.mat-mdc-card-avatar {
+  object-fit: contain;
+}

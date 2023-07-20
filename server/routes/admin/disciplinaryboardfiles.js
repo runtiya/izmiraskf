@@ -9,7 +9,7 @@ const extractImage = require('../../middlewares/extract-image');
 const router = express.Router();
 
 
-router.get("/:seasonid", checkAuth, disciplinaryBoardFileController.getDisciplinaryBoardFiles);
+router.get("/:seasonid/:casetype", checkAuth, disciplinaryBoardFileController.getDisciplinaryBoardFiles);
 
 router.post("", checkAuth, disciplinaryBoardFileController.createDisciplinaryBoardFile);
 

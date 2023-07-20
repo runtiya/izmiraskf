@@ -2,6 +2,10 @@
   box-shadow: none;
 }
 
+.form-input {
+  width: 100%;
+}
+
 .table-detail-row {
   cursor: pointer;
 }

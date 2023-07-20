@@ -17,7 +17,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 })
 export class AdminNewsUpdateModal {
 
-  isLoading = false;
+  isLoading: boolean = false;
   newsUpdateForm: FormGroup;
   newsInfo = this.data.news;
 

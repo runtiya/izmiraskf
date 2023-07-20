@@ -16,7 +16,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.lis
 })
 export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
   toolbarTitle = "İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU YÖNETİM KURULU";
-  isLoading = false;
+  isLoading: boolean = false;
   staffizmiraskfList: StaffIzmirAskfModel[] = [];
   private staffizmiraskfListSub: Subscription;
 

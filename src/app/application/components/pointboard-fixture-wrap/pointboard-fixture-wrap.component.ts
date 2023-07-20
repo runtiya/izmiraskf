@@ -14,7 +14,7 @@ import { TeamsInGroupstagesModel } from "../../models/application-teams-in-group
 import { TeamsInGroupstagesService } from "../../services/application-teams-in-groupstages.service";
 
 import { FixtureModel } from "../../models/application-fixture.model";
-import { FixtureSearchModel } from "../../models/application-fixture-search.model";
+import { FixtureSearchModel } from "../../models/application-fixture-search-index.model";
 import { FixtureService } from "../../services/application-fixtures.service";
 
 import { PointBoardModel } from "../../models/application-pointboard.model";
@@ -61,7 +61,7 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
-    this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
+    this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
           if (data.length > 0) {

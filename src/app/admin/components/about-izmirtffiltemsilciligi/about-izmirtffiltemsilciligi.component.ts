@@ -15,7 +15,7 @@ import { imageUploadValidator } from "../../validators/image-upload.validator";
 })
 export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
   toolbarTitle = "İZMİR TFF İL TEMSİLCİLİĞİ";
-  isLoading = false;
+  isLoading: boolean = false;
   aboutITFFform: FormGroup;
   aboutcontent: AboutITFFModel;
   private aboutcontentSubscription: Subscription;

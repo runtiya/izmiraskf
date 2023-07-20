@@ -41,11 +41,11 @@ export class ExternalLinksService {
     }
   }
 
-  getExternalLinksSubListener() {
+  getExternalLinksUpdateListener() {
     return this.extLinksListSub.asObservable();
   }
 
-  getExternalRelatedLinksSubListener() {
+  getExternalRelatedLinksUpdateListener() {
     return this.extRelatedLinksListSub.asObservable();
   }
 }

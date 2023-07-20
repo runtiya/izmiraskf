@@ -16,7 +16,7 @@ import { globalFunctions } from "../../../functions/global.function";
   styleUrls: ['../../../app.component.css', './staff-izmiraskf-create.component.css']
 })
 export class AdminCreateStaffIzmirAskfModal {
-  isLoading = false;
+  isLoading: boolean = false;
   pageMode: string = this.data.mode || 'create';
   staffIASKFSubmitForm: FormGroup;
   staffInfo = this.data.staffInfo;

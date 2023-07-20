@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
+import { ActivatedRoute } from "@angular/router";
 
 import { DisciplinaryBoardDecisionModel } from "../../models/application-disciplinaryboarddecisions.model";
 import { DisciplinaryBoardDecisionsService } from "../../services/application-disciplinaryboarddecisions.service";
@@ -13,6 +14,7 @@ import { SeasonsModel } from "../../models/application-seasons.model";
 
 import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype.list";
 import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto.list";
+import { disciplinaryCommitteesList } from "../../../assets/lists/disciplinary-committees.list";
 
 import { ApplicationDisciplinaryBoardDecisionsDetailsModal } from "../disciplinary-board-decisions-details/disciplinary-board-decisions-details.component";
 
@@ -24,8 +26,8 @@ import { globalFunctions } from "../../../functions/global.function";
   styleUrls: ['../../../app.component.css', './disciplinary-board-decisions-list.component.css']
 })
 export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
-  toolbarTitle = "DİSİPLİN KURULU KARARLARI";
-  isLoading = false;
+  toolbarTitle = null;
+  isLoading: boolean = false;
 
   seasonsList: SeasonsModel[] = [];
   private seasonsListSubscription: Subscription;
@@ -39,9 +41,13 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
 
   disciplinaryPenalTypeList = disciplinaryPenalTypeList;
   disciplinaryBelongingToList = disciplinaryBelongingToList;
+  disciplinaryCommitteesList = disciplinaryCommitteesList;
+
+  url_caseType: string = null;
 
   @Input() seasonSelectionId: number;
   @Input() disciplinaryBoardFileSelectionId: number;
+
   tableColumns: string[] = [
                               "leagueName",
                               "teamName",
@@ -58,18 +64,26 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
     public disciplinaryBoardFilesService: DisciplinaryBoardFilesService,
     public seasonsService: SeasonsService,
     public dialog: MatDialog,
-    private globalFunctions: globalFunctions
+    private globalFunctions: globalFunctions,
+    private router: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-    this.seasonsService.getSeasons();
-    this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
+    this.router.paramMap
+          .subscribe(params => {
+            this.url_caseType = params.get('casetype').toUpperCase();
+            this.toolbarTitle = disciplinaryCommitteesList.find(c => c.name == this.url_caseType).pageDecisionTitle;
+            this.globalFunctions.setToolbarTitle(this.toolbarTitle);
+            this.seasonsService.getSeasons();
+          });
+
+
+    this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
           this.seasonsList = data;
           this.seasonSelectionId = this.seasonsList[0]["id"];
-          this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId);
+          this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
           this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
         },
         error: (error) => {
@@ -85,7 +99,6 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
           this.disciplinaryBoardFileSelectionId = this.disciplinaryBoardFilesList[0]["id"];
           this.disciplinaryBoardFileDetails = this.disciplinaryBoardFilesList[0];
           this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
-
         },
         error: (error) => {
 
@@ -119,7 +132,7 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
   }
 
   onSeasonChange() {
-    this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId);
+    this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
     this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
   }
 

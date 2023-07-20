@@ -14,7 +14,7 @@ import { leagueTypeList } from "../../../assets/lists/league-type.list";
   styleUrls: ['../../../app.component.css', './leagues-create.component.css']
 })
 export class AdminLeaguesCreateModal {
-  isLoading = false;
+  isLoading: boolean = false;
   pageMode: string = this.data.pageMode || 'create';
   leagueInfo = this.data.leagueInfo;
   //seasonList = this.data.seasonList;

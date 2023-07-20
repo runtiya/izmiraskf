@@ -1,0 +1,36 @@
+.mat-mdc-card {
+  box-shadow: none;
+}
+
+mat-action-row button {
+  margin-right: 1rem;
+}
+
+.image-teamlogo-weeklymatchlist-search {
+  width: 15%;
+  height: auto;
+}
+
+.mat-mdc-card-avatar {
+  margin-bottom: 0;
+}
+
+.btn-search {
+  width: 100%;
+}
+
+.mat-mdc-card-header {
+  background-color: transparent;
+  margin-bottom: 1rem;
+  padding: 0;
+}
+
+.mat-mdc-card-content {
+  background-color: transparent;
+  margin-bottom: 1rem;
+  padding: 0;
+}
+
+.match-is-in-list {
+  background-color: greenyellow;
+}

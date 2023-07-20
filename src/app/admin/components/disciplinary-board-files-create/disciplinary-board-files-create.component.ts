@@ -14,16 +14,20 @@ import { SeasonsModel } from "../../models/admin-seasons.model";
 import { StaffITFFModel } from "../../models/admin-staffizmirtff.model";
 import { StaffITFFService } from "../../services/admin-staffitff.service";
 
+import { disciplinaryCommitteesList } from "../../../assets/lists/disciplinary-committees.list";
 @Component({
     selector: 'app-admin-disciplinary-board-files-create',
     templateUrl: './disciplinary-board-files-create.component.html',
     styleUrls: ['../../../app.component.css', './disciplinary-board-files-create.component.css']
 })
 export class AdminDisciplinaryBoardCreateModal implements OnInit {
-    isLoading = false;
+    isLoading: boolean = false;
+    disciplinaryCommitteesList = disciplinaryCommitteesList;
     pageMode: string = this.data.pageMode || 'create';
     disciplinaryBoardFileInfo = this.data.disciplinaryBoardFileInfo;
     seasonList: SeasonsModel[] = this.data.seasonList || [];
+    caseType: string = this.data.caseType;
+    title: string = disciplinaryCommitteesList.find(c => c.name == this.caseType).caseTitle;
     staffizmirtffList: StaffITFFModel[] = [];
     private staffizmirtffListSub: Subscription;
     disciplinaryBoardFilesSubmitForm: FormGroup;
@@ -38,14 +42,6 @@ export class AdminDisciplinaryBoardCreateModal implements OnInit {
 
     ngOnInit(): void {
         this.isLoading = true;
-
-        this.staffService.getStaff();
-        this.staffizmirtffListSub = this.staffService.getStaffListUpdateListener()
-            .subscribe((data: StaffITFFModel[]) => {
-                this.staffizmirtffList = data.sort((a, b) => a.orderNo - b.orderNo);
-            });
-
-
         this.disciplinaryBoardFilesSubmitForm = new FormGroup({
             id: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.id : null, {validators: []}),
             createdAt: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.createdAt : null, {validators: []}),
@@ -55,7 +51,8 @@ export class AdminDisciplinaryBoardCreateModal implements OnInit {
             seasonId: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.seasonId : this.data.seasonSelectionId, {validators: [Validators.required]}),
             caseNo: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.caseNo : null, {validators: [Validators.required, Validators.maxLength(200)]}),
             caseDate: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.caseDate : null, {validators: [Validators.required]}),
-            title: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.title : "İZMİR İL DİSİPLİN KURULU KARARLARI", {validators: [Validators.required, Validators.maxLength(200)]}),
+            caseType: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.caseType : this.caseType, {validators: [Validators.required]}),
+            title: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.title : this.title, {validators: [Validators.required, Validators.maxLength(200)]}),
             participants: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.participants : null, {validators: [Validators.required, Validators.maxLength(200)]}),
             explanation: new FormControl(this.pageMode == 'edit' ? this.disciplinaryBoardFileInfo.explanation : null, {validators: [Validators.maxLength(2000)]})
         });

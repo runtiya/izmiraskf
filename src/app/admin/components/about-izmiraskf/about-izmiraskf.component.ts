@@ -15,7 +15,7 @@ import { imageUploadValidator } from "../../validators/image-upload.validator";
 })
 export class AdminIzmirASKF implements OnInit, OnDestroy {
   toolbarTitle = "İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU";
-  isLoading = false;
+  isLoading: boolean = false;
   aboutIASKFform: FormGroup;
   aboutcontent: AboutIASKFModel;
   private aboutcontentSubscription: Subscription;

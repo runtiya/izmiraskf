@@ -18,7 +18,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class AdminUsersList implements OnInit, OnDestroy {
   toolbarTitle = "KULLANICILAR";
-  isLoading = false;
+  isLoading: boolean = false;
   usersList: UserModel[] = [];
   private usersListSub: Subscription;
   private userType: string;

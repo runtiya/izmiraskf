@@ -15,7 +15,7 @@ import { imageUploadValidator } from "../../validators/image-upload.validator";
   styleUrls:['../../../app.component.css', './users-create.component.css']
 })
 export class AdminUsersCreateModal implements OnInit, OnDestroy {
-  isLoading = false;
+  isLoading: boolean = false;
   userSubmitForm: FormGroup;
   userAuthorityList = userAuthorityList;
   imagePreview: string;

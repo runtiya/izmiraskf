@@ -26,6 +26,7 @@ function createSeason(req, res, next) {
   const seasonInfo = req.body;
   var message;
   var seasonId;
+
   connection.query(
     "insert into seasons(createdat, createdby, updatedat, updatedby, seasonname, seasonyear, isactive)values (?, ?, ?, ?, ?, ?, ?)",
     [
@@ -56,6 +57,7 @@ function updateSeason(req, res, next) {
   const seasonInfo = req.body;
   var message;
   var seasonId = req.params.id;
+
   connection.query(
     "update seasons set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonname = ?, seasonyear = ?, isactive = ?  where id = ?",
     [
@@ -84,6 +86,7 @@ function updateSeason(req, res, next) {
 function deleteSeason(req, res, next) {
   var seasonId =  req.params.id;
   var message;
+
   connection.query(
     "delete from seasons where id = ?",
     [seasonId],

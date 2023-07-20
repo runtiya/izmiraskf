@@ -64,7 +64,9 @@ export class FixtureService {
         .subscribe({
           next: (data) => {
             if (!data.error) {
-              this.getFixtureBySearchIndex(_fixtureSearchIndex);
+              if (_fixtureSearchIndex) {
+                this.getFixtureBySearchIndex(_fixtureSearchIndex);
+              }
               this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
             } else {
               this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
@@ -93,7 +95,9 @@ export class FixtureService {
         .subscribe({
           next: (data) => {
             if (!data.error) {
-              this.getFixtureBySearchIndex(_fixtureSearchIndex);
+              if (_fixtureSearchIndex) {
+                this.getFixtureBySearchIndex(_fixtureSearchIndex);
+              }
               this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
             } else {
               this.globalFunctions.showSnackBar.next('Hata! Müsabaka güncellenemedi');

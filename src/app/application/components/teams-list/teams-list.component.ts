@@ -15,7 +15,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class ApplicationTeamsList implements OnInit, OnDestroy {
   toolbarTitle = "TAKIMLAR";
-  isLoading = false;
+  isLoading: boolean = false;
   teamsList: TeamsModel[] = [];
   private teamsListSub: Subscription;
 
@@ -30,7 +30,7 @@ export class ApplicationTeamsList implements OnInit, OnDestroy {
     this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.teamsService.getTeams();
-    this.teamsListSub = this.teamsService.getTeamListSubListener()
+    this.teamsListSub = this.teamsService.getTeamListUpdateListener()
       .subscribe((data: TeamsModel[]) => {
         this.teamsList = data;
         this.isLoading = false;

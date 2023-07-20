@@ -4,11 +4,13 @@ function getDisciplinaryBoardFiles(req, res, next) {
     var disciplinaryBoardFileList;
     var message;
     const seasonId = req.params.seasonid;
+    const caseType = req.params.casetype;
 
     connection.query(
-        "select * from view_admin_disciplinaryboardfiles where seasonid = ?",
+        "select * from view_admin_disciplinaryboardfiles where seasonid = ? and casetype = ?",
         [
-            seasonId
+            seasonId,
+            caseType
         ],
         (error, result) => {
             if (!error) {
@@ -33,7 +35,7 @@ function createDisciplinaryBoardFile(req, res, next) {
     var disciplinaryBoardFileId;
 
     connection.query(
-        "insert into disciplinaryboardfiles(createdat, createdby, updatedat, updatedby, seasonid, caseno, casedate, title, participants, explanation) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "insert into disciplinaryboardfiles(createdat, createdby, updatedat, updatedby, seasonid, caseno, casedate, casetype, title, participants, explanation) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
             disciplinaryBoardFileInfo.createdAt,
             disciplinaryBoardFileInfo.createdBy,
@@ -42,6 +44,7 @@ function createDisciplinaryBoardFile(req, res, next) {
             disciplinaryBoardFileInfo.seasonId,
             disciplinaryBoardFileInfo.caseNo,
             disciplinaryBoardFileInfo.caseDate,
+            disciplinaryBoardFileInfo.caseType,
             disciplinaryBoardFileInfo.title,
             disciplinaryBoardFileInfo.participants,
             disciplinaryBoardFileInfo.explanation
@@ -64,10 +67,11 @@ function createDisciplinaryBoardFile(req, res, next) {
 
 function updateDisciplinaryBoardFile(req, res, next) {
     const disciplinaryBoardFileInfo = req.body;
+    var disciplinaryBoardFileId = req.params.id;
     var message;
 
     connection.query(
-        "update disciplinaryboardfiles set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonid = ?, caseno = ?, casedate = ?, title = ?, participants = ?, explanation = ? where id = ?",
+        "update disciplinaryboardfiles set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonid = ?, caseno = ?, casedate = ?, casetype = ?, title = ?, participants = ?, explanation = ? where id = ?",
         [
             disciplinaryBoardFileInfo.createdAt,
             disciplinaryBoardFileInfo.createdBy,
@@ -76,10 +80,11 @@ function updateDisciplinaryBoardFile(req, res, next) {
             disciplinaryBoardFileInfo.seasonId,
             disciplinaryBoardFileInfo.caseNo,
             disciplinaryBoardFileInfo.caseDate,
+            disciplinaryBoardFileInfo.caseType,
             disciplinaryBoardFileInfo.title,
             disciplinaryBoardFileInfo.participants,
             disciplinaryBoardFileInfo.explanation,
-            disciplinaryBoardFileInfo.id
+            disciplinaryBoardFileId || disciplinaryBoardFileInfo.id
         ],
         (error, result) => {
             if (!error) {

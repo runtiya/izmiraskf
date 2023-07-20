@@ -1,5 +1,5 @@
 <div>
-  <div class="row">
+  <div class="row search-area">
     <div class="col-lg-4 col-md-4 col-sm-12">
       <mat-form-field>
         <mat-label>Sezonlar</mat-label>
@@ -39,6 +39,7 @@
           matInput
           placeholder="Grup"
           [(ngModel)]="groupstageSelectionId"
+          (selectionChange)="onGroupstageChange(groupstageSelectionId)"
         >
           <mat-option *ngFor="let group of groupstageList" [value]="group.id">
             {{ group.groupName }}
@@ -47,6 +48,7 @@
       </mat-form-field>
     </div>
 
+    <!--
     <div class="col-12">
       <button
         mat-raised-button
@@ -55,6 +57,7 @@
         (click)="onSearch()"
       >Arama</button>
     </div>
+    -->
   </div>
 
   <div class="row">
@@ -183,9 +186,21 @@
                       {{ matchDay.seasonName + " " + matchDay.leagueName + " " + matchDay.groupstageName }}
                     </mat-card-subtitle>
                     <mat-card-subtitle class="subtitle-matchday-detail">
+                      <fa-icon
+                        [icon]="fontAwesomeIconList.faLocationPin"
+                        class="icon icon-location-pin"
+                        matTooltip="Stadyum"
+                      >
+                      </fa-icon>
                     {{ matchDay.stadiumName || "Belirtilmemiş" }}
                     </mat-card-subtitle>
                     <mat-card-subtitle class="subtitle-matchday-detail">
+                      <fa-icon
+                        [icon]="fontAwesomeIconList.faStopwatch"
+                        class="icon icon-stop-watch"
+                        matTooltip="Tarih"
+                      >
+                      </fa-icon>
                       {{getMatchDate(matchDay.matchDate) || "Belirtilmemiş"}}
                     </mat-card-subtitle>
                     <mat-card-subtitle>

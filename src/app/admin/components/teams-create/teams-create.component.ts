@@ -20,7 +20,7 @@ import { globalFunctions } from "../../../functions/global.function";
   styleUrls: ['../../../app.component.css', './teams-create.component.css']
 })
 export class AdminTeamsCreateModal implements OnInit {
-  isLoading = false;
+  isLoading: boolean = false;
   pageMode: string = this.data.pageMode || 'create';
   teamInfo = this.data.teamInfo;
   teamSubmitForm: FormGroup;
@@ -70,7 +70,7 @@ export class AdminTeamsCreateModal implements OnInit {
           isVisible: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isVisible : true, {validators: []}),
         });
         this.isLoading = false;
-      })
+      });
 
   }
 

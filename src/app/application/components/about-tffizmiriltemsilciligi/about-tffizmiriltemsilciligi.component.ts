@@ -18,7 +18,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.lis
 })
 export class ApplicationIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
   toolbarTitle = "İZMİR TFF İL TEMSİLCİLİĞİ";
-  isLoading = false;
+  isLoading: boolean = false;
   //aboutcontent: AboutITFFModel;
   aboutcontent = <AboutITFFModel>{};
   private aboutcontentSubscription: Subscription;

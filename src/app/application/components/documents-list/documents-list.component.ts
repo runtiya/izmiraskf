@@ -16,7 +16,7 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 })
 export class ApplicationDocumentList implements OnInit, OnDestroy {
   toolbarTitle = null;
-  isLoading = false;
+  isLoading: boolean = false;
   documentsList: DocumentsModel[] = [];
   private documentsListSubscription: Subscription;
   documentCategoryList = documentCategoryList;
@@ -38,7 +38,7 @@ export class ApplicationDocumentList implements OnInit, OnDestroy {
         this.documentService.getDocuments(this.url_category);
       });
 
-    this.documentsListSubscription = this.documentService.getDocumentsListSubListener()
+    this.documentsListSubscription = this.documentService.getDocumentsListUpdateListener()
       .subscribe({
         next: (data: DocumentsModel[]) => {
           this.documentsList = data;

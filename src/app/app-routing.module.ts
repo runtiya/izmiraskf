@@ -29,6 +29,8 @@ import { AdminTeamsInDisqualifications } from "./admin/components/teams-in-disqu
 import { AdminFixtureCreate } from "./admin/components/fixture-create/fixture-create.component";
 import { AdminScoreBoard } from "./admin/components/score-board/score-board.component";
 import { AdminPointBoardFixtureWrap } from "./admin/components/pointboard-fixture-wrap/pointboard-fixture-wrap.component";
+import { AdminWeeklyMatchProgramList } from "./admin/components/weekly-match-program-list/weekly-match-program-list.component";
+import { AdminWeeklyMatchList } from "./admin/components/weekly-match-list/weekly-match-list.component";
 
 import { AdminUsersList } from "./admin/components/users-list/users-list.component";
 
@@ -57,6 +59,8 @@ import { ApplicationStadiumDetails } from "./application/components/stadiums-det
 
 import { ApplicationDisciplinaryBoardDecisionsList } from "./application/components/disciplinary-board-decisions-list/disciplinary-board-decisions-list.component";
 
+import { ApplicationWeeklyMatchList } from "./application/components/weekly-match-list/weekly-match-list.component";
+
 import { ApplicationPointBoardFixtureWrap } from "./application/components/pointboard-fixture-wrap/pointboard-fixture-wrap.component";
 
 import { ApplicationDocumentList } from "./application/components/documents-list/documents-list.component";
@@ -78,8 +82,8 @@ const routes: Routes = [
 
   {path: 'admin/sahalar', component: AdminStadiumsList, canActivate: [AuthGuard]},
   {path: 'admin/takimlar', component: AdminTeamsList, canActivate: [AuthGuard]},
-  {path: 'admin/disiplin-kurulu-dosyalari', component: AdminDisciplinaryBoardFilesList, canActivate: [AuthGuard]},
-  {path: 'admin/disiplin-kurulu-kararlari', component: AdminDisciplinaryBoardDecisionsList, canActivate: [AuthGuard]},
+  {path: 'admin/komite-dosyalari/:casetype', pathMatch:"full", component: AdminDisciplinaryBoardFilesList, canActivate: [AuthGuard]},
+  {path: 'admin/komite-kararlari/:casetype', pathMatch:"full", component: AdminDisciplinaryBoardDecisionsList, canActivate: [AuthGuard]},
 
   {path: 'admin/sezonlar', component: AdminSeasonsList, canActivate: [AuthGuard]},
   {path: 'admin/ligler', component: AdminLeaguesList, canActivate: [AuthGuard]},
@@ -90,6 +94,8 @@ const routes: Routes = [
   {path: 'admin/fikstur', component: AdminFixtureCreate, canActivate: [AuthGuard]},
   {path: 'admin/skor-tablosu', component: AdminScoreBoard, canActivate: [AuthGuard]},
   {path: 'admin/puan-tablosu', component: AdminPointBoardFixtureWrap, canActivate: [AuthGuard]},
+  {path: 'admin/haftalik-bulten', component: AdminWeeklyMatchProgramList, canActivate: [AuthGuard]},
+  {path: 'admin/haftalik-musabaka-listesi', component: AdminWeeklyMatchList, canActivate: [AuthGuard]},
 
   {path: 'admin/kullanicilar', component: AdminUsersList, canActivate: [AuthGuard]},
 
@@ -114,7 +120,9 @@ const routes: Routes = [
   {path: 'sahalar', component: ApplicationStadiumList},
   {path: 'sahalar/detaylar/:id', pathMatch:"full", component: ApplicationStadiumDetails},
 
-  {path: 'disiplin-kurulu-kararlari', component: ApplicationDisciplinaryBoardDecisionsList},
+  {path: 'komite-kararlari/:casetype', pathMatch:"full", component: ApplicationDisciplinaryBoardDecisionsList},
+
+  {path: 'haftalik-bulten', component: ApplicationWeeklyMatchList},
 
   {path: 'puan-tablosu-fikstur', component: ApplicationPointBoardFixtureWrap},
 

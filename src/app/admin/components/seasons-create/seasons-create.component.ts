@@ -13,7 +13,7 @@ import { seasonYearList } from "../../../assets/lists/season-year.list";
   styleUrls: ['../../../app.component.css', './seasons-create.component.css']
 })
 export class AdminSeasonsCreateModal implements OnInit, OnDestroy {
-  isLoading = false;
+  isLoading: boolean = false;
   pageMode: string = this.data.pageMode || 'create';
   seasonInfo = this.data.seasonInfo;
   seasonSubmitForm: FormGroup;

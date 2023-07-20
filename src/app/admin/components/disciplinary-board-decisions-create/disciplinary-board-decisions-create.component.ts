@@ -24,7 +24,7 @@ import * as XLSX from 'xlsx';
 })
 
 export class AdminDisciplinaryBoardDecisionsCreateModal implements OnInit {
-    isLoading = false;
+    isLoading: boolean = false;
     pageMode: string = this.data.pageMode || 'create';
     seasonSelectedValue = this.data.seasonSelectionValue;
     disciplinaryBoardFilesList: DisciplinaryBoardFileModel[] = this.data.disciplinaryBoardFilesList;

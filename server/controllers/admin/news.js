@@ -40,7 +40,9 @@ function createNews(req, res, next) {
     const imagePath = imagesFunction.setImagePath(url, "/images/news/", req.file.filename);
     newsInfo.imagePath = imagePath;
   } else {
-    newsInfo.imagePath = null;
+    if (!newsInfo.imagePath) {
+      newsInfo.imagePath = null;
+    }
   }
 
   connection.query(

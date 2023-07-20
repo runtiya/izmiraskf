@@ -18,7 +18,7 @@ function getFixtureBySearchIndex(req, res, next) {
   let townSearchIndex = searchIndex.town ? "town = " + JSON.stringify(searchIndex.town) : "true";
   let startDateSearchIndex = searchIndex.startDate ? "matchDate > " + JSON.stringify(searchIndex.startDate + " 00:00") : "true";
   let endDateSearchIndex = searchIndex.endDate ? "matchDate < " + JSON.stringify(searchIndex.endDate + " 23:59") : "true";
-
+  let weeklyMatchProgramIndex = searchIndex.weeklyMatchProgramId ? ("matchno in (select matchno from view_admin_weeklymatchlist where weeklymatchprogramid = " + searchIndex.weeklyMatchProgramId + ")") : "true"
 
   connection.query(
     "select * from view_admin_fixtures where " + seasonSearchIndex + " and "
@@ -32,7 +32,8 @@ function getFixtureBySearchIndex(req, res, next) {
                                                + matchStatusSearchIndex + " and "
                                                + townSearchIndex + " and "
                                                + startDateSearchIndex + " and "
-                                               + endDateSearchIndex + " and true ",
+                                               + endDateSearchIndex + " and "
+                                               + weeklyMatchProgramIndex + " and true ",
     (error, result) => {
       if (!error) {
         fixtureList = result;
@@ -87,7 +88,7 @@ function createFixture(req, res, next) {
           if (!error) {
             //pass
           } else {
-            message = error.message;
+            message = error.sqlMessage;
             throw error;
           }
         }

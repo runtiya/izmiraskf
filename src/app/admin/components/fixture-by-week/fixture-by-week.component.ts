@@ -19,7 +19,7 @@ import { matchStatusList } from "../../../assets/lists/match-status.list";
 })
 export class AdminFixtureByWeek implements OnInit, OnDestroy {
   toolbarTitle = "HAFTANIN KARŞILAŞMALARI";
-  isLoading = false;
+  isLoading: boolean = false;
   fixtureList: FixtureModel[] = [];
   teamsingroupstageList: TeamsInGroupstagesModel[] = [];
   private teamsingroupstageListSub: Subscription;

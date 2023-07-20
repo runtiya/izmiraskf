@@ -17,7 +17,7 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 })
 export class AdminDocumentList {
   toolbarTitle = null;
-  isLoading = false;
+  isLoading: boolean = false;
   documents: DocumentsModel[] = [];
   private documentsSubscription: Subscription;
   documentCategoryList = documentCategoryList;
@@ -39,7 +39,7 @@ export class AdminDocumentList {
   ) {}
 
   ngOnInit() {
-    this.isLoading = true;
+
     this.router.paramMap
       .subscribe(params => {
         this.url_category = params.get('category').toUpperCase();
@@ -47,13 +47,12 @@ export class AdminDocumentList {
         this.toolbarTitle = this.documentCategory.value;
         this.globalFunctions.setToolbarTitle(this.toolbarTitle);
         this.documentService.getDocuments(this.documentCategory.name);
-      })
+      });
 
 
-    this.documentsSubscription = this.documentService.getDocumentsListSubListener()
+    this.documentsSubscription = this.documentService.getDocumentsListUpdateListener()
       .subscribe((data: DocumentsModel[]) => {
         this.documents = data.sort((a, b) => {return a.orderNo - b.orderNo});
-        this.isLoading = false;
       });
   }
 

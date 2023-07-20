@@ -29,11 +29,13 @@ export class ApplicationStatisticsGoalByLeague implements OnInit, OnDestroy {
       .subscribe({
         next: (data: any[]) => {
           this.goalByLeagueList = data;
+          /*
           this.chartOptions = this.chartsFunctions.initChart();
           this.chartOptions.title.text = "Liglere Göre Gol Sayısı";
           this.chartOptions.data[0].type = "column";
           this.chartOptions.data[0].yValueFormatString = "# GOL";
           this.chartOptions.data[0].dataPoints = this.goalByLeagueList;
+          */
         },
         error: (error) => {
         }

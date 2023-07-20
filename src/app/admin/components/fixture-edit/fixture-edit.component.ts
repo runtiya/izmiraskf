@@ -24,11 +24,12 @@ import { FixtureSearchModel } from "../../models/admin-fixture-search-index.mode
   styleUrls: ['../../../app.component.css', './fixture-edit.component.css']
 })
 export class AdminFixtureEditModal implements OnInit {
-  isLoading = false;
+  isLoading: boolean = false;
   pageMode: string = this.data.pageMode || 'create';
   fixtureInfo: FixtureModel = this.data.fixtureInfo;
   stadiumList: StadiumsModel[] = this.data.stadiumList;
   teamsingroupstagesList: TeamsInGroupstagesModel[] = this.data.teamsingroupstagesList;
+  fixtureSearchIndex: FixtureSearchModel = this.data.fixtureSearchIndex;
   fixtureSubmitForm: FormGroup;
 
   seasonSelectionId: number = this.data.seasonSelectionId;
@@ -96,12 +97,14 @@ export class AdminFixtureEditModal implements OnInit {
 
   onSubmitForm() {
     this.isLoading = true;
+    /*
     let fixtureSearchIndex: FixtureSearchModel = this.fixtureFunctions.setFixtureSearchModel(
       this.seasonSelectionId,
       this.leagueSelectionId,
       this.groupstageSelectionId,
-      null, null, null, null, null, null, null, null, null
+      null, null, null, null, null, null, null, null, null, null
     );
+    */
 
     let weekNumber = this.fixtureSubmitForm.get('matchWeek').value;
     let orderNo = this.fixtureSubmitForm.get('orderNo').value;
@@ -119,7 +122,7 @@ export class AdminFixtureEditModal implements OnInit {
           this.fixtureSubmitForm.get('matchNo').setValue(matchNo);
           this.fixtureSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
           _matchList.push(this.fixtureSubmitForm.value);
-          this.fixturesService.createFixture(_matchList, fixtureSearchIndex);
+          this.fixturesService.createFixture(_matchList, this.fixtureSearchIndex);
           this.dialogRef.close();
         }
         // create - checkMatch not success
@@ -135,7 +138,7 @@ export class AdminFixtureEditModal implements OnInit {
         if (checkMatch) {
           this.fixtureSubmitForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
           _matchList.push(this.fixtureSubmitForm.value);
-          this.fixturesService.updateFixture(_matchList, fixtureSearchIndex);
+          this.fixturesService.updateFixture(_matchList, this.fixtureSearchIndex);
           this.dialogRef.close();
         }
         // update - checkMatch not success

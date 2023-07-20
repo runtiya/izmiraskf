@@ -4,6 +4,7 @@ import { map, startWith } from 'rxjs/operators';
 import { FormControl } from "@angular/forms";
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatDialog } from "@angular/material/dialog";
 
 import { GroupStagesModel } from "../../models/admin-groupstages.model";
 import { LeaguesModel } from "../../models/admin-leagues.model";
@@ -16,6 +17,9 @@ import { LeaguesService } from "../../services/admin-leagues.service";
 import { SeasonsService } from "../../services/admin-seasons.service";
 import { TeamsService } from "../../services/admin-teams.service";
 import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupstages.service";
+import { FixtureService } from "../../services/admin-fixtures.service";
+
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { townList } from "../../../assets/lists/town-izmir.list";
 
@@ -28,7 +32,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
   toolbarTitle = "GRUP-TAKIM EŞLEŞMESİ";
-  isLoading = false;
+  isLoading: boolean = false;
   seasonList: SeasonsModel[] = [];
   private seasonListSub: Subscription;
   leagueList: LeaguesModel[] = [];
@@ -56,13 +60,15 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
     private groupstagesService: GroupStagesService,
     private teamsService: TeamsService,
     private teamsingroupstagesService: TeamsInGroupstagesService,
-    private globalFunctions: globalFunctions
+    private fixturesService: FixtureService,
+    private globalFunctions: globalFunctions,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
-    this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
+    this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe((data: SeasonsModel[]) => {
         this.isLoading = true;
         if (data.length > 0) {
@@ -121,7 +127,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
       });
 
     this.teamsService.getTeams();
-    this.teamsListSub = this.teamsService.getTeamListSubListener()
+    this.teamsListSub = this.teamsService.getTeamListUpdateListener()
       .subscribe((data: TeamsModel[]) => {
         this.isLoading = true;
         this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
@@ -196,8 +202,25 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
   }
 
   onSaveTeamsInGroupstages(teams: TeamsInGroupstagesModel[]) {
-    teams.forEach((team, i) => team.orderNo = i+1);
-    this.teamsingroupstagesService.createTeamsInGroupstages(teams, this.groupstageSelectionId);
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: "İşlemi Onaylıyor musunuz?",
+        message: "Bu işlem Fikstür bilgilerinizi kalıcı olarak silecektir! İşleminizi onaylıyor musunuz?"
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            teams.forEach((team, i) => team.orderNo = i+1);
+            this.teamsingroupstagesService.createTeamsInGroupstages(teams, this.groupstageSelectionId);
+
+            this.fixturesService.clearFixture(this.groupstageSelectionId);
+          }
+        }
+      });
+
   }
 
   onRemoveList(teamId: number) {

@@ -1,0 +1,11 @@
+mat-form-field {
+  width: 100%;
+}
+
+mat-action-row button {
+  margin-right: 1rem;
+}
+
+.mat-mdc-card {
+  box-shadow: none;
+}

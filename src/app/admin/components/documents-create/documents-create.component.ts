@@ -16,7 +16,7 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
   styleUrls: ['../../../app.component.css', './documents-create.component.css']
 })
 export class AdminDocumentCreateModal {
-  isLoading = false;
+  isLoading: boolean = false;
   pageMode: string = this.data.pageMode || 'create';
   documentCategory = this.data.documentCategory;
   documentInfo = this.data.documentInfo;

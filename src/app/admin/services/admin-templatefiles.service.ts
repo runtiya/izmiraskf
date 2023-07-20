@@ -35,7 +35,7 @@ export class TemplateFilesService {
     }
   }
 
-  getDocumentsListSubListener() {
+  getDocumentsListUpdateListener() {
     return this.templateFilesListSub.asObservable();
   }
 

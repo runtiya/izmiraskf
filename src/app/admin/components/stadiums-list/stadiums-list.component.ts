@@ -20,7 +20,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.lis
 })
 export class AdminStadiumsList implements OnInit, OnDestroy {
   toolbarTitle = "SAHALAR";
-  isLoading = false;
+  isLoading: boolean = false;
   stadiumsList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
 

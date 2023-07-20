@@ -1,0 +1,34 @@
+.mat-mdc-card {
+  box-shadow: none;
+}
+
+.btn-weeklymatchlist-actions {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+
+.btn-export-weeklymatchlist {
+  background-color: darkorange !important;
+  color: white !important;
+}
+
+.disabled {
+  background-color: gray !important;
+}
+
+.mat-mdc-card-avatar {
+  margin-bottom: 0;
+}
+
+.weeklymatchlist-match-is-not-in-list {
+  background-color: tomato !important;
+}
+
+.icon-circle-info {
+  color: orange;
+}
+
+.icon-circle-h {
+  color: red;
+}
