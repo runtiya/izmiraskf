@@ -48,7 +48,7 @@
       </mat-form-field>
     </div>
 
-    <div class="col-lg-3 col-md-4 col-sm-12">
+    <div class="col-lg-3 col-md-12 col-sm-12">
       <form>
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Arama</mat-label>
@@ -91,10 +91,13 @@
         >
 
           <mat-card-subtitle>{{ i + 1 }}</mat-card-subtitle>
-          <img mat-card-avatar class="image-teamlogo-teamsingroupstages" [src]="team.teamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="team.teamShortName ||teamOfficialName">
-          <mat-card-title class="team-in-list">{{
-            team.teamShortName || team.teamOfficialName
-          }}</mat-card-title>
+          <div class="d-flex align-items-center">
+            <img mat-card-avatar class="image-teamlogo-teamsingroupstages" [src]="team.teamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="team.teamShortName ||teamOfficialName">
+            <mat-card-title class="team-in-list">{{
+              team.teamShortName || team.teamOfficialName
+            }}</mat-card-title>
+          </div>
+
           <mat-icon
             class="icon icon-delete-team"
             (click)="onRemoveList(team.teamId)"
@@ -107,6 +110,7 @@
       <button
         mat-raised-button
         color="primary"
+        class="btn-teamsingroupstages-save"
         (click)="onSaveTeamsInGroupstages(teamsingroupstagesList)"
       >
         Kaydet

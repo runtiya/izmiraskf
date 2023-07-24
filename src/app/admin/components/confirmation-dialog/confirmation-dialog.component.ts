@@ -14,7 +14,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 
 export class AdminConfirmationDialogModal implements OnInit {
-    isLoading = false;
+    isLoading: boolean = false;
     confirmationTitle: string = this.data.title;
     confirmationMessage: string = this.data.message;
 

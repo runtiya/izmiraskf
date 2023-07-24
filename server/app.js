@@ -23,6 +23,8 @@ const adminGroupsRoutes = require('./routes/admin/groupstages');
 const adminTeamsInGroupsRoutes = require('./routes/admin/teamsingroupstages');
 const adminFixturesRoutes = require('./routes/admin/fixtures');
 const adminPointBoardRoutes = require('./routes/admin/pointboard');
+const adminWeeklyMatchProgramRoutes = require('./routes/admin/weeklymatchprogram');
+const adminWeeklyMatchListRoutes = require('./routes/admin/weeklymatchlist');
 const adminAuthenticationRoutes = require('./routes/admin/authentication');
 
 // Application Routes
@@ -43,6 +45,8 @@ const applicationGroupsRoutes = require('./routes/application/groupstages');
 const applicationTeamsInGroupsRoutes = require('./routes/application/teamsingroupstages');
 const applicationFixturesRoutes = require('./routes/application/fixtures');
 const applicationPointBoardRoutes = require('./routes/application/pointboard');
+const applicationWeeklyMatchProgramRoutes = require('./routes/application/weeklymatchprogram');
+const applicationWeeklyMatchListRoutes = require('./routes/application/weeklymatchlist');
 const applicationStatisticsRoutes = require('./routes/application/statistics');
 
 const { url } = require('inspector');
@@ -95,6 +99,8 @@ app.use('/admin/grup-takim-eslesmeleri', adminTeamsInGroupsRoutes);
 app.use('/admin/gruplar', adminGroupsRoutes);
 app.use('/admin/fikstur', adminFixturesRoutes);
 app.use('/admin/puan-tablosu', adminPointBoardRoutes);
+app.use('/admin/weekly-match-program', adminWeeklyMatchProgramRoutes);
+app.use('/admin/weekly-match-list', adminWeeklyMatchListRoutes);
 app.use('/admin/kullanicilar', adminAuthenticationRoutes);
 
 
@@ -116,6 +122,8 @@ app.use('/grup-takim-eslesmeleri', applicationTeamsInGroupsRoutes);
 app.use('/gruplar', applicationGroupsRoutes);
 app.use('/fikstur', applicationFixturesRoutes);
 app.use('/puan-tablosu', applicationPointBoardRoutes);
+app.use('/weekly-match-program', applicationWeeklyMatchProgramRoutes);
+app.use('/weekly-match-list', applicationWeeklyMatchListRoutes);
 app.use('/statistics', applicationStatisticsRoutes);
 
 module.exports = app;

@@ -21,7 +21,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class ApplicationStadiumDetails implements OnInit, OnDestroy {
   toolbarTitle = "";
-  isLoading = false;
+  isLoading: boolean = false;
   stadium: StadiumsModel = <StadiumsModel>{};
   private stadiumSub: Subscription;
   url_stadiumId: number;

@@ -115,7 +115,10 @@
             {{ "Seçiniz" }}
           </mat-option>
           <mat-option *ngFor="let team of teamList" [value]="team.id">
-            {{ team.officialName }}
+            <div class="d-flex align-items-center">
+              <img mat-card-avatar class="image-teamlogo-scoreboard-search" [src]="team.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="team.shortName || team.officialname || 'BAY'">
+              {{team.shortName || team.officialName || 'BAY'}}
+            </div>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -133,7 +136,10 @@
             {{ "Seçiniz" }}
           </mat-option>
           <mat-option *ngFor="let team of teamList" [value]="team.id">
-            {{ team.officialName }}
+            <div class="d-flex align-items-center">
+              <img mat-card-avatar class="image-teamlogo-scoreboard-search" [src]="team.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="team.shortName || team.officialname || 'BAY'">
+              {{team.shortName || team.officialName || 'BAY'}}
+            </div>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -199,6 +205,35 @@
           [(ngModel)]="endDatePickedValue"
           onfocus="this.showPicker()"
         />
+      </mat-form-field>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <mat-form-field class="form-input">
+        <mat-label>Bülten No</mat-label>
+        <mat-select
+          matInput
+          placeholder="Bülten No"
+          [(ngModel)]="weeklyMatchProgramId"
+        >
+          <mat-option [value]="null">{{'Seçiniz'}}</mat-option>
+          <mat-option *ngFor="let weeklyMatchProgram of weeklyMatchProgramList" [value]="weeklyMatchProgram.id">
+            <fa-icon
+              [icon]="fontAwesomeIconList.faCircle"
+              class="icon icon-circle"
+              [ngStyle]="{ color: weeklyMatchProgram.isActive ? 'green' : 'red' }"
+              matTooltip="{{ weeklyMatchProgram.isActive ? 'Aktif' : 'Aktif Değil' }}"
+            >
+            </fa-icon>
+            {{
+              weeklyMatchProgram.id +
+              " / " +
+              (weeklyMatchProgram.beginDate | date: 'dd.MM.yyyy') +
+              " - " +
+              (weeklyMatchProgram.endDate | date: 'dd.MM.yyyy')
+            }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
   </div>
@@ -379,18 +414,41 @@
               </div>
 
               <div class="col-lg-4 col-md-12 col-sm-12">
-                <mat-card-subtitle>
-                    {{ fixture.stadiumName || 'Saha Belirtilmemiş' }}
-                </mat-card-subtitle>
-                <mat-card-subtitle>
-                    {{  getMatchDate(fixture.matchDate) || 'Tarih Belirtilmemiş' }}
-                </mat-card-subtitle>
+                <mat-form-field class="form-input input-stadium">
+                  <mat-label>Saha</mat-label>
+                  <mat-select
+                    matInput
+                    #matchStadium
+                    (selectionChange)="onStadiumChange(fixture.matchNo || null, matchStadium.value)"
+                    [value]="fixture.stadiumId"
+                  >
+                    <mat-option [value]="null">
+                      {{ 'Seçiniz' }}
+                    </mat-option>
+                    <mat-option *ngFor="let stadium of stadiumList" [value]="stadium.id">
+                      {{ stadium.stadiumName }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="form-input input-matchdate">
+                  <mat-label>Tarih</mat-label>
+                  <input
+                    matInput
+                    #matchDate
+                    type="datetime-local"
+                    [value]="fixture.matchDate"
+                    onfocus="this.showPicker()"
+                    (change)="onMatchDateChange(fixture.matchNo, matchDate.value)"
+                  >
+                </mat-form-field>
+
                 <mat-card-subtitle>
                   <mat-icon
                     class="{{ findMatchStatusClass(fixture.matchStatus) }}"
                     matTooltip="{{ findMatchStatus(fixture.matchStatus) }}"
-                    >circle</mat-icon
-                  >
+                  >circle
+                  </mat-icon>
                 </mat-card-subtitle>
               </div>
 

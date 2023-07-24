@@ -16,7 +16,7 @@ import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
   styleUrls: ['../../../app.component.css', './external-links-create.component.css']
 })
 export class AdminExternalLinksCreateModal implements OnInit {
-  isLoading = false;
+  isLoading: boolean = false;
   pageMode: string = this.data.pageMode || 'create';
   linkType: string = this.data.linkType || 'RELATEDLINK';
   linkInfo = this.data.linkInfo;

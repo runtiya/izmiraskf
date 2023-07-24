@@ -1,0 +1,25 @@
+.mat-mdc-card-avatar {
+  margin-bottom: 0;
+}
+
+.icon-circle-info {
+  color: orange;
+}
+
+.icon-circle-h {
+  color: red;
+}
+
+.btn-search {
+  width: 100%;
+}
+
+.btn-export {
+  background-color: green !important;
+  color: white !important;
+  margin-top: 1rem;
+}
+
+.table-weeklymatchlist {
+  margin-top: 2rem;
+}

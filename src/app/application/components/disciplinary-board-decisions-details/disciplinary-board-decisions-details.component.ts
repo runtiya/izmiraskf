@@ -19,7 +19,7 @@ import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-pe
     styleUrls: ['../../../app.component.css', './disciplinary-board-decisions-details.component.css']
 })
 export class ApplicationDisciplinaryBoardDecisionsDetailsModal implements OnInit {
-  isLoading = false;
+  isLoading: boolean = false;
   disciplinaryBoardFileInfo = this.data.disciplinaryBoardFileInfo;
   disciplinaryBoardFile: DisciplinaryBoardFileModel = <DisciplinaryBoardFileModel>{};
 

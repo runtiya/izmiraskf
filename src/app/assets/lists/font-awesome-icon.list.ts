@@ -21,6 +21,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 import {
+  faSearch,
   faDownload,
   faCircle,
   faCircleH,
@@ -44,6 +45,7 @@ import {
 
 
 export const fontAwesomeIconList = {
+  faSearch: faSearch,
   faDownload: faDownload,
   faCircle: faCircle,
   faCircleH: faCircleH,

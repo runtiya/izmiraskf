@@ -42,7 +42,7 @@ import { DatePipe } from "@angular/common";
 })
 export class AdminFixtureCreate implements OnInit, OnDestroy {
   toolbarTitle = "FİKSTÜR";
-  isLoading = false;
+  isLoading: boolean = false;
 
   seasonList: SeasonsModel[] = [];
   private seasonListSub: Subscription;
@@ -89,9 +89,9 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading = true;
-
+    this.globalFunctions.setToolbarTitle(null);
     this.seasonsService.getSeasons();
-    this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
+    this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
           if (data.length > 0) {
@@ -142,7 +142,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
             this.teamsingroupstagesList = [];
             this.fixtureList = [];
           }
-          //this.onSearch();
+          this.onSearch();
         },
         error: (error) => {
         }
@@ -193,7 +193,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
   }
 
   onGroupstageChange(groupstageSelectionId: number) {
-
+    this.onSearch();
   }
 
 
@@ -204,7 +204,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
       this.seasonSelectionId,
       this.leagueSelectionId,
       this.groupstageSelectionId,
-      null, null, null, null, null, null, null, null, null
+      null, null, null, null, null, null, null, null, null, null
     );
     this.fixturesService.getFixtureBySearchIndex(this.fixtureSearchIndex);
   }
@@ -353,6 +353,13 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
     matchDay.matchNo = null;
     matchDay.groupstageId = this.groupstageSelectionId;
 
+    let _fixtureSearchIndex: FixtureSearchModel = this.fixtureFunctions.setFixtureSearchModel(
+      this.seasonSelectionId,
+      this.leagueSelectionId,
+      this.groupstageSelectionId,
+      null, null, null, null, null, null, null, null, null, null
+    );
+
     const dialogRef = this.dialog.open(AdminFixtureEditModal, {
       data: {
         pageMode: 'create',
@@ -361,13 +368,21 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
         teamsingroupstagesList: this.teamsingroupstagesList,
         seasonSelectionId: this.seasonSelectionId,
         leagueSelectionId: this.leagueSelectionId,
-        groupstageSelectionId: this.groupstageSelectionId
+        groupstageSelectionId: this.groupstageSelectionId,
+        fixtureSearchIndex: _fixtureSearchIndex
       }
     });
   }
 
   onEdit(matchDay: MatchModel, matchWeek: number) {
     matchDay.matchWeek = matchWeek;
+
+    let _fixtureSearchIndex: FixtureSearchModel = this.fixtureFunctions.setFixtureSearchModel(
+      this.seasonSelectionId,
+      this.leagueSelectionId,
+      this.groupstageSelectionId,
+      null, null, null, null, null, null, null, null, null, null
+    );
 
     const dialogRef = this.dialog.open(AdminFixtureEditModal, {
       data: {
@@ -377,7 +392,8 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
         teamsingroupstagesList: this.teamsingroupstagesList,
         seasonSelectionId: this.seasonSelectionId,
         leagueSelectionId: this.leagueSelectionId,
-        groupstageSelectionId: this.groupstageSelectionId
+        groupstageSelectionId: this.groupstageSelectionId,
+        fixtureSearchIndex: _fixtureSearchIndex
       }
     });
   }
@@ -429,7 +445,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
       this.seasonSelectionId,
       this.leagueSelectionId,
       this.groupstageSelectionId,
-      null, null, null, null, null, null, null, null, null
+      null, null, null, null, null, null, null, null, null, null
     )
     this.fixturesService.updateFixture(_matchList, fixtureSearchIndex);
   }

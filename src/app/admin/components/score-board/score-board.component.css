@@ -92,3 +92,13 @@
 .icon-circle-info {
     color: orange;
 }
+
+.image-teamlogo-scoreboard-search {
+  width: 15%;
+  height: auto;
+  margin-bottom: 0;
+}
+
+.mat-mdc-card-avatar {
+  object-fit: fill;
+}

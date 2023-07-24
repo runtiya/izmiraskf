@@ -17,7 +17,7 @@ import { matchStatusList } from "../../../assets/lists/match-status.list";
 })
 export class ApplicationFixtureByWeek implements OnInit, OnDestroy {
   toolbarTitle = "HAFTANIN KARŞILAŞMALARI";
-  isLoading = false;
+  isLoading: boolean = false;
   fixtureList: FixtureModel[] = [];
   private fixtureListSub: Subscription;
 

@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
 import { FixtureModel } from "../models/application-fixture.model";
-import { FixtureSearchModel } from "../models/application-fixture-search.model";
+import { FixtureSearchModel } from "../models/application-fixture-search-index.model";
 
 import { globalFunctions } from "../../functions/global.function";
 @Injectable({providedIn: 'root'})

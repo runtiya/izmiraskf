@@ -14,7 +14,7 @@ import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupst
   styleUrls: ['../../../app.component.css', './teams-in-disqualifications-edit.component.css']
 })
 export class AdminTeamsInDisqualificationsEditModal implements OnInit {
-  isLoading = false;
+  isLoading: boolean = false;
   teamInfo = this.data.teamInfo;
   teamSubmitForm: FormGroup
 

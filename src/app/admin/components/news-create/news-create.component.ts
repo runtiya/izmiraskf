@@ -19,7 +19,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 })
 export class AdminNewsCreate implements OnInit, OnDestroy {
   toolbarTitle = "HABER OLUŞTUR";
-  isLoading = false;
+  isLoading: boolean = false;
   newsCreateForm: FormGroup;
 
   newsContent = '';

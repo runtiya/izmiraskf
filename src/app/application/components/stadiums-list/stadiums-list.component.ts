@@ -19,7 +19,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class ApplicationStadiumList implements OnInit, OnDestroy {
   toolbarTitle = "SAHALAR";
-  isLoading = false;
+  isLoading: boolean = false;
   stadiumsList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
 

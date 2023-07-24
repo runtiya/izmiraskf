@@ -36,7 +36,7 @@ export class SeasonsService {
     }
   }
 
-  getSeasonsListSubListener() {
+  getSeasonsListUpdateListener() {
     return this.seasonsListSub.asObservable();
   }
 

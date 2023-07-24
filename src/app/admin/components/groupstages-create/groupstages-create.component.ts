@@ -19,7 +19,7 @@ import { groupPeriodSystemList } from "../../../assets/lists/group-period-system
   styleUrls: ['../../../app.component.css', './groupstages-create.component.css']
 })
 export class AdminGroupStagesCreateModal implements OnInit {
-  isLoading = false;
+  isLoading: boolean = false;
   pageMode: string = this.data.pageMode || 'create';
   groupstageInfo = this.data.groupstageInfo;
   seasonName = this.data.seasonName;

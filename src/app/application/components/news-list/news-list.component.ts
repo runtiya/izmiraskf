@@ -18,7 +18,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.lis
 })
 export class ApplicationNewsList implements OnInit, OnDestroy {
   toolbarTitle = "HABERLER";
-  isLoading = false;
+  isLoading: boolean = false;
   newsList: NewsModel[] = [];
   private newsSub: Subscription;
 

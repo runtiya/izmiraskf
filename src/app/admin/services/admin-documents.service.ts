@@ -35,7 +35,7 @@ export class DocumentsService {
     }
   }
 
-  getDocumentsListSubListener() {
+  getDocumentsListUpdateListener() {
     return this.documentsListSub.asObservable();
   }
 

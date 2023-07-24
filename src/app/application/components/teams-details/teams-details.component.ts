@@ -18,7 +18,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.lis
 })
 export class ApplicationTeamDetails implements OnInit, OnDestroy {
   toolbarTitle = "";
-  isLoading = false;
+  isLoading: boolean = false;
   team: TeamsModel = <TeamsModel>{};
   private teamSub: Subscription;
   url_teamId: number;

@@ -14,7 +14,7 @@ import { globalFunctions } from "../../../functions/global.function";
   styleUrls: ['../../../app.component.css', './staff-izmirtff-create.component.css']
 })
 export class AdminCreateStaffIzmirTFFModal {
-  isLoading = false;
+  isLoading: boolean = false;
   pageMode: string = this.data.mode || 'create';
   staffITFFSubmitForm: FormGroup;
   imagePreview: string;

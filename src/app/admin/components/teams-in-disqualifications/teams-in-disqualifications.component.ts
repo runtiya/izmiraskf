@@ -24,7 +24,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class AdminTeamsInDisqualifications implements OnInit, OnDestroy {
   toolbarTitle = "İHRAÇ VE ÇEKİLME";
-  isLoading = false;
+  isLoading: boolean = false;
   seasonList: SeasonsModel[] = [];
   private seasonListSub: Subscription;
   leagueList: LeaguesModel[] = [];
@@ -51,7 +51,7 @@ export class AdminTeamsInDisqualifications implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
-    this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
+    this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe((data: SeasonsModel[]) => {
         this.isLoading = true;
         this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));

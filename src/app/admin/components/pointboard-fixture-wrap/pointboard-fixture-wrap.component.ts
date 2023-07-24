@@ -58,7 +58,7 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
-    this.seasonListSub = this.seasonsService.getSeasonsListSubListener()
+    this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
           if (data.length > 0) {

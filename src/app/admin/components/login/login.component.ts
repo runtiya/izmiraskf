@@ -17,7 +17,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class AdminLogin implements OnInit, OnDestroy {
   toolbarTitle = "SİSTEM GİRİŞ";
-  isLoading = false;
+  isLoading: boolean = false;
   userForm: FormGroup;
   @Input() isPasswordVisible: boolean = false;
 

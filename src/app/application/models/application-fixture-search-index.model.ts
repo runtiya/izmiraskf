@@ -10,5 +10,6 @@ export interface FixtureSearchModel {
     matchStatus: string,
     town: string,
     startDate: Date,
-    endDate: Date
+    endDate: Date,
+    weeklyMatchProgramIds: Array<number>
 }

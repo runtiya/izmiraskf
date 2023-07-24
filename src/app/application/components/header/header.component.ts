@@ -35,7 +35,7 @@ export class ApplicationHeader implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.externalLinksListSub = this.externalLinksService.getExternalLinksSubListener()
+    this.externalLinksListSub = this.externalLinksService.getExternalLinksUpdateListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
           this.externalLinksList = data;

@@ -15,11 +15,11 @@ export class DisciplinaryBoardFilesService {
 
   }
 
-  getDisciplinaryBoardFiles(seasonId: number) {
+  getDisciplinaryBoardFiles(seasonId: number, caseType: string) {
     try {
       this.http
         .get<{ error: boolean, message: string, disciplinaryBoardFileList: DisciplinaryBoardFileModel[] }>(
-          'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + seasonId
+          'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + seasonId + '/' + caseType
         )
         .subscribe({
           next: (data) => {

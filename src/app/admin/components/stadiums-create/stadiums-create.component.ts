@@ -17,7 +17,7 @@ import { globalFunctions } from "../../../functions/global.function";
   styleUrls: ['../../../app.component.css', './stadiums-create.component.css']
 })
 export class AdminStadiumsCreateModal {
-  isLoading = false;
+  isLoading: boolean = false;
   stadiumsCreateForm: FormGroup;
   pageMode : string = this.data.pageMode || 'create';
   stadiumInfo = this.data.stadiumInfo;

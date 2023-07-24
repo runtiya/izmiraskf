@@ -29,7 +29,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeTr from "@angular/common/locales/tr";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts'
 
 
 import { AppComponent } from './app.component';
@@ -97,6 +96,10 @@ import { AdminScoreBoard } from "./admin/components/score-board/score-board.comp
 import { AdminPointBoard } from "./admin/components/point-board/point-board.component";
 import { AdminFixtureByWeek } from "./admin/components/fixture-by-week/fixture-by-week.component";
 import { AdminPointBoardFixtureWrap } from "./admin/components/pointboard-fixture-wrap/pointboard-fixture-wrap.component";
+import { AdminWeeklyMatchProgramList } from "./admin/components/weekly-match-program-list/weekly-match-program-list.component";
+import { AdminWeeklyMatchProgramCreateModal } from "./admin/components/weekly-match-program-create/weekly-match-program-create.component";
+import { AdminWeeklyMatchList } from "./admin/components/weekly-match-list/weekly-match-list.component";
+import { AdminWeeklyMatchListAddMatchModal } from "./admin/components/weekly-match-list-add-match/weekly-match-list-add-match.component";
 
 import { AdminUsersList } from "./admin/components/users-list/users-list.component";
 import { AdminUsersCreateModal } from "./admin/components/users-create/users-create.component";
@@ -130,6 +133,8 @@ import { ApplicationTeamDetails } from './application/components/teams-details/t
 
 import { ApplicationDisciplinaryBoardDecisionsList } from "./application/components/disciplinary-board-decisions-list/disciplinary-board-decisions-list.component";
 import { ApplicationDisciplinaryBoardDecisionsDetailsModal } from "./application/components/disciplinary-board-decisions-details/disciplinary-board-decisions-details.component";
+
+import { ApplicationWeeklyMatchList } from "./application/components/weekly-match-list/weekly-match-list.component";
 
 import { ApplicationPointBoard } from "./application/components/point-board/point-board.component";
 import { ApplicationFixtureByWeek } from "./application/components/fixture-by-week/fixture-by-week.component";
@@ -218,6 +223,10 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     AdminPointBoard,
     AdminFixtureByWeek,
     AdminPointBoardFixtureWrap,
+    AdminWeeklyMatchProgramList,
+    AdminWeeklyMatchProgramCreateModal,
+    AdminWeeklyMatchList,
+    AdminWeeklyMatchListAddMatchModal,
 
     AdminUsersList,
     AdminUsersCreateModal,
@@ -251,6 +260,8 @@ import { ErrorInterceptor } from "./error/error-interceptor";
 
     ApplicationDisciplinaryBoardDecisionsList,
     ApplicationDisciplinaryBoardDecisionsDetailsModal,
+
+    ApplicationWeeklyMatchList,
 
     ApplicationPointBoard,
     ApplicationFixtureByWeek,
@@ -295,7 +306,6 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     MatAutocompleteModule,
     MatSnackBarModule,
     MatButtonToggleModule,
-    CanvasJSAngularChartsModule,
 
     FontAwesomeModule,
     GoogleMapsModule,

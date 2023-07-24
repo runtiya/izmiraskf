@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { Subscription } from "rxjs";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
+import { ActivatedRoute } from "@angular/router";
 
 import { DisciplinaryBoardDecisionModel } from "../../models/admin-disciplinaryboarddecisions.model";
 import { DisciplinaryBoardDecisionsService } from "../../services/admin-disciplinaryboarddecisions.service";
@@ -23,6 +24,7 @@ import { AdminDisciplinaryBoardDecisionsCreateModal } from "../disciplinary-boar
 
 import { disciplinaryPenalTypeList } from "../../../assets/lists/disciplinary-penaltype.list";
 import { disciplinaryBelongingToList } from "../../../assets/lists/disciplinary-belongingto.list";
+import { disciplinaryCommitteesList } from "../../../assets/lists/disciplinary-committees.list";
 
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 import { globalFunctions } from "../../../functions/global.function";
@@ -35,8 +37,8 @@ import * as XLSX from 'xlsx';
 })
 export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
 
-    toolbarTitle = "DİSİPLİN KURULU KARARLARI";
-    isLoading = false;
+    toolbarTitle = null;
+    isLoading: boolean = false;
 
     seasonsList: SeasonsModel[] = [];
     private seasonsListSubscription: Subscription;
@@ -55,11 +57,15 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
 
     disciplinaryPenalTypeList = disciplinaryPenalTypeList;
     disciplinaryBelongingToList = disciplinaryBelongingToList;
+    disciplinaryCommitteesList = disciplinaryCommitteesList;
 
     disciplinaryBoardDecisionsSubmitForm: FormGroup;
 
+    url_caseType: string = null;
+
     @Input() seasonSelectionId: number;
     @Input() disciplinaryBoardFileSelectionId: number;
+
     tableColumns: string[] = [
                                 "leagueName",
                                 "teamName",
@@ -81,60 +87,67 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
       public teamsService: TeamsService,
       public dialog: MatDialog,
       private globalFunctions: globalFunctions,
+      private router: ActivatedRoute,
     ) {
     }
 
     ngOnInit(): void {
-        this.isLoading = true;
-        this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-        this.seasonsService.getSeasons();
-        this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
-            .subscribe((data: SeasonsModel[]) => {
-                this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-                this.seasonSelectionId = this.seasonsList[0]["id"];
-                this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId);
-                this.leaguesService.getLeagues(this.seasonSelectionId);
-                this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
-                this.isLoading = false;
-            });
 
-        this.isLoading = true;
+        this.router.paramMap
+          .subscribe(params => {
+            this.url_caseType = params.get('casetype').toUpperCase();
+            this.toolbarTitle = disciplinaryCommitteesList.find(c => c.name == this.url_caseType).pageDecisionTitle;
+            this.globalFunctions.setToolbarTitle(this.toolbarTitle);
+            this.seasonsService.getSeasons();
+          });
+
+        this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
+          .subscribe((data: SeasonsModel[]) => {
+              this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+              this.seasonSelectionId = this.seasonsList[0]["id"];
+              this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
+              this.leaguesService.getLeagues(this.seasonSelectionId);
+              this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+          });
+
         this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
-            .subscribe((data: DisciplinaryBoardFileModel[]) => {
-                this.disciplinaryBoardFilesList = data.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
-                this.disciplinaryBoardFileSelectionId = this.disciplinaryBoardFilesList[0]["id"];
-                this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
-                this.isLoading = false;
-            });
+          .subscribe((data: DisciplinaryBoardFileModel[]) => {
+            if (data.length > 0) {
+              this.disciplinaryBoardFilesList = data.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
+              this.disciplinaryBoardFileSelectionId = this.disciplinaryBoardFilesList[0]["id"];
+              this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+            } else {
+              this.disciplinaryBoardFilesList = [];
+              this.disciplinaryBoardFileSelectionId = null;
+            }
+          });
 
-        this.isLoading = true;
         this.leaguesListSubscription = this.leaguesService.getLeagueListUpdateListener()
-            .subscribe((data: LeaguesModel[]) => {
-                this.leaguesList = data.sort((a, b) => a.orderNo - b.orderNo);
-                this.isLoading = false;
-            });
+          .subscribe((data: LeaguesModel[]) => {
+            this.leaguesList = data.sort((a, b) => a.orderNo - b.orderNo);
+          });
 
-        this.isLoading = true;
-        this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisionsUpdateListener()
-            .subscribe((data: DisciplinaryBoardDecisionModel[]) => {
-                const filteredDisciplinaryBoardDecisionsList = data.filter(decision => decision.disciplinaryBoardFileId === this.disciplinaryBoardFileSelectionId);
-                this.disciplinaryBoardDecisionsList = filteredDisciplinaryBoardDecisionsList.sort((a, b) => a.leagueId - b.leagueId);
-                this.isLoading = false;
-            });
-
-        this.isLoading = true;
         this.teamsService.getTeams();
-        this.teamsListSubscription = this.teamsService.getTeamListSubListener()
-            .subscribe((data: TeamsModel[]) => {
-                this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
-                this.isLoading = false;
-            });
+        this.teamsListSubscription = this.teamsService.getTeamListUpdateListener()
+          .subscribe((data: TeamsModel[]) => {
+              this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
+          });
+
+        this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisionsUpdateListener()
+          .subscribe((data: DisciplinaryBoardDecisionModel[]) => {
+            if (data.length > 0) {
+              const filteredDisciplinaryBoardDecisionsList = data.filter(decision => decision.disciplinaryBoardFileId === this.disciplinaryBoardFileSelectionId);
+              this.disciplinaryBoardDecisionsList = filteredDisciplinaryBoardDecisionsList.sort((a, b) => a.leagueId - b.leagueId);
+            } else {
+              this.disciplinaryBoardDecisionsList = [];
+            }
+          });
 
     }
 
     onSeasonChange() {
         this.isLoading = true;
-        this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId);
+        this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
         this.leaguesService.getLeagues(this.seasonSelectionId);
         this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
         this.isLoading = false;
@@ -155,19 +168,23 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
     }
 
     findLeagueName(leagueId: number): string {
-      return this.leaguesList.find(l => l.id == leagueId).leagueName || null;
+      const league = this.leaguesList.find(l => l.id == leagueId);
+      return !!league ? league.leagueName : null;
     }
 
     findLeagueId(leagueName: string): number {
-      return this.leaguesList.find(l => l.leagueName == leagueName).id || null;
+      const league = this.leaguesList.find(l => l.leagueName == leagueName);
+      return !!league ? league.id : null;
     }
 
     findTeamName(teamId: number): string {
-      return this.teamsList.find(t => t.id == teamId).officialName || null;
+      const team = this.teamsList.find(t => t.id == teamId);
+      return !!team ? team.officialName : null;
     }
 
     findTeamId(teamName: string): number {
-      return this.teamsList.find(t => t.officialName == teamName).id || null;
+      const team = this.teamsList.find(t => t.officialName == teamName);
+      return !!team ? team.id : null;
     }
 
     findPenalType(penalType: string): string {
@@ -343,9 +360,10 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
 
     onExport() {
       const _fileData = this.patchTableToFile(this.disciplinaryBoardDecisionsList);
-      const _fileName = 'Disiplin_Kurulu_Kararlari_' + this.findDisciplinaryBoardCaseNoValue(this.disciplinaryBoardFileSelectionId);
+      const _exportTitle: string = this.disciplinaryCommitteesList.find(c => c.name == this.url_caseType).exportTitle;
+      const _fileName = _exportTitle + "_" + this.findDisciplinaryBoardCaseNoValue(this.disciplinaryBoardFileSelectionId);
       const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(_fileData);
-      const workbook: XLSX.WorkBook = { Sheets: { 'Disiplin_Kurulu_Kararlari' : worksheet }, SheetNames: ['Disiplin_Kurulu_Kararlari'] };
+      const workbook: XLSX.WorkBook = { Sheets: { 'Kurul_Kararlari' : worksheet }, SheetNames: ['Kurul_Kararlari'] };
       const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
       //const data: Blob = new Blob([buffer], { type: 'application/octet-stream' });

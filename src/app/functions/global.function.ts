@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from "@angular/material/dialog";
 import { DatePipe } from "@angular/common";
 import { fontAwesomeIconList } from '../assets/lists/font-awesome-icon.list';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { fileMimeTypeList } from "../assets/lists/file-mime-type.list";
-
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +14,8 @@ export class globalFunctions {
   fileMimeTypeList = fileMimeTypeList;
 
   constructor(
-    private _datePipe: DatePipe
+    private _datePipe: DatePipe,
+    public dialog: MatDialog,
   ) {}
 
   public showSnackBar: Subject<string> = new Subject();
@@ -28,6 +29,10 @@ export class globalFunctions {
 
   setToolbarTitle(_toolbarTitle: string) {
     this.getToolbarTitle.next(_toolbarTitle);
+  }
+
+  registerLocalDate(_date: Date): string {
+    return this._datePipe.transform(_date, 'dd.MM.yyyy');
   }
 
   registerLocalDateForLongDate(_date: Date): string {
@@ -45,7 +50,7 @@ export class globalFunctions {
   }
 
   getTimeStamp(): string {
-    return this._datePipe.transform((new Date), 'yyyy-MM-ddTHH:mm');
+    return this._datePipe.transform((new Date), 'yyyy-MM-ddTHH:mm:ss');
   }
 
   getMimeType(mimeType: string): string {
@@ -141,4 +146,5 @@ export class globalFunctions {
   setFileSize(size: number): string {
     return (size / (1024 * 1024)).toFixed(2) + ' MB';
   }
+
 }

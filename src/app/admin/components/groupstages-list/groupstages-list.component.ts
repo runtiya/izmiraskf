@@ -23,7 +23,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class AdminGroupList implements OnInit, OnDestroy {
   toolbarTitle = 'GRUPLAR';
-  isLoading = false;
+  isLoading: boolean = false;
   seasonList: SeasonsModel[] = [];
   private seasonsListSubscription: Subscription;
   leagueList: LeaguesModel[] = [];
@@ -54,7 +54,7 @@ export class AdminGroupList implements OnInit, OnDestroy {
     this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
-    this.seasonsListSubscription = this.seasonsService.getSeasonsListSubListener()
+    this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe((data: SeasonsModel[]) => {
         if (data.length > 0) {
           this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));

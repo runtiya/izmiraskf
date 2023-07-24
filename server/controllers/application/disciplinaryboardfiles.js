@@ -4,11 +4,13 @@ function getDisciplinaryBoardFiles(req, res, next) {
     var disciplinaryBoardFileList;
     var message;
     const seasonId = req.params.seasonid;
+    const caseType = req.params.casetype;
 
     connection.query(
-        "select * from view_application_disciplinaryboardfiles where seasonid = ?",
+        "select * from view_application_disciplinaryboardfiles where seasonid = ? and casetype = ?",
         [
-            seasonId
+            seasonId,
+            caseType
         ],
         (error, result) => {
             if (!error) {
