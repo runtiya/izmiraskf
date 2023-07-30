@@ -1,3 +1,4 @@
+const querygroupstages = require('../../queries/querygroupstages');
 const connection = require('../../functions/database').connectDatabase();
 
 function getGroupStages(req, res, next) {
@@ -7,7 +8,7 @@ function getGroupStages(req, res, next) {
 
 
   connection.query(
-    "select * from view_admin_groupstages where leagueid = ?",
+    querygroupstages.getGroupStages,
     [leagueId],
     (error, result) => {
       if (!error) {
@@ -33,7 +34,7 @@ function getWeekSequence(req, res, next) {
   var message;
 
   connection.query(
-    "select distinct(f.matchweek) as weekSequence from fixtures f join groupstages g on g.id = f.groupstageid where f.groupstageid = ? order by weekSequence",
+    querygroupstages.getWeekSequence,
     [groupstageId],
     (error, result) => {
       if (!error) {
@@ -59,7 +60,7 @@ function getPlayedLastMatchWeek(req, res, next) {
   var message;
 
   connection.query(
-    "select max(matchweek) as matchWeek from view_admin_fixtures where groupstageid = ? and matchstatus = 'PLAYED'",
+    querygroupstages.getPlayedLastMatchWeek,
     [groupstageId],
     (error, result) => {
       if (!error) {
@@ -85,7 +86,7 @@ function createGroupStage(req, res, next) {
   var groupId;
 
   connection.query(
-    "insert into groupstages(createdat, createdby, updatedat, updatedby, leagueid, groupname, periodsystem, isactive, orderno) values(?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    querygroupstages.createGroupStage,
     [
       groupInfo.createdAt,
       groupInfo.createdBy,
@@ -118,7 +119,7 @@ function updateGroupStage(req, res, next) {
   const groupInfo = req.body;
   var message;
   connection.query(
-    "update groupstages set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, leagueid = ?, groupname = ?, periodsystem = ?, isactive = ?, orderno = ? where id = ?",
+    querygroupstages.updateGroupStage,
     [
       groupInfo.createdAt,
       groupInfo.createdBy,
@@ -150,7 +151,7 @@ function deleteGroupStage(req, res, next) {
   var message;
 
   connection.query(
-    "delete from groupstages where id = ?",
+    querygroupstages.deleteGroupStage,
     [groupId],
     (error, result) => {
       if (!error) {

@@ -1,4 +1,6 @@
-const connection = require('../../functions/database').connectDatabase();
+const querydisciplinaryboardfiles = require('../../queries/querydisciplinaryboardfiles');
+const connection = require('../../functions/database').
+connectDatabase();
 
 function getDisciplinaryBoardFiles(req, res, next) {
     var disciplinaryBoardFileList;
@@ -7,7 +9,7 @@ function getDisciplinaryBoardFiles(req, res, next) {
     const caseType = req.params.casetype;
 
     connection.query(
-        "select * from view_admin_disciplinaryboardfiles where seasonid = ? and casetype = ?",
+        querydisciplinaryboarddecisions.getDisciplinaryBoardFiles,
         [
             seasonId,
             caseType
@@ -35,7 +37,7 @@ function createDisciplinaryBoardFile(req, res, next) {
     var disciplinaryBoardFileId;
 
     connection.query(
-        "insert into disciplinaryboardfiles(createdat, createdby, updatedat, updatedby, seasonid, caseno, casedate, casetype, title, participants, explanation) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        querydisciplinaryboardfiles.createDisciplinaryBoardFile,
         [
             disciplinaryBoardFileInfo.createdAt,
             disciplinaryBoardFileInfo.createdBy,
@@ -71,7 +73,7 @@ function updateDisciplinaryBoardFile(req, res, next) {
     var message;
 
     connection.query(
-        "update disciplinaryboardfiles set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonid = ?, caseno = ?, casedate = ?, casetype = ?, title = ?, participants = ?, explanation = ? where id = ?",
+        querydisciplinaryboardfiles.updateDisciplinaryBoardFile,
         [
             disciplinaryBoardFileInfo.createdAt,
             disciplinaryBoardFileInfo.createdBy,
@@ -106,7 +108,7 @@ function deleteDisciplinaryBoardFile(req, res, next) {
     var message;
 
     connection.query(
-        "delete from disciplinaryboardfiles where id = ?",
+        querydisciplinaryboardfiles.deleteDisciplinaryBoardFile,
         [
             disciplinaryBoardFileId
         ],

@@ -1,3 +1,4 @@
+const querynews = require('../../queries/querynews');
 const connection = require('../../functions/database').connectDatabase();
 const imagesFunction = require('../../functions/images');
 
@@ -6,7 +7,7 @@ function getNews(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_admin_news",
+    querynews.getNews,
     (error, result) => {
       if (!error) {
         newsList = result;
@@ -26,7 +27,7 @@ function getNews(req, res, next) {
 
 // Get a news by id
 function findNews(req, res, next) {
-
+  // There isn't any select query. __MS
 }
 
 
@@ -46,7 +47,7 @@ function createNews(req, res, next) {
   }
 
   connection.query(
-    "insert into news(createdat, createdby, updatedat, updatedby, title, content, imagepath, isvisible)values (?, ?, ?, ?, ?, ?, ?, ?)",
+    querynews.createNews,
     [
       newsInfo.createdAt,
       newsInfo.createdBy,
@@ -91,7 +92,7 @@ function updateNews(req, res, next) {
 
   var message;
   connection.query(
-    "update news set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, content = ?, imagepath = ?, isvisible = ? where id = ?",
+    querynews.updateNews,
     [
       newsInfo.createdAt,
       newsInfo.createdBy,
@@ -122,8 +123,8 @@ function updateNews(req, res, next) {
 function deleteNews(req, res, next) {
   var newsId =  req.params.id;
   var message;
-  connection.query(
-    "delete from news where id = ?",
+   connection.query(
+   querynews.deleteNews,
     [newsId],
     (error, result) => {
       if (!error) {

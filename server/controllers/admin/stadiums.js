@@ -1,3 +1,4 @@
+const querystadiums = require('../../queries/querystadiums');
 const connection = require('../../functions/database').connectDatabase();
 const imagesFunction = require('../../functions/images');
 
@@ -6,7 +7,7 @@ function getStadiums(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_admin_stadiums",
+    querystadiums.getStadiums,
     (error, result) => {
       if (!error) {
         stadiumList = result;
@@ -27,7 +28,7 @@ function getStadiums(req, res, next) {
 
 // Get a stadium by id
 function findStadium(req, res, next) {
-
+  // There isn't any select query.
 }
 
 
@@ -45,7 +46,7 @@ function createStadium(req, res, next) {
   }
 
   connection.query(
-    "insert into stadiums(createdat, createdby, updatedat, updatedby, stadiumname, city, town, address, phonenumber, imagepath, audiencecapacity, sizelength, sizewidth, floortype, haslightning, hasseating, hasdisabledtribune, hasclosedcircuitcamerasystem)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    querystadiums.createStadium,
     [
       stadiumInfo.createdAt,
       stadiumInfo.createdBy,
@@ -98,7 +99,7 @@ function updateStadium(req, res, next) {
   }
 
   connection.query(
-    "update stadiums set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, stadiumname = ?, city = ?, town = ?, address = ?, phonenumber = ?, imagepath = ?, audiencecapacity = ?, sizelength = ?, sizewidth = ?, floortype = ?, haslightning = ?, hasseating = ?, hasdisabledtribune = ?, hasclosedcircuitcamerasystem = ? where id = ?",
+    querystadiums.updateStadium,
     [
       stadiumInfo.createdAt,
       stadiumInfo.createdBy,
@@ -138,7 +139,7 @@ function deleteStadium(req, res, next) {
   var stadiumId =  req.params.id;
   var message;
   connection.query(
-    "delete from stadiums where id = ?",
+    querystadiums.deleteStadium,
     [stadiumId],
     (error, result) => {
       if (!error) {

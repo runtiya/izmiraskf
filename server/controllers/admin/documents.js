@@ -1,3 +1,4 @@
+const querydocuments = require('../../queries/querydocuments');
 const connection = require('../../functions/database').connectDatabase();
 const filesFunction = require('../../functions/files');
 
@@ -7,7 +8,7 @@ function getDocuments(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_admin_documents where category = ?",
+    querydocuments.getDocuments,
     [category],
     (error, result) => {
       if (!error) {
@@ -48,7 +49,7 @@ function createDocument(req, res, next) {
   }
 
   connection.query(
-    "insert into documents(createdat, createdby, updatedat, updatedby, documentname, filename, filemimetype, filesize, filepath, category, orderno) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    querydocuments.createDocument,
     [
       documentInfo.createdAt,
       documentInfo.createdBy,
@@ -102,7 +103,7 @@ function updateDocument(req, res, next) {
   }
 
   connection.query(
-    "update documents set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, documentname = ?, filename = ?, filemimetype = ?, filesize = ?, filepath = ?, category = ?, orderno = ? where id = ?",
+   querydocuments.updateDocument,
     [
       documentInfo.createdAt,
       documentInfo.createdBy,
@@ -133,7 +134,7 @@ function updateDocument(req, res, next) {
 
 function deleteDocument(req, res, next) {
   const documentId = req.params.id;
-
+  // There wasn't any select query. __MS
   res.status(200).json({
     error: false,
     message: 'Document deleted successfully!'

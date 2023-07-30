@@ -1,3 +1,4 @@
+const queryweeklymatchprogram = require('../../queries/queryweeklymatchprogram');
 const connection = require('../../functions/database').connectDatabase();
 
 function getWeeklyMatchProgram(req, res, next) {
@@ -6,7 +7,7 @@ function getWeeklyMatchProgram(req, res, next) {
   var seasonId = req.params.seasonid;
 
   connection.query(
-    "select * from view_admin_weeklymatchprogram where seasonid = ?",
+    queryweeklymatchprogram.getWeeklyMatchProgram,
     [
       seasonId
     ],
@@ -33,7 +34,7 @@ function createWeeklyMatchProgram(req, res, next) {
   var weeklyMatchProgramId;
 
   connection.query(
-    "insert into weeklymatchprogram(createdat, createdby, updatedat, updatedby, seasonid, begindate, enddate, isactive) values (?, ?, ?, ?, ?, ?, ?, ?)",
+    queryweeklymatchprogram.createWeeklyMatchProgram,
     [
       weeklyMatchProgramInfo.createdAt,
       weeklyMatchProgramInfo.createdBy,
@@ -67,7 +68,7 @@ function updateWeeklyMatchProgram(req, res, next) {
   var weeklyMatchProgramId = req.params.id;
 
   connection.query(
-    "update weeklymatchprogram set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonid = ?, begindate = ?, enddate = ?, isactive = ?  where id = ? and seasonid = ?",
+   queryweeklymatchprogram.updateWeeklyMatchProgram,
     [
       weeklyMatchProgramInfo.createdAt,
       weeklyMatchProgramInfo.createdBy,
@@ -101,7 +102,7 @@ function deleteWeeklyMatchProgram(req, res, next) {
   var message;
 
   connection.query(
-    "delete from weeklymatchprogram where id = ? and seasonid = ?",
+    queryweeklymatchprogram.deleteWeeklyMatchProgram,
     [
       weeklyMatchProgramId,
       seasonId

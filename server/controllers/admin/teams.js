@@ -1,3 +1,5 @@
+const queryteams = require('../../queries/queryteams');
+
 const connection = require('../../functions/database').connectDatabase();
 const imagesFunction = require('../../functions/images');
 
@@ -6,7 +8,7 @@ function getTeams(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_admin_teams",
+    queryteams.getTeams,
     (error, result) => {
       if (!error) {
         teamList = result;
@@ -25,7 +27,7 @@ function getTeams(req, res, next) {
 
 // Get a team by id
 function findTeam(req, res, next) {
-
+  // There isn't any query. __MS
 }
 
 
@@ -43,7 +45,7 @@ function createTeam(req, res, next) {
   }
 
   connection.query(
-    "insert into teams(createdat, createdby, updatedat, updatedby, tffclubcode, officialname, shortname, imagepath, city, town, address, longitude, latitude, phonenumber, faxnumber, stadiumid, presidentname, colorcodes, websiteurl, isaskfmember, isvisible) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    queryteams.createTeam,
     [
       teamInfo.createdAt,
       teamInfo.createdBy,
@@ -99,7 +101,7 @@ function updateTeam(req, res, next) {
   }
 
   connection.query(
-    "update teams set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, tffclubcode = ?, officialname = ?, shortname = ?, imagepath = ?, city = ?, town = ?, address = ?, longitude = ?, latitude = ?, phonenumber = ?, faxnumber = ?, stadiumid = ?, presidentname = ?, colorcodes = ?, websiteurl = ?, isaskfmember = ?, isvisible = ? where id = ?",
+    queryteams.updateTeam,
     [
       teamInfo.createdAt,
       teamInfo.createdBy,
@@ -142,7 +144,7 @@ function deleteTeam(req, res, next) {
   var teamId =  req.params.id;
   var message;
   connection.query(
-    "delete from teams where id = ?",
+    queryteams.deleteTeam,
     [teamId],
     (error, result) => {
       if (!error) {
