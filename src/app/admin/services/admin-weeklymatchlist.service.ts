@@ -28,24 +28,20 @@ export class WeeklyMatchListService {
   getWeeklyMatchList(weeklyMatchProgramId: number) {
     try {
       this.http
-        .get<{error: boolean, message: string, weeklyMatchList: WeeklyMatchListModel[]}>(
+        .get<{weeklyMatchList: WeeklyMatchListModel[]}>(
           'http://localhost:3000/admin/weekly-match-list/' + weeklyMatchProgramId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.weeklyMatchList = data.weeklyMatchList;
-              this.weeklyMatchListSub.next([...this.weeklyMatchList]);
-            } else {
-
-            }
+            this.weeklyMatchList = data.weeklyMatchList;
+            this.weeklyMatchListSub.next([...this.weeklyMatchList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -57,20 +53,19 @@ export class WeeklyMatchListService {
   createWeeklyMatchList(weeklyMatchListInfo: WeeklyMatchListModel[]) {
     try {
       this.http
-        .post<{error: boolean, message: string}>(
+        .post<{ }>(
           'http://localhost:3000/admin/weekly-match-list/create', weeklyMatchListInfo
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
-            } else {
-              this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
-            }
+            this.globalFunctions.showSnackBar("server.success");
+          },
+          error: (error) => {
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -117,75 +112,69 @@ export class WeeklyMatchListService {
   updateMatchList(weeklyMatchInfo: WeeklyMatchListModel) {
     try {
       this.http
-        .put<{error: boolean, message: string}>(
+        .put<{ }>(
           'http://localhost:3000/admin/weekly-match-list/' + weeklyMatchInfo.id, weeklyMatchInfo
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.weeklyMatchList.forEach((item, i) => {
-                if (item.id == weeklyMatchInfo.id) {
-                  this.weeklyMatchList[i] = weeklyMatchInfo;
-                }
-              });
-              this.weeklyMatchListSub.next([...this.weeklyMatchList]);
-              this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
-            } else {
-              this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
-            }
+            this.weeklyMatchList.forEach((item, i) => {
+              if (item.id == weeklyMatchInfo.id) {
+                this.weeklyMatchList[i] = weeklyMatchInfo;
+              }
+            });
+            this.weeklyMatchListSub.next([...this.weeklyMatchList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   clearMatchList(weeklyMatchProgramId: number, fixtureSearchIndex: FixtureSearchModel) {
     try {
       this.http
-        .delete<{error: boolean, message: string}>(
+        .delete<{ }>(
           'http://localhost:3000/admin/weekly-match-list/clear/' + weeklyMatchProgramId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.weeklyMatchList = [];
+            this.weeklyMatchList = [];
               this.weeklyMatchListSub.next([]);
               this.fixtureService.getFixtureBySearchIndex(fixtureSearchIndex);
-              this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
-            } else {
-              this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
-            }
+              this.globalFunctions.showSnackBar("server.success");
+          },
+          error: (error) => {
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   deleteMatchFromList(weeklyMatchListId: number) {
     try {
       this.http
-        .delete<{error: boolean, message: string}>(
+        .delete<{ }>(
           'http://localhost:3000/admin/weekly-match-list/delete/' + weeklyMatchListId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              const filteredWeeklyMatchList = this.weeklyMatchList.filter(wml => wml.id !== weeklyMatchListId);
-              this.weeklyMatchList = filteredWeeklyMatchList;
-              this.weeklyMatchListSub.next([...this.weeklyMatchList]);
-              this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
-            } else {
-              this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
-            }
+            const filteredWeeklyMatchList = this.weeklyMatchList.filter(wml => wml.id !== weeklyMatchListId);
+            this.weeklyMatchList = filteredWeeklyMatchList;
+            this.weeklyMatchListSub.next([...this.weeklyMatchList]);
+            this.globalFunctions.showSnackBar("server.success");
+          },
+          error: (error) => {
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 

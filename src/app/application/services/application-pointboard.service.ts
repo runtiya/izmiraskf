@@ -22,54 +22,36 @@ export class PointBoardService {
 
   getPointBoard(_groupstageId: number, _matchWeek: number) {
     try {
-      this.globalFunctions.showSpinner.next(true);
+
       if (_matchWeek == null) {
         this.groupstageService.getPlayedLastMatchWeek(_groupstageId)
           .subscribe({
             next: (data) => {
-              if (!data.error) {
-                _matchWeek = data.matchWeek;
-                this.getCurrentPointBoard(_groupstageId, _matchWeek)
-                  .subscribe((data) => {
-                    if (!data.error) {
-                      this.pointBoardList = data.pointBoard;
-                      this.pointBoardListSub.next([...this.pointBoardList]);
-                      this.globalFunctions.showSpinner.next(false);
-                    } else {
-                      this.globalFunctions.showSpinner.next(false);
-                      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-                    }
-                  });
-              } else {
-                throw data.error;
-              }
+              _matchWeek = data.matchWeek;
+              this.getCurrentPointBoard(_groupstageId, _matchWeek)
+                .subscribe((data) => {
+                  this.pointBoardList = data.pointBoard;
+                  this.pointBoardListSub.next([...this.pointBoardList]);
+                });
             },
             error: (error) => {
-
+              this.globalFunctions.showSnackBar('server.error');
             }
           });
       } else {
         this.getCurrentPointBoard(_groupstageId, _matchWeek)
           .subscribe({
             next: (data) => {
-              if (!data.error) {
-                this.pointBoardList = data.pointBoard;
-                this.pointBoardListSub.next([...this.pointBoardList]);
-                this.globalFunctions.showSpinner.next(false);
-              } else {
-                this.globalFunctions.showSpinner.next(false);
-                this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-              }
+              this.pointBoardList = data.pointBoard;
+              this.pointBoardListSub.next([...this.pointBoardList]);
             },
             error: (error) => {
-
+              this.globalFunctions.showSnackBar('server.error');
             }
           });
       }
     } catch (error) {
-
-      this.globalFunctions.showSpinner.next(false);
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -78,7 +60,7 @@ export class PointBoardService {
   }
 
   getCurrentPointBoard(_groupstageId: number, _matchWeek: number): Observable<any> {
-    return this.http.get<{error: boolean, message: string, pointBoard: PointBoardModel[]}>(
+    return this.http.get<{pointBoard: PointBoardModel[]}>(
       'http://localhost:3000/puan-tablosu/' + _groupstageId + '/' + _matchWeek
       );
   }

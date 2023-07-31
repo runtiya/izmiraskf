@@ -22,7 +22,7 @@ export class NewsService {
   getNews() {
     try {
       this.http
-        .get<{error: boolean, message: string, news: NewsModel[]}>(
+        .get<{news: NewsModel[]}>(
           'http://localhost:3000/admin/haberler'
         )
         /*
@@ -49,57 +49,45 @@ export class NewsService {
         */
        .subscribe({
         next: (data) => {
-          if (!data.error) {
-            this.newsList = data.news;
-            this.newsUpdated.next([...this.newsList]);
-          } else {
-            this.newsList = [];
-            this.newsUpdated.next([]);
-          }
-
+          this.newsList = data.news;
+          this.newsUpdated.next([...this.newsList]);
         },
         error: (error) => {
-
+          this.globalFunctions.showSnackBar('server.error');
         }
        });
     } catch (error) {
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+      this.globalFunctions.showSnackBar('system.error');
     }
-
   }
-
 
   getNewsUpdateListener() {
     return this.newsUpdated.asObservable();
   }
-
 
   addNews(newsInfo: NewsModel) {
     try {
       const formData = new FormData();
       formData.append('image', newsInfo.imageAttachment);
       formData.append('newsInfo', JSON.stringify(newsInfo));
+
       this.http
-        .post<{error: boolean, message: string, newsId: number}>(
+        .post<{newsId: number}>(
           'http://localhost:3000/admin/haberler', formData
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              newsInfo.id = data.newsId;
-              this.newsList.push(newsInfo);
-              this.newsUpdated.next([...this.newsList]);
-              this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
-            } else {
-              this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-            }
+            newsInfo.id = data.newsId;
+            this.newsList.push(newsInfo);
+            this.newsUpdated.next([...this.newsList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -110,56 +98,47 @@ export class NewsService {
       formData.append('newsInfo', JSON.stringify(newsInfo));
 
       this.http
-        .put<{error: boolean, message: string}>(
+        .put<{ }>(
           'http://localhost:3000/admin/haberler/' + newsInfo.id, formData
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              // Add Angular Component Snackbar OR Bootstrap Toasts
-              this.newsList.forEach((item, i) => {
-                if (item.id == newsInfo.id) {
-                  this.newsList[i] = newsInfo;
-                }
-              });
-              this.newsUpdated.next([...this.newsList]);
-            }
-            else {
-              this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-            }
+            this.newsList.forEach((item, i) => {
+              if (item.id == newsInfo.id) {
+                this.newsList[i] = newsInfo;
+              }
+            });
+            this.newsUpdated.next([...this.newsList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   deleteNews(newsId: number) {
     try {
       this.http
-        .delete<{error: boolean, message: string}>(
+        .delete<{ }>(
           'http://localhost:3000/admin/haberler/' + newsId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              const updatedNews = this.newsList.filter(news => news.id !== newsId);
-              this.newsList = updatedNews;
-              this.newsUpdated.next([...this.newsList]);
-            } else {
-              this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-            }
+            const updatedNews = this.newsList.filter(news => news.id !== newsId);
+            this.newsList = updatedNews;
+            this.newsUpdated.next([...this.newsList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+      this.globalFunctions.showSnackBar('system.error');
     }
-
   }
 }

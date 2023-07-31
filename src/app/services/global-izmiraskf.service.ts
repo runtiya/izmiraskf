@@ -14,7 +14,7 @@ export class GlobalIzmirASKFService {
 
   getLogoPath() {
       return this.http
-        .get<{error: boolean, logoPath: string}>(
+        .get<{ logoPath: string}>(
           'http://localhost:3000/izmiraskf/hakkimizda/getlogo'
         )
         .subscribe({

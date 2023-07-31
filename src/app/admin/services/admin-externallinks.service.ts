@@ -3,35 +3,35 @@ import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
 import { ExternalLinksModel } from "../models/admin-externallinks.model";
+import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({providedIn: 'root'})
 export class ExternalLinksService {
   private extLinksList: ExternalLinksModel[] = [];
   private extLinksListSub = new Subject<ExternalLinksModel[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+    ) {}
 
   getLinks() {
     try {
       this.http
-        .get<{error: boolean, message: string, externalLinks: ExternalLinksModel[]}>(
+        .get<{externalLinks: ExternalLinksModel[]}>(
           'http://localhost:3000/admin/disbaglantilar'
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.extLinksList = data.externalLinks;
-              this.extLinksListSub.next([...this.extLinksList]);
-            } else {
-
-            }
+            this.extLinksList = data.externalLinks;
+            this.extLinksListSub.next([...this.extLinksList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -46,25 +46,22 @@ export class ExternalLinksService {
       formData.append('linkInfo', JSON.stringify(linkInfo));
 
       this.http
-        .post<{error: boolean, message: string, linkId: number}>(
+        .post<{linkId: number}>(
           'http://localhost:3000/admin/disbaglantilar', formData
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              linkInfo.id = data.linkId;
-              this.extLinksList.push(linkInfo);
-              this.extLinksListSub.next([...this.extLinksList]);
-            } else {
-
-            }
+            linkInfo.id = data.linkId;
+            this.extLinksList.push(linkInfo);
+            this.extLinksListSub.next([...this.extLinksList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -75,53 +72,48 @@ export class ExternalLinksService {
       formData.append('linkInfo', JSON.stringify(linkInfo));
 
       this.http
-        .put<{error: boolean, message: string}>(
+        .put<{ }>(
           'http://localhost:3000/admin/disbaglantilar/' + linkInfo.id, formData
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              // Replace updated object with the old one
-              this.extLinksList.forEach((item, i) => {
-                if (item.id == linkInfo.id) {
-                  this.extLinksList[i] = linkInfo;
-                }
-              });
-              this.extLinksListSub.next([...this.extLinksList]);
-            } else {
-
-            }
+            // Replace updated object with the old one
+            this.extLinksList.forEach((item, i) => {
+              if (item.id == linkInfo.id) {
+                this.extLinksList[i] = linkInfo;
+              }
+            });
+            this.extLinksListSub.next([...this.extLinksList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   deleteLink(linkId: number) {
     try {
       this.http
-        .delete<{error: boolean, message: string}>(
+        .delete<{ }>(
           'http://localhost:3000/admin/disbaglantilar/' + linkId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-
-              const filteredLinksList = this.extLinksList.filter(link => link.id !== linkId);
-              this.extLinksList = filteredLinksList;
-              this.extLinksListSub.next([...this.extLinksList]);
-            }
+            const filteredLinksList = this.extLinksList.filter(link => link.id !== linkId);
+            this.extLinksList = filteredLinksList;
+            this.extLinksListSub.next([...this.extLinksList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 }

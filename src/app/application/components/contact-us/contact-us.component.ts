@@ -61,7 +61,7 @@ export class ApplicationContactUs implements OnInit, OnDestroy {
     if (this.contactUsForm.valid) {
       const contactUsForm = document.getElementById('submitContactForm') as HTMLFormElement;
       contactUsForm.submit();
-      this.globalFunctions.showSnackBar.next('Mesajınız iletilmiştir!');
+      this.globalFunctions.showSnackBar('Mesajınız iletilmiştir!');
     } else {
 
     }

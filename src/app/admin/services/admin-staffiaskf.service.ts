@@ -3,8 +3,9 @@ import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
 import { map } from "rxjs/operators";
 
-
 import { StaffIzmirAskfModel } from "../models/admin-staffizmiraskf.model";
+
+import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({providedIn: 'root'})
 export class StaffIASKFService {
@@ -12,31 +13,28 @@ export class StaffIASKFService {
   private staffListUpdated = new Subject<StaffIzmirAskfModel[]>();
 
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+    ) {}
 
   getStaff() {
     try {
       this.http
-      .get<{error: boolean, message: string, staffList: any}>(
+      .get<{staffList: any}>(
         'http://localhost:3000/admin/izmiraskf/yonetim-kurulu'
       )
       .subscribe({
         next: (data) => {
-          if (!data.error) {
-            this.staffList = data.staffList;
-            this.staffListUpdated.next([...this.staffList]);
-          } else {
-            this.staffList = [];
-            this.staffListUpdated.next([]);
-          }
-
+          this.staffList = data.staffList;
+          this.staffListUpdated.next([...this.staffList]);
         },
         error: (error) => {
-
+          this.globalFunctions.showSnackBar('server.error');
         }
       });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
 
   }
@@ -52,25 +50,22 @@ export class StaffIASKFService {
       formData.append('staffInfo', JSON.stringify(staffInfo));
 
       this.http
-        .post<{error: boolean, message: string, staffId: number}>(
+        .post<{staffId: number}>(
           'http://localhost:3000/admin/izmiraskf/yonetim-kurulu', formData
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              staffInfo.id = data.staffId;
-              this.staffList.push(staffInfo);
-              this.staffListUpdated.next([...this.staffList]);
-            } else {
-              null;
-            }
+            staffInfo.id = data.staffId;
+            this.staffList.push(staffInfo);
+            this.staffListUpdated.next([...this.staffList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
 
   }
@@ -82,54 +77,49 @@ export class StaffIASKFService {
       formData.append('staffInfo', JSON.stringify(staffInfo));
 
       this.http
-        .put<{error: boolean, message: string}>(
+        .put<{ }>(
           'http://localhost:3000/admin/izmiraskf/yonetim-kurulu/' + staffInfo.id, formData
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              // Replace updated object with the old one
-              this.staffList.forEach((item, i) => {
-                if (item.id == staffInfo.id) {
-                  this.staffList[i] = staffInfo;
-                }
-              });
-
-              this.staffListUpdated.next([...this.staffList]);
-            }
-            else {
-              null;
-            }
+            // Replace updated object with the old one
+            this.staffList.forEach((item, i) => {
+              if (item.id == staffInfo.id) {
+                this.staffList[i] = staffInfo;
+              }
+            });
+            this.staffListUpdated.next([...this.staffList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
 
   }
 
   deleteStaff(staffId: number) {
-    this.http
-      .delete<{error: boolean, message: string}>(
-        'http://localhost:3000/admin/izmiraskf/yonetim-kurulu/' + staffId
-      )
-      .subscribe({
-        next: (data) => {
-          if (!data.error) {
-
+    try {
+      this.http
+        .delete<{ }>(
+          'http://localhost:3000/admin/izmiraskf/yonetim-kurulu/' + staffId
+        )
+        .subscribe({
+          next: (data) => {
             const filteredStaffList = this.staffList.filter(staffList => staffList.id !== staffId);
             this.staffList = filteredStaffList;
             this.staffListUpdated.next([...this.staffList]);
-          } else {
-            null;
+            this.globalFunctions.showSnackBar("server.success");
+          },
+          error: (error) => {
+            this.globalFunctions.showSnackBar('server.error');
           }
-        },
-        error: (error) => {
-
-        }
-      });
+        });
+    } catch (error) {
+      this.globalFunctions.showSnackBar('system.error');
+    }
   }
 }

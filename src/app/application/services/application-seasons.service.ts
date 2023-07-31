@@ -4,35 +4,36 @@ import { Subject } from "rxjs";
 
 import { SeasonsModel } from "../models/application-seasons.model";
 
+import { globalFunctions } from "../../functions/global.function";
+
 @Injectable({providedIn: 'root'})
 export class SeasonsService {
   private seasonsList: SeasonsModel[] = [];
   private seasonsListSub = new Subject<SeasonsModel[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+  ) {}
 
   getSeasons() {
     try {
       this.http
-        .get<{error: boolean, message: string, seasonList: SeasonsModel[]}>(
+        .get<{seasonList: SeasonsModel[]}>(
           'http://localhost:3000/sezonlar'
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.seasonsList = data.seasonList;
-              this.seasonsListSub.next([...this.seasonsList]);
-            } else {
-
-            }
+            this.seasonsList = data.seasonList;
+            this.seasonsListSub.next([...this.seasonsList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
 
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 

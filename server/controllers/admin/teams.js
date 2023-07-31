@@ -1,15 +1,14 @@
-const queryteams = require('../../queries/queryteams');
+const queries = require("../../queries/admin/teams");
 
-const connection = require('../../functions/database').connectDatabase();
-const imagesFunction = require('../../functions/images');
+const connection = require("../../functions/database").connectDatabase();
+const imagesFunction = require("../../functions/images");
 
 function getTeams(req, res, next) {
-  var teamList;
-  var message;
+  try {
+    var teamList;
+    var message;
 
-  connection.query(
-    queryteams.getTeams,
-    (error, result) => {
+    connection.query(queries.getTeams, (error, result) => {
       if (!error) {
         teamList = result;
       } else {
@@ -19,10 +18,13 @@ function getTeams(req, res, next) {
 
       res.status(200).json({
         error: !!error,
-        message: message || 'Teams fetched successfully!',
-        teamList: teamList
+        message: message || "Teams fetched successfully!",
+        teamList: teamList,
       });
     });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // Get a team by id
@@ -30,135 +32,144 @@ function findTeam(req, res, next) {
   // There isn't any query. __MS
 }
 
-
 function createTeam(req, res, next) {
-  const teamInfo = JSON.parse(req.body.teamInfo);
-  var message;
-  var teamId;
+  try {
+    const teamInfo = JSON.parse(req.body.teamInfo);
+    var message;
+    var teamId;
 
-  if (!!req.file) {
-    const url = req.protocol + "://" + req.get("host");
-    const imagePath = imagesFunction.setImagePath(url, "/images/teams/", req.file.filename);
-    teamInfo.imagePath = imagePath;
-  } else {
-    teamInfo.imagePath = null;
-  }
-
-  connection.query(
-    queryteams.createTeam,
-    [
-      teamInfo.createdAt,
-      teamInfo.createdBy,
-      teamInfo.updatedAt,
-      teamInfo.updatedBy,
-      teamInfo.TFFClubCode,
-      teamInfo.officialName,
-      teamInfo.shortName,
-      teamInfo.imagePath,
-      teamInfo.city,
-      teamInfo.town,
-      teamInfo.address,
-      teamInfo.longitude,
-      teamInfo.latitude,
-      teamInfo.phoneNumber,
-      teamInfo.faxNumber,
-      teamInfo.stadiumId,
-      teamInfo.presidentName,
-      teamInfo.colorCodes,
-      teamInfo.websiteURL,
-      teamInfo.isASKFMember,
-      teamInfo.isVisible
-    ],
-    (error, result) => {
-      if (!error) {
-        teamId = result.insertId;
-      } else {
-        message = error.sqlMessage;
-      }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Team added successfully!',
-        teamId: teamId
-      });
-    });
-}
-
-
-function updateTeam(req, res, next) {
-  const teamInfo = JSON.parse(req.body.teamInfo);
-  var message;
-  var teamId = req.params.id;
-
-  if (!!req.file) {
-    const url = req.protocol + "://" + req.get("host");
-    const imagePath = imagesFunction.setImagePath(url, "/images/teams/", req.file.filename);
-    teamInfo.imagePath = imagePath;
-  } else {
-    if (!teamInfo.imagePath) {
+    if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
+      const imagePath = imagesFunction.setImagePath(
+        url,
+        "/images/teams/",
+        req.file.filename
+      );
+      teamInfo.imagePath = imagePath;
+    } else {
       teamInfo.imagePath = null;
     }
-  }
 
-  connection.query(
-    queryteams.updateTeam,
-    [
-      teamInfo.createdAt,
-      teamInfo.createdBy,
-      teamInfo.updatedAt,
-      teamInfo.updatedBy,
-      teamInfo.TFFClubCode,
-      teamInfo.officialName,
-      teamInfo.shortName,
-      teamInfo.imagePath,
-      teamInfo.city,
-      teamInfo.town,
-      teamInfo.address,
-      teamInfo.longitude,
-      teamInfo.latitude,
-      teamInfo.phoneNumber,
-      teamInfo.faxNumber,
-      teamInfo.stadiumId,
-      teamInfo.presidentName,
-      teamInfo.colorCodes,
-      teamInfo.websiteURL,
-      teamInfo.isASKFMember,
-      teamInfo.isVisible,
-      teamInfo.id || teamId
-    ],
-    (error, result) => {
-      if (!error) {
+    connection.query(
+      queries.createTeam,
+      [
+        teamInfo.createdAt,
+        teamInfo.createdBy,
+        teamInfo.updatedAt,
+        teamInfo.updatedBy,
+        teamInfo.TFFClubCode,
+        teamInfo.officialName,
+        teamInfo.shortName,
+        teamInfo.imagePath,
+        teamInfo.city,
+        teamInfo.town,
+        teamInfo.address,
+        teamInfo.longitude,
+        teamInfo.latitude,
+        teamInfo.phoneNumber,
+        teamInfo.faxNumber,
+        teamInfo.stadiumId,
+        teamInfo.presidentName,
+        teamInfo.colorCodes,
+        teamInfo.websiteURL,
+        teamInfo.isASKFMember,
+        teamInfo.isVisible,
+      ],
+      (error, result) => {
+        if (!error) {
+          teamId = result.insertId;
+        } else {
+          message = error.sqlMessage;
+        }
 
-      } else {
-        message = error.sqlMessage;
+        res.status(200).json({
+          teamId: teamId,
+        });
       }
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Team updated successfully!',
-      });
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
+function updateTeam(req, res, next) {
+  try {
+    const teamInfo = JSON.parse(req.body.teamInfo);
+    var message;
+    var teamId = req.params.id;
+
+    if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
+      const imagePath = imagesFunction.setImagePath(
+        url,
+        "/images/teams/",
+        req.file.filename
+      );
+      teamInfo.imagePath = imagePath;
+    } else {
+      if (!teamInfo.imagePath) {
+        teamInfo.imagePath = null;
+      }
+    }
+
+    connection.query(
+      queries.updateTeam,
+      [
+        teamInfo.createdAt,
+        teamInfo.createdBy,
+        teamInfo.updatedAt,
+        teamInfo.updatedBy,
+        teamInfo.TFFClubCode,
+        teamInfo.officialName,
+        teamInfo.shortName,
+        teamInfo.imagePath,
+        teamInfo.city,
+        teamInfo.town,
+        teamInfo.address,
+        teamInfo.longitude,
+        teamInfo.latitude,
+        teamInfo.phoneNumber,
+        teamInfo.faxNumber,
+        teamInfo.stadiumId,
+        teamInfo.presidentName,
+        teamInfo.colorCodes,
+        teamInfo.websiteURL,
+        teamInfo.isASKFMember,
+        teamInfo.isVisible,
+        teamInfo.id || teamId,
+      ],
+      (error, result) => {
+        if (!error) {
+        } else {
+          message = error.sqlMessage;
+        }
+        res.status(200).json({
+        });
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 function deleteTeam(req, res, next) {
-  var teamId =  req.params.id;
-  var message;
-  connection.query(
-    queryteams.deleteTeam,
-    [teamId],
-    (error, result) => {
+  try {
+    var teamId = req.params.id;
+    var message;
+    connection.query(queries.deleteTeam, [teamId], (error, result) => {
       if (!error) {
-
       } else {
         message = error.sqlMessage;
       }
       res.status(200).json({
         error: !!error,
-        message: message || 'Stadium deleted successfully!',
+        message: message || "Stadium deleted successfully!",
       });
-  });
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
-
 
 exports.getTeams = getTeams;
 exports.findTeam = findTeam;

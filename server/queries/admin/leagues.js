@@ -4,6 +4,3 @@ module.exports = {
   "updateLeague" : "update leagues set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonid = ?, leaguename = ?, category = ?, leaguetype = ?, isactive = ?, orderno = ? where id = ?" ,
   "deleteLeague" : "delete from leagues where id = ?"
 }
-
-
-

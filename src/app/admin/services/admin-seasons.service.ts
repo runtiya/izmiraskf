@@ -3,28 +3,28 @@ import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
 import { SeasonsModel } from "../models/admin-seasons.model";
+import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({providedIn: 'root'})
 export class SeasonsService {
   private seasonsList: SeasonsModel[] = [];
   private seasonsListSub = new Subject<SeasonsModel[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+    ) {}
 
   getSeasons() {
     try {
       this.http
-        .get<{error: boolean, message: string, seasonList: SeasonsModel[]}>(
+        .get<{seasonList: SeasonsModel[]}>(
           'http://localhost:3000/admin/sezonlar'
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.seasonsList = data.seasonList;
-              this.seasonsListSub.next([...this.seasonsList]);
-            } else {
-
-            }
+            this.seasonsList = data.seasonList;
+            this.seasonsListSub.next([...this.seasonsList]);
           },
           error: (error) => {
 
@@ -43,79 +43,70 @@ export class SeasonsService {
   createSeason(seasonInfo: SeasonsModel) {
     try {
       this.http
-        .post<{error: boolean, message: string, seasonId: number}>(
+        .post<{seasonId: number}>(
           'http://localhost:3000/admin/sezonlar', seasonInfo
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              seasonInfo.id = data.seasonId;
-              this.seasonsList.push(seasonInfo);
-              this.seasonsListSub.next([...this.seasonsList]);
-            } else {
-
-            }
+            seasonInfo.id = data.seasonId;
+            this.seasonsList.push(seasonInfo);
+            this.seasonsListSub.next([...this.seasonsList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   updateSeason(seasonInfo: SeasonsModel) {
     try {
       this.http
-        .put<{error: boolean, message: string}>(
+        .put<{ }>(
           'http://localhost:3000/admin/sezonlar/' + seasonInfo.id, seasonInfo
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              // Replace updated object with the old one
-              this.seasonsList.forEach((item, i) => {
-                if (item.id == seasonInfo.id) {
-                  this.seasonsList[i] = seasonInfo;
-                }
-              });
-              this.seasonsListSub.next([...this.seasonsList]);
-            } else {
-
-            }
+            // Replace updated object with the old one
+            this.seasonsList.forEach((item, i) => {
+              if (item.id == seasonInfo.id) {
+                this.seasonsList[i] = seasonInfo;
+              }
+            });
+            this.seasonsListSub.next([...this.seasonsList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   deleteSeason(seasonId: number) {
     try {
       this.http
-        .delete<{error: boolean, message: string}>(
+        .delete<{ }>(
           'http://localhost:3000/admin/sezonlar/' + seasonId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              const filteredSeasonsList = this.seasonsList.filter(season => season.id !== seasonId);
-              this.seasonsList = filteredSeasonsList;
-              this.seasonsListSub.next([...this.seasonsList]);
-            } else {
-
-            }
+            const filteredSeasonsList = this.seasonsList.filter(season => season.id !== seasonId);
+            this.seasonsList = filteredSeasonsList;
+            this.seasonsListSub.next([...this.seasonsList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 }

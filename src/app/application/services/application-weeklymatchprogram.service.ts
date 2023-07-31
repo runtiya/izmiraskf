@@ -6,6 +6,8 @@ import { WeeklyMatchProgramModel } from "../models/application-weeklymatchprogra
 
 import { fixtureFunctions } from "../functions/fixture.function";
 
+import { globalFunctions } from "../../functions/global.function";
+
 @Injectable({providedIn: 'root'})
 export class WeeklyMatchProgramService {
   private weeklyMatchProgramList: WeeklyMatchProgramModel[] = [];
@@ -13,28 +15,26 @@ export class WeeklyMatchProgramService {
 
   constructor(
     private http: HttpClient,
-    private fixtureFunctions: fixtureFunctions
+    private globalFunctions: globalFunctions
   ) {}
 
   getWeeklyMatchProgram(seasonId: number) {
     try {
       this.http
-        .get<{error: boolean, message: string, weeklyMatchProgramList: WeeklyMatchProgramModel[]}>(
+        .get<{weeklyMatchProgramList: WeeklyMatchProgramModel[]}>(
           'http://localhost:3000/weekly-match-program/' + seasonId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.weeklyMatchProgramList = data.weeklyMatchProgramList;
-              this.weeklyMatchProgramListSub.next([...this.weeklyMatchProgramList]);
-            } else {
-            }
+            this.weeklyMatchProgramList = data.weeklyMatchProgramList;
+            this.weeklyMatchProgramListSub.next([...this.weeklyMatchProgramList]);
           },
           error: (error) => {
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 

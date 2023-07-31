@@ -4,38 +4,36 @@ import { Subject } from "rxjs";
 
 import { DisciplinaryBoardDecisionModel } from "../models/application-disciplinaryboarddecisions.model";
 
+import { globalFunctions } from "../../functions/global.function";
+
 @Injectable({ providedIn: 'root' })
 export class DisciplinaryBoardDecisionsService {
 
   private disciplinaryBoardDecisionList: DisciplinaryBoardDecisionModel[] = [];
   private disciplinaryBoardDecisionListSub = new Subject<DisciplinaryBoardDecisionModel[]>();
 
-
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+  ) {}
 
   getDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
     try {
       this.http
-        .get<{ error: boolean, message: string, disciplinaryBoardDecisionList: DisciplinaryBoardDecisionModel[] }>(
+        .get<{ disciplinaryBoardDecisionList: DisciplinaryBoardDecisionModel[] }>(
           'http://localhost:3000/disiplin-kurulu-kararlari/' + disciplinaryBoardFileId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.disciplinaryBoardDecisionList = data.disciplinaryBoardDecisionList;
-              !!this.disciplinaryBoardDecisionList ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
-            } else {
-
-            }
+            this.disciplinaryBoardDecisionList = data.disciplinaryBoardDecisionList;
+            !!this.disciplinaryBoardDecisionList ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 

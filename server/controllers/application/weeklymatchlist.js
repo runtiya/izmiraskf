@@ -1,33 +1,30 @@
-const connection = require('../../functions/database').connectDatabase();
+const connection = require("../../functions/database").connectDatabase();
 
 function getWeeklyMatchList(req, res, next) {
-  var weeklyMatchList;
-  var message;
-  var seasonId = req.params.seasonid;
+  try {
+    var weeklyMatchList;
+    var message;
+    var seasonId = req.params.seasonid;
 
-  connection.query(
-    "select * from view_application_weeklymatchlist where weeklymatchprogramid in (select id from view_application_weeklymatchprogram where seasonid = ?)",
-    [
-      seasonId
-    ],
-    (error, result) => {
-      if (!error) {
-        weeklyMatchList = result;
-      } else {
-        message = error.sqlMessage;
-        weeklyMatchList = [];
+    connection.query(
+      "select * from view_application_weeklymatchlist where weeklymatchprogramid in (select id from view_application_weeklymatchprogram where seasonid = ?)",
+      [seasonId],
+      (error, result) => {
+        if (!error) {
+          weeklyMatchList = result;
+        } else {
+          message = error.sqlMessage;
+          weeklyMatchList = [];
+        }
+
+        res.status(200).json({
+          weeklyMatchList: weeklyMatchList,
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Weekly Match List fetched successfully!',
-        weeklyMatchList: weeklyMatchList
-      });
-    }
-  );
-
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-
 exports.getWeeklyMatchList = getWeeklyMatchList;
-

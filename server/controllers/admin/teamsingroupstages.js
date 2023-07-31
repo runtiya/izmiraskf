@@ -1,37 +1,39 @@
-const queryteamsingroupstages = require('../../queries/queryteamsingroupstages');
-const { async } = require('rxjs');
-const connection = require('../../functions/database').connectDatabase();
+const queries = require("../../queries/admin/teamsingroupstages");
+const { async } = require("rxjs");
+const connection = require("../../functions/database").connectDatabase();
 
 function getTeamsInGroupstages(req, res, next) {
-  const groupstageId = req.params.groupstageId;
-  var teamsingroupstagesList;
-  var message;
+  try {
+    const groupstageId = req.params.groupstageId;
+    var teamsingroupstagesList;
+    var message;
 
-  connection.query(
-    queryteamsingroupstages.getTeamsInGroupstages,
-    [groupstageId],
-    (error, result) => {
-      if (!error) {
-        teamsingroupstagesList = result;
-      } else {
-        message = error.sqlMessage;
-        teamsingroupstagesList = [];
+    connection.query(
+      queries.getTeamsInGroupstages,
+      [groupstageId],
+      (error, result) => {
+        if (!error) {
+          teamsingroupstagesList = result;
+        } else {
+          message = error.sqlMessage;
+          teamsingroupstagesList = [];
+        }
+
+        res.status(200).json({
+          teamsingroupstagesList: teamsingroupstagesList,
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Teams fetched successfully!',
-        teamsingroupstagesList: teamsingroupstagesList
-      });
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function getTeamsForGroupstages(req, res, next) {
-  var teamsList;
-  var message;
-  connection.query(
-    queryteamsingroupstages.getTeamsForGroupstages,
-    (error, result) => {
+  try {
+    var teamsList;
+    var message;
+    connection.query(queries.getTeamsForGroupstages, (error, result) => {
       if (!error) {
         teamsList = result;
       } else {
@@ -40,11 +42,13 @@ function getTeamsForGroupstages(req, res, next) {
       }
       res.status(200).json({
         error: !!error,
-        message: message || 'Teams List fetched successfully!',
-        teamsList: teamsList
+        message: message || "Teams List fetched successfully!",
+        teamsList: teamsList,
       });
-    }
-  )
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function createTeamsInGroupstages(req, res, next) {
@@ -56,7 +60,7 @@ function createTeamsInGroupstages(req, res, next) {
   async function buildGroups() {
     try {
       await connection.query(
-        queryteamsingroupstages.createTeamsInGroupstagesBeforeInsert,
+        queries.createTeamsInGroupstagesBeforeInsert,
         [groupstageId],
         (error, result) => {
           if (!error) {
@@ -70,7 +74,7 @@ function createTeamsInGroupstages(req, res, next) {
       for (let i = 0; i < teamsList.length; i++) {
         const team = teamsList[i];
         await connection.query(
-          queryteamsingroupstages.createTeamsInGroupstages,
+          queries.createTeamsInGroupstages,
           [
             team.createdAt,
             team.createdBy,
@@ -80,18 +84,17 @@ function createTeamsInGroupstages(req, res, next) {
             team.teamId,
             false,
             false,
-            team.orderNo
+            team.orderNo,
           ],
           (error, result) => {
-           if (!error) {
-            teamsList[i].id = result.insertId;
-           } else {
-            throw error;
-           }
+            if (!error) {
+              teamsList[i].id = result.insertId;
+            } else {
+              throw error;
+            }
           }
         );
       }
-
     } catch (err) {
       connection.rollback(() => {
         error = true;
@@ -101,7 +104,7 @@ function createTeamsInGroupstages(req, res, next) {
       res.status(200).json({
         error: error,
         message: message,
-        teamsList: teamsList
+        teamsList: teamsList,
       });
     }
   }
@@ -110,60 +113,62 @@ function createTeamsInGroupstages(req, res, next) {
 }
 
 function updateTeamsForGroupstages(req, res, next) {
-  const teamInfo = req.body;
-  var message;
+  try {
+    const teamInfo = req.body;
+    var message;
 
-  connection.query(
-    queryteamsingroupstages.updateTeamsForGroupstages,
-    [
-      teamInfo.createdAt,
-      teamInfo.createdBy,
-      teamInfo.updatedAt,
-      teamInfo.updatedBy,
-      teamInfo.isExpelled,
-      teamInfo.isReceded,
-      teamInfo.weekofExpelledorReceded,
-      teamInfo.explanation,
-      teamInfo.id
-    ],
-    (error, result) => {
-      if (error) {
-        message = error.sqlMessage;
+    connection.query(
+      queries.updateTeamsForGroupstages,
+      [
+        teamInfo.createdAt,
+        teamInfo.createdBy,
+        teamInfo.updatedAt,
+        teamInfo.updatedBy,
+        teamInfo.isExpelled,
+        teamInfo.isReceded,
+        teamInfo.weekofExpelledorReceded,
+        teamInfo.explanation,
+        teamInfo.id,
+      ],
+      (error, result) => {
+        if (error) {
+          message = error.sqlMessage;
+        }
+
+        res.status(200).json({
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message
-      });
-    }
-  )
-
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-
 function deleteTeamsInGroupstages(req, res, next) {
-  const groupstageId = req.params.groupstageId;
-  var message;
+  try {
+    const groupstageId = req.params.groupstageId;
+    var message;
 
-  connection.query(
-    queryteamsingroupstages,deleteTeamsInGroupstages
-    [groupstageId],
-    (error, result) => {
-      if (!error) {
+    connection.query(
+      queries,
+      deleteTeamsInGroupstages[groupstageId],
+      (error, result) => {
+        if (!error) {
+        } else {
+          message = error.sqlMessage;
+        }
 
-      } else {
-        message = error.sqlMessage;
+        res.status(200).json({
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Teams deleted successfully!'
-      });
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 exports.getTeamsInGroupstages = getTeamsInGroupstages;
-exports.getTeamsForGroupstages = getTeamsForGroupstages
+exports.getTeamsForGroupstages = getTeamsForGroupstages;
 exports.createTeamsInGroupstages = createTeamsInGroupstages;
 exports.updateTeamsForGroupstages = updateTeamsForGroupstages;
 exports.deleteTeamsInGroupstages = deleteTeamsInGroupstages;

@@ -4,34 +4,35 @@ import { Subject } from "rxjs";
 
 import { LeaguesModel } from "../models/application-leagues.model";
 
+import { globalFunctions } from "../../functions/global.function";
+
 @Injectable({providedIn: 'root'})
 export class LeaguesService {
   private leagueList: LeaguesModel[] = [];
   private leagueListSub = new Subject<LeaguesModel[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+  ) {}
 
   getLeagues(seasonId: number) {
     try {
       this.http
-        .get<{error: boolean, message: string, leagueList: LeaguesModel[]}>(
+        .get<{leagueList: LeaguesModel[]}>(
           'http://localhost:3000/ligler/' + seasonId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.leagueList = data.leagueList;
-              this.leagueListSub.next([...this.leagueList]);
-            } else {
-
-            }
+            this.leagueList = data.leagueList;
+            this.leagueListSub.next([...this.leagueList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 

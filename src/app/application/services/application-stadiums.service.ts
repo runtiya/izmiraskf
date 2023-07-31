@@ -4,6 +4,8 @@ import { Subject } from "rxjs";
 
 import { StadiumsModel } from "../models/application-stadiums.model";
 
+import { globalFunctions } from "../../functions/global.function";
+
 @Injectable({providedIn: 'root'})
 export class StadiumsService {
   private stadiumList: StadiumsModel[] = [];
@@ -12,31 +14,28 @@ export class StadiumsService {
   private stadium: StadiumsModel;
   private stadiumSub = new Subject<StadiumsModel>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+  ) {}
 
   getStadiums() {
     try {
       this.http
-        .get<{error: boolean, message: string, stadiums: StadiumsModel[]}>(
+        .get<{stadiums: StadiumsModel[]}>(
           'http://localhost:3000/sahalar'
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.stadiumList = data.stadiums;
-              this.stadiumListSub.next([...this.stadiumList]);
-            } else {
-
-            }
+            this.stadiumList = data.stadiums;
+            this.stadiumListSub.next([...this.stadiumList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
-
         });
-
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -47,24 +46,20 @@ export class StadiumsService {
   getStadiumById(_id: number) {
     try {
       this.http
-        .get<{error: boolean, message:string, stadium: StadiumsModel}>(
+        .get<{ message:string, stadium: StadiumsModel}>(
           'http://localhost:3000/sahalar/' + _id
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.stadium = data.stadium;
-              this.stadiumSub.next(this.stadium);
-            } else {
-
-            }
+            this.stadium = data.stadium;
+            this.stadiumSub.next(this.stadium);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 

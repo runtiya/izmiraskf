@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.globalFunctions.showSnackBar.subscribe(message => {
+    this.globalFunctions.snackBar.subscribe(message => {
       this._snackBar.open(message, 'Tamam', {
         horizontalPosition: "end",
         verticalPosition: "top",

@@ -1,27 +1,28 @@
-const connection = require('../../functions/database').connectDatabase();
+const connection = require("../../functions/database").connectDatabase();
 
 function getSeasons(req, res, next) {
-  var seasonList;
-  var message;
+  try {
+    var seasonList;
+    var message;
 
-  connection.query(
-    "select * from view_application_seasons",
-    (error, result) => {
-      if (!error) {
-        seasonList = result;
-      } else {
-        message = error.sqlMessage;
-        seasonList = [];
+    connection.query(
+      "select * from view_application_seasons",
+      (error, result) => {
+        if (!error) {
+          seasonList = result;
+        } else {
+          message = error.sqlMessage;
+          seasonList = [];
+        }
+
+        res.status(200).json({
+          seasonList: seasonList,
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Seasons fetched successfully!',
-        seasonList: seasonList
-      });
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-
 exports.getSeasons = getSeasons;
-

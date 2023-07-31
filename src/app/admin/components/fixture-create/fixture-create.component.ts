@@ -285,7 +285,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
       }
       this.fixturesService.createFixture(_matchList, this.fixtureSearchIndex);
     } catch (error) {
-      this.globalFunctions.showSnackBar.next('Hata!');
+      this.globalFunctions.showSnackBar('Hata!');
       _matchList = [];
       this.groupByFixture = this.groupByToFixture(this.fixtureList);
     }

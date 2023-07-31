@@ -1,67 +1,72 @@
-const queryaboutizmirtff = require('../../queries/queryaboutizmirtff.js');
+const queries = require('../../queries/admin/aboutizmirtff.js');
 const connection = require('../../functions/database.js').connectDatabase();
 const imagesFunction = require('../../functions/images');
 
 function getAboutContent(req, res, next) {
-  var aboutContent;
-  var message;
-  connection.query(
-    queryaboutizmirtff.getAboutContent, (error, result) => {
+  try {
+    var aboutContent;
+    var message;
+    connection.query(queries.getAboutContent, (error, result) => {
       if (!error) {
         aboutContent = result[0];
-      }
-      else {
-        message = error.sqlMessage;
-      }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'About Content fetched successfully!',
-        aboutContent: aboutContent
-      });
-    });
-}
-
-function updateAboutContent(req, res, next) {
-  const aboutContent = JSON.parse(req.body.aboutContent);
-  var message;
-
-  if (!!req.file) {
-    const url = req.protocol + "://" + req.get("host");
-    const imagePath = imagesFunction.setImagePath(url, "/images/", req.file.filename);
-    aboutContent.imagePath = imagePath;
-  } else {
-    if (!aboutContent.imagePath) {
-      aboutContent.imagePath = null;
-    }
-  }
-
-  connection.query(
-    queryaboutizmirtff.updateAboutContent,
-    [
-      aboutContent.updatedAt,
-      aboutContent.updatedBy,
-      aboutContent.imagePath,
-      aboutContent.aboutText,
-      aboutContent.address,
-      aboutContent.phoneNumber,
-      aboutContent.faxNumber,
-      aboutContent.email,
-      aboutContent.longitude,
-      aboutContent.latitude
-    ],
-    (error, result) => {
-      if (!error) {
-
       } else {
         message = error.sqlMessage;
       }
-      res.status(200).json({
-        error: !!error,
-        message: message || 'About Content updated successfully!'
-      });
-  });
 
+      res.status(200).json({
+        aboutContent: aboutContent,
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function updateAboutContent(req, res, next) {
+  try {
+    const aboutContent = JSON.parse(req.body.aboutContent);
+    var message;
+
+    if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
+      const imagePath = imagesFunction.setImagePath(
+        url,
+        "/images/",
+        req.file.filename
+      );
+      aboutContent.imagePath = imagePath;
+    } else {
+      if (!aboutContent.imagePath) {
+        aboutContent.imagePath = null;
+      }
+    }
+
+    connection.query(
+      queries.updateAboutContent,
+      [
+        aboutContent.updatedAt,
+        aboutContent.updatedBy,
+        aboutContent.imagePath,
+        aboutContent.aboutText,
+        aboutContent.address,
+        aboutContent.phoneNumber,
+        aboutContent.faxNumber,
+        aboutContent.email,
+        aboutContent.longitude,
+        aboutContent.latitude,
+      ],
+      (error, result) => {
+        if (!error) {
+        } else {
+          message = error.sqlMessage;
+        }
+        res.status(200).json({
+        });
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 exports.getAboutContent = getAboutContent;

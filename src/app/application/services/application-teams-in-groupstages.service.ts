@@ -5,6 +5,8 @@ import { Subject } from "rxjs";
 import { TeamsInGroupstagesModel } from "../models/application-teams-in-groupstages.model";
 import { TeamsModel } from "../models/application-teams.model";
 
+import { globalFunctions } from "../../functions/global.function";
+
 @Injectable({providedIn: 'root'})
 export class TeamsInGroupstagesService {
   private teamsingroupstagesList: TeamsInGroupstagesModel[] = [];
@@ -12,29 +14,28 @@ export class TeamsInGroupstagesService {
   private teamsList: TeamsModel[] = [];
   private teamsListSub = new Subject<TeamsModel[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+  ) {}
 
   getTeamsInGroupstages(groupstageId: number) {
     try {
       this.http
-        .get<{error: boolean, message: string, teamsingroupstagesList: TeamsInGroupstagesModel[]}>(
+        .get<{teamsingroupstagesList: TeamsInGroupstagesModel[]}>(
           'http://localhost:3000/grup-takim-eslesmeleri/' + groupstageId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.teamsingroupstagesList = data.teamsingroupstagesList;
-              !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
-            } else {
-
-            }
+            this.teamsingroupstagesList = data.teamsingroupstagesList;
+            !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -45,24 +46,20 @@ export class TeamsInGroupstagesService {
   getTeams() {
     try {
       this.http
-        .get<{error: boolean, message: string, teamsList: TeamsModel[]}>(
+        .get<{teamsList: TeamsModel[]}>(
           'http://localhost:3000/grup-takim-eslesmeleri'
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.teamsList = data.teamsList;
-              this.teamsListSub.next([...this.teamsList]);
-            } else {
-
-            }
+            this.teamsList = data.teamsList;
+            this.teamsListSub.next([...this.teamsList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 

@@ -1,13 +1,12 @@
-const queryseasons = require('../../queries/queryseasons');
-const connection = require('../../functions/database').connectDatabase();
+const queries = require("../../queries/admin/seasons");
+const connection = require("../../functions/database").connectDatabase();
 
 function getSeasons(req, res, next) {
-  var seasonList;
-  var message;
+  try {
+    var seasonList;
+    var message;
 
-  connection.query(
-    queryseasons.getSeasons,
-    (error, result) => {
+    connection.query(queries.getSeasons, (error, result) => {
       if (!error) {
         seasonList = result;
       } else {
@@ -17,93 +16,99 @@ function getSeasons(req, res, next) {
 
       res.status(200).json({
         error: !!error,
-        message: message || 'Seasons fetched successfully!',
-        seasonList: seasonList
+        message: message || "Seasons fetched successfully!",
+        seasonList: seasonList,
       });
     });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function createSeason(req, res, next) {
-  const seasonInfo = req.body;
-  var message;
-  var seasonId;
+  try {
+    const seasonInfo = req.body;
+    var message;
+    var seasonId;
 
-  connection.query(
-    queryseasons.createSeason,
-    [
-      seasonInfo.createdAt,
-      seasonInfo.createdBy,
-      seasonInfo.updatedAt,
-      seasonInfo.updatedBy,
-      seasonInfo.seasonName,
-      seasonInfo.seasonYear,
-      seasonInfo.isActive
-    ],
-    (error, result) => {
-      if (!error) {
-        seasonId = result.insertId;
-      } else {
-        message = error.sqlMessage;
+    connection.query(
+      queries.createSeason,
+      [
+        seasonInfo.createdAt,
+        seasonInfo.createdBy,
+        seasonInfo.updatedAt,
+        seasonInfo.updatedBy,
+        seasonInfo.seasonName,
+        seasonInfo.seasonYear,
+        seasonInfo.isActive,
+      ],
+      (error, result) => {
+        if (!error) {
+          seasonId = result.insertId;
+        } else {
+          message = error.sqlMessage;
+        }
+        res.status(200).json({
+          seasonId: seasonId,
+        });
       }
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Season added successfully!',
-        seasonId: seasonId
-      });
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-
 function updateSeason(req, res, next) {
-  const seasonInfo = req.body;
-  var message;
-  var seasonId = req.params.id;
+  try {
+    const seasonInfo = req.body;
+    var message;
+    var seasonId = req.params.id;
 
-  connection.query(
-   queryseasons.updateSeason,
-    [
-      seasonInfo.createdAt,
-      seasonInfo.createdBy,
-      seasonInfo.updatedAt,
-      seasonInfo.updatedBy,
-      seasonInfo.seasonName,
-      seasonInfo.seasonYear,
-      seasonInfo.isActive,
-      seasonInfo.id || seasonId
-    ],
-    (error, result) => {
-      if (!error) {
-
-      } else {
-        message = error.sqlMessage;
+    connection.query(
+      queries.updateSeason,
+      [
+        seasonInfo.createdAt,
+        seasonInfo.createdBy,
+        seasonInfo.updatedAt,
+        seasonInfo.updatedBy,
+        seasonInfo.seasonName,
+        seasonInfo.seasonYear,
+        seasonInfo.isActive,
+        seasonInfo.id || seasonId,
+      ],
+      (error, result) => {
+        if (!error) {
+        } else {
+          message = error.sqlMessage;
+        }
+        res.status(200).json({
+        });
       }
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Season updated successfully!',
-      });
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function deleteSeason(req, res, next) {
-  var seasonId =  req.params.id;
-  var message;
+  try {
+    var seasonId = req.params.id;
+    var message;
 
-  connection.query(
-    queryseasons.deleteSeason,
-    [seasonId],
-    (error, result) => {
+    connection.query(queries.deleteSeason, [seasonId], (error, result) => {
       if (!error) {
-
       } else {
         message = error.sqlMessage;
       }
       res.status(200).json({
         error: !!error,
-        message: message || 'Season deleted successfully!',
+        message: message || "Season deleted successfully!",
       });
-  });
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
-
 
 exports.getSeasons = getSeasons;
 exports.createSeason = createSeason;
