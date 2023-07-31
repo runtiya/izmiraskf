@@ -1,3 +1,4 @@
+const querystaffizmirtff = require('../../queries/querystaffizmirtff');
 const connection = require('../../functions/database').connectDatabase();
 const imagesFunction = require('../../functions/images');
 
@@ -6,7 +7,8 @@ function getStaffList(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_admin_staffitff", (error, result) => {
+    querystaffizmirtff.getStaffList,
+    (error, result) => {
       if (!error) {
         staffList = result;
       }
@@ -38,7 +40,7 @@ function createStaff(req, res, next) {
   }
 
   connection.query(
-    "insert into staffitff(createdat, createdby, updatedat, updatedby, title, fullname, phone, email, imagepath, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    querystaffizmirtff.createStaff,
     [
       staffInfo.createdAt,
       staffInfo.createdBy,
@@ -81,7 +83,7 @@ function updateStaff(req, res, next) {
   }
 
   connection.query(
-    "update staffitff set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, fullname = ?, phone = ?, email = ?, imagepath = ?, isvisible = ?, orderno = ? where id = ?",
+    querystaffizmirtff.updateStaff,
     [
       staffInfo.createdAt,
       staffInfo.createdBy,
@@ -113,7 +115,7 @@ function deleteStaff(req, res, next) {
   var staffId =  req.params.id;
   var message;
   connection.query(
-    "delete from staffitff where id = ?",
+    querystaffizmirtff.deleteStaff
     [staffId],
     (error, result) => {
       if (!error) {

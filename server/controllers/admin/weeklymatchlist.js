@@ -1,3 +1,4 @@
+const queryweeklymatchlist = require('../../queries/queryweeklymatchlist');
 const connection = require('../../functions/database').connectDatabase();
 
 function getWeeklyMatchList(req, res, next) {
@@ -6,7 +7,7 @@ function getWeeklyMatchList(req, res, next) {
   var weeklyMatchProgramId = req.params.weeklymatchprogramid;
 
   connection.query(
-    "select * from view_admin_weeklymatchlist where weeklymatchprogramid = ?",
+    queryweeklymatchlist.getWeeklyMatchList,
     [
       weeklyMatchProgramId
     ],
@@ -37,7 +38,7 @@ function createWeeklyMatchList(req, res, next) {
       const _match = weeklyMatchList[i];
 
       connection.query(
-        "insert into weeklymatchlist(createdat, createdby, updatedat, updatedby, weeklymatchprogramid, matchid, matchno, isinlist) values (?, ?, ?, ?, ?, ?, ?, ?)",
+        queryweeklymatchlist.createWeeklyMatchList,
         [
           _match.createdAt,
           _match.createdBy,
@@ -76,7 +77,7 @@ function addMatchToList(req, res, next) {
   var weeklyMatchId;
 
   connection.query(
-    "insert into weeklymatchlist(createdat, createdby, updatedat, updatedby, weeklymatchprogramid, matchid, matchno, isinlist) values (?, ?, ?, ?, ?, ?, ?, ?)",
+    queryweeklymatchlist.addMatchToList,
     [
       weeklyMatchInfo.createdAt,
       weeklyMatchInfo.createdBy,
@@ -109,7 +110,7 @@ function updateWeeklyMatchList(req, res, next) {
   var message;
 
   connection.query(
-    "update weeklymatchlist set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, weeklymatchprogramid = ?, matchid = ?, matchno = ?, isinlist = ? where id = ? and weeklymatchprogramid = ?",
+    queryweeklymatchlist.updateWeeklyMatchList,
     [
       weeklyMatchInfo.createdAt,
       weeklyMatchInfo.createdBy,
@@ -142,7 +143,7 @@ function clearWeeklyMatchList(req, res, next) {
   var message;
 
   connection.query(
-    "delete from weeklymatchlist where weeklymatchprogramid = ?",
+    queryweeklymatchlist,clearWeeklyMatchList,
     [
       weeklyMatchProgramId
     ],
@@ -166,7 +167,7 @@ function deleteMatchFromList(req, res, next) {
   var message;
 
   connection.query(
-    "delete from weeklymatchlist where id = ?",
+    queryweeklymatchlist.deleteMatchFromList,
     [
       weeklyMatchListId
     ],

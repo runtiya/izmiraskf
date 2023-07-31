@@ -1,3 +1,5 @@
+const querystaffizmiraskf = require('../../queries/querystaffizmiraskf');
+
 const connection = require('../../functions/database').connectDatabase();
 const imagesFunction = require('../../functions/images');
 
@@ -5,7 +7,8 @@ function getStaffList(req, res, next) {
   var staffList;
   var message;
   connection.query(
-    "select * from view_admin_staffiaskf", (error, result) => {
+    querystaffizmiraskf.getStaffList,
+    (error, result) => {
       if (!error) {
         staffList = result;
       }
@@ -37,7 +40,7 @@ function createStaff(req, res, next) {
   }
 
   connection.query(
-    "insert into staffiaskf(createdat, createdby, updatedat, updatedby, title, fullname, phone, email, imagepath, isvisible, orderno) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    querystaffizmiraskf.createStaff,
     [
       staffInfo.createdAt,
       staffInfo.createdBy,
@@ -81,7 +84,7 @@ function updateStaff(req, res, next) {
   }
 
   connection.query(
-    "update staffiaskf set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, title = ?, fullname = ?, phone = ?, email = ?, imagepath = ?, isvisible = ?, orderno = ? where id = ?",
+    querystaffizmiraskf.updateStaff,
     [
       staffInfo.createdAt,
       staffInfo.createdBy,
@@ -113,7 +116,7 @@ function deleteStaff(req, res, next) {
   var staffId =  req.params.id;
   var message;
   connection.query(
-    "delete from staffiaskf where id = ?",
+    querystaffizmiraskf.deleteStaff,
     [staffId],
     (error, result) => {
       if (!error) {

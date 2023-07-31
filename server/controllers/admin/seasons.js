@@ -1,3 +1,4 @@
+const queryseasons = require('../../queries/queryseasons');
 const connection = require('../../functions/database').connectDatabase();
 
 function getSeasons(req, res, next) {
@@ -5,7 +6,7 @@ function getSeasons(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_admin_seasons",
+    queryseasons.getSeasons,
     (error, result) => {
       if (!error) {
         seasonList = result;
@@ -28,7 +29,7 @@ function createSeason(req, res, next) {
   var seasonId;
 
   connection.query(
-    "insert into seasons(createdat, createdby, updatedat, updatedby, seasonname, seasonyear, isactive)values (?, ?, ?, ?, ?, ?, ?)",
+    queryseasons.createSeason,
     [
       seasonInfo.createdAt,
       seasonInfo.createdBy,
@@ -59,7 +60,7 @@ function updateSeason(req, res, next) {
   var seasonId = req.params.id;
 
   connection.query(
-    "update seasons set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonname = ?, seasonyear = ?, isactive = ?  where id = ?",
+   queryseasons.updateSeason,
     [
       seasonInfo.createdAt,
       seasonInfo.createdBy,
@@ -88,7 +89,7 @@ function deleteSeason(req, res, next) {
   var message;
 
   connection.query(
-    "delete from seasons where id = ?",
+    queryseasons.deleteSeason,
     [seasonId],
     (error, result) => {
       if (!error) {

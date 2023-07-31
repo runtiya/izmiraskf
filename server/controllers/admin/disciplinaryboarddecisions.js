@@ -1,3 +1,4 @@
+const querydisciplinaryboarddecisions = require('../../queries/querydisciplinaryboarddecisions');
 const connection = require('../../functions/database').connectDatabase();
 
 function getDisciplinaryBoardDecisions(req, res, next) {
@@ -6,7 +7,7 @@ function getDisciplinaryBoardDecisions(req, res, next) {
     const disciplinaryBoardFileId = req.params.fileid;
 
     connection.query(
-        "select * from view_admin_disciplinaryboarddecisions where disciplinaryBoardFileId = ?",
+        querydisciplinaryboarddecisions.getDisciplinaryBoardDecisions,
         [
             disciplinaryBoardFileId
         ],
@@ -33,7 +34,7 @@ function createDisciplinaryBoardDecision(req, res, next) {
     var disciplinaryBoardDecisionId;
 
     connection.query(
-        "insert into disciplinaryboarddecisions(createdat, createdby, updatedat, updatedby, fileid, leagueid, teamid, fullname, licenseno, belongingto, penaltype, duration, explanation) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        querydisciplinaryboarddecisions.createDisciplinaryBoardDecision,
         [
             disciplinaryBoardDecisionInfo.createdAt,
             disciplinaryBoardDecisionInfo.createdBy,
@@ -71,7 +72,7 @@ function updateDisciplinaryBoardDecision(req, res, next) {
     var message;
 
     connection.query(
-        "update disciplinaryboarddecisions set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, fileid = ?, leagueid = ?, teamid = ?, fullname = ?, licenseno = ?, belongingto = ?, penaltype = ?, duration = ?, explanation = ? where id = ?",
+       querydisciplinaryboarddecisions.updateDisciplinaryBoardDecision,
         [
             disciplinaryBoardDecisionInfo.createdAt,
             disciplinaryBoardDecisionInfo.createdBy,
@@ -108,7 +109,7 @@ function deleteDisciplinaryBoardDecision(req, res, next) {
     var message;
 
     connection.query(
-        "delete from disciplinaryboarddecisions where id = ?",
+        querydisciplinaryboarddecisions.deleteDisciplinaryBoardDecision,
         [
             disciplinaryBoardDecisionId
         ],
@@ -132,7 +133,7 @@ function clearDisciplinaryBoardDecisions(req, res, next) {
     var message;
 
     connection.query(
-        "delete from disciplinaryboarddecisions where fileid = ?",
+        querydisciplinaryboarddecisions.clearDisciplinaryBoardDecisions,
         [
             disciplinaryBoardFileId
         ],

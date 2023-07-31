@@ -1,5 +1,5 @@
+const queryteamsingroupstages = require('../../queries/queryteamsingroupstages');
 const { async } = require('rxjs');
-
 const connection = require('../../functions/database').connectDatabase();
 
 function getTeamsInGroupstages(req, res, next) {
@@ -8,7 +8,7 @@ function getTeamsInGroupstages(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_admin_teamsingroupstages where groupstageId = ?",
+    queryteamsingroupstages.getTeamsInGroupstages,
     [groupstageId],
     (error, result) => {
       if (!error) {
@@ -30,7 +30,7 @@ function getTeamsForGroupstages(req, res, next) {
   var teamsList;
   var message;
   connection.query(
-    "select * from view_admin_teamsforgroupstages",
+    queryteamsingroupstages.getTeamsForGroupstages,
     (error, result) => {
       if (!error) {
         teamsList = result;
@@ -56,7 +56,7 @@ function createTeamsInGroupstages(req, res, next) {
   async function buildGroups() {
     try {
       await connection.query(
-        "delete from teamsingroupstages where groupstageId = ?",
+        queryteamsingroupstages.createTeamsInGroupstagesBeforeInsert,
         [groupstageId],
         (error, result) => {
           if (!error) {
@@ -70,7 +70,7 @@ function createTeamsInGroupstages(req, res, next) {
       for (let i = 0; i < teamsList.length; i++) {
         const team = teamsList[i];
         await connection.query(
-          "insert into teamsingroupstages(createdat, createdby, updatedat, updatedby, groupstageId, teamid, isexpelled, isreceded, orderno) values(?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          queryteamsingroupstages.createTeamsInGroupstages,
           [
             team.createdAt,
             team.createdBy,
@@ -114,7 +114,7 @@ function updateTeamsForGroupstages(req, res, next) {
   var message;
 
   connection.query(
-    "update teamsingroupstages set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, isexpelled = ?, isreceded = ?, weekofexpelledorreceded = ?, explanation = ? where id = ?",
+    queryteamsingroupstages.updateTeamsForGroupstages,
     [
       teamInfo.createdAt,
       teamInfo.createdBy,
@@ -146,7 +146,7 @@ function deleteTeamsInGroupstages(req, res, next) {
   var message;
 
   connection.query(
-    "delete from teamsingroupstages where groupstageId = ?",
+    queryteamsingroupstages,deleteTeamsInGroupstages
     [groupstageId],
     (error, result) => {
       if (!error) {

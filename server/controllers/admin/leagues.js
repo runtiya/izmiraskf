@@ -1,3 +1,4 @@
+const queryleagues = require('../../queries/queryleagues');
 const connection = require('../../functions/database').connectDatabase();
 
 function getLeagues(req, res, next) {
@@ -6,7 +7,7 @@ function getLeagues(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_admin_leagues where seasonid = ?",
+    queryleagues.getLeagues,
     [seasonId],
     (error, result) => {
       if (!error) {
@@ -30,7 +31,7 @@ function createLeague(req, res, next) {
   var leagueId;
 
   connection.query(
-    "insert into leagues(createdat, createdby, updatedat, updatedby, seasonid, leaguename, category, leaguetype, isactive, orderno) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    queryleagues.createLeague,
     [
       leagueInfo.createdAt,
       leagueInfo.createdBy,
@@ -63,7 +64,7 @@ function updateLeague(req, res, next) {
   var message;
 
   connection.query(
-    "update leagues set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonid = ?, leaguename = ?, category = ?, leaguetype = ?, isactive = ?, orderno = ? where id = ?",
+    queryleagues.updateLeague,
     [
       leagueInfo.createdAt,
       leagueInfo.createdBy,
@@ -95,7 +96,7 @@ function deleteLeague(req, res, next) {
   var message;
 
   connection.query(
-    "delete from leagues where id = ?",
+    queryleagues.deleteLeague,
     [leagueId],
     (error, result) => {
       if (!error) {

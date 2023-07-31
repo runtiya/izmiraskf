@@ -1,3 +1,4 @@
+const queryfixtures = require('../../queries/queryfixtures');
 const connection = require('../../functions/database').connectDatabase();
 
 function getFixtureBySearchIndex(req, res, next) {
@@ -19,7 +20,7 @@ function getFixtureBySearchIndex(req, res, next) {
   let startDateSearchIndex = searchIndex.startDate ? "matchDate > " + JSON.stringify(searchIndex.startDate + " 00:00") : "true";
   let endDateSearchIndex = searchIndex.endDate ? "matchDate < " + JSON.stringify(searchIndex.endDate + " 23:59") : "true";
   let weeklyMatchProgramIndex = searchIndex.weeklyMatchProgramId ? ("matchno in (select matchno from view_admin_weeklymatchlist where weeklymatchprogramid = " + searchIndex.weeklyMatchProgramId + ")") : "true"
-
+  // Select query should be include parameters. __MS
   connection.query(
     "select * from view_admin_fixtures where " + seasonSearchIndex + " and "
                                                + leagueSearchIndex + " and "
@@ -61,7 +62,7 @@ function createFixture(req, res, next) {
     for (let m = 0; m < _matchList.length; m++) {
       var match = _matchList[m];
       connection.query(
-        "insert into fixtures(createdat, createdby, updatedat, updatedby, groupstageid, matchno, matchweek, matchdate, matchstatus, stadiumid, hometeamid, hometeamscore, ishometeamwinbyforfeit, hometeampoint, awayteamid, awayteamscore, isawayteamwinbyforfeit, awayteampoint, explanation, orderno) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        queryfixtures.createFixture,
         [
           match.createdAt,
           match.createdBy,
@@ -116,7 +117,7 @@ function updateFixture(req, res, next) {
     for (let m = 0; m < _fixtureList.length; m++) {
       var match = _fixtureList[m];
       connection.query(
-        "update fixtures set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, groupstageid = ?, matchno = ?, matchweek = ?, matchdate = ?, matchstatus = ?, stadiumid = ?, hometeamid = ?, hometeamscore = ?, ishometeamwinbyforfeit = ?, hometeampoint = ?, awayteamid = ?, awayteamscore = ?, isawayteamwinbyforfeit = ?, awayteampoint = ?, explanation = ?, orderno = ? where id = ?",
+        queryfixtures.updateFixture,
         [
           match.createdAt,
           match.createdBy,
@@ -167,7 +168,7 @@ function deleteMatch(req, res, next) {
   var message;
 
   connection.query(
-    "delete from fixtures where id = ?",
+    queryfixtures.deleteMatch,
     [id],
     (error, result) => {
       if (error) {
@@ -187,7 +188,7 @@ function clearFixture(req, res, next) {
   var message;
 
   connection.query(
-    "delete from fixtures where groupstageid = ?",
+    queryfixtures.clearFixture,
     [groupstageId],
     (error, result) => {
       if (error) {

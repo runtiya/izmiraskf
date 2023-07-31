@@ -1,3 +1,4 @@
+const queryexternallinks = require('../../queries/queryexternallinks');
 const connection = require('../../functions/database').connectDatabase();
 const imagesFunction = require('../../functions/images');
 
@@ -7,7 +8,7 @@ function getExternalLinks(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_admin_externallinks",
+    queryexternallinks.getExternalLinks,
     (error, result) => {
       if (!error) {
         extlinkList = result;
@@ -39,7 +40,7 @@ function createExternalLink(req, res, next) {
   }
 
   connection.query(
-    "insert into externallinks(createdat, createdby, updatedat, updatedby, linkname, url, linktype, imagepath, fabrand, orderno, isactive)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    queryexternallinks.createExternalLink,
     [
       linkInfo.createdAt,
       linkInfo.createdBy,
@@ -83,7 +84,7 @@ function updateExternalLink(req, res, next) {
   }
 
   connection.query(
-    "update externallinks set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, linkname = ?, url = ?, linktype = ?, imagepath = ?, fabrand = ?, orderno = ?, isactive = ? where id = ?",
+    queryexternallinks.updateExternalLink,
     [
       linkInfo.createdAt,
       linkInfo.createdBy,
@@ -117,7 +118,7 @@ function deleteExternalLink(req, res, next) {
   var linkId =  req.params.id;
   var message;
   connection.query(
-    "delete from externallinks where id = ?",
+    queryexternallinks.deleteExternalLink,
     [linkId],
     (error, result) => {
       if (!error) {

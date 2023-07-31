@@ -1,3 +1,4 @@
+const queryaboutizmiraskf = require('../../queries/queryaboutizmiraskf.js');
 const connection = require('../../functions/database.js').connectDatabase();
 const imagesFunction = require('../../functions/images');
 
@@ -6,7 +7,7 @@ function getAboutContent(req, res, next) {
   var message;
 
   connection.query(
-    "select * from view_admin_aboutiaskf",
+    queryaboutizmiraskf.getAboutContent,
     (error, result) => {
       if (!error) {
         aboutContent = result[0];
@@ -38,7 +39,7 @@ function updateAboutContent(req, res, next) {
   }
 
   connection.query(
-    "update aboutiaskf set updatedat = ?, updatedby = ?, imagepath = ?, abouttext = ?, address = ?, phonenumber = ?, faxnumber = ?, email = ?, longitude = ?, latitude = ?",
+    queryaboutizmiraskf.updateAboutContent,
     [
       aboutContent.updatedAt,
       aboutContent.updatedBy,
