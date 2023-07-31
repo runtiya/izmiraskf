@@ -126,4 +126,6 @@ app.use('/weekly-match-program', applicationWeeklyMatchProgramRoutes);
 app.use('/weekly-match-list', applicationWeeklyMatchListRoutes);
 app.use('/statistics', applicationStatisticsRoutes);
 
+app.use('*', (req, res, next) => {res.status(404).json({message: '404 Not Found!'})});
+
 module.exports = app;

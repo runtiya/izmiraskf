@@ -4,7 +4,7 @@ import { Subject, Observable } from "rxjs";
 
 import { GroupStagesModel } from "../models/admin-groupstages.model";
 
-
+import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({providedIn: 'root'})
 export class GroupStagesService {
@@ -13,29 +13,28 @@ export class GroupStagesService {
   private weekSequence: Array<number>[] = [];
   private weekSequenceSub = new Subject<Array<number>[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+    ) {}
 
   getGroupstages(leagueId: number) {
     try {
       this.http
-        .get<{error: boolean, message: string, groupstageList: GroupStagesModel[]}>(
+        .get<{groupstageList: GroupStagesModel[]}>(
           'http://localhost:3000/admin/gruplar/' + leagueId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.groupstageList = data.groupstageList;
-              this.groupstageListSub.next([...this.groupstageList]);
-            } else {
-
-            }
+            this.groupstageList = data.groupstageList;
+            this.groupstageListSub.next([...this.groupstageList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -46,24 +45,20 @@ export class GroupStagesService {
   getGroupWeeks(groupstageId: number) {
     try {
       this.http
-        .get<{error: boolean, message: string, weekSequence: Array<number>[]}>(
+        .get<{weekSequence: Array<number>[]}>(
           'http://localhost:3000/admin/gruplar/hafta-siralamasi/' + groupstageId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.weekSequence = data.weekSequence;
-              this.weekSequenceSub.next([...this.weekSequence]);
-            } else {
-
-            }
+            this.weekSequence = data.weekSequence;
+            this.weekSequenceSub.next([...this.weekSequence]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -72,7 +67,7 @@ export class GroupStagesService {
   }
 
   getPlayedLastMatchWeek(_groupstageId: number): Observable<any> {
-    return this.http.get<{error: boolean, message: string, currentWeek: number}>(
+    return this.http.get<{currentWeek: number}>(
       'http://localhost:3000/admin/gruplar/son-musabaka-haftasi/' + _groupstageId
       );
   }
@@ -80,78 +75,70 @@ export class GroupStagesService {
   createGroupStage(groupstageInfo: GroupStagesModel) {
     try {
       this.http
-        .post<{error: boolean, message: string, groupstageId: number}>(
+        .post<{groupstageId: number}>(
           'http://localhost:3000/admin/gruplar', groupstageInfo
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              groupstageInfo.id = data.groupstageId;
-              this.groupstageList.push(groupstageInfo);
-              this.groupstageListSub.next([...this.groupstageList]);
-            } else {
-
-            }
+            groupstageInfo.id = data.groupstageId;
+            this.groupstageList.push(groupstageInfo);
+            this.groupstageListSub.next([...this.groupstageList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   updateGroupStage(groupstageInfo: GroupStagesModel) {
     try {
       this.http
-        .put<{error: boolean, message: string}>(
+        .put<{ }>(
           'http://localhost:3000/admin/gruplar/' + groupstageInfo.id, groupstageInfo
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              // Replace updated object with the old one
-              this.groupstageList.forEach((item, i) => {
-                if (item.id == groupstageInfo.id) {
-                  this.groupstageList[i] = groupstageInfo;
-                }
-              });
-
-              this.groupstageListSub.next([...this.groupstageList]);
-            } else {
-
-            }
+            // Replace updated object with the old one
+            this.groupstageList.forEach((item, i) => {
+              if (item.id == groupstageInfo.id) {
+                this.groupstageList[i] = groupstageInfo;
+              }
+            });
+            this.groupstageListSub.next([...this.groupstageList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   deleteGroupStage(groupstageId: number) {
     try {
       this.http
-        .delete<{error: boolean, message: string}>(
+        .delete<{ }>(
           'http://localhost:3000/admin/gruplar/' + groupstageId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              const filteredGroupstageList = this.groupstageList.filter(group => group.id !== groupstageId);
-              this.groupstageList = filteredGroupstageList;
-              this.groupstageListSub.next([...this.groupstageList]);
-            } else {
-
-            }
+            const filteredGroupstageList = this.groupstageList.filter(group => group.id !== groupstageId);
+            this.groupstageList = filteredGroupstageList;
+            this.groupstageListSub.next([...this.groupstageList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 }

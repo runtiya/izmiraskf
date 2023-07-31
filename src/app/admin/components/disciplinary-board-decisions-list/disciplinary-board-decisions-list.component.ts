@@ -327,7 +327,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
           disciplinaryBoardDecisionImportedFormsList.push(this.disciplinaryBoardDecisionsSubmitForm.value);
           this.disciplinaryBoardDecisionsSubmitForm.reset();
         } else {
-          this.globalFunctions.showSnackBar.next('Hata! Yüklenen dosyada ' + i + '. satır hatalıdır!');
+          this.globalFunctions.showSnackBar('Hata! Yüklenen dosyada ' + i + '. satır hatalıdır!');
           disciplinaryBoardDecisionImportedFormsList = [];
           break;
         }

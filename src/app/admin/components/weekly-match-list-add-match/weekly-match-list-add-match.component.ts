@@ -318,7 +318,7 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
     if (_filteredSearchKeys.length >= 2) {
       this.fixtureService.getFixtureBySearchIndex(this.fixtureSearchIndex);
     } else {
-      this.globalFunctions.showSnackBar.next('En az iki arama anahtarı giriniz!');
+      this.globalFunctions.showSnackBar('En az iki arama anahtarı giriniz!');
     }
   }
 

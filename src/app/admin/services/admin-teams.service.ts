@@ -4,36 +4,35 @@ import { Subject } from "rxjs";
 
 import { TeamsModel } from "../models/admin-teams.model";
 
+import { globalFunctions } from "../../functions/global.function";
+
 @Injectable({ providedIn: 'root' })
 export class TeamsService {
   private teamList: TeamsModel[] = [];
   private teamListSub = new Subject<TeamsModel[]>();
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+    ) {}
 
   getTeams() {
     try {
       this.http
-        .get<{ error: boolean, message: string, teamList: TeamsModel[] }>(
+        .get<{ teamList: TeamsModel[] }>(
           'http://localhost:3000/admin/takimlar'
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.teamList = data.teamList;
-              this.teamListSub.next([...this.teamList]);
-            } else {
-
-            }
+            this.teamList = data.teamList;
+            this.teamListSub.next([...this.teamList]);
           },
           error: (error) => {
-
-            this.teamList = [];
-            this.teamListSub.next([]);
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -52,25 +51,22 @@ export class TeamsService {
       formData.append('teamInfo', JSON.stringify(teamInfo));
 
       this.http
-        .post<{ error: boolean, message: string, teamId: number }>(
+        .post<{ teamId: number }>(
           'http://localhost:3000/admin/takimlar', formData
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              teamInfo.id = data.teamId;
-              this.teamList.push(teamInfo);
-              this.teamListSub.next([...this.teamList]);
-            } else {
-
-            }
+            teamInfo.id = data.teamId;
+            this.teamList.push(teamInfo);
+            this.teamListSub.next([...this.teamList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -81,55 +77,48 @@ export class TeamsService {
       formData.append('teamInfo', JSON.stringify(teamInfo));
 
       this.http
-        .put<{ error: boolean, message: string }>(
+        .put<{ }>(
           'http://localhost:3000/admin/takimlar/' + teamInfo.id, formData,
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              // Replace updated object with the old one
-              this.teamList.forEach((item, i) => {
-                if (item.id == teamInfo.id) {
-                  this.teamList[i] = teamInfo;
-                }
-              });
-              this.teamListSub.next([...this.teamList]);
-            } else {
-
-            }
+            // Replace updated object with the old one
+            this.teamList.forEach((item, i) => {
+              if (item.id == teamInfo.id) {
+                this.teamList[i] = teamInfo;
+              }
+            });
+            this.teamListSub.next([...this.teamList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   deleteTeam(teamId: number) {
     try {
       this.http
-        .delete<{ error: boolean, message: string }>(
+        .delete<{ }>(
           'http://localhost:3000/admin/takimlar/' + teamId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              const filteredTeamList = this.teamList.filter(team => team.id !== teamId);
-              this.teamList = filteredTeamList;
-              this.teamListSub.next([...this.teamList]);
-            }
-            else {
-
-            }
+            const filteredTeamList = this.teamList.filter(team => team.id !== teamId);
+            this.teamList = filteredTeamList;
+            this.teamListSub.next([...this.teamList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 }

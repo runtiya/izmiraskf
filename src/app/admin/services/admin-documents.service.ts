@@ -3,35 +3,35 @@ import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
 import { DocumentsModel } from "../models/admin-documents.model";
+import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({providedIn: 'root'})
 export class DocumentsService {
   private documentsList: DocumentsModel[] = [];
   private documentsListSub = new Subject<DocumentsModel[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+    ) {}
 
   getDocuments(category: string) {
     try {
       this.http
-        .get<{error: boolean, message: string, documentsList: DocumentsModel[]}>(
+        .get<{documentsList: DocumentsModel[]}>(
           'http://localhost:3000/admin/dokumanlar/' + category
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.documentsList = data.documentsList;
-              this.documentsListSub.next([...this.documentsList]);
-            } else {
-
-            }
+            this.documentsList = data.documentsList;
+            this.documentsListSub.next([...this.documentsList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -47,25 +47,22 @@ export class DocumentsService {
       formData.append('documentInfo', JSON.stringify(documentInfo));
 
       this.http
-        .post<{error: boolean, message: string, documentId: number}>(
+        .post<{documentId: number}>(
           'http://localhost:3000/admin/dokumanlar/' + documentInfo.category, formData
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              documentInfo.id = data.documentId;
-              this.documentsList.push(documentInfo);
-              this.documentsListSub.next([...this.documentsList]);
-            } else {
-
-            }
+            documentInfo.id = data.documentId;
+            this.documentsList.push(documentInfo);
+            this.documentsListSub.next([...this.documentsList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -77,52 +74,48 @@ export class DocumentsService {
       formData.append('documentInfo', JSON.stringify(documentInfo));
 
       this.http
-        .put<{error: boolean, message: string}>(
+        .put<{ }>(
           'http://localhost:3000/admin/dokumanlar/' + documentInfo.category + '/' + documentInfo.id, formData
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              // Replace updated object with the old one
-              this.documentsList.forEach((item, i) => {
-                if (item.id == documentInfo.id) {
-                  this.documentsList[i] = documentInfo;
-                }
-              });
-              this.documentsListSub.next([...this.documentsList]);
-            } else {
-
-            }
+            // Replace updated object with the old one
+            this.documentsList.forEach((item, i) => {
+              if (item.id == documentInfo.id) {
+                this.documentsList[i] = documentInfo;
+              }
+            });
+            this.documentsListSub.next([...this.documentsList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   deleteDocument(documentId: number) {
     try {
       this.http
-        .delete<{error: boolean, message: string}>(
+        .delete<{ }>(
           'http://localhost:3000/admin/dokumanlar/' + documentId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              const filteredDocumentsList = this.documentsList.filter(document => document.id !== documentId);
-              this.documentsList = filteredDocumentsList;
-              this.documentsListSub.next([...this.documentsList]);
-            }
+            const filteredDocumentsList = this.documentsList.filter(document => document.id !== documentId);
+            this.documentsList = filteredDocumentsList;
+            this.documentsListSub.next([...this.documentsList]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 }

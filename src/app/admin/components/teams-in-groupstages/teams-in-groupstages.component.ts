@@ -196,7 +196,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
 
       this.teamsingroupstagesList.push(castTeam);
     } else {
-      this.globalFunctions.showSnackBar.next("Grup seçiniz");
+      this.globalFunctions.showSnackBar("Grup seçiniz");
     }
 
   }

@@ -22,30 +22,22 @@ export class FixtureService {
 
   getFixtureBySearchIndex(fixtureSearchIndex: FixtureSearchModel) {
     try {
-      this.globalFunctions.showSpinner.next(true);
       // Not known why http.get doesn't work!
       this.http
-        .put<{error: boolean, message: string, fixtureList: FixtureModel[]}>(
+        .put<{fixtureList: FixtureModel[]}>(
           'http://localhost:3000/admin/fikstur/arama', fixtureSearchIndex
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.fixtureList = data.fixtureList;
-              !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-            } else {
-
-            }
-            this.globalFunctions.showSpinner.next(false);
+            this.fixtureList = data.fixtureList;
+            !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSpinner.next(false);
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-
+      this.globalFunctions.showSnackBar('system.error');
     }
 
   }
@@ -56,63 +48,47 @@ export class FixtureService {
 
   createFixture(_matchList: MatchModel[], _fixtureSearchIndex: FixtureSearchModel) {
     try {
-      this.globalFunctions.showSpinner.next(true);
+
       this.http
-        .post<{error: boolean, message: string}>(
+        .post<{ }>(
           'http://localhost:3000/admin/fikstur/olustur', _matchList
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              if (_fixtureSearchIndex) {
-                this.getFixtureBySearchIndex(_fixtureSearchIndex);
-              }
-              this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
-            } else {
-              this.globalFunctions.showSnackBar.next("Dikkat! İşlem Tamamlanamadı!");
-
+            if (_fixtureSearchIndex) {
+              this.getFixtureBySearchIndex(_fixtureSearchIndex);
             }
-            this.globalFunctions.showSpinner.next(false);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-            this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSpinner.next(false);
-      this.globalFunctions.showSnackBar.next("HATA! İşlem Tamamlanamadı!");
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   updateFixture(_matchList: MatchModel[], _fixtureSearchIndex: FixtureSearchModel) {
     try {
-      this.globalFunctions.showSpinner.next(true);
+
       this.http
-        .put<{error: boolean, message: string}>(
+        .put<{ }>(
           'http://localhost:3000/admin/fikstur/guncelle', _matchList
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              if (_fixtureSearchIndex) {
-                this.getFixtureBySearchIndex(_fixtureSearchIndex);
-              }
-              this.globalFunctions.showSnackBar.next("İşlem Tamamlandı!");
-            } else {
-              this.globalFunctions.showSnackBar.next('Hata! Müsabaka güncellenemedi');
-
+            if (_fixtureSearchIndex) {
+              this.getFixtureBySearchIndex(_fixtureSearchIndex);
             }
-            this.globalFunctions.showSpinner.next(false);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSpinner.next(false);
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -141,58 +117,45 @@ export class FixtureService {
 
   deleteMatch(_id: number) {
     try {
-      this.globalFunctions.showSpinner.next(true);
+
       this.http
-        .delete<{error: boolean, message: string}>(
+        .delete<{ }>(
           'http://localhost:3000/admin/fikstur/sil/' +_id
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.fixtureList = this.fixtureList.filter(fixture => fixture.id !== _id);
-              !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-            } else {
-              this.globalFunctions.showSnackBar.next('Hata! Müsabaka silinemedi!');
-            }
-            this.globalFunctions.showSpinner.next(false);
+            this.fixtureList = this.fixtureList.filter(fixture => fixture.id !== _id);
+            !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSpinner.next(false);
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   clearFixture(groupstageId: number) {
     try {
-      this.globalFunctions.showSpinner.next(true);
+
       this.http
-        .delete<{error: boolean, message: string}>(
+        .delete<{ }>(
           'http://localhost:3000/admin/fikstur/temizle/' + groupstageId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.fixtureList = [];
-              !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-            } else {
-              this.globalFunctions.showSnackBar.next('Hata! Fikstür silinemedi!');
-
-            }
-            this.globalFunctions.showSpinner.next(false);
+            this.fixtureList = [];
+            !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
+            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-      this.globalFunctions.showSpinner.next(false);
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 }

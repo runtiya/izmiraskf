@@ -27,7 +27,7 @@ export class NewsService {
   getNews() {
     try {
       this.http
-        .get<{error: boolean, message: string, newsList: NewsModel[]}>(
+        .get<{newsList: NewsModel[]}>(
           'http://localhost:3000/haberler/list'
         )
         /*
@@ -50,13 +50,17 @@ export class NewsService {
           })
         )
         */
-        .subscribe((transformedData) => {
-          this.newsList = transformedData.newsList;
+       .subscribe({
+        next: (data) => {
+          this.newsList = data.newsList;
           this.newsUpdated.next([...this.newsList]);
-
-        });
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar('server.error');
+        }
+       });
     } catch (error) {
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+      this.globalFunctions.showSnackBar('system.error');
     }
 
   }
@@ -68,24 +72,20 @@ export class NewsService {
   getNewsById(id: number) {
     try {
       this.http
-        .get<{error: boolean, message: string, news: NewsModel}>(
+        .get<{news: NewsModel}>(
           'http://localhost:3000/haberler/news-id/' + id
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.newsById = data.news;
-              this.newsByIdSubject.next(this.newsById);
-            } else {
-
-            }
+            this.newsById = data.news;
+            this.newsByIdSubject.next(this.newsById);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         })
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -96,24 +96,20 @@ export class NewsService {
   getNewsForSlider() {
     try {
       this.http
-        .get<{error: boolean, message: string, newsList: NewsModel[]}>(
+        .get<{newsList: NewsModel[]}>(
           'http://localhost:3000/haberler/hot-topics'
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.newsForSliderList = data.newsList;
-              this.newsForSliderListSubject.next([...this.newsForSliderList]);
-            } else {
-
-            }
+            this.newsForSliderList = data.newsList;
+            this.newsForSliderListSubject.next([...this.newsForSliderList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 

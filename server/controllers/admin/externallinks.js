@@ -1,15 +1,14 @@
-const queryexternallinks = require('../../queries/queryexternallinks');
-const connection = require('../../functions/database').connectDatabase();
-const imagesFunction = require('../../functions/images');
+const queryexternallinks = require("../../queries/admin/externallinks");
+const connection = require("../../functions/database").connectDatabase();
+const imagesFunction = require("../../functions/images");
 
 // Get all external links list
 function getExternalLinks(req, res, next) {
-  var extlinkList;
-  var message;
+  try {
+    var extlinkList;
+    var message;
 
-  connection.query(
-    queryexternallinks.getExternalLinks,
-    (error, result) => {
+    connection.query(queryexternallinks.getExternalLinks, (error, result) => {
       if (!error) {
         extlinkList = result;
       } else {
@@ -19,120 +18,137 @@ function getExternalLinks(req, res, next) {
 
       res.status(200).json({
         error: !!error,
-        message: message || 'External Links fetched successfully!',
-        externalLinks: extlinkList
+        message: message || "External Links fetched successfully!",
+        externalLinks: extlinkList,
       });
     });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // Create a external link
 function createExternalLink(req, res, next) {
-  const linkInfo = JSON.parse(req.body.linkInfo);
-  var message;
-  var linkId;
+  try {
+    const linkInfo = JSON.parse(req.body.linkInfo);
+    var message;
+    var linkId;
 
-  if (!!req.file) {
-    const url = req.protocol + "://" + req.get("host");
-    const imagePath = imagesFunction.setImagePath(url, "/images/icons/", req.file.filename);
-    linkInfo.imagePath = imagePath;
-  } else {
-    linkInfo.imagePath = null;
-  }
+    if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
+      const imagePath = imagesFunction.setImagePath(
+        url,
+        "/images/icons/",
+        req.file.filename
+      );
+      linkInfo.imagePath = imagePath;
+    } else {
+      linkInfo.imagePath = null;
+    }
 
-  connection.query(
-    queryexternallinks.createExternalLink,
-    [
-      linkInfo.createdAt,
-      linkInfo.createdBy,
-      linkInfo.updatedAt,
-      linkInfo.updatedBy,
-      linkInfo.linkName,
-      linkInfo.url,
-      linkInfo.linkType,
-      linkInfo.imagePath,
-      linkInfo.faBrand,
-      linkInfo.orderNo,
-      linkInfo.isActive
-    ],
-    (error, result) => {
-      if (!error) {
-        linkId = result.insertId;
-      } else {
-        message = error.sqlMessage;
+    connection.query(
+      queryexternallinks.createExternalLink,
+      [
+        linkInfo.createdAt,
+        linkInfo.createdBy,
+        linkInfo.updatedAt,
+        linkInfo.updatedBy,
+        linkInfo.linkName,
+        linkInfo.url,
+        linkInfo.linkType,
+        linkInfo.imagePath,
+        linkInfo.faBrand,
+        linkInfo.orderNo,
+        linkInfo.isActive,
+      ],
+      (error, result) => {
+        if (!error) {
+          linkId = result.insertId;
+        } else {
+          message = error.sqlMessage;
+        }
+        res.status(200).json({
+          linkId: linkId,
+        });
       }
-      res.status(200).json({
-        error: !!error,
-        message: message || 'External Links added successfully!',
-        linkId: linkId
-      });
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // Update an external link by id
 function updateExternalLink(req, res, next) {
-  const linkInfo = JSON.parse(req.body.linkInfo);
-  var message;
+  try {
+    const linkInfo = JSON.parse(req.body.linkInfo);
+    var message;
 
-  if (!!req.file) {
-    const url = req.protocol + "://" + req.get("host");
-    const imagePath = imagesFunction.setImagePath(url, "/images/icons/", req.file.filename);
-    linkInfo.imagePath = imagePath;
-  } else {
-    if (!linkInfo.imagePath) {
-      linkInfo.imagePath = null;
-    }
-  }
-
-  connection.query(
-    queryexternallinks.updateExternalLink,
-    [
-      linkInfo.createdAt,
-      linkInfo.createdBy,
-      linkInfo.updatedAt,
-      linkInfo.updatedBy,
-      linkInfo.linkName,
-      linkInfo.url,
-      linkInfo.linkType,
-      linkInfo.imagePath,
-      linkInfo.faBrand,
-      linkInfo.orderNo,
-      linkInfo.isActive,
-      linkInfo.id
-    ],
-    (error, result) => {
-      if (!error) {
-
-      } else {
-        message = error.sqlMessage;
+    if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
+      const imagePath = imagesFunction.setImagePath(
+        url,
+        "/images/icons/",
+        req.file.filename
+      );
+      linkInfo.imagePath = imagePath;
+    } else {
+      if (!linkInfo.imagePath) {
+        linkInfo.imagePath = null;
       }
+    }
 
-      res.status(200).json({
-        error: !!error,
-        message: message || 'External Link updated successfully!'
-      });
-    });
+    connection.query(
+      queryexternallinks.updateExternalLink,
+      [
+        linkInfo.createdAt,
+        linkInfo.createdBy,
+        linkInfo.updatedAt,
+        linkInfo.updatedBy,
+        linkInfo.linkName,
+        linkInfo.url,
+        linkInfo.linkType,
+        linkInfo.imagePath,
+        linkInfo.faBrand,
+        linkInfo.orderNo,
+        linkInfo.isActive,
+        linkInfo.id,
+      ],
+      (error, result) => {
+        if (!error) {
+        } else {
+          message = error.sqlMessage;
+        }
+
+        res.status(200).json({
+        });
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // Delete an external link by id
 function deleteExternalLink(req, res, next) {
-  var linkId =  req.params.id;
-  var message;
-  connection.query(
-    queryexternallinks.deleteExternalLink,
-    [linkId],
-    (error, result) => {
-      if (!error) {
-
-      } else {
-        message = error.sqlMessage;
+  try {
+    var linkId = req.params.id;
+    var message;
+    connection.query(
+      queryexternallinks.deleteExternalLink,
+      [linkId],
+      (error, result) => {
+        if (!error) {
+        } else {
+          message = error.sqlMessage;
+        }
+        res.status(200).json({
+        });
       }
-      res.status(200).json({
-        error: !!error,
-        message: message || 'External Link deleted successfully!',
-      });
-  });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
-
 
 exports.getExternalLinks = getExternalLinks;
 exports.createExternalLink = createExternalLink;

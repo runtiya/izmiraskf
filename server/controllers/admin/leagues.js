@@ -1,116 +1,122 @@
-const queryleagues = require('../../queries/queryleagues');
-const connection = require('../../functions/database').connectDatabase();
+const queries = require("../../queries/admin/leagues");
+const connection = require("../../functions/database").connectDatabase();
 
 function getLeagues(req, res, next) {
-  var leagueList;
-  const seasonId = req.params.seasonid;
-  var message;
+  try {
+    var leagueList;
+    const seasonId = req.params.seasonid;
+    var message;
 
-  connection.query(
-    queryleagues.getLeagues,
-    [seasonId],
-    (error, result) => {
+    connection.query(queries.getLeagues, [seasonId], (error, result) => {
       if (!error) {
         leagueList = result;
       } else {
+        connection.end();
+        throw error;
         message = error.sqlMessage;
         leagueList = [];
       }
 
       res.status(200).json({
         error: !!error,
-        message: message || 'Leagues fetched successfully!',
-        leagueList: leagueList
+        message: message || "Leagues fetched successfully!",
+        leagueList: leagueList,
       });
     });
+  } catch (error) {
+    next(error);
+  }
 }
 
 function createLeague(req, res, next) {
-  const leagueInfo = req.body;
-  var message;
-  var leagueId;
+  try {
+    const leagueInfo = req.body;
+    var message;
+    var leagueId;
 
-  connection.query(
-    queryleagues.createLeague,
-    [
-      leagueInfo.createdAt,
-      leagueInfo.createdBy,
-      leagueInfo.updatedAt,
-      leagueInfo.updatedBy,
-      leagueInfo.seasonId,
-      leagueInfo.leagueName,
-      leagueInfo.category,
-      leagueInfo.leagueType,
-      leagueInfo.isActive,
-      leagueInfo.orderNo
-    ],
-    (error, result) => {
-      if (!error) {
-        leagueId = result.insertId;
-      } else {
-        message = error.sqlMessage;
+    connection.query(
+      queries.createLeague,
+      [
+        leagueInfo.createdAt,
+        leagueInfo.createdBy,
+        leagueInfo.updatedAt,
+        leagueInfo.updatedBy,
+        leagueInfo.seasonId,
+        leagueInfo.leagueName,
+        leagueInfo.category,
+        leagueInfo.leagueType,
+        leagueInfo.isActive,
+        leagueInfo.orderNo,
+      ],
+      (error, result) => {
+        if (!error) {
+          leagueId = result.insertId;
+        } else {
+          message = error.sqlMessage;
+        }
+        res.status(200).json({
+          leagueId: leagueId,
+        });
       }
-      res.status(200).json({
-        error: !!error,
-        message: message || 'League added successfully!',
-        leagueId: leagueId
-      });
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-
 function updateLeague(req, res, next) {
-  const leagueInfo = req.body;
-  var message;
+  try {
+    const leagueInfo = req.body;
+    var message;
 
-  connection.query(
-    queryleagues.updateLeague,
-    [
-      leagueInfo.createdAt,
-      leagueInfo.createdBy,
-      leagueInfo.updatedAt,
-      leagueInfo.updatedBy,
-      leagueInfo.seasonId,
-      leagueInfo.leagueName,
-      leagueInfo.category,
-      leagueInfo.leagueType,
-      leagueInfo.isActive,
-      leagueInfo.orderNo,
-      leagueInfo.id
-    ],
-    (error, result) => {
-      if (!error) {
-
-      } else {
-        message = error.sqlMessage;
+    connection.query(
+      queries.updateLeague,
+      [
+        leagueInfo.createdAt,
+        leagueInfo.createdBy,
+        leagueInfo.updatedAt,
+        leagueInfo.updatedBy,
+        leagueInfo.seasonId,
+        leagueInfo.leagueName,
+        leagueInfo.category,
+        leagueInfo.leagueType,
+        leagueInfo.isActive,
+        leagueInfo.orderNo,
+        leagueInfo.id,
+      ],
+      (error, result) => {
+        if (!error) {
+        } else {
+          message = error.sqlMessage;
+        }
+        res.status(200).json({
+        });
       }
-      res.status(200).json({
-        error: !!error,
-        message: message || 'League updated successfully!',
-      });
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function deleteLeague(req, res, next) {
-  var leagueId =  req.params.id;
-  var message;
+  try {
+    var leagueId = req.params.id;
+    var message;
 
-  connection.query(
-    queryleagues.deleteLeague,
-    [leagueId],
-    (error, result) => {
+    connection.query(queries.deleteLeague, [leagueId], (error, result) => {
       if (!error) {
-
       } else {
         message = error.sqlMessage;
       }
       res.status(200).json({
         error: !!error,
-        message: message || 'League deleted successfully!',
+        message: message || "League deleted successfully!",
       });
-  });
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
-
 
 exports.getLeagues = getLeagues;
 exports.createLeague = createLeague;

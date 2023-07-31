@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
-import { StadiumsModel } from "../models/application-stadiums.model";
+import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({providedIn: 'root'})
 export class StatisticsService {
@@ -10,22 +10,21 @@ export class StatisticsService {
   private goalByLeagueListSub = new Subject<any[]>();
 
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+  ) {}
 
   getGoalByLeague() {
     try {
       this.http
-        .get<{error: boolean, message: string, goalByLeagueList: any[]}>(
+        .get<{goalByLeagueList: any[]}>(
           'http://localhost:3000/statistics/goal-by-league'
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.goalByLeagueList = data.goalByLeagueList;
-              this.goalByLeagueListSub.next([...this.goalByLeagueList]);
-            } else {
-
-            }
+            this.goalByLeagueList = data.goalByLeagueList;
+            this.goalByLeagueListSub.next([...this.goalByLeagueList]);
           },
           error: (error) => {
           }

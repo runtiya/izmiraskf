@@ -5,11 +5,12 @@ const leaguesController = require('../../controllers/admin/leagues');
 
 const checkAuth = require('../../middlewares/check-auth');
 const extractImage = require('../../middlewares/extract-image');
+const exceptionHandling = require('../../middlewares/exception-handling');
 
 const router = express.Router();
 
 
-router.get("/:seasonid", checkAuth, leaguesController.getLeagues);
+router.get("/:seasonid", checkAuth, leaguesController.getLeagues, exceptionHandling);
 
 router.post("", checkAuth, leaguesController.createLeague);
 

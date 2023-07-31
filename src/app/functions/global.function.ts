@@ -6,6 +6,7 @@ import { DatePipe } from "@angular/common";
 import { fontAwesomeIconList } from '../assets/lists/font-awesome-icon.list';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { fileMimeTypeList } from "../assets/lists/file-mime-type.list";
+import { systemMessages } from "../assets/messages/system";
 
 @Injectable({
     providedIn: 'root'
@@ -18,10 +19,13 @@ export class globalFunctions {
     public dialog: MatDialog,
   ) {}
 
-  public showSnackBar: Subject<string> = new Subject();
+  public snackBar: Subject<string> = new Subject();
   public showSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public getToolbarTitle: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
+  showSnackBar(messageCode) {
+    this.snackBar.next(systemMessages[messageCode]);
+  }
 
   setSpinner(_displaySpinner: boolean) {
     this.showSpinner.next(_displaySpinner);

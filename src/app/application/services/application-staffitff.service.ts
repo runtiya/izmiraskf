@@ -3,8 +3,9 @@ import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
 import { map } from "rxjs/operators";
 
-
 import { StaffITFFModel } from "../models/application-staffizmirtff.model";
+
+import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({ providedIn: 'root' })
 export class StaffITFFService {
@@ -12,31 +13,28 @@ export class StaffITFFService {
   private staffListUpdated = new Subject<StaffITFFModel[]>();
 
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private globalFunctions: globalFunctions
+  ) {}
 
   getStaff() {
     try {
       this.http
-        .get<{ error: boolean, message: string, staffList: StaffITFFModel[] }>(
+        .get<{ staffList: StaffITFFModel[] }>(
           'http://localhost:3000/tffiltemsilciligi/yonetim-kurulu'
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.staffList = data.staffList;
-              this.staffListUpdated.next([...this.staffList]);
-            } else {
-              this.staffList = [];
-              this.staffListUpdated.next([]);
-            }
-
+            this.staffList = data.staffList;
+            this.staffListUpdated.next([...this.staffList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
 
   }

@@ -1,16 +1,13 @@
-const querygroupstages = require('../../queries/querygroupstages');
-const connection = require('../../functions/database').connectDatabase();
+const queries = require("../../queries/admin/groupstages");
+const connection = require("../../functions/database").connectDatabase();
 
 function getGroupStages(req, res, next) {
-  var groupstageList;
-  const leagueId = req.params.leagueid;
-  var message;
+  try {
+    var groupstageList;
+    const leagueId = req.params.leagueid;
+    var message;
 
-
-  connection.query(
-    querygroupstages.getGroupStages,
-    [leagueId],
-    (error, result) => {
+    connection.query(queries.getGroupStages, [leagueId], (error, result) => {
       if (!error) {
         groupstageList = result;
       } else {
@@ -20,151 +17,156 @@ function getGroupStages(req, res, next) {
 
       res.status(200).json({
         error: !!error,
-        message: message || 'Groups fetched successfully!',
-        groupstageList: groupstageList
+        message: message || "Groups fetched successfully!",
+        groupstageList: groupstageList,
       });
-    }
-  );
-
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function getWeekSequence(req, res, next) {
-  const groupstageId = req.params.id;
-  var weekSequence;
-  var message;
+  try {
+    const groupstageId = req.params.id;
+    var weekSequence;
+    var message;
 
-  connection.query(
-    querygroupstages.getWeekSequence,
-    [groupstageId],
-    (error, result) => {
-      if (!error) {
-        weekSequence = result;
-      } else {
-        message = error.sqlMessage;
-        weekSequence = [];
+    connection.query(
+      queries.getWeekSequence,
+      [groupstageId],
+      (error, result) => {
+        if (!error) {
+          weekSequence = result;
+        } else {
+          message = error.sqlMessage;
+          weekSequence = [];
+        }
+
+        res.status(200).json({
+          weekSequence: weekSequence,
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Week Sequence Info fetched successfully!',
-        weekSequence: weekSequence
-      });
-    }
-
-  );
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function getPlayedLastMatchWeek(req, res, next) {
-  const groupstageId = req.params.id;
-  var matchWeek;
-  var message;
+  try {
+    const groupstageId = req.params.id;
+    var matchWeek;
+    var message;
 
-  connection.query(
-    querygroupstages.getPlayedLastMatchWeek,
-    [groupstageId],
-    (error, result) => {
-      if (!error) {
-        matchWeek = result[0].matchWeek || 1;
-      } else {
-        message = error.sqlMessage;
-        matchWeek = 1;
+    connection.query(
+      queries.getPlayedLastMatchWeek,
+      [groupstageId],
+      (error, result) => {
+        if (!error) {
+          matchWeek = result[0].matchWeek || 1;
+        } else {
+          message = error.sqlMessage;
+          matchWeek = 1;
+        }
+
+        res.status(200).json({
+          matchWeek: matchWeek,
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Last Match Week fetched successfully!',
-        matchWeek: matchWeek
-      });
-    }
-
-  );
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function createGroupStage(req, res, next) {
-  const groupInfo = req.body;
-  var message;
-  var groupId;
+  try {
+    const groupInfo = req.body;
+    var message;
+    var groupId;
 
-  connection.query(
-    querygroupstages.createGroupStage,
-    [
-      groupInfo.createdAt,
-      groupInfo.createdBy,
-      groupInfo.updatedAt,
-      groupInfo.updatedBy,
-      groupInfo.leagueId,
-      groupInfo.groupName,
-      groupInfo.periodSystem,
-      groupInfo.isActive,
-      groupInfo.orderNo
-    ],
-    (error, result) => {
-      if (!error) {
-        groupId = result.insertId;
-      } else {
-        message = error.sqlMessage;
+    connection.query(
+      queries.createGroupStage,
+      [
+        groupInfo.createdAt,
+        groupInfo.createdBy,
+        groupInfo.updatedAt,
+        groupInfo.updatedBy,
+        groupInfo.leagueId,
+        groupInfo.groupName,
+        groupInfo.periodSystem,
+        groupInfo.isActive,
+        groupInfo.orderNo,
+      ],
+      (error, result) => {
+        if (!error) {
+          groupId = result.insertId;
+        } else {
+          message = error.sqlMessage;
+        }
+
+        res.status(200).json({
+          groupId: groupId,
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Groups added successfully!',
-        groupId: groupId
-      });
-    }
-  );
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
-
 
 function updateGroupStage(req, res, next) {
-  const groupInfo = req.body;
-  var message;
-  connection.query(
-    querygroupstages.updateGroupStage,
-    [
-      groupInfo.createdAt,
-      groupInfo.createdBy,
-      groupInfo.updatedAt,
-      groupInfo.updatedBy,
-      groupInfo.leagueId,
-      groupInfo.groupName,
-      groupInfo.periodSystem,
-      groupInfo.isActive,
-      groupInfo.orderNo,
-      groupInfo.id
-    ],
-    (error, result) => {
-      if (!error) {
-
-      } else {
-        message = error.sqlMessage;
+  try {
+    const groupInfo = req.body;
+    var message;
+    connection.query(
+      queries.updateGroupStage,
+      [
+        groupInfo.createdAt,
+        groupInfo.createdBy,
+        groupInfo.updatedAt,
+        groupInfo.updatedBy,
+        groupInfo.leagueId,
+        groupInfo.groupName,
+        groupInfo.periodSystem,
+        groupInfo.isActive,
+        groupInfo.orderNo,
+        groupInfo.id,
+      ],
+      (error, result) => {
+        if (!error) {
+        } else {
+          message = error.sqlMessage;
+        }
+        res.status(200).json({
+        });
       }
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Group updated successfully!',
-      });
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-
 function deleteGroupStage(req, res, next) {
-  var groupId =  req.params.id;
-  var message;
+  try {
+    var groupId = req.params.id;
+    var message;
 
-  connection.query(
-    querygroupstages.deleteGroupStage,
-    [groupId],
-    (error, result) => {
+    connection.query(queries.deleteGroupStage, [groupId], (error, result) => {
       if (!error) {
-
       } else {
         message = error.sqlMessage;
       }
 
       res.status(200).json({
         error: !!error,
-        message: message || 'Group deleted successfully!'
+        message: message || "Group deleted successfully!",
       });
-  });
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 exports.getGroupStages = getGroupStages;

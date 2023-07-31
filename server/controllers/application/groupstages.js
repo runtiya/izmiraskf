@@ -1,82 +1,84 @@
-const connection = require('../../functions/database').connectDatabase();
+const connection = require("../../functions/database").connectDatabase();
 
 function getGroupStages(req, res, next) {
-  var groupstageList;
-  const leagueId = req.params.leagueid;
-  var message;
+  try {
+    var groupstageList;
+    const leagueId = req.params.leagueid;
+    var message;
 
+    connection.query(
+      "select * from view_application_groupstages where leagueid = ?",
+      [leagueId],
+      (error, result) => {
+        if (!error) {
+          groupstageList = result;
+        } else {
+          message = error.sqlMessage;
+          groupstageList = [];
+        }
 
-  connection.query(
-    "select * from view_application_groupstages where leagueid = ?",
-    [leagueId],
-    (error, result) => {
-      if (!error) {
-        groupstageList = result;
-      } else {
-        message = error.sqlMessage;
-        groupstageList = [];
+        res.status(200).json({
+          groupstageList: groupstageList,
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Groups fetched successfully!',
-        groupstageList: groupstageList
-      });
-    }
-  );
-
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function getWeekSequence(req, res, next) {
-  const groupstageId = req.params.id;
-  var weekSequence;
-  var message;
+  try {
+    const groupstageId = req.params.id;
+    var weekSequence;
+    var message;
 
-  connection.query(
-    "select distinct(f.matchweek) as weekSequence from fixtures f join groupstages g on g.id = f.groupstageid where f.groupstageid = ? order by weekSequence",
-    [groupstageId],
-    (error, result) => {
-      if (!error) {
-        weekSequence = result;
-      } else {
-        message = error.sqlMessage;
-        weekSequence = [];
+    connection.query(
+      "select distinct(f.matchweek) as weekSequence from fixtures f join groupstages g on g.id = f.groupstageid where f.groupstageid = ? order by weekSequence",
+      [groupstageId],
+      (error, result) => {
+        if (!error) {
+          weekSequence = result;
+        } else {
+          message = error.sqlMessage;
+          weekSequence = [];
+        }
+
+        res.status(200).json({
+          weekSequence: weekSequence,
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Week Sequence Info fetched successfully!',
-        weekSequence: weekSequence
-      });
-    }
-
-  );
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function getPlayedLastMatchWeek(req, res, next) {
-  const groupstageId = req.params.id;
-  var matchWeek;
-  var message;
+  try {
+    const groupstageId = req.params.id;
+    var matchWeek;
+    var message;
 
-  connection.query(
-    "select max(matchweek) as matchWeek from view_application_fixtures where groupstageid = ? and matchstatus = 'PLAYED'",
-    [groupstageId],
-    (error, result) => {
-      if (!error) {
-        matchWeek = result[0].matchWeek || 1;
-      } else {
-        message = error.sqlMessage;
-        matchWeek = 1;
+    connection.query(
+      "select max(matchweek) as matchWeek from view_application_fixtures where groupstageid = ? and matchstatus = 'PLAYED'",
+      [groupstageId],
+      (error, result) => {
+        if (!error) {
+          matchWeek = result[0].matchWeek || 1;
+        } else {
+          message = error.sqlMessage;
+          matchWeek = 1;
+        }
+
+        res.status(200).json({
+          matchWeek: matchWeek,
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Last Match Week fetched successfully!',
-        matchWeek: matchWeek
-      });
-    }
-
-  );
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 exports.getGroupStages = getGroupStages;

@@ -9,7 +9,6 @@ import { FixtureService } from "./application-fixtures.service";
 import { FixtureModel } from "../models/application-fixture.model";
 import { FixtureSearchModel } from "../models/application-fixture-search-index.model";
 
-
 import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({providedIn: 'root'})
@@ -28,24 +27,20 @@ export class WeeklyMatchListService {
   getWeeklyMatchList(seasonId: number) {
     try {
       this.http
-        .get<{error: boolean, message: string, weeklyMatchList: WeeklyMatchListModel[]}>(
+        .get<{weeklyMatchList: WeeklyMatchListModel[]}>(
           'http://localhost:3000/weekly-match-list/' + seasonId
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.weeklyMatchList = data.weeklyMatchList;
-              this.weeklyMatchListSub.next([...this.weeklyMatchList]);
-            } else {
-
-            }
+            this.weeklyMatchList = data.weeklyMatchList;
+            this.weeklyMatchListSub.next([...this.weeklyMatchList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 

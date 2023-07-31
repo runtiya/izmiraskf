@@ -127,7 +127,7 @@ export class AdminFixtureEditModal implements OnInit {
         }
         // create - checkMatch not success
         else {
-          this.globalFunctions.showSnackBar.next('Hafta ve Sıra Numarasına sahip başka bir maç bulundu!');
+          this.globalFunctions.showSnackBar('Hafta ve Sıra Numarasına sahip başka bir maç bulundu!');
         }
       }
       // update
@@ -143,13 +143,13 @@ export class AdminFixtureEditModal implements OnInit {
         }
         // update - checkMatch not success
         else {
-          this.globalFunctions.showSnackBar.next('Hafta ve Sıra Numarasına sahip başka bir maç bulundu!');
+          this.globalFunctions.showSnackBar('Hafta ve Sıra Numarasına sahip başka bir maç bulundu!');
         }
       }
       this.isLoading = false;
 
     } else {
-      this.globalFunctions.showSnackBar.next('Gerekli alanları doldurunuz!')
+      this.globalFunctions.showSnackBar('Gerekli alanları doldurunuz!')
     }
 
   }

@@ -53,23 +53,20 @@ export class AuthService {
   getUsersList() {
     try {
       this.http
-        .get<{error: boolean, message: string, usersList: UserModel[]}>(
+        .get<{usersList: UserModel[]}>(
           'http://localhost:3000/admin/kullanicilar'
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.usersList = data.usersList;
-              this.usersListSub.next([...this.usersList]);
-            } else {
-
-            }
+            this.usersList = data.usersList;
+            this.usersListSub.next([...this.usersList]);
           },
           error: (error) => {
+            this.globalFunctions.showSnackBar('server.error');
           }
         })
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
@@ -83,104 +80,90 @@ export class AuthService {
 
   createUser(userInfo: UserModel) {
     try {
-      this.globalFunctions.showSpinner.next(true);
       this.http
-        .post<{error: boolean, message: string, user: UserModel}>(
+        .post<{user: UserModel}>(
           'http://localhost:3000/admin/kullanicilar/signup', userInfo
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              //this.router.navigate(["/admin/giris"]);
-              this.usersList.push(data.user);
-              this.usersListSub.next([...this.usersList]);
-
-            } else {
-              this.authStatusListener.next(false);
-              this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
-            }
-            this.globalFunctions.showSpinner.next(false);
+            //this.router.navigate(["/admin/giris"]);
+            this.usersList.push(data.user);
+            this.usersListSub.next([...this.usersList]);
+            this.globalFunctions.showSnackBar('server.success');
           },
           error: (error) => {
-
+            this.authStatusListener.next(false);
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
       this.authStatusListener.next(false);
-      this.globalFunctions.showSpinner.next(false);
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   updateUser(userInfo: UserModel) {
     try {
       this.http
-        .put<{error: boolean, message: string, snackBarMessage: string}>(
+        .put<{ }>(
           'http://localhost:3000/admin/kullanicilar/profileupdate/' + userInfo.id, userInfo
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.usersList.forEach((item, i) => {
-                if (item.id == userInfo.id) {
-                  this.usersList[i] = userInfo;
-                }
-              });
-              this.usersListSub.next([...this.usersList]);
-            } else {
-              this.globalFunctions.showSnackBar.next(data.snackBarMessage);
-            }
+            this.usersList.forEach((item, i) => {
+              if (item.id == userInfo.id) {
+                this.usersList[i] = userInfo;
+              }
+            });
+            this.usersListSub.next([...this.usersList]);
+            this.globalFunctions.showSnackBar('server.success');
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   login(userForm: UserModel) {
     try {
-      this.globalFunctions.showSpinner.next(true);
       this.http
-        .post<{error: boolean, message: string, snackBarMessage: string, token: string, expiresIn: number, user: UserModel}>(
+        .post<{snackBarMessage: String, token: string, expiresIn: number, user: UserModel}>(
           'http://localhost:3000/admin/kullanicilar/login', userForm
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              this.token = data.token;
-              if (this.token) {
-                const expiresInDuration = data.expiresIn;
-                this.setAuthTimer(expiresInDuration);
-                this.isAuthenticated = true;
-                this.userName = data.user.userName.toString();
-                this.userType = data.user.userType.toString();
-                this.authStatusListener.next(true);
-                this.authenticatedUser = data.user;
-                this.authenticatedUserListener.next(this.authenticatedUser);
-                const now = new Date();
-                const expirationDate = new Date(
-                  now.getTime() + expiresInDuration * 1000
-                );
-                this.saveAuthData(this.token, expirationDate, this.userName, this.userType);
-                this.router.navigate(['/admin/anasayfa']);
-              }
+            this.token = data.token;
+            if (this.token) {
+              const expiresInDuration = data.expiresIn;
+              this.setAuthTimer(expiresInDuration);
+              this.isAuthenticated = true;
+              this.userName = data.user.userName.toString();
+              this.userType = data.user.userType.toString();
+              this.authStatusListener.next(true);
+              this.authenticatedUser = data.user;
+              this.authenticatedUserListener.next(this.authenticatedUser);
+              const now = new Date();
+              const expirationDate = new Date(
+                now.getTime() + expiresInDuration * 1000
+              );
+              this.saveAuthData(this.token, expirationDate, this.userName, this.userType);
+              this.router.navigate(['/admin/anasayfa']);
             } else {
               this.authStatusListener.next(false);
-              this.globalFunctions.showSnackBar.next(data.snackBarMessage);
+              this.globalFunctions.showSnackBar('login.failure');
             }
-            this.globalFunctions.showSpinner.next(false);
           },
           error: (error) => {
-
+            this.authStatusListener.next(false);
           }
         });
     } catch (error) {
       this.authStatusListener.next(false);
-      this.globalFunctions.showSpinner.next(false);
-      this.globalFunctions.showSnackBar.next('Bir hata oluştu!');
+
+      this.globalFunctions.showSnackBar('Bir hata oluştu!');
     }
   }
 
@@ -258,27 +241,24 @@ export class AuthService {
 
   deleteUser(_id: number) {
     try {
-      this.globalFunctions.showSpinner.next(true);
+
       this.http
-        .delete<{error: boolean, message: string}>(
+        .delete<{ }>(
           'http://localhost:3000/admin/kullanicilar/' + _id
         )
         .subscribe({
           next: (data) => {
-            if (!data.error) {
-              const filteredUsersList = this.usersList.filter(user => user.id !== _id);
-              this.usersList = filteredUsersList;
-              this.usersListSub.next([...this.usersList]);
-            } else {
-
-            }
+            const filteredUsersList = this.usersList.filter(user => user.id !== _id);
+            this.usersList = filteredUsersList;
+            this.usersListSub.next([...this.usersList]);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
-        this.globalFunctions.showSpinner.next(false);
+
     } catch (error) {
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 }

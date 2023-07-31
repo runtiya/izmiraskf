@@ -1,25 +1,28 @@
-const connection = require('../../functions/database').connectDatabase();
+const connection = require("../../functions/database").connectDatabase();
 
 function getStaffList(req, res, next) {
-  var staffList;
-  var message;
+  try {
+    var staffList;
+    var message;
 
-  connection.query(
-    "select * from view_application_staffitff", (error, result) => {
-      if (!error) {
-        staffList = result;
-      }
-      else {
-        message = error.sqlMessage;
-        staffList = [];
-      }
+    connection.query(
+      "select * from view_application_staffitff",
+      (error, result) => {
+        if (!error) {
+          staffList = result;
+        } else {
+          message = error.sqlMessage;
+          staffList = [];
+        }
 
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Staff fetched successfully!',
-        staffList: staffList
-      });
-    });
+        res.status(200).json({
+          staffList: staffList,
+        });
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 exports.getStaffList = getStaffList;

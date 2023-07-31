@@ -1,52 +1,56 @@
-const { async } = require('rxjs');
+const { async } = require("rxjs");
 
-const connection = require('../../functions/database').connectDatabase();
+const connection = require("../../functions/database").connectDatabase();
 
 function getTeamsInGroupstages(req, res, next) {
-  const groupstageId = req.params.groupstageId;
-  var teamsingroupstagesList;
-  var message;
+  try {
+    const groupstageId = req.params.groupstageId;
+    var teamsingroupstagesList;
+    var message;
 
-  connection.query(
-    "select * from view_application_teamsingroupstages where groupstageId = ?",
-    [groupstageId],
-    (error, result) => {
-      if (!error) {
-        teamsingroupstagesList = result;
-      } else {
-        message = error.sqlMessage;
-        teamsingroupstagesList = [];
+    connection.query(
+      "select * from view_application_teamsingroupstages where groupstageId = ?",
+      [groupstageId],
+      (error, result) => {
+        if (!error) {
+          teamsingroupstagesList = result;
+        } else {
+          message = error.sqlMessage;
+          teamsingroupstagesList = [];
+        }
+
+        res.status(200).json({
+          teamsingroupstagesList: teamsingroupstagesList,
+        });
       }
-
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Teams fetched successfully!',
-        teamsingroupstagesList: teamsingroupstagesList
-      });
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function getTeamsForGroupstages(req, res, next) {
-  var teamsList;
-  var message;
-  connection.query(
-    "select * from view_application_teamsforgroupstages",
-    (error, result) => {
-      if (!error) {
-        teamsList = result;
-      } else {
-        message = error.sqlMessage;
-        teamsList = [];
+  try {
+    var teamsList;
+    var message;
+    connection.query(
+      "select * from view_application_teamsforgroupstages",
+      (error, result) => {
+        if (!error) {
+          teamsList = result;
+        } else {
+          message = error.sqlMessage;
+          teamsList = [];
+        }
+        res.status(200).json({
+          teamsList: teamsList,
+        });
       }
-      res.status(200).json({
-        error: !!error,
-        message: message || 'Teams List fetched successfully!',
-        teamsList: teamsList
-      });
-    }
-  )
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 exports.getTeamsInGroupstages = getTeamsInGroupstages;
-exports.getTeamsForGroupstages = getTeamsForGroupstages
-
+exports.getTeamsForGroupstages = getTeamsForGroupstages;
