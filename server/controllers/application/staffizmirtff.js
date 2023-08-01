@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/staffizmirtff");
 const connection = require("../../functions/database").connectDatabase();
 
 function getStaffList(req, res, next) {
@@ -6,7 +7,7 @@ function getStaffList(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_staffitff",
+      queries.getStaffList,
       (error, result) => {
         if (!error) {
           staffList = result;

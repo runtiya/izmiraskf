@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/groupstages");
 const connection = require("../../functions/database").connectDatabase();
 
 function getGroupStages(req, res, next) {
@@ -7,7 +8,7 @@ function getGroupStages(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_groupstages where leagueid = ?",
+      queries.getGroupStages,
       [leagueId],
       (error, result) => {
         if (!error) {
@@ -34,7 +35,7 @@ function getWeekSequence(req, res, next) {
     var message;
 
     connection.query(
-      "select distinct(f.matchweek) as weekSequence from fixtures f join groupstages g on g.id = f.groupstageid where f.groupstageid = ? order by weekSequence",
+      queries.getWeekSequence,
       [groupstageId],
       (error, result) => {
         if (!error) {
@@ -61,7 +62,7 @@ function getPlayedLastMatchWeek(req, res, next) {
     var message;
 
     connection.query(
-      "select max(matchweek) as matchWeek from view_application_fixtures where groupstageid = ? and matchstatus = 'PLAYED'",
+      queries.getPlayedLastMatchWeek,
       [groupstageId],
       (error, result) => {
         if (!error) {

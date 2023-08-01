@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/aboutizmiraskf");
 const connection = require("../../functions/database.js").connectDatabase();
 
 function getAboutContent(req, res, next) {
@@ -6,7 +7,7 @@ function getAboutContent(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_aboutiaskf",
+      queries.getAboutContent,
       (error, result) => {
         if (!error) {
           aboutContent = result[0];
@@ -29,7 +30,7 @@ function getLogoPath(req, res, next) {
     var logoPath = null;
 
     connection.query(
-      "select imagepath from view_application_aboutiaskf",
+      queries.getLogoPath,
       (error, result) => {
         if (!error) {
           logoPath = result[0].imagePath;

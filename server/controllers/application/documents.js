@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/documents");
 const connection = require("../../functions/database").connectDatabase();
 
 function getDocuments(req, res, next) {
@@ -7,7 +8,7 @@ function getDocuments(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_documents where category = ?",
+      queries.getDocuments,
       [category],
       (error, result) => {
         if (!error) {

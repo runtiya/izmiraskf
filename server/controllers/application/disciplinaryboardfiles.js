@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/disciplinaryboardfiles");
 const connection = require("../../functions/database").connectDatabase();
 
 function getDisciplinaryBoardFiles(req, res, next) {
@@ -8,7 +9,7 @@ function getDisciplinaryBoardFiles(req, res, next) {
     const caseType = req.params.casetype;
 
     connection.query(
-      "select * from view_application_disciplinaryboardfiles where seasonid = ? and casetype = ?",
+      queries.getDisciplinaryBoardFiles,
       [seasonId, caseType],
       (error, result) => {
         if (!error) {

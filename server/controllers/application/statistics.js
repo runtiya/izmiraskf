@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/statistics");
 const connection = require("../../functions/database").connectDatabase();
 
 function getGoalByLeague(req, res, next) {
@@ -6,7 +7,7 @@ function getGoalByLeague(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_statistics_goalbyleague",
+      queries.getGoalByLeague,
       (error, result) => {
         if (!error) {
           goalByLeagueList = result;
