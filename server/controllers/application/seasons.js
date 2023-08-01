@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/seasons");
 const connection = require("../../functions/database").connectDatabase();
 
 function getSeasons(req, res, next) {
@@ -6,7 +7,7 @@ function getSeasons(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_seasons",
+      queries.getSeasons,
       (error, result) => {
         if (!error) {
           seasonList = result;

@@ -1,3 +1,5 @@
+const queries = require("../../queries/application/aboutizmirtff");
+
 const connection = require("../../functions/database.js").connectDatabase();
 
 function getAboutContent(req, res, next) {
@@ -6,7 +8,7 @@ function getAboutContent(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_aboutitff",
+      queries.getAboutContent,
       (error, result) => {
         if (!error) {
           aboutContent = result[0];

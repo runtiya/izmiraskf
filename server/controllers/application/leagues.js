@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/leagues");
 const connection = require("../../functions/database").connectDatabase();
 
 function getLeagues(req, res, next) {
@@ -7,7 +8,7 @@ function getLeagues(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_leagues where seasonid = ?",
+      queries.getLeagues,
       [seasonId],
       (error, result) => {
         if (!error) {

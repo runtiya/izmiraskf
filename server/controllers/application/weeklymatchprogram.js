@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/weeklymatchprogram");
 const connection = require("../../functions/database").connectDatabase();
 
 function getWeeklyMatchProgram(req, res, next) {
@@ -7,7 +8,7 @@ function getWeeklyMatchProgram(req, res, next) {
     var seasonId = req.params.seasonid;
 
     connection.query(
-      "select * from view_application_weeklymatchprogram where seasonid = ?",
+      queries.getWeeklyMatchProgram,
       [seasonId],
       (error, result) => {
         if (!error) {

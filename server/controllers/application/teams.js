@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/teams");
 const connection = require("../../functions/database").connectDatabase();
 
 function getTeams(req, res, next) {
@@ -6,7 +7,7 @@ function getTeams(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_teams",
+      queries.getTeams,
       (error, result) => {
         if (!error) {
           teamList = result;
@@ -32,7 +33,7 @@ function getTeamById(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_teams where id = ?",
+      queries.getTeamById,
       [teamId],
       (error, result) => {
         if (!error) {

@@ -1,5 +1,4 @@
-const { async } = require("rxjs");
-
+const queries = require("../../queries/application/teamsingroupstages");
 const connection = require("../../functions/database").connectDatabase();
 
 function getTeamsInGroupstages(req, res, next) {
@@ -9,7 +8,7 @@ function getTeamsInGroupstages(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_teamsingroupstages where groupstageId = ?",
+      queries.getTeamsInGroupstages,
       [groupstageId],
       (error, result) => {
         if (!error) {
@@ -34,7 +33,7 @@ function getTeamsForGroupstages(req, res, next) {
     var teamsList;
     var message;
     connection.query(
-      "select * from view_application_teamsforgroupstages",
+      queries.getTeamsForGroupstages,
       (error, result) => {
         if (!error) {
           teamsList = result;

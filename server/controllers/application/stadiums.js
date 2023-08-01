@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/stadiums");
 const connection = require("../../functions/database").connectDatabase();
 
 function getStadiums(req, res, next) {
@@ -6,7 +7,7 @@ function getStadiums(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_stadiums",
+      queries.getStadiums,
       (error, result) => {
         if (!error) {
           stadiumList = result;
@@ -32,7 +33,7 @@ function getStadiumById(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_stadiums where id = ?",
+     queries.getStadiumByI,
       [stadiumId],
       (error, result) => {
         if (!error) {

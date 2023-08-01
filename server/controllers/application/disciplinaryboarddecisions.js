@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/disciplinaryboarddecisions");
 const connection = require("../../functions/database").connectDatabase();
 
 function getDisciplinaryBoardDecisions(req, res, next) {
@@ -7,7 +8,7 @@ function getDisciplinaryBoardDecisions(req, res, next) {
     const disciplinaryBoardFileId = req.params.fileid;
 
     connection.query(
-      "select * from view_application_disciplinaryboarddecisions where disciplinaryBoardFileId = ?",
+      queries.getDisciplinaryBoardDecisions,
       [disciplinaryBoardFileId],
       (error, result) => {
         if (!error) {

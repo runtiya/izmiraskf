@@ -1,3 +1,4 @@
+const queries = require("../../queries/application/externallinks");
 const connection = require("../../functions/database").connectDatabase();
 
 // Get all external links list
@@ -8,7 +9,7 @@ function getExternalLinks(req, res, next) {
     var message;
 
     connection.query(
-      "select * from view_application_externallinks where linktype = ?",
+      queries.getExternalLinks,
       [linkType],
       (error, result) => {
         if (!error) {
