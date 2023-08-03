@@ -53,12 +53,12 @@ export class AuthService {
   getUsersList() {
     try {
       this.http
-        .get<{usersList: UserModel[]}>(
+        .get<{data: UserModel[]}>(
           'http://localhost:3000/admin/kullanicilar'
         )
         .subscribe({
           next: (data) => {
-            this.usersList = data.usersList;
+            this.usersList = data.data;
             this.usersListSub.next([...this.usersList]);
           },
           error: (error) => {
@@ -81,13 +81,13 @@ export class AuthService {
   createUser(userInfo: UserModel) {
     try {
       this.http
-        .post<{user: UserModel}>(
+        .post<{data: UserModel}>(
           'http://localhost:3000/admin/kullanicilar/signup', userInfo
         )
         .subscribe({
           next: (data) => {
             //this.router.navigate(["/admin/giris"]);
-            this.usersList.push(data.user);
+            this.usersList.push(data.data);
             this.usersListSub.next([...this.usersList]);
             this.globalFunctions.showSnackBar('server.success');
           },

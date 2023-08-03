@@ -1,9 +1,10 @@
 const queries = require("../../queries/admin/seasons");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getSeasons(req, res, next) {
   try {
-    var seasonList;
+    var seasonList = [];
     var message;
 
     connection.query(queries.getSeasons, (error, result) => {
@@ -11,13 +12,12 @@ function getSeasons(req, res, next) {
         seasonList = result;
       } else {
         message = error.sqlMessage;
-        seasonList = [];
       }
 
+      const _seasonList = crypto.encryptData(seasonList);
+
       res.status(200).json({
-        error: !!error,
-        message: message || "Seasons fetched successfully!",
-        seasonList: seasonList,
+        data: _seasonList,
       });
     });
   } catch (error) {
@@ -48,8 +48,11 @@ function createSeason(req, res, next) {
         } else {
           message = error.sqlMessage;
         }
+
+        const _seasonId = crypto.encryptData(seasonId);
+
         res.status(200).json({
-          seasonId: seasonId,
+          data: _seasonId,
         });
       }
     );
@@ -82,6 +85,7 @@ function updateSeason(req, res, next) {
           message = error.sqlMessage;
         }
         res.status(200).json({
+
         });
       }
     );
@@ -101,8 +105,7 @@ function deleteSeason(req, res, next) {
         message = error.sqlMessage;
       }
       res.status(200).json({
-        error: !!error,
-        message: message || "Season deleted successfully!",
+
       });
     });
   } catch (error) {

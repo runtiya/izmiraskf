@@ -1,9 +1,10 @@
 const queries = require("../../queries/application/groupstages");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getGroupStages(req, res, next) {
   try {
-    var groupstageList;
+    var groupstageList = [];
     const leagueId = req.params.leagueid;
     var message;
 
@@ -15,11 +16,12 @@ function getGroupStages(req, res, next) {
           groupstageList = result;
         } else {
           message = error.sqlMessage;
-          groupstageList = [];
         }
 
+        const _groupstageList = crypto.encryptData(groupstageList);
+
         res.status(200).json({
-          groupstageList: groupstageList,
+          data: _groupstageList,
         });
       }
     );
@@ -31,7 +33,7 @@ function getGroupStages(req, res, next) {
 function getWeekSequence(req, res, next) {
   try {
     const groupstageId = req.params.id;
-    var weekSequence;
+    var weekSequence = [];
     var message;
 
     connection.query(
@@ -42,11 +44,12 @@ function getWeekSequence(req, res, next) {
           weekSequence = result;
         } else {
           message = error.sqlMessage;
-          weekSequence = [];
         }
 
+        const _weekSequence = crypto.encryptData(weekSequence);
+
         res.status(200).json({
-          weekSequence: weekSequence,
+          data: _weekSequence,
         });
       }
     );
@@ -58,7 +61,7 @@ function getWeekSequence(req, res, next) {
 function getPlayedLastMatchWeek(req, res, next) {
   try {
     const groupstageId = req.params.id;
-    var matchWeek;
+    var matchWeek = 1;
     var message;
 
     connection.query(
@@ -69,11 +72,12 @@ function getPlayedLastMatchWeek(req, res, next) {
           matchWeek = result[0].matchWeek || 1;
         } else {
           message = error.sqlMessage;
-          matchWeek = 1;
         }
 
+        const _matchWeek = crypto.encryptData(matchWeek);
+
         res.status(200).json({
-          matchWeek: matchWeek,
+          data: _matchWeek,
         });
       }
     );

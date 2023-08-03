@@ -119,10 +119,10 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
                   // Subsequently, only the onSearch button will be searched.
                   if (!this.matchWeekSelectionValue) {
                     this.teamsingroupstageService.getTeamsInGroupstages(this.groupstageSelectionId);
-                    this.matchWeekSelectionValue = data.matchWeek;
+                    this.matchWeekSelectionValue = data.data;
                     this.onSearch();
                   } else {
-                    this.matchWeekSelectionValue = data.matchWeek;
+                    this.matchWeekSelectionValue = data.data;
                   }
                 },
                 error: (error) => {

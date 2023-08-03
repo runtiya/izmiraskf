@@ -1,10 +1,11 @@
 const queries = require("../../queries/application/externallinks");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 // Get all external links list
 function getExternalLinks(req, res, next) {
   try {
-    var extlinkList;
+    var extlinkList = [];
     const linkType = req.params.linktype;
     var message;
 
@@ -16,11 +17,12 @@ function getExternalLinks(req, res, next) {
           extlinkList = result;
         } else {
           message = error.sqlMessage;
-          extlinkList = [];
         }
 
+        const _extlinkList = crypto.encryptData(extlinkList);
+
         res.status(200).json({
-          externalLinks: extlinkList,
+          data: _extlinkList,
         });
       }
     );

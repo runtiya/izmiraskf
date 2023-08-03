@@ -24,12 +24,12 @@ export class FixtureService {
     try {
       // Not known why http.get doesn't work!
       this.http
-        .put<{fixtureList: FixtureModel[]}>(
+        .put<{data: FixtureModel[]}>(
           'http://localhost:3000/admin/fikstur/arama', fixtureSearchIndex
         )
         .subscribe({
           next: (data) => {
-            this.fixtureList = data.fixtureList;
+            this.fixtureList = data.data;
             !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
           },
           error: (error) => {

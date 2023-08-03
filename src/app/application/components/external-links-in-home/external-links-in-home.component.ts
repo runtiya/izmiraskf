@@ -38,7 +38,7 @@ export class ApplicationExternalLinksInHome implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.extLinksSubscription.unsubscribe();
   }
 }
 

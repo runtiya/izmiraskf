@@ -7,7 +7,7 @@ import { AboutITFFService } from "../../services/application-aboutizmirtff.servi
 
 import { globalFunctions } from "../../../functions/global.function";
 
-import { GoogleMapsModel } from "../../../models/google-maps.model";
+import { GoogleMapsModel } from "../../../models/global-google-maps.model";
 
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 

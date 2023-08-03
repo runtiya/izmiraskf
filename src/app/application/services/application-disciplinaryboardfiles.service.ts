@@ -20,12 +20,12 @@ export class DisciplinaryBoardFilesService {
   getDisciplinaryBoardFiles(seasonId: number, caseType: string) {
     try {
       this.http
-        .get<{ disciplinaryBoardFileList: DisciplinaryBoardFileModel[] }>(
+        .get<{ data: DisciplinaryBoardFileModel[] }>(
           'http://localhost:3000/disiplin-kurulu-dosyalari/' + seasonId + '/' + caseType
         )
         .subscribe({
           next: (data) => {
-            this.disciplinaryBoardFileList = data.disciplinaryBoardFileList;
+            this.disciplinaryBoardFileList = data.data;
             !!this.disciplinaryBoardFileList ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
           },
           error: (error) => {

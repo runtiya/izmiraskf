@@ -1,9 +1,10 @@
 const queries = require('../../queries/admin/disciplinaryboarddecisions');
-const connection = require('../../functions/database').connectDatabase();
+const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getDisciplinaryBoardDecisions(req, res, next) {
   try {
-    var disciplinaryBoardDecisionList;
+    var disciplinaryBoardDecisionList = [];
     var message;
     const disciplinaryBoardFileId = req.params.fileid;
 
@@ -14,12 +15,13 @@ function getDisciplinaryBoardDecisions(req, res, next) {
         if (!error) {
           disciplinaryBoardDecisionList = result;
         } else {
-          disciplinaryBoardDecisionList = [];
           message = error.sqlMessage;
         }
 
+        const _disciplinaryBoardDecisionList = crypto.encryptData(disciplinaryBoardDecisionList);
+
         res.status(200).json({
-          disciplinaryBoardDecisionList: disciplinaryBoardDecisionList,
+          data: _disciplinaryBoardDecisionList,
         });
       }
     );
@@ -58,8 +60,10 @@ function createDisciplinaryBoardDecision(req, res, next) {
           message = error.sqlMessage;
         }
 
+        const _disciplinaryBoardDecisionId = crypto.encryptData(disciplinaryBoardDecisionId);
+
         res.status(200).json({
-          disciplinaryBoardDecisionId: disciplinaryBoardDecisionId,
+          data: _disciplinaryBoardDecisionId,
         });
       }
     );
@@ -98,6 +102,7 @@ function updateDisciplinaryBoardDecision(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );
@@ -121,6 +126,7 @@ function deleteDisciplinaryBoardDecision(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );
@@ -144,6 +150,7 @@ function clearDisciplinaryBoardDecisions(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );

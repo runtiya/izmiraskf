@@ -11,6 +11,7 @@ export class ExternalLinksService {
   private extLinksList: ExternalLinksModel[] = [];
   private extLinksListSub = new Subject<ExternalLinksModel[]>();
   private extRelatedLinksListSub = new Subject<ExternalLinksModel[]>();
+  private extAdvertisementListSub = new Subject<ExternalLinksModel[]>();
 
   constructor(
     private http: HttpClient,
@@ -20,16 +21,18 @@ export class ExternalLinksService {
   getLinks(_linkType: string) {
     try {
       this.http
-        .get<{externalLinks: ExternalLinksModel[]}>(
+        .get<{data: ExternalLinksModel[]}>(
           'http://localhost:3000/disbaglantilar/' + _linkType
         )
         .subscribe({
           next: (data) => {
-            this.extLinksList = data.externalLinks;
-              if (_linkType == 'SOCIALMEDIA') {
+            this.extLinksList = data.data;
+              if (_linkType === 'SOCIALMEDIA') {
                 this.extLinksListSub.next([...this.extLinksList]);
-              } else if(_linkType == 'RELATEDLINK') {
+              } else if (_linkType === 'RELATEDLINK') {
                 this.extRelatedLinksListSub.next([...this.extLinksList]);
+              } else if (_linkType === 'ADVERTISEMENT') {
+                this.extAdvertisementListSub.next([...this.extLinksList]);
               }
           },
           error: (error) => {
@@ -47,5 +50,9 @@ export class ExternalLinksService {
 
   getExternalRelatedLinksUpdateListener() {
     return this.extRelatedLinksListSub.asObservable();
+  }
+
+  getExternalAdvertisementUpdateListener() {
+    return this.extAdvertisementListSub.asObservable();
   }
 }

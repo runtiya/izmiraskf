@@ -1,10 +1,10 @@
 const queries = require('../../queries/admin/disciplinaryboardfiles');
-const connection = require('../../functions/database').
-connectDatabase();
+const connection = require('../../functions/database').connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getDisciplinaryBoardFiles(req, res, next) {
   try {
-    var disciplinaryBoardFileList;
+    var disciplinaryBoardFileList = [];
     var message;
     const seasonId = req.params.seasonid;
     const caseType = req.params.casetype;
@@ -16,12 +16,13 @@ function getDisciplinaryBoardFiles(req, res, next) {
         if (!error) {
           disciplinaryBoardFileList = result;
         } else {
-          disciplinaryBoardFileList = [];
           message = error.sqlMessage;
         }
 
+        const _disciplinaryBoardFileList = crypto.encryptData(disciplinaryBoardFileList);
+
         res.status(200).json({
-          disciplinaryBoardFileList: disciplinaryBoardFileList,
+          data: _disciplinaryBoardFileList,
         });
       }
     );
@@ -58,8 +59,10 @@ function createDisciplinaryBoardFile(req, res, next) {
           message = error.sqlMessage;
         }
 
+        const _disciplinaryBoardFileId = crypto.encryptData(disciplinaryBoardFileId);
+
         res.status(200).json({
-          disciplinaryBoardFileId: disciplinaryBoardFileId,
+          data: _disciplinaryBoardFileId,
         });
       }
     );
@@ -97,6 +100,7 @@ function updateDisciplinaryBoardFile(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );
@@ -120,6 +124,7 @@ function deleteDisciplinaryBoardFile(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );

@@ -7,7 +7,7 @@ import { AboutIASKFService } from "../../services/application-aboutiaskf.service
 
 import { globalFunctions } from "../../../functions/global.function";
 
-import { GoogleMapsModel } from "../../../models/google-maps.model";
+import { GoogleMapsModel } from "../../../models/global-google-maps.model";
 
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 

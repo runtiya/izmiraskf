@@ -1,9 +1,10 @@
 const queries = require("../../queries/admin/weeklymatchlist");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getWeeklyMatchList(req, res, next) {
   try {
-    var weeklyMatchList;
+    var weeklyMatchList = [];
     var message;
     var weeklyMatchProgramId = req.params.weeklymatchprogramid;
 
@@ -15,11 +16,12 @@ function getWeeklyMatchList(req, res, next) {
           weeklyMatchList = result;
         } else {
           message = error.sqlMessage;
-          weeklyMatchList = [];
         }
 
+        const _weeklyMatchList = crypto.encryptData(weeklyMatchList);
+
         res.status(200).json({
-          weeklyMatchList: weeklyMatchList,
+          data: _weeklyMatchList,
         });
       }
     );
@@ -54,19 +56,15 @@ function createWeeklyMatchList(req, res, next) {
             //pass
           } else {
             message = error.sqlMessage;
-            throw error;
           }
         }
       );
     }
   } catch (error) {
-    connection.rollback(() => {
-      _error = true;
-    });
+
   } finally {
     res.status(200).json({
-      error: _error,
-      message: message || "Weekly Match List created successfully!",
+
     });
   }
 }
@@ -96,8 +94,10 @@ function addMatchToList(req, res, next) {
           message = error.sqlMessage;
         }
 
+        const _weeklyMatchId = crypto.encryptData(weeklyMatchId);
+
         res.status(200).json({
-          weeklyMatchId,
+          data: _weeklyMatchId,
         });
       }
     );
@@ -133,6 +133,7 @@ function updateWeeklyMatchList(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );
@@ -157,6 +158,7 @@ function clearWeeklyMatchList(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );
@@ -180,6 +182,7 @@ function deleteMatchFromList(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );

@@ -7,6 +7,8 @@ const environment = {
     port: 3306,
     password: '17Nisan1996',
     database: 'izmiraskf'
+  },
+  cryptojsSecretKey: "7ce2daf0bdac7688ca2fd73f08a8e130"
 
   }
 };

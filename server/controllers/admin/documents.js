@@ -1,11 +1,12 @@
 const queries = require("../../queries/admin/documents");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 const filesFunction = require("../../functions/files");
 
 function getDocuments(req, res, next) {
   try {
     const category = req.params.category;
-    var documentsList;
+    var documentsList = [];
     var message;
 
     connection.query(queries.getDocuments, [category], (error, result) => {
@@ -13,11 +14,12 @@ function getDocuments(req, res, next) {
         documentsList = result;
       } else {
         message = error.sqlMessage;
-        documentsList = [];
       }
 
+      const _documentsList = crypto.encryptData(documentsList);
+
       res.status(200).json({
-        documentsList: documentsList,
+        data: _documentsList,
       });
     });
   } catch (error) {
@@ -72,8 +74,10 @@ function createDocument(req, res, next) {
           message = error.sqlMessage;
         }
 
+        const _documentId = crypto.encryptData(documentId);
+
         res.status(200).json({
-          documentId: documentId,
+          data: _documentId,
         });
       }
     );
@@ -132,6 +136,7 @@ function updateDocument(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );

@@ -30,7 +30,6 @@ import { DatePipe, registerLocaleData } from '@angular/common';
 import localeTr from "@angular/common/locales/tr";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -146,21 +145,27 @@ import { ApplicationContactUs } from "./application/components/contact-us/contac
 
 import { ApplicationFooter } from "./application/components/footer/footer.component";
 
-import { ApplicationStatisticsGoalByLeague } from "./application/components/statistics-goal-by-league/statistics-goal-by-league.component";
+// Global Components
+import { GlobalStatisticsTeamsCountByTown } from "./components/statistics-teams-count-by-town/statistics-teams-count-by-town.component";
+import { GlobalStatisticsStadiumsCountByTown } from "./components/statistics-stadiums-count-by-town/statistics-stadiums-count-by-town.component";
+import { GlobalStatisticsStadiumsCountByFloorType } from "./components/statistics-stadiums-count-by-floortype/statistics-stadiums-count-by-floortype.component";
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AngularMaterialModule } from "./angular-material.module";
+import { NgApexchartsModule } from "ng-apexcharts";
+
 import { AuthInterceptor } from './admin/authentication/auth-interceptor';
 import { ErrorInterceptor } from "./error/error-interceptor";
+import { ResponseInterceptor } from "./functions/global-http-response";
 
 
 @NgModule({
   declarations: [
     AppComponent,
 
-    //Admin Components
+    // Admin Components
     AdminLogin,
     AdminLogout,
 
@@ -233,7 +238,7 @@ import { ErrorInterceptor } from "./error/error-interceptor";
 
     AdminConfirmationDialogModal,
 
-    //Application Components
+    // Application Components
     PageNotFound,
     ApplicationHeader,
     ApplicationToolbarTitle,
@@ -272,7 +277,11 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     ApplicationContactUs,
 
     ApplicationFooter,
-    ApplicationStatisticsGoalByLeague
+
+    // Global Components
+    GlobalStatisticsTeamsCountByTown,
+    GlobalStatisticsStadiumsCountByTown,
+    GlobalStatisticsStadiumsCountByFloorType,
 
   ],
   imports: [
@@ -311,12 +320,14 @@ import { ErrorInterceptor } from "./error/error-interceptor";
     GoogleMapsModule,
     AngularEditorModule,
     AngularMaterialModule,
+    NgApexchartsModule
 
 
   ],
   providers: [
     {provide: MatDialogRef, useValue: {}},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: LOCALE_ID, useValue: 'tr-TR'},
     DatePipe,

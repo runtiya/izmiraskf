@@ -14,12 +14,12 @@ export class GlobalIzmirASKFService {
 
   getLogoPath() {
       return this.http
-        .get<{ logoPath: string}>(
+        .get<{ data: string}>(
           'http://localhost:3000/izmiraskf/hakkimizda/getlogo'
         )
         .subscribe({
           next: (data) => {
-            this.logoPath = data.logoPath;
+            this.logoPath = data.data;
             this.logoPathSubject.next(this.logoPath);
           }
         });

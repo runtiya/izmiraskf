@@ -1,26 +1,26 @@
 const queries = require("../../queries/admin/leagues");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getLeagues(req, res, next) {
   try {
-    var leagueList;
+    var leagueList = [];
     const seasonId = req.params.seasonid;
     var message;
 
-    connection.query(queries.getLeagues, [seasonId], (error, result) => {
+    connection.query(queries.getLeagues,
+      [seasonId],
+      (error, result) => {
       if (!error) {
         leagueList = result;
       } else {
-        connection.end();
-        throw error;
         message = error.sqlMessage;
-        leagueList = [];
       }
 
+      const _leagueList = crypto.encryptData(leagueList);
+
       res.status(200).json({
-        error: !!error,
-        message: message || "Leagues fetched successfully!",
-        leagueList: leagueList,
+        data: _leagueList,
       });
     });
   } catch (error) {
@@ -54,8 +54,11 @@ function createLeague(req, res, next) {
         } else {
           message = error.sqlMessage;
         }
+
+        const _leagueId = crypto.encryptData(leagueId);
+
         res.status(200).json({
-          leagueId: leagueId,
+          data: _leagueId,
         });
       }
     );
@@ -90,6 +93,7 @@ function updateLeague(req, res, next) {
           message = error.sqlMessage;
         }
         res.status(200).json({
+
         });
       }
     );
@@ -109,8 +113,7 @@ function deleteLeague(req, res, next) {
         message = error.sqlMessage;
       }
       res.status(200).json({
-        error: !!error,
-        message: message || "League deleted successfully!",
+
       });
     });
   } catch (error) {

@@ -19,12 +19,12 @@ export class TeamsService {
   getTeams() {
     try {
       this.http
-        .get<{ teamList: TeamsModel[] }>(
+        .get<{ data: TeamsModel[] }>(
           'http://localhost:3000/admin/takimlar'
         )
         .subscribe({
           next: (data) => {
-            this.teamList = data.teamList;
+            this.teamList = data.data;
             this.teamListSub.next([...this.teamList]);
           },
           error: (error) => {
@@ -51,12 +51,12 @@ export class TeamsService {
       formData.append('teamInfo', JSON.stringify(teamInfo));
 
       this.http
-        .post<{ teamId: number }>(
+        .post<{ data: number }>(
           'http://localhost:3000/admin/takimlar', formData
         )
         .subscribe({
           next: (data) => {
-            teamInfo.id = data.teamId;
+            teamInfo.id = data.data;
             this.teamList.push(teamInfo);
             this.teamListSub.next([...this.teamList]);
             this.globalFunctions.showSnackBar("server.success");

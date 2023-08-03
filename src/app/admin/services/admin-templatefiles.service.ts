@@ -19,12 +19,12 @@ export class TemplateFilesService {
   getTemplateFiles() {
     try {
       this.http
-        .get<{templateFilesList: TemplateFilesModel[]}>(
+        .get<{data: TemplateFilesModel[]}>(
           'http://localhost:3000/admin/template-files'
         )
         .subscribe({
           next: (data) => {
-            this.templateFilesList = data.templateFilesList;
+            this.templateFilesList = data.data;
             this.templateFilesListSub.next([...this.templateFilesList]);
           },
           error: (error) => {

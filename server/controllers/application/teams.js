@@ -1,9 +1,10 @@
 const queries = require("../../queries/application/teams");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getTeams(req, res, next) {
   try {
-    var teamList;
+    var teamList = [];
     var message;
 
     connection.query(
@@ -16,8 +17,10 @@ function getTeams(req, res, next) {
           teamList = [];
         }
 
+        const _teamList = crypto.encryptData(teamList);
+
         res.status(200).json({
-          teamList: teamList,
+          data: _teamList,
         });
       }
     );
@@ -42,8 +45,10 @@ function getTeamById(req, res, next) {
           message = error.sqlMessage;
         }
 
+        const _team = crypto.encryptData(team);
+
         res.status(200).json({
-          team: team,
+          data: _team,
         });
       }
     );

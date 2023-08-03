@@ -22,12 +22,12 @@ export class TeamsService {
   getTeams() {
     try {
       this.http
-        .get<{ teamList: TeamsModel[] }>(
+        .get<{ data: TeamsModel[] }>(
           'http://localhost:3000/takimlar'
         )
         .subscribe({
           next: (data) => {
-            this.teamList = data.teamList;
+            this.teamList = data.data;
             this.teamListSub.next([...this.teamList]);
           },
           error: (error) => {
@@ -46,12 +46,12 @@ export class TeamsService {
   getTeamById(_id: number) {
     try {
       this.http
-        .get<{ message:string, team: TeamsModel}>(
+        .get<{ data: TeamsModel}>(
           'http://localhost:3000/takimlar/' + _id
         )
         .subscribe({
           next: (data) => {
-            this.team = data.team;
+            this.team = data.data;
             this.teamSub.next(this.team);
           },
           error: (error) => {

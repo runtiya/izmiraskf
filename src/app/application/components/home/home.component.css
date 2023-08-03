@@ -13,3 +13,26 @@
 .mat-mdc-card {
   box-shadow: none;
 }
+
+.card-advertisement-1 {
+  position: relative;
+  width: 100%;
+  padding-top: 75%; /*4:3 ratio*/
+
+}
+
+.card-advertisement-2 {
+  position: relative;
+  width: 100%;
+  padding-top: 25%; /*4:1 ratio*/
+
+}
+
+.img-advertisement {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

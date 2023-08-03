@@ -19,12 +19,12 @@ export class SeasonsService {
   getSeasons() {
     try {
       this.http
-        .get<{seasonList: SeasonsModel[]}>(
+        .get<{data: SeasonsModel[]}>(
           'http://localhost:3000/sezonlar'
         )
         .subscribe({
           next: (data) => {
-            this.seasonsList = data.seasonList;
+            this.seasonsList = data.data;
             this.seasonsListSub.next([...this.seasonsList]);
           },
           error: (error) => {

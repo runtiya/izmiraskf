@@ -1,6 +1,7 @@
 const queries = require('../../queries/admin/aboutizmirtff.js');
 const connection = require('../../functions/database.js').connectDatabase();
 const imagesFunction = require('../../functions/images');
+const crypto = require('../../functions/crypto');
 
 function getAboutContent(req, res, next) {
   try {
@@ -13,8 +14,10 @@ function getAboutContent(req, res, next) {
         message = error.sqlMessage;
       }
 
+      const _aboutContent = crypto.encryptData(aboutContent);
+
       res.status(200).json({
-        aboutContent: aboutContent,
+        data: _aboutContent
       });
     });
   } catch (error) {

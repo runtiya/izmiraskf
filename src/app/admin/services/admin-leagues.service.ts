@@ -19,12 +19,12 @@ export class LeaguesService {
   getLeagues(seasonId: number) {
     try {
       this.http
-        .get<{leagueList: LeaguesModel[]}>(
+        .get<{data: LeaguesModel[]}>(
           'http://localhost:3000/admin/ligler/' + seasonId
         )
         .subscribe({
           next: (data) => {
-            this.leagueList = data.leagueList;
+            this.leagueList = data.data;
             this.leagueListSub.next([...this.leagueList]);
           },
           error: (error) => {
@@ -43,12 +43,12 @@ export class LeaguesService {
   createLeague(leagueInfo: LeaguesModel) {
     try {
       this.http
-        .post<{leagueId: number}>(
+        .post<{data: number}>(
           'http://localhost:3000/admin/ligler', leagueInfo
         )
         .subscribe({
           next: (data) => {
-            leagueInfo.id = data.leagueId;
+            leagueInfo.id = data.data;
             this.leagueList.push(leagueInfo);
             this.leagueListSub.next([...this.leagueList]);
             this.globalFunctions.showSnackBar("server.success");

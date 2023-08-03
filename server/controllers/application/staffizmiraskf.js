@@ -1,9 +1,10 @@
 const queries = require("../../queries/application/staffizmiraskf");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getStaffList(req, res, next) {
   try {
-    var staffList;
+    var staffList = [];
     var message;
 
     connection.query(
@@ -12,12 +13,14 @@ function getStaffList(req, res, next) {
         if (!error) {
           staffList = result;
         } else {
+          console.log(error.sqlMessage)
           message = error.sqlMessage;
-          staffList = [];
         }
 
+        const _staffList  = crypto.encryptData(staffList );
+
         res.status(200).json({
-          staffList: staffList,
+          data: _staffList,
         });
       }
     );

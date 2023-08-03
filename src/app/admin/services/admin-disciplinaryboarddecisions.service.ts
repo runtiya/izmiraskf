@@ -20,14 +20,13 @@ export class DisciplinaryBoardDecisionsService {
   getDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
     try {
       this.http
-        .get<{ disciplinaryBoardDecisionList: DisciplinaryBoardDecisionModel[] }>(
+        .get<{ data: DisciplinaryBoardDecisionModel[] }>(
           'http://localhost:3000/admin/disiplin-kurulu-kararlari/' + disciplinaryBoardFileId
         )
         .subscribe({
           next: (data) => {
-            this.disciplinaryBoardDecisionList = data.disciplinaryBoardDecisionList;
+            this.disciplinaryBoardDecisionList = data.data;
             !!this.disciplinaryBoardDecisionList ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
-            this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
             this.globalFunctions.showSnackBar('server.error');
@@ -46,12 +45,12 @@ export class DisciplinaryBoardDecisionsService {
   createDisciplinaryBoardDecision(disciplinaryBoardDecisionInfo: DisciplinaryBoardDecisionModel) {
     try {
       this.http
-        .post<{ disciplinaryBoardDecisionId: number }>(
+        .post<{ data: number }>(
           'http://localhost:3000/admin/disiplin-kurulu-kararlari', disciplinaryBoardDecisionInfo
         )
         .subscribe({
           next: (data) => {
-            disciplinaryBoardDecisionInfo.id = data.disciplinaryBoardDecisionId;
+            disciplinaryBoardDecisionInfo.id = data.data;
             this.disciplinaryBoardDecisionList.push(disciplinaryBoardDecisionInfo);
             this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]);
             this.globalFunctions.showSnackBar("server.success");

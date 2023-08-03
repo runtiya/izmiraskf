@@ -1,9 +1,10 @@
 const queries = require("../../queries/application/seasons");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getSeasons(req, res, next) {
   try {
-    var seasonList;
+    var seasonList = [];
     var message;
 
     connection.query(
@@ -13,11 +14,12 @@ function getSeasons(req, res, next) {
           seasonList = result;
         } else {
           message = error.sqlMessage;
-          seasonList = [];
         }
 
+        const _seasonList = crypto.encryptData(seasonList);
+
         res.status(200).json({
-          seasonList: seasonList,
+          data: _seasonList,
         });
       }
     );

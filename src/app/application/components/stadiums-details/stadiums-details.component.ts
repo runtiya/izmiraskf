@@ -10,7 +10,7 @@ import { cityList } from "../../../assets/lists/city-tr.list";
 import { townList } from "../../../assets/lists/town-izmir.list";
 import { floorTypeList } from "../../../assets/lists/floor-type.list";
 
-import { GoogleMapsModel } from "../../../models/google-maps.model";
+import { GoogleMapsModel } from "../../../models/global-google-maps.model";
 
 import { globalFunctions } from "../../../functions/global.function";
 

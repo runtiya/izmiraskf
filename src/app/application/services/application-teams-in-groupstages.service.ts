@@ -22,12 +22,12 @@ export class TeamsInGroupstagesService {
   getTeamsInGroupstages(groupstageId: number) {
     try {
       this.http
-        .get<{teamsingroupstagesList: TeamsInGroupstagesModel[]}>(
+        .get<{data: TeamsInGroupstagesModel[]}>(
           'http://localhost:3000/grup-takim-eslesmeleri/' + groupstageId
         )
         .subscribe({
           next: (data) => {
-            this.teamsingroupstagesList = data.teamsingroupstagesList;
+            this.teamsingroupstagesList = data.data;
             !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
           },
           error: (error) => {
@@ -46,12 +46,12 @@ export class TeamsInGroupstagesService {
   getTeams() {
     try {
       this.http
-        .get<{teamsList: TeamsModel[]}>(
+        .get<{data: TeamsModel[]}>(
           'http://localhost:3000/grup-takim-eslesmeleri'
         )
         .subscribe({
           next: (data) => {
-            this.teamsList = data.teamsList;
+            this.teamsList = data.data;
             this.teamsListSub.next([...this.teamsList]);
           },
           error: (error) => {

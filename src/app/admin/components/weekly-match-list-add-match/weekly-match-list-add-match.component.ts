@@ -210,7 +210,6 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data;
-          console.log(data)
         },
         error: (error) => {
 
@@ -271,15 +270,11 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
     _weeklyMatchList.isInList = true;
 
     this.addedMatchToWeeklyProgram.push(_weeklyMatchList);
-
-    console.log(this.addedMatchToWeeklyProgram)
   }
 
   onRemoveList(_matchId: number, _matchNo: string) {
     const _filtertedMatchList: WeeklyMatchListModel[] = this.addedMatchToWeeklyProgram.filter(m => m.matchId !== _matchId && m.matchNo !== _matchNo);
     this.addedMatchToWeeklyProgram = _filtertedMatchList;
-
-    console.log(this.addedMatchToWeeklyProgram)
   }
 
   onSearch() {

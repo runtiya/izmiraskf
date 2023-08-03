@@ -21,12 +21,12 @@ export class AboutIASKFService {
   getAboutContent() {
     try {
       this.http
-        .get<{aboutContent: AboutIASKFModel}>(
+        .get<{data: AboutIASKFModel}>(
           'http://localhost:3000/admin/izmiraskf/hakkimizda'
         )
         .subscribe({
           next: (data) => {
-            this.aboutContent = data.aboutContent;
+            this.aboutContent = data.data;
             this.aboutContentSubject.next(this.aboutContent);
           },
           error: (error) => {

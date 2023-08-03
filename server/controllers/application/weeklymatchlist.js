@@ -1,9 +1,10 @@
 const queries = require("../../queries/application/weeklymatchlist");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getWeeklyMatchList(req, res, next) {
   try {
-    var weeklyMatchList;
+    var weeklyMatchList = [];
     var message;
     var seasonId = req.params.seasonid;
 
@@ -15,11 +16,12 @@ function getWeeklyMatchList(req, res, next) {
           weeklyMatchList = result;
         } else {
           message = error.sqlMessage;
-          weeklyMatchList = [];
         }
 
+        const _weeklyMatchList = crypto.encryptData(weeklyMatchList);
+
         res.status(200).json({
-          weeklyMatchList: weeklyMatchList,
+          data: _weeklyMatchList,
         });
       }
     );

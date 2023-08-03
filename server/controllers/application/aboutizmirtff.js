@@ -1,10 +1,10 @@
 const queries = require("../../queries/application/aboutizmirtff");
-
-const connection = require("../../functions/database.js").connectDatabase();
+const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getAboutContent(req, res, next) {
   try {
-    var aboutContent;
+    var aboutContent = [];
     var message;
 
     connection.query(
@@ -16,8 +16,10 @@ function getAboutContent(req, res, next) {
           message = error.sqlMessage;
         }
 
+        const _aboutContent = crypto.encryptData(aboutContent);
+
         res.status(200).json({
-          aboutContent: aboutContent,
+          data: _aboutContent,
         });
       }
     );

@@ -60,6 +60,7 @@ app.use("/images/teams", express.static(path.join("server/images/teams")));
 app.use("/images/stadiums", express.static(path.join("server/images/stadiums")));
 app.use("/images/news", express.static(path.join("server/images/news")));
 app.use("/images/staff", express.static(path.join("server/images/staff")));
+app.use("/images/icons", express.static(path.join("server/images/icons")));
 app.use("/images/statics", express.static(path.join("server/images/statics")));
 
 
@@ -105,6 +106,7 @@ app.use('/admin/kullanicilar', adminAuthenticationRoutes);
 
 
 // Application app-use
+app.use('/statistics', applicationStatisticsRoutes);
 app.use('/haberler', applicationNewsRoutes);
 app.use('/izmiraskf/hakkimizda', applicationAboutIASKFRoutes);
 app.use('/izmiraskf/yonetim-kurulu', applicationStaffIASKFRoutes);

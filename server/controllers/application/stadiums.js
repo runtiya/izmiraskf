@@ -1,9 +1,10 @@
 const queries = require("../../queries/application/stadiums");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getStadiums(req, res, next) {
   try {
-    var stadiumList;
+    var stadiumList = [];
     var message;
 
     connection.query(
@@ -13,11 +14,12 @@ function getStadiums(req, res, next) {
           stadiumList = result;
         } else {
           message = error.sqlMessage;
-          stadiumList = [];
         }
 
+        const _stadiumList = crypto.encryptData(stadiumList);
+
         res.status(200).json({
-          stadiums: stadiumList,
+          data: _stadiumList,
         });
       }
     );
@@ -33,7 +35,7 @@ function getStadiumById(req, res, next) {
     var message;
 
     connection.query(
-     queries.getStadiumByI,
+     queries.getStadiumById,
       [stadiumId],
       (error, result) => {
         if (!error) {
@@ -42,8 +44,10 @@ function getStadiumById(req, res, next) {
           message = error.sqlMessage;
         }
 
+        const _stadium = crypto.encryptData(stadium);
+
         res.status(200).json({
-          stadium: stadium,
+          data: _stadium,
         });
       }
     );

@@ -19,12 +19,12 @@ export class DocumentsService {
   getDocuments(category: string) {
     try {
       this.http
-        .get<{documentsList: DocumentsModel[]}>(
+        .get<{data: DocumentsModel[]}>(
           'http://localhost:3000/dokumanlar/' + category
         )
         .subscribe({
           next: (data) => {
-            this.documentsList = data.documentsList;
+            this.documentsList = data.data;
             this.documentsListSub.next([...this.documentsList]);
           },
           error: (error) => {

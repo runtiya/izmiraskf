@@ -8,6 +8,7 @@ import { NewsModel } from "../../models/application-news.model";
 import { NewsService } from "../../services/application-news.service";
 
 import { ExternalLinksService } from "../../services/application-externallinks.service";
+import { ExternalLinksModel } from "../../models/application-externallinks.model";
 
 import { globalFunctions } from "../../../functions/global.function";
 
@@ -18,6 +19,9 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class ApplicationHome implements OnInit, OnDestroy {
   toolbarTitle = "ANA SAYFA";
+
+  extAdvertisementList: ExternalLinksModel[] = [];
+  private extAdvertisementListSubscription: Subscription;
 
   constructor(
     private newsService: NewsService,
@@ -31,6 +35,13 @@ export class ApplicationHome implements OnInit, OnDestroy {
 
     this.newsService.getNewsForSlider();
     this.externalLinksService.getLinks('RELATEDLINK');
+    this.externalLinksService.getLinks('ADVERTISEMENT');
+    this.extAdvertisementListSubscription = this.externalLinksService.getExternalAdvertisementUpdateListener()
+      .subscribe({
+        next: (data: ExternalLinksModel[]) => {
+          this.extAdvertisementList = data;
+        }
+      })
   }
 
   showNewsList() {
@@ -38,11 +49,15 @@ export class ApplicationHome implements OnInit, OnDestroy {
   }
 
   showDisciplinaryBoardDecisions() {
-    this.router.navigate(['/disiplin-kurulu-kararlari']);
+    this.router.navigate(['/komite-kararlari/disiplinkurulu']);
+  }
+
+  showOrganizinCommitteeDecisions() {
+    this.router.navigate(['/komite-kararlari/iltertipkomitesi']);
   }
 
   ngOnDestroy(): void {
-
+    this.extAdvertisementListSubscription.unsubscribe();
   }
 
 }

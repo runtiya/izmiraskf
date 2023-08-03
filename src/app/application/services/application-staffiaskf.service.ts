@@ -21,12 +21,12 @@ export class StaffIASKFService {
   getStaff() {
     try {
       this.http
-      .get<{staffList: any}>(
+      .get<{data: any}>(
         'http://localhost:3000/izmiraskf/yonetim-kurulu'
       )
       .subscribe({
         next: (data) => {
-          this.staffList = data.staffList;
+          this.staffList = data.data;
           this.staffListUpdated.next([...this.staffList]);
         },
         error: (error) => {

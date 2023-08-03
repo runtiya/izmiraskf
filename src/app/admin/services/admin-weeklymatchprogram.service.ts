@@ -26,12 +26,12 @@ export class WeeklyMatchProgramService {
   getWeeklyMatchProgram(seasonId: number) {
     try {
       this.http
-        .get<{weeklyMatchProgramList: WeeklyMatchProgramModel[]}>(
+        .get<{data: WeeklyMatchProgramModel[]}>(
           'http://localhost:3000/admin/weekly-match-program/' + seasonId
         )
         .subscribe({
           next: (data) => {
-            this.weeklyMatchProgramList = data.weeklyMatchProgramList;
+            this.weeklyMatchProgramList = data.data;
             this.weeklyMatchProgramListSub.next([...this.weeklyMatchProgramList]);
           },
           error: (error) => {
@@ -50,12 +50,12 @@ export class WeeklyMatchProgramService {
   createWeeklyMatchProgram(weeklyMatchProgramInfo: WeeklyMatchProgramModel) {
     try {
       this.http
-        .post<{ weeklyMatchProgramId: number}>(
+        .post<{ data: number}>(
           'http://localhost:3000/admin/weekly-match-program', weeklyMatchProgramInfo
         )
         .subscribe({
           next: (data) => {
-            weeklyMatchProgramInfo.id = data.weeklyMatchProgramId;
+            weeklyMatchProgramInfo.id = data.data;
             this.weeklyMatchProgramList.push(weeklyMatchProgramInfo);
             this.weeklyMatchProgramListSub.next([...this.weeklyMatchProgramList]);
 
@@ -124,5 +124,4 @@ export class WeeklyMatchProgramService {
       this.globalFunctions.showSnackBar('system.error');
     }
   }
-
 }
