@@ -1,5 +1,6 @@
 const queries = require("../../queries/application/aboutizmiraskf");
-const connection = require("../../functions/database.js").connectDatabase();
+const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getAboutContent(req, res, next) {
   try {
@@ -15,15 +16,21 @@ function getAboutContent(req, res, next) {
           message = error.sqlMessage;
         }
 
+        const _aboutContent = crypto.encryptData(aboutContent);
+
         res.status(200).json({
-          aboutContent: aboutContent,
+          data: _aboutContent
         });
+
+
       }
     );
   } catch (error) {
     console.log(error);
   }
 }
+
+
 
 function getLogoPath(req, res, next) {
   try {
@@ -37,8 +44,10 @@ function getLogoPath(req, res, next) {
         } else {
         }
 
+        const _logoPath = crypto.encryptData(logoPath);
+
         res.status(200).json({
-          logoPath: logoPath,
+          data: _logoPath,
         });
       }
     );

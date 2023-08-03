@@ -21,10 +21,15 @@
 }
 
 .carousel-caption {
-  background-color: rgba(63, 81, 181, 0.65);
+  background-color: rgba(63, 81, 181, 0.85);
   left: 0;
   right: 0;
   width: 100%;
-  color: #121212;
+  color: whitesmoke;
+}
+
+.carousel-caption > mat-card-title {
+  font-size: large;
+  font-weight: normal;
 }
 

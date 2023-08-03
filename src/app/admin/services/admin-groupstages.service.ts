@@ -21,12 +21,12 @@ export class GroupStagesService {
   getGroupstages(leagueId: number) {
     try {
       this.http
-        .get<{groupstageList: GroupStagesModel[]}>(
+        .get<{data: GroupStagesModel[]}>(
           'http://localhost:3000/admin/gruplar/' + leagueId
         )
         .subscribe({
           next: (data) => {
-            this.groupstageList = data.groupstageList;
+            this.groupstageList = data.data;
             this.groupstageListSub.next([...this.groupstageList]);
           },
           error: (error) => {
@@ -45,12 +45,12 @@ export class GroupStagesService {
   getGroupWeeks(groupstageId: number) {
     try {
       this.http
-        .get<{weekSequence: Array<number>[]}>(
+        .get<{data: Array<number>[]}>(
           'http://localhost:3000/admin/gruplar/hafta-siralamasi/' + groupstageId
         )
         .subscribe({
           next: (data) => {
-            this.weekSequence = data.weekSequence;
+            this.weekSequence = data.data;
             this.weekSequenceSub.next([...this.weekSequence]);
           },
           error: (error) => {
@@ -67,7 +67,7 @@ export class GroupStagesService {
   }
 
   getPlayedLastMatchWeek(_groupstageId: number): Observable<any> {
-    return this.http.get<{currentWeek: number}>(
+    return this.http.get<{data: number}>(
       'http://localhost:3000/admin/gruplar/son-musabaka-haftasi/' + _groupstageId
       );
   }
@@ -75,12 +75,12 @@ export class GroupStagesService {
   createGroupStage(groupstageInfo: GroupStagesModel) {
     try {
       this.http
-        .post<{groupstageId: number}>(
+        .post<{data: number}>(
           'http://localhost:3000/admin/gruplar', groupstageInfo
         )
         .subscribe({
           next: (data) => {
-            groupstageInfo.id = data.groupstageId;
+            groupstageInfo.id = data.data;
             this.groupstageList.push(groupstageInfo);
             this.groupstageListSub.next([...this.groupstageList]);
             this.globalFunctions.showSnackBar("server.success");

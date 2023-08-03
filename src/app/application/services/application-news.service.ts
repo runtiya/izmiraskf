@@ -27,7 +27,7 @@ export class NewsService {
   getNews() {
     try {
       this.http
-        .get<{newsList: NewsModel[]}>(
+        .get<{data: NewsModel[]}>(
           'http://localhost:3000/haberler/list'
         )
         /*
@@ -52,7 +52,7 @@ export class NewsService {
         */
        .subscribe({
         next: (data) => {
-          this.newsList = data.newsList;
+          this.newsList = data.data;
           this.newsUpdated.next([...this.newsList]);
         },
         error: (error) => {
@@ -72,12 +72,12 @@ export class NewsService {
   getNewsById(id: number) {
     try {
       this.http
-        .get<{news: NewsModel}>(
+        .get<{data: NewsModel}>(
           'http://localhost:3000/haberler/news-id/' + id
         )
         .subscribe({
           next: (data) => {
-            this.newsById = data.news;
+            this.newsById = data.data;
             this.newsByIdSubject.next(this.newsById);
           },
           error: (error) => {
@@ -96,12 +96,12 @@ export class NewsService {
   getNewsForSlider() {
     try {
       this.http
-        .get<{newsList: NewsModel[]}>(
+        .get<{data: NewsModel[]}>(
           'http://localhost:3000/haberler/hot-topics'
         )
         .subscribe({
           next: (data) => {
-            this.newsForSliderList = data.newsList;
+            this.newsForSliderList = data.data;
             this.newsForSliderListSubject.next([...this.newsForSliderList]);
           },
           error: (error) => {

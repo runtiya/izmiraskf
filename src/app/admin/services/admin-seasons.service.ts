@@ -18,12 +18,12 @@ export class SeasonsService {
   getSeasons() {
     try {
       this.http
-        .get<{seasonList: SeasonsModel[]}>(
+        .get<{data: SeasonsModel[]}>(
           'http://localhost:3000/admin/sezonlar'
         )
         .subscribe({
           next: (data) => {
-            this.seasonsList = data.seasonList;
+            this.seasonsList = data.data;
             this.seasonsListSub.next([...this.seasonsList]);
           },
           error: (error) => {
@@ -43,12 +43,12 @@ export class SeasonsService {
   createSeason(seasonInfo: SeasonsModel) {
     try {
       this.http
-        .post<{seasonId: number}>(
+        .post<{data: number}>(
           'http://localhost:3000/admin/sezonlar', seasonInfo
         )
         .subscribe({
           next: (data) => {
-            seasonInfo.id = data.seasonId;
+            seasonInfo.id = data.data;
             this.seasonsList.push(seasonInfo);
             this.seasonsListSub.next([...this.seasonsList]);
             this.globalFunctions.showSnackBar("server.success");

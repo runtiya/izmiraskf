@@ -1,9 +1,10 @@
 const queries = require("../../queries/application/news");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getNews(req, res, next) {
   try {
-    var newsList;
+    var newsList = [];
     var message;
 
     connection.query(
@@ -13,13 +14,12 @@ function getNews(req, res, next) {
           newsList = result;
         } else {
           message = error.sqlMessage;
-          newsList = [];
         }
 
+        const _newsList = crypto.encryptData(newsList);
+
         res.status(200).json({
-          error: !!error,
-          message: message || "News fetched successfully!",
-          newsList: newsList,
+          data: _newsList,
         });
       }
     );
@@ -44,8 +44,10 @@ function getNewsById(req, res, next) {
           message = error.sqlMessage;
         }
 
+        const _news = crypto.encryptData(news);
+
         res.status(200).json({
-          news: news,
+          data: _news,
         });
       }
     );
@@ -56,7 +58,7 @@ function getNewsById(req, res, next) {
 
 function getNewsForSlider(req, res, next) {
   try {
-    var newsList;
+    var newsList = [];
     var message;
 
     connection.query(
@@ -66,11 +68,12 @@ function getNewsForSlider(req, res, next) {
           newsList = result;
         } else {
           message = error.sqlMessage;
-          newsList = [];
         }
 
+        const _newsList = crypto.encryptData(newsList);
+
         res.status(200).json({
-          newsList: newsList,
+          data: _newsList,
         });
       }
     );

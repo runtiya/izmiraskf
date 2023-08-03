@@ -1,11 +1,12 @@
 const queryexternallinks = require("../../queries/admin/externallinks");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 const imagesFunction = require("../../functions/images");
 
 // Get all external links list
 function getExternalLinks(req, res, next) {
   try {
-    var extlinkList;
+    var extlinkList = [];
     var message;
 
     connection.query(queryexternallinks.getExternalLinks, (error, result) => {
@@ -13,13 +14,12 @@ function getExternalLinks(req, res, next) {
         extlinkList = result;
       } else {
         message = error.sqlMessage;
-        extlinkList = [];
       }
 
+      const _extlinkList = crypto.encryptData(extlinkList);
+
       res.status(200).json({
-        error: !!error,
-        message: message || "External Links fetched successfully!",
-        externalLinks: extlinkList,
+        data: _extlinkList,
       });
     });
   } catch (error) {
@@ -67,8 +67,11 @@ function createExternalLink(req, res, next) {
         } else {
           message = error.sqlMessage;
         }
+
+        const _linkId = crypto.encryptData(linkId);
+
         res.status(200).json({
-          linkId: linkId,
+          data: _linkId,
         });
       }
     );
@@ -120,6 +123,7 @@ function updateExternalLink(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );
@@ -142,6 +146,7 @@ function deleteExternalLink(req, res, next) {
           message = error.sqlMessage;
         }
         res.status(200).json({
+
         });
       }
     );

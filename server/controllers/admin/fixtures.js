@@ -1,10 +1,11 @@
 const queries = require("../../queries/admin/fixtures");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getFixtureBySearchIndex(req, res, next) {
   try {
     const searchIndex = req.body;
-    var fixtureList;
+    var fixtureList = [];
     var message;
 
     let seasonSearchIndex = searchIndex.seasonId
@@ -82,11 +83,12 @@ function getFixtureBySearchIndex(req, res, next) {
           fixtureList = result;
         } else {
           message = error.sqlMessage;
-          fixtureList = [];
         }
 
+        const _fixtureList = crypto.encryptData(fixtureList);
+
         res.status(200).json({
-          fixtureList: fixtureList,
+          data: _fixtureList,
         });
       }
     );
@@ -143,8 +145,7 @@ function createFixture(req, res, next) {
     });
   } finally {
     res.status(200).json({
-      error: _error,
-      message: message || "Fixture created successfully!",
+
     });
   }
 }
@@ -198,8 +199,7 @@ function updateFixture(req, res, next) {
     });
   } finally {
     res.status(200).json({
-      error: _error,
-      message: message || "Fixture updated successfully!",
+
     });
   }
 }
@@ -215,8 +215,7 @@ function deleteMatch(req, res, next) {
       }
 
       res.status(200).json({
-        error: !!error,
-        message: message || "Match deleted successfully!",
+
       });
     });
   } catch (error) {
@@ -235,8 +234,7 @@ function clearFixture(req, res, next) {
       }
 
       res.status(200).json({
-        error: !!error,
-        message: message || "Fixtures deleted successfully!",
+
       });
     });
   } catch (error) {

@@ -1,10 +1,11 @@
 const queries = require("../../queries/application/teamsingroupstages");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getTeamsInGroupstages(req, res, next) {
   try {
     const groupstageId = req.params.groupstageId;
-    var teamsingroupstagesList;
+    var teamsingroupstagesList = [];
     var message;
 
     connection.query(
@@ -15,11 +16,12 @@ function getTeamsInGroupstages(req, res, next) {
           teamsingroupstagesList = result;
         } else {
           message = error.sqlMessage;
-          teamsingroupstagesList = [];
         }
 
+        const _teamsingroupstagesList = crypto.encryptData(teamsingroupstagesList);
+
         res.status(200).json({
-          teamsingroupstagesList: teamsingroupstagesList,
+          data: _teamsingroupstagesList,
         });
       }
     );
@@ -30,7 +32,7 @@ function getTeamsInGroupstages(req, res, next) {
 
 function getTeamsForGroupstages(req, res, next) {
   try {
-    var teamsList;
+    var teamsList = [];
     var message;
     connection.query(
       queries.getTeamsForGroupstages,
@@ -39,10 +41,12 @@ function getTeamsForGroupstages(req, res, next) {
           teamsList = result;
         } else {
           message = error.sqlMessage;
-          teamsList = [];
         }
+
+        const _teamsList = crypto.encryptData(teamsList);
+
         res.status(200).json({
-          teamsList: teamsList,
+          data: _teamsList,
         });
       }
     );

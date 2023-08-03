@@ -21,12 +21,12 @@ export class StaffITFFService {
   getStaff() {
     try {
       this.http
-        .get<{ staffList: StaffITFFModel[] }>(
+        .get<{ data: StaffITFFModel[] }>(
           'http://localhost:3000/tffiltemsilciligi/yonetim-kurulu'
         )
         .subscribe({
           next: (data) => {
-            this.staffList = data.staffList;
+            this.staffList = data.data;
             this.staffListUpdated.next([...this.staffList]);
           },
           error: (error) => {

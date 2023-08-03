@@ -18,12 +18,12 @@ export class ExternalLinksService {
   getLinks() {
     try {
       this.http
-        .get<{externalLinks: ExternalLinksModel[]}>(
+        .get<{data: ExternalLinksModel[]}>(
           'http://localhost:3000/admin/disbaglantilar'
         )
         .subscribe({
           next: (data) => {
-            this.extLinksList = data.externalLinks;
+            this.extLinksList = data.data;
             this.extLinksListSub.next([...this.extLinksList]);
           },
           error: (error) => {
@@ -46,12 +46,12 @@ export class ExternalLinksService {
       formData.append('linkInfo', JSON.stringify(linkInfo));
 
       this.http
-        .post<{linkId: number}>(
+        .post<{data: number}>(
           'http://localhost:3000/admin/disbaglantilar', formData
         )
         .subscribe({
           next: (data) => {
-            linkInfo.id = data.linkId;
+            linkInfo.id = data.data;
             this.extLinksList.push(linkInfo);
             this.extLinksListSub.next([...this.extLinksList]);
             this.globalFunctions.showSnackBar("server.success");

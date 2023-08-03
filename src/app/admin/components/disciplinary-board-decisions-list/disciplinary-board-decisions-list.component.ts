@@ -6,7 +6,7 @@ import { ActivatedRoute } from "@angular/router";
 
 import { DisciplinaryBoardDecisionModel } from "../../models/admin-disciplinaryboarddecisions.model";
 import { DisciplinaryBoardDecisionsService } from "../../services/admin-disciplinaryboarddecisions.service";
-import { GeneralDisciplinaryBoardDecisionExportModel } from "../../../models/general-disciplinaryboarddecisions-export.model";
+import { GeneralDisciplinaryBoardDecisionExportModel } from "../../../models/global-general-disciplinaryboarddecisions-export.model";
 
 import { DisciplinaryBoardFileModel } from "../../models/admin-disciplinaryboardfiles.model";
 import { DisciplinaryBoardFilesService } from "../../services/admin-disciplinaryboardfiles.service";

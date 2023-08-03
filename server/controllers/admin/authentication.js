@@ -1,6 +1,7 @@
-const connection = require('../../functions/database').connectDatabase();
+const connection = require("../../functions/database").connectDatabase();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require('../../functions/crypto');
 
 function getUsers(req, res, next) {
   try {
@@ -14,8 +15,10 @@ function getUsers(req, res, next) {
         message = error.sqlMessage;
       }
 
+      const _usersList = crypto.encryptData(usersList);
+
       res.status(200).json({
-        usersList: usersList,
+        data: _usersList,
       });
     });
   } catch (error) {
@@ -58,8 +61,10 @@ function createUser(req, res, next) {
               message = error.sqlMessage;
             }
 
+            const _userInfo = crypto.encryptData(userInfo);
+
             res.status(200).json({
-              user: userInfo,
+              data: _userInfo,
             });
           }
         );
@@ -213,6 +218,7 @@ function deleteUser(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );

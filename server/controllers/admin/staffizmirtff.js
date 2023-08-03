@@ -1,10 +1,11 @@
 const queries = require("../../queries/admin/staffizmirtff");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 const imagesFunction = require("../../functions/images");
 
 function getStaffList(req, res, next) {
   try {
-    var staffList;
+    var staffList = [];
     var message;
 
     connection.query(queries.getStaffList, (error, result) => {
@@ -12,13 +13,12 @@ function getStaffList(req, res, next) {
         staffList = result;
       } else {
         message = error.sqlMessage;
-        staffList = [];
       }
 
+      const _staffList = crypto.encryptData(staffList);
+
       res.status(200).json({
-        error: !!error,
-        message: message || "Staff fetched successfully!",
-        staffList: staffList,
+        data: _staffList,
       });
     });
   } catch (error) {
@@ -65,8 +65,11 @@ function createStaff(req, res, next) {
         } else {
           message = error.sqlMessage;
         }
+
+        const _staffId = crypto.encryptData(staffId);
+
         res.status(200).json({
-          staffId: staffId,
+          data: _staffId,
         });
       }
     );
@@ -116,6 +119,7 @@ function updateStaff(req, res, next) {
           message = error.sqlMessage;
         }
         res.status(200).json({
+
         });
       }
     );
@@ -134,8 +138,7 @@ function deleteStaff(req, res, next) {
         message = error.sqlMessage;
       }
       res.status(200).json({
-        error: !!error,
-        message: message || "Staff deleted successfully!",
+
       });
     });
   } catch (error) {

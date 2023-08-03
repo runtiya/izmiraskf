@@ -7,12 +7,16 @@ import { fontAwesomeIconList } from '../assets/lists/font-awesome-icon.list';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { fileMimeTypeList } from "../assets/lists/file-mime-type.list";
 import { systemMessages } from "../assets/messages/system";
+import { townList } from "../assets/lists/town-izmir.list";
+import { floorTypeList } from "../assets/lists/floor-type.list";
 
 @Injectable({
     providedIn: 'root'
 })
 export class globalFunctions {
   fileMimeTypeList = fileMimeTypeList;
+  townListArray = townList;
+  floorTypeListArray = floorTypeList;
 
   constructor(
     private _datePipe: DatePipe,
@@ -55,6 +59,14 @@ export class globalFunctions {
 
   getTimeStamp(): string {
     return this._datePipe.transform((new Date), 'yyyy-MM-ddTHH:mm:ss');
+  }
+
+  getTownValue(name: string): string {
+    return this.townListArray.find(t => t.name === name).value;
+  }
+
+  getFloorTypeValue(name: string): string {
+    return this.floorTypeListArray.find(t => t.name === name).value;
   }
 
   getMimeType(mimeType: string): string {

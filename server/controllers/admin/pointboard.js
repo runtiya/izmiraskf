@@ -1,11 +1,12 @@
 const queries = require("../../queries/admin/pointboard");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getPointBoard(req, res, next) {
   try {
     const groupstageId = req.params.groupstageid;
     const matchWeek = req.params.matchweek;
-    var pointBoard;
+    var pointBoard = [];
     var message;
 
     connection.query(
@@ -16,11 +17,12 @@ function getPointBoard(req, res, next) {
           pointBoard = result;
         } else {
           message = error.sqlMessage;
-          pointBoard = [];
         }
 
+        const _pointBoard = crypto.encryptData(pointBoard);
+
         res.status(200).json({
-          pointBoard: pointBoard,
+          data: _pointBoard,
         });
       }
     );

@@ -1,9 +1,10 @@
 const queries = require("../../queries/admin/weeklymatchprogram");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getWeeklyMatchProgram(req, res, next) {
   try {
-    var weeklyMatchProgramList;
+    var weeklyMatchProgramList = [];
     var message;
     var seasonId = req.params.seasonid;
 
@@ -15,11 +16,12 @@ function getWeeklyMatchProgram(req, res, next) {
           weeklyMatchProgramList = result;
         } else {
           message = error.sqlMessage;
-          weeklyMatchProgramList = [];
         }
 
+        const _weeklyMatchProgramList = crypto.encryptData(weeklyMatchProgramList);
+
         res.status(200).json({
-          weeklyMatchProgramList: weeklyMatchProgramList,
+          data: _weeklyMatchProgramList,
         });
       }
     );
@@ -53,8 +55,10 @@ function createWeeklyMatchProgram(req, res, next) {
           message = error.sqlMessage;
         }
 
+        const _weeklyMatchProgramId = crypto.encryptData(weeklyMatchProgramId);
+
         res.status(200).json({
-          weeklyMatchProgramId: weeklyMatchProgramId,
+          data: _weeklyMatchProgramId,
         });
       }
     );
@@ -91,6 +95,7 @@ function updateWeeklyMatchProgram(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );
@@ -114,6 +119,7 @@ function deleteWeeklyMatchProgram(req, res, next) {
           message = error.sqlMessage;
         }
         res.status(200).json({
+
         });
       }
     );

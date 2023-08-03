@@ -18,12 +18,12 @@ export class DocumentsService {
   getDocuments(category: string) {
     try {
       this.http
-        .get<{documentsList: DocumentsModel[]}>(
+        .get<{data: DocumentsModel[]}>(
           'http://localhost:3000/admin/dokumanlar/' + category
         )
         .subscribe({
           next: (data) => {
-            this.documentsList = data.documentsList;
+            this.documentsList = data.data;
             this.documentsListSub.next([...this.documentsList]);
           },
           error: (error) => {
@@ -47,12 +47,12 @@ export class DocumentsService {
       formData.append('documentInfo', JSON.stringify(documentInfo));
 
       this.http
-        .post<{documentId: number}>(
+        .post<{data: number}>(
           'http://localhost:3000/admin/dokumanlar/' + documentInfo.category, formData
         )
         .subscribe({
           next: (data) => {
-            documentInfo.id = data.documentId;
+            documentInfo.id = data.data;
             this.documentsList.push(documentInfo);
             this.documentsListSub.next([...this.documentsList]);
             this.globalFunctions.showSnackBar("server.success");

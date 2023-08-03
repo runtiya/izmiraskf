@@ -1,3 +1,5 @@
 module.exports = {
-  "getGoalByLeague" : "select * from view_application_statistics_goalbyleague"
+  "getTeamsCountByTown" : "select * from view_admin_statistics_teamscountbytown" ,
+  "getStadiumsCountByTown" : "select * from view_admin_statistics_stadiumscountbytown",
+  "getStadiumsCountByFloorType" : "select * from view_admin_statistics_stadiumscountbyfloortype",
 }

@@ -22,7 +22,7 @@ export class NewsService {
   getNews() {
     try {
       this.http
-        .get<{news: NewsModel[]}>(
+        .get<{data: NewsModel[]}>(
           'http://localhost:3000/admin/haberler'
         )
         /*
@@ -49,7 +49,7 @@ export class NewsService {
         */
        .subscribe({
         next: (data) => {
-          this.newsList = data.news;
+          this.newsList = data.data;
           this.newsUpdated.next([...this.newsList]);
         },
         error: (error) => {
@@ -72,12 +72,12 @@ export class NewsService {
       formData.append('newsInfo', JSON.stringify(newsInfo));
 
       this.http
-        .post<{newsId: number}>(
+        .post<{data: number}>(
           'http://localhost:3000/admin/haberler', formData
         )
         .subscribe({
           next: (data) => {
-            newsInfo.id = data.newsId;
+            newsInfo.id = data.data;
             this.newsList.push(newsInfo);
             this.newsUpdated.next([...this.newsList]);
             this.globalFunctions.showSnackBar("server.success");

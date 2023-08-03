@@ -1,11 +1,12 @@
 const queries = require("../../queries/admin/teams");
 
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 const imagesFunction = require("../../functions/images");
 
 function getTeams(req, res, next) {
   try {
-    var teamList;
+    var teamList = [];
     var message;
 
     connection.query(queries.getTeams, (error, result) => {
@@ -13,13 +14,12 @@ function getTeams(req, res, next) {
         teamList = result;
       } else {
         message = error.sqlMessage;
-        teamList = [];
       }
 
+      const _teamList = crypto.encryptData(teamList);
+
       res.status(200).json({
-        error: !!error,
-        message: message || "Teams fetched successfully!",
-        teamList: teamList,
+        data: _teamList,
       });
     });
   } catch (error) {
@@ -82,8 +82,10 @@ function createTeam(req, res, next) {
           message = error.sqlMessage;
         }
 
+        const _teamId = crypto.encryptData(teamId);
+
         res.status(200).json({
-          teamId: teamId,
+          data: _teamId,
         });
       }
     );
@@ -144,6 +146,7 @@ function updateTeam(req, res, next) {
           message = error.sqlMessage;
         }
         res.status(200).json({
+
         });
       }
     );
@@ -162,8 +165,7 @@ function deleteTeam(req, res, next) {
         message = error.sqlMessage;
       }
       res.status(200).json({
-        error: !!error,
-        message: message || "Stadium deleted successfully!",
+
       });
     });
   } catch (error) {

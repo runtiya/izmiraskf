@@ -27,12 +27,12 @@ export class WeeklyMatchListService {
   getWeeklyMatchList(seasonId: number) {
     try {
       this.http
-        .get<{weeklyMatchList: WeeklyMatchListModel[]}>(
+        .get<{data: WeeklyMatchListModel[]}>(
           'http://localhost:3000/weekly-match-list/' + seasonId
         )
         .subscribe({
           next: (data) => {
-            this.weeklyMatchList = data.weeklyMatchList;
+            this.weeklyMatchList = data.data;
             this.weeklyMatchListSub.next([...this.weeklyMatchList]);
           },
           error: (error) => {

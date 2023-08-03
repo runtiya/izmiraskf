@@ -21,12 +21,12 @@ export class StaffITFFService {
   getStaff() {
     try {
       this.http
-        .get<{ staffList: StaffITFFModel[] }>(
+        .get<{ data: StaffITFFModel[] }>(
           'http://localhost:3000/admin/tffiltemsilciligi/yonetim-kurulu'
         )
         .subscribe({
           next: (data) => {
-            this.staffList = data.staffList;
+            this.staffList = data.data;
             this.staffListUpdated.next([...this.staffList]);
           },
           error: (error) => {
@@ -50,12 +50,12 @@ export class StaffITFFService {
       formData.append('staffInfo', JSON.stringify(staffInfo));
 
       this.http
-        .post<{ staffId: number }>(
+        .post<{ data: number }>(
           'http://localhost:3000/admin/tffiltemsilciligi/yonetim-kurulu', formData
         )
         .subscribe({
           next: (data) => {
-            staffInfo.id = data.staffId;
+            staffInfo.id = data.data;
             this.staffList.push(staffInfo);
             this.staffListUpdated.next([...this.staffList]);
             this.globalFunctions.showSnackBar("server.success");

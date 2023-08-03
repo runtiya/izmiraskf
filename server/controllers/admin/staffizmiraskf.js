@@ -1,23 +1,25 @@
 const queries = require("../../queries/admin/staffizmiraskf");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 const imagesFunction = require("../../functions/images");
 
 function getStaffList(req, res, next) {
   try {
-    var staffList;
+    var staffList = [];
     var message;
-    connection.query(queries.getStaffList, (error, result) => {
+
+    connection.query(queries.getStaffList,
+      (error, result) => {
       if (!error) {
         staffList = result;
       } else {
         message = error.sqlMessage;
-        staffList = [];
       }
 
+      const _staffList = crypto.encryptData(staffList);
+
       res.status(200).json({
-        error: !!error,
-        message: message || "Staff fetched successfully!",
-        staffList: staffList,
+        data: _staffList,
       });
     });
   } catch (error) {
@@ -64,8 +66,11 @@ function createStaff(req, res, next) {
         } else {
           message = error.sqlMessage;
         }
+
+        const _staffId = crypto.encryptData(lestaffIdagueList);
+
         res.status(200).json({
-          staffId: staffId,
+          data: _staffId,
         });
       }
     );
@@ -115,6 +120,7 @@ function updateStaff(req, res, next) {
           message = error.sqlMessage;
         }
         res.status(200).json({
+
         });
       }
     );
@@ -133,8 +139,7 @@ function deleteStaff(req, res, next) {
         message = error.sqlMessage;
       }
       res.status(200).json({
-        error: !!error,
-        message: message || "Staff deleted successfully!",
+
       });
     });
   } catch (error) {

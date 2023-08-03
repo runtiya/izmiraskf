@@ -21,12 +21,12 @@ export class AboutITFFService {
   getAboutContent() {
     try {
       this.http
-        .get<{aboutContent: AboutITFFModel}>(
+        .get<{data: AboutITFFModel}>(
           'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda'
         )
         .subscribe({
           next: (data) => {
-            this.aboutContent = data.aboutContent;
+            this.aboutContent = data.data;
             this.aboutContentSubject.next(this.aboutContent);
           },
           error: (error) => {

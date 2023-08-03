@@ -19,12 +19,12 @@ export class DisciplinaryBoardFilesService {
   getDisciplinaryBoardFiles(seasonId: number, caseType: string) {
     try {
       this.http
-        .get<{ disciplinaryBoardFileList: DisciplinaryBoardFileModel[] }>(
+        .get<{ data: DisciplinaryBoardFileModel[] }>(
           'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + seasonId + '/' + caseType
         )
         .subscribe({
           next: (data) => {
-            this.disciplinaryBoardFileList = data.disciplinaryBoardFileList;
+            this.disciplinaryBoardFileList = data.data;
             this.disciplinaryBoardFileList.length > 0 ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
           },
           error: (error) => {
@@ -43,12 +43,12 @@ export class DisciplinaryBoardFilesService {
   createDisciplinaryBoardFile(disciplinaryBoardFileInfo: DisciplinaryBoardFileModel) {
     try {
       this.http
-        .post<{ disciplinaryBoardFileId: number }>(
+        .post<{ data: number }>(
           'http://localhost:3000/admin/disiplin-kurulu-dosyalari', disciplinaryBoardFileInfo
         )
         .subscribe({
           next: (data) => {
-            disciplinaryBoardFileInfo.id = data.disciplinaryBoardFileId;
+            disciplinaryBoardFileInfo.id = data.data;
             this.disciplinaryBoardFileList.push(disciplinaryBoardFileInfo);
             this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);
             this.globalFunctions.showSnackBar("server.success");

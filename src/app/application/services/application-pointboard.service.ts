@@ -27,10 +27,10 @@ export class PointBoardService {
         this.groupstageService.getPlayedLastMatchWeek(_groupstageId)
           .subscribe({
             next: (data) => {
-              _matchWeek = data.matchWeek;
+              _matchWeek = data.data;
               this.getCurrentPointBoard(_groupstageId, _matchWeek)
                 .subscribe((data) => {
-                  this.pointBoardList = data.pointBoard;
+                  this.pointBoardList = data.data;
                   this.pointBoardListSub.next([...this.pointBoardList]);
                 });
             },
@@ -42,7 +42,7 @@ export class PointBoardService {
         this.getCurrentPointBoard(_groupstageId, _matchWeek)
           .subscribe({
             next: (data) => {
-              this.pointBoardList = data.pointBoard;
+              this.pointBoardList = data.data;
               this.pointBoardListSub.next([...this.pointBoardList]);
             },
             error: (error) => {
@@ -60,7 +60,7 @@ export class PointBoardService {
   }
 
   getCurrentPointBoard(_groupstageId: number, _matchWeek: number): Observable<any> {
-    return this.http.get<{pointBoard: PointBoardModel[]}>(
+    return this.http.get<{data: PointBoardModel[]}>(
       'http://localhost:3000/puan-tablosu/' + _groupstageId + '/' + _matchWeek
       );
   }

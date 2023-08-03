@@ -20,12 +20,12 @@ export class DisciplinaryBoardDecisionsService {
   getDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
     try {
       this.http
-        .get<{ disciplinaryBoardDecisionList: DisciplinaryBoardDecisionModel[] }>(
+        .get<{ data: DisciplinaryBoardDecisionModel[] }>(
           'http://localhost:3000/disiplin-kurulu-kararlari/' + disciplinaryBoardFileId
         )
         .subscribe({
           next: (data) => {
-            this.disciplinaryBoardDecisionList = data.disciplinaryBoardDecisionList;
+            this.disciplinaryBoardDecisionList = data.data;
             !!this.disciplinaryBoardDecisionList ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
           },
           error: (error) => {

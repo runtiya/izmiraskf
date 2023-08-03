@@ -19,12 +19,12 @@ export class StadiumsService {
   getStadiums() {
     try {
       this.http
-        .get<{stadiums: StadiumsModel[]}>(
+        .get<{data: StadiumsModel[]}>(
           'http://localhost:3000/admin/sahalar'
         )
         .subscribe({
           next: (data) => {
-            this.stadiumList = data.stadiums;
+            this.stadiumList = data.data;
             this.stadiumListSub.next([...this.stadiumList]);
           },
           error: (error) => {
@@ -47,12 +47,12 @@ export class StadiumsService {
       formData.append('stadiumInfo', JSON.stringify(stadiumInfo));
 
       this.http
-        .post<{stadiumId: number}>(
+        .post<{data: number}>(
           'http://localhost:3000/admin/sahalar', formData
         )
         .subscribe({
           next: (data) => {
-            stadiumInfo.id = data.stadiumId;
+            stadiumInfo.id = data.data;
             this.stadiumList.push(stadiumInfo);
             this.stadiumListSub.next([...this.stadiumList]);
             this.globalFunctions.showSnackBar("server.success");

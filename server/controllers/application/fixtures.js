@@ -1,9 +1,10 @@
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getFixtureBySearchIndex(req, res, next) {
   try {
     const searchIndex = req.body;
-    var fixtureList;
+    var fixtureList = [];
     var message;
 
     let seasonSearchIndex = searchIndex.seasonId
@@ -81,11 +82,12 @@ function getFixtureBySearchIndex(req, res, next) {
           fixtureList = result;
         } else {
           message = error.sqlMessage;
-          fixtureList = [];
         }
 
+        const _fixtureList = crypto.encryptData(fixtureList);
+
         res.status(200).json({
-          fixtureList: fixtureList,
+          data: _fixtureList,
         });
       }
     );

@@ -1,10 +1,11 @@
 const queries = require("../../queries/application/documents");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getDocuments(req, res, next) {
   try {
     const category = req.params.category;
-    var documentsList;
+    var documentsList = [];
     var message;
 
     connection.query(
@@ -15,11 +16,12 @@ function getDocuments(req, res, next) {
           documentsList = result;
         } else {
           message = error.sqlMessage;
-          documentsList = [];
         }
 
+        const _documentsList = crypto.encryptData(documentsList);
+
         res.status(200).json({
-          documentsList: documentsList,
+          data: _documentsList,
         });
       }
     );

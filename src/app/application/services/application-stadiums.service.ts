@@ -22,12 +22,12 @@ export class StadiumsService {
   getStadiums() {
     try {
       this.http
-        .get<{stadiums: StadiumsModel[]}>(
+        .get<{data: StadiumsModel[]}>(
           'http://localhost:3000/sahalar'
         )
         .subscribe({
           next: (data) => {
-            this.stadiumList = data.stadiums;
+            this.stadiumList = data.data;
             this.stadiumListSub.next([...this.stadiumList]);
           },
           error: (error) => {
@@ -46,12 +46,12 @@ export class StadiumsService {
   getStadiumById(_id: number) {
     try {
       this.http
-        .get<{ message:string, stadium: StadiumsModel}>(
+        .get<{ data: StadiumsModel}>(
           'http://localhost:3000/sahalar/' + _id
         )
         .subscribe({
           next: (data) => {
-            this.stadium = data.stadium;
+            this.stadium = data.data;
             this.stadiumSub.next(this.stadium);
           },
           error: (error) => {

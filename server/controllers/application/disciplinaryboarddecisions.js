@@ -1,9 +1,10 @@
 const queries = require("../../queries/application/disciplinaryboarddecisions");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 
 function getDisciplinaryBoardDecisions(req, res, next) {
   try {
-    var disciplinaryBoardDecisionList;
+    var disciplinaryBoardDecisionList = [];
     var message;
     const disciplinaryBoardFileId = req.params.fileid;
 
@@ -14,12 +15,13 @@ function getDisciplinaryBoardDecisions(req, res, next) {
         if (!error) {
           disciplinaryBoardDecisionList = result;
         } else {
-          disciplinaryBoardDecisionList = [];
           message = error.sqlMessage;
         }
 
+        const _disciplinaryBoardDecisionList = crypto.encryptData(disciplinaryBoardDecisionList);
+
         res.status(200).json({
-          disciplinaryBoardDecisionList: disciplinaryBoardDecisionList,
+          data: _disciplinaryBoardDecisionList,
         });
       }
     );

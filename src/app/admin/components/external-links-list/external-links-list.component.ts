@@ -19,6 +19,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   extLinks: ExternalLinksModel[] = [];
   extLinksRelatedLinks: ExternalLinksModel[] = [];
   extLinksSocialMediaLinks: ExternalLinksModel[] = [];
+  extLinksAdvertisements: ExternalLinksModel[] = [];
   private extLinksSubscription: Subscription;
   faBrandList = faBrandList;
 
@@ -45,6 +46,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
         this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
         this.extLinksRelatedLinks = this.extLinks.filter(link => link.linkType == "RELATEDLINK");
         this.extLinksSocialMediaLinks = this.extLinks.filter(link => link.linkType == "SOCIALMEDIA");
+        this.extLinksAdvertisements = this.extLinks.filter(link => link.linkType == "ADVERTISEMENT");
       });
   }
 

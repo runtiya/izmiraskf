@@ -1,10 +1,11 @@
 const queries = require("../../queries/admin/news");
 const connection = require("../../functions/database").connectDatabase();
+const crypto = require('../../functions/crypto');
 const imagesFunction = require("../../functions/images");
 
 function getNews(req, res, next) {
   try {
-    var newsList;
+    var newsList = [];
     var message;
 
     connection.query(queries.getNews, (error, result) => {
@@ -12,13 +13,12 @@ function getNews(req, res, next) {
         newsList = result;
       } else {
         message = error.sqlMessage;
-        newsList = [];
       }
 
+      const _newsList = crypto.encryptData(newsList);
+
       res.status(200).json({
-        error: !!error,
-        message: message || "News fetched successfully!",
-        news: newsList,
+        data: _newsList,
       });
     });
   } catch (error) {
@@ -28,7 +28,7 @@ function getNews(req, res, next) {
 
 // Get a news by id
 function findNews(req, res, next) {
-  // There isn't any select query. __MS
+
 }
 
 function createNews(req, res, next) {
@@ -69,8 +69,11 @@ function createNews(req, res, next) {
         } else {
           message = error.sqlMessage;
         }
+
+        const _newsId = crypto.encryptData(newsId);
+
         res.status(200).json({
-          newsId: newsId,
+          data: _newsId,
         });
       }
     );
@@ -99,7 +102,6 @@ function updateNews(req, res, next) {
       }
     }
 
-    var message;
     connection.query(
       queries.updateNews,
       [
@@ -121,6 +123,7 @@ function updateNews(req, res, next) {
         }
 
         res.status(200).json({
+
         });
       }
     );
@@ -139,9 +142,9 @@ function deleteNews(req, res, next) {
       } else {
         message = error.sqlMessage;
       }
+
       res.status(200).json({
-        error: !!error,
-        message: message || "News deleted successfully!",
+
       });
     });
   } catch (error) {
