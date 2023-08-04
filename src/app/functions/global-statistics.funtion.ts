@@ -18,7 +18,7 @@ export class statisticsFunctions {
     }
   };
   chartSeries: ApexNonAxisChartSeries = [1];
-  chartColors: any[] = ['#99BF00', '#456789', '#546E7A', '#E91E63', '#FF9800', '#3F51B3', '#A12B34'];
+  chartColors: any[] = ['#006c9e', '#de425b', '#69d148', '#7f6ebe', '#df61a9', '#ff6d68', '#a9dc5d', '#fcbe6e', '#d9e87b', '#fff4a0'];
   chartLabels = ['label #1'];
   chartDataLabels: ApexDataLabels = {
     enabled: true

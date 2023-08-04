@@ -17,10 +17,6 @@
   background-color: gray !important;
 }
 
-.mat-mdc-card-avatar {
-  margin-bottom: 0;
-}
-
 .weeklymatchlist-match-is-not-in-list {
   background-color: tomato !important;
 }

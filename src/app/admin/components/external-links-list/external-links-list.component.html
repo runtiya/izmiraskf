@@ -28,7 +28,7 @@
       <ng-container matColumnDef="linkName">
         <th mat-header-cell *matHeaderCellDef="">Bağlantı Adı</th>
         <td mat-cell *matCellDef="let link">
-          <img mat-card-avatar [src]="link.imagePath" [alt]="link.linkName">
+          <img mat-card-sm-image class="image-icon-external-links" [src]="link.imagePath" [alt]="link.linkName">
           {{ link.linkName }}
         </td>
       </ng-container>

@@ -46,6 +46,6 @@ export class GlobalStatisticsStadiumsCountByFloorType implements OnInit, OnDestr
   }
 
   ngOnDestroy(): void {
-
+    this.stadiumsCountByFloorTypeListSub.unsubscribe();
   }
 }

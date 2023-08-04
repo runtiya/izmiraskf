@@ -15,6 +15,7 @@ mat-divider {
   text-align: start;
 }
 
-.mat-mdc-card-avatar {
-  margin-bottom: 0;
+.image-icon-external-links {
+  width: 5%;
+  height: auto;
 }
