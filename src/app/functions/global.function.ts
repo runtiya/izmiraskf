@@ -7,6 +7,7 @@ import { fontAwesomeIconList } from '../assets/lists/font-awesome-icon.list';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { fileMimeTypeList } from "../assets/lists/file-mime-type.list";
 import { systemMessages } from "../assets/messages/system";
+import { cityList } from "../assets/lists/city-tr.list";
 import { townList } from "../assets/lists/town-izmir.list";
 import { floorTypeList } from "../assets/lists/floor-type.list";
 
@@ -15,8 +16,9 @@ import { floorTypeList } from "../assets/lists/floor-type.list";
 })
 export class globalFunctions {
   fileMimeTypeList = fileMimeTypeList;
-  townListArray = townList;
-  floorTypeListArray = floorTypeList;
+  cityList = cityList;
+  townList = townList;
+  floorTypeList = floorTypeList;
 
   constructor(
     private _datePipe: DatePipe,
@@ -62,11 +64,30 @@ export class globalFunctions {
   }
 
   getTownValue(name: string): string {
-    return this.townListArray.find(t => t.name === name).value;
+    if (name) {
+      return this.townList.find(t => t.name === name).value;
+    } else {
+      return null;
+    }
+
+  }
+
+  getCityValue(name: string): string {
+    if (name) {
+      return this.cityList.find(c => c.name === name).value;
+    } else {
+      return null;
+    }
+
   }
 
   getFloorTypeValue(name: string): string {
-    return this.floorTypeListArray.find(t => t.name === name).value;
+    if (name) {
+      return this.floorTypeList.find(t => t.name === name).value;
+    } else {
+      return null;
+    }
+
   }
 
   getMimeType(mimeType: string): string {

@@ -15,7 +15,7 @@ a {
   text-decoration: none;
 }
 
-.mat-mdc-card-avatar {
-  margin-bottom: 0;
+.image-icon-external-links {
+  width: 15%;
+  height: auto;
 }
-

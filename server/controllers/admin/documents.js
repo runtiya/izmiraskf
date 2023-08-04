@@ -148,11 +148,22 @@ function updateDocument(req, res, next) {
 function deleteDocument(req, res, next) {
   try {
     const documentId = req.params.id;
+    var message;
 
+    connection.query(
+      queries.deleteDocument,
+      [documentId],
+      (error, result) => {
+        if (!error) {
+        } else {
+          message = error.sqlMessage;
+        }
 
-    res.status(200).json({
+        res.status(200).json({
 
-    });
+        });
+      }
+    );
   } catch (error) {
     console.log(error);
   }

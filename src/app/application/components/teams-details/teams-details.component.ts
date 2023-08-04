@@ -58,7 +58,15 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
 
             }
           });
-      })
+      });
+  }
+
+  getCityValue(city: string): string {
+    return this.globalFunctions.getCityValue(city);
+  }
+
+  getTownValue(town: string): string {
+    return this.globalFunctions.getTownValue(town);
   }
 
   ngOnDestroy(): void {

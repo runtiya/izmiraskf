@@ -40,6 +40,27 @@ mat-action-row {
 
 /* Mat-Card Component End */
 
+.mat-mdc-card-xl-image {
+  height: auto;
+}
+
+.mat-mdc-card-lg-image {
+  height: auto;
+}
+
+.mat-mdc-card-md-image {
+  height: auto;
+}
+
+.mat-mdc-card-sm-image {
+  height: auto;
+}
+
+.mat-mdc-card-avatar {
+  height: auto;
+  margin-bottom: 0;
+}
+
 
 
 /* Mat-Table Component Start */

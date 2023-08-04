@@ -46,6 +46,6 @@ export class GlobalStatisticsTeamsCountByTown implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.teamsCountByTownListSub.unsubscribe();
   }
 }

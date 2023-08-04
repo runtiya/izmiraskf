@@ -11,10 +11,6 @@ mat-action-row button {
   height: auto;
 }
 
-.mat-mdc-card-avatar {
-  margin-bottom: 0;
-}
-
 .btn-search {
   width: 100%;
 }

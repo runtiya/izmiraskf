@@ -45,6 +45,6 @@ export class GlobalStatisticsStadiumsCountByTown implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.stadiumsCountByTownListSub.unsubscribe();
   }
 }
