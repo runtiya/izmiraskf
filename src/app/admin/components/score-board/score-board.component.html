@@ -284,6 +284,7 @@
           matTooltip="Dışa Aktar"
           [disabled]="fixtureList.length <= 0"
           [hidden]="fixtureList.length <= 0"
+          (click)="onExport()"
         >
           Dışa Aktar
         </button>

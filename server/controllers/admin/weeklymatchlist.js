@@ -148,8 +148,7 @@ function clearWeeklyMatchList(req, res, next) {
     var message;
 
     connection.query(
-      queries,
-      clearWeeklyMatchList,
+      queries.clearWeeklyMatchList,
       [weeklyMatchProgramId],
       (error, result) => {
         if (!error) {

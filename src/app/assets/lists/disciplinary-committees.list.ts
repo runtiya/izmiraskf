@@ -5,7 +5,7 @@ export const disciplinaryCommitteesList = [
     caseTitle: 'İZMİR İL DİSİPLİN KURULU KARARLARI',
     pageFileTitle: 'DİSİPLİN KURULU DOSYALARI',
     pageDecisionTitle: 'DİSİPLİN KURULU KARARLARI',
-    exportTitle: 'Disiplin_Kurulu_Kararlari'
+    exportTitle: 'disiplinkurulukararlari'
   },
   {
     name: 'ILTERTIPKOMITESI',
@@ -13,6 +13,6 @@ export const disciplinaryCommitteesList = [
     caseTitle: 'İZMİR İL TERTİP KOMİTESİ KARARLARI',
     pageFileTitle: 'İL TERTİP KOMİTESİ DOSYALARI',
     pageDecisionTitle: 'İL TERTİP KOMİTESİ KARARLARI',
-    exportTitle: 'Il_Tertip_Komitesi_Kararlari'
+    exportTitle: 'iltertipkomitesikararlari'
   },
 ];

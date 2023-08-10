@@ -27,13 +27,16 @@ import { AdminFixtureEditModal } from "../fixture-edit/fixture-edit.component";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { fixtureFunctions } from "../../functions/fixture.function";
+import { fileImportExportFunctions } from "../../functions/file-import-export.function";
 import { globalFunctions } from "../../../functions/global.function";
 
 import { fixtureKey3, fixtureKey4, fixtureKey5, fixtureKey6, fixtureKey7, fixtureKey8, fixtureKey9, fixtureKey10, fixtureKey11, fixtureKey12, fixtureKey13, fixtureKey14, fixtureKey15 } from "../../assets/lists/fixture-keys.list";
 import { matchStatusList } from "../../../assets/lists/match-status.list";
 
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
-import { DatePipe } from "@angular/common";
+
+import { GlobalFixtureExportModel } from "../../../models/global-fixture-export.model";
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-admin-fixture-create',
@@ -84,7 +87,8 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
     private stadiumsService: StadiumsService,
     public dialog: MatDialog,
     private globalFunctions: globalFunctions,
-    private fixtureFunctions: fixtureFunctions
+    private fixtureFunctions: fixtureFunctions,
+    private fileImportExportFunctions: fileImportExportFunctions
   ) {}
 
   ngOnInit(): void {
@@ -408,8 +412,10 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
 
   }
 
-  onExport() {
 
+  onExport() {
+    console.log(this.fixtureList)
+    //this.fileImportExportFunctions.exportExcelFixture(this.groupByFixture);
   }
 
   swapMatch(matchNo: string) {

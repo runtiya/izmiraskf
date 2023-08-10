@@ -6,7 +6,7 @@ import { ActivatedRoute } from "@angular/router";
 
 import { DisciplinaryBoardDecisionModel } from "../../models/admin-disciplinaryboarddecisions.model";
 import { DisciplinaryBoardDecisionsService } from "../../services/admin-disciplinaryboarddecisions.service";
-import { GeneralDisciplinaryBoardDecisionExportModel } from "../../../models/global-general-disciplinaryboarddecisions-export.model";
+import { GlobalDisciplinaryBoardDecisionExportModel } from "../../../models/global-disciplinaryboarddecisions-export.model";
 
 import { DisciplinaryBoardFileModel } from "../../models/admin-disciplinaryboardfiles.model";
 import { DisciplinaryBoardFilesService } from "../../services/admin-disciplinaryboardfiles.service";
@@ -341,18 +341,18 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
       for (let i = 0; i < tableData.length; i++) {
         const row = tableData[i];
 
-        let generalDisciplinaryBoardDecisionsExport = <GeneralDisciplinaryBoardDecisionExportModel>{};
-        generalDisciplinaryBoardDecisionsExport.Dosya_No = this.findDisciplinaryBoardCaseNoValue(this.disciplinaryBoardFileSelectionId);
-        generalDisciplinaryBoardDecisionsExport.Lig_Adi = this.findLeagueName(row["leagueId"]);
-        generalDisciplinaryBoardDecisionsExport.Takim_Adi = this.findTeamName(row["teamId"]);
-        generalDisciplinaryBoardDecisionsExport.Lisans_No = row["licenseNo"];
-        generalDisciplinaryBoardDecisionsExport.Ad_Soyad = row["fullName"];
-        generalDisciplinaryBoardDecisionsExport.Gorevi = this.findBelongingTo(row["belongingTo"]);
-        generalDisciplinaryBoardDecisionsExport.Ceza_Türü = this.findPenalType(row["penalType"]);
-        generalDisciplinaryBoardDecisionsExport.Sure = row["duration"];
-        generalDisciplinaryBoardDecisionsExport.Aciklama = row["explanation"];
+        let globalDisciplinaryBoardDecisionsExport = <GlobalDisciplinaryBoardDecisionExportModel>{};
+        globalDisciplinaryBoardDecisionsExport.Dosya_No = this.findDisciplinaryBoardCaseNoValue(this.disciplinaryBoardFileSelectionId);
+        globalDisciplinaryBoardDecisionsExport.Lig_Adı = this.findLeagueName(row["leagueId"]);
+        globalDisciplinaryBoardDecisionsExport.Takım_Adı = this.findTeamName(row["teamId"]);
+        globalDisciplinaryBoardDecisionsExport.Lisans_No = row["licenseNo"];
+        globalDisciplinaryBoardDecisionsExport.Ad_Soyad = row["fullName"];
+        globalDisciplinaryBoardDecisionsExport.Görevi = this.findBelongingTo(row["belongingTo"]);
+        globalDisciplinaryBoardDecisionsExport.Ceza_Türü = this.findPenalType(row["penalType"]);
+        globalDisciplinaryBoardDecisionsExport.Süre = row["duration"];
+        globalDisciplinaryBoardDecisionsExport.Açıklama = row["explanation"];
 
-        fileData.push(generalDisciplinaryBoardDecisionsExport);
+        fileData.push(globalDisciplinaryBoardDecisionsExport);
       }
       return fileData;
     }
@@ -363,11 +363,10 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
       const _exportTitle: string = this.disciplinaryCommitteesList.find(c => c.name == this.url_caseType).exportTitle;
       const _fileName = _exportTitle + "_" + this.findDisciplinaryBoardCaseNoValue(this.disciplinaryBoardFileSelectionId);
       const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(_fileData);
-      const workbook: XLSX.WorkBook = { Sheets: { 'Kurul_Kararlari' : worksheet }, SheetNames: ['Kurul_Kararlari'] };
+      const workbook: XLSX.WorkBook = { Sheets: { 'Kurul_Kararlari': worksheet }, SheetNames: ['Kurul_Kararlari'] };
       const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-
-      //const data: Blob = new Blob([buffer], { type: 'application/octet-stream' });
       const data: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
       const url: string = window.URL.createObjectURL(data);
       const link: HTMLAnchorElement = document.createElement('a');
       link.href = url;

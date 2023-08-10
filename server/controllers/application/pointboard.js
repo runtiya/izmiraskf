@@ -15,6 +15,7 @@ function getPointBoard(req, res, next) {
       (error, result) => {
         if (!error) {
           pointBoard = result;
+          console.log(pointBoard)
         } else {
           message = error.sqlMessage;
         }

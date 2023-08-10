@@ -30,12 +30,14 @@ import { FixtureSearchModel } from "../../models/admin-fixture-search-index.mode
 
 import { globalFunctions } from "../../../functions/global.function";
 import { fixtureFunctions } from "../../functions/fixture.function";
+import { fileImportExportFunctions } from "../../functions/file-import-export.function";
 
 import { matchStatusList } from "../../../assets/lists/match-status.list";
 import { townList } from "../../../assets/lists/town-izmir.list";
 
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 import { MatchModel } from "../../models/admin-match.model";
+
 
 @Component({
   selector: 'app-admin-score-board',
@@ -101,7 +103,8 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     private weeklymatchprogramService: WeeklyMatchProgramService,
     public dialog: MatDialog,
     private globalFunctions: globalFunctions,
-    private fixtureFunctions: fixtureFunctions
+    private fixtureFunctions: fixtureFunctions,
+    private fileImportExportFunctions: fileImportExportFunctions
   ) { }
 
   ngOnInit(): void {
@@ -448,6 +451,15 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     this.matchList = this.fixtureFunctions.convertModelFixtureToMatch(this.fixtureList);
     this.fixtureService.updateFixture(this.matchList, this.fixtureSearchIndex);
   }
+
+  onImport() {
+
+  }
+
+  onExport() {
+    this.fileImportExportFunctions.exportExcelScoreBoard(this.fixtureList);
+  }
+
 
   ngOnDestroy(): void {
     this.seasonListSub.unsubscribe();

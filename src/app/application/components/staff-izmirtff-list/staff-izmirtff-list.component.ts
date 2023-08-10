@@ -15,7 +15,7 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.lis
   styleUrls: ['../../../app.component.css', './staff-izmirtff-list.component.css']
 })
 export class ApplicationStaffIzmirTFF implements OnInit, OnDestroy {
-  toolbarTitle = "İZMİR TFF İL TEMSİLCİLİĞİ YÖNETİM KURULU";
+  toolbarTitle = "İZMİR TFF İL TEMSİLCİLİĞİ";
   isLoading: boolean = false;
   staffizmirtffList: StaffITFFModel[] = [];
   private staffizmirtffListSub: Subscription;

@@ -87,7 +87,7 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
           this.seasonsList = data;
           this.seasonSelectionId = this.seasonsList[0]["id"];
           this.weeklymatchprogramService.getWeeklyMatchProgram(this.seasonSelectionId);
-          //this.weeklymatchlistService.getWeeklyMatchList(this.seasonSelectionId);
+          this.weeklymatchlistService.getWeeklyMatchList(this.seasonSelectionId);
         },
         error: (error) => {
 
@@ -193,7 +193,7 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
 
   getDistinctTeamName(fixtureList: FixtureModel[]): Array<string> {
     const mergedTeamName = [...new Set(fixtureList.map(f => f.homeTeamOfficialName)), ...new Set(fixtureList.map(f => f.awayTeamOfficialName))];
-    const distinctTeamName = [...new Set(mergedTeamName.map(t => t))].sort((a, b) => a.localeCompare(b)).filter(t => t !== null);
+    const distinctTeamName = [...new Set(mergedTeamName.map(t => t))].filter(t => t !== null).sort((a, b) => a.localeCompare(b));
     return distinctTeamName;
   }
 
