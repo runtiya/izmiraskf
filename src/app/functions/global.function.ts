@@ -10,6 +10,7 @@ import { systemMessages } from "../assets/messages/system";
 import { cityList } from "../assets/lists/city-tr.list";
 import { townList } from "../assets/lists/town-izmir.list";
 import { floorTypeList } from "../assets/lists/floor-type.list";
+import { matchStatusList } from "../assets/lists/match-status.list";
 
 @Injectable({
     providedIn: 'root'
@@ -19,6 +20,7 @@ export class globalFunctions {
   cityList = cityList;
   townList = townList;
   floorTypeList = floorTypeList;
+  matchStatusList = matchStatusList;
 
   constructor(
     private _datePipe: DatePipe,
@@ -43,6 +45,10 @@ export class globalFunctions {
 
   registerLocalDate(_date: Date): string {
     return this._datePipe.transform(_date, 'dd.MM.yyyy');
+  }
+
+  registerLocalDateTime(_date: Date): string {
+    return this._datePipe.transform(_date, 'dd.MM.yyyy HH:mm')
   }
 
   registerLocalDateForLongDate(_date: Date): string {
@@ -87,7 +93,22 @@ export class globalFunctions {
     } else {
       return null;
     }
+  }
 
+  getMatchStatusName(value: string): string {
+    if (value) {
+      return this.matchStatusList.find(s => s.value === value).name;
+    } else {
+      return null;
+    }
+  }
+
+  getMatchStatusValue(name: string): string {
+    if (name) {
+      return this.matchStatusList.find(s => s.name === name).value;
+    } else {
+      return null;
+    }
   }
 
   getMimeType(mimeType: string): string {
@@ -178,6 +199,17 @@ export class globalFunctions {
     downloadLink.download = fileName;
     downloadLink.target = '_blank';
     return downloadLink;
+  }
+
+  downloadFile(file: Blob, fileName: string) {
+    const url: string = window.URL.createObjectURL(file);
+    const link: HTMLAnchorElement = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    link.download = fileName;
+    link.click();
+    window.URL.revokeObjectURL(url);
+    link.remove();
   }
 
   setFileSize(size: number): string {

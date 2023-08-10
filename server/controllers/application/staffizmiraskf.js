@@ -13,7 +13,6 @@ function getStaffList(req, res, next) {
         if (!error) {
           staffList = result;
         } else {
-          console.log(error.sqlMessage)
           message = error.sqlMessage;
         }
 

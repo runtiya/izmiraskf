@@ -47,12 +47,13 @@ export class DocumentsService {
       formData.append('documentInfo', JSON.stringify(documentInfo));
 
       this.http
-        .post<{data: number}>(
+        .post<{data: any}>(
           'http://localhost:3000/admin/dokumanlar/' + documentInfo.category, formData
         )
         .subscribe({
           next: (data) => {
-            documentInfo.id = data.data;
+            documentInfo.id = data.data.documentId;
+            documentInfo.filePath = data.data.documentFilePath;
             this.documentsList.push(documentInfo);
             this.documentsListSub.next([...this.documentsList]);
             this.globalFunctions.showSnackBar("server.success");

@@ -132,7 +132,9 @@ function deleteStaff(req, res, next) {
   try {
     var staffId = req.params.id;
     var message;
-    connection.query(queries.deleteStaff[staffId], (error, result) => {
+    connection.query(queries.deleteStaff,
+      [staffId],
+      (error, result) => {
       if (!error) {
       } else {
         message = error.sqlMessage;

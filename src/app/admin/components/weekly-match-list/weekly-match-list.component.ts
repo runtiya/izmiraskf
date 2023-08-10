@@ -30,6 +30,8 @@ import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.lis
 import { FixtureSearchModel } from "../../models/admin-fixture-search-index.model";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
+import { fileImportExportFunctions } from "../../functions/file-import-export.function";
+
 
 @Component({
   selector: 'app-admin-weeklymatch-list',
@@ -77,7 +79,8 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
     private stadiumService: StadiumsService,
     public dialog: MatDialog,
     private globalFunctions: globalFunctions,
-    private fixtureFunctions: fixtureFunctions
+    private fixtureFunctions: fixtureFunctions,
+    private fileImportExportFunctions: fileImportExportFunctions
   ) {}
 
   ngOnInit(): void {
@@ -254,7 +257,7 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
   }
 
   onExport() {
-
+    this.fileImportExportFunctions.exportExcelWeeklyMatchList(this.fixtureList, this.weeklyMatchProgramSelectionId);
   }
 
   getMatchDate(_date: Date): string {

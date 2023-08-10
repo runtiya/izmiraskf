@@ -127,7 +127,7 @@ export class AdminFixtureEditModal implements OnInit {
         }
         // create - checkMatch not success
         else {
-          this.globalFunctions.showSnackBar('Hafta ve Sıra Numarasına sahip başka bir maç bulundu!');
+          this.globalFunctions.showSnackBar('fixture.sameweekandorderno');
         }
       }
       // update

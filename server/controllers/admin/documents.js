@@ -32,6 +32,7 @@ function createDocument(req, res, next) {
     const documentInfo = JSON.parse(req.body.documentInfo);
     const category = req.params.category;
     var documentId;
+    var documentFilePath;
     var message;
 
     if (!!req.file) {
@@ -70,14 +71,23 @@ function createDocument(req, res, next) {
       (error, result) => {
         if (!error) {
           documentId = result.insertId;
+          documentFilePath = documentInfo.filePath;
         } else {
           message = error.sqlMessage;
         }
 
+        let data = {
+          documentId: documentId,
+          documentFilePath: documentFilePath
+        };
+        const _data = crypto.encryptData({
+          documentId: documentId,
+          documentFilePath: documentFilePath
+        });
         const _documentId = crypto.encryptData(documentId);
 
         res.status(200).json({
-          data: _documentId,
+          data: _data,
         });
       }
     );

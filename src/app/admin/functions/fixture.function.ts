@@ -6,7 +6,7 @@ import { MatchModel } from '../models/admin-match.model';
 import { TeamsInGroupstagesModel } from '../models/admin-teams-in-groupstages.model';
 import { FixtureModel } from '../models/admin-fixture.model';
 
-
+import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({
     providedIn: 'root'
@@ -15,9 +15,8 @@ export class fixtureFunctions {
 
 
   constructor(
-  ) {
-
-  }
+    private globalFunctions: globalFunctions
+  ) {}
 
   setMatchNo(_seasonId: number, _leagueId: number, _groupstageId: number, _weekNumber: number, _orderNo: number): string {
       const matchNo = ('35' + _seasonId.toString().padStart(2, "0") + _leagueId.toString().padStart(2, "0") + _groupstageId.toString().padStart(2, "0") + '-' + _weekNumber.toString().padStart(2, "0") + _orderNo.toString().padStart(2, "0"));

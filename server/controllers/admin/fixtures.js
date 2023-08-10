@@ -134,6 +134,7 @@ function createFixture(req, res, next) {
             //pass
           } else {
             message = error.sqlMessage;
+            console.log(message)
             throw error;
           }
         }
@@ -231,6 +232,8 @@ function clearFixture(req, res, next) {
     connection.query(queries.clearFixture, [groupstageId], (error, result) => {
       if (error) {
         var message = error.sqlMessage;
+      } else {
+        // pass
       }
 
       res.status(200).json({
