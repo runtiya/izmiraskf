@@ -8,8 +8,8 @@ import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({providedIn: 'root'})
 export class StadiumsService {
-  private stadiumList: StadiumsModel[] = [];
-  private stadiumListSub = new Subject<StadiumsModel[]>();
+  private stadiumsList: StadiumsModel[] = [];
+  private stadiumsListSub = new Subject<{stadiumsList: StadiumsModel[], stadiumsCount: number }>();
 
   private stadium: StadiumsModel;
   private stadiumSub = new Subject<StadiumsModel>();
@@ -19,16 +19,16 @@ export class StadiumsService {
     private globalFunctions: globalFunctions
   ) {}
 
-  getStadiums() {
+  getStadiums(paginationPageSize: number, paginationCurrentPage: number) {
     try {
       this.http
-        .get<{data: StadiumsModel[]}>(
-          'http://localhost:3000/sahalar'
+        .get<{data: {stadiumsList: StadiumsModel[], stadiumsCount: number }}>(
+          `http://localhost:3000/sahalar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
         )
         .subscribe({
           next: (data) => {
-            this.stadiumList = data.data;
-            this.stadiumListSub.next([...this.stadiumList]);
+            this.stadiumsList = data.data.stadiumsList;
+            this.stadiumsListSub.next(data.data);
           },
           error: (error) => {
             this.globalFunctions.showSnackBar('server.error');
@@ -40,7 +40,7 @@ export class StadiumsService {
   }
 
   getStadiumListUpdateListener() {
-    return this.stadiumListSub.asObservable();
+    return this.stadiumsListSub.asObservable();
   }
 
   getStadiumById(_id: number) {

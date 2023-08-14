@@ -74,7 +74,7 @@ const routes: Routes = [
   {path: 'admin/izmiraskf', component: AdminIzmirASKF, canActivate: [AuthGuard]},
   {path: 'admin/izmiraskf/yonetim-kurulu', component: AdminStaffIzmirAskf, canActivate: [AuthGuard]},
   {path: 'admin/izmirtffiltemsilciligi', component: AdminIzmirTFFIlTemsilciligi, canActivate: [AuthGuard]},
-  {path: 'admin/izmirtffiltemsilciligi/yonetim-kurulu', component: AdminStaffIzmirTFF, canActivate: [AuthGuard]},
+  {path: 'admin/izmirtffiltemsilciligi/tffiltemsilciligi', component: AdminStaffIzmirTFF, canActivate: [AuthGuard]},
   {path: 'admin/haberler', component: AdminNewsWrapComponent, canActivate: [AuthGuard]},
   {path: 'admin/disbaglantilar', component: AdminExternalLinks, canActivate: [AuthGuard]},
 
@@ -110,7 +110,7 @@ const routes: Routes = [
   {path: 'izmiraskf/yonetim-kurulu', component: ApplicationStaffIzmirAskf},
 
   {path: 'tffiltemsilciligi/hakkimizda', component: ApplicationIzmirTFFIlTemsilciligi},
-  {path: 'tffiltemsilciligi/yonetim-kurulu', component: ApplicationStaffIzmirTFF},
+  {path: 'tffiltemsilciligi/tffiltemsilciligi', component: ApplicationStaffIzmirTFF},
   {path: 'takimlar', component: ApplicationTeamsList},
   {path: 'takimlar/detaylar/:id', pathMatch:"full", component: ApplicationTeamDetails},
 

@@ -76,10 +76,6 @@ function createDocument(req, res, next) {
           message = error.sqlMessage;
         }
 
-        let data = {
-          documentId: documentId,
-          documentFilePath: documentFilePath
-        };
         const _data = crypto.encryptData({
           documentId: documentId,
           documentFilePath: documentFilePath

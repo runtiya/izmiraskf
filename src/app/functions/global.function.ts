@@ -216,4 +216,8 @@ export class globalFunctions {
     return (size / (1024 * 1024)).toFixed(2) + ' MB';
   }
 
+  getPaginationPageSizeOptions(): Array<number> {
+    return [10, 20, 50, 100];
+  }
+
 }

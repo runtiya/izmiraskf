@@ -9,7 +9,7 @@ import { globalFunctions } from "../../functions/global.function";
 @Injectable({ providedIn: 'root' })
 export class TeamsService {
   private teamList: TeamsModel[] = [];
-  private teamListSub = new Subject<TeamsModel[]>();
+  private teamListSub = new Subject<{teamsList: TeamsModel[], teamsCount: number}>();
 
   private team: TeamsModel;
   private teamSub = new Subject<TeamsModel>();
@@ -19,16 +19,16 @@ export class TeamsService {
     private globalFunctions: globalFunctions
   ) {}
 
-  getTeams() {
+  getTeams(paginationPageSize: number, paginationCurrentPage: number) {
     try {
       this.http
-        .get<{ data: TeamsModel[] }>(
-          'http://localhost:3000/takimlar'
+        .get<{ data: {teamsList: TeamsModel[], teamsCount: number} }>(
+          `http://localhost:3000/takimlar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
         )
         .subscribe({
           next: (data) => {
-            this.teamList = data.data;
-            this.teamListSub.next([...this.teamList]);
+            this.teamList = data.data.teamsList;
+            this.teamListSub.next(data.data);
           },
           error: (error) => {
             this.globalFunctions.showSnackBar('server.error');
@@ -42,6 +42,8 @@ export class TeamsService {
   getTeamListUpdateListener() {
     return this.teamListSub.asObservable();
   }
+
+
 
   getTeamById(_id: number) {
     try {
