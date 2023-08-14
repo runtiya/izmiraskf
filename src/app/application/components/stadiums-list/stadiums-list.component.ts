@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
+import { PageEvent } from "@angular/material/paginator";
 
 import { StadiumsModel } from "../../models/application-stadiums.model";
 import { StadiumsService } from "../../services/application-stadiums.service";
@@ -22,7 +23,10 @@ export class ApplicationStadiumList implements OnInit, OnDestroy {
   isLoading: boolean = false;
   stadiumsList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
-
+  stadiumsCount: number = 0;
+  paginationPageSizeOptions: Array<number> = this.globalFunctions.getPaginationPageSizeOptions();
+  paginationPageSize: number = this.paginationPageSizeOptions[1];
+  paginationCurrentPage: number = 1;
   cityListArray = cityList;
   townListArray = townList;
   floorTypeListArray = floorTypeList;
@@ -37,17 +41,13 @@ export class ApplicationStadiumList implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-    this.stadiumService.getStadiums();
+    this.stadiumService.getStadiums(this.paginationPageSize, this.paginationCurrentPage);
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe({
-        next: (data: StadiumsModel[]) => {
-          this.stadiumsList = data;
+        next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
+          this.stadiumsList = data.stadiumsList;
+          this.stadiumsCount = data.stadiumsCount;
           this.isLoading = false;
-
-
-        },
-        error: (error) => {
-
         }
       });
   }
@@ -86,7 +86,13 @@ export class ApplicationStadiumList implements OnInit, OnDestroy {
     this.router.navigate(['/sahalar/detaylar', _id]);
   }
 
+  onChangePaginationPage(paginationData: PageEvent){
+    this.stadiumService.getStadiums(paginationData.pageSize, paginationData.pageIndex + 1);
+  }
+
   ngOnDestroy(): void {
     this.stadiumListSub.unsubscribe();
   }
+
+
 }

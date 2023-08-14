@@ -2,31 +2,67 @@ const queries = require("../../queries/application/teams");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
 
+
+const util = require('util');
+const queryAsync = util.promisify(connection.query).bind(connection);
+
+
 function getTeams(req, res, next) {
-  try {
-    var teamList = [];
-    var message;
+  (async () => {
+    try {
+      var teamsList = [];
+      var teamsCount = 0;
+      var message;
+      const paginationPageSize = +req.query.paginationPageSize;
+      const paginationCurrentPage = +req.query.paginationCurrentPage;
 
-    connection.query(
-      queries.getTeams,
-      (error, result) => {
-        if (!error) {
-          teamList = result;
-        } else {
-          message = error.sqlMessage;
-          teamList = [];
-        }
 
-        const _teamList = crypto.encryptData(teamList);
+      teamsList = await new Promise((resolve, reject) => {
+        connection.query(
+          queries.getTeams,
+          [
+            paginationPageSize,
+            (paginationCurrentPage - 1) * paginationPageSize
+          ],
+          (error, result) => {
+            if (!error) {
+              resolve(result);
+            } else {
+              reject(error.sqlMessage);
+            }
+          }
+        );
+      });
 
-        res.status(200).json({
-          data: _teamList,
-        });
-      }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+      teamsCount = await new Promise((resolve, reject) => {
+        connection.query(
+          "select count(1) as 'count' from view_application_teams",
+          (error, result) => {
+            if (!error) {
+              resolve(result[0].count);
+            } else {
+              reject(error.sqlMessage);
+            }
+          }
+        );
+      });
+
+
+      const _data = crypto.encryptData({ teamsList: teamsList, teamsCount: teamsCount });
+
+      res.status(200).json({
+        data: _data
+      });
+
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: error
+      });
+
+    }
+  })();
+
 }
 
 function getTeamById(req, res, next) {

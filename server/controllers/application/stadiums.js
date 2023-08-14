@@ -3,29 +3,56 @@ const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
 
 function getStadiums(req, res, next) {
+  (async () => {
   try {
-    var stadiumList = [];
+    var stadiumsList = [];
+    var stadiumsCount = 0;
     var message;
 
-    connection.query(
-      queries.getStadiums,
-      (error, result) => {
-        if (!error) {
-          stadiumList = result;
-        } else {
-          message = error.sqlMessage;
-        }
+    const paginationPageSize = +req.query.paginationPageSize;
+    const paginationCurrentPage = +req.query.paginationCurrentPage;
 
-        const _stadiumList = crypto.encryptData(stadiumList);
-
-        res.status(200).json({
-          data: _stadiumList,
+    stadiumsList = await new Promise((resolve, reject) => {
+      connection.query(
+        queries.getStadiums,
+        [
+          paginationPageSize,
+          (paginationCurrentPage - 1) * paginationPageSize
+        ],
+        (error, result) => {
+          if (!error) {
+            resolve(result);
+          } else {
+            resolve(error.sqlMessage);
+          }
         });
-      }
-    );
+    });
+
+    stadiumsCount = await new Promise((resolve, reject) => {
+      connection.query(
+        "select count(1) as 'count' from view_application_stadiums",
+        (error,result) => {
+          if(!error){
+            resolve(result[0].count);
+          }else{
+            resolve(error.sqlMessage);
+          }
+        }
+      );
+    });
+
+    const _data = crypto.encryptData({stadiumsList: stadiumsList, stadiumsCount: stadiumsCount});
+
+    res.status(200).json({
+      data: _data,
+    });
   } catch (error) {
-    console.log(error);
+      console.log(error);
+      res.status(500).json({
+        message: error
+      });
   }
+})();
 }
 
 function getStadiumById(req, res, next) {

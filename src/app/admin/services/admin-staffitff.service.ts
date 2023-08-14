@@ -22,7 +22,7 @@ export class StaffITFFService {
     try {
       this.http
         .get<{ data: StaffITFFModel[] }>(
-          'http://localhost:3000/admin/tffiltemsilciligi/yonetim-kurulu'
+          'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi'
         )
         .subscribe({
           next: (data) => {
@@ -51,7 +51,7 @@ export class StaffITFFService {
 
       this.http
         .post<{ data: number }>(
-          'http://localhost:3000/admin/tffiltemsilciligi/yonetim-kurulu', formData
+          'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi', formData
         )
         .subscribe({
           next: (data) => {
@@ -77,7 +77,7 @@ export class StaffITFFService {
 
       this.http
         .put<{ }>(
-          'http://localhost:3000/admin/tffiltemsilciligi/yonetim-kurulu/' + staffInfo.id, formData
+          'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi/' + staffInfo.id, formData
         )
         .subscribe({
           next: (data) => {
@@ -104,7 +104,7 @@ export class StaffITFFService {
     try {
       this.http
         .delete<{ }>(
-          'http://localhost:3000/admin/tffiltemsilciligi/yonetim-kurulu/' + staffId
+          'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi/' + staffId
         )
         .subscribe({
           next: (data) => {

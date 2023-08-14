@@ -22,7 +22,7 @@ export class StaffITFFService {
     try {
       this.http
         .get<{ data: StaffITFFModel[] }>(
-          'http://localhost:3000/tffiltemsilciligi/yonetim-kurulu'
+          'http://localhost:3000/tffiltemsilciligi/tffiltemsilciligi'
         )
         .subscribe({
           next: (data) => {

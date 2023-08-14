@@ -29,6 +29,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeTr from "@angular/common/locales/tr";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -315,6 +317,7 @@ import { ResponseInterceptor } from "./functions/global-http-response";
     MatAutocompleteModule,
     MatSnackBarModule,
     MatButtonToggleModule,
+    MatPaginatorModule,
 
     FontAwesomeModule,
     GoogleMapsModule,

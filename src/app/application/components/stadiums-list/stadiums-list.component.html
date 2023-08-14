@@ -37,5 +37,6 @@
         </mat-action-row>
       </mat-card>
     </div>
+    <mat-paginator [length]="stadiumsCount" [pageSize]="paginationPageSize" [pageSizeOptions]="paginationPageSizeOptions" (page)="onChangePaginationPage($event)" *ngIf="stadiumsList.length" > 0 </mat-paginator>
   </div>
 </div>

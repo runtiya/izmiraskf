@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
       '/admin/izmiraskf/yonetim-kurulu': () => {
         cb(error, "server/images/staff");
       },
-      '/admin/tffiltemsilciligi/yonetim-kurulu': () => {
+      '/admin/tffiltemsilciligi/tffiltemsilciligi': () => {
         cb(error, "server/images/staff");
       },
       '/admin/disbaglantilar': () => {
