@@ -60,10 +60,10 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
                             ];
 
   constructor(
-    public disciplinaryBoardDecisionsService: DisciplinaryBoardDecisionsService,
-    public disciplinaryBoardFilesService: DisciplinaryBoardFilesService,
-    public seasonsService: SeasonsService,
-    public dialog: MatDialog,
+    private disciplinaryBoardDecisionsService: DisciplinaryBoardDecisionsService,
+    private disciplinaryBoardFilesService: DisciplinaryBoardFilesService,
+    private seasonsService: SeasonsService,
+    private dialog: MatDialog,
     private globalFunctions: globalFunctions,
     private router: ActivatedRoute,
   ) {}
@@ -95,10 +95,17 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
     this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
       .subscribe({
         next: (data: DisciplinaryBoardFileModel[]) => {
-          this.disciplinaryBoardFilesList = data;
-          this.disciplinaryBoardFileSelectionId = this.disciplinaryBoardFilesList[0]["id"];
-          this.disciplinaryBoardFileDetails = this.disciplinaryBoardFilesList[0];
-          this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+          if (data.length > 0) {
+            this.disciplinaryBoardFilesList = data;
+            this.disciplinaryBoardFileSelectionId = this.disciplinaryBoardFilesList[0]["id"];
+            this.disciplinaryBoardFileDetails = this.disciplinaryBoardFilesList[0];
+            this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+          } else {
+            this.disciplinaryBoardFilesList = data;
+            this.disciplinaryBoardFileSelectionId = null;
+            this.disciplinaryBoardFileDetails = null;
+            this.disciplinaryBoardDecisionsList = [];
+          }
         },
         error: (error) => {
 
@@ -108,10 +115,8 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
     this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisionsUpdateListener()
       .subscribe({
         next: (data: DisciplinaryBoardDecisionModel[]) => {
-
           const filteredDisciplinaryBoardDecisionsList = data.filter(decision => decision.disciplinaryBoardFileId === this.disciplinaryBoardFileSelectionId);
           this.disciplinaryBoardDecisionsList = filteredDisciplinaryBoardDecisionsList;
-          //this.disciplinaryBoardDecisionsList = data;
         },
         error: (error) => {
 
@@ -125,15 +130,14 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
       this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
       this.disciplinaryBoardFileDetails = this.disciplinaryBoardFileSelectionId !== null ? this.disciplinaryBoardFilesList.find(file => file.id == this.disciplinaryBoardFileSelectionId) : null;
     } else {
-      // Show error message here
-      alert('Dosya Numarası seçiniz')
+      this.globalFunctions.showSnackBar('disciplinaryboard.files.selectfile');
     }
 
   }
 
   onSeasonChange() {
     this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
-    this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+    //this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
   }
 
   onFileNoChange() {

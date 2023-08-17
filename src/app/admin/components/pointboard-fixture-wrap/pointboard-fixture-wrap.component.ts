@@ -111,15 +111,16 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
             this.groupstagesService.getGroupWeeks(this.groupstageSelectionId);
             this.groupstagesService.getPlayedLastMatchWeek(this.groupstageSelectionId)
               .subscribe({
-                next: (data: any) => {
+                next: (data: {data: number}) => {
+
                   // call onSearch only if matchWeekSelectionValue is null before assignment, means work only page loaded.
                   // Subsequently, only the onSearch button will be searched.
                   if (!this.matchWeekSelectionValue) {
+                    this.matchWeekSelectionValue = data.data;
                     this.teamsingroupstageService.getTeamsInGroupstages(this.groupstageSelectionId);
-                    this.matchWeekSelectionValue = data.matchWeek;
                     this.onSearch();
                   } else {
-                    this.matchWeekSelectionValue = data.matchWeek;
+                    this.matchWeekSelectionValue = data.data;
                   }
                 },
                 error: (error) => {
@@ -160,6 +161,7 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
   }
 
   onGroupStageChange() {
+    this.matchWeekSelectionValue = null;
     this.groupstagesService.getGroupWeeks(this.groupstageSelectionId);
   }
 

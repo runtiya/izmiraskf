@@ -88,10 +88,8 @@ export class AdminDisciplinaryBoardDecisionsCreateModal implements OnInit {
         if (this.disciplinaryBoardDecisionsSubmitForm.valid) {
             this.isLoading = true;
             if (this.pageMode === 'create') {
-                this.disciplinaryBoardDecisionsSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
                 this.disciplinaryBoardDecisionsService.createDisciplinaryBoardDecision(this.disciplinaryBoardDecisionsSubmitForm.value);
             } else {
-                this.disciplinaryBoardDecisionsSubmitForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
                 this.disciplinaryBoardDecisionsService.updateDisciplinaryBoardDecision(this.disciplinaryBoardDecisionsSubmitForm.value);
             }
             this.isLoading = false;

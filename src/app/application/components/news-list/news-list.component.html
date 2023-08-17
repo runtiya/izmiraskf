@@ -23,10 +23,7 @@
     </mat-action-row>
   </mat-card>
 
-  <!-- No News Content Text -->
-  <mat-card *ngIf="newsList.length <= 0 && !isLoading">
-    <mat-card-content>
-      <mat-card-title> HABER BULUNAMADI! </mat-card-title>
-    </mat-card-content>
-  </mat-card>
+  <mat-paginator [length]="newsCount" [pageSize]="paginationPageSize" [pageSizeOptions]="paginationPageSizeOptions" (page)="onChangePaginationPage($event)" *ngIf="newsList.length" > 0 </mat-paginator>
+
+  <app-application-no-content-info *ngIf="newsList.length <= 0"></app-application-no-content-info>
 </div>

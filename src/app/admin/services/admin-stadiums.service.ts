@@ -8,36 +8,38 @@ import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({providedIn: 'root'})
 export class StadiumsService {
-  private stadiumList: StadiumsModel[] = [];
-  private stadiumListSub = new Subject<StadiumsModel[]>();
+  private stadiumsList: StadiumsModel[] = [];
+  private stadiumsCount: number = 0;
+  private stadiumsListSub = new Subject<{stadiumsList: StadiumsModel[], stadiumsCount: number}>();
 
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
     ) {}
 
-  getStadiums() {
+  getStadiums(paginationPageSize?: number, paginationCurrentPage?: number) {
     try {
       this.http
-        .get<{data: StadiumsModel[]}>(
-          'http://localhost:3000/admin/sahalar'
+        .get<{data: {stadiumsList: StadiumsModel[], stadiumsCount: number}}>(
+          `http://localhost:3000/admin/sahalar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
         )
         .subscribe({
           next: (data) => {
-            this.stadiumList = data.data;
-            this.stadiumListSub.next([...this.stadiumList]);
+            this.stadiumsList = data.data.stadiumsList;
+            this.stadiumsCount = data.data.stadiumsCount;
+            this.stadiumsListSub.next(data.data);
           },
           error: (error) => {
-
+            this.globalFunctions.showSnackBar('server.error');
           }
         });
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 
   getStadiumListUpdateListener() {
-    return this.stadiumListSub.asObservable();
+    return this.stadiumsListSub.asObservable();
   }
 
   createStadium(stadiumInfo: StadiumsModel) {
@@ -53,8 +55,9 @@ export class StadiumsService {
         .subscribe({
           next: (data) => {
             stadiumInfo.id = data.data;
-            this.stadiumList.push(stadiumInfo);
-            this.stadiumListSub.next([...this.stadiumList]);
+            this.stadiumsList.push(stadiumInfo);
+            this.stadiumsCount++;
+            this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
@@ -79,9 +82,9 @@ export class StadiumsService {
         .subscribe({
           next: (data) => {
             // Replace updated object with the old one
-            let index = this.stadiumList.findIndex(s => s.id == stadiumInfo.id);
-            this.stadiumList[index] = stadiumInfo;
-            this.stadiumListSub.next([...this.stadiumList]);
+            let index = this.stadiumsList.findIndex(s => s.id == stadiumInfo.id);
+            this.stadiumsList[index] = stadiumInfo;
+            this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
@@ -101,9 +104,10 @@ export class StadiumsService {
         )
         .subscribe({
           next: (data) => {
-            const filteredStadiumList = this.stadiumList.filter(stadium => stadium.id !== stadiumId);
-            this.stadiumList = filteredStadiumList;
-            this.stadiumListSub.next([...this.stadiumList]);
+            const filteredStadiumList = this.stadiumsList.filter(stadium => stadium.id !== stadiumId);
+            this.stadiumsList = filteredStadiumList;
+            this.stadiumsCount--;
+            this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {

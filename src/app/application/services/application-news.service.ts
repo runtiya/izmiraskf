@@ -11,7 +11,7 @@ import { globalFunctions } from "../../functions/global.function";
 @Injectable({providedIn: 'root'})
 export class NewsService {
   private newsList: NewsModel[] = [];
-  private newsUpdated = new Subject<NewsModel[]>();
+  private newsUpdated = new Subject<{newsList: NewsModel[], newsCount: number}>();
 
   private newsById: NewsModel;
   private newsByIdSubject = new Subject<NewsModel>();
@@ -24,11 +24,11 @@ export class NewsService {
     private globalFunctions: globalFunctions
     ) {}
 
-  getNews() {
+  getNews(paginationPageSize: number, paginationCurrentPage: number) {
     try {
       this.http
-        .get<{data: NewsModel[]}>(
-          'http://localhost:3000/haberler/list'
+        .get<{data: {newsList: NewsModel[], newsCount: number}}>(
+          `http://localhost:3000/haberler/list?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
         )
         /*
         .pipe(
@@ -52,8 +52,8 @@ export class NewsService {
         */
        .subscribe({
         next: (data) => {
-          this.newsList = data.data;
-          this.newsUpdated.next([...this.newsList]);
+          this.newsList = data.data.newsList;
+          this.newsUpdated.next(data.data); //this.newsUpdated.next([...this.newsList]);
         },
         error: (error) => {
           this.globalFunctions.showSnackBar('server.error');

@@ -176,8 +176,8 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
     this.stadiumsService.getStadiums();
     this.stadiumListSub = this.stadiumsService.getStadiumListUpdateListener()
       .subscribe({
-        next: (data: StadiumsModel[]) => {
-          this.stadiumList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
+        next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
+          this.stadiumList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
         },
         error: (error) => {
 
@@ -186,10 +186,10 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
 
 
     this.teamsService.getTeams();
-    this.teamListSub = this.teamsService.getTeamListUpdateListener()
+    this.teamListSub = this.teamsService.getTeamsListUpdateListener()
       .subscribe({
-        next: (data: TeamsModel[]) => {
-          this.teamList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
+        next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
+          this.teamList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
         },
         error: (error) => {
 
@@ -244,8 +244,8 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
   }
 
   getMatchDate(_date: Date): string {
-    const longDate = this.globalFunctions.registerLocalDateForLongDate(_date);
-    const shortTime = this.globalFunctions.registerLocalDateForShortTime(_date);
+    const longDate = this.globalFunctions.getLocalDate(_date);
+    const shortTime = this.globalFunctions.getLocalDateTime(_date);
 
     return longDate || shortTime ? (longDate + " " + shortTime) : null;
   }

@@ -3,30 +3,57 @@ const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
 
 function getNews(req, res, next) {
+  (async () => {
   try {
     var newsList = [];
+    var newsCount = 0;
     var message;
 
-    connection.query(
-      queries.getNews,
-      (error, result) => {
-        if (!error) {
-          newsList = result;
-        } else {
-          message = error.sqlMessage;
-        }
+    const paginationPageSize = +req.query.paginationPageSize;
+    const paginationCurrentPage = +req.query.paginationCurrentPage;
 
-        const _newsList = crypto.encryptData(newsList);
+    newsList = await new Promise((resolve,reject) => {
+      connection.query(
+        queries.getNews,
+        [
+          paginationPageSize,
+          (paginationCurrentPage - 1) * paginationPageSize
+        ],
+        (error, result) => {
+          if (!error) {
+            resolve(result);
+          } else {
+            resolve(error.sqlMessage);
+          }
+        })
+    });
 
-        res.status(200).json({
-          data: _newsList,
+    newsCount = await new Promise((resolve,reject) => {
+      connection.query(
+        "select count(1) as 'count' from view_application_news",
+        (error, result) => {
+          if(!error){
+            resolve(result[0].count);
+          }else{
+            resolve(error.sqlMessage);
+          }
+        })
+    });
+
+      const _data = crypto.encryptData({newsList: newsList, newsCount: newsCount});
+
+      res.status(200).json({
+        data: _data,
+      });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+          message: error
         });
-      }
-    );
-  } catch (error) {
-    console.log(error);
+    }
+  })();
   }
-}
+
 
 function getNewsById(req, res, next) {
   try {

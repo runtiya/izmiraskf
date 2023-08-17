@@ -25,8 +25,7 @@ import { StadiumsService } from "../../services/admin-stadiums.service";
 
 import { globalFunctions } from "../../../functions/global.function";
 import { fixtureFunctions } from "../../functions/fixture.function";
-import { matchStatusList } from "../../../assets/lists/match-status.list";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
+
 import { FixtureSearchModel } from "../../models/admin-fixture-search-index.model";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
@@ -54,10 +53,6 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
   private teamsingroupstgesListSub: Subscription;
   stadiumList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
-
-
-  fontAwesomeIconList = fontAwesomeIconList;
-  matchStatusList: Array<any> = matchStatusList;
 
   @Input() seasonSelectionId: number;
   @Input() weeklyMatchProgramSelectionId: number;
@@ -89,9 +84,16 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
-          this.seasonsList = data;
-          this.seasonSelectionId = this.seasonSelectionId || this.seasonsList[0]["id"];
-          this.weeklymatchprogramService.getWeeklyMatchProgram(this.seasonSelectionId);
+          if (data.length > 0) {
+            this.seasonsList = data;
+            this.seasonSelectionId = this.seasonSelectionId || this.seasonsList[0]["id"];
+            this.weeklymatchprogramService.getWeeklyMatchProgram(this.seasonSelectionId);
+          } else {
+            this.seasonSelectionId = null;
+            this.weeklyMatchProgramList = [];
+            this.weeklyMatchList = [];
+          }
+
         },
         error: (error) => {
 
@@ -101,10 +103,17 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
     this.weeklyMatchProgramListSubscription = this.weeklymatchprogramService.getDocumentsListUpdateListener()
       .subscribe({
         next: (data: WeeklyMatchProgramModel[]) => {
-          this.weeklyMatchProgramList = data;
-          this.weeklyMatchProgramSelectionId = this.weeklyMatchProgramSelectionId || this.weeklyMatchProgramList[0]["id"];
-          this.weeklymatchlistService.getWeeklyMatchList(this.weeklyMatchProgramSelectionId);
-          this.fixtureService.getFixtureBySearchIndex(this.onGetFixtureSearchIndex(this.seasonSelectionId, this.weeklyMatchProgramSelectionId));
+          if (data.length > 0) {
+            this.weeklyMatchProgramList = data;
+            this.weeklyMatchProgramSelectionId = this.weeklyMatchProgramSelectionId || this.weeklyMatchProgramList[0]["id"];
+            this.weeklymatchlistService.getWeeklyMatchList(this.weeklyMatchProgramSelectionId);
+            this.fixtureService.getFixtureBySearchIndex(this.onGetFixtureSearchIndex(this.seasonSelectionId, this.weeklyMatchProgramSelectionId));
+          } else {
+            this.weeklyMatchProgramSelectionId = null;
+            this.weeklyMatchList = [];
+            this.fixtureList = [];
+          }
+
         },
         error: (error) => {
 
@@ -134,8 +143,8 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
     this.stadiumService.getStadiums();
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe({
-        next: (data: StadiumsModel[]) => {
-          this.stadiumList = data;
+        next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
+          this.stadiumList = data.stadiumsList;
         },
         error: (error) => {
 
@@ -261,26 +270,19 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
   }
 
   getMatchDate(_date: Date): string {
-    const longDate = this.getLocalDateForLongDate(_date);
-    const shortTime = this.getLocalDateForShortTime(_date);
-    const formattedDate = (longDate || shortTime) ? (longDate + " " + shortTime) : null;
-    return formattedDate;
+    return this.globalFunctions.getDateTime(_date);
   }
 
-  getLocalDateForLongDate(_date: Date): string {
-    return this.globalFunctions.registerLocalDateForLongDate(_date);
+  getMatchStatus(status: string): string {
+    return this.globalFunctions.getMatchStatusValue(status);
   }
 
-  getLocalDateForShortTime(_date: Date): string {
-    return this.globalFunctions.registerLocalDateForShortTime(_date);
+  getMatchStatusClass(status: string): string {
+    return this.globalFunctions.getMatchStatusClass(status);
   }
 
-  findMatchStatus(status: string): string {
-    return this.matchStatusList.find(s => s.name == status).value;
-  }
-
-  findMatchStatusClass(status: string): string {
-    return this.matchStatusList.find(s => s.name == status).class;
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   findMatchInFixture(matchId: number, matchNo): boolean {

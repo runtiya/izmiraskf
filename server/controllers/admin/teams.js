@@ -5,26 +5,56 @@ const crypto = require('../../functions/crypto');
 const imagesFunction = require("../../functions/images");
 
 function getTeams(req, res, next) {
-  try {
-    var teamList = [];
-    var message;
+  (async () => {
+    try {
+      var teamsList = [];
+      var teamsCount = 0;
+      var message;
 
-    connection.query(queries.getTeams, (error, result) => {
-      if (!error) {
-        teamList = result;
-      } else {
-        message = error.sqlMessage;
-      }
+      const paginationPageSize = +req.query.paginationPageSize;
+      const paginationCurrentPage = +req.query.paginationCurrentPage;
 
-      const _teamList = crypto.encryptData(teamList);
+      teamsList = await new Promise((resolve, reject) => {
+        connection.query(
+          (!!paginationPageSize && !!paginationCurrentPage) ? queries.getTeamsWithPagination : queries.getTeams,
+          [
+            paginationPageSize,
+            (paginationCurrentPage - 1) * paginationPageSize
+          ],
+        (error,result) => {
+          if(!error){
+            resolve(result);
+          }else{
+            resolve(error.sqlMessage);
+          }
+        });
+      });
+
+      teamsCount = await new Promise((resolve, reject) => {
+        connection.query(
+          "select count(1) as 'count' from view_admin_teams",
+          (error,result) => {
+            if(!error){
+              resolve(result[0].count);
+            }else{
+              resolve(error.sqlMessage);
+            }
+          });
+      });
+
+      const _data = crypto.encryptData({teamsList: teamsList, teamsCount: teamsCount});
 
       res.status(200).json({
-        data: _teamList,
+        data: _data
       });
-    });
-  } catch (error) {
-    console.log(error);
-  }
+
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: error
+      })
+    };
+})();
 }
 
 // Get a team by id

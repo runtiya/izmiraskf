@@ -10,20 +10,23 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import * as CryptoJS from 'crypto-js';
+import { globalFunctions } from "../functions/global.function";
 
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor {
-  constructor() {}
+  constructor(
+    private globalFunctions: globalFunctions
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       tap((event) => {
         if (event instanceof HttpResponse) {
           event.body.data = this.decryptData(event.body.data);
-          return event
+          return event;
         }
       })
-    )
+    );
   }
 
   decryptData(data) {

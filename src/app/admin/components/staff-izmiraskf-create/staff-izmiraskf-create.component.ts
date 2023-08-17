@@ -75,11 +75,9 @@ export class AdminCreateStaffIzmirAskfModal {
 
       this.isLoading = true;
       if (this.pageMode === "create") {
-        this.staffIASKFSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
         this.staffService.createStaff(this.staffIASKFSubmitForm.value);
       }
       else {
-        this.staffIASKFSubmitForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
         this.staffService.updateStaff(this.staffIASKFSubmitForm.value);
       }
       this.isLoading = false;

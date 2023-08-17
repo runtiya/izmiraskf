@@ -1,6 +1,6 @@
 <div>
   <div class="col-12">
-    <mat-card class="create-card">
+    <mat-card class="card create-card">
       <button
         class="create-button"
         mat-fab
@@ -14,23 +14,32 @@
   </div>
 
   <div class="row">
-    <div class="col-lg-6 col-md-12 col-sm-12" *ngFor="let stadium of stadiumsList">
+    <div
+      class="col-lg-6 col-md-12 col-sm-12"
+      *ngFor="let stadium of stadiumsList"
+    >
       <mat-card>
-        <mat-card-header>
-          <mat-card-title-group>
-            <div class="profileImageBorder">
-              <img mat-card-avatar [src]="stadium.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{stadium.stadiumName}}">
+        <mat-card-content class="card-stadiums-list" (click)="onEdit(stadium)">
+          <div class="d-flex align-items-center">
+            <img
+              mat-card-sm-image
+              [src]="
+                stadium.imagePath ||
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'
+              "
+              [alt]="stadium.stadiumName"
+            />
+            <div>
+              <mat-card-title>{{ stadium.stadiumName }}</mat-card-title>
+              <mat-card-subtitle *ngIf="stadium.town">{{
+                "İlçe: " + onTownList(stadium.town)
+              }}</mat-card-subtitle>
+              <mat-card-subtitle *ngIf="stadium.floorType">{{
+                "Zemin Türü: " + onFloorTypeList(stadium.floorType)
+              }}</mat-card-subtitle>
             </div>
-            <mat-card-title>{{
-              stadium.stadiumName
-            }}</mat-card-title>
-            <mat-card-subtitle
-              >İlçe: {{ onTownList(stadium.town) }}</mat-card-subtitle
-            >
-          </mat-card-title-group>
-        </mat-card-header>
-
-        <mat-card-content></mat-card-content>
+          </div>
+        </mat-card-content>
 
         <mat-action-row>
           <a mat-button color="primary" (click)="onEdit(stadium)">Düzenle</a>
@@ -39,4 +48,15 @@
       </mat-card>
     </div>
   </div>
+  <mat-paginator
+    [length]="stadiumsCount"
+    [pageSize]="paginationPageSize"
+    [pageSizeOptions]="paginationPageSizeOptions"
+    (page)="onChangePaginationPage($event)"
+    *ngIf="stadiumsList.length"
+  >
+    0
+  </mat-paginator>
+
+  <app-application-no-content-info *ngIf="stadiumsList.length <= 0"></app-application-no-content-info>
 </div>

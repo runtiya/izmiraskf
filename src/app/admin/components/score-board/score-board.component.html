@@ -160,7 +160,7 @@
             *ngFor="let status of matchStatusList"
             [value]="status.name"
           >
-            <mat-icon class="{{ findMatchStatusClass(status.name) }}"
+            <mat-icon class="{{ getMatchStatusClass(status.name) }}"
               >circle</mat-icon
             >
             {{ status.value }}
@@ -446,8 +446,8 @@
 
                 <mat-card-subtitle>
                   <mat-icon
-                    class="{{ findMatchStatusClass(fixture.matchStatus) }}"
-                    matTooltip="{{ findMatchStatus(fixture.matchStatus) }}"
+                    class="{{ getMatchStatusClass(fixture.matchStatus) }}"
+                    matTooltip="{{ getMatchStatus(fixture.matchStatus) }}"
                   >circle
                   </mat-icon>
                 </mat-card-subtitle>
@@ -568,7 +568,7 @@
                       *ngFor="let status of matchStatusList"
                       [value]="status.name"
                     >
-                      <mat-icon class="{{ findMatchStatusClass(status.name) }}"
+                      <mat-icon class="{{ getMatchStatusClass(status.name) }}"
                         >circle</mat-icon
                       >
                       {{ status.value }}

@@ -50,7 +50,7 @@
 
   <div class="card-disciplinary-board-file">
     <mat-card *ngIf="disciplinaryBoardDecisionsList.length > 0">
-      <mat-card-header>
+      <mat-card-header *ngIf="!!disciplinaryBoardFileDetails">
         <div class="row">
           <div class="col-lg-6 col-md-12 col-sm-12">
             <mat-form-field class="form-input">
@@ -192,21 +192,6 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card *ngIf="disciplinaryBoardDecisionsList.length <= 0">
-      <mat-card-content>
-        <div class="alert" *ngIf="disciplinaryBoardDecisionsList.length <= 0">
-          <div class="" role="alert">
-            <mat-card-title>
-              <strong>Kayıt Bulunamadı!</strong>
-              Bu arama anahtarlarına ait kayıt bulunamadı.
-            </mat-card-title>
-            <mat-card-subtitle>
-              Bir sorun olduğunu düşünüyorsanız lütfen uygulama yöneticisi ile
-              görüşünüz!
-            </mat-card-subtitle>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <app-application-no-record-info *ngIf="disciplinaryBoardDecisionsList.length <= 0"></app-application-no-record-info>
   </div>
 </div>

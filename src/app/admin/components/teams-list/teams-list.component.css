@@ -31,3 +31,13 @@ mat-card-title {
 .mat-mdc-card-avatar {
   object-fit: contain;
 }
+
+img {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  height: 100%;
+}
+
+.card-teams-list:hover {
+  cursor: pointer;
+}

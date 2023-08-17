@@ -1,5 +1,5 @@
 <div>
-  <div class="row">
+  <div class="row" *ngIf="teamsList.length > 0">
     <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let team of teamsList">
       <mat-card>
         <mat-card-content
@@ -45,4 +45,6 @@
     </div>
     <mat-paginator [length]="teamsCount" [pageSize]="paginationPageSize" [pageSizeOptions]="paginationPageSizeOptions" (page)="onChangePaginationPage($event)" *ngIf="teamsList.length" > 0 </mat-paginator>
   </div>
+
+  <app-application-no-content-info *ngIf="teamsList.length <= 0"></app-application-no-content-info>
 </div>

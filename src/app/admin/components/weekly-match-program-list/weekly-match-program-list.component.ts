@@ -48,19 +48,24 @@ export class AdminWeeklyMatchProgramList implements OnInit, OnDestroy {
     this.seasonsService.getSeasons();
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
-        next: (data) => {
-          this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-          this.seasonSelectionId = this.seasonsList[0]["id"];
-          this.weeklymatchprogramService.getWeeklyMatchProgram(this.seasonSelectionId);
+        next: (data: SeasonsModel[]) => {
+          if (data.length > 0) {
+            this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+            this.seasonSelectionId = this.seasonsList[0]["id"];
+            this.weeklymatchprogramService.getWeeklyMatchProgram(this.seasonSelectionId);
+          } else {
+            this.seasonSelectionId = null;
+            this.weeklyMatchProgramList = [];
+          }
+
         },
         error: (error) => {
-
         }
       });
 
     this.weeklyMatchProgramListSubscription = this.weeklymatchprogramService.getDocumentsListUpdateListener()
       .subscribe({
-        next: (data) => {
+        next: (data: WeeklyMatchProgramModel[]) => {
           this.weeklyMatchProgramList = data;
         },
         error: (error) => {

@@ -27,7 +27,7 @@
         >
           <mat-option *ngFor="let weeklyMatchProgram of weeklyMatchProgramList" [value]="weeklyMatchProgram.id">
             <fa-icon
-              [icon]="fontAwesomeIconList.faCircle"
+              [icon]="getFontAwesomeIcon('faCircle')"
               class="icon icon-circle"
               [ngStyle]="{ color: weeklyMatchProgram.isActive ? 'green' : 'red' }"
               matTooltip="{{ weeklyMatchProgram.isActive ? 'Aktif' : 'Aktif Değil' }}"
@@ -130,17 +130,29 @@
           </mat-card-subtitle>
 
           <mat-card-subtitle>
+            <fa-icon
+              [icon]="getFontAwesomeIcon('faLocationPin')"
+              class="icon icon-location-pin"
+              matTooltip="Saha"
+            >
+            </fa-icon>
             {{ fixture.stadiumName || 'Saha Belirtilmedi' }}
           </mat-card-subtitle>
 
           <mat-card-subtitle>
+            <fa-icon
+              [icon]="getFontAwesomeIcon('faStopwatch')"
+              class="icon icon-location-pin"
+              matTooltip="Tarih"
+            >
+            </fa-icon>
             {{ getMatchDate(fixture.matchDate) || 'Tarih Belirtilmedi' }}
           </mat-card-subtitle>
 
           <mat-card-subtitle>
             <mat-icon
-              class="{{ findMatchStatusClass(fixture.matchStatus) }}"
-              matTooltip="{{ findMatchStatus(fixture.matchStatus) }}"
+              class="{{ getMatchStatusClass(fixture.matchStatus) }}"
+              matTooltip="{{ getMatchStatus(fixture.matchStatus) }}"
             >circle
             </mat-icon>
           </mat-card-subtitle>

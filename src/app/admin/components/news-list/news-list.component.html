@@ -2,7 +2,7 @@
   <mat-toolbar class="toolbar toolbar-title">
     <mat-card-title>{{ toolbarTitle }}</mat-card-title>
   </mat-toolbar>
-  <br>
+  <br />
   <mat-accordion *ngIf="newsList.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor="let news of newsList">
       <mat-expansion-panel-header>
@@ -76,12 +76,18 @@
         </mat-action-row>
       </mat-card>
     </mat-expansion-panel>
+    <mat-paginator
+      [length]="newsCount"
+      [pageSize]="paginationPageSize"
+      [pageSizeOptions]="paginationPageSizeOptions"
+      (page)="onChangePaginationPage($event)"
+      *ngIf="newsList.length"
+    >
+      0
+    </mat-paginator>
   </mat-accordion>
 
-  <!-- No News Content Text -->
-  <mat-card *ngIf="newsList.length <= 0 && !isLoading">
-    <mat-card-content>
-      <mat-card-title> HABER BULUNAMADI! </mat-card-title>
-    </mat-card-content>
-  </mat-card>
+  <app-application-no-content-info
+    *ngIf="newsList.length <= 0"
+  ></app-application-no-content-info>
 </div>

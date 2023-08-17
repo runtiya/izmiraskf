@@ -2,12 +2,14 @@ import { Component, Inject, OnDestroy, OnInit, Input, Output } from "@angular/co
 import { Subscription } from "rxjs";
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { PageEvent } from "@angular/material/paginator";
 
 import { NewsModel } from "../../models/admin-news.model";
 import { NewsService } from "../../services/admin-news.service";
 import { AdminNewsUpdateModal } from "../news-update/news-update.component";
 
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-admin-news-list',
@@ -18,23 +20,28 @@ export class AdminNewsList implements OnInit, OnDestroy {
   toolbarTitle = "HABERLER";
   isLoading: boolean = false;
   newsList: NewsModel[] = [];
+  newsCount: number = 0;
   private newsSub: Subscription;
+  paginationPageSizeOptions: Array<number> = this.globalFunctions.getPaginationPageSizeOptions();
+  paginationPageSize: number = this.paginationPageSizeOptions[0];
+  paginationCurrentPage: number = 1;
+
 
   fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
-    public newsService: NewsService,
-    public dialog: MatDialog,
-    private sanitizer: DomSanitizer
+    private newsService: NewsService,
+    private dialog: MatDialog,
+    private globalFunctions: globalFunctions
     ) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.newsService.getNews();
+    this.newsService.getNews(this.paginationPageSize, this.paginationCurrentPage);
     this.newsSub = this.newsService.getNewsUpdateListener()
-      .subscribe((data: NewsModel[]) => {
-        // Sort data regarding the updateDate || createDate
-        this.newsList = data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      .subscribe((data: {newsList: NewsModel[], newsCount: number}) => {
+        this.newsList = data.newsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        this.newsCount = data.newsCount;
         this.isLoading = false;
       });
 
@@ -53,6 +60,10 @@ export class AdminNewsList implements OnInit, OnDestroy {
         news: news
       }
     });
+  }
+
+  onChangePaginationPage(paginationData: PageEvent){
+    this.newsService.getNews(paginationData.pageSize, paginationData.pageIndex + 1);
   }
 
 

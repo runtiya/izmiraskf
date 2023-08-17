@@ -76,8 +76,10 @@ app.use("/files/template-files", express.static(path.join("server/files/template
 // CORS - Cross-Origin Resource Sharing
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+  res.setHeader('Cache-Control', 'public, max-age=30'); // As seconds
+
   next();
 });
 

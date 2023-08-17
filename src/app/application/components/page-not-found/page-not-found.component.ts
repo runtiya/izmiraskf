@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
-  selector: 'app-admin-page-not-found',
+  selector: 'app-application-page-not-found',
   templateUrl: './page-not-found.component.html',
   styleUrls: ['../../../app.component.css', './page-not-found.component.css']
 })

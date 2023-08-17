@@ -36,7 +36,7 @@ export class ApplicationTeamsList implements OnInit, OnDestroy {
     this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.teamsService.getTeams(this.paginationPageSize, this.paginationCurrentPage);
-    this.teamsListSub = this.teamsService.getTeamListUpdateListener()
+    this.teamsListSub = this.teamsService.getTeamsListUpdateListener()
       .subscribe((data: {teamsList: TeamsModel[], teamsCount: number}) => {
         this.teamsList = data.teamsList;
         this.teamsCount = data.teamsCount;

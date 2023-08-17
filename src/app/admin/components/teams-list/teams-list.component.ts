@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
+import { PageEvent } from "@angular/material/paginator";
 
 import { TeamsModel } from "../../models/admin-teams.model";
 import { TeamsService } from "../../services/admin-teams.service";
@@ -18,6 +19,10 @@ export class AdminTeamsList implements OnInit, OnDestroy {
   toolbarTitle = "TAKIMLAR";
   isLoading: boolean = false;
   teamsList: TeamsModel[] = [];
+  teamsCount: number = 0;
+  paginationPageSizeOptions: Array<number> = this.globalFunctions.getPaginationPageSizeOptions();
+  paginationPageSize: number = this.paginationPageSizeOptions[1];
+  paginationCurrentPage: number = 1;
   private teamsListSub: Subscription;
 
   fontAwesomeIconList = fontAwesomeIconList;
@@ -31,11 +36,14 @@ export class AdminTeamsList implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-    this.teamsService.getTeams();
-    this.teamsListSub = this.teamsService.getTeamListUpdateListener()
-      .subscribe((data: TeamsModel[]) => {
-        this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
-        this.isLoading = false;
+    this.teamsService.getTeams(this.paginationPageSize, this.paginationCurrentPage);
+    this.teamsListSub = this.teamsService.getTeamsListUpdateListener()
+      .subscribe({
+        next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
+          this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName)).filter((t, index) => index < 20);
+          this.teamsCount = data.teamsCount;
+          this.isLoading = false;
+        }
       });
   }
 
@@ -60,6 +68,10 @@ export class AdminTeamsList implements OnInit, OnDestroy {
     this.isLoading = true;
     this.teamsService.deleteTeam(id);
     this.isLoading = false;
+  }
+
+  onChangePaginationPage(paginationData: PageEvent) {
+    this.teamsService.getTeams(paginationData.pageSize, paginationData.pageIndex + 1);
   }
 
   ngOnDestroy(): void {

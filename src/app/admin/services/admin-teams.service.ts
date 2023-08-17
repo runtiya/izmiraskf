@@ -8,24 +8,26 @@ import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({ providedIn: 'root' })
 export class TeamsService {
-  private teamList: TeamsModel[] = [];
-  private teamListSub = new Subject<TeamsModel[]>();
+  private teamsList: TeamsModel[] = [];
+  private teamsCount: number = 0;
+  private teamsListSub = new Subject<{teamsList: TeamsModel[], teamsCount: number}>();
 
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
     ) {}
 
-  getTeams() {
+  getTeams(paginationPageSize?: number, paginationCurrentPage?: number) {
     try {
       this.http
-        .get<{ data: TeamsModel[] }>(
-          'http://localhost:3000/admin/takimlar'
+        .get<{ data: {teamsList: TeamsModel[], teamsCount: number} }>(
+          `http://localhost:3000/admin/takimlar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
         )
         .subscribe({
           next: (data) => {
-            this.teamList = data.data;
-            this.teamListSub.next([...this.teamList]);
+            this.teamsList = data.data.teamsList;
+            this.teamsCount = data.data.teamsCount;
+            this.teamsListSub.next(data.data);
           },
           error: (error) => {
             this.globalFunctions.showSnackBar('server.error');
@@ -40,8 +42,8 @@ export class TeamsService {
 
   }
 
-  getTeamListUpdateListener() {
-    return this.teamListSub.asObservable();
+  getTeamsListUpdateListener() {
+    return this.teamsListSub.asObservable();
   }
 
   createTeam(teamInfo: TeamsModel) {
@@ -57,8 +59,9 @@ export class TeamsService {
         .subscribe({
           next: (data) => {
             teamInfo.id = data.data;
-            this.teamList.push(teamInfo);
-            this.teamListSub.next([...this.teamList]);
+            this.teamsList.push(teamInfo);
+            this.teamsCount++;
+            this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
@@ -83,12 +86,12 @@ export class TeamsService {
         .subscribe({
           next: (data) => {
             // Replace updated object with the old one
-            this.teamList.forEach((item, i) => {
+            this.teamsList.forEach((item, i) => {
               if (item.id == teamInfo.id) {
-                this.teamList[i] = teamInfo;
+                this.teamsList[i] = teamInfo;
               }
             });
-            this.teamListSub.next([...this.teamList]);
+            this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
@@ -108,9 +111,10 @@ export class TeamsService {
         )
         .subscribe({
           next: (data) => {
-            const filteredTeamList = this.teamList.filter(team => team.id !== teamId);
-            this.teamList = filteredTeamList;
-            this.teamListSub.next([...this.teamList]);
+            const filteredteamsList = this.teamsList.filter(team => team.id !== teamId);
+            this.teamsList = filteredteamsList;
+            this.teamsCount--;
+            this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {

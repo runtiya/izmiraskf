@@ -187,26 +187,26 @@
                     </mat-card-subtitle>
                     <mat-card-subtitle class="subtitle-matchday-detail">
                       <fa-icon
-                        [icon]="fontAwesomeIconList.faLocationPin"
+                        [icon]="getFontAwesomeIcon('faLocationPin')"
                         class="icon icon-location-pin"
-                        matTooltip="Stadyum"
+                        matTooltip="Saha"
                       >
                       </fa-icon>
                     {{ matchDay.stadiumName || "Belirtilmemiş" }}
                     </mat-card-subtitle>
                     <mat-card-subtitle class="subtitle-matchday-detail">
                       <fa-icon
-                        [icon]="fontAwesomeIconList.faStopwatch"
+                        [icon]="getFontAwesomeIcon('faStopwatch')"
                         class="icon icon-stop-watch"
                         matTooltip="Tarih"
                       >
                       </fa-icon>
-                      {{getMatchDate(matchDay.matchDate) || "Belirtilmemiş"}}
+                      {{getDateTime(matchDay.matchDate) || "Belirtilmemiş"}}
                     </mat-card-subtitle>
                     <mat-card-subtitle>
                       <mat-icon
-                        class="{{ findMatchStatusClass(matchDay.matchStatus) }}"
-                        matTooltip="{{ findMatchStatus(matchDay.matchStatus) }}"
+                        class="{{ getMatchStatusClass(matchDay.matchStatus) }}"
+                        matTooltip="{{ getMatchStatus(matchDay.matchStatus) }}"
                         >circle</mat-icon
                       >
                     </mat-card-subtitle>

@@ -86,11 +86,9 @@ export class AdminStadiumsCreateModal {
     if (this.stadiumsCreateForm.valid) {
       this.isLoading = true;
       if (this.pageMode === "create") {
-        this.stadiumsCreateForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
         this.stadiumService.createStadium(this.stadiumsCreateForm.value);
       }
       else {
-        this.stadiumsCreateForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
         this.stadiumService.updateStadium(this.stadiumsCreateForm.value);
       }
       this.isLoading = false;

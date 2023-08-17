@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from "@angular/material/dialog";
 import { DatePipe } from "@angular/common";
+
 import { fontAwesomeIconList } from '../assets/lists/font-awesome-icon.list';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { fileMimeTypeList } from "../assets/lists/file-mime-type.list";
@@ -21,6 +22,7 @@ export class globalFunctions {
   townList = townList;
   floorTypeList = floorTypeList;
   matchStatusList = matchStatusList;
+  fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
     private _datePipe: DatePipe,
@@ -43,21 +45,24 @@ export class globalFunctions {
     this.getToolbarTitle.next(_toolbarTitle);
   }
 
-  registerLocalDate(_date: Date): string {
-    return this._datePipe.transform(_date, 'dd.MM.yyyy');
+  getDate(_date: Date): string {
+    const formattedDate = _date !== null ? this._datePipe.transform(_date, 'dd.MM.yyyy') : null;
+    return formattedDate;
   }
 
-  registerLocalDateTime(_date: Date): string {
-    return this._datePipe.transform(_date, 'dd.MM.yyyy HH:mm')
+  getDateTime(_date: Date): string {
+    const formattedDate = _date !== null ? this._datePipe.transform(_date, 'dd.MM.yyyy HH:mm') : null;
+    return formattedDate;
   }
 
-  registerLocalDateForLongDate(_date: Date): string {
+
+  getLocalDate(_date: Date): string {
     const formattedDate = _date !== null ? this._datePipe.transform(_date, 'longDate') : null;
-    return formattedDate
+    return formattedDate;
   }
 
-  registerLocalDateForShortTime(_date: Date): string {
-    const formattedDate = _date !== null ? this._datePipe.transform(_date, 'shortTime') : null;
+  getLocalDateTime(_date: Date): string {
+    const formattedDate = _date !== null ? ( this._datePipe.transform(_date, 'longDate') + " " + this._datePipe.transform(_date, 'shortTime') ) : null;
     return formattedDate;
   }
 
@@ -109,6 +114,18 @@ export class globalFunctions {
     } else {
       return null;
     }
+  }
+
+  getMatchStatusClass(name: string): string {
+    if (name) {
+      return this.matchStatusList.find(s => s.name == name).class;
+    } else {
+      return null;
+    }
+  }
+
+  getFontAwesomeIcon(_icon: string): IconDefinition {
+    return this.fontAwesomeIconList[_icon];
   }
 
   getMimeType(mimeType: string): string {

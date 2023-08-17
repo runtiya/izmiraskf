@@ -48,7 +48,7 @@ export class fileImportExportFunctions {
           globalFixtureExport.Hafta = `${w + 1}. HAFTA`;
           globalFixtureExport.Ev_Sahibi_Takım = match["homeTeamOfficialName"] || 'BAY';
           globalFixtureExport.Misafir_Takım = match["awayTeamOfficialName"] || 'BAY';
-          globalFixtureExport.Tarih_Saat = this.globalFunctions.registerLocalDateTime(match["matchDate"]) || 'Belirtilmemiş';
+          globalFixtureExport.Tarih_Saat = this.globalFunctions.getDateTime(match["matchDate"]) || 'Belirtilmemiş';
           globalFixtureExport.Saha = match["stadiumName"] || 'Belirtilmemiş';
 
           fileData.push(globalFixtureExport);
@@ -60,7 +60,7 @@ export class fileImportExportFunctions {
     exportExcelScoreBoard(fixtureList: FixtureModel[]) {
       var fileData: GlobalScoreBoardExportModel[] = this.setFileDataForScoreBoardExport(fixtureList);
 
-      const fileName = `skortablosu-export-${this.globalFunctions.registerLocalDate(new Date()).replaceAll('.', '').replaceAll(' ', '-')}`;
+      const fileName = `skortablosu-export-${this.globalFunctions.getDate(new Date()).replaceAll('.', '').replaceAll(' ', '-')}`;
       const woorkSheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(fileData);
       const workBook: XLSX.WorkBook = {Sheets: { 'Fikstür': woorkSheet}, SheetNames: ['Fikstür']};
       const excelBuffer: any = XLSX.write(workBook, { bookType: 'xlsx', type: 'array'});
@@ -76,7 +76,7 @@ export class fileImportExportFunctions {
 
         let globalScoreBoardExport = <GlobalScoreBoardExportModel>{};
         globalScoreBoardExport.Maç_No = match["matchNo"];
-        globalScoreBoardExport.Tarih_Saat = this.globalFunctions.registerLocalDateTime(match["matchDate"]);
+        globalScoreBoardExport.Tarih_Saat = this.globalFunctions.getDateTime(match["matchDate"]);
         globalScoreBoardExport.Saha = match["stadiumName"];
         globalScoreBoardExport.Ev_Sahibi_Takım = match["homeTeamOfficialName"];
         globalScoreBoardExport.Ev_Sahibi_Takım_Skor = match["homeTeamScore"];
@@ -113,7 +113,7 @@ export class fileImportExportFunctions {
         let globalWeeklyMatchProgramExport = <GlobalWeeklyMatchListExportModel>{};
         globalWeeklyMatchProgramExport.Maç_No = match["matchNo"];
         globalWeeklyMatchProgramExport.Lig = match["leagueName"];
-        globalWeeklyMatchProgramExport.Tarih_Saat = this.globalFunctions.registerLocalDateTime(match["matchDate"]);
+        globalWeeklyMatchProgramExport.Tarih_Saat = this.globalFunctions.getDateTime(match["matchDate"]);
         globalWeeklyMatchProgramExport.Saha = match["stadiumName"];
         globalWeeklyMatchProgramExport.Ev_Sahibi_Takım = match["homeTeamOfficialName"] || 'BAY';
         globalWeeklyMatchProgramExport.Misafir_Takım = match["awayTeamOfficialName"] || 'BAY';

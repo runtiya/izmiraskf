@@ -8,4 +8,7 @@ export const systemMessages = {
 
   // Fixture Messages
   'fixture.sameweekandorderno' : 'Hafta ve Sıra Numarasına sahip başka bir maç bulundu!',
+
+  // Disciplinary Board Messages
+  'disciplinaryboard.files.selectfile' : 'Lütfen Dosya Numarası seçiniz!',
 }

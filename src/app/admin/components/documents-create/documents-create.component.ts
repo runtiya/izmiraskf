@@ -89,10 +89,8 @@ export class AdminDocumentCreateModal {
     if (this.documentSubmitForm.valid) {
       this.isLoading = true;
       if (this.pageMode === 'create') {
-        this.documentSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
         this.documentService.createDocument(this.documentSubmitForm.value);
       } else {
-        this.documentSubmitForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
         this.documentService.updateDocument(this.documentSubmitForm.value);
       }
       this.isLoading = false;
