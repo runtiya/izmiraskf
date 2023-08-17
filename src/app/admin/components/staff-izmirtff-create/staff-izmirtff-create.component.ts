@@ -76,11 +76,9 @@ export class AdminCreateStaffIzmirTFFModal {
 
       this.isLoading = true;
       if (this.pageMode === "create") {
-        this.staffITFFSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
         this.staffService.createStaff(this.staffITFFSubmitForm.value);
       }
       else {
-        this.staffITFFSubmitForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
         this.staffService.updateStaff(this.staffITFFSubmitForm.value);
       }
       this.isLoading = false;

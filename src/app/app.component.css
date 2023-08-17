@@ -28,6 +28,10 @@ mat-card {
   margin-bottom: 1.5rem;
 }
 
+.card-no-content {
+  box-shadow: none;
+}
+
 mat-card-header, mat-card-content {
   background-color: whitesmoke;
 }

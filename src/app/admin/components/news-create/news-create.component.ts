@@ -121,12 +121,11 @@ export class AdminNewsCreate implements OnInit, OnDestroy {
     this.newsCreateForm.get('imagePath').setValue(null);
   }
 
-  onAddNews() {
+  onCreateNews() {
 
     if (this.newsCreateForm.valid) {
       this.isLoading = true;
-      this.newsCreateForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
-      this.newsService.addNews(this.newsCreateForm.value);
+      this.newsService.createNews(this.newsCreateForm.value);
       this.isLoading = false;
 
       this.onClearNewsForm();

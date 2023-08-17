@@ -62,8 +62,8 @@ export class AdminTeamsInGroupstagesInFixtureCreate implements OnInit, OnDestroy
 
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe({
-        next: (data: StadiumsModel[]) => {
-          this.stadiumList = data;
+        next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
+          this.stadiumList = data.stadiumsList;
         },
         error: (error) => {
         }

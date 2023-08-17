@@ -123,7 +123,6 @@ export class AdminNewsUpdateModal {
 
     if (this.newsUpdateForm.valid) {
       this.isLoading = true;
-      this.newsUpdateForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
       this.newsService.updateNews(this.newsUpdateForm.value);
       this.isLoading = false;
     } else {

@@ -1,11 +1,9 @@
 <div>
-
-
-  <div id="carouselNewsSlider" class="carousel carousel-dark slide" data-bs-ride="carousel">
+  <div id="carouselNewsSlider" class="carousel carousel-dark slide" data-bs-ride="carousel" *ngIf="newsList.length > 0">
 
     <div class="carousel-inner">
       <div class="carousel-item {{(index == 0) ? 'active' : null}}" *ngFor="let news of newsList; let index = index" data-bs-interval="2000">
-        <mat-card class="card-news-list" (click)="showNewsDetails(news.id)">
+        <mat-card class="card card-news-list" (click)="showNewsDetails(news.id)">
           <img mat-card-xl-image [src]="news.imagePath" class="d-block w-100" [alt]="news.title">
           <div class="carousel-caption d-md-block">
             <mat-card-title>{{news.title}}</mat-card-title>
@@ -21,5 +19,9 @@
       <span class="carousel-control-icon carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
+  </div>
+
+  <div>
+    <app-application-no-content-info *ngIf="newsList.length <= 0"></app-application-no-content-info>
   </div>
 </div>

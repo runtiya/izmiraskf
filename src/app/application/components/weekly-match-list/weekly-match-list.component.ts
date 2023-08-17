@@ -22,6 +22,7 @@ import { townList } from "../../../assets/lists/town-izmir.list";
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 
+
 @Component({
   selector: 'app-application-weeklymatch-list',
   templateUrl: './weekly-match-list.component.html',
@@ -154,26 +155,23 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
   }
 
   getMatchDate(_date: Date): string {
-    const longDate = this.getLocalDateForLongDate(_date);
-    const shortTime = this.getLocalDateForShortTime(_date);
-    const formattedDate = (longDate || shortTime) ? (longDate + " " + shortTime) : null;
-    return formattedDate;
+    return this.globalFunctions.getLocalDateTime(_date);
   }
 
-  getLocalDateForLongDate(_date: Date): string {
-    return this.globalFunctions.registerLocalDateForLongDate(_date);
+  getMatchStatus(status: string): string {
+    return this.globalFunctions.getMatchStatusValue(status);
   }
 
-  getLocalDateForShortTime(_date: Date): string {
-    return this.globalFunctions.registerLocalDateForShortTime(_date);
+  getMatchStatusClass(status: string): string {
+    return this.globalFunctions.getMatchStatusClass(status);
   }
 
-  findMatchStatus(status: string): string {
-    return this.matchStatusList.find(s => s.name == status).value;
+  getTownName(town: string): string {
+    return this.globalFunctions.getTownValue(town);
   }
 
-  findMatchStatusClass(status: string): string {
-    return this.matchStatusList.find(s => s.name == status).class;
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   getDistinctSeasonName(fixtureList: FixtureModel[]): Array<string> {
@@ -208,12 +206,8 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
   }
 
   getDistinctMatchDate(fixtureList: FixtureModel[]): Array<string> {
-    const distinctMatchDate = [...new Set(fixtureList.map(f => this.getLocalDateForLongDate(f.matchDate)))].filter(f => f !== null);
+    const distinctMatchDate = [...new Set(fixtureList.map(f => this.globalFunctions.getLocalDate(f.matchDate)))].filter(f => f !== null);
     return distinctMatchDate;
-  }
-
-  findTownName(town: string): string {
-    return this.townList.find(t => t.name == town).value;
   }
 
   onSearch() {
@@ -226,7 +220,7 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
       f.awayTeamOfficialName == (this.filterTeamSelectionValue || f.awayTeamOfficialName)) &&
       f.stadiumTown == (this.filterTownSelectionValue || f.stadiumTown) &&
       f.stadiumName == (this.filterStadiumSelectionValue || f.stadiumName) &&
-      this.getLocalDateForLongDate(f.matchDate) == (this.filterDateSelectionValue || this.getLocalDateForLongDate(f.matchDate))
+      this.globalFunctions.getLocalDate(f.matchDate) == (this.filterDateSelectionValue || this.globalFunctions.getLocalDate(f.matchDate))
     );
 
     this.filteredFixtureList = _filteredFixtureList;
@@ -234,12 +228,13 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
 
   onExport() {
 
+
   }
 
   ngOnDestroy(): void {
     this.seasonsListSubscription.unsubscribe();
     this.weeklyMatchProgramListSubscription.unsubscribe();
-    //this.weeklyMatchListSubscription.unsubscribe();
+    this.weeklyMatchListSubscription.unsubscribe();
     this.fixtureListSub.unsubscribe();
   }
 }

@@ -10,6 +10,8 @@ import { globalFunctions } from "../../../functions/global.function";
 import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 import { matchStatusList } from "../../../assets/lists/match-status.list";
 
+
+
 @Component({
   selector: 'app-application-fixture-by-week',
   templateUrl: './fixture-by-week.component.html',
@@ -20,9 +22,6 @@ export class ApplicationFixtureByWeek implements OnInit, OnDestroy {
   isLoading: boolean = false;
   fixtureList: FixtureModel[] = [];
   private fixtureListSub: Subscription;
-
-  matchStatusList = matchStatusList;
-  fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
     private fixtureService: FixtureService,
@@ -42,27 +41,20 @@ export class ApplicationFixtureByWeek implements OnInit, OnDestroy {
       });
   }
 
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
+  }
+
   getMatchDate(_date: Date): string {
-    const longDate = this.getLocalDateForLongDate(_date);
-    const shortTime = this.getLocalDateForShortTime(_date);
-    const formattedDate = (longDate || shortTime) ? (longDate + " " + shortTime) : null;
-    return formattedDate;
+    return this.globalFunctions.getLocalDateTime(_date);
   }
 
-  getLocalDateForLongDate(_date: Date): string {
-    return this.globalFunctions.registerLocalDateForLongDate(_date);
+  getMatchStatus(status: string): string {
+    return this.globalFunctions.getMatchStatusValue(status);
   }
 
-  getLocalDateForShortTime(_date: Date): string {
-    return this.globalFunctions.registerLocalDateForShortTime(_date);
-  }
-
-  findMatchStatus(status: string): string {
-    return this.matchStatusList.find(s => s.name == status).value;
-  }
-
-  findMatchStatusClass(status: string): string {
-    return this.matchStatusList.find(s => s.name == status).class;
+  getMatchStatusClass(status: string): string {
+    return this.globalFunctions.getMatchStatusClass(status);
   }
 
   showStadiumDetails(_stadiumId: number) {

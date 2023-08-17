@@ -3,7 +3,7 @@
     <mat-spinner *ngIf="isLoading"></mat-spinner>
       <form
         [formGroup]="newsCreateForm"
-        (submit)="onAddNews()"
+        (submit)="onCreateNews()"
         *ngIf="!isLoading"
       >
         <div class="row">

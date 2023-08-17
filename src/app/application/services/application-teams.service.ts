@@ -39,7 +39,7 @@ export class TeamsService {
     }
   }
 
-  getTeamListUpdateListener() {
+  getTeamsListUpdateListener() {
     return this.teamListSub.asObservable();
   }
 

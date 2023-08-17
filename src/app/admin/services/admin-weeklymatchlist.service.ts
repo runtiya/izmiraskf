@@ -82,7 +82,7 @@ export class WeeklyMatchListService {
               const fixture = this.fixtureList[i];
               let _match: WeeklyMatchListModel = <WeeklyMatchListModel>{};
 
-              _match.createdAt = this.globalFunctions.getTimeStamp();
+              _match.createdAt = null;
               _match.createdBy = null;
               _match.updatedAt = null;
               _match.updatedBy = null;

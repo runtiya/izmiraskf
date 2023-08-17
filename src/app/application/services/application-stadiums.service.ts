@@ -9,7 +9,7 @@ import { globalFunctions } from "../../functions/global.function";
 @Injectable({providedIn: 'root'})
 export class StadiumsService {
   private stadiumsList: StadiumsModel[] = [];
-  private stadiumsListSub = new Subject<{stadiumsList: StadiumsModel[], stadiumsCount: number }>();
+  private stadiumsListSub = new Subject<{ stadiumsList: StadiumsModel[], stadiumsCount: number }>();
 
   private stadium: StadiumsModel;
   private stadiumSub = new Subject<StadiumsModel>();

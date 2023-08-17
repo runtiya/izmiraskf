@@ -34,7 +34,7 @@ export class disciplinaryBoardFunctions {
     }
 
     let _newsModel = <NewsModel>{};
-    _newsModel.createdAt = this.globalFunctions.getTimeStamp();
+    _newsModel.createdAt = null;
     _newsModel.createdBy = null;
     _newsModel.updatedAt = null;
     _newsModel.updatedBy = null;
@@ -44,14 +44,14 @@ export class disciplinaryBoardFunctions {
     _newsModel.imageAttachment = null;
     _newsModel.isVisible = true;
 
-    this.newsService.addNews(_newsModel);
+    this.newsService.createNews(_newsModel);
   }
 
   buildContentForAnnouncement(template: string, disciplinaryBoardFile: DisciplinaryBoardFileModel): Text | string {
     const replacements = {
       title: disciplinaryBoardFile.title,
       caseNo: disciplinaryBoardFile.caseNo,
-      caseDate: this.globalFunctions.registerLocalDate(disciplinaryBoardFile.caseDate),
+      caseDate: this.globalFunctions.getDate(disciplinaryBoardFile.caseDate),
       caseType: disciplinaryBoardFile.caseType.toLowerCase()
     }
 

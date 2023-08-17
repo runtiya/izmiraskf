@@ -94,7 +94,6 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
 
   onUpdateAboutText() {
     if (this.aboutIASKFform.valid) {
-      this.aboutIASKFform.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
       this.aboutiaskfService.updateAboutContent(this.aboutIASKFform.value);
     }
     else {

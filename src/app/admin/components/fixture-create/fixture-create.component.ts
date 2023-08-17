@@ -31,9 +31,6 @@ import { fileImportExportFunctions } from "../../functions/file-import-export.fu
 import { globalFunctions } from "../../../functions/global.function";
 
 import { fixtureKey3, fixtureKey4, fixtureKey5, fixtureKey6, fixtureKey7, fixtureKey8, fixtureKey9, fixtureKey10, fixtureKey11, fixtureKey12, fixtureKey13, fixtureKey14, fixtureKey15 } from "../../assets/lists/fixture-keys.list";
-import { matchStatusList } from "../../../assets/lists/match-status.list";
-
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 import { GlobalFixtureExportModel } from "../../../models/global-fixture-export.model";
 import * as XLSX from 'xlsx';
@@ -60,8 +57,6 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
   stadiumList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
 
-  matchStatusList = matchStatusList;
-  fontAwesomeIconList = fontAwesomeIconList;
 
   fixtureSearchIndex: FixtureSearchModel = <FixtureSearchModel>{};
 
@@ -178,8 +173,8 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
 
     this.stadiumsService.getStadiums();
     this.stadiumListSub = this.stadiumsService.getStadiumListUpdateListener()
-      .subscribe((data: StadiumsModel[]) => {
-        this.stadiumList = data.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
+      .subscribe((data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
+        this.stadiumList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
       });
   }
 
@@ -414,7 +409,6 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
 
 
   onExport() {
-    console.log(this.fixtureList)
     //this.fileImportExportFunctions.exportExcelFixture(this.groupByFixture);
   }
 
@@ -491,15 +485,6 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
     return !!team ? team.teamImagePath : null;;
   }
 
-
-  findMatchStatus(status: string): string {
-    return this.matchStatusList.find(s => s.name == status).value;
-  }
-
-  findMatchStatusClass(status: string): string {
-    return this.matchStatusList.find(s => s.name == status).class;
-  }
-
   findExpelledOrReceded(teamId: number): boolean {
     let team: TeamsInGroupstagesModel = this.teamsingroupstagesList.find(team => team.teamId == teamId);
     return !!team ? (team.isExpelled || team.isReceded) : false;
@@ -511,11 +496,21 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
   }
 
 
-  getMatchDate(_date: Date): string {
-    const longDate = this.globalFunctions.registerLocalDateForLongDate(_date);
-    const shortTime = this.globalFunctions.registerLocalDateForShortTime(_date);
+  getDateTime(_date: Date): string {
+    return this.globalFunctions.getDateTime(_date);
 
-    return longDate || shortTime ? (longDate + " " + shortTime) : null;
+  }
+
+  getMatchStatus(status: string): string {
+    return this.globalFunctions.getMatchStatusValue(status);
+  }
+
+  getMatchStatusClass(status: string): string {
+    return this.globalFunctions.getMatchStatusClass(status);
+  }
+
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   ngOnDestroy(): void {

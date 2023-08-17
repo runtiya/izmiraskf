@@ -26,7 +26,7 @@ export class DisciplinaryBoardFilesService {
         .subscribe({
           next: (data) => {
             this.disciplinaryBoardFileList = data.data;
-            !!this.disciplinaryBoardFileList ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
+            this.disciplinaryBoardFileList.length > 0 ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
           },
           error: (error) => {
             this.globalFunctions.showSnackBar('server.error');

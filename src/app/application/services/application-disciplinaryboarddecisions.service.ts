@@ -26,7 +26,7 @@ export class DisciplinaryBoardDecisionsService {
         .subscribe({
           next: (data) => {
             this.disciplinaryBoardDecisionList = data.data;
-            !!this.disciplinaryBoardDecisionList ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
+            this.disciplinaryBoardDecisionList.length > 0 ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
           },
           error: (error) => {
             this.globalFunctions.showSnackBar('server.error');

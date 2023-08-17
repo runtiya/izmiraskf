@@ -12,45 +12,25 @@ import { globalFunctions } from "../../functions/global.function";
 @Injectable({providedIn: 'root'})
 export class NewsService {
   private newsList: NewsModel[] = [];
-  private newsUpdated = new Subject<NewsModel[]>();
+  private newsCount: number = 0;
+  private newsUpdated = new Subject<{newsList: NewsModel[], newsCount: number}>();
 
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
     ) {}
 
-  getNews() {
+  getNews(paginationPageSize?: number, paginationCurrentPage?: number) {
     try {
       this.http
-        .get<{data: NewsModel[]}>(
-          'http://localhost:3000/admin/haberler'
+        .get<{data: {newsList: NewsModel[], newsCount: number}}>(
+          `http://localhost:3000/admin/haberler?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
         )
-        /*
-        .pipe(
-          map(data => {
-            return {
-              news: data.news.map(newsObj => {
-                return {
-                  id: newsObj.id,
-                  createdAt: newsObj.createdAt,
-                  createdBy: newsObj.createdBy,
-                  updatedAt: newsObj.updatedAt,
-                  updatedBy: newsObj.updatedBy,
-                  title: newsObj.title,
-                  content: newsObj.content,
-                  newsImage: newsObj.newsImage,
-                  isOnline: newsObj.isOnline
-                };
-              }),
-              maxNews: 10
-            };
-          })
-        )
-        */
        .subscribe({
         next: (data) => {
-          this.newsList = data.data;
-          this.newsUpdated.next([...this.newsList]);
+          this.newsList = data.data.newsList;
+          this.newsCount = data.data.newsCount;
+          this.newsUpdated.next(data.data);
         },
         error: (error) => {
           this.globalFunctions.showSnackBar('server.error');
@@ -65,7 +45,7 @@ export class NewsService {
     return this.newsUpdated.asObservable();
   }
 
-  addNews(newsInfo: NewsModel) {
+  createNews(newsInfo: NewsModel) {
     try {
       const formData = new FormData();
       formData.append('image', newsInfo.imageAttachment);
@@ -79,7 +59,8 @@ export class NewsService {
           next: (data) => {
             newsInfo.id = data.data;
             this.newsList.push(newsInfo);
-            this.newsUpdated.next([...this.newsList]);
+            this.newsCount++;
+            this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
@@ -108,7 +89,7 @@ export class NewsService {
                 this.newsList[i] = newsInfo;
               }
             });
-            this.newsUpdated.next([...this.newsList]);
+            this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
@@ -130,7 +111,8 @@ export class NewsService {
           next: (data) => {
             const updatedNews = this.newsList.filter(news => news.id !== newsId);
             this.newsList = updatedNews;
-            this.newsUpdated.next([...this.newsList]);
+            this.newsCount--;
+            this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {

@@ -93,7 +93,6 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
 
   onUpdateAboutText() {
     if (this.aboutITFFform.valid) {
-      this.aboutITFFform.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
       this.aboutitffService.updateAboutContent(this.aboutITFFform.value);
     } else {
       return null;

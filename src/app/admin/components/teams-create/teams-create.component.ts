@@ -41,35 +41,37 @@ export class AdminTeamsCreateModal implements OnInit {
     this.isLoading = true;
     this.stadiumService.getStadiums();
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
-      .subscribe((data: StadiumsModel[]) => {
-        this.stadiumsList = data;
+      .subscribe({
+        next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
+          this.stadiumsList = data.stadiumsList;
 
-        this.teamSubmitForm = new FormGroup({
-          id: new FormControl(this.pageMode == 'edit' ? this.teamInfo.id : null, {validators: []}),
-          createdAt: new FormControl(this.pageMode == 'edit' ? this.teamInfo.createdAt : null, {validators: []}),
-          createdBy: new FormControl(this.pageMode == 'edit' ? this.teamInfo.createdBy : null, {validators: []}),
-          updatedAt: new FormControl(this.pageMode == 'edit' ? this.teamInfo.updatedAt : null, {validators: []}),
-          updatedBy: new FormControl(this.pageMode == 'edit' ? this.teamInfo.updatedBy : null, {validators: []}),
-          TFFClubCode: new FormControl(this.pageMode == 'edit' ? this.teamInfo.TFFClubCode : null, {validators: [Validators.maxLength(200)]}),
-          officialName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.officialName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-          shortName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.shortName : null, {validators: [Validators.maxLength(200)]}),
-          imagePath: new FormControl(this.pageMode == 'edit' ? this.teamInfo.imagePath : null, {validators: []}),
-          imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
-          city: new FormControl('IZMIR', {validators: [Validators.required, Validators.maxLength(200)]}),
-          town: new FormControl(this.pageMode == 'edit' ? this.teamInfo.town : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-          address: new FormControl(this.pageMode == 'edit' ? this.teamInfo.address : null, {validators: [Validators.maxLength(2000)]}),
-          longitude: new FormControl(this.pageMode == 'edit' ? this.teamInfo.longitude : null, {validators: []}),
-          latitude: new FormControl(this.pageMode == 'edit' ? this.teamInfo.latitude : null, {validators: []}),
-          phoneNumber: new FormControl(this.pageMode == 'edit' ? this.teamInfo.phoneNumber : null, {validators: [Validators.maxLength(200)]}),
-          faxNumber: new FormControl(this.pageMode == 'edit' ? this.teamInfo.faxNumber : null, {validators: [Validators.maxLength(200)]}),
-          stadiumId: new FormControl(this.pageMode == 'edit' ? this.teamInfo.stadiumId : null, {validators: [Validators.required]}),
-          presidentName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.presidentName : null, {validators: [Validators.maxLength(200)]}),
-          colorCodes: new FormControl({value: this.pageMode == 'edit' ? this.teamInfo.colorCodes : '#FF0000;#FFFFFF', disabled: true},  {validators: [Validators.required]}),
-          websiteURL: new FormControl(this.pageMode == 'edit' ? this.teamInfo.websiteURL : null, {validators: [Validators.maxLength(200)]}),
-          isASKFMember: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isASKFMember : false, {validators: []}),
-          isVisible: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isVisible : true, {validators: []}),
-        });
-        this.isLoading = false;
+          this.teamSubmitForm = new FormGroup({
+            id: new FormControl(this.pageMode == 'edit' ? this.teamInfo.id : null, {validators: []}),
+            createdAt: new FormControl(this.pageMode == 'edit' ? this.teamInfo.createdAt : null, {validators: []}),
+            createdBy: new FormControl(this.pageMode == 'edit' ? this.teamInfo.createdBy : null, {validators: []}),
+            updatedAt: new FormControl(this.pageMode == 'edit' ? this.teamInfo.updatedAt : null, {validators: []}),
+            updatedBy: new FormControl(this.pageMode == 'edit' ? this.teamInfo.updatedBy : null, {validators: []}),
+            TFFClubCode: new FormControl(this.pageMode == 'edit' ? this.teamInfo.TFFClubCode : null, {validators: [Validators.maxLength(200)]}),
+            officialName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.officialName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+            shortName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.shortName : null, {validators: [Validators.maxLength(200)]}),
+            imagePath: new FormControl(this.pageMode == 'edit' ? this.teamInfo.imagePath : null, {validators: []}),
+            imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
+            city: new FormControl('IZMIR', {validators: [Validators.required, Validators.maxLength(200)]}),
+            town: new FormControl(this.pageMode == 'edit' ? this.teamInfo.town : null, {validators: [Validators.required, Validators.maxLength(200)]}),
+            address: new FormControl(this.pageMode == 'edit' ? this.teamInfo.address : null, {validators: [Validators.maxLength(2000)]}),
+            longitude: new FormControl(this.pageMode == 'edit' ? this.teamInfo.longitude : null, {validators: []}),
+            latitude: new FormControl(this.pageMode == 'edit' ? this.teamInfo.latitude : null, {validators: []}),
+            phoneNumber: new FormControl(this.pageMode == 'edit' ? this.teamInfo.phoneNumber : null, {validators: [Validators.maxLength(200)]}),
+            faxNumber: new FormControl(this.pageMode == 'edit' ? this.teamInfo.faxNumber : null, {validators: [Validators.maxLength(200)]}),
+            stadiumId: new FormControl(this.pageMode == 'edit' ? this.teamInfo.stadiumId : null, {validators: [Validators.required]}),
+            presidentName: new FormControl(this.pageMode == 'edit' ? this.teamInfo.presidentName : null, {validators: [Validators.maxLength(200)]}),
+            colorCodes: new FormControl({value: this.pageMode == 'edit' ? this.teamInfo.colorCodes : '#FF0000;#FFFFFF', disabled: true},  {validators: [Validators.required]}),
+            websiteURL: new FormControl(this.pageMode == 'edit' ? this.teamInfo.websiteURL : null, {validators: [Validators.maxLength(200)]}),
+            isASKFMember: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isASKFMember : false, {validators: []}),
+            isVisible: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isVisible : true, {validators: []}),
+          });
+          this.isLoading = false;
+          }
       });
 
   }
@@ -122,11 +124,9 @@ export class AdminTeamsCreateModal implements OnInit {
       this.isLoading = true;
       this.teamSubmitForm.get('colorCodes').enable();
       if (this.pageMode === "create") {
-        this.teamSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
         this.teamService.createTeam(this.teamSubmitForm.value);
       }
       else {
-        this.teamSubmitForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
         this.teamService.updateTeam(this.teamSubmitForm.value);
       }
       this.teamSubmitForm.get('colorCodes').disable();

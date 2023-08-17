@@ -109,6 +109,8 @@ import { AdminConfirmationDialogModal } from "./admin/components/confirmation-di
 
 // Application Components
 import { PageNotFound } from './application/components/page-not-found/page-not-found.component';
+import { NoContentInfo } from "./application/components/no-content-info/no-content-info.component";
+import { NoRecordInfo } from "./application/components/no-record-info/no-record-info.component";
 import { ApplicationHeader } from "./application/components/header/header.component";
 import { ApplicationToolbarTitle } from "./application/components/toolbar-title/toolbar-title.component";
 
@@ -242,6 +244,8 @@ import { ResponseInterceptor } from "./functions/global-http-response";
 
     // Application Components
     PageNotFound,
+    NoContentInfo,
+    NoRecordInfo,
     ApplicationHeader,
     ApplicationToolbarTitle,
 
@@ -323,7 +327,7 @@ import { ResponseInterceptor } from "./functions/global-http-response";
     GoogleMapsModule,
     AngularEditorModule,
     AngularMaterialModule,
-    NgApexchartsModule
+    NgApexchartsModule,
 
 
   ],

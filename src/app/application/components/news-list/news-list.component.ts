@@ -3,6 +3,7 @@ import { Subscription } from "rxjs";
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from "@angular/router";
+import { PageEvent } from "@angular/material/paginator";
 
 import { NewsModel } from "../../models/application-news.model";
 import { NewsService } from "../../services/application-news.service";
@@ -22,6 +23,11 @@ export class ApplicationNewsList implements OnInit, OnDestroy {
   newsList: NewsModel[] = [];
   private newsSub: Subscription;
 
+  newsCount: number = 0;
+  paginationPageSizeOptions: Array<number> = this.globalFunctions.getPaginationPageSizeOptions();
+  paginationPageSize: number = this.paginationPageSizeOptions[0];
+  paginationCurrentPage: number = 1;
+
   fontAwesomeIconList = fontAwesomeIconList;
 
 
@@ -32,17 +38,22 @@ export class ApplicationNewsList implements OnInit, OnDestroy {
     ) {}
 
   ngOnInit(): void {
-
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-    this.newsService.getNews();
+    this.newsService.getNews(this.paginationPageSize, this.paginationCurrentPage);
     this.newsSub = this.newsService.getNewsUpdateListener()
-      .subscribe((data: NewsModel[]) => {
-        this.newsList = data;
+      .subscribe((data: {newsList: NewsModel[], newsCount: number}) => {
+        this.newsList = data.newsList;
+        this.newsCount = data.newsCount;
+        this.isLoading = false;
       });
   }
 
   showNewsDetails(_id: number) {
     this.router.navigate(['/haberler/detaylar', _id]);
+  }
+
+  onChangePaginationPage(paginationData: PageEvent){
+    this.newsService.getNews(paginationData.pageSize, paginationData.pageIndex + 1);
   }
 
   ngOnDestroy(): void {

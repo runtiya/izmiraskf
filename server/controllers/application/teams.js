@@ -19,7 +19,7 @@ function getTeams(req, res, next) {
 
       teamsList = await new Promise((resolve, reject) => {
         connection.query(
-          queries.getTeams,
+          (!!paginationPageSize && !!paginationCurrentPage) ? queries.getTeamsWithPagination : queries.getTeams,
           [
             paginationPageSize,
             (paginationCurrentPage - 1) * paginationPageSize
@@ -47,7 +47,6 @@ function getTeams(req, res, next) {
         );
       });
 
-
       const _data = crypto.encryptData({ teamsList: teamsList, teamsCount: teamsCount });
 
       res.status(200).json({
@@ -59,7 +58,6 @@ function getTeams(req, res, next) {
       res.status(500).json({
         message: error
       });
-
     }
   })();
 

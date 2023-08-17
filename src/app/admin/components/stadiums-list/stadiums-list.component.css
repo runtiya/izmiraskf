@@ -1,5 +1,13 @@
-
 mat-card-title {
   font-size: medium;
 }
 
+img {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  height: 100%;
+}
+
+.card-stadiums-list:hover {
+  cursor: pointer;
+}

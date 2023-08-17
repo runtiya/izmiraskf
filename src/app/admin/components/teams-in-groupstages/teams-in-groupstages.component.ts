@@ -127,12 +127,14 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
       });
 
     this.teamsService.getTeams();
-    this.teamsListSub = this.teamsService.getTeamListUpdateListener()
-      .subscribe((data: TeamsModel[]) => {
-        this.isLoading = true;
-        this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
+    this.teamsListSub = this.teamsService.getTeamsListUpdateListener()
+      .subscribe({
+        next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
+          this.isLoading = true;
+        this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
         this.filteredTeamsList = this.teamsList;
         this.isLoading = false;
+        }
       });
 
     this.filteredOptions = this.searchControl.valueChanges.pipe(

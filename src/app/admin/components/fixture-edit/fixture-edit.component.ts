@@ -120,7 +120,6 @@ export class AdminFixtureEditModal implements OnInit {
         // create - checkMatch success
         if (checkMatch) {
           this.fixtureSubmitForm.get('matchNo').setValue(matchNo);
-          this.fixtureSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
           _matchList.push(this.fixtureSubmitForm.value);
           this.fixturesService.createFixture(_matchList, this.fixtureSearchIndex);
           this.dialogRef.close();
@@ -136,7 +135,6 @@ export class AdminFixtureEditModal implements OnInit {
         checkMatch = this.fixturesService.checkMatch(this.fixtureSubmitForm.value, null, isSameMatch);
         // update - checkMatch success
         if (checkMatch) {
-          this.fixtureSubmitForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
           _matchList.push(this.fixtureSubmitForm.value);
           this.fixturesService.updateFixture(_matchList, this.fixtureSearchIndex);
           this.dialogRef.close();

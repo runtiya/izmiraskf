@@ -1,6 +1,6 @@
 <div>
   <div class="col-lg-12 col-md-12 col-sm-12">
-    <mat-card class="create-card">
+    <mat-card class="card create-card">
       <button
         class="create-button"
         mat-fab
@@ -15,51 +15,37 @@
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let team of teamsList">
         <mat-card>
-          <mat-card-header>
-            <mat-card-title-group>
-              <img mat-card-avatar [src]="team.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{team.officialName}}">
-              <mat-card-title>{{
-                team.shortName || team.officialName
-              }}
-              </mat-card-title>
-
-              <mat-card-subtitle
+          <mat-card-content class="card-teams-list" (click)="onEdit(team)">
+            <div class="d-flex align-items-center">
+              <img
+                mat-card-sm-image
+                [src]="
+                  team.imagePath ||
+                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'
+                "
+                [alt]="team.shortName || team.officialName"
+              />
+              <div>
+                <mat-card-title>{{ team.officialName }}</mat-card-title>
+                <mat-card-subtitle
+                  >Üye:
+                  {{ team.isMember ? "Evet" : "Hayır" }}</mat-card-subtitle
                 >
-                Üye:
-                <fa-icon
-                  [icon]="fontAwesomeIconList.faCircle"
-                  matTooltip="{{ team.isASKFMember ? 'Evet' : 'Hayır' }}"
-                  class="{{ team.isASKFMember ? 'team-member-yes' : 'team-member-no' }}"
-                ></fa-icon>
-                </mat-card-subtitle
-              >
-              <mat-card-subtitle
-                >Aktif:
-                <fa-icon
-                  [icon]="fontAwesomeIconList.faCircle"
-                  matTooltip="{{ team.isVisible ? 'Evet' : 'Hayır' }}"
-                  class="{{ team.isVisible ? 'team-active-yes' : 'team-active-no' }}"
-                ></fa-icon>
-                </mat-card-subtitle
-              >
-              <!--
-              <mat-card-subtitle>
-                <mat-icon
-                  class="team-color"
-                  [ngStyle]="{ color: team.colorCodes.split(';')[0] }"
-                  >circle</mat-icon
-                >
-                <mat-icon
-                  class="team-color"
-                  [ngStyle]="{ color: team.colorCodes.split(';')[1] }"
-                  >circle</mat-icon
-                >
-              </mat-card-subtitle>
-              -->
-            </mat-card-title-group>
-          </mat-card-header>
-
-          <mat-card-content></mat-card-content>
+                <mat-card-subtitle>
+                  <mat-icon
+                    class="team-color"
+                    [ngStyle]="{ color: team.colorCodes.split(';')[0] }"
+                    >circle</mat-icon
+                  >
+                  <mat-icon
+                    class="team-color"
+                    [ngStyle]="{ color: team.colorCodes.split(';')[1] }"
+                    >circle</mat-icon
+                  >
+                </mat-card-subtitle>
+              </div>
+            </div>
+          </mat-card-content>
 
           <mat-action-row>
             <a mat-button color="primary" (click)="onEdit(team)">Düzenle</a>
@@ -68,5 +54,16 @@
         </mat-card>
       </div>
     </div>
+    <mat-paginator
+      [length]="teamsCount"
+      [pageSize]="paginationPageSize"
+      [pageSizeOptions]="paginationPageSizeOptions"
+      (page)="onChangePaginationPage($event)"
+      *ngIf="teamsList.length"
+    >
+      0
+    </mat-paginator>
   </div>
+
+  <app-application-no-content-info *ngIf="teamsList.length <= 0"></app-application-no-content-info>
 </div>

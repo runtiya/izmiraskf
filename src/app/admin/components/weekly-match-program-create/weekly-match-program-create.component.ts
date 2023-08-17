@@ -55,10 +55,8 @@ export class AdminWeeklyMatchProgramCreateModal implements OnInit {
   onSubmitForm() {
     if (this.weeklyMatchProgramSubmitForm.valid) {
       if (this.pageMode === "create") {
-        this.weeklyMatchProgramSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
         this.weeklyMatchProgramService.createWeeklyMatchProgram(this.weeklyMatchProgramSubmitForm.value);
       } else {
-        this.weeklyMatchProgramSubmitForm.get('updatedAt').setValue(this.globalFunctions.getTimeStamp());
         this.weeklyMatchProgramService.updateWeeklyMatchProgram(this.weeklyMatchProgramSubmitForm.value);
       }
 

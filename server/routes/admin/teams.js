@@ -5,11 +5,12 @@ const teamsController = require('../../controllers/admin/teams');
 const checkAuth = require('../../middlewares/check-auth');
 const extractImage = require('../../middlewares/extract-image');
 const setTimeStamp = require('../../middlewares/set-timestamp');
+const requestCache = require('../../middlewares/request-cache');
 
 const router = express.Router();
 
 
-router.get("", checkAuth, teamsController.getTeams);
+router.get("", checkAuth, requestCache(30000), teamsController.getTeams);
 
 router.get("/:id", checkAuth, teamsController.findTeam);
 

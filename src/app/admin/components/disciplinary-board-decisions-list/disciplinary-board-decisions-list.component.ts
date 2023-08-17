@@ -128,10 +128,12 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
           });
 
         this.teamsService.getTeams();
-        this.teamsListSubscription = this.teamsService.getTeamListUpdateListener()
-          .subscribe((data: TeamsModel[]) => {
-              this.teamsList = data.sort((a, b) => a.officialName.localeCompare(b.officialName));
-          });
+        this.teamsListSubscription = this.teamsService.getTeamsListUpdateListener()
+          .subscribe({
+            next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
+              this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
+            }
+          })
 
         this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisionsUpdateListener()
           .subscribe((data: DisciplinaryBoardDecisionModel[]) => {
@@ -312,7 +314,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
         let _duration = row[7];
         let _explanation = row[8];
 
-        this.disciplinaryBoardDecisionsSubmitForm.get('createdAt').setValue(this.globalFunctions.getTimeStamp());
+        this.disciplinaryBoardDecisionsSubmitForm.get('createdAt').setValue(null);
         this.disciplinaryBoardDecisionsSubmitForm.get('disciplinaryBoardFileId').setValue(_disciplinaryBoardFileId);
         this.disciplinaryBoardDecisionsSubmitForm.get('leagueId').setValue(_leagueId);
         this.disciplinaryBoardDecisionsSubmitForm.get('teamId').setValue(_teamId);
