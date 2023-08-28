@@ -5,10 +5,10 @@ import { Subscription } from "rxjs";
 import { StaffITFFModel } from "../../models/admin-staffizmirtff.model";
 import { StaffITFFService } from "../../services/admin-staffitff.service";
 import { AdminCreateStaffIzmirTFFModal } from "../staff-izmirtff-create/staff-izmirtff-create.component";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { globalFunctions } from "../../../functions/global.function";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-admin-staffizmirtff-list',
@@ -20,8 +20,6 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
   isLoading: boolean = false;
   staffizmirtffList: StaffITFFModel[] = [];
   private staffizmirtffListSub: Subscription;
-
-  fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
     public staffService: StaffITFFService,
@@ -41,9 +39,21 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.staffService.deleteStaff(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.staffService.deleteStaff(id);
+          }
+        }
+      });
   }
 
   onCreate() {
@@ -61,6 +71,10 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
         staffInfo: staffInfo
       }
     });
+  }
+
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   ngOnDestroy(): void {

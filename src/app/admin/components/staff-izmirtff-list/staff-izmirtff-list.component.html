@@ -15,60 +15,31 @@
   <div class="row" >
     <div class="{{i == 0 ? 'col-lg-12 col-md-12' : 'col-lg-6 col-md-6'}} col-sm-12" *ngFor="let staffizmirtff of staffizmirtffList; let i = index">
       <mat-card>
-
         <mat-card-header>
           <mat-card-title-group>
-            <div class="profileImageBorder">
-              <img mat-card-avatar [src]="staffizmirtff.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{staffizmirtff.title}}">
-            </div>
-            <mat-card-title>{{staffizmirtff.fullName}}</mat-card-title>
-            <mat-card-subtitle>{{staffizmirtff.title}}</mat-card-subtitle>
+            <img *ngIf="staffizmirtff.imagePath" mat-card-md-image class="img-staff" [src]="staffizmirtff.imagePath" [alt]="staffizmirtff.title">
+            <img *ngIf="!staffizmirtff.imagePath" mat-card-avatar [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="staffizmirtff.title">
+            <mat-card-title>{{ staffizmirtff.fullName}}</mat-card-title>
+            <mat-card-subtitle>{{ staffizmirtff.title }}</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="staffizmirtff.phone">
+              <fa-icon
+                matTextPrefix=""
+                class="icon"
+                [icon]="getFontAwesomeIcon('faPhone')"
+              ></fa-icon>
+              {{ staffizmirtff.phone }}
+            </mat-card-subtitle>
+
+            <mat-card-subtitle *ngIf="staffizmirtff.email">
+              <fa-icon
+                matTextPrefix=""
+                class="icon"
+                [icon]="getFontAwesomeIcon('faEnvelope')"
+              ></fa-icon>
+              {{ staffizmirtff.email }}
+            </mat-card-subtitle>
           </mat-card-title-group>
         </mat-card-header>
-
-        <mat-card-content class="container">
-          <mat-card-subtitle><p></p></mat-card-subtitle>
-          <mat-card-subtitle>
-            <fa-icon
-              matTextPrefix=""
-              class="icon"
-              [icon]="fontAwesomeIconList.faPhone"
-              matTooltip="Telefon"
-            ></fa-icon>
-            {{staffizmirtff.phone}}
-          </mat-card-subtitle>
-
-          <mat-card-subtitle>
-            <fa-icon
-              matTextPrefix=""
-              class="icon"
-              [icon]="fontAwesomeIconList.faEnvelope"
-              matTooltip="E-Posta"
-            ></fa-icon>
-            {{staffizmirtff.email}}
-          </mat-card-subtitle>
-
-          <mat-card-subtitle>
-            <fa-icon
-              matTextPrefix=""
-              class="icon {{staffizmirtff.isVisible ? 'color-isvisible-true' : 'color-isvisible-false'}}"
-              [icon]="fontAwesomeIconList.faCircle"
-              matTooltip="Aktif mi?"
-            ></fa-icon>
-            {{staffizmirtff.isVisible ? 'Evet' : 'Hayır'}}
-          </mat-card-subtitle>
-
-          <mat-card-subtitle>
-            <fa-icon
-              matTextPrefix=""
-              class="icon"
-              [icon]="fontAwesomeIconList.faSort"
-              matTooltip="Sıralama Numarası"
-            ></fa-icon>
-            {{staffizmirtff.orderNo}}
-          </mat-card-subtitle>
-        </mat-card-content>
-
         <mat-action-row>
           <button mat-button color="primary" (click)="onEdit(staffizmirtff)">Düzenle</button>
           <button mat-button color="warn" (click)="onDelete(staffizmirtff.id)">Sil</button>

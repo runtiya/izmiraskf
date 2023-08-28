@@ -62,14 +62,15 @@ function createStaff(req, res, next) {
       (error, result) => {
         if (!error) {
           staffId = result.insertId;
+          staffInfo.id = staffId;
         } else {
           message = error.sqlMessage;
         }
 
-        const _staffId = crypto.encryptData(staffId);
+        const _staffInfo = crypto.encryptData(staffInfo);
 
         res.status(200).json({
-          data: _staffId,
+          data: _staffInfo,
         });
       }
     );
@@ -118,8 +119,11 @@ function updateStaff(req, res, next) {
         } else {
           message = error.sqlMessage;
         }
-        res.status(200).json({
 
+        const _staffInfo = crypto.encryptData(staffInfo);
+
+        res.status(200).json({
+          data: _staffInfo,
         });
       }
     );

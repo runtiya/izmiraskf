@@ -95,14 +95,15 @@ function createNews(req, res, next) {
       (error, result) => {
         if (!error) {
           newsId = result.insertId;
+          newsInfo.id = newsId;
         } else {
           message = error.sqlMessage;
         }
 
-        const _newsId = crypto.encryptData(newsId);
+        const _newsInfo = crypto.encryptData(newsInfo);
 
         res.status(200).json({
-          data: _newsId,
+          data: _newsInfo,
         });
       }
     );
@@ -151,8 +152,10 @@ function updateNews(req, res, next) {
           message = error.sqlMessage;
         }
 
-        res.status(200).json({
+        const _newsInfo = crypto.encryptData(newsInfo);
 
+        res.status(200).json({
+          data: _newsInfo,
         });
       }
     );

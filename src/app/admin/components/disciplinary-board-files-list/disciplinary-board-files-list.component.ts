@@ -14,6 +14,7 @@ import { AdminDisciplinaryBoardCreateModal } from "../disciplinary-board-files-c
 import { globalFunctions } from "../../../functions/global.function";
 import { disciplinaryBoardFunctions } from "../../functions/disciplinaryboard.function";
 import { disciplinaryCommitteesList } from "../../../assets/lists/disciplinary-committees.list";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
     selector: 'app-admin-disciplinary-board-files-list',
@@ -116,9 +117,21 @@ export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
     }
 
     onDelete(fileId: number) {
-      this.isLoading = true;
-      this.disciplinaryBoardFilesService.deleteDisciplinaryBoardFile(fileId);
-      this.isLoading = false;
+      const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+        data: {
+          title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+          message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+        }
+      });
+
+      dialogRef.afterClosed()
+        .subscribe({
+          next: (data) => {
+            if (data) {
+              this.disciplinaryBoardFilesService.deleteDisciplinaryBoardFile(fileId);
+            }
+          }
+        });
     }
 
     onCreateNews(disciplinaryBoardFile: DisciplinaryBoardFileModel) {

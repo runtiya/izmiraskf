@@ -43,12 +43,12 @@ export class DocumentsService {
     try {
       const formData = new FormData();
       formData.append('file', documentInfo.fileAttachment);
-      formData.append('category', documentInfo.category);
+      formData.append('fileCategory', documentInfo.fileCategory);
       formData.append('documentInfo', JSON.stringify(documentInfo));
 
       this.http
         .post<{data: any}>(
-          'http://localhost:3000/admin/dokumanlar/' + documentInfo.category, formData
+          'http://localhost:3000/admin/dokumanlar/' + documentInfo.fileCategory, formData
         )
         .subscribe({
           next: (data) => {
@@ -71,21 +71,23 @@ export class DocumentsService {
     try {
       const formData = new FormData();
       formData.append('file', documentInfo.fileAttachment);
-      formData.append('category', documentInfo.category);
+      formData.append('category', documentInfo.fileCategory);
       formData.append('documentInfo', JSON.stringify(documentInfo));
 
       this.http
-        .put<{ }>(
-          'http://localhost:3000/admin/dokumanlar/' + documentInfo.category + '/' + documentInfo.id, formData
+        .put<{ data: any }>(
+          'http://localhost:3000/admin/dokumanlar/' + documentInfo.fileCategory + '/' + documentInfo.id, formData
         )
         .subscribe({
           next: (data) => {
+            documentInfo.filePath = data.data.documentFilePath;
             // Replace updated object with the old one
             this.documentsList.forEach((item, i) => {
               if (item.id == documentInfo.id) {
                 this.documentsList[i] = documentInfo;
               }
             });
+
             this.documentsListSub.next([...this.documentsList]);
             this.globalFunctions.showSnackBar("server.success");
           },

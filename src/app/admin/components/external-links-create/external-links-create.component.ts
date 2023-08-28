@@ -7,6 +7,7 @@ import { ExternalLinksModel } from "../../models/admin-externallinks.model";
 import { ExternalLinksService } from "../../services/admin-externallinks.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 
 @Component({
@@ -24,9 +25,10 @@ export class AdminExternalLinksCreateModal implements OnInit {
   faBrandList = faBrandList;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Data,
-    public dialogRef: MatDialogRef<AdminExternalLinksCreateModal>,
-    public extLinkService: ExternalLinksService
+    @Inject(MAT_DIALOG_DATA) private data: Data,
+    private dialogRef: MatDialogRef<AdminExternalLinksCreateModal>,
+    private dialog: MatDialog,
+    private extLinkService: ExternalLinksService
   ) {}
 
   ngOnInit(): void {
@@ -84,11 +86,22 @@ export class AdminExternalLinksCreateModal implements OnInit {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.extLinkService.deleteLink(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
 
-    this.dialogRef.close();
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.extLinkService.deleteLink(id);
+            this.dialogRef.close();
+          }
+        }
+      });
   }
 
 }

@@ -45,23 +45,42 @@ export class globalFunctions {
     this.getToolbarTitle.next(_toolbarTitle);
   }
 
-  getDate(_date: Date): string {
+  getConvertedDateEU(_date: string): string {
+    //convert "dd.MM.yyyy HH:mm" to "yyyy-MM-dd HH:mm:ss"
+    try {
+      if (_date !== null) {
+        const dateParts = _date.split(' ');
+        const datePart = dateParts[0].split('.').reverse().join('-');
+        const timePart = dateParts[1];
+
+        return `${datePart} ${timePart}:00`;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      //pass
+      null;
+    }
+
+  }
+
+  getDate(_date: Date | string): string {
     const formattedDate = _date !== null ? this._datePipe.transform(_date, 'dd.MM.yyyy') : null;
     return formattedDate;
   }
 
-  getDateTime(_date: Date): string {
+  getDateTime(_date: Date | string): string {
     const formattedDate = _date !== null ? this._datePipe.transform(_date, 'dd.MM.yyyy HH:mm') : null;
     return formattedDate;
   }
 
 
-  getLocalDate(_date: Date): string {
+  getLocalDate(_date: Date | string): string {
     const formattedDate = _date !== null ? this._datePipe.transform(_date, 'longDate') : null;
     return formattedDate;
   }
 
-  getLocalDateTime(_date: Date): string {
+  getLocalDateTime(_date: Date | string): string {
     const formattedDate = _date !== null ? ( this._datePipe.transform(_date, 'longDate') + " " + this._datePipe.transform(_date, 'shortTime') ) : null;
     return formattedDate;
   }
@@ -208,6 +227,10 @@ export class globalFunctions {
     }
 
     return _icon;
+  }
+
+  checkMimeType(mimeType: string): boolean {
+    return !!fileMimeTypeList.find(m => m === mimeType);
   }
 
   getDownloadFileElement(filePath: string, fileName: string): HTMLAnchorElement {

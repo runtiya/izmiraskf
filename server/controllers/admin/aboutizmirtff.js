@@ -63,7 +63,11 @@ function updateAboutContent(req, res, next) {
         } else {
           message = error.sqlMessage;
         }
+
+        const _aboutContent = crypto.encryptData(aboutContent);
+
         res.status(200).json({
+          data: _aboutContent,
         });
       }
     );

@@ -108,14 +108,15 @@ function createTeam(req, res, next) {
       (error, result) => {
         if (!error) {
           teamId = result.insertId;
+          teamInfo.id  = teamId;
         } else {
           message = error.sqlMessage;
         }
 
-        const _teamId = crypto.encryptData(teamId);
+        const _team = crypto.encryptData(teamInfo);
 
         res.status(200).json({
-          data: _teamId,
+          data: _team,
         });
       }
     );
@@ -175,8 +176,11 @@ function updateTeam(req, res, next) {
         } else {
           message = error.sqlMessage;
         }
-        res.status(200).json({
 
+        const _team = crypto.encryptData(teamInfo);
+
+        res.status(200).json({
+          data: _team,
         });
       }
     );
@@ -189,7 +193,12 @@ function deleteTeam(req, res, next) {
   try {
     var teamId = req.params.id;
     var message;
-    connection.query(queries.deleteTeam, [teamId], (error, result) => {
+
+
+    connection.query(
+      queries.deleteTeam,
+      [teamId],
+      (error, result) => {
       if (!error) {
       } else {
         message = error.sqlMessage;

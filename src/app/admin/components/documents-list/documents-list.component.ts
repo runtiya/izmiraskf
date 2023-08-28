@@ -7,8 +7,10 @@ import { DocumentsModel } from "../../models/admin-documents.model";
 import { DocumentsService } from "../../services/admin-documents.service";
 import { AdminDocumentCreateModal } from "../documents-create/documents-create.component";
 import { documentCategoryList } from "../../../assets/lists/documents-category.list";
+import { documentTransferFileTypeList } from "../../../assets/lists/documents-transferfiles-type.list";
 import { globalFunctions } from "../../../functions/global.function";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-admin-documents-list',
@@ -21,6 +23,7 @@ export class AdminDocumentList {
   documents: DocumentsModel[] = [];
   private documentsSubscription: Subscription;
   documentCategoryList = documentCategoryList;
+  documentTransferFileTypeList = documentTransferFileTypeList;
   url_category: string;
   documentCategory = null;
   tableColumns: string[] = [
@@ -77,6 +80,7 @@ export class AdminDocumentList {
     const dialogRef = this.dialog.open(AdminDocumentCreateModal, {
       data: {
         pageMode: 'create',
+        fileType: this.documentCategory.name == 'AKTARMADOSYALARI' ? null : this.documentTransferFileTypeList.find(ft => ft.name == 'STATIK').name,
         documentCategory: this.documentCategory.name
       }
     });
@@ -86,16 +90,28 @@ export class AdminDocumentList {
     const dialogRef = this.dialog.open(AdminDocumentCreateModal, {
       data: {
         pageMode: 'edit',
-        documentCategory: documentInfo.category,
+        documentCategory: documentInfo.fileCategory,
         documentInfo: documentInfo
       }
     });
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.documentService.deleteDocument(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.documentService.deleteDocument(id);
+          }
+        }
+      });
   }
 
   ngOnDestroy() {

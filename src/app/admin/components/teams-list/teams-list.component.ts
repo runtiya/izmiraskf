@@ -6,9 +6,9 @@ import { PageEvent } from "@angular/material/paginator";
 import { TeamsModel } from "../../models/admin-teams.model";
 import { TeamsService } from "../../services/admin-teams.service";
 import { AdminTeamsCreateModal } from "../teams-create/teams-create.component";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-admin-teamslist',
@@ -25,7 +25,6 @@ export class AdminTeamsList implements OnInit, OnDestroy {
   paginationCurrentPage: number = 1;
   private teamsListSub: Subscription;
 
-  fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
     private teamsService: TeamsService,
@@ -65,9 +64,21 @@ export class AdminTeamsList implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.teamsService.deleteTeam(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+        data: {
+          title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+          message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+        }
+      });
+
+      dialogRef.afterClosed()
+        .subscribe({
+          next: (data) => {
+            if (data) {
+              this.teamsService.deleteTeam(id);
+            }
+          }
+        });
   }
 
   onChangePaginationPage(paginationData: PageEvent) {

@@ -7,6 +7,7 @@ import { ExternalLinksService } from "../../services/admin-externallinks.service
 import { AdminExternalLinksCreateModal } from "../external-links-create/external-links-create.component";
 import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
 import { globalFunctions } from "../../../functions/global.function";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-admin-external-links-list',
@@ -84,7 +85,21 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.extLinkService.deleteLink(id);
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.extLinkService.deleteLink(id);
+          }
+        }
+      });
   }
 
   ngOnDestroy(): void {

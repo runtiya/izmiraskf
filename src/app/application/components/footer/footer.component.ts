@@ -9,7 +9,6 @@ import { ExternalLinksService } from "../../services/application-externallinks.s
 
 import { globalFunctions } from "../../../functions/global.function";
 import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 
@@ -24,7 +23,6 @@ export class ApplicationFooter implements OnInit, OnDestroy {
   logoPath: string = null;
   private logoPathSubscription: Subscription;
   faBrandList = faBrandList;
-  fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
     private externalLinksService: ExternalLinksService,

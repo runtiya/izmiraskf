@@ -9,8 +9,6 @@ import { globalFunctions } from "../../../functions/global.function";
 
 import { GoogleMapsModel } from "../../../models/global-google-maps.model";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
-
 
 @Component({
   selector: 'app-application-contact-us',
@@ -21,7 +19,7 @@ export class ApplicationContactUs implements OnInit, OnDestroy {
   toolbarTitle = "İLETİŞİM";
   aboutcontent = <AboutIASKFModel>{};
   private aboutcontentSubscription: Subscription;
-  fontAwesomeIconList = fontAwesomeIconList;
+
   LatLngLiteral = <GoogleMapsModel>{};
   latitude = 38.4377387;
   longitude = 27.1409411;
@@ -65,6 +63,10 @@ export class ApplicationContactUs implements OnInit, OnDestroy {
     } else {
 
     }
+  }
+
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   ngOnDestroy(): void {

@@ -16,6 +16,7 @@ import { globalFunctions } from "../../../functions/global.function";
 import { matchStatusList } from "../../../assets/lists/match-status.list";
 import { MatchModel } from "../../models/admin-match.model";
 import { FixtureSearchModel } from "../../models/admin-fixture-search-index.model";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 
 @Component({
@@ -43,9 +44,10 @@ export class AdminFixtureEditModal implements OnInit {
   @Input() inp_winnerByForfeit: string;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Data,
-    public dialogRef: MatDialogRef<AdminFixtureEditModal>,
-    public fixturesService: FixtureService,
+    @Inject(MAT_DIALOG_DATA) private data: Data,
+    private dialogRef: MatDialogRef<AdminFixtureEditModal>,
+    private dialog: MatDialog,
+    private fixturesService: FixtureService,
     private globalFunctions: globalFunctions,
     private fixtureFunctions: fixtureFunctions
   ) {
@@ -126,7 +128,7 @@ export class AdminFixtureEditModal implements OnInit {
         }
         // create - checkMatch not success
         else {
-          this.globalFunctions.showSnackBar('fixture.sameweekandorderno');
+          this.globalFunctions.showSnackBar('fixture.error.sameweekandorderno');
         }
       }
       // update
@@ -236,10 +238,22 @@ export class AdminFixtureEditModal implements OnInit {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.fixturesService.deleteMatch(id);
-    this.isLoading = false;
-    this.dialogRef.close();
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.fixturesService.deleteMatch(id);
+            this.dialogRef.close();
+          }
+        }
+      });
   }
 
 }

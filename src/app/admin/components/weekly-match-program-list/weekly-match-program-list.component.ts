@@ -12,6 +12,8 @@ import { AdminWeeklyMatchProgramCreateModal } from "../weekly-match-program-crea
 
 import { globalFunctions } from "../../../functions/global.function";
 
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
+
 @Component({
   selector: 'app-admin-weeklymatchprogram-list',
   templateUrl: './weekly-match-program-list.component.html',
@@ -39,7 +41,7 @@ export class AdminWeeklyMatchProgramList implements OnInit, OnDestroy {
   constructor(
     private seasonsService: SeasonsService,
     private weeklymatchprogramService: WeeklyMatchProgramService,
-    public dialog: MatDialog,
+    private dialog: MatDialog,
     private globalFunctions: globalFunctions
   ) {}
 
@@ -104,7 +106,22 @@ export class AdminWeeklyMatchProgramList implements OnInit, OnDestroy {
   }
 
   onDelete(seasonId: number, weeklyMatchProgramId: number) {
-    this.weeklymatchprogramService.deleteWeeklyMatchProgram(seasonId, weeklyMatchProgramId);
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.weeklymatchprogramService.deleteWeeklyMatchProgram(seasonId, weeklyMatchProgramId);
+          }
+        }
+      });
+
   }
 
   ngOnDestroy(): void {

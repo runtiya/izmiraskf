@@ -7,7 +7,7 @@ export interface MatchModel {
   groupstageId: number,
   matchNo: string,
   matchWeek: number,
-  matchDate: Date,
+  matchDate: Date | string,
   matchStatus: string,
   stadiumId: number,
   homeTeamId: number,

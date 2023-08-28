@@ -27,6 +27,7 @@ export class AdminLogin implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
 
     this.userForm = new FormGroup({

@@ -4,6 +4,7 @@ export interface DocumentsModel {
   fileMimeType: string,
   fileSize: number,
   filePath: string,
-  category: string,
+  fileCategory: string,
+  fileType: string,
   orderNo: number
 }

@@ -26,6 +26,7 @@ export class GlobalIzmirASKFService {
   }
 
   getLogoPathUpdateListener() {
+
     return this.logoPathSubject.asObservable();
   }
 

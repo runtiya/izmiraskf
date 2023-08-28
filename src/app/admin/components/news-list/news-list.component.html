@@ -7,7 +7,7 @@
     <mat-expansion-panel *ngFor="let news of newsList">
       <mat-expansion-panel-header>
         <fa-icon
-          [icon]="fontAwesomeIconList.faCircle"
+          [icon]="getFontAwesomeIcon('faCircle')"
           class="icon icon-circle"
           [ngStyle]="{ color: news.isVisible ? 'green' : 'red' }"
           matTooltip="{{ news.isVisible ? 'Yayında' : 'Yayında Değil' }}"

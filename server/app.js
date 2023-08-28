@@ -60,6 +60,7 @@ app.use("/images/teams", express.static(path.join("server/images/teams")));
 app.use("/images/stadiums", express.static(path.join("server/images/stadiums")));
 app.use("/images/news", express.static(path.join("server/images/news")));
 app.use("/images/staff", express.static(path.join("server/images/staff")));
+app.use("/images/users", express.static(path.join("server/images/users")));
 app.use("/images/icons", express.static(path.join("server/images/icons")));
 app.use("/images/statics", express.static(path.join("server/images/statics")));
 
@@ -76,9 +77,10 @@ app.use("/files/template-files", express.static(path.join("server/files/template
 // CORS - Cross-Origin Resource Sharing
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  //res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-  res.setHeader('Cache-Control', 'public, max-age=30'); // As seconds
+  //res.setHeader('Cache-Control', 'public, max-age=30'); // As seconds
 
   next();
 });

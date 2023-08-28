@@ -72,7 +72,11 @@
                 placeholder="Takım Adı"
               >
                 <mat-option *ngFor="let team of teamsList" [value]="team.id">
-                  {{ team.officialName }}
+                  <div class="d-flex align-items-center">
+                    <img mat-card-avatar [src]="team.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="team.shortName || team.officialName">
+                    {{ team.officialName }}
+                  </div>
+
                 </mat-option>
               </mat-select>
             </mat-form-field>

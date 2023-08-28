@@ -53,12 +53,12 @@ export class TeamsService {
       formData.append('teamInfo', JSON.stringify(teamInfo));
 
       this.http
-        .post<{ data: number }>(
+        .post<{ data: TeamsModel }>(
           'http://localhost:3000/admin/takimlar', formData
         )
         .subscribe({
           next: (data) => {
-            teamInfo.id = data.data;
+            teamInfo = data.data;
             this.teamsList.push(teamInfo);
             this.teamsCount++;
             this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});
@@ -80,15 +80,15 @@ export class TeamsService {
       formData.append('teamInfo', JSON.stringify(teamInfo));
 
       this.http
-        .put<{ }>(
-          'http://localhost:3000/admin/takimlar/' + teamInfo.id, formData,
+        .put<{ data: TeamsModel }>(
+          'http://localhost:3000/admin/takimlar/' + teamInfo.id, formData
         )
         .subscribe({
           next: (data) => {
             // Replace updated object with the old one
             this.teamsList.forEach((item, i) => {
               if (item.id == teamInfo.id) {
-                this.teamsList[i] = teamInfo;
+                this.teamsList[i] = data.data;
               }
             });
             this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});

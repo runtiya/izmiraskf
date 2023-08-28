@@ -15,12 +15,10 @@ mat-action-row button {
 }
 
 .image-preview img {
+  height: 100%;
   margin: 0.5rem 0;
 }
 
-.image-preview img {
-  height: 100%;
-}
 
 .btn-image-picker {
   margin-right: 0.5rem;

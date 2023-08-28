@@ -105,14 +105,15 @@ function createStadium(req, res, next) {
       (error, result) => {
         if (!error) {
           stadiumId = result.insertId;
+          stadiumInfo.id = stadiumId;
         } else {
           message = error.sqlMessage;
         }
 
-        const _stadiumId = crypto.encryptData(lstadiumIdeagueList);
+        const _stadiumInfo = crypto.encryptData(stadiumInfo);
 
         res.status(200).json({
-          data: _stadiumId,
+          data: _stadiumInfo,
         });
       }
     );
@@ -169,8 +170,11 @@ function updateStadium(req, res, next) {
         } else {
           message = error.sqlMessage;
         }
-        res.status(200).json({
 
+        const _stadiumInfo = crypto.encryptData(stadiumInfo);
+
+        res.status(200).json({
+          data: _stadiumInfo,
         });
       }
     );
@@ -183,11 +187,15 @@ function deleteStadium(req, res, next) {
   try {
     var stadiumId = req.params.id;
     var message;
-    connection.query(queries.deleteStadium, [stadiumId], (error, result) => {
+    connection.query(
+      queries.deleteStadium,
+      [stadiumId],
+      (error, result) => {
       if (!error) {
       } else {
         message = error.sqlMessage;
       }
+
       res.status(200).json({
 
       });

@@ -64,14 +64,15 @@ function createExternalLink(req, res, next) {
       (error, result) => {
         if (!error) {
           linkId = result.insertId;
+          linkInfo.id = linkId;
         } else {
           message = error.sqlMessage;
         }
 
-        const _linkId = crypto.encryptData(linkId);
+        const _linkInfo = crypto.encryptData(linkInfo);
 
         res.status(200).json({
-          data: _linkId,
+          data: _linkInfo,
         });
       }
     );
@@ -122,8 +123,10 @@ function updateExternalLink(req, res, next) {
           message = error.sqlMessage;
         }
 
-        res.status(200).json({
+        const _linkInfo = crypto.encryptData(linkInfo);
 
+        res.status(200).json({
+          data: _linkInfo,
         });
       }
     );

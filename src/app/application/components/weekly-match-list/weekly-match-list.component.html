@@ -1,5 +1,5 @@
 <div>
-  <div class="row" *ngIf="filteredFixtureList.length > 0">
+  <div class="row search-options-bar" id="searchOptionsBar-WeeklyMatchList" *ngIf="filteredFixtureList.length > 0">
     <div class="col-lg-4 col-md-4 col-sm-12">
       <mat-form-field class="form-input">
         <mat-label>Lig</mat-label>
@@ -101,31 +101,34 @@
         mat-raised-button
         color="primary"
         class="btn-search"
+        matTooltip="Filtre Uygula"
         (click)="onSearch()"
       >
         <fa-icon
-        [icon]="fontAwesomeIconList.faSearch"
+        [icon]="getFontAwesomeIcon('faFilter')"
         ></fa-icon>
-        Arama
-      </button>
-    </div>
-
-    <div class="col-lg-3 col-md-3 col-sm-6">
-      <button
-      *ngIf="filteredFixtureList.length > 0"
-        mat-raised-button
-        class="btn-export"
-        (click)="onExport()"
-      >
-        <fa-icon
-        [icon]="fontAwesomeIconList.faDownload"
-        ></fa-icon>
-        Dışa Aktar
+        Filtrele
       </button>
     </div>
   </div>
 
-  <div class="table-weeklymatchlist">
+  <div class="col-lg-3 col-md-3 col-sm-6">
+    <button
+    *ngIf="filteredFixtureList.length > 0"
+      mat-raised-button
+      class="btn-export"
+      id="btn-export-weeklymatchlist-application"
+      (click)="onExport()"
+    >
+      <fa-icon
+      [icon]="getFontAwesomeIcon('faDownload')"
+      ></fa-icon>
+      Dışa Aktar
+    </button>
+  </div>
+
+
+  <div class="table-weeklymatchlist" id="tableWeeklyMatchList">
     <table mat-table [dataSource]="filteredFixtureList" *ngIf="filteredFixtureList.length > 0" class="mat-elevation-z8">
       <ng-container matColumnDef="matchNo">
         <th mat-header-cell *matHeaderCellDef="">Maç No.</th>
@@ -141,7 +144,7 @@
               *ngIf="
                 fixture.homeTeamIsExpelled || fixture.homeTeamIsReceded
               "
-              [icon]="fontAwesomeIconList.faCircleInfo"
+              [icon]="getFontAwesomeIcon('faCircleInfo')"
               class="icon icon-circle-info"
               matTooltip="{{
                 fixture.homeTeamExpelledOrRecededExplanation
@@ -151,7 +154,7 @@
             <div>{{ fixture.homeTeamShortName || fixture.homeTeamOfficialName || 'BAY' }}</div>
             <fa-icon
               *ngIf="fixture.isHomeTeamWinByForfeit"
-              [icon]="fontAwesomeIconList.faCircleH"
+              [icon]="getFontAwesomeIcon('faCircleH')"
               class="icon icon-circle-h"
               matTooltip="Hükmen"
             >
@@ -214,7 +217,7 @@
               *ngIf="
                 fixture.awayTeamIsExpelled || fixture.awayTeamIsReceded
               "
-              [icon]="fontAwesomeIconList.faCircleInfo"
+              [icon]="getFontAwesomeIcon('faCircleInfo')"
               class="icon icon-circle-info"
               matTooltip="{{
                 fixture.awayTeamExpelledOrRecededExplanation
@@ -224,7 +227,7 @@
             <div>{{ fixture.awayTeamShortName || fixture.awayTeamOfficialName || 'BAY' }}</div>
             <fa-icon
               *ngIf="fixture.isAwayTeamWinByForfeit"
-              [icon]="fontAwesomeIconList.faCircleH"
+              [icon]="getFontAwesomeIcon('faCircleH')"
               class="icon icon-circle-h"
               matTooltip="Hükmen"
             >
@@ -255,5 +258,60 @@
 
     <app-application-no-content-info *ngIf="filteredFixtureList.length <= 0"></app-application-no-content-info>
   </div>
+
+
+  <!--
+  <div class="table-weeklymatchlist">
+    <table class="table table-hover">
+      <thead class="table-light ">
+        <tr>
+          <th scope="col">Lig</th>
+          <th scope="col">Ev Sahibi Takım</th>
+          <th scope="col">Misafir Takım</th>
+          <th scope="col">Tarih</th>
+          <th scope="col">Saha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fixture of filteredFixtureList">
+          <td>{{fixture.leagueName}}</td>
+          <td>
+            <img mat-card-avatar [src]="fixture.homeTeamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{fixture.homeTeamShortName || fixture.homeTeamOfficialName || 'BAY'}}">
+            <fa-icon
+              *ngIf="
+                fixture.homeTeamIsExpelled || fixture.homeTeamIsReceded
+              "
+              [icon]="getFontAwesomeIcon('faCircleInfo')"
+              class="icon icon-circle-info"
+              matTooltip="{{
+                fixture.homeTeamExpelledOrRecededExplanation
+              }}"
+            >
+            </fa-icon>
+            {{fixture.homeTeamShortName || fixture.homeTeamOfficialName || 'BAY'}}
+          </td>
+          <td>
+            <img mat-card-avatar [src]="fixture.awayTeamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{fixture.awayTeamShortName || fixture.awayTeamOfficialName || 'BAY'}}">
+            <fa-icon
+              *ngIf="
+                fixture.awayTeamIsExpelled || fixture.awayTeamIsReceded
+              "
+              [icon]="getFontAwesomeIcon('faCircleInfo')"
+              class="icon icon-circle-info"
+              matTooltip="{{
+                fixture.awayTeamExpelledOrRecededExplanation
+              }}"
+            >
+            </fa-icon>
+            {{fixture.awayTeamShortName || fixture.awayTeamOfficialName || 'BAY'}}
+          </td>
+          <td>{{getMatchDate(fixture.matchDate)}}</td>
+          <td>{{fixture.stadiumName}}</td>
+        </tr>
+      </tbody>
+      <caption>{{"Toplam Kayıt Sayısı: " + filteredFixtureList.length}}</caption>
+    </table>
+  </div>
+  -->
 
 </div>

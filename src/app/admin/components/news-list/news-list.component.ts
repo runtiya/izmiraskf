@@ -7,8 +7,8 @@ import { PageEvent } from "@angular/material/paginator";
 import { NewsModel } from "../../models/admin-news.model";
 import { NewsService } from "../../services/admin-news.service";
 import { AdminNewsUpdateModal } from "../news-update/news-update.component";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
@@ -25,9 +25,6 @@ export class AdminNewsList implements OnInit, OnDestroy {
   paginationPageSizeOptions: Array<number> = this.globalFunctions.getPaginationPageSizeOptions();
   paginationPageSize: number = this.paginationPageSizeOptions[0];
   paginationCurrentPage: number = 1;
-
-
-  fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
     private newsService: NewsService,
@@ -48,9 +45,21 @@ export class AdminNewsList implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.newsService.deleteNews(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.newsService.deleteNews(id);
+          }
+        }
+      });
   }
 
 
@@ -60,6 +69,10 @@ export class AdminNewsList implements OnInit, OnDestroy {
         news: news
       }
     });
+  }
+
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   onChangePaginationPage(paginationData: PageEvent){

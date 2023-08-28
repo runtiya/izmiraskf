@@ -12,7 +12,6 @@ import { StadiumsService } from "../../services/admin-stadiums.service";
 import { FixtureService } from "../../services/admin-fixtures.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
@@ -26,7 +25,7 @@ export class AdminTeamsInGroupstagesInFixtureCreate implements OnInit, OnDestroy
   private teamsingroupstagesListSub: Subscription;
   stadiumList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
-  fontAwesomeIconList = fontAwesomeIconList;
+
   tableColumnsGroup: string[] = [
                                   "orderNo",
                                   "status",

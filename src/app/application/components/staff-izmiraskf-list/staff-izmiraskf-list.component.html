@@ -5,33 +5,29 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title-group>
-            <img mat-card-avatar [src]="staffizmiraskf.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="staffizmiraskf.title">
+            <img *ngIf="staffizmiraskf.imagePath" mat-card-md-image class="img-staff" [src]="staffizmiraskf.imagePath" [alt]="staffizmiraskf.title">
+            <img *ngIf="!staffizmiraskf.imagePath" mat-card-avatar [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="staffizmiraskf.title">
             <mat-card-title>{{staffizmiraskf.fullName}}</mat-card-title>
             <mat-card-subtitle>{{staffizmiraskf.title}}</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="staffizmiraskf.phone">
+              <fa-icon
+                matTextPrefix=""
+                class="icon"
+                [icon]="getFontAwesomeIcon('faPhone')"
+              ></fa-icon>
+              {{staffizmiraskf.phone}}
+            </mat-card-subtitle>
+
+            <mat-card-subtitle *ngIf="staffizmiraskf.phone">
+              <fa-icon
+                matTextPrefix=""
+                class="icon"
+                [icon]="getFontAwesomeIcon('faEnvelope')"
+              ></fa-icon>
+              {{staffizmiraskf.email}}
+            </mat-card-subtitle>
           </mat-card-title-group>
         </mat-card-header>
-
-        <mat-card-content class="container">
-          <mat-card-subtitle><p></p></mat-card-subtitle>
-          <mat-card-subtitle *ngIf="staffizmiraskf.phone">
-            <fa-icon
-              matTextPrefix=""
-              class="icon"
-              [icon]="fontAwesomeIconList.faPhone"
-            ></fa-icon>
-            {{staffizmiraskf.phone}}
-          </mat-card-subtitle>
-
-          <mat-card-subtitle *ngIf="staffizmiraskf.phone">
-            <fa-icon
-              matTextPrefix=""
-              class="icon"
-              [icon]="fontAwesomeIconList.faEnvelope"
-            ></fa-icon>
-            {{staffizmiraskf.email}}
-          </mat-card-subtitle>
-        </mat-card-content>
-
       </mat-card>
     </div>
   </div>

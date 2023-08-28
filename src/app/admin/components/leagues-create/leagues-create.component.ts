@@ -3,10 +3,11 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 
-
 import { LeaguesService } from "../../services/admin-leagues.service";
 import { leagueCategoryList } from "../../../assets/lists/league-category.list";
 import { leagueTypeList } from "../../../assets/lists/league-type.list";
+
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-admin-leagues-create',
@@ -25,7 +26,12 @@ export class AdminLeaguesCreateModal {
   leagueTypeList = leagueTypeList;
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data, public dialogRef: MatDialogRef<AdminLeaguesCreateModal>, public leaguesService: LeaguesService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: Data,
+    private dialogRef: MatDialogRef<AdminLeaguesCreateModal>,
+    private dialog: MatDialog,
+    private leaguesService: LeaguesService
+    ) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -68,10 +74,21 @@ export class AdminLeaguesCreateModal {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.leaguesService.deleteLeague(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
 
-    this.dialogRef.close();
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.leaguesService.deleteLeague(id);
+            this.dialogRef.close();
+          }
+        }
+      });
   }
 }

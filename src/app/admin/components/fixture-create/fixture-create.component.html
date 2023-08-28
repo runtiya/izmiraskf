@@ -74,18 +74,19 @@
 
           <mat-action-row>
             <div class="row">
-              <div class="col-lg-2 col-md-4 col-sm-12">
+              <div class="col-lg-3 col-md-4 col-sm-12">
                 <button
                   mat-raised-button
                   class="button button-fixture-clear"
                   color="warn"
                   (click)="clearFixtureList()"
+                  matTooltip="Fikstür Temizle"
                 >
                   Temizle
                 </button>
               </div>
 
-              <div class="col-lg-2 col-md-4 col-sm-12">
+              <div class="col-lg-3 col-md-4 col-sm-12">
                 <button
                   mat-raised-button
                   color="primary"
@@ -94,38 +95,40 @@
                   }}"
                   [disabled]="fixtureList.length !== 0"
                   (click)="buildFixtureList()"
+                  matTooltip="Fikstür Oluştur"
                 >
                   Fikstür Oluştur
                 </button>
               </div>
 
-              <div class="col-lg-2 col-md-4 col-sm-12">
+              <div class="col-lg-3 col-md-4 col-sm-12">
                 <button
                   mat-raised-button
                   class="button button-match-create"
                   (click)="onCreateMatch()"
+                  matTooltip="Maç Oluştur"
                 >
                   Maç Oluştur
                 </button>
               </div>
 
-              <div class="col-lg-2 col-md-12 col-sm-12"></div>
-
-              <div class="col-lg-2 col-md-6 col-sm-12">
+              <div class="col-lg-3 col-md-6 col-sm-12" *ngIf="false">
                 <button
                   mat-raised-button
                   class="button button-import"
                   (click)="onImport()"
+                  matTooltip="İçe Aktar"
                 >
                   İçe Aktar
                 </button>
               </div>
 
-              <div class="col-lg-2 col-md-6 col-sm-12" *ngIf="fixtureList.length > 0">
+              <div class="col-lg-3 col-md-12 col-sm-12" *ngIf="fixtureList.length > 0">
                 <button
                   mat-raised-button
                   class="button button-export"
                   (click)="onExport()"
+                  matTooltip="Dışa Aktar"
                 >
                   Dışa Aktar
                 </button>
@@ -161,7 +164,7 @@
                   <mat-card-title class="font-title-teamname">
                     <fa-icon
                       *ngIf="matchDay.homeTeamIsExpelled || matchDay.homeTeamIsReceded"
-                      [icon]="fontAwesomeIconList.faCircleInfo"
+                      [icon]="getFontAwesomeIcon('faCircleInfo')"
                       class="icon icon-circle-info icon-warning"
                       matTooltip="{{matchDay.homeTeamExpelledOrRecededExplanation}}"
                     >
@@ -169,7 +172,7 @@
                     {{ matchDay.homeTeamShortName || matchDay.homeTeamOfficialname || "BAY" }}
                     <fa-icon
                       *ngIf="matchDay.isHomeTeamWinByForfeit"
-                      [icon]="fontAwesomeIconList.faCircleH"
+                      [icon]="getFontAwesomeIcon('faCircleH')"
                       class="icon icon-circle-h"
                       matTooltip="Hükmen Galip"
                     >
@@ -235,6 +238,11 @@
                       }}</b>
                     </mat-card-subtitle>
                   </div>
+                  <div>
+                    <mat-card-subtitle>
+                      {{matchDay.explanation}}
+                    </mat-card-subtitle>
+                  </div>
                 </td>
               </ng-container>
 
@@ -245,7 +253,7 @@
                   <mat-card-title class="font-title-teamname">
                     <fa-icon
                       *ngIf="matchDay.isAwayTeamWinByForfeit"
-                      [icon]="fontAwesomeIconList.faCircleH"
+                      [icon]="getFontAwesomeIcon('faCircleH')"
                       class="icon icon-circle-h"
                       matTooltip="Hükmen Galip"
                     >
@@ -253,7 +261,7 @@
                     {{ matchDay.awayTeamShortName || matchDay.awayTeamOfficialName || "BAY" }}
                     <fa-icon
                       *ngIf="matchDay.awayTeamIsExpelled || matchDay.awayTeamIsReceded"
-                      [icon]="fontAwesomeIconList.faCircleInfo"
+                      [icon]="getFontAwesomeIcon('faCircleInfo')"
                       class="icon icon-circle-info icon-warning"
                       matTooltip="{{matchDay.awayTeamExpelledOrRecededExplanation}}"
                     >

@@ -92,6 +92,10 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
     this.aboutIASKFform.get('imagePath').setValue(null);
   }
 
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
+  }
+
   onUpdateAboutText() {
     if (this.aboutIASKFform.valid) {
       this.aboutiaskfService.updateAboutContent(this.aboutIASKFform.value);

@@ -115,6 +115,7 @@ function deleteWeeklyMatchProgram(req, res, next) {
       [weeklyMatchProgramId, seasonId],
       (error, result) => {
         if (!error) {
+
         } else {
           message = error.sqlMessage;
         }

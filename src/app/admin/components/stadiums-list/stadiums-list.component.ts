@@ -12,7 +12,7 @@ import { townList } from "../../../assets/lists/town-izmir.list";
 import { floorTypeList } from "../../../assets/lists/floor-type.list";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-admin-stadiums-list',
@@ -32,11 +32,10 @@ export class AdminStadiumsList implements OnInit, OnDestroy {
   cityListArray = cityList;
   townListArray = townList;
   floorTypeListArray = floorTypeList;
-  fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
-    public stadiumService: StadiumsService,
-    public dialog: MatDialog,
+    private stadiumService: StadiumsService,
+    private dialog: MatDialog,
     private globalFunctions: globalFunctions
   ) {}
 
@@ -73,9 +72,21 @@ export class AdminStadiumsList implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.stadiumService.deleteStadium(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.stadiumService.deleteStadium(id);
+          }
+        }
+      });
   }
 
   onChangePaginationPage(paginationData: PageEvent) {

@@ -1,14 +1,14 @@
 const environment = require('../environments/development');
 
-function setFilePath(_url, _category, _fileName) {
-  const folder = getFolder(_category);
+function setFilePath(_url, _fileCategory, _fileName) {
+  const folder = getFolder(_fileCategory);
   return _url + folder + _fileName;
 }
 
-function getFolder(_category) {
+function getFolder(_fileCategory) {
   var _folder;
 
-  const categoryList = {
+  const fileCategoryList = {
     'BELGELER': () => {
       _folder = "/files/documents/";
     },
@@ -26,8 +26,8 @@ function getFolder(_category) {
     }
   };
 
-  if (_category in categoryList) {
-    categoryList[_category]();
+  if (_fileCategory in fileCategoryList) {
+    fileCategoryList[_fileCategory]();
   } else {
     _folder = "/files/";
   }

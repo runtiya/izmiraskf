@@ -91,6 +91,10 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
     this.aboutITFFform.get('imagePath').setValue(null);
   }
 
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
+  }
+
   onUpdateAboutText() {
     if (this.aboutITFFform.valid) {
       this.aboutitffService.updateAboutContent(this.aboutITFFform.value);

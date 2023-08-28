@@ -7,7 +7,7 @@ import { globalFunctions } from "./functions/global.function";
 import { AuthService } from "./admin/authentication/auth.service";
 import { GlobalIzmirASKFService } from "./services/global-izmiraskf.service";
 import { ExternalLinksService } from "./application/services/application-externallinks.service";
-
+import { UserModel } from "../app/admin/models/admin-users.model";
 
 @Component({
   selector: 'app-root',
@@ -21,12 +21,13 @@ export class AppComponent implements OnInit {
   userIsAuthenticated = false;
   private authListenerSubs: Subscription;
 
+  authenticatedUser: UserModel = <UserModel>{};
+  private authenticatedUserSub: Subscription;
+
   constructor(
     private globalFunctions: globalFunctions,
     private _snackBar: MatSnackBar,
     private authService: AuthService,
-    private externalLinksService: ExternalLinksService,
-    private globalIzmirASKFService: GlobalIzmirASKFService
   ) {
 
   }
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit {
 
     // Auto Authentication Control
     this.authService.autoAuthUser();
+
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authListenerSubs = this.authService.getAuthStatusListener()
       .subscribe(isAuthenticated => {
@@ -56,8 +58,6 @@ export class AppComponent implements OnInit {
         }, 0);
       });
 
-    this.globalIzmirASKFService.getLogoPath();
-    this.externalLinksService.getLinks('SOCIALMEDIA');
   }
 
 }

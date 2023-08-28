@@ -12,6 +12,7 @@ import { LeaguesService } from "../../services/admin-leagues.service";
 import { SeasonsService } from "../../services/admin-seasons.service";
 
 import { groupPeriodSystemList } from "../../../assets/lists/group-period-system.list";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-admin-groupstages-create',
@@ -31,12 +32,14 @@ export class AdminGroupStagesCreateModal implements OnInit {
   groupstageSubmitForm: FormGroup;
   groupPeriodSystemList = groupPeriodSystemList;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data,
-              public dialogRef: MatDialogRef<AdminGroupStagesCreateModal>,
-              public groupstagesService: GroupStagesService,
-              public leagueService: LeaguesService,
-              public seasonsService: SeasonsService
-            ) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: Data,
+    private dialogRef: MatDialogRef<AdminGroupStagesCreateModal>,
+    private dialog: MatDialog,
+    private groupstagesService: GroupStagesService,
+    private leagueService: LeaguesService,
+    private seasonsService: SeasonsService
+    ) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -77,10 +80,22 @@ export class AdminGroupStagesCreateModal implements OnInit {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.groupstagesService.deleteGroupStage(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
 
-    this.dialogRef.close();
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.groupstagesService.deleteGroupStage(id);
+            this.dialogRef.close();
+          }
+        }
+      });
   }
+
 }

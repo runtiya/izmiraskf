@@ -1,6 +1,6 @@
 import { Component, Inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 import { DatePipe } from "@angular/common";
 
@@ -9,6 +9,7 @@ import { NewsService } from "../../services/admin-news.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 import { globalFunctions } from "../../../functions/global.function";
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-admin-news-update-modal',
@@ -66,8 +67,9 @@ export class AdminNewsUpdateModal {
   }
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Data,
-    public newsService: NewsService,
+    @Inject(MAT_DIALOG_DATA) private data: Data,
+    private dialog: MatDialog,
+    private newsService: NewsService,
     private _datePipe: DatePipe,
     private globalFunctions: globalFunctions
     ) {
@@ -113,9 +115,21 @@ export class AdminNewsUpdateModal {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.newsService.deleteNews(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.newsService.deleteNews(id);
+          }
+        }
+      });
 
   }
 

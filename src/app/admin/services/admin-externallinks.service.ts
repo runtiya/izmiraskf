@@ -46,12 +46,12 @@ export class ExternalLinksService {
       formData.append('linkInfo', JSON.stringify(linkInfo));
 
       this.http
-        .post<{data: number}>(
+        .post<{ data: ExternalLinksModel }>(
           'http://localhost:3000/admin/disbaglantilar', formData
         )
         .subscribe({
           next: (data) => {
-            linkInfo.id = data.data;
+            linkInfo = data.data;
             this.extLinksList.push(linkInfo);
             this.extLinksListSub.next([...this.extLinksList]);
             this.globalFunctions.showSnackBar("server.success");
@@ -72,7 +72,7 @@ export class ExternalLinksService {
       formData.append('linkInfo', JSON.stringify(linkInfo));
 
       this.http
-        .put<{ }>(
+        .put<{ data: ExternalLinksModel }>(
           'http://localhost:3000/admin/disbaglantilar/' + linkInfo.id, formData
         )
         .subscribe({
@@ -80,7 +80,7 @@ export class ExternalLinksService {
             // Replace updated object with the old one
             this.extLinksList.forEach((item, i) => {
               if (item.id == linkInfo.id) {
-                this.extLinksList[i] = linkInfo;
+                this.extLinksList[i] = data.data;
               }
             });
             this.extLinksListSub.next([...this.extLinksList]);

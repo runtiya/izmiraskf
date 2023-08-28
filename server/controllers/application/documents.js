@@ -4,13 +4,13 @@ const crypto = require('../../functions/crypto');
 
 function getDocuments(req, res, next) {
   try {
-    const category = req.params.category;
+    const fileCategory = req.params.filecategory;
     var documentsList = [];
     var message;
 
     connection.query(
       queries.getDocuments,
-      [category],
+      [fileCategory],
       (error, result) => {
         if (!error) {
           documentsList = result;

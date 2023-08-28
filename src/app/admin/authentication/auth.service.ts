@@ -80,13 +80,16 @@ export class AuthService {
 
   createUser(userInfo: UserModel) {
     try {
+      const formData = new FormData();
+      formData.append('image', userInfo.imageAttachment);
+      formData.append('userInfo', JSON.stringify(userInfo));
+
       this.http
-        .post<{data: UserModel}>(
-          'http://localhost:3000/admin/kullanicilar/signup', userInfo
+        .post<{ data: UserModel }>(
+          'http://localhost:3000/admin/kullanicilar/signup', formData
         )
         .subscribe({
           next: (data) => {
-            //this.router.navigate(["/admin/giris"]);
             this.usersList.push(data.data);
             this.usersListSub.next([...this.usersList]);
             this.globalFunctions.showSnackBar('server.success');
@@ -104,21 +107,31 @@ export class AuthService {
 
   updateUser(userInfo: UserModel) {
     try {
+      const formData = new FormData();
+      formData.append('image', userInfo.imageAttachment);
+      formData.append('userInfo', JSON.stringify(userInfo));
+
       this.http
-        .put<{ }>(
-          'http://localhost:3000/admin/kullanicilar/profileupdate/' + userInfo.id, userInfo
+        .put<{data: {error: boolean, message: string, snackBarMessage: string, userInfo: UserModel} }>(
+          'http://localhost:3000/admin/kullanicilar/profileupdate/' + userInfo.id, formData
         )
         .subscribe({
           next: (data) => {
-            this.usersList.forEach((item, i) => {
-              if (item.id == userInfo.id) {
-                this.usersList[i] = userInfo;
-              }
-            });
-            this.usersListSub.next([...this.usersList]);
-            this.globalFunctions.showSnackBar('server.success');
+            if (!data.data.error) {
+              this.usersList.forEach((item, i) => {
+                if (item.id == userInfo.id) {
+                  this.usersList[i] = data.data.userInfo;
+                }
+              });
+              this.usersListSub.next([...this.usersList]);
+            } else {
+
+            }
+            this.globalFunctions.showSnackBar(data.data.snackBarMessage);
+
           },
           error: (error) => {
+            alert(error)
             this.globalFunctions.showSnackBar('server.error');
           }
         });
@@ -130,26 +143,27 @@ export class AuthService {
   login(userForm: UserModel) {
     try {
       this.http
-        .post<{snackBarMessage: String, token: string, expiresIn: number, user: UserModel}>(
+        .post<{data: {snackBarMessage: String, token: string, expiresIn: number, user: UserModel}}>(
           'http://localhost:3000/admin/kullanicilar/login', userForm
         )
         .subscribe({
           next: (data) => {
-            this.token = data.token;
+            this.token = data.data.token;
             if (this.token) {
-              const expiresInDuration = data.expiresIn;
+              const expiresInDuration = data.data.expiresIn;
               this.setAuthTimer(expiresInDuration);
               this.isAuthenticated = true;
-              this.userName = data.user.userName.toString();
-              this.userType = data.user.userType.toString();
+              this.userName = data.data.user.userName.toString();
+              this.userType = data.data.user.userType.toString();
               this.authStatusListener.next(true);
-              this.authenticatedUser = data.user;
+              this.authenticatedUser = data.data.user;
               this.authenticatedUserListener.next(this.authenticatedUser);
               const now = new Date();
               const expirationDate = new Date(
                 now.getTime() + expiresInDuration * 1000
               );
               this.saveAuthData(this.token, expirationDate, this.userName, this.userType);
+              this.globalFunctions.showSnackBar('login.success');
               this.router.navigate(['/admin/anasayfa']);
             } else {
               this.authStatusListener.next(false);
@@ -163,7 +177,7 @@ export class AuthService {
     } catch (error) {
       this.authStatusListener.next(false);
 
-      this.globalFunctions.showSnackBar('Bir hata oluştu!');
+      this.globalFunctions.showSnackBar('system.error');
     }
   }
 

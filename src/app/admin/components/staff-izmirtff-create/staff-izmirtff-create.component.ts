@@ -3,10 +3,10 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 
-import { StaffITFFModel } from "../../models/admin-staffizmirtff.model";
 import { StaffITFFService } from "../../services/admin-staffitff.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 import { globalFunctions } from "../../../functions/global.function";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-admin-staffizmirtff-create',
@@ -22,8 +22,9 @@ export class AdminCreateStaffIzmirTFFModal {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
-    public dialogRef: MatDialogRef<AdminCreateStaffIzmirTFFModal>,
-    public staffService: StaffITFFService,
+    private dialogRef: MatDialogRef<AdminCreateStaffIzmirTFFModal>,
+    private dialog: MatDialog,
+    private staffService: StaffITFFService,
     private globalFunctions: globalFunctions
   ) {}
 
@@ -91,11 +92,22 @@ export class AdminCreateStaffIzmirTFFModal {
 
   onDelete(id: number) {
 
-    this.isLoading = true;
-    this.staffService.deleteStaff(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
 
-    this.dialogRef.close();
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.staffService.deleteStaff(id);
+            this.dialogRef.close();
+          }
+        }
+      });
   }
 
 }

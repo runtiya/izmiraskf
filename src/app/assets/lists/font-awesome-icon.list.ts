@@ -39,7 +39,9 @@ import {
   faFileWord,
   faFilePowerpoint,
   faFileCsv,
-  faFileText
+  faFileText,
+  faFilter,
+  faFloppyDisk
 } from "@fortawesome/free-solid-svg-icons";
 
 
@@ -71,4 +73,6 @@ export const fontAwesomeIconList = {
   faFilePowerpoint: faFilePowerpoint,
   faFileCsv: faFileCsv,
   faFileText: faFileText,
+  faFilter: faFilter,
+  faFloppyDisk: faFloppyDisk
 }
