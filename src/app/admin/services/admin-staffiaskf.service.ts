@@ -50,17 +50,18 @@ export class StaffIASKFService {
       formData.append('staffInfo', JSON.stringify(staffInfo));
 
       this.http
-        .post<{data: number}>(
+        .post<{data: StaffIzmirAskfModel}>(
           'http://localhost:3000/admin/izmiraskf/yonetim-kurulu', formData
         )
         .subscribe({
           next: (data) => {
-            staffInfo.id = data.data;
+            staffInfo = data.data;
             this.staffList.push(staffInfo);
             this.staffListUpdated.next([...this.staffList]);
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {
+            console.log(error)
             this.globalFunctions.showSnackBar('server.error');
           }
         });
@@ -77,7 +78,7 @@ export class StaffIASKFService {
       formData.append('staffInfo', JSON.stringify(staffInfo));
 
       this.http
-        .put<{ }>(
+        .put<{ data: StaffIzmirAskfModel }>(
           'http://localhost:3000/admin/izmiraskf/yonetim-kurulu/' + staffInfo.id, formData
         )
         .subscribe({
@@ -85,7 +86,7 @@ export class StaffIASKFService {
             // Replace updated object with the old one
             this.staffList.forEach((item, i) => {
               if (item.id == staffInfo.id) {
-                this.staffList[i] = staffInfo;
+                this.staffList[i] = data.data;
               }
             });
             this.staffListUpdated.next([...this.staffList]);

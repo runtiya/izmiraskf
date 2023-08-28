@@ -182,7 +182,7 @@ function updateFixture(req, res, next) {
           match.awayTeamPoint,
           match.explanation,
           match.orderNo,
-          match.id,
+          match.id
         ],
         (error, result) => {
           if (!error) {

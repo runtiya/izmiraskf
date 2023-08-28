@@ -111,6 +111,7 @@ import { AdminConfirmationDialogModal } from "./admin/components/confirmation-di
 import { PageNotFound } from './application/components/page-not-found/page-not-found.component';
 import { NoContentInfo } from "./application/components/no-content-info/no-content-info.component";
 import { NoRecordInfo } from "./application/components/no-record-info/no-record-info.component";
+import { NoRecordFixtureSearch } from './application/components/no-record-fixturesearch/no-record-fixturesearch.component';
 import { ApplicationHeader } from "./application/components/header/header.component";
 import { ApplicationToolbarTitle } from "./application/components/toolbar-title/toolbar-title.component";
 
@@ -163,6 +164,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { AuthInterceptor } from './admin/authentication/auth-interceptor';
 import { ErrorInterceptor } from "./error/error-interceptor";
 import { ResponseInterceptor } from "./functions/global-http-response";
+
 
 
 @NgModule({
@@ -246,6 +248,7 @@ import { ResponseInterceptor } from "./functions/global-http-response";
     PageNotFound,
     NoContentInfo,
     NoRecordInfo,
+    NoRecordFixtureSearch,
     ApplicationHeader,
     ApplicationToolbarTitle,
 

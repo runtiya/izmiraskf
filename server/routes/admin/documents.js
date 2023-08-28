@@ -9,11 +9,11 @@ const extractFile = require('../../middlewares/extract-file');
 const router = express.Router();
 
 
-router.get("/:category", checkAuth, documentsController.getDocuments);
+router.get("/:filecategory", checkAuth, documentsController.getDocuments);
 
-router.post("/:category", checkAuth, extractFile, documentsController.createDocument);
+router.post("/:filecategory", checkAuth, extractFile, documentsController.createDocument);
 
-router.put("/:category/:id", checkAuth, extractFile, documentsController.updateDocument);
+router.put("/:filecategory/:id", checkAuth, extractFile, documentsController.updateDocument);
 
 router.delete("/:id", checkAuth, documentsController.deleteDocument)
 

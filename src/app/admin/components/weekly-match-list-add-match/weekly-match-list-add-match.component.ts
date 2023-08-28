@@ -36,7 +36,6 @@ import { WeeklyMatchListService } from "../../services/admin-weeklymatchlist.ser
 import { matchStatusList } from "../../../assets/lists/match-status.list";
 import { townList } from "../../../assets/lists/town-izmir.list";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 import { MatchModel } from "../../models/admin-match.model";
 
 @Component({
@@ -66,7 +65,6 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
   matchStatusList: Array<any> = matchStatusList;
   townList: Array<any> = townList;
 
-  fontAwesomeIconList = fontAwesomeIconList;
 
   addedMatchToWeeklyProgram: WeeklyMatchListModel[] = [];
 

@@ -13,6 +13,7 @@ import { UserModel } from "../../models/admin-users.model";
 export class AdminHeader implements OnInit, OnDestroy {
 
   authenticatedUser: UserModel = <UserModel>{};
+  title: string = null;
   private authenticatedUserSub: Subscription;
   logoPath: string = null;
   private logoPathSubscription: Subscription;
@@ -26,22 +27,23 @@ export class AdminHeader implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authenticatedUserSub = this.authService.getAuthenticatedUserListener()
-      .subscribe({
-        next: (data: UserModel) => {
-          this.authenticatedUser = data;
-        },
-        error: (error) => {
+    .subscribe({
+      next: (data) => {
+        this.authenticatedUser = data;
+      },
+      error: (error) => {
 
-        }
-      });
+      }
+    });
 
+
+    this.globalIzmirASKFService.getLogoPath();
     this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
         next: (data: string) => {
           this.logoPath = data;
         },
         error: (error) => {
-
         }
       });
   }
@@ -51,7 +53,8 @@ export class AdminHeader implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.authenticatedUserSub.unsubscribe();
+    this.logoPathSubscription.unsubscribe();
   }
 
 

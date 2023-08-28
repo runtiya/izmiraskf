@@ -5,11 +5,14 @@ const filesFunction = require("../../functions/files");
 
 function getDocuments(req, res, next) {
   try {
-    const category = req.params.category;
+    const fileCategory = req.params.filecategory;
     var documentsList = [];
     var message;
 
-    connection.query(queries.getDocuments, [category], (error, result) => {
+    connection.query(
+      queries.getDocuments,
+      [fileCategory],
+      (error, result) => {
       if (!error) {
         documentsList = result;
       } else {
@@ -30,20 +33,21 @@ function getDocuments(req, res, next) {
 function createDocument(req, res, next) {
   try {
     const documentInfo = JSON.parse(req.body.documentInfo);
-    const category = req.params.category;
+    const fileCategory = req.params.filecategory;
     var documentId;
     var documentFilePath;
     var message;
+
 
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
       const filePath = filesFunction.setFilePath(
         url,
-        category,
+        fileCategory,
         req.file.filename
       );
       documentInfo.filePath = filePath;
-      documentInfo.fileName = req.file.filename;
+      //documentInfo.fileName = req.file.filename;
       documentInfo.fileMimeType = req.file.mimetype;
       documentInfo.fileSize = req.file.size;
     } else {
@@ -65,7 +69,8 @@ function createDocument(req, res, next) {
         documentInfo.fileMimeType,
         documentInfo.fileSize,
         documentInfo.filePath,
-        category || documentInfo.category,
+        fileCategory || documentInfo.fileCategory,
+        documentInfo.fileType,
         documentInfo.orderNo,
       ],
       (error, result) => {
@@ -95,19 +100,20 @@ function createDocument(req, res, next) {
 function updateDocument(req, res, next) {
   try {
     const documentInfo = JSON.parse(req.body.documentInfo);
-    const category = req.params.category;
+    const fileCategory = req.params.filecategory;
     const documentId = req.params.id;
+    var documentFilePath;
     var message;
 
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
       const filePath = filesFunction.setFilePath(
         url,
-        category,
+        fileCategory,
         req.file.filename
       );
       documentInfo.filePath = filePath;
-      documentInfo.fileName = req.file.filename;
+      //documentInfo.fileName = req.file.filename;
       documentInfo.fileMimeType = req.file.mimetype;
       documentInfo.fileSize = req.file.size;
     } else {
@@ -131,18 +137,24 @@ function updateDocument(req, res, next) {
         documentInfo.fileMimeType,
         documentInfo.fileSize,
         documentInfo.filePath,
-        category || documentInfo.category,
+        fileCategory || documentInfo.fileCategory,
+        documentInfo.fileType,
         documentInfo.orderNo,
         documentId || documentInfo.id,
       ],
       (error, result) => {
         if (!error) {
+          documentFilePath = documentInfo.filePath;
         } else {
           message = error.sqlMessage;
         }
 
-        res.status(200).json({
+        const _data = crypto.encryptData({
+          documentFilePath: documentFilePath
+        });
 
+        res.status(200).json({
+          data: _data,
         });
       }
     );
@@ -161,6 +173,7 @@ function deleteDocument(req, res, next) {
       [documentId],
       (error, result) => {
         if (!error) {
+
         } else {
           message = error.sqlMessage;
         }

@@ -332,7 +332,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
   clearFixtureList() {
     const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
       data: {
-        title: 'İşlemi Onaylıyor musunuz?',
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
         message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
       }
     });
@@ -398,9 +398,21 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.fixturesService.deleteMatch(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.fixturesService.deleteMatch(id);
+          }
+        }
+      });
   }
 
   onImport() {
@@ -409,7 +421,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
 
 
   onExport() {
-    //this.fileImportExportFunctions.exportExcelFixture(this.groupByFixture);
+    this.fileImportExportFunctions.exportExcelFixture(this.groupByFixture);
   }
 
   swapMatch(matchNo: string) {

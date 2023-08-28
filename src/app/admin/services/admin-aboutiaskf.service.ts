@@ -50,12 +50,12 @@ export class AboutIASKFService {
       formData.append('aboutContent', JSON.stringify(aboutContent));
 
       this.http
-        .put<{ }>(
+        .put<{ data: AboutIASKFModel }>(
           'http://localhost:3000/admin/izmiraskf/hakkimizda', formData
         )
         .subscribe({
           next: (data) => {
-            this.aboutContentSubject.next(aboutContent);
+            this.aboutContentSubject.next(data.data);
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {

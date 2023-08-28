@@ -18,7 +18,6 @@ import { FixtureService } from "../../services/admin-fixtures.service";
 import { PointBoardService } from "../../services/admin-pointboard.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 
 @Component({
@@ -38,7 +37,6 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
   private weekSequenceListSub: Subscription;
 
   fixtureSearchIndex = <FixtureSearchModel>{};
-  fontAwesomeIconList = fontAwesomeIconList;
 
   @Input() seasonSelectionId: number;
   @Input() leagueSelectionId: number;

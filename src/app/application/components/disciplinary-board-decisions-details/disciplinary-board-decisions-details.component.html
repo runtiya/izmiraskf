@@ -28,7 +28,7 @@
               matInput
               readonly
               type="text"
-              [value]="disciplinaryBoardFileInfo.caseDate | date : 'dd.MM.yyyy'"
+              [value]="getLocalDate(disciplinaryBoardFileInfo.caseDate)"
               placeholder="Dosya Numarası"
             />
           </mat-form-field>

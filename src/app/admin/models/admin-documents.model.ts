@@ -10,6 +10,7 @@ export interface DocumentsModel {
   fileSize: number,
   filePath: string,
   fileAttachment: File,
-  category: string,
+  fileCategory: string,
+  fileType: string,
   orderNo: number
 }

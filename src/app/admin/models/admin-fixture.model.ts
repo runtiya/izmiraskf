@@ -12,7 +12,7 @@ export interface FixtureModel {
   groupstageName: string,
   matchNo: string,
   matchWeek: number,
-  matchDate: Date,
+  matchDate: Date | string,
   matchStatus: string,
   stadiumId: number,
   stadiumName: string,

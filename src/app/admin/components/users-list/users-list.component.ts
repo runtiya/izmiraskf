@@ -84,6 +84,6 @@ export class AdminUsersList implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.usersListSub.unsubscribe();
   }
 }

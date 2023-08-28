@@ -2,6 +2,7 @@ const connection = require("../../functions/database").connectDatabase();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require('../../functions/crypto');
+const imagesFunction = require("../../functions/images");
 
 function getUsers(req, res, next) {
   try {
@@ -27,10 +28,24 @@ function getUsers(req, res, next) {
 }
 
 function createUser(req, res, next) {
-  const userInfo = req.body;
+  const userInfo = JSON.parse(req.body.userInfo);
   const _password = userInfo.userPassword;
   var message;
   var userId;
+
+  if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    const imagePath = imagesFunction.setImagePath(
+      url,
+      "/images/users/",
+      req.file.filename
+    );
+    userInfo.imagePath = imagePath;
+  } else {
+    if (!userInfo.imagePath) {
+      userInfo.imagePath = null;
+    }
+  }
 
   try {
     bcrypt
@@ -40,7 +55,7 @@ function createUser(req, res, next) {
       })
       .then(() => {
         connection.query(
-          "insert into users (createdat, createdby, updatedat, updatedby, fullname, username, userpassword, profilephoto, usertype, isactive) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "insert into users (createdat, createdby, updatedat, updatedby, fullname, username, userpassword, imagepath, usertype, isactive) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             userInfo.createdAt,
             userInfo.createdBy,
@@ -49,7 +64,7 @@ function createUser(req, res, next) {
             userInfo.fullName,
             userInfo.userName,
             userInfo.userPassword,
-            userInfo.profilePhoto,
+            userInfo.imagePath,
             userInfo.userType,
             userInfo.isActive,
           ],
@@ -78,11 +93,26 @@ function createUser(req, res, next) {
 
 function updateUser(req, res, next) {
   try {
-    const userInfo = req.body;
+    const userInfo = JSON.parse(req.body.userInfo);
     const userId = req.params.id;
     var _error = false;
     var message;
     var _user;
+    var snackBarMessage;
+
+    if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
+      const imagePath = imagesFunction.setImagePath(
+        url,
+        "/images/users/",
+        req.file.filename
+      );
+      userInfo.imagePath = imagePath;
+    } else {
+      if (!userInfo.imagePath) {
+        userInfo.imagePath = null;
+      }
+    }
 
     connection.query(
       "select * from view_admin_users where id = ?",
@@ -96,46 +126,61 @@ function updateUser(req, res, next) {
               _user.userPassword
             );
             if (isValidCredential) {
-              connection.query(
-                "update users set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, fullname = ?, profilephoto = ?, usertype = ?, isactive = ? where id = ?",
-                [
-                  userInfo.createdAt,
-                  userInfo.createdBy,
-                  userInfo.updatedAt,
-                  userInfo.updatedBy,
-                  userInfo.fullName,
-                  userInfo.profilePhoto,
-                  userInfo.userType,
-                  userInfo.isActive,
-                  userInfo.id,
-                ],
-                (error, result) => {
-                  if (!error) {
-                  } else {
-                    message = error.sqlMessage;
+              const result = await new Promise((resolve, reject) => {
+                connection.query(
+                  "update users set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, fullname = ?, imagepath = ?, usertype = ?, isactive = ? where id = ?",
+                  [
+                    userInfo.createdAt,
+                    userInfo.createdBy,
+                    userInfo.updatedAt,
+                    userInfo.updatedBy,
+                    userInfo.fullName,
+                    userInfo.imagePath,
+                    userInfo.userType,
+                    userInfo.isActive,
+                    userInfo.id,
+                  ],
+                  (error, result) => {
+                    if (!error) {
+                      snackBarMessage = "server.success";
+                      resolve(result);
+                    } else {
+                      snackBarMessage = "server.error";
+                      message = error.sqlMessage;
+                      resolve(message);
+                    }
+
                   }
-                }
-              );
+                );
+              });
             } else {
               //Wrong Password
               _error = true;
-              (message = "User Authentication failed!"),
-                (snackBarMessage = "Hatalı Şifre girdiniz!");
+              message = "User Authentication failed!";
+              snackBarMessage = "login.wrong.password";
             }
           } else {
             // Wrong Username - not possible in this case
             _error = true;
-            (message = "User Authentication failed!"),
-              (snackBarMessage = "Hatalı Kullanıcı Adı girdiniz!");
+            message = "User Authentication failed!";
+            snackBarMessage = "login.failure";
           }
         } else {
           // System error
           _error = true;
           message = error.sqlMessage;
+          snackBarMessage = "system.error"
         }
 
-        res.status(200).json({
+        const _data = crypto.encryptData({
+          error: _error,
+          message: message,
           snackBarMessage: snackBarMessage,
+          userInfo: userInfo
+        });
+
+        res.status(200).json({
+          data: _data
         });
       }
     );
@@ -151,7 +196,7 @@ function userLogin(req, res, next) {
     var message;
     var snackBarMessage;
     var token;
-    var expiresIn;
+    var expiresIn = 3600;
     var _user;
     var _error = false;
 
@@ -190,11 +235,16 @@ function userLogin(req, res, next) {
           message = error.sqlMessage;
         }
 
-        res.status(200).json({
+        const _data = crypto.encryptData({
+          error: _error,
           snackBarMessage: snackBarMessage,
           token: token,
           expiresIn: 3600,
-          user: _user,
+          user: _user
+        });
+
+        res.status(200).json({
+          data: _data
         });
       }
     );

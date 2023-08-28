@@ -7,8 +7,6 @@ import { StaffIASKFService } from "../../services/application-staffiaskf.service
 
 import { globalFunctions } from "../../../functions/global.function";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
-
 @Component({
   selector: 'app-application-staffizmiraskf-list',
   templateUrl: './staff-izmiraskf-list.component.html',
@@ -19,8 +17,6 @@ export class ApplicationStaffIzmirAskf implements OnInit, OnDestroy {
   isLoading: boolean = false;
   staffizmiraskfList: StaffIzmirAskfModel[] = [];
   private staffizmiraskfListSub: Subscription;
-
-  fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
     public staffService: StaffIASKFService,
@@ -36,6 +32,10 @@ export class ApplicationStaffIzmirAskf implements OnInit, OnDestroy {
         this.staffizmiraskfList = data;
       });
     this.isLoading = false;
+  }
+
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   ngOnDestroy(): void {

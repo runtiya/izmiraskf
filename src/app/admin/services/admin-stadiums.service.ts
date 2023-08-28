@@ -49,12 +49,12 @@ export class StadiumsService {
       formData.append('stadiumInfo', JSON.stringify(stadiumInfo));
 
       this.http
-        .post<{data: number}>(
+        .post<{data: StadiumsModel}>(
           'http://localhost:3000/admin/sahalar', formData
         )
         .subscribe({
           next: (data) => {
-            stadiumInfo.id = data.data;
+            stadiumInfo = data.data;
             this.stadiumsList.push(stadiumInfo);
             this.stadiumsCount++;
             this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
@@ -76,14 +76,14 @@ export class StadiumsService {
       formData.append('stadiumInfo', JSON.stringify(stadiumInfo));
 
       this.http
-        .put<{ }>(
+        .put<{data: StadiumsModel }>(
           'http://localhost:3000/admin/sahalar/' + stadiumInfo.id, formData
         )
         .subscribe({
           next: (data) => {
             // Replace updated object with the old one
             let index = this.stadiumsList.findIndex(s => s.id == stadiumInfo.id);
-            this.stadiumsList[index] = stadiumInfo;
+            this.stadiumsList[index] = data.data;
             this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
             this.globalFunctions.showSnackBar("server.success");
           },

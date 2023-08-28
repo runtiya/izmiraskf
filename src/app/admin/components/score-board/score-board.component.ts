@@ -35,7 +35,7 @@ import { fileImportExportFunctions } from "../../functions/file-import-export.fu
 import { matchStatusList } from "../../../assets/lists/match-status.list";
 import { townList } from "../../../assets/lists/town-izmir.list";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
+
 import { MatchModel } from "../../models/admin-match.model";
 
 
@@ -67,7 +67,6 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
   matchStatusList: Array<any> = matchStatusList;
   townList: Array<any> = townList;
 
-  fontAwesomeIconList = fontAwesomeIconList;
 
   @Input() seasonSelectionId: number;
   @Input() leagueSelectionId: number;
@@ -365,6 +364,16 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     this.fixtureList[matchIndex] = match;
   }
 
+  onMatchExplanationChange(_matchNo: string, _explanation: string) {
+    console.log(_explanation)
+    let match = <FixtureModel>{};
+    match = this.fixtureList.find(f => f.matchNo == _matchNo);
+    let matchIndex = this.fixtureList.findIndex(f => f.matchNo == _matchNo);
+
+    match.explanation = _explanation;
+    this.fixtureList[matchIndex] = match;
+  }
+
 
   onSearch() {
     let arr_fixtureSearchValues = [];
@@ -447,17 +456,108 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     return longDate || shortTime ? (longDate + " " + shortTime) : null;
   }
 
+  onClear() {
+    this.seasonSelectionId = null;
+    this.leagueSelectionId = null;
+
+    this.groupstageSelectionId = null;
+    this.matchWeekSelectionValue = null;
+    this.matchNoInputValue = null;
+    this.stadiumSelectionId = null;
+    this.homeTeamSelectionId = null;
+    this.awayTeamSelectionId = null;
+    this.matchStatusSelectionValue = null;
+    this.townSelectionValue = null;
+    this.startDatePickedValue = null;
+    this.endDatePickedValue = null;
+    this.weeklyMatchProgramId = null;
+    this.fixtureSearchIndex = null;
+
+    this.fixtureList = [];
+  }
+
   onSave() {
     this.matchList = this.fixtureFunctions.convertModelFixtureToMatch(this.fixtureList);
     this.fixtureService.updateFixture(this.matchList, this.fixtureSearchIndex);
   }
 
-  onImport() {
+  onFilePicked(event: Event) {
+    try {
+      const file = (event.target as HTMLInputElement).files[0];
+      let isValidMimeType = this.globalFunctions.checkMimeType(file.type);
+      if (isValidMimeType) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          let fileData: string = e.target.result;
+          let fileDataParseResult = this.fileImportExportFunctions.parseExcelDataToJSON(fileData);
+          if (fileDataParseResult !== null) {
+            this.setFileDataToFixtureList(fileDataParseResult);
+          } else {
+            this.globalFunctions.showSnackBar('file.import.error');
+          }
 
+        }
+        reader.readAsBinaryString(file);
+
+      } else {
+        this.globalFunctions.showSnackBar('file.import.error.mimetype');
+      }
+    } catch (error) {
+      this.globalFunctions.showSnackBar('file.import.error');
+    }
+  }
+
+
+  setFileDataToFixtureList(tableData: any) {
+    try {
+      for (let i = 0; i < tableData.length; i++) {
+        const match = tableData[i];
+
+
+        const matchNo: string = match["Müsabaka No"];
+        const matchDate: string = match["Tarih Saat"];
+        const stadiumName: string = match["Saha"];
+        const homeTeam: string = match["Ev Sahibi Takım"];
+        const homeTeamScore: number = match["Ev Sahibi Takım Skor"];
+        const homeTeamPoint: number = match["Ev Sahibi Takım Puan"];
+        const awayTeam: string = match["Misafir Takım"];
+        const awayTeamScore: number = match["Misafir Takım Skor"];
+        const awayTeamPoint: number = match["Misafir Takım Puan"];
+        const matchStatus: string = match["Müsabaka Durumu"];
+        const winnerByForfeit: string = match["Hükmen Galip"];
+        const explanation: string = match["Açıklama"];
+
+
+        const _match = this.fixtureList.find(f => f.matchNo === matchNo);
+        const _matchIndex = this.fixtureList.findIndex(f => f.matchNo === matchNo);
+
+        _match.matchDate = this.globalFunctions.getConvertedDateEU(matchDate);
+        _match.stadiumId = this.stadiumList.find(s => s.stadiumName === stadiumName).id;
+        _match.stadiumName = this.stadiumList.find(s => s.stadiumName === stadiumName).stadiumName;
+        _match.stadiumTown = this.stadiumList.find(s => s.stadiumName === stadiumName).town;
+        _match.homeTeamScore = homeTeamScore;
+        _match.homeTeamPoint = homeTeamPoint;
+        _match.awayTeamScore = awayTeamScore;
+        _match.awayTeamPoint = awayTeamPoint;
+        _match.matchStatus = this.globalFunctions.getMatchStatusName(matchStatus);
+        _match.isHomeTeamWinByForfeit = (winnerByForfeit == 'Ev Sahibi Takım') ? true : false;
+        _match.isAwayTeamWinByForfeit = (winnerByForfeit == 'Misafir Takım') ? true : false;
+        _match.explanation = explanation;
+
+        this.fixtureList[_matchIndex] = _match;
+
+      }
+    } catch (error) {
+      this.globalFunctions.showSnackBar('file.import.error');
+    }
+  }
+
+  onImport() {
+    this.fileImportExportFunctions.importExcelScoreBoard();
   }
 
   onExport() {
-    this.fileImportExportFunctions.exportExcelScoreBoard(this.fixtureList);
+    this.fileImportExportFunctions.exportExcelScoreBoard(this.fixtureList, this.teamList, this.stadiumList);
   }
 
 

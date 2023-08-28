@@ -48,4 +48,8 @@ export class ApplicationDisciplinaryBoardDecisionsDetailsModal implements OnInit
     return belongingTo ? this.disciplinaryBelongingToList.find(b => b.name == belongingTo).value : null;
   }
 
+  getLocalDate(_date: Date): string {
+    return this.globalFunctions.getLocalDate(_date);
+  }
+
 }

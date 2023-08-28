@@ -228,7 +228,7 @@
                 <mat-option [value]="null">{{'Seçiniz'}}</mat-option>
                 <mat-option *ngFor="let weeklyMatchProgram of weeklyMatchProgramList" [value]="weeklyMatchProgram.id">
                   <fa-icon
-                    [icon]="fontAwesomeIconList.faCircle"
+                    [icon]="getFontAwesomeIcon('faCircle')"
                     class="icon icon-circle"
                     [ngStyle]="{ color: weeklyMatchProgram.isActive ? 'green' : 'red' }"
                     matTooltip="{{ weeklyMatchProgram.isActive ? 'Aktif' : 'Aktif Değil' }}"
@@ -339,17 +339,7 @@
           <tr mat-row *matRowDef="let row; columns: tableColumns;" class="table-detail-row {{isMatchinList(row.id, row.matchNo) ? 'match-is-in-list' : 'match-is-not-in-list'}}"></tr>
         </table>
 
-        <div class="alert alert-light" *ngIf="fixtureList.length <= 0">
-          <div class="" role="alert">
-            <mat-card-title>
-              <strong>Sonuç Bulunamadı!</strong>
-              Arama anahtarlarınızı belirtiniz.
-            </mat-card-title>
-            <mat-card-subtitle>
-              En az iki arama anahtarı girilmesi zorunludur!
-            </mat-card-subtitle>
-          </div>
-        </div>
+        <app-application-no-record-fixturesearch *ngIf="fixtureList.length <= 0"></app-application-no-record-fixturesearch>
       </mat-card-content>
 
       <mat-action-row>

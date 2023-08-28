@@ -10,7 +10,7 @@
         <div>
           <mat-card-title>{{ news.title }}</mat-card-title>
           <mat-card-subtitle>{{
-            news.createdAt | date : "dd.MM.yyyy"
+            getLocalDate(news.createdAt)
           }}</mat-card-subtitle>
         </div>
       </div>

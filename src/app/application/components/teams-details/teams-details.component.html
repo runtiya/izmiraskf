@@ -160,13 +160,13 @@
               Takım Renkleri
               <fa-icon
                 class="icon icon-circle team-color team-color-first"
-                [icon]="fontAwesomeIconList.faCircle"
+                [icon]="getFontAwesomeIcon('faCircle')"
                 [ngStyle]="{ color: team.colorCodes.split(';')[0] }"
                 matTooltip="{{ team.colorCodes.split(';')[0] }}"
               ></fa-icon>
               <fa-icon
                 class="icon icon-circle team-color team-color-second"
-                [icon]="fontAwesomeIconList.faCircle"
+                [icon]="getFontAwesomeIcon('faCircle')"
                 [ngStyle]="{ color: team.colorCodes.split(';')[1] }"
                 matTooltip="{{ team.colorCodes.split(';')[1] }}"
               ></fa-icon>

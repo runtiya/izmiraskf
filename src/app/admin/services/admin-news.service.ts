@@ -52,12 +52,12 @@ export class NewsService {
       formData.append('newsInfo', JSON.stringify(newsInfo));
 
       this.http
-        .post<{data: number}>(
+        .post<{data: NewsModel}>(
           'http://localhost:3000/admin/haberler', formData
         )
         .subscribe({
           next: (data) => {
-            newsInfo.id = data.data;
+            newsInfo = data.data;
             this.newsList.push(newsInfo);
             this.newsCount++;
             this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});
@@ -79,14 +79,14 @@ export class NewsService {
       formData.append('newsInfo', JSON.stringify(newsInfo));
 
       this.http
-        .put<{ }>(
+        .put<{ data: NewsModel }>(
           'http://localhost:3000/admin/haberler/' + newsInfo.id, formData
         )
         .subscribe({
           next: (data) => {
             this.newsList.forEach((item, i) => {
               if (item.id == newsInfo.id) {
-                this.newsList[i] = newsInfo;
+                this.newsList[i] = data.data;
               }
             });
             this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});

@@ -5,9 +5,9 @@ import { Subscription } from "rxjs";
 import { StaffIzmirAskfModel } from "../../models/admin-staffizmiraskf.model";
 import { StaffIASKFService } from "../../services/admin-staffiaskf.service";
 import { AdminCreateStaffIzmirAskfModal } from "../staff-izmiraskf-create/staff-izmiraskf-create.component";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-admin-staffizmiraskf-list',
@@ -20,7 +20,6 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
   staffizmiraskfList: StaffIzmirAskfModel[] = [];
   private staffizmiraskfListSub: Subscription;
 
-  fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
     public staffService: StaffIASKFService,
@@ -39,10 +38,6 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
     this.isLoading = false;
   }
 
-  onDelete(id: number) {
-    this.staffService.deleteStaff(id);
-  }
-
   onCreate() {
     const dialogRef = this.dialog.open(AdminCreateStaffIzmirAskfModal, {
       data: {
@@ -58,6 +53,29 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
         staffInfo: staffInfo
       }
     });
+  }
+
+  onDelete(id: number) {
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.staffService.deleteStaff(id);
+          }
+        }
+      });
+
+  }
+
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   ngOnDestroy(): void {

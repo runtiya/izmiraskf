@@ -9,7 +9,6 @@ import { TeamsService } from "../../services/application-teams.service";
 import { globalFunctions } from "../../../functions/global.function";
 
 import { GoogleMapsModel } from "../../../models/global-google-maps.model";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-application-teams-details',
@@ -27,8 +26,6 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
   zoom = 18;
   center: google.maps.LatLngLiteral = null;
   markerPositions: google.maps.LatLngLiteral[] = [];
-
-  fontAwesomeIconList = fontAwesomeIconList;
 
   constructor(
     private teamsService: TeamsService,
@@ -67,6 +64,10 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
 
   getTownValue(town: string): string {
     return this.globalFunctions.getTownValue(town);
+  }
+
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   ngOnDestroy(): void {

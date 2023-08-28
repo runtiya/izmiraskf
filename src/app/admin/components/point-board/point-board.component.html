@@ -113,7 +113,7 @@
           <div *ngIf="findExpelledOrRecededTeam(teamsindisqualification.teamId)">
             <fa-icon
               class="icon icon-info"
-              [icon]="fontAwesomeIconList.faCircleInfo"
+              [icon]="getFontAwesomeIcon('faCircleInfo')"
             >
             </fa-icon>
             {{ findExpelledOrRecededExplanation(teamsindisqualification.teamId) }}

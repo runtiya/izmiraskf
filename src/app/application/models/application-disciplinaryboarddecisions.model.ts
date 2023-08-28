@@ -4,6 +4,8 @@ export interface DisciplinaryBoardDecisionModel {
     caseNo: string,
     leagueName: string,
     teamOfficialName: string,
+    teamShortName: string,
+    teamImagePath: string,
     fullName: string,
     licenseNo: string,
     belongingTo: string,

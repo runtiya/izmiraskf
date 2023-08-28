@@ -13,6 +13,8 @@ import { imageUploadValidator } from "../../validators/image-upload.validator";
 import { townList } from "../../../assets/lists/town-izmir.list";
 import { globalFunctions } from "../../../functions/global.function";
 
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
+
 
 @Component({
   selector: 'app-admin-teams-create',
@@ -31,7 +33,8 @@ export class AdminTeamsCreateModal implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
-    public dialogRef: MatDialogRef<AdminTeamsCreateModal>,
+    private dialogRef: MatDialogRef<AdminTeamsCreateModal>,
+    private dialog: MatDialog,
     public teamService: TeamsService,
     public stadiumService: StadiumsService,
     private globalFunctions: globalFunctions
@@ -77,11 +80,23 @@ export class AdminTeamsCreateModal implements OnInit {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.teamService.deleteTeam(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
 
-    this.dialogRef.close();
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.teamService.deleteTeam(id);
+            this.dialogRef.close();
+          }
+        }
+      });
+
   }
 
   onFilePicked(event: Event) {

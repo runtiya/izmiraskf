@@ -42,13 +42,16 @@
         color="primary"
         (click)="onSearch()"
       >
-        <mat-icon>search</mat-icon>
+        <fa-icon
+        [icon]="getFontAwesomeIcon('faSearch')"
+        ></fa-icon>
         Arama
-      </button>
+    </button>
     </div>
   </div>
 
   <div class="card-disciplinary-board-file">
+
     <mat-card *ngIf="disciplinaryBoardDecisionsList.length > 0">
       <mat-card-header *ngIf="!!disciplinaryBoardFileDetails">
         <div class="row">
@@ -84,9 +87,7 @@
                 matInput
                 type="text"
                 placeholder="Tarih"
-                [value]="
-                  disciplinaryBoardFileDetails.caseDate | date : 'dd.MM.yyyy'
-                "
+                [value]="getLocalDate(disciplinaryBoardFileDetails.caseDate)"
               />
             </mat-form-field>
           </div>
@@ -106,10 +107,92 @@
       </mat-card-header>
 
       <mat-card-content>
+
         <div class="table-disciplinary-board-decision-list">
+          <div class="row filter-bar">
+            <!-- Filter Table -->
+            <div class="col-lg-3 col-md-12 col-sm-12">
+              <mat-form-field class="form-input">
+                <mat-label>Lig</mat-label>
+                <mat-select
+                  matInput
+                  placeholder="Lig"
+                  [(ngModel)]="filterLeagueSelectionValue"
+                >
+                  <mat-option [value]="null">{{'Seçiniz'}}</mat-option>
+                  <mat-option *ngFor="let league of filterLeagueList" [value]="league">
+                    {{league}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-3 col-md-12 col-sm-12">
+              <mat-form-field class="form-input">
+                <mat-label>Takım</mat-label>
+                <mat-select
+                  matInput
+                  placeholder="Takım"
+                  [(ngModel)]="filterTeamSelectionValue"
+                >
+                  <mat-option [value]="null">{{'Seçiniz'}}</mat-option>
+                  <mat-option *ngFor="let team of filterTeamList" [value]="team">
+                    {{team}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-3 col-md-12 col-sm-12">
+              <mat-form-field class="form-input">
+                <mat-label>Görevi</mat-label>
+                <mat-select
+                  matInput
+                  placeholder="Görevi"
+                  [(ngModel)]="filterBelongingToSelectionValue"
+                >
+                  <mat-option [value]="null">{{'Seçiniz'}}</mat-option>
+                  <mat-option *ngFor="let belongignTo of filterBelongingToList" [value]="belongignTo">
+                    {{belongignTo}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-3 col-md-12 col-sm-12">
+              <mat-form-field class="form-input">
+                <mat-label>Ceza Türü</mat-label>
+                <mat-select
+                  matInput
+                  placeholder="Ceza Türü"
+                  [(ngModel)]="filterPenalTypeSelectionValue"
+                >
+                  <mat-option [value]="null">{{'Seçiniz'}}</mat-option>
+                  <mat-option *ngFor="let penalType of filterPenalTypeList" [value]="penalType">
+                    {{penalType}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-12">
+              <button
+                mat-raised-button
+                color="primary"
+                class="btn-search"
+                matTooltip="Filtre Uygula"
+                (click)="filterDisciplinaryBoardDecisionsList()"
+              >
+                <fa-icon
+                [icon]="getFontAwesomeIcon('faFilter')"
+                ></fa-icon>
+                Filtrele
+              </button>
+            </div>
+          </div>
           <table
             mat-table
-            [dataSource]="disciplinaryBoardDecisionsList"
+            [dataSource]="filteredDisciplinaryBoardDecisionsList"
             class="mat-elevation-z8"
           >
             <ng-container matColumnDef="leagueName">

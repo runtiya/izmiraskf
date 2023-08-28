@@ -9,7 +9,6 @@ import { PointBoardModel } from "../../models/application-pointboard.model";
 import { PointBoardService } from "../../services/application-pointboard.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 
 @Component({
   selector: 'app-application-point-board',
@@ -25,7 +24,6 @@ export class ApplicationPointBoard implements OnInit, OnDestroy {
   pointBoardList: PointBoardModel[] = [];
   private pointBoardListSub: Subscription;
 
-  fontAwesomeIconList = fontAwesomeIconList;
   tableColumnsPointBoard: string[] = [
                                       "order",
                                       "team",
@@ -78,6 +76,10 @@ export class ApplicationPointBoard implements OnInit, OnDestroy {
   findExpelledOrRecededExplanation(_teamId: number): string {
     let team = this.expelledOrRecededTeamsInGroupstageList.find(team => team.teamId == _teamId);
     return !!team ? team.explanation : '';
+  }
+
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   showTeamDetails(_teamId: number) {

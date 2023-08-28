@@ -99,7 +99,7 @@
               *ngIf="
                 fixture.homeTeamIsExpelled || fixture.homeTeamIsReceded
               "
-              [icon]="fontAwesomeIconList.faCircleInfo"
+              [icon]="getFontAwesomeIcon('faCircleInfo')"
               class="icon icon-circle-info"
               matTooltip="{{
                 fixture.homeTeamExpelledOrRecededExplanation
@@ -109,7 +109,7 @@
             <div>{{ fixture.homeTeamShortName || fixture.homeTeamOfficialName || 'BAY' }}</div>
             <fa-icon
               *ngIf="fixture.isHomeTeamWinByForfeit"
-              [icon]="fontAwesomeIconList.faCircleH"
+              [icon]="getFontAwesomeIcon('faCircleH')"
               class="icon icon-circle-h"
               matTooltip="Hükmen"
             >
@@ -172,7 +172,7 @@
               *ngIf="
                 fixture.awayTeamIsExpelled || fixture.awayTeamIsReceded
               "
-              [icon]="fontAwesomeIconList.faCircleInfo"
+              [icon]="getFontAwesomeIcon('faCircleInfo')"
               class="icon icon-circle-info"
               matTooltip="{{
                 fixture.awayTeamExpelledOrRecededExplanation
@@ -182,7 +182,7 @@
             <div>{{ fixture.awayTeamShortName || fixture.awayTeamOfficialName || 'BAY' }}</div>
             <fa-icon
               *ngIf="fixture.isAwayTeamWinByForfeit"
-              [icon]="fontAwesomeIconList.faCircleH"
+              [icon]="getFontAwesomeIcon('faCircleH')"
               class="icon icon-circle-h"
               matTooltip="Hükmen"
             >

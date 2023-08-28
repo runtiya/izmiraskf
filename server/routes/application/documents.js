@@ -8,7 +8,7 @@ const extractImage = require('../../middlewares/extract-image');
 const router = express.Router();
 
 
-router.get("/:category", documentsController.getDocuments);
+router.get("/:filecategory", documentsController.getDocuments);
 
 
 

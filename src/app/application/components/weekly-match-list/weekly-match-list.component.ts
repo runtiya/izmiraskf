@@ -19,9 +19,6 @@ import { fixtureFunctions } from "../../functions/fixture.function";
 
 import { matchStatusList } from "../../../assets/lists/match-status.list";
 import { townList } from "../../../assets/lists/town-izmir.list";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
-
-
 
 @Component({
   selector: 'app-application-weeklymatch-list',
@@ -41,7 +38,6 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
   fixtureList: FixtureModel[] = [];
   private fixtureListSub: Subscription;
 
-  fontAwesomeIconList = fontAwesomeIconList;
   matchStatusList: Array<any> = matchStatusList;
   townList: Array<any> = townList;
 
@@ -65,19 +61,19 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
   filteredFixtureList: FixtureModel[] = [];
 
   tableColumns: string[] = [
-                            "homeTeam",
-                            "details",
-                            "awayTeam",
-                          ];
+    "homeTeam",
+    "details",
+    "awayTeam",
+  ];
 
   constructor(
     private seasonsService: SeasonsService,
     private weeklymatchprogramService: WeeklyMatchProgramService,
-    private weeklymatchlistService : WeeklyMatchListService,
+    private weeklymatchlistService: WeeklyMatchListService,
     private fixtureService: FixtureService,
     private globalFunctions: globalFunctions,
     private fixtureFunctions: fixtureFunctions
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
@@ -217,7 +213,7 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
       f.leagueName == (this.filterLeagueSelectionValue || f.leagueName) &&
       f.groupstageName == (this.filterGroupstageSelectionValue || f.groupstageName) &&
       (f.homeTeamOfficialName == (this.filterTeamSelectionValue || f.homeTeamOfficialName) ||
-      f.awayTeamOfficialName == (this.filterTeamSelectionValue || f.awayTeamOfficialName)) &&
+        f.awayTeamOfficialName == (this.filterTeamSelectionValue || f.awayTeamOfficialName)) &&
       f.stadiumTown == (this.filterTownSelectionValue || f.stadiumTown) &&
       f.stadiumName == (this.filterStadiumSelectionValue || f.stadiumName) &&
       this.globalFunctions.getLocalDate(f.matchDate) == (this.filterDateSelectionValue || this.globalFunctions.getLocalDate(f.matchDate))
@@ -228,6 +224,62 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
 
   onExport() {
 
+    const _searchOptionsBar = document.getElementById("searchOptionsBar-WeeklyMatchList");
+    const _header = document.getElementById("header-application");
+    const _footer = document.getElementById("footer");
+    const _exportButton = document.getElementById("btn-export-weeklymatchlist-application");
+    _searchOptionsBar.hidden = true;
+    _header.hidden = true;
+    _footer.hidden = true;
+    _exportButton.hidden = true;
+    window.print();
+    _searchOptionsBar.hidden = false;
+    _header.hidden = false;
+    _footer.hidden = false;
+    _exportButton.hidden = false;
+
+    /*
+    const printContent = document.getElementById('tableWeeklyMatchList');
+    if (printContent) {
+      const popupWin = window.open();
+      popupWin.document.open();
+      popupWin.document.write(`
+      <!doctype html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>HAFTALIK BÜLTEN</title>
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        </head>
+        <body>
+          <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Lig</th>
+            <th scope="col">Ev Sahibi Takım</th>
+            <th scope="col">Misafir Takım</th>
+            <th scope="col">Saha</th>
+            <th scope="col">Tarih</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <td scope="row">1. AMATÖR KÜME PLAY-OFF YARI FİNAL MÜSABAKALARI</td>
+          <td>ÇOK ÇOK UZUN BİR TAKIM ADI OLABİLİR</td>
+          <td>DAHA KISA TAKIM ADLARINA DA TAMAM MIYIZ PEKİ?</td>
+          <td>BİR FUTBOL SAHASI BULALIM, DÜNYA'DAN UZAK</td>
+          <td>İNSANLARIN ZAMANI UNUTTUĞU BİR ZAMANDA</td>
+        </tbody>
+      </table>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+        </body>
+      </html>
+    `);
+
+      popupWin.document.close();
+
+    }
+    */
 
   }
 

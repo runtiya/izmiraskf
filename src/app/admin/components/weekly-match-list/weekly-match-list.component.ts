@@ -221,7 +221,7 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
     let match = this.weeklyMatchList.find(wml => wml.matchId === matchId && wml.matchNo === matchNo);
     const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
       data: {
-        title: 'İşlemi Onaylıyor musunuz?',
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
         message: `${matchNo} numaralı müsabaka ${match.weeklyMatchProgramId} numaralı Haftalık Bültenden silinecektir, işlemi onaylıyor musunuz?`
       }
     });

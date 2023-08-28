@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnInit, OnDestroy } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
-
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { SeasonsService } from "../../services/admin-seasons.service";
 import { seasonYearList } from "../../../assets/lists/season-year.list";
@@ -20,9 +20,10 @@ export class AdminSeasonsCreateModal implements OnInit, OnDestroy {
   seasonYearList = seasonYearList;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Data,
-    public dialogRef: MatDialogRef<AdminSeasonsCreateModal>,
-    public seasonsService: SeasonsService
+    @Inject(MAT_DIALOG_DATA) private data: Data,
+    private dialogRef: MatDialogRef<AdminSeasonsCreateModal>,
+    private dialog: MatDialog,
+    private seasonsService: SeasonsService
     ) {}
 
   ngOnInit(): void {
@@ -52,11 +53,22 @@ export class AdminSeasonsCreateModal implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.seasonsService.deleteSeason(id);
-    this.isLoading  = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
 
-    this.dialogRef.close();
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.seasonsService.deleteSeason(id);
+            this.dialogRef.close();
+          }
+        }
+      });
   }
 
   ngOnDestroy(): void {

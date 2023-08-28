@@ -10,8 +10,6 @@ import { NewsService } from "../../services/application-news.service";
 
 import { globalFunctions } from "../../../functions/global.function";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
-
 @Component({
   selector: 'app-application-news-list',
   templateUrl: './news-list.component.html',
@@ -28,9 +26,6 @@ export class ApplicationNewsList implements OnInit, OnDestroy {
   paginationPageSize: number = this.paginationPageSizeOptions[0];
   paginationCurrentPage: number = 1;
 
-  fontAwesomeIconList = fontAwesomeIconList;
-
-
   constructor(
     public newsService: NewsService,
     private router: Router,
@@ -46,6 +41,10 @@ export class ApplicationNewsList implements OnInit, OnDestroy {
         this.newsCount = data.newsCount;
         this.isLoading = false;
       });
+  }
+
+  getLocalDate(_date: Date): string {
+    return this.globalFunctions.getLocalDate(_date);
   }
 
   showNewsDetails(_id: number) {

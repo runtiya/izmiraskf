@@ -50,12 +50,12 @@ export class AboutITFFService {
       formData.append('aboutContent', JSON.stringify(aboutContent));
 
       this.http
-        .put<{ }>(
+        .put<{ data: AboutITFFModel }>(
           'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda', formData
         )
         .subscribe({
           next: (data) => {
-            this.aboutContentSubject.next(aboutContent);
+            this.aboutContentSubject.next(data.data);
             this.globalFunctions.showSnackBar("server.success");
           },
           error: (error) => {

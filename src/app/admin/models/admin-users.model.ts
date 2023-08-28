@@ -7,7 +7,8 @@ export interface UserModel {
   fullName: string,
   userName: string,
   userPassword: string,
-  profilePhoto: File,
+  imagePath: string,
+  imageAttachment: File,
   userType: string,
   isActive: boolean
 }

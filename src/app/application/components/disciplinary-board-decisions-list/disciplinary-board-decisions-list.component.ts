@@ -48,6 +48,17 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
   @Input() seasonSelectionId: number;
   @Input() disciplinaryBoardFileSelectionId: number;
 
+  filterLeagueList: Array<string> = [];
+  @Input() filterLeagueSelectionValue: string = null;
+  filterTeamList: Array<string> = [];
+  @Input() filterTeamSelectionValue: string = null;
+  filterBelongingToList: Array<string> = [];
+  @Input() filterBelongingToSelectionValue: string = null;
+  filterPenalTypeList: Array<string> = [];
+  @Input() filterPenalTypeSelectionValue: string = null;
+
+  filteredDisciplinaryBoardDecisionsList: DisciplinaryBoardDecisionModel[] = [];
+
   tableColumns: string[] = [
                               "leagueName",
                               "teamName",
@@ -115,13 +126,25 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
     this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisionsUpdateListener()
       .subscribe({
         next: (data: DisciplinaryBoardDecisionModel[]) => {
-          const filteredDisciplinaryBoardDecisionsList = data.filter(decision => decision.disciplinaryBoardFileId === this.disciplinaryBoardFileSelectionId);
-          this.disciplinaryBoardDecisionsList = filteredDisciplinaryBoardDecisionsList;
+          if (data.length > 0) {
+            const filteredDisciplinaryBoardDecisionsList = data.filter(decision => decision.disciplinaryBoardFileId === this.disciplinaryBoardFileSelectionId);
+            this.disciplinaryBoardDecisionsList = filteredDisciplinaryBoardDecisionsList;
+            this.filteredDisciplinaryBoardDecisionsList = this.disciplinaryBoardDecisionsList;
+
+            this.filterLeagueList = this.getDistinctLeagueName(this.disciplinaryBoardDecisionsList);
+            this.filterTeamList = this.getDistinctTeamName(this.disciplinaryBoardDecisionsList);
+            this.filterBelongingToList = this.getDistinctBelongignToName(this.disciplinaryBoardDecisionsList);
+            this.filterPenalTypeList = this.getDistinctPenalTypeName(this.disciplinaryBoardDecisionsList);
+          } else {
+            this.disciplinaryBoardDecisionsList = [];
+            this.filteredDisciplinaryBoardDecisionsList = this.disciplinaryBoardDecisionsList;
+          }
+
         },
         error: (error) => {
 
         }
-      })
+      });
 
   }
 
@@ -130,7 +153,7 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
       this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
       this.disciplinaryBoardFileDetails = this.disciplinaryBoardFileSelectionId !== null ? this.disciplinaryBoardFilesList.find(file => file.id == this.disciplinaryBoardFileSelectionId) : null;
     } else {
-      this.globalFunctions.showSnackBar('disciplinaryboard.files.selectfile');
+      this.globalFunctions.showSnackBar('disciplinaryboard.error.selectfile');
     }
 
   }
@@ -149,9 +172,60 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
     return penalType ? this.disciplinaryPenalTypeList.find(p => p.name == penalType).value : null;
   }
 
+  findPenalTypeName(penalTypeValue: string): string {
+    return penalTypeValue ? this.disciplinaryPenalTypeList.find(p => p.value == penalTypeValue).name : null;
+  }
+
   findBelongingTo(belongingTo: string): string {
     return belongingTo ? this.disciplinaryBelongingToList.find(b => b.name == belongingTo).value : null;
   }
+
+  findBelongingToName(belongingToValue: string): string {
+    return belongingToValue ? this.disciplinaryBelongingToList.find(b => b.value == belongingToValue).name : null;
+  }
+
+
+  getDistinctLeagueName(disciplinaryBoardDecisionsList: DisciplinaryBoardDecisionModel[]): Array<string> {
+    const distinctLeagueName = [...new Set(disciplinaryBoardDecisionsList.map(dbd => dbd.leagueName))].filter(dbd => dbd !== null);
+    return distinctLeagueName;
+  }
+
+  getDistinctTeamName(disciplinaryBoardDecisionsList: DisciplinaryBoardDecisionModel[]): Array<string> {
+    const distinctTeamName = [...new Set(disciplinaryBoardDecisionsList.map(dbd => dbd.teamShortName || dbd.teamOfficialName))].filter(dbd => dbd !== null);
+    return distinctTeamName;
+  }
+
+  getDistinctBelongignToName(disciplinaryBoardDecisionsList: DisciplinaryBoardDecisionModel[]): Array<string> {
+    const distinctBelongignToName = [...new Set(disciplinaryBoardDecisionsList.map(dbd => this.findBelongingTo(dbd.belongingTo)))].filter(dbd => dbd !== null);
+    return distinctBelongignToName;
+  }
+
+  getDistinctPenalTypeName(disciplinaryBoardDecisionsList: DisciplinaryBoardDecisionModel[]): Array<string> {
+    const distinctPenalTypeName = [...new Set(disciplinaryBoardDecisionsList.map(dbd => this.findPenalType(dbd.penalType)))].filter(dbd => dbd !== null);
+    return distinctPenalTypeName;
+  }
+
+  filterDisciplinaryBoardDecisionsList() {
+    let _filteredDisciplinaryBoardDecisionsList: DisciplinaryBoardDecisionModel[];
+
+    _filteredDisciplinaryBoardDecisionsList = this.disciplinaryBoardDecisionsList.filter(dbd =>
+      dbd.leagueName == (this.filterLeagueSelectionValue || dbd.leagueName) &&
+      dbd.teamOfficialName == (this.filterTeamSelectionValue || dbd.teamOfficialName) &&
+      dbd.belongingTo == (this.findBelongingToName(this.filterBelongingToSelectionValue) || dbd.belongingTo) &&
+      dbd.penalType == (this.findPenalTypeName(this.filterPenalTypeSelectionValue) || dbd.penalType)
+    );
+
+    this.filteredDisciplinaryBoardDecisionsList = _filteredDisciplinaryBoardDecisionsList;
+  }
+
+  getLocalDate(_date: Date): string {
+    return this.globalFunctions.getLocalDate(_date);
+  }
+
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
+  }
+
 
   openDisciplinaryBoardDecisionDetailsModal(disciplinaryBoardDecision: DisciplinaryBoardDecisionModel) {
     const dialogRef = this.dialog.open(ApplicationDisciplinaryBoardDecisionsDetailsModal, {

@@ -17,7 +17,7 @@
       <div class="d-flex align-items-center">
         <fa-icon
           *ngIf="team.isExpelled || team.isReceded"
-          [icon]="fontAwesomeIconList.faCircleInfo"
+          [icon]="getFontAwesomeIcon('faCircleInfo')"
           class="icon icon-circle-info"
           matTooltip="{{ findExpelledOrRecededExplanation(team.teamId) }}"
         >

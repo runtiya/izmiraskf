@@ -37,9 +37,9 @@ const storage = multer.diskStorage({
       }
     };
 
-    const category = req.params.category;
-    if (category in cbFunctions) {
-      cbFunctions[category]();
+    const fileCategory = req.params.filecategory;
+    if (fileCategory in cbFunctions) {
+      cbFunctions[fileCategory]();
     } else {
       cb(error, "server/files");
     }
@@ -47,13 +47,16 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     //const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    /*
     const fileName = file.originalname
       .toLowerCase()
       .split(" ")
       .join("-");
+    */
     //const ext = MIME_TYPE_MAP[file.mimetype];
     //cb(null, fileName + "-" + Date.now() + "." + ext);
-    cb(null, Date.now() + "-" + fileName);
+    //cb(null, Date.now() + "-" + fileName);
+    cb(null, file.originalname);
   }
 });
 

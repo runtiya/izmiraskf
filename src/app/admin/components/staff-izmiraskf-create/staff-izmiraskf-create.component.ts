@@ -9,6 +9,7 @@ import { StaffIzmirAskfModel } from "../../models/admin-staffizmiraskf.model";
 import { StaffIASKFService } from "../../services/admin-staffiaskf.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 import { globalFunctions } from "../../../functions/global.function";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-admin-staffizmiraskf-create',
@@ -23,8 +24,9 @@ export class AdminCreateStaffIzmirAskfModal {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
-    public dialogRef: MatDialogRef<AdminCreateStaffIzmirAskfModal>,
-    public staffService: StaffIASKFService,
+    private dialogRef: MatDialogRef<AdminCreateStaffIzmirAskfModal>,
+    private dialog: MatDialog,
+    private staffService: StaffIASKFService,
     private globalFunctions: globalFunctions
   ) {}
 
@@ -90,11 +92,22 @@ export class AdminCreateStaffIzmirAskfModal {
 
   onDelete(id: number) {
 
-    this.isLoading = true;
-    this.staffService.deleteStaff(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
 
-    this.dialogRef.close();
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.staffService.deleteStaff(id);
+            this.dialogRef.close();
+          }
+        }
+      });
   }
 
 }

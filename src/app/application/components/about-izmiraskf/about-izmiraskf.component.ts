@@ -9,8 +9,6 @@ import { globalFunctions } from "../../../functions/global.function";
 
 import { GoogleMapsModel } from "../../../models/global-google-maps.model";
 
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
-
 @Component({
   selector: 'app-application-izmiraskf',
   templateUrl: './about-izmiraskf.component.html',
@@ -25,7 +23,6 @@ export class ApplicationIzmirASKF implements OnInit, OnDestroy {
 
   LatLngLiteral = <GoogleMapsModel>{};
 
-  fontAwesomeIconList = fontAwesomeIconList;
 
   latitude = 38.4377387;
   longitude = 27.1409411;
@@ -66,6 +63,10 @@ export class ApplicationIzmirASKF implements OnInit, OnDestroy {
     //textarea.setAttribute('rows', String(lines.length * 3));
 
     return lines.length * 2;
+  }
+
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   ngOnDestroy(): void {

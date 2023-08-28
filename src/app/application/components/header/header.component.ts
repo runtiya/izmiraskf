@@ -8,7 +8,6 @@ import { ExternalLinksService } from "../../services/application-externallinks.s
 
 import { globalFunctions } from "../../../functions/global.function";
 import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 @Component({
@@ -20,7 +19,7 @@ export class ApplicationHeader implements OnInit, OnDestroy {
   externalLinksList: ExternalLinksModel[] = [];
   private externalLinksListSub: Subscription;
   faBrandList = faBrandList;
-  fontAwesomeIconList = fontAwesomeIconList;
+
   @Output() public sidenavToggle = new EventEmitter();
   logoPath: string = null;
   private logoPathSubscription: Subscription;
@@ -35,6 +34,7 @@ export class ApplicationHeader implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    this.externalLinksService.getLinks('SOCIALMEDIA');
     this.externalLinksListSub = this.externalLinksService.getExternalLinksUpdateListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
@@ -45,6 +45,8 @@ export class ApplicationHeader implements OnInit, OnDestroy {
         }
       });
 
+
+    this.globalIzmirASKFService.getLogoPath();
     this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
         next: (data: string) => {
@@ -74,6 +76,7 @@ export class ApplicationHeader implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.logoPathSubscription.unsubscribe();
     this.externalLinksListSub.unsubscribe();
   }
 

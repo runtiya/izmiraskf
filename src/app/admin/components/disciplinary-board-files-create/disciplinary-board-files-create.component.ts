@@ -15,6 +15,8 @@ import { StaffITFFModel } from "../../models/admin-staffizmirtff.model";
 import { StaffITFFService } from "../../services/admin-staffitff.service";
 
 import { disciplinaryCommitteesList } from "../../../assets/lists/disciplinary-committees.list";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
+
 @Component({
     selector: 'app-admin-disciplinary-board-files-create',
     templateUrl: './disciplinary-board-files-create.component.html',
@@ -33,10 +35,11 @@ export class AdminDisciplinaryBoardCreateModal implements OnInit {
     disciplinaryBoardFilesSubmitForm: FormGroup;
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: Data,
-        public dialogRef: MatDialogRef<AdminDisciplinaryBoardCreateModal>,
-        public disciplinaryBoardFilesService : DisciplinaryBoardFilesService,
-        public staffService: StaffITFFService,
+        @Inject(MAT_DIALOG_DATA) private data: Data,
+        private dialogRef: MatDialogRef<AdminDisciplinaryBoardCreateModal>,
+        private dialog: MatDialog,
+        private disciplinaryBoardFilesService : DisciplinaryBoardFilesService,
+        private staffService: StaffITFFService,
         private _datePipe: DatePipe
     ) {}
 
@@ -79,10 +82,21 @@ export class AdminDisciplinaryBoardCreateModal implements OnInit {
     }
 
     onDelete(id: number) {
-        this.isLoading = true;
-        this.disciplinaryBoardFilesService.deleteDisciplinaryBoardFile(id);
-        this.isLoading = false;
+      const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+        data: {
+          title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+          message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+        }
+      });
 
-        this.dialogRef.close();
+      dialogRef.afterClosed()
+        .subscribe({
+          next: (data) => {
+            if (data) {
+              this.disciplinaryBoardFilesService.deleteDisciplinaryBoardFile(id);
+              this.dialogRef.close();
+            }
+          }
+        });
     }
 }

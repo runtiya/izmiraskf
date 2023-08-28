@@ -12,6 +12,7 @@ import { leagueCategoryList } from "../../../assets/lists/league-category.list";
 import { leagueTypeList } from "../../../assets/lists/league-type.list";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-admin-leagues-list',
@@ -40,7 +41,7 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
   constructor(
     private leagueService: LeaguesService,
     private seasonsService: SeasonsService,
-    public dialog: MatDialog,
+    private dialog: MatDialog,
     private globalFunctions: globalFunctions
     ){}
 
@@ -104,9 +105,21 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.leagueService.deleteLeague(id);
-    this.isLoading = false;
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.leagueService.deleteLeague(id);
+          }
+        }
+      });
   }
 
   ngOnDestroy(): void {

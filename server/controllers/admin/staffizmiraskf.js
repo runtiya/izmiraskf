@@ -63,14 +63,15 @@ function createStaff(req, res, next) {
       (error, result) => {
         if (!error) {
           staffId = result.insertId;
+          staffInfo.id = staffId;
         } else {
           message = error.sqlMessage;
         }
 
-        const _staffId = crypto.encryptData(lestaffIdagueList);
+        const _staffInfo = crypto.encryptData(staffInfo);
 
         res.status(200).json({
-          data: _staffId,
+          data: _staffInfo,
         });
       }
     );
@@ -119,8 +120,11 @@ function updateStaff(req, res, next) {
         } else {
           message = error.sqlMessage;
         }
-        res.status(200).json({
 
+        const _staffInfo = crypto.encryptData(staffInfo);
+
+        res.status(200).json({
+          data: _staffInfo,
         });
       }
     );
@@ -133,13 +137,15 @@ function deleteStaff(req, res, next) {
   try {
     var staffId = req.params.id;
     var message;
-    connection.query(queries.deleteStaff,
+    connection.query(
+      queries.deleteStaff,
       [staffId],
       (error, result) => {
       if (!error) {
       } else {
         message = error.sqlMessage;
       }
+
       res.status(200).json({
 
       });

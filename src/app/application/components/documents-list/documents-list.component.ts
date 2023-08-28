@@ -43,7 +43,7 @@ export class ApplicationDocumentList implements OnInit, OnDestroy {
         next: (data: DocumentsModel[]) => {
           this.documentsList = data;
         }
-      })
+      });
   }
 
   findMimeTypeIcon(mimeType: string): IconDefinition {

@@ -5,10 +5,12 @@ import { Data } from "@angular/router";
 
 import { DocumentsService } from "../../services/admin-documents.service";
 import { documentCategoryList } from "../../../assets/lists/documents-category.list";
+import { documentTransferFileTypeList } from "../../../assets/lists/documents-transferfiles-type.list";
 
 import { fileUploadValidator } from "../../validators/file-upload.validator";
 import { globalFunctions } from "../../../functions/global.function";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-admin-documents-statuses-create',
@@ -22,12 +24,14 @@ export class AdminDocumentCreateModal {
   documentInfo = this.data.documentInfo;
   documentSubmitForm: FormGroup;
   documentCategoryList = documentCategoryList;
+  documentTransferFileTypeList = documentTransferFileTypeList;
   documentPreview: string = 'File Name';
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Data,
-    public dialogRef: MatDialogRef<AdminDocumentCreateModal>,
-    public documentService: DocumentsService,
+    @Inject(MAT_DIALOG_DATA) private data: Data,
+    private dialogRef: MatDialogRef<AdminDocumentCreateModal>,
+    private dialog: MatDialog,
+    private documentService: DocumentsService,
     private globalFunctions: globalFunctions
   ) {}
 
@@ -45,7 +49,8 @@ export class AdminDocumentCreateModal {
       fileSize: new FormControl(this.pageMode == 'edit' ? this.documentInfo.fileSize : null, {validators: [Validators.required, Validators.max(5 * 1024 * 1024)]}),
       filePath: new FormControl(this.pageMode == 'edit' ? this.documentInfo.filePath : null, {validators: []}),
       fileAttachment: new FormControl(null, {validators: [], asyncValidators: [fileUploadValidator]}),
-      category: new FormControl(this.pageMode == 'edit' ? this.documentInfo.category : this.data.documentCategory, {validators: [Validators.required]}),
+      fileCategory: new FormControl(this.pageMode == 'edit' ? this.documentInfo.fileCategory : this.data.documentCategory, {validators: [Validators.required]}),
+      fileType: new FormControl(this.pageMode == 'edit' ? this.documentInfo.fileType :  this.data.fileType, {validators: [Validators.required]}),
       orderNo: new FormControl(this.pageMode == 'edit' ? this.documentInfo.orderNo : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]}),
     });
     this.isLoading = false;
@@ -86,6 +91,7 @@ export class AdminDocumentCreateModal {
   }
 
   onSubmitForm() {
+
     if (this.documentSubmitForm.valid) {
       this.isLoading = true;
       if (this.pageMode === 'create') {
@@ -102,9 +108,22 @@ export class AdminDocumentCreateModal {
   }
 
   onDelete(id: number) {
-    this.isLoading = true;
-    this.documentService.deleteDocument(id);
-    this.isLoading  = false;
-    this.dialogRef.close();
+    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+      data: {
+        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+        message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.documentService.deleteDocument(id);
+            this.dialogRef.close();
+          }
+        }
+      });
+
   }
 }

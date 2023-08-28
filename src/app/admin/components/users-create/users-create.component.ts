@@ -38,28 +38,32 @@ export class AdminUsersCreateModal implements OnInit, OnDestroy {
       fullName: new FormControl(this.pageMode == 'edit' ? this.userInfo.fullName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       userName: new FormControl(this.pageMode == 'edit' ? this.userInfo.userName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       userPassword: new FormControl(this.pageMode == 'edit' ? null : null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      profilePhoto: new FormControl(this.pageMode == 'edit' ? this.userInfo.profilePhoto : null, {validators: [], asyncValidators: [imageUploadValidator]}),
+      imagePath: new FormControl(this.pageMode == 'edit' ? this.userInfo.imagePath : null, {validators: []}),
+      imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
       userType: new FormControl(this.pageMode == 'edit' ? this.userInfo.userType : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       isActive: new FormControl(this.pageMode == 'edit' ? !!this.userInfo.isActive : null, {validators: [Validators.required]}),
     });
   }
 
   onFilePicked(event: Event) {
-
     try {
-
       const file = (event.target as HTMLInputElement).files[0];
-      this.userSubmitForm.patchValue({profilePhoto: file, fileName: 'test'});
-      this.userSubmitForm.get('profilePhoto').updateValueAndValidity();
+      this.userSubmitForm.patchValue({imageAttachment: file});
+      this.userSubmitForm.get('imageAttachment').updateValueAndValidity();
       const reader = new FileReader();
       reader.onload = () => {
-        this.imagePreview = reader.result as string;
+        let _imagePath = this.userSubmitForm.get('imageAttachment').valid ? reader.result as string : null;
+        this.userSubmitForm.get('imagePath').setValue(_imagePath);
       };
       reader.readAsDataURL(file);
     } catch (error) {
 
     }
+  }
 
+  filePickerRemove() {
+    this.userSubmitForm.get('imageAttachment').setValue(null);
+    this.userSubmitForm.get('imagePath').setValue(null);
   }
 
   onSubmitForm() {

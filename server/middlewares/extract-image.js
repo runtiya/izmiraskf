@@ -29,6 +29,9 @@ const storage = multer.diskStorage({
       '/admin/tffiltemsilciligi/tffiltemsilciligi': () => {
         cb(error, "server/images/staff");
       },
+      '/admin/kullanicilar': () => {
+        cb(error, "server/images/users");
+      },
       '/admin/disbaglantilar': () => {
         cb(error, "server/images/icons");
       }

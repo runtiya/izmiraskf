@@ -66,6 +66,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
     @Input() seasonSelectionId: number;
     @Input() disciplinaryBoardFileSelectionId: number;
 
+
     tableColumns: string[] = [
                                 "leagueName",
                                 "teamName",
@@ -232,15 +233,28 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
     }
 
     onDelete(disciplinaryBoardDecisionId: number) {
-        this.isLoading = true;
-        this.disciplinaryBoardDecisionsService.deleteDisciplinaryBoardDecision(disciplinaryBoardDecisionId);
-        this.isLoading = false;
+      const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
+        data: {
+          title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
+          message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
+        }
+      });
+
+      dialogRef.afterClosed()
+        .subscribe({
+          next: (data) => {
+            if (data) {
+              this.disciplinaryBoardDecisionsService.deleteDisciplinaryBoardDecision(disciplinaryBoardDecisionId);
+            }
+          }
+        });
+
     }
 
     onClear() {
       const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
         data: {
-          title: 'İşlemi Onaylıyor musunuz?',
+          title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
           message: 'Bu işlem verilerinizi kalıcı olarak silecektir, işleminizi onaylıyor musunuz?'
         }
       });
@@ -265,7 +279,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
           const workBook: XLSX.WorkBook = XLSX.read(data, {type: 'binary'});
           const sheetName: string = workBook.SheetNames[0];
           const workSheet: XLSX.WorkSheet = workBook.Sheets[sheetName];
-          const jsonData: any[] = XLSX.utils.sheet_to_json(workSheet, {header: 1});
+          const jsonData: any[] = XLSX.utils.sheet_to_json(workSheet, {header: 1, raw: true});
 
           // Filter to remove null rows. Get only filled rows
           const filteredData = jsonData.filter(r => r[0] != null || r[1] != null || r[2] != null || r[3] != null);
@@ -304,15 +318,15 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
       for (let i = 1; i < fileData.length; i++) {
         const row = fileData[i];
 
-        let _disciplinaryBoardFileId = this.findDisciplinaryBoardFileId(row[0]);
-        let _leagueId = this.findLeagueId(row[1]);
-        let _teamId = this.findTeamId(row[2]);
-        let _fullName = row[3];
-        let _licenseNo = row[4];
-        let _belongingTo = this.findBelongingToName(row[5]);
-        let _penalType = this.findPenalTypeName(row[6]);
-        let _duration = row[7];
-        let _explanation = row[8];
+        let _disciplinaryBoardFileId = this.findDisciplinaryBoardFileId(row[0].toString());
+        let _leagueId = this.findLeagueId(row[1].toString());
+        let _teamId = this.findTeamId(row[2].toString());
+        let _fullName = row[3].toString();
+        let _licenseNo = row[4].toString();
+        let _belongingTo = this.findBelongingToName(row[5].toString());
+        let _penalType = this.findPenalTypeName(row[6].toString());
+        let _duration = row[7].toString();
+        let _explanation = row[8].toString();
 
         this.disciplinaryBoardDecisionsSubmitForm.get('createdAt').setValue(null);
         this.disciplinaryBoardDecisionsSubmitForm.get('disciplinaryBoardFileId').setValue(_disciplinaryBoardFileId);

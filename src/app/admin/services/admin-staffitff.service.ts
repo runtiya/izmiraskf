@@ -50,12 +50,12 @@ export class StaffITFFService {
       formData.append('staffInfo', JSON.stringify(staffInfo));
 
       this.http
-        .post<{ data: number }>(
+        .post<{ data: StaffITFFModel }>(
           'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi', formData
         )
         .subscribe({
           next: (data) => {
-            staffInfo.id = data.data;
+            staffInfo = data.data;
             this.staffList.push(staffInfo);
             this.staffListUpdated.next([...this.staffList]);
             this.globalFunctions.showSnackBar("server.success");
@@ -76,7 +76,7 @@ export class StaffITFFService {
       formData.append('staffInfo', JSON.stringify(staffInfo));
 
       this.http
-        .put<{ }>(
+        .put<{ data: StaffITFFModel }>(
           'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi/' + staffInfo.id, formData
         )
         .subscribe({
@@ -84,7 +84,7 @@ export class StaffITFFService {
             // Replace updated object with the old one
             this.staffList.forEach((item, i) => {
               if (item.id == staffInfo.id) {
-                this.staffList[i] = staffInfo;
+                this.staffList[i] = data.data;
               }
             });
             this.staffListUpdated.next([...this.staffList]);

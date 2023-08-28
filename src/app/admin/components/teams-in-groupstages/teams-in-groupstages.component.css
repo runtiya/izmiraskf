@@ -70,3 +70,7 @@
 .btn-teamsingroupstages-save {
   width: 100%;
 }
+
+.icon-delete-team:hover {
+  cursor: auto;
+}
