@@ -3,6 +3,7 @@ import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from "@angular/material/dialog";
 import { DatePipe } from "@angular/common";
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { fontAwesomeIconList } from '../assets/lists/font-awesome-icon.list';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
@@ -27,6 +28,7 @@ export class globalFunctions {
   constructor(
     private _datePipe: DatePipe,
     public dialog: MatDialog,
+    private sanitizer: DomSanitizer
   ) {}
 
   public snackBar: Subject<string> = new Subject();
@@ -258,6 +260,10 @@ export class globalFunctions {
 
   getPaginationPageSizeOptions(): Array<number> {
     return [10, 20, 50, 100];
+  }
+
+  getSafeResourceUrl(url: string): SafeResourceUrl{
+    return url ? this.sanitizer.bypassSecurityTrustResourceUrl(url) : null;
   }
 
 }
