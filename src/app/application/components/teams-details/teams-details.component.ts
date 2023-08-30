@@ -2,13 +2,12 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { TeamsModel } from "../../models/application-teams.model";
 import { TeamsService } from "../../services/application-teams.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-
-import { GoogleMapsModel } from "../../../models/global-google-maps.model";
 
 @Component({
   selector: 'app-application-teams-details',
@@ -21,11 +20,7 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
   team: TeamsModel = <TeamsModel>{};
   private teamSub: Subscription;
   url_teamId: number;
-
-  LatLngLiteral = <GoogleMapsModel>{};
-  zoom = 18;
-  center: google.maps.LatLngLiteral = null;
-  markerPositions: google.maps.LatLngLiteral[] = [];
+  public mapSafeSrc: SafeResourceUrl;
 
   constructor(
     private teamsService: TeamsService,
@@ -39,17 +34,15 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
     this.router.paramMap
       .subscribe(params => {
         this.url_teamId = Number(params.get('id'));
-
         this.teamsService.getTeamById(this.url_teamId);
         this.teamSub = this.teamsService.getTeamByIdUpdateListener()
           .subscribe({
             next: (data: TeamsModel) => {
               this.team = data;
+              this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.team.mapUrl);
               this.toolbarTitle = data.officialName;
               this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-              if (this.team.latitude !== null && this.team.longitude !== null) {
-                this.center = {lat: this.team.latitude, lng: this.team.longitude};
-              }
+
             },
             error: (error) => {
 

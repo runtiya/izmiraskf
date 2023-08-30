@@ -1,18 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { SafeResourceUrl } from '@angular/platform-browser';
+
 import { AboutIASKFModel } from "../../models/admin-aboutizmiraskf.model";
 import { AboutIASKFService } from "../../services/admin-aboutiaskf.service";
 
 import { globalFunctions } from "../../../functions/global.function";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-admin-izmiraskf',
   templateUrl: './about-izmiraskf.component.html',
   styleUrls: ['../../../app.component.css', './about-izmiraskf.component.css']
 })
-
 export class AdminIzmirASKF implements OnInit, OnDestroy {
   toolbarTitle = "İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU";
   isLoading: boolean = false;
@@ -20,18 +21,11 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
   aboutcontent: AboutIASKFModel;
   private aboutcontentSubscription: Subscription;
 
-  latitude = 38.4377387;
-  longitude = 27.1409411;
-  zoom = 18;
-  center: google.maps.LatLngLiteral = null;
-  markerPositions: google.maps.LatLngLiteral[] = [];
-
   private mapSafeSrc: SafeResourceUrl;
 
   constructor(
     public aboutiaskfService : AboutIASKFService,
     private globalFunctions: globalFunctions,
-    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -55,10 +49,13 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
           mapUrl: new FormControl(data.mapUrl, {validators: [Validators.maxLength(4000)]})
         });
         this.isLoading = false;
-        // this.mapSafeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.aboutIASKFform.get('mapUrl').value);
         this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(data.mapUrl);
       });
-      
+
+  }
+
+  onMapSrcChange(url: string) {
+    this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(url);
   }
 
   onFilePicked(event: Event) {
@@ -107,8 +104,3 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
   }
 }
 
-
-
-
-
-  

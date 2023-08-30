@@ -1,14 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { AboutITFFModel } from "../../models/application-aboutizmirtff.model";
 import { AboutITFFService } from "../../services/application-aboutizmirtff.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-
-import { GoogleMapsModel } from "../../../models/global-google-maps.model";
-
 
 @Component({
   selector: 'app-application-izmirtff',
@@ -22,14 +20,8 @@ export class ApplicationIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
   aboutcontent = <AboutITFFModel>{};
   private aboutcontentSubscription: Subscription;
 
-  LatLngLiteral = <GoogleMapsModel>{};
+  public mapSafeSrc: SafeResourceUrl;
 
-  latitude = 38.4377387;
-  longitude = 27.1409411;
-  zoom = 18;
-
-  center: google.maps.LatLngLiteral = {lat: this.latitude, lng: this.longitude};
-  markerPositions: google.maps.LatLngLiteral[] = [];
 
   constructor(
     public aboutitffService : AboutITFFService,
@@ -43,18 +35,13 @@ export class ApplicationIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
       .subscribe({
         next: (data: AboutITFFModel) => {
           this.aboutcontent = data;
+          this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.aboutcontent.mapUrl);
         },
         error: (error) => {
 
         }
       });
 
-  }
-
-  addMarker(event: google.maps.MapMouseEvent) {
-    if (event.latLng != null) {
-      this.markerPositions.push(event.latLng.toJSON());
-    }
   }
 
   autoAdjustRows(): number {

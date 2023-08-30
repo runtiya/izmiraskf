@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { AboutIASKFModel } from "../../models/application-aboutizmiraskf.model";
 import { AboutIASKFService } from "../../services/application-aboutiaskf.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-
-import { GoogleMapsModel } from "../../../models/global-google-maps.model";
 
 @Component({
   selector: 'app-application-izmiraskf',
@@ -17,19 +16,10 @@ import { GoogleMapsModel } from "../../../models/global-google-maps.model";
 export class ApplicationIzmirASKF implements OnInit, OnDestroy {
   toolbarTitle = "İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU";
   isLoading: boolean = false;
-  //aboutcontent: AboutIASKFModel;
   aboutcontent = <AboutIASKFModel>{};
   private aboutcontentSubscription: Subscription;
 
-  LatLngLiteral = <GoogleMapsModel>{};
-
-
-  latitude = 38.4377387;
-  longitude = 27.1409411;
-  zoom = 18;
-
-  center: google.maps.LatLngLiteral = {lat: this.latitude, lng: this.longitude};
-  markerPositions: google.maps.LatLngLiteral[] = [];
+  public mapSafeSrc: SafeResourceUrl;
 
   constructor(
     public aboutiaskfService : AboutIASKFService,
@@ -43,18 +33,12 @@ export class ApplicationIzmirASKF implements OnInit, OnDestroy {
       .subscribe({
         next: (data: AboutIASKFModel) => {
           this.aboutcontent = data;
+          this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.aboutcontent.mapUrl);
         },
         error: (error) => {
 
         }
       });
-
-  }
-
-  addMarker(event: google.maps.MapMouseEvent) {
-    if (event.latLng != null) {
-      this.markerPositions.push(event.latLng.toJSON());
-    }
   }
 
   autoAdjustRows(): number {

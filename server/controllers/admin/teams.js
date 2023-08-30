@@ -94,8 +94,6 @@ function createTeam(req, res, next) {
         teamInfo.city,
         teamInfo.town,
         teamInfo.address,
-        teamInfo.longitude,
-        teamInfo.latitude,
         teamInfo.phoneNumber,
         teamInfo.faxNumber,
         teamInfo.stadiumId,
@@ -104,6 +102,9 @@ function createTeam(req, res, next) {
         teamInfo.websiteURL,
         teamInfo.isASKFMember,
         teamInfo.isVisible,
+        teamInfo.longitude,
+        teamInfo.latitude,
+        teamInfo.mapUrl
       ],
       (error, result) => {
         if (!error) {
@@ -159,8 +160,6 @@ function updateTeam(req, res, next) {
         teamInfo.city,
         teamInfo.town,
         teamInfo.address,
-        teamInfo.longitude,
-        teamInfo.latitude,
         teamInfo.phoneNumber,
         teamInfo.faxNumber,
         teamInfo.stadiumId,
@@ -169,6 +168,9 @@ function updateTeam(req, res, next) {
         teamInfo.websiteURL,
         teamInfo.isASKFMember,
         teamInfo.isVisible,
+        teamInfo.longitude,
+        teamInfo.latitude,
+        teamInfo.mapUrl,
         teamInfo.id || teamId,
       ],
       (error, result) => {

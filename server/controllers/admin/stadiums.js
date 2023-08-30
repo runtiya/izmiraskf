@@ -101,6 +101,9 @@ function createStadium(req, res, next) {
         stadiumInfo.hasSeating,
         stadiumInfo.hasDisabledTribune,
         stadiumInfo.hasClosedCircuitCameraSystem,
+        stadiumInfo.longitude,
+        stadiumInfo.latitude,
+        stadiumInfo.mapUrl
       ],
       (error, result) => {
         if (!error) {
@@ -163,6 +166,9 @@ function updateStadium(req, res, next) {
         stadiumInfo.hasSeating,
         stadiumInfo.hasDisabledTribune,
         stadiumInfo.hasClosedCircuitCameraSystem,
+        stadiumInfo.longitude,
+        stadiumInfo.latitude,
+        stadiumInfo.mapUrl,
         stadiumId || stadiumInfo.id,
       ],
       (error, result) => {

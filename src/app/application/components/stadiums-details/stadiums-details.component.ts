@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { StadiumsModel } from "../../models/application-stadiums.model";
 import { StadiumsService } from "../../services/application-stadiums.service";
@@ -9,8 +10,6 @@ import { StadiumsService } from "../../services/application-stadiums.service";
 import { cityList } from "../../../assets/lists/city-tr.list";
 import { townList } from "../../../assets/lists/town-izmir.list";
 import { floorTypeList } from "../../../assets/lists/floor-type.list";
-
-import { GoogleMapsModel } from "../../../models/global-google-maps.model";
 
 import { globalFunctions } from "../../../functions/global.function";
 
@@ -30,10 +29,7 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
   townList = townList;
   floorTypeList = floorTypeList;
 
-  LatLngLiteral = <GoogleMapsModel>{};
-  zoom = 18;
-  center: google.maps.LatLngLiteral = null;
-  markerPositions: google.maps.LatLngLiteral[] = [];
+  public mapSafeSrc: SafeResourceUrl;
 
   constructor(
     private router: ActivatedRoute,
@@ -51,12 +47,9 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
           .subscribe({
             next: (data: StadiumsModel) => {
               this.stadium = data;
+              this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.stadium.mapUrl);
               this.toolbarTitle = data.stadiumName;
               this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-
-              if (this.stadium.latitude !== null && this.stadium.longitude !== null) {
-                this.center = {lat: this.stadium.latitude, lng: this.stadium.longitude};
-              }
             },
             error: (error) => {
 
@@ -92,12 +85,6 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
     else {
       let floorTypeObj = this.floorTypeList.find(e => e.name === floorType);
       return floorTypeObj.value;
-    }
-  }
-
-  addMarker(event: google.maps.MapMouseEvent) {
-    if (event.latLng != null) {
-      this.markerPositions.push(event.latLng.toJSON());
     }
   }
 

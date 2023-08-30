@@ -9,5 +9,6 @@ export interface AboutITFFModel {
   faxNumber: string,
   email: string,
   longitude: number,
-  latitude: number
+  latitude: number,
+  mapUrl: string
 }

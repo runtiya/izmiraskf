@@ -85,7 +85,7 @@
             <mat-label>Harita Adresi</mat-label>
             <fa-icon matTextPrefix="" matTooltip="Harita Adresi" class="icon"
               [icon]="getFontAwesomeIcon('faMapLocationDot')"></fa-icon>
-            <textarea matInput type="text" formControlName="mapUrl" rows="2"
+            <textarea matInput type="text" formControlName="mapUrl" rows="2" (change)="onMapSrcChange(aboutIASKFform.get('mapUrl').value)"
               placeholder="Harita Adresi (en fazla 4000 karakter)">
             </textarea>
             <mat-hint align="end">{{aboutIASKFform.get('mapUrl').value ? aboutIASKFform.get('mapUrl').value.length :
@@ -95,17 +95,17 @@
 
         </div>
       </div>
-      <!-- [src]="aboutIASKFform.get('mapUrl').value"   -->
+
       <div>
         <iframe
               *ngIf="mapSafeSrc"
-              [src]="mapSafeSrc"  
+              [src]="mapSafeSrc"
               width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
               referrerpolicy="no-referrer-when-downgrade">
           </iframe>
-        
+
         <app-application-no-content-map *ngIf="!mapSafeSrc"></app-application-no-content-map>
-  
+
       </div>
 
       <button class="btn btn-save" mat-raised-button color="primary" type="submit">

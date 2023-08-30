@@ -2,6 +2,7 @@ import { Component, Inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { StadiumsModel } from "../../models/admin-stadiums.model";
 import { StadiumsService } from "../../services/admin-stadiums.service";
@@ -24,6 +25,8 @@ export class AdminStadiumsCreateModal {
   stadiumInfo = this.data.stadiumInfo;
   townListArray = townList;
   floorTypeListArray = floorTypeList;
+
+  private mapSafeSrc: SafeResourceUrl;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Data,
@@ -48,8 +51,6 @@ export class AdminStadiumsCreateModal {
       phoneNumber: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.phoneNumber : null, {validators: [Validators.maxLength(200)]}),
       imagePath: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.imagePath : null, {validators: []}),
       imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
-      longitude: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.longitude : null, {validators: []}),
-      latitude: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.latitude : null, {validators: []}),
       audienceCapacity: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.audienceCapacity : null, {validators: [Validators.min(0), Validators.max(99999)]}),
       sizeLength: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.sizeLength : null, {validators: [Validators.min(0), Validators.max(999)]}),
       sizeWidth: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.sizeWidth : null, {validators: [Validators.min(0), Validators.max(999)]}),
@@ -57,9 +58,18 @@ export class AdminStadiumsCreateModal {
       hasLightning: new FormControl(this.pageMode == 'edit' ? ((this.stadiumInfo.hasLightning != null) ? !!this.stadiumInfo.hasLightning : null) : null, {validators: []}),
       hasSeating: new FormControl(this.pageMode == 'edit' ? ((this.stadiumInfo.hasSeating != null) ? !!this.stadiumInfo.hasSeating : null) : null, {validators: []}),
       hasDisabledTribune: new FormControl(this.pageMode == 'edit' ? ((this.stadiumInfo.hasDisabledTribune != null) ? !!this.stadiumInfo.hasDisabledTribune : null) : null, {validators: []}),
-      hasClosedCircuitCameraSystem: new FormControl(this.pageMode == 'edit' ? ((this.stadiumInfo.hasClosedCircuitCameraSystem != null) ? !!this.stadiumInfo.hasClosedCircuitCameraSystem : null) : null, {validators: []})
+      hasClosedCircuitCameraSystem: new FormControl(this.pageMode == 'edit' ? ((this.stadiumInfo.hasClosedCircuitCameraSystem != null) ? !!this.stadiumInfo.hasClosedCircuitCameraSystem : null) : null, {validators: []}),
+      longitude: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.longitude : null, {validators: []}),
+      latitude: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.latitude : null, {validators: []}),
+      mapUrl: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.mapUrl : null, {validators: [Validators.maxLength(4000)]})
     });
 
+    this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.stadiumInfo.mapUrl);
+
+  }
+
+  onMapSrcChange(url: string) {
+    this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(url);
   }
 
   onFilePicked(event: Event) {
