@@ -110,6 +110,8 @@ import { AdminConfirmationDialogModal } from "./admin/components/confirmation-di
 // Application Components
 import { PageNotFound } from './application/components/page-not-found/page-not-found.component';
 import { NoContentInfo } from "./application/components/no-content-info/no-content-info.component";
+import { NoContentMap } from "./application/components/no-content-map/no-content-map.component";
+
 import { NoRecordInfo } from "./application/components/no-record-info/no-record-info.component";
 import { NoRecordFixtureSearch } from './application/components/no-record-fixturesearch/no-record-fixturesearch.component';
 import { ApplicationHeader } from "./application/components/header/header.component";
@@ -247,6 +249,7 @@ import { ResponseInterceptor } from "./functions/global-http-response";
     // Application Components
     PageNotFound,
     NoContentInfo,
+    NoContentMap,
     NoRecordInfo,
     NoRecordFixtureSearch,
     ApplicationHeader,
@@ -291,6 +294,7 @@ import { ResponseInterceptor } from "./functions/global-http-response";
     GlobalStatisticsTeamsCountByTown,
     GlobalStatisticsStadiumsCountByTown,
     GlobalStatisticsStadiumsCountByFloorType,
+
 
   ],
   imports: [

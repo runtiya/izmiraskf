@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { AboutIASKFModel } from "../../models/application-aboutizmiraskf.model";
 import { AboutIASKFService } from "../../services/application-aboutiaskf.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-
-import { GoogleMapsModel } from "../../../models/global-google-maps.model";
 
 
 @Component({
@@ -18,14 +17,9 @@ import { GoogleMapsModel } from "../../../models/global-google-maps.model";
 export class ApplicationContactUs implements OnInit, OnDestroy {
   toolbarTitle = "İLETİŞİM";
   aboutcontent = <AboutIASKFModel>{};
-  private aboutcontentSubscription: Subscription;
+  public aboutcontentSubscription: Subscription;
 
-  LatLngLiteral = <GoogleMapsModel>{};
-  latitude = 38.4377387;
-  longitude = 27.1409411;
-  zoom = 18;
-  center: google.maps.LatLngLiteral = {lat: this.latitude, lng: this.longitude};
-  markerPositions: google.maps.LatLngLiteral[] = [];
+  public mapSafeSrc: SafeResourceUrl;
   contactUsForm: FormGroup;
 
   constructor(
@@ -41,6 +35,7 @@ export class ApplicationContactUs implements OnInit, OnDestroy {
       .subscribe({
         next: (data: AboutIASKFModel) => {
           this.aboutcontent = data;
+          this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.aboutcontent.mapUrl);
         },
         error: (error) => {
 
@@ -51,7 +46,7 @@ export class ApplicationContactUs implements OnInit, OnDestroy {
       fullName: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)]}),
       email: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)]}),
       messageContent: new FormControl(null, {validators: [Validators.required, Validators.maxLength(2000)]}),
-    })
+    });
 
   }
 

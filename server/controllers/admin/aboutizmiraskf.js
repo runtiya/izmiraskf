@@ -62,6 +62,7 @@ function updateAboutContent(req, res, next) {
         aboutContent.email,
         aboutContent.longitude,
         aboutContent.latitude,
+        aboutContent.mapUrl
       ],
       (error, result) => {
         if (!error) {

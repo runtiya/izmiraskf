@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 import { Subscription } from "rxjs";
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { TeamsService } from "../../services/admin-teams.service";
 import { StadiumsModel } from "../../models/admin-stadiums.model";
@@ -30,6 +31,7 @@ export class AdminTeamsCreateModal implements OnInit {
   stadiumsList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
 
+  private mapSafeSrc: SafeResourceUrl;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
@@ -47,7 +49,6 @@ export class AdminTeamsCreateModal implements OnInit {
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
           this.stadiumsList = data.stadiumsList;
-
           this.teamSubmitForm = new FormGroup({
             id: new FormControl(this.pageMode == 'edit' ? this.teamInfo.id : null, {validators: []}),
             createdAt: new FormControl(this.pageMode == 'edit' ? this.teamInfo.createdAt : null, {validators: []}),
@@ -62,8 +63,6 @@ export class AdminTeamsCreateModal implements OnInit {
             city: new FormControl('IZMIR', {validators: [Validators.required, Validators.maxLength(200)]}),
             town: new FormControl(this.pageMode == 'edit' ? this.teamInfo.town : null, {validators: [Validators.required, Validators.maxLength(200)]}),
             address: new FormControl(this.pageMode == 'edit' ? this.teamInfo.address : null, {validators: [Validators.maxLength(2000)]}),
-            longitude: new FormControl(this.pageMode == 'edit' ? this.teamInfo.longitude : null, {validators: []}),
-            latitude: new FormControl(this.pageMode == 'edit' ? this.teamInfo.latitude : null, {validators: []}),
             phoneNumber: new FormControl(this.pageMode == 'edit' ? this.teamInfo.phoneNumber : null, {validators: [Validators.maxLength(200)]}),
             faxNumber: new FormControl(this.pageMode == 'edit' ? this.teamInfo.faxNumber : null, {validators: [Validators.maxLength(200)]}),
             stadiumId: new FormControl(this.pageMode == 'edit' ? this.teamInfo.stadiumId : null, {validators: [Validators.required]}),
@@ -72,11 +71,19 @@ export class AdminTeamsCreateModal implements OnInit {
             websiteURL: new FormControl(this.pageMode == 'edit' ? this.teamInfo.websiteURL : null, {validators: [Validators.maxLength(200)]}),
             isASKFMember: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isASKFMember : false, {validators: []}),
             isVisible: new FormControl(this.pageMode == 'edit' ? !!this.teamInfo.isVisible : true, {validators: []}),
+            longitude: new FormControl(this.pageMode == 'edit' ? this.teamInfo.longitude : null, {validators: []}),
+            latitude: new FormControl(this.pageMode == 'edit' ? this.teamInfo.latitude : null, {validators: []}),
+            mapUrl: new FormControl(this.pageMode == 'edit' ? this.teamInfo.mapUrl : null, {validators: [Validators.maxLength(4000)]})
           });
+          this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.teamInfo.mapUrl);
           this.isLoading = false;
           }
       });
 
+  }
+
+  onMapSrcChange(url: string) {
+    this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(url);
   }
 
   onDelete(id: number) {

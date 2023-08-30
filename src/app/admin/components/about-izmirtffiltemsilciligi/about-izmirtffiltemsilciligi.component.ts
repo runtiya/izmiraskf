@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from "rxjs";
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { AboutITFFModel } from "../../models/admin-aboutizmirtff.model";
 import { AboutITFFService } from "../../services/admin-aboutitff.service";
@@ -20,18 +21,12 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
   aboutcontent: AboutITFFModel;
   private aboutcontentSubscription: Subscription;
 
-  latitude = 38.4377387;
-  longitude = 27.1409411;
-  zoom = 18;
-  center: google.maps.LatLngLiteral = null;
-  markerPositions: google.maps.LatLngLiteral[] = [];
+  private mapSafeSrc: SafeResourceUrl;
 
   constructor(
     public aboutitffService: AboutITFFService,
     private globalFunctions: globalFunctions
-    ) {
-
-    }
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -51,22 +46,15 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
           email: new FormControl(data.email, {validators: [Validators.maxLength(100)]}),
           latitude: new FormControl(data.latitude, {validators: []}),
           longitude: new FormControl(data.longitude, {validators: []}),
+          mapUrl: new FormControl(data.mapUrl, {validators: [Validators.maxLength(4000)]})
         });
-        this.latitude = this.aboutITFFform.get('latitude').value;
-        this.longitude = this.aboutITFFform.get('longitude').value;
-        this.center = {lat: this.latitude, lng: this.longitude};
+        this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(data.mapUrl);
         this.isLoading = false;
       });
   }
 
-  addMarker(event: google.maps.MapMouseEvent) {
-    if (event.latLng != null) {
-      this.markerPositions = [];
-      this.markerPositions.push(event.latLng.toJSON());
-
-      this.aboutITFFform.get('latitude').setValue(event.latLng.lat());
-      this.aboutITFFform.get('longitude').setValue(event.latLng.lng());
-    }
+  onMapSrcChange(url: string) {
+    this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(url);
   }
 
   onFilePicked(event: Event) {

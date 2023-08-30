@@ -1,55 +1,32 @@
 <div class="card-aboutizmiraskf">
   <mat-card>
-    <form
-      [formGroup]="aboutIASKFform"
-      (submit)="onUpdateAboutText()"
-      *ngIf="!isLoading"
-      enctype="multipart/form-data"
-    >
+    <form [formGroup]="aboutIASKFform" (submit)="onUpdateAboutText()" *ngIf="!isLoading" enctype="multipart/form-data">
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6">
-          <button
-              mat-stroked-button
-              type="button"
-              color="primary"
-              class="btn-image-picker"
-              (click)="filePicker.click()"
-            >Resim Seç</button>
-            <button
-              mat-stroked-button
-              type="button"
-              color="warn"
-              class="btn-image-picker"
-              *ngIf="aboutIASKFform.value.imagePath !== '' && aboutIASKFform.value.imagePath && aboutIASKFform.get('imageAttachment').valid"
-              (click)="filePickerRemove()"
-            >Kaldır</button>
-            <input type="file" name="image" #filePicker (change)="onFilePicked($event)" />
-            <div
-              class="image-preview"
-            >
-              <img
-                mat-card-xl-image
-                [src]="aboutIASKFform.value.imagePath || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'"
-                [alt]="toolbarTitle"
-              />
-            </div>
-            <mat-error *ngIf="!aboutIASKFform.get('imageAttachment').valid">
-              Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
-            </mat-error>
+          <button mat-stroked-button type="button" color="primary" class="btn-image-picker"
+            (click)="filePicker.click()">Resim Seç</button>
+          <button mat-stroked-button type="button" color="warn" class="btn-image-picker"
+            *ngIf="aboutIASKFform.value.imagePath !== '' && aboutIASKFform.value.imagePath && aboutIASKFform.get('imageAttachment').valid"
+            (click)="filePickerRemove()">Kaldır</button>
+          <input type="file" name="image" #filePicker (change)="onFilePicked($event)" />
+          <div class="image-preview">
+            <img mat-card-xl-image
+              [src]="aboutIASKFform.value.imagePath || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'"
+              [alt]="toolbarTitle" />
+          </div>
+          <mat-error *ngIf="!aboutIASKFform.get('imageAttachment').valid">
+            Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+          </mat-error>
         </div>
 
         <div class="col-lg-12 col-md-12 col-sm-12">
           <mat-form-field class="form-input">
             <mat-label>Hakkımızda</mat-label>
-            <textarea
-              matInput
-              type="text"
-              formControlName="aboutText"
-              rows="10"
-              placeholder="İzmir ASKF hakkında (en fazla 4000 karakter)"
-            >
+            <textarea matInput type="text" formControlName="aboutText" rows="10"
+              placeholder="İzmir ASKF hakkında (en fazla 4000 karakter)">
             </textarea>
-            <mat-hint align="end">{{aboutIASKFform.get('aboutText').value ? aboutIASKFform.get('aboutText').value.length : 0}}/4000</mat-hint>
+            <mat-hint align="end">{{aboutIASKFform.get('aboutText').value ? aboutIASKFform.get('aboutText').value.length
+              : 0}}/4000</mat-hint>
             <mat-error *ngIf="aboutIASKFform.get('aboutText').invalid">En fazla 4000 karakter!</mat-error>
           </mat-form-field>
         </div>
@@ -57,19 +34,11 @@
         <div class="col-lg-4 col-md-4 col-sm-12">
           <mat-form-field class="form-input">
             <mat-label>Telefon</mat-label>
-            <fa-icon
-              matTextPrefix=""
-              matTooltip="Telefon"
-              class="icon"
-              [icon]="getFontAwesomeIcon('faPhone')"
-            ></fa-icon>
-            <input
-              matInput
-              type="text"
-              formControlName="phoneNumber"
-              placeholder="Telefon"
-            >
-            <mat-hint align="end">{{aboutIASKFform.get('phoneNumber').value ? aboutIASKFform.get('phoneNumber').value.length : 0}}/200</mat-hint>
+            <fa-icon matTextPrefix="" matTooltip="Telefon" class="icon"
+              [icon]="getFontAwesomeIcon('faPhone')"></fa-icon>
+            <input matInput type="text" formControlName="phoneNumber" placeholder="Telefon">
+            <mat-hint align="end">{{aboutIASKFform.get('phoneNumber').value ?
+              aboutIASKFform.get('phoneNumber').value.length : 0}}/200</mat-hint>
             <mat-error *ngIf="aboutIASKFform.get('phoneNumber').invalid">En fazla 200 karakter!</mat-error>
           </mat-form-field>
         </div>
@@ -77,19 +46,10 @@
         <div class="col-lg-4 col-md-4 col-sm-12">
           <mat-form-field class="form-input">
             <mat-label>Fax</mat-label>
-            <fa-icon
-              matTextPrefix=""
-              matTooltip="Fax"
-              class="icon"
-              [icon]="getFontAwesomeIcon('faFax')"
-            ></fa-icon>
-            <input
-              matInput
-              type="text"
-              formControlName="faxNumber"
-              placeholder="Fax"
-            >
-            <mat-hint align="end">{{aboutIASKFform.get('faxNumber').value ? aboutIASKFform.get('faxNumber').value.length : 0}}/200</mat-hint>
+            <fa-icon matTextPrefix="" matTooltip="Fax" class="icon" [icon]="getFontAwesomeIcon('faFax')"></fa-icon>
+            <input matInput type="text" formControlName="faxNumber" placeholder="Fax">
+            <mat-hint align="end">{{aboutIASKFform.get('faxNumber').value ? aboutIASKFform.get('faxNumber').value.length
+              : 0}}/200</mat-hint>
             <mat-error *ngIf="aboutIASKFform.get('faxNumber').invalid">En fazla 200 karakter!</mat-error>
           </mat-form-field>
         </div>
@@ -97,19 +57,11 @@
         <div class="col-lg-4 col-md-4 col-sm-12">
           <mat-form-field class="form-input">
             <mat-label>E-posta</mat-label>
-            <fa-icon
-              matTextPrefix=""
-              matTooltip="E-Posta"
-              class="icon"
-              [icon]="getFontAwesomeIcon('faEnvelope')"
-            ></fa-icon>
-            <input
-              matInput
-              type="text"
-              formControlName="email"
-              placeholder="E-posta"
-            >
-            <mat-hint align="end">{{aboutIASKFform.get('email').value ? aboutIASKFform.get('email').value.length : 0}}/200</mat-hint>
+            <fa-icon matTextPrefix="" matTooltip="E-Posta" class="icon"
+              [icon]="getFontAwesomeIcon('faEnvelope')"></fa-icon>
+            <input matInput type="text" formControlName="email" placeholder="E-posta">
+            <mat-hint align="end">{{aboutIASKFform.get('email').value ? aboutIASKFform.get('email').value.length :
+              0}}/200</mat-hint>
             <mat-error *ngIf="aboutIASKFform.get('email').invalid">En fazla 200 karakter!</mat-error>
           </mat-form-field>
         </div>
@@ -117,51 +69,47 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
           <mat-form-field class="form-input">
             <mat-label>Adres</mat-label>
-            <fa-icon
-              matTextPrefix=""
-              matTooltip="Adres"
-              class="icon"
-              [icon]="getFontAwesomeIcon('faLocationDot')"
-            ></fa-icon>
-            <textarea
-              matInput
-              type="text"
-              formControlName="address"
-              rows="1"
-              placeholder="Adres (en fazla 2000 karakter)"
-            >
+            <fa-icon matTextPrefix="" matTooltip="Adres" class="icon"
+              [icon]="getFontAwesomeIcon('faLocationDot')"></fa-icon>
+            <textarea matInput type="text" formControlName="address" rows="1"
+              placeholder="Adres (en fazla 2000 karakter)">
             </textarea>
-            <mat-hint align="end">{{aboutIASKFform.get('address').value ? aboutIASKFform.get('address').value.length : 0}}/2000</mat-hint>
+            <mat-hint align="end">{{aboutIASKFform.get('address').value ? aboutIASKFform.get('address').value.length :
+              0}}/2000</mat-hint>
             <mat-error *ngIf="aboutIASKFform.get('address').invalid">En fazla 2000 karakter!</mat-error>
           </mat-form-field>
         </div>
 
         <div class="col-lg-12 col-md-12 col-sm-12">
-          <google-map
-            width="auto"
-            [center]="center"
-            [zoom]="zoom"
-            (mapClick)="addMarker($event)"
-          >
-            <map-marker
-              *ngFor="let marker of markerPositions"
-              [position]="marker"
-            ></map-marker>
-          </google-map>
+          <mat-form-field class="form-input">
+            <mat-label>Harita Adresi</mat-label>
+            <fa-icon matTextPrefix="" matTooltip="Harita Adresi" class="icon"
+              [icon]="getFontAwesomeIcon('faMapLocationDot')"></fa-icon>
+            <textarea matInput type="text" formControlName="mapUrl" rows="2" (change)="onMapSrcChange(aboutIASKFform.get('mapUrl').value)"
+              placeholder="Harita Adresi (en fazla 4000 karakter)">
+            </textarea>
+            <mat-hint align="end">{{aboutIASKFform.get('mapUrl').value ? aboutIASKFform.get('mapUrl').value.length :
+              0}}/4000</mat-hint>
+            <mat-error *ngIf="aboutIASKFform.get('mapUrl').invalid">En fazla 4000 karakter!</mat-error>
+          </mat-form-field>
+
         </div>
       </div>
 
+      <div>
+        <iframe
+              *ngIf="mapSafeSrc"
+              [src]="mapSafeSrc"
+              width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
 
-      <button
-        class="btn btn-save"
-        mat-raised-button
-        color="primary"
-        type="submit"
-      >
-        <fa-icon
-          class="icon"
-          [icon]="getFontAwesomeIcon('faFloppyDisk')"
-        ></fa-icon>
+        <app-application-no-content-map *ngIf="!mapSafeSrc"></app-application-no-content-map>
+
+      </div>
+
+      <button class="btn btn-save" mat-raised-button color="primary" type="submit">
+        <fa-icon class="icon" [icon]="getFontAwesomeIcon('faFloppyDisk')"></fa-icon>
         Kaydet
       </button>
     </form>

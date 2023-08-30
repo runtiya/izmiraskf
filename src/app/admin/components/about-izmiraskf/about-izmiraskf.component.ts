@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { AboutIASKFModel } from "../../models/admin-aboutizmiraskf.model";
 import { AboutIASKFService } from "../../services/admin-aboutiaskf.service";
@@ -20,15 +21,11 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
   aboutcontent: AboutIASKFModel;
   private aboutcontentSubscription: Subscription;
 
-  latitude = 38.4377387;
-  longitude = 27.1409411;
-  zoom = 18;
-  center: google.maps.LatLngLiteral = null;
-  markerPositions: google.maps.LatLngLiteral[] = [];
+  private mapSafeSrc: SafeResourceUrl;
 
   constructor(
     public aboutiaskfService : AboutIASKFService,
-    private globalFunctions: globalFunctions
+    private globalFunctions: globalFunctions,
   ) {}
 
   ngOnInit() {
@@ -48,23 +45,17 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
           faxNumber: new FormControl(data.faxNumber, {validators: [Validators.maxLength(100)]}),
           email: new FormControl(data.email, {validators: [Validators.maxLength(100)]}),
           latitude: new FormControl(data.latitude, {validators: []}),
-          longitude: new FormControl(data.longitude, {validators: []})
+          longitude: new FormControl(data.longitude, {validators: []}),
+          mapUrl: new FormControl(data.mapUrl, {validators: [Validators.maxLength(4000)]})
         });
-        this.latitude = this.aboutIASKFform.get('latitude').value;
-        this.longitude = this.aboutIASKFform.get('longitude').value;
-        this.center = {lat: this.latitude, lng: this.longitude};
         this.isLoading = false;
+        this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(data.mapUrl);
       });
+
   }
 
-  addMarker(event: google.maps.MapMouseEvent) {
-    if (event.latLng != null) {
-      this.markerPositions = [];
-      this.markerPositions.push(event.latLng.toJSON());
-
-      this.aboutIASKFform.get('latitude').setValue(event.latLng.lat());
-      this.aboutIASKFform.get('longitude').setValue(event.latLng.lng());
-    }
+  onMapSrcChange(url: string) {
+    this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(url);
   }
 
   onFilePicked(event: Event) {
@@ -97,6 +88,8 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
   }
 
   onUpdateAboutText() {
+    //console.log(this.aboutIASKFform.get('mapUrl'));
+
     if (this.aboutIASKFform.valid) {
       this.aboutiaskfService.updateAboutContent(this.aboutIASKFform.value);
     }
@@ -110,3 +103,4 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
     this.aboutcontentSubscription.unsubscribe();
   }
 }
+

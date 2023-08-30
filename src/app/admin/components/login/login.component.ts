@@ -39,7 +39,7 @@ export class AdminLogin implements OnInit, OnDestroy {
       fullName: new FormControl(null, {validators: []}),
       userName: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200), Validators.email]}),
       userPassword: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)]}),
-      profilePhoto: new FormControl(null, {validators: []}),
+      imagePath: new FormControl(null, {validators: []}),
       userType: new FormControl(null, {validators: []}),
       isActive: new FormControl(null, {validators: []})
     });

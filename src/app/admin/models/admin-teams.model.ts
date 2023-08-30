@@ -12,8 +12,6 @@ export interface TeamsModel {
   city: string,
   town: string,
   address: string,
-  longitude: number,
-  latitude: number,
   phoneNumber: string,
   faxNumber: string,
   stadiumId: number,
@@ -21,5 +19,8 @@ export interface TeamsModel {
   colorCodes: string,
   websiteURL: string,
   isASKFMember: boolean,
-  isVisible: boolean
+  isVisible: boolean,
+  longitude: number,
+  latitude: number,
+  mapUrl: string
 }

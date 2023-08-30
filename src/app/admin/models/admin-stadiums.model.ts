@@ -11,8 +11,6 @@ export interface StadiumsModel {
   phoneNumber: string,
   imagePath: string,
   imageAttachment: File,
-  longitude: number,
-  latitude: number,
   audienceCapacity: number,
   sizeLength: number,
   sizeWidth: number,
@@ -20,5 +18,8 @@ export interface StadiumsModel {
   hasLightning: boolean,
   hasSeating: boolean,
   hasDisabledTribune: boolean,
-  hasClosedCircuitCameraSystem: boolean
+  hasClosedCircuitCameraSystem: boolean,
+  longitude: number,
+  latitude: number,
+  mapUrl: string
 }
