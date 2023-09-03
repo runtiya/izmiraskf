@@ -25,23 +25,19 @@ export class WeeklyMatchListService {
   ) {}
 
   getWeeklyMatchList(seasonId: number) {
-    try {
-      this.http
-        .get<{data: WeeklyMatchListModel[]}>(
-          'http://localhost:3000/weekly-match-list/' + seasonId
-        )
-        .subscribe({
-          next: (data) => {
-            this.weeklyMatchList = data.data;
-            this.weeklyMatchListSub.next([...this.weeklyMatchList]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: WeeklyMatchListModel[]}>(
+        'http://localhost:3000/weekly-match-list/' + seasonId
+      )
+      .subscribe({
+        next: (data) => {
+          this.weeklyMatchList = data.data;
+          this.weeklyMatchListSub.next([...this.weeklyMatchList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getWeeklyMatchListUpdateListener() {

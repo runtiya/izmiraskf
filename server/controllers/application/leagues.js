@@ -1,33 +1,42 @@
 const queries = require("../../queries/application/leagues");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getLeagues(req, res, next) {
-  try {
-    var leagueList = [];
-    const seasonId = req.params.seasonid;
-    var message;
+  var leagueList = [];
+  const seasonId = req.params.seasonid;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.getLeagues,
-      [seasonId],
-      (error, result) => {
-        if (!error) {
-          leagueList = result;
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.getLeagues,
+    [seasonId],
+    (error, result) => {
+      if (!error) {
+        leagueList = result;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        const _leagueList = crypto.encryptData(leagueList);
-
-        res.status(200).json({
-          data: _leagueList,
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      const _leagueList = crypto.encryptData(leagueList);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _leagueList,
+      });
+    }
+  );
 }
 
 exports.getLeagues = getLeagues;

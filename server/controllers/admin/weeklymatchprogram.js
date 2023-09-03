@@ -1,11 +1,13 @@
 const queries = require("../../queries/admin/weeklymatchprogram");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getWeeklyMatchProgram(req, res, next) {
-  try {
     var weeklyMatchProgramList = [];
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
     var seasonId = req.params.seasonid;
 
     connection.query(
@@ -15,25 +17,33 @@ function getWeeklyMatchProgram(req, res, next) {
         if (!error) {
           weeklyMatchProgramList = result;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _weeklyMatchProgramList = crypto.encryptData(weeklyMatchProgramList);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _weeklyMatchProgramList,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function createWeeklyMatchProgram(req, res, next) {
-  try {
     const weeklyMatchProgramInfo = req.body;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
     var weeklyMatchProgramId;
 
     connection.query(
@@ -50,27 +60,35 @@ function createWeeklyMatchProgram(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          weeklyMatchProgramId = result.insertId;
+          weeklyMatchProgramInfo.id = result.insertId;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        const _weeklyMatchProgramId = crypto.encryptData(weeklyMatchProgramId);
+        const _weeklyMatchProgramInfo = crypto.encryptData(weeklyMatchProgramInfo);
 
-        res.status(200).json({
-          data: _weeklyMatchProgramId,
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _weeklyMatchProgramInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function updateWeeklyMatchProgram(req, res, next) {
-  try {
     const weeklyMatchProgramInfo = req.body;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
     var seasonId = req.params.seasonid;
     var weeklyMatchProgramId = req.params.id;
 
@@ -90,25 +108,36 @@ function updateWeeklyMatchProgram(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
+
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        res.status(200).json({
+        const _weeklyMatchProgramInfo = crypto.encryptData(weeklyMatchProgramInfo);
 
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _weeklyMatchProgramInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function deleteWeeklyMatchProgram(req, res, next) {
-  try {
     var seasonId = req.params.seasonid;
     var weeklyMatchProgramId = req.params.id;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.deleteWeeklyMatchProgram,
@@ -117,16 +146,23 @@ function deleteWeeklyMatchProgram(req, res, next) {
         if (!error) {
 
         } else {
-          message = error.sqlMessage;
-        }
-        res.status(200).json({
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
 
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+        }
+
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 exports.getWeeklyMatchProgram = getWeeklyMatchProgram;

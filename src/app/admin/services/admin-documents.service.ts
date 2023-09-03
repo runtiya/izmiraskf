@@ -16,23 +16,19 @@ export class DocumentsService {
     ) {}
 
   getDocuments(category: string) {
-    try {
-      this.http
-        .get<{data: DocumentsModel[]}>(
-          'http://localhost:3000/admin/dokumanlar/' + category
-        )
-        .subscribe({
-          next: (data) => {
-            this.documentsList = data.data;
-            this.documentsListSub.next([...this.documentsList]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: DocumentsModel[]}>(
+        'http://localhost:3000/admin/dokumanlar/' + category
+      )
+      .subscribe({
+        next: (data) => {
+          this.documentsList = data.data;
+          this.documentsListSub.next([...this.documentsList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getDocumentsListUpdateListener() {
@@ -40,85 +36,70 @@ export class DocumentsService {
   }
 
   createDocument(documentInfo: DocumentsModel) {
-    try {
-      const formData = new FormData();
-      formData.append('file', documentInfo.fileAttachment);
-      formData.append('fileCategory', documentInfo.fileCategory);
-      formData.append('documentInfo', JSON.stringify(documentInfo));
+    const formData = new FormData();
+    formData.append('file', documentInfo.fileAttachment);
+    formData.append('fileCategory', documentInfo.fileCategory);
+    formData.append('documentInfo', JSON.stringify(documentInfo));
 
-      this.http
-        .post<{data: any}>(
-          'http://localhost:3000/admin/dokumanlar/' + documentInfo.fileCategory, formData
-        )
-        .subscribe({
-          next: (data) => {
-            documentInfo.id = data.data.documentId;
-            documentInfo.filePath = data.data.documentFilePath;
-            this.documentsList.push(documentInfo);
-            this.documentsListSub.next([...this.documentsList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .post<{data: DocumentsModel}>(
+        'http://localhost:3000/admin/dokumanlar/' + documentInfo.fileCategory, formData
+      )
+      .subscribe({
+        next: (data) => {
+          this.documentsList.push(data.data);
+          this.documentsListSub.next([...this.documentsList]);
+          this.globalFunctions.showSnackBar("system.success.create");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   updateDocument(documentInfo: DocumentsModel) {
-    try {
-      const formData = new FormData();
-      formData.append('file', documentInfo.fileAttachment);
-      formData.append('category', documentInfo.fileCategory);
-      formData.append('documentInfo', JSON.stringify(documentInfo));
+    const formData = new FormData();
+    formData.append('file', documentInfo.fileAttachment);
+    formData.append('category', documentInfo.fileCategory);
+    formData.append('documentInfo', JSON.stringify(documentInfo));
 
-      this.http
-        .put<{ data: any }>(
-          'http://localhost:3000/admin/dokumanlar/' + documentInfo.fileCategory + '/' + documentInfo.id, formData
-        )
-        .subscribe({
-          next: (data) => {
-            documentInfo.filePath = data.data.documentFilePath;
-            // Replace updated object with the old one
-            this.documentsList.forEach((item, i) => {
-              if (item.id == documentInfo.id) {
-                this.documentsList[i] = documentInfo;
-              }
-            });
+    this.http
+      .put<{ data: DocumentsModel }>(
+        'http://localhost:3000/admin/dokumanlar/' + documentInfo.fileCategory + '/' + documentInfo.id, formData
+      )
+      .subscribe({
+        next: (data) => {
+          // Replace updated object with the old one
+          this.documentsList.forEach((item, i) => {
+            if (item.id == documentInfo.id) {
+              this.documentsList[i] = data.data;
+            }
+          });
 
-            this.documentsListSub.next([...this.documentsList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+          this.documentsListSub.next([...this.documentsList]);
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   deleteDocument(documentId: number) {
-    try {
-      this.http
-        .delete<{ }>(
-          'http://localhost:3000/admin/dokumanlar/' + documentId
-        )
-        .subscribe({
-          next: (data) => {
-            const filteredDocumentsList = this.documentsList.filter(document => document.id !== documentId);
-            this.documentsList = filteredDocumentsList;
-            this.documentsListSub.next([...this.documentsList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .delete<{ }>(
+        'http://localhost:3000/admin/dokumanlar/' + documentId
+      )
+      .subscribe({
+        next: (data) => {
+          const filteredDocumentsList = this.documentsList.filter(document => document.id !== documentId);
+          this.documentsList = filteredDocumentsList;
+          this.documentsListSub.next([...this.documentsList]);
+          this.globalFunctions.showSnackBar("system.success.delete");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 }

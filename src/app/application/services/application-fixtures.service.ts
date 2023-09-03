@@ -18,25 +18,19 @@ export class FixtureService {
   ) {}
 
   getFixtureBySearchIndex(fixtureSearchIndex: FixtureSearchModel) {
-    try {
-
-      // Not known why http.get doesn't work!
-      this.http
-        .put<{data: FixtureModel[]}>(
-          'http://localhost:3000/fikstur/arama', fixtureSearchIndex
-        )
-        .subscribe({
-          next: (data) => {
-            this.fixtureList = data.data;
-            !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .put<{data: FixtureModel[]}>(
+        'http://localhost:3000/fikstur/arama', fixtureSearchIndex
+      )
+      .subscribe({
+        next: (data) => {
+          this.fixtureList = data.data;
+          !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getFixtureUpdateListener() {

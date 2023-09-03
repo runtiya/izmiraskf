@@ -18,24 +18,20 @@ export class StadiumsService {
     ) {}
 
   getStadiums(paginationPageSize?: number, paginationCurrentPage?: number) {
-    try {
-      this.http
-        .get<{data: {stadiumsList: StadiumsModel[], stadiumsCount: number}}>(
-          `http://localhost:3000/admin/sahalar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
-        )
-        .subscribe({
-          next: (data) => {
-            this.stadiumsList = data.data.stadiumsList;
-            this.stadiumsCount = data.data.stadiumsCount;
-            this.stadiumsListSub.next(data.data);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: {stadiumsList: StadiumsModel[], stadiumsCount: number}}>(
+        `http://localhost:3000/admin/sahalar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+      )
+      .subscribe({
+        next: (data) => {
+          this.stadiumsList = data.data.stadiumsList;
+          this.stadiumsCount = data.data.stadiumsCount;
+          this.stadiumsListSub.next(data.data);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getStadiumListUpdateListener() {
@@ -43,80 +39,68 @@ export class StadiumsService {
   }
 
   createStadium(stadiumInfo: StadiumsModel) {
-    try {
-      const formData = new FormData();
-      formData.append('image', stadiumInfo.imageAttachment);
-      formData.append('stadiumInfo', JSON.stringify(stadiumInfo));
+    const formData = new FormData();
+    formData.append('image', stadiumInfo.imageAttachment);
+    formData.append('stadiumInfo', JSON.stringify(stadiumInfo));
 
-      this.http
-        .post<{data: StadiumsModel}>(
-          'http://localhost:3000/admin/sahalar', formData
-        )
-        .subscribe({
-          next: (data) => {
-            stadiumInfo = data.data;
-            this.stadiumsList.push(stadiumInfo);
-            this.stadiumsCount++;
-            this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .post<{data: StadiumsModel}>(
+        'http://localhost:3000/admin/sahalar', formData
+      )
+      .subscribe({
+        next: (data) => {
+          stadiumInfo = data.data;
+          this.stadiumsList.push(stadiumInfo);
+          this.stadiumsCount++;
+          this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
+          this.globalFunctions.showSnackBar("system.success.create");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   updateStadium(stadiumInfo: StadiumsModel) {
-    try {
-      const formData = new FormData();
-      formData.append('image', stadiumInfo.imageAttachment);
-      formData.append('stadiumInfo', JSON.stringify(stadiumInfo));
+    const formData = new FormData();
+    formData.append('image', stadiumInfo.imageAttachment);
+    formData.append('stadiumInfo', JSON.stringify(stadiumInfo));
 
-      this.http
-        .put<{data: StadiumsModel }>(
-          'http://localhost:3000/admin/sahalar/' + stadiumInfo.id, formData
-        )
-        .subscribe({
-          next: (data) => {
-            // Replace updated object with the old one
-            let index = this.stadiumsList.findIndex(s => s.id == stadiumInfo.id);
-            this.stadiumsList[index] = data.data;
-            this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .put<{data: StadiumsModel }>(
+        'http://localhost:3000/admin/sahalar/' + stadiumInfo.id, formData
+      )
+      .subscribe({
+        next: (data) => {
+          // Replace updated object with the old one
+          let index = this.stadiumsList.findIndex(s => s.id == stadiumInfo.id);
+          this.stadiumsList[index] = data.data;
+          this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   deleteStadium(stadiumId: number) {
-    try {
-      this.http
-        .delete<{ }>(
-          'http://localhost:3000/admin/sahalar/' + stadiumId
-        )
-        .subscribe({
-          next: (data) => {
-            const filteredStadiumList = this.stadiumsList.filter(stadium => stadium.id !== stadiumId);
-            this.stadiumsList = filteredStadiumList;
-            this.stadiumsCount--;
-            this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .delete<{ }>(
+        'http://localhost:3000/admin/sahalar/' + stadiumId
+      )
+      .subscribe({
+        next: (data) => {
+          const filteredStadiumList = this.stadiumsList.filter(stadium => stadium.id !== stadiumId);
+          this.stadiumsList = filteredStadiumList;
+          this.stadiumsCount--;
+          this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
+          this.globalFunctions.showSnackBar("system.success.delete");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
 

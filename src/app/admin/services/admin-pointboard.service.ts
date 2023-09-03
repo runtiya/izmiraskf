@@ -21,36 +21,32 @@ export class PointBoardService {
   ) {}
 
   getPointBoard(_groupstageId: number, _matchWeek: number) {
-    try {
-      if (_matchWeek == null) {
-        this.groupstageService.getPlayedLastMatchWeek(_groupstageId)
-          .subscribe({
-            next: (data) => {
-              _matchWeek = data.data;
-              this.getCurrentPointBoard(_groupstageId, _matchWeek)
-                .subscribe((data) => {
-                  this.pointBoardList = data.data;
-                  this.pointBoardListSub.next([...this.pointBoardList]);
-                });
-            },
-            error: (error) => {
-              this.globalFunctions.showSnackBar('server.error');
-            }
-          });
-      } else {
-        this.getCurrentPointBoard(_groupstageId, _matchWeek)
-          .subscribe({
-            next: (data) => {
-              this.pointBoardList = data.data;
-              this.pointBoardListSub.next([...this.pointBoardList]);
-            },
-            error: (error) => {
-              this.globalFunctions.showSnackBar('server.error');
-            }
-          });
-      }
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
+    if (_matchWeek == null) {
+      this.groupstageService.getPlayedLastMatchWeek(_groupstageId)
+        .subscribe({
+          next: (data) => {
+            _matchWeek = data.data;
+            this.getCurrentPointBoard(_groupstageId, _matchWeek)
+              .subscribe((data) => {
+                this.pointBoardList = data.data;
+                this.pointBoardListSub.next([...this.pointBoardList]);
+              });
+          },
+          error: (error) => {
+            this.globalFunctions.showSnackBar(error);
+          }
+        });
+    } else {
+      this.getCurrentPointBoard(_groupstageId, _matchWeek)
+        .subscribe({
+          next: (data) => {
+            this.pointBoardList = data.data;
+            this.pointBoardListSub.next([...this.pointBoardList]);
+          },
+          error: (error) => {
+            this.globalFunctions.showSnackBar(error);
+          }
+        });
     }
   }
 

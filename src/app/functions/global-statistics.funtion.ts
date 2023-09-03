@@ -58,8 +58,6 @@ export class statisticsFunctions {
       labelsArray.push(item.labels.toString());
     });
 
-
-
     return { seriesArray: seriesArray, labelsArray: labelsArray };
   }
 

@@ -21,25 +21,20 @@ export class FixtureService {
   ) {}
 
   getFixtureBySearchIndex(fixtureSearchIndex: FixtureSearchModel) {
-    try {
-      // Not known why http.get doesn't work!
-      this.http
-        .put<{data: FixtureModel[]}>(
-          'http://localhost:3000/admin/fikstur/arama', fixtureSearchIndex
-        )
-        .subscribe({
-          next: (data) => {
-            this.fixtureList = data.data;
-            !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
-
+    // Not known why http.get doesn't work!
+    this.http
+      .put<{data: FixtureModel[]}>(
+        'http://localhost:3000/admin/fikstur/arama', fixtureSearchIndex
+      )
+      .subscribe({
+        next: (data) => {
+          this.fixtureList = data.data;
+          !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getFixtureUpdateListener() {
@@ -47,49 +42,39 @@ export class FixtureService {
   }
 
   createFixture(_matchList: MatchModel[], _fixtureSearchIndex: FixtureSearchModel) {
-    try {
-
-      this.http
-        .post<{ }>(
-          'http://localhost:3000/admin/fikstur/olustur', _matchList
-        )
-        .subscribe({
-          next: (data) => {
-            if (_fixtureSearchIndex) {
-              this.getFixtureBySearchIndex(_fixtureSearchIndex);
-            }
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
+    this.http
+      .post<{ }>(
+        'http://localhost:3000/admin/fikstur/olustur', _matchList
+      )
+      .subscribe({
+        next: (data) => {
+          if (_fixtureSearchIndex) {
+            this.getFixtureBySearchIndex(_fixtureSearchIndex);
           }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+          this.globalFunctions.showSnackBar("system.success.create");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   updateFixture(_matchList: MatchModel[], _fixtureSearchIndex: FixtureSearchModel) {
-    try {
-
-      this.http
-        .put<{ }>(
-          'http://localhost:3000/admin/fikstur/guncelle', _matchList
-        )
-        .subscribe({
-          next: (data) => {
-            if (_fixtureSearchIndex) {
-              this.getFixtureBySearchIndex(_fixtureSearchIndex);
-            }
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
+    this.http
+      .put<{ }>(
+        'http://localhost:3000/admin/fikstur/guncelle', _matchList
+      )
+      .subscribe({
+        next: (data) => {
+          if (_fixtureSearchIndex) {
+            this.getFixtureBySearchIndex(_fixtureSearchIndex);
           }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
 
@@ -116,46 +101,36 @@ export class FixtureService {
 
 
   deleteMatch(_id: number) {
-    try {
-
-      this.http
-        .delete<{ }>(
-          'http://localhost:3000/admin/fikstur/sil/' +_id
-        )
-        .subscribe({
-          next: (data) => {
-            this.fixtureList = this.fixtureList.filter(fixture => fixture.id !== _id);
-            !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .delete<{ }>(
+        'http://localhost:3000/admin/fikstur/sil/' +_id
+      )
+      .subscribe({
+        next: (data) => {
+          this.fixtureList = this.fixtureList.filter(fixture => fixture.id !== _id);
+          !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
+          this.globalFunctions.showSnackBar("system.success.delete");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   clearFixture(groupstageId: number) {
-    try {
-
-      this.http
-        .delete<{ }>(
-          'http://localhost:3000/admin/fikstur/temizle/' + groupstageId
-        )
-        .subscribe({
-          next: (data) => {
-            this.fixtureList = [];
-            !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .delete<{ }>(
+        'http://localhost:3000/admin/fikstur/temizle/' + groupstageId
+      )
+      .subscribe({
+        next: (data) => {
+          this.fixtureList = [];
+          !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
+          this.globalFunctions.showSnackBar("system.success.delete");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 }

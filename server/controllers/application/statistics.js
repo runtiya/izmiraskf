@@ -1,74 +1,99 @@
 const queries = require("../../queries/application/statistics");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getTeamsCountByTown(req, res, next) {
-  try {
-    var teamsCountByTown = [];
-    var message;
+  var teamsCountByTown = [];
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(queries.getTeamsCountByTown, (error, result) => {
-      if (!error) {
-        teamsCountByTown = result;
-      } else {
-        message = error.sqlMessage;
-      }
+  connection.query(queries.getTeamsCountByTown, (error, result) => {
+    if (!error) {
+      teamsCountByTown = result;
+    } else {
+      errorService.handleError(
+        errorService.errors.DATABASE_ERROR.code,
+        errorService.errors.DATABASE_ERROR.message,
+        error.sqlMessage
+      );
 
-      const _teamsCountByTown = crypto.encryptData(teamsCountByTown);
+      _error = true;
+      _resStatus = errorService.errors.DATABASE_ERROR.code;
+      _message = errorService.errors.DATABASE_ERROR.message;
+    }
 
-      res.status(200).json({
-        data: _teamsCountByTown,
-      });
+    const _teamsCountByTown = crypto.encryptData(teamsCountByTown);
+
+    res.status(_resStatus).json({
+      error: _error,
+      message: _message,
+      data: _teamsCountByTown,
     });
-  } catch (error) {
-    console.log(error);
-  }
+  });
 }
 
 function getStadiumsCountByTown(req, res, next) {
-  try {
-    var stadiumsCountByTown = [];
-    var message;
+  var stadiumsCountByTown = [];
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(queries.getStadiumsCountByTown, (error, result) => {
-      if (!error) {
-        stadiumsCountByTown = result;
-      } else {
-        message = error.sqlMessage;
-      }
+  connection.query(queries.getStadiumsCountByTown, (error, result) => {
+    if (!error) {
+      stadiumsCountByTown = result;
+    } else {
+      errorService.handleError(
+        errorService.errors.DATABASE_ERROR.code,
+        errorService.errors.DATABASE_ERROR.message,
+        error.sqlMessage
+      );
 
-      const _stadiumsCountByTown = crypto.encryptData(stadiumsCountByTown);
+      _error = true;
+      _resStatus = errorService.errors.DATABASE_ERROR.code;
+      _message = errorService.errors.DATABASE_ERROR.message;
+    }
 
-      res.status(200).json({
-        data: _stadiumsCountByTown,
-      });
+    const _stadiumsCountByTown = crypto.encryptData(stadiumsCountByTown);
+
+    res.status(_resStatus).json({
+      error: _error,
+      message: _message,
+      data: _stadiumsCountByTown,
     });
-  } catch (error) {
-    console.log(error);
-  }
+  });
 }
 
 function getStadiumsCountByFloorType(req, res, next) {
-  try {
-    var stadiumsCountByFloorType = [];
-    var message;
+  var stadiumsCountByFloorType = [];
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(queries.getStadiumsCountByFloorType, (error, result) => {
-      if (!error) {
-        stadiumsCountByFloorType = result;
-      } else {
-        message = error.sqlMessage;
-      }
+  connection.query(queries.getStadiumsCountByFloorType, (error, result) => {
+    if (!error) {
+      stadiumsCountByFloorType = result;
+    } else {
+      errorService.handleError(
+        errorService.errors.DATABASE_ERROR.code,
+        errorService.errors.DATABASE_ERROR.message,
+        error.sqlMessage
+      );
 
-      const _stadiumsCountByFloorType = crypto.encryptData(stadiumsCountByFloorType);
+      _error = true;
+      _resStatus = errorService.errors.DATABASE_ERROR.code;
+      _message = errorService.errors.DATABASE_ERROR.message;
+    }
 
-      res.status(200).json({
-        data: _stadiumsCountByFloorType,
-      });
+    const _stadiumsCountByFloorType = crypto.encryptData(stadiumsCountByFloorType);
+
+    res.status(_resStatus).json({
+      error: _error,
+      message: _message,
+      data: _stadiumsCountByFloorType,
     });
-  } catch (error) {
-    console.log(error);
-  }
+  });
 }
 
 exports.getTeamsCountByTown = getTeamsCountByTown;

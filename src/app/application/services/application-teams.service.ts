@@ -20,49 +20,39 @@ export class TeamsService {
   ) {}
 
   getTeams(paginationPageSize: number, paginationCurrentPage: number) {
-    try {
-      this.http
-        .get<{ data: {teamsList: TeamsModel[], teamsCount: number} }>(
-          `http://localhost:3000/takimlar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
-        )
-        .subscribe({
-          next: (data) => {
-            this.teamList = data.data.teamsList;
-            this.teamListSub.next(data.data);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{ data: {teamsList: TeamsModel[], teamsCount: number} }>(
+        `http://localhost:3000/takimlar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+      )
+      .subscribe({
+        next: (data) => {
+          this.teamList = data.data.teamsList;
+          this.teamListSub.next(data.data);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getTeamsListUpdateListener() {
     return this.teamListSub.asObservable();
   }
 
-
-
   getTeamById(_id: number) {
-    try {
-      this.http
-        .get<{ data: TeamsModel}>(
-          'http://localhost:3000/takimlar/' + _id
-        )
-        .subscribe({
-          next: (data) => {
-            this.team = data.data;
-            this.teamSub.next(this.team);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{ data: TeamsModel}>(
+        'http://localhost:3000/takimlar/' + _id
+      )
+      .subscribe({
+        next: (data) => {
+          this.team = data.data;
+          this.teamSub.next(this.team);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getTeamByIdUpdateListener() {

@@ -19,23 +19,19 @@ export class GroupStagesService {
   ) {}
 
   getGroupstages(leagueId: number) {
-    try {
-      this.http
-        .get<{data: GroupStagesModel[]}>(
-          'http://localhost:3000/gruplar/' + leagueId
-        )
-        .subscribe({
-          next: (data) => {
-            this.groupstageList = data.data;
-            this.groupstageListSub.next([...this.groupstageList]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: GroupStagesModel[]}>(
+        'http://localhost:3000/gruplar/' + leagueId
+      )
+      .subscribe({
+        next: (data) => {
+          this.groupstageList = data.data;
+          this.groupstageListSub.next([...this.groupstageList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getGroupStageListUpdateListener() {
@@ -43,23 +39,19 @@ export class GroupStagesService {
   }
 
   getGroupWeeks(groupstageId: number) {
-    try {
-      this.http
-        .get<{data: Array<number>[]}>(
-          'http://localhost:3000/gruplar/hafta-siralamasi/' + groupstageId
-        )
-        .subscribe({
-          next: (data) => {
-            this.weekSequence = data.data;
-            this.weekSequenceSub.next([...this.weekSequence]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: Array<number>[]}>(
+        'http://localhost:3000/gruplar/hafta-siralamasi/' + groupstageId
+      )
+      .subscribe({
+        next: (data) => {
+          this.weekSequence = data.data;
+          this.weekSequenceSub.next([...this.weekSequence]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getGroupWeeksUpdateListener() {

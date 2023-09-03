@@ -19,24 +19,19 @@ export class StaffITFFService {
   ) {}
 
   getStaff() {
-    try {
-      this.http
-        .get<{ data: StaffITFFModel[] }>(
-          'http://localhost:3000/tffiltemsilciligi/tffiltemsilciligi'
-        )
-        .subscribe({
-          next: (data) => {
-            this.staffList = data.data;
-            this.staffListUpdated.next([...this.staffList]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
-
+    this.http
+      .get<{ data: StaffITFFModel[] }>(
+        'http://localhost:3000/tffiltemsilciligi/tffiltemsilciligi'
+      )
+      .subscribe({
+        next: (data) => {
+          this.staffList = data.data;
+          this.staffListUpdated.next([...this.staffList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getStaffListUpdateListener() {

@@ -19,23 +19,19 @@ export class WeeklyMatchProgramService {
   ) {}
 
   getWeeklyMatchProgram(seasonId: number) {
-    try {
-      this.http
-        .get<{data: WeeklyMatchProgramModel[]}>(
-          'http://localhost:3000/weekly-match-program/' + seasonId
-        )
-        .subscribe({
-          next: (data) => {
-            this.weeklyMatchProgramList = data.data;
-            this.weeklyMatchProgramListSub.next([...this.weeklyMatchProgramList]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: WeeklyMatchProgramModel[]}>(
+        'http://localhost:3000/weekly-match-program/' + seasonId
+      )
+      .subscribe({
+        next: (data) => {
+          this.weeklyMatchProgramList = data.data;
+          this.weeklyMatchProgramListSub.next([...this.weeklyMatchProgramList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getDocumentsListUpdateListener() {

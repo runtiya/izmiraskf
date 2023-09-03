@@ -1,36 +1,49 @@
 const queries = require("../../queries/admin/groupstages");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getGroupStages(req, res, next) {
-  try {
     var groupstageList = [];
     const leagueId = req.params.leagueid;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
-    connection.query(queries.getGroupStages, [leagueId], (error, result) => {
-      if (!error) {
-        groupstageList = result;
-      } else {
-        message = error.sqlMessage;
-      }
+    connection.query(
+      queries.getGroupStages,
+      [leagueId],
+      (error, result) => {
+        if (!error) {
+          groupstageList = result;
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
 
-      const _groupstageList = crypto.encryptData(groupstageList);
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+        }
 
-      res.status(200).json({
-        data: _groupstageList
-      });
+        const _groupstageList = crypto.encryptData(groupstageList);
+
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _groupstageList
+        });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function getWeekSequence(req, res, next) {
-  try {
     const groupstageId = req.params.id;
     var weekSequence = [];
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.getWeekSequence,
@@ -39,26 +52,34 @@ function getWeekSequence(req, res, next) {
         if (!error) {
           weekSequence = result;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _weekSequence = crypto.encryptData(weekSequence);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _weekSequence,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function getPlayedLastMatchWeek(req, res, next) {
-  try {
     const groupstageId = req.params.id;
     var matchWeek = 1;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.getPlayedLastMatchWeek,
@@ -67,26 +88,33 @@ function getPlayedLastMatchWeek(req, res, next) {
         if (!error) {
           matchWeek = result[0].matchWeek || 1;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _matchWeek = crypto.encryptData(matchWeek);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _matchWeek,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function createGroupStage(req, res, next) {
-  try {
     const groupInfo = req.body;
-    var message;
-    var groupId;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.createGroupStage,
@@ -103,27 +131,36 @@ function createGroupStage(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          groupId = result.insertId;
+          groupInfo.id = result.insertId;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        const _groupId = crypto.encryptData(groupId);
+        const _groupInfo = crypto.encryptData(groupInfo);
 
-        res.status(200).json({
-          data: _groupId,
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _groupInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function updateGroupStage(req, res, next) {
-  try {
     const groupInfo = req.body;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
+
     connection.query(
       queries.updateGroupStage,
       [
@@ -140,37 +177,59 @@ function updateGroupStage(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-        } else {
-          message = error.sqlMessage;
-        }
-        res.status(200).json({
 
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+        }
+
+        const _groupInfo = crypto.encryptData(groupInfo);
+
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _groupInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function deleteGroupStage(req, res, next) {
-  try {
     var groupId = req.params.id;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
-    connection.query(queries.deleteGroupStage, [groupId], (error, result) => {
-      if (!error) {
-      } else {
-        message = error.sqlMessage;
-      }
+    connection.query(
+      queries.deleteGroupStage,
+      [groupId],
+      (error, result) => {
+        if (!error) {
 
-      res.status(200).json({
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
 
-      });
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+        }
+
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message
+        });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 exports.getGroupStages = getGroupStages;

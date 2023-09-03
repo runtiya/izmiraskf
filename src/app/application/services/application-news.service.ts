@@ -25,43 +25,19 @@ export class NewsService {
     ) {}
 
   getNews(paginationPageSize: number, paginationCurrentPage: number) {
-    try {
-      this.http
-        .get<{data: {newsList: NewsModel[], newsCount: number}}>(
-          `http://localhost:3000/haberler/list?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
-        )
-        /*
-        .pipe(
-          map(data => {
-            return {
-              news: data.news.map(newsObj => {
-                return {
-                  id: newsObj.id,
-                  createdAt: newsObj.createdAt,
-                  updatedAt: newsObj.updatedAt,
-                  title: newsObj.title,
-                  content: newsObj.content,
-                  newsImage: newsObj.newsImage,
-                  isOnline: newsObj.isOnline
-                };
-              }),
-              maxNews: 10
-            };
-          })
-        )
-        */
-       .subscribe({
-        next: (data) => {
-          this.newsList = data.data.newsList;
-          this.newsUpdated.next(data.data); //this.newsUpdated.next([...this.newsList]);
-        },
-        error: (error) => {
-          this.globalFunctions.showSnackBar('server.error');
-        }
-       });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: {newsList: NewsModel[], newsCount: number}}>(
+        `http://localhost:3000/haberler/list?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+      )
+      .subscribe({
+      next: (data) => {
+        this.newsList = data.data.newsList;
+        this.newsUpdated.next(data.data);
+      },
+      error: (error) => {
+        this.globalFunctions.showSnackBar(error);
+      }
+      });
 
   }
 
@@ -70,23 +46,19 @@ export class NewsService {
   }
 
   getNewsById(id: number) {
-    try {
-      this.http
-        .get<{data: NewsModel}>(
-          'http://localhost:3000/haberler/news-id/' + id
-        )
-        .subscribe({
-          next: (data) => {
-            this.newsById = data.data;
-            this.newsByIdSubject.next(this.newsById);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        })
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: NewsModel}>(
+        'http://localhost:3000/haberler/news-id/' + id
+      )
+      .subscribe({
+        next: (data) => {
+          this.newsById = data.data;
+          this.newsByIdSubject.next(this.newsById);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getNewsByIdUpdateListener() {
@@ -94,23 +66,19 @@ export class NewsService {
   }
 
   getNewsForSlider() {
-    try {
-      this.http
-        .get<{data: NewsModel[]}>(
-          'http://localhost:3000/haberler/hot-topics'
-        )
-        .subscribe({
-          next: (data) => {
-            this.newsForSliderList = data.data;
-            this.newsForSliderListSubject.next([...this.newsForSliderList]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: NewsModel[]}>(
+        'http://localhost:3000/haberler/hot-topics'
+      )
+      .subscribe({
+        next: (data) => {
+          this.newsForSliderList = data.data;
+          this.newsForSliderListSubject.next([...this.newsForSliderList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getNewsForSliderUpdateListener() {

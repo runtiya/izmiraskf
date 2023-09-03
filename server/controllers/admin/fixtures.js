@@ -1,12 +1,14 @@
 const queries = require("../../queries/admin/fixtures");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getFixtureBySearchIndex(req, res, next) {
-  try {
     const searchIndex = req.body;
     var fixtureList = [];
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     let seasonSearchIndex = searchIndex.seasonId
       ? "seasonId = " + searchIndex.seasonId
@@ -82,27 +84,34 @@ function getFixtureBySearchIndex(req, res, next) {
         if (!error) {
           fixtureList = result;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _fixtureList = crypto.encryptData(fixtureList);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _fixtureList,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function createFixture(req, res, next) {
   var _matchList = req.body;
-  var message;
+  var _resStatus = 200;
   var _error = false;
+  var _message = null;
 
-  try {
     for (let m = 0; m < _matchList.length; m++) {
       var match = _matchList[m];
       connection.query(
@@ -133,30 +142,33 @@ function createFixture(req, res, next) {
           if (!error) {
             //pass
           } else {
-            message = error.sqlMessage;
-            console.log(message)
-            throw error;
+            errorService.handleError(
+              errorService.errors.DATABASE_ERROR.code,
+              errorService.errors.DATABASE_ERROR.message,
+              error.sqlMessage
+            );
+
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_ERROR.code;
+            _message = errorService.errors.DATABASE_ERROR.message;
+
+            res.status(_resStatus).json({
+              error: _error,
+              message: _message
+            });
+            return;
           }
         }
       );
     }
-  } catch (_error) {
-    connection.rollback(() => {
-      _error = true;
-    });
-  } finally {
-    res.status(200).json({
-
-    });
-  }
 }
 
 function updateFixture(req, res, next) {
   var _fixtureList = req.body;
-  var message;
+  var _resStatus = 200;
   var _error = false;
+  var _message = null;
 
-  try {
     for (let m = 0; m < _fixtureList.length; m++) {
       var match = _fixtureList[m];
       connection.query(
@@ -188,61 +200,87 @@ function updateFixture(req, res, next) {
           if (!error) {
             //pass
           } else {
-            message = error.message;
-            throw error;
+            errorService.handleError(
+              errorService.errors.DATABASE_ERROR.code,
+              errorService.errors.DATABASE_ERROR.message,
+              error.sqlMessage
+            );
+
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_ERROR.code;
+            _message = errorService.errors.DATABASE_ERROR.message;
+
+            res.status(_resStatus).json({
+              error: _error,
+              message: _message
+            });
+            return;
           }
         }
       );
     }
-  } catch (_error) {
-    connection.rollback(() => {
-      _error = true;
-    });
-  } finally {
-    res.status(200).json({
-
-    });
-  }
 }
 
 function deleteMatch(req, res, next) {
-  try {
     const id = req.params.id;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
-    connection.query(queries.deleteMatch, [id], (error, result) => {
-      if (error) {
-        message = error.sqlMessage;
-      }
+    connection.query(
+      queries.deleteMatch,
+      [id],
+      (error, result) => {
+        if (!error) {
 
-      res.status(200).json({
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
 
-      });
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+        }
+
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message
+        });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function clearFixture(req, res, next) {
-  try {
     const groupstageId = req.params.groupstageid;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
-    connection.query(queries.clearFixture, [groupstageId], (error, result) => {
-      if (error) {
-        var message = error.sqlMessage;
-      } else {
-        // pass
-      }
+    connection.query(
+      queries.clearFixture,
+      [groupstageId],
+      (error, result) => {
+        if (!error) {
 
-      res.status(200).json({
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
 
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+        }
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message
       });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 exports.getFixtureBySearchIndex = getFixtureBySearchIndex;

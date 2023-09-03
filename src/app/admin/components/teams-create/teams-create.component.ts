@@ -145,6 +145,7 @@ export class AdminTeamsCreateModal implements OnInit {
     if (this.teamSubmitForm.valid) {
       this.isLoading = true;
       this.teamSubmitForm.get('colorCodes').enable();
+      alert(this.teamSubmitForm.get('createdAt').value)
       if (this.pageMode === "create") {
         this.teamService.createTeam(this.teamSubmitForm.value);
       }

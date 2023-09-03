@@ -48,22 +48,15 @@ export class globalFunctions {
   }
 
   getConvertedDateEU(_date: string): string {
-    //convert "dd.MM.yyyy HH:mm" to "yyyy-MM-dd HH:mm:ss"
-    try {
-      if (_date !== null) {
-        const dateParts = _date.split(' ');
-        const datePart = dateParts[0].split('.').reverse().join('-');
-        const timePart = dateParts[1];
+    if (_date !== null) {
+      const dateParts = _date.split(' ');
+      const datePart = dateParts[0].split('.').reverse().join('-');
+      const timePart = dateParts[1];
 
-        return `${datePart} ${timePart}:00`;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      //pass
-      null;
+      return `${datePart} ${timePart}:00`;
+    } else {
+      return null;
     }
-
   }
 
   getDate(_date: Date | string): string {

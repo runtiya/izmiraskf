@@ -19,8 +19,7 @@ export class StaffIASKFService {
   ) {}
 
   getStaff() {
-    try {
-      this.http
+    this.http
       .get<{data: any}>(
         'http://localhost:3000/izmiraskf/yonetim-kurulu'
       )
@@ -30,13 +29,9 @@ export class StaffIASKFService {
           this.staffListUpdated.next([...this.staffList]);
         },
         error: (error) => {
-          this.globalFunctions.showSnackBar('server.error');
+          this.globalFunctions.showSnackBar(error);
         }
       });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
-
   }
 
   getStaffListUpdateListener() {

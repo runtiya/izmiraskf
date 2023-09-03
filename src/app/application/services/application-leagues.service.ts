@@ -17,23 +17,19 @@ export class LeaguesService {
   ) {}
 
   getLeagues(seasonId: number) {
-    try {
-      this.http
-        .get<{data: LeaguesModel[]}>(
-          'http://localhost:3000/ligler/' + seasonId
-        )
-        .subscribe({
-          next: (data) => {
-            this.leagueList = data.data;
-            this.leagueListSub.next([...this.leagueList]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: LeaguesModel[]}>(
+        'http://localhost:3000/ligler/' + seasonId
+      )
+      .subscribe({
+        next: (data) => {
+          this.leagueList = data.data;
+          this.leagueListSub.next([...this.leagueList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getLeagueListUpdateListener() {

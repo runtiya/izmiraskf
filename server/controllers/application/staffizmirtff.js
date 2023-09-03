@@ -1,31 +1,40 @@
 const queries = require("../../queries/application/staffizmirtff");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getStaffList(req, res, next) {
-  try {
-    var staffList = [];
-    var message;
+  var staffList = [];
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.getStaffList,
-      (error, result) => {
-        if (!error) {
-          staffList = result;
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.getStaffList,
+    (error, result) => {
+      if (!error) {
+        staffList = result;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        const _staffList = crypto.encryptData(staffList);
-
-        res.status(200).json({
-          data: _staffList,
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      const _staffList = crypto.encryptData(staffList);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _staffList
+      });
+    }
+  );
 }
 
 exports.getStaffList = getStaffList;

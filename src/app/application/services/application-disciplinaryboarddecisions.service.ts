@@ -18,23 +18,19 @@ export class DisciplinaryBoardDecisionsService {
   ) {}
 
   getDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
-    try {
-      this.http
-        .get<{ data: DisciplinaryBoardDecisionModel[] }>(
-          'http://localhost:3000/disiplin-kurulu-kararlari/' + disciplinaryBoardFileId
-        )
-        .subscribe({
-          next: (data) => {
-            this.disciplinaryBoardDecisionList = data.data;
-            this.disciplinaryBoardDecisionList.length > 0 ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{ data: DisciplinaryBoardDecisionModel[] }>(
+        'http://localhost:3000/disiplin-kurulu-kararlari/' + disciplinaryBoardFileId
+      )
+      .subscribe({
+        next: (data) => {
+          this.disciplinaryBoardDecisionList = data.data;
+          this.disciplinaryBoardDecisionList.length > 0 ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getDisciplinaryBoardDecisionsUpdateListener() {

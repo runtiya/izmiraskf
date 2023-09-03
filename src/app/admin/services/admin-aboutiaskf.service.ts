@@ -19,24 +19,19 @@ export class AboutIASKFService {
     ) {}
 
   getAboutContent() {
-    try {
-      this.http
-        .get<{data: AboutIASKFModel}>(
-          'http://localhost:3000/admin/izmiraskf/hakkimizda'
-        )
-        .subscribe({
-          next: (data) => {
-            this.aboutContent = data.data;
-            this.aboutContentSubject.next(this.aboutContent);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
-
+    this.http
+      .get<{ data: AboutIASKFModel }>(
+        'http://localhost:3000/admin/izmiraskf/hakkimizda'
+      )
+      .subscribe({
+        next: (data) => {
+          this.aboutContent = data.data;
+          this.aboutContentSubject.next(this.aboutContent);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getAboutContentListener() {
@@ -44,27 +39,23 @@ export class AboutIASKFService {
   }
 
   updateAboutContent(aboutContent: AboutIASKFModel) {
-    try {
-      const formData = new FormData();
-      formData.append('image', aboutContent.imageAttachment);
-      formData.append('aboutContent', JSON.stringify(aboutContent));
+    const formData = new FormData();
+    formData.append('image', aboutContent.imageAttachment);
+    formData.append('aboutContent', JSON.stringify(aboutContent));
 
-      this.http
-        .put<{ data: AboutIASKFModel }>(
-          'http://localhost:3000/admin/izmiraskf/hakkimizda', formData
-        )
-        .subscribe({
-          next: (data) => {
-            this.aboutContentSubject.next(data.data);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .put<{ data: AboutIASKFModel }>(
+        'http://localhost:3000/admin/izmiraskf/hakkimizda', formData
+      )
+      .subscribe({
+        next: (data) => {
+          this.aboutContentSubject.next(data.data);
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
 }

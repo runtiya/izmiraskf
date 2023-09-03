@@ -20,23 +20,19 @@ export class TeamsInGroupstagesService {
   ) {}
 
   getTeamsInGroupstages(groupstageId: number) {
-    try {
-      this.http
-        .get<{data: TeamsInGroupstagesModel[]}>(
-          'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageId
-        )
-        .subscribe({
-          next: (data) => {
-            this.teamsingroupstagesList = data.data;
-            !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: TeamsInGroupstagesModel[]}>(
+        'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageId
+      )
+      .subscribe({
+        next: (data) => {
+          this.teamsingroupstagesList = data.data;
+          !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getTeamsInGroupstagesUpdateListener() {
@@ -45,51 +41,43 @@ export class TeamsInGroupstagesService {
 
 
   createTeamsInGroupstages(teamsInGroupstagesList: TeamsInGroupstagesModel[], groupstageSelectionId: number) {
-    try {
-      this.http
-        .post<{data: TeamsInGroupstagesModel[]}>(
-          'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageSelectionId, teamsInGroupstagesList
-        )
-        .subscribe({
-          next: (data) => {
-            this.teamsingroupstagesList = teamsInGroupstagesList;
-            !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .post<{data: TeamsInGroupstagesModel[]}>(
+        'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageSelectionId, teamsInGroupstagesList
+      )
+      .subscribe({
+        next: (data) => {
+          this.teamsingroupstagesList = teamsInGroupstagesList;
+          !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
+          this.globalFunctions.showSnackBar("system.success.create");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   updateTeamsInGroupstages(teamInfo: TeamsInGroupstagesModel) {
-    try {
-      this.http
-        .put<{ }>(
-          'http://localhost:3000/admin/grup-takim-eslesmeleri', teamInfo
-        )
-        .subscribe({
-          next: (data) => {
-            this.teamsingroupstagesList.forEach((item, i) => {
-              if (item.id == teamInfo.id) {
-                this.teamsingroupstagesList[i]["isExpelled"] = teamInfo.isExpelled;
-                this.teamsingroupstagesList[i]["isReceded"] = teamInfo.isReceded;
-                this.teamsingroupstagesList[i]["weekofExpelledorReceded"] = teamInfo.weekofExpelledorReceded;
-                this.teamsingroupstagesList[i]["explanation"] = teamInfo.explanation;
-              }
-              this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]);
-              this.globalFunctions.showSnackBar("server.success");
-            });
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .put<{ data: TeamsInGroupstagesModel }>(
+        'http://localhost:3000/admin/grup-takim-eslesmeleri', teamInfo
+      )
+      .subscribe({
+        next: (data) => {
+          this.teamsingroupstagesList.forEach((item, i) => {
+            if (item.id == teamInfo.id) {
+              this.teamsingroupstagesList[i]["isExpelled"] = data.data.isExpelled;
+              this.teamsingroupstagesList[i]["isReceded"] = data.data.isReceded;
+              this.teamsingroupstagesList[i]["weekofExpelledorReceded"] = data.data.weekofExpelledorReceded;
+              this.teamsingroupstagesList[i]["explanation"] = data.data.explanation;
+            }
+            this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]);
+            this.globalFunctions.showSnackBar("system.success.update");
+          });
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 }

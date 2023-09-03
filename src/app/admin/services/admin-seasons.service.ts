@@ -16,24 +16,19 @@ export class SeasonsService {
     ) {}
 
   getSeasons() {
-    try {
-      this.http
-        .get<{data: SeasonsModel[]}>(
-          'http://localhost:3000/admin/sezonlar'
-        )
-        .subscribe({
-          next: (data) => {
-            this.seasonsList = data.data;
-            this.seasonsListSub.next([...this.seasonsList]);
-          },
-          error: (error) => {
-
-          }
-        });
-
-    } catch (error) {
-
-    }
+    this.http
+      .get<{data: SeasonsModel[]}>(
+        'http://localhost:3000/admin/sezonlar'
+      )
+      .subscribe({
+        next: (data) => {
+          this.seasonsList = data.data;
+          this.seasonsListSub.next([...this.seasonsList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getSeasonsListUpdateListener() {
@@ -41,72 +36,59 @@ export class SeasonsService {
   }
 
   createSeason(seasonInfo: SeasonsModel) {
-    try {
-      this.http
-        .post<{data: number}>(
-          'http://localhost:3000/admin/sezonlar', seasonInfo
-        )
-        .subscribe({
-          next: (data) => {
-            seasonInfo.id = data.data;
-            this.seasonsList.push(seasonInfo);
-            this.seasonsListSub.next([...this.seasonsList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .post<{data: SeasonsModel}>(
+        'http://localhost:3000/admin/sezonlar', seasonInfo
+      )
+      .subscribe({
+        next: (data) => {
+          this.seasonsList.push(data.data);
+          this.seasonsListSub.next([...this.seasonsList]);
+          this.globalFunctions.showSnackBar("system.success.create");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   updateSeason(seasonInfo: SeasonsModel) {
-    try {
-      this.http
-        .put<{ }>(
-          'http://localhost:3000/admin/sezonlar/' + seasonInfo.id, seasonInfo
-        )
-        .subscribe({
-          next: (data) => {
-            // Replace updated object with the old one
-            this.seasonsList.forEach((item, i) => {
-              if (item.id == seasonInfo.id) {
-                this.seasonsList[i] = seasonInfo;
-              }
-            });
-            this.seasonsListSub.next([...this.seasonsList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .put<{data: SeasonsModel}>(
+        'http://localhost:3000/admin/sezonlar/' + seasonInfo.id, seasonInfo
+      )
+      .subscribe({
+        next: (data) => {
+          // Replace updated object with the old one
+          this.seasonsList.forEach((item, i) => {
+            if (item.id == seasonInfo.id) {
+              this.seasonsList[i] = data.data;
+            }
+          });
+          this.seasonsListSub.next([...this.seasonsList]);
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   deleteSeason(seasonId: number) {
-    try {
-      this.http
-        .delete<{ }>(
-          'http://localhost:3000/admin/sezonlar/' + seasonId
-        )
-        .subscribe({
-          next: (data) => {
-            const filteredSeasonsList = this.seasonsList.filter(season => season.id !== seasonId);
-            this.seasonsList = filteredSeasonsList;
-            this.seasonsListSub.next([...this.seasonsList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .delete<{ }>(
+        'http://localhost:3000/admin/sezonlar/' + seasonId
+      )
+      .subscribe({
+        next: (data) => {
+          const filteredSeasonsList = this.seasonsList.filter(season => season.id !== seasonId);
+          this.seasonsList = filteredSeasonsList;
+          this.seasonsListSub.next([...this.seasonsList]);
+          this.globalFunctions.showSnackBar("system.success.delete");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 }

@@ -1,72 +1,99 @@
 const queries = require("../../queries/admin/teams");
-
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
 const imagesFunction = require("../../functions/images");
+const errorService = require('../../services/error-service.js');
 
 function getTeams(req, res, next) {
   (async () => {
-    try {
-      var teamsList = [];
-      var teamsCount = 0;
-      var message;
+    var teamsList = [];
+    var teamsCount = 0;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
-      const paginationPageSize = +req.query.paginationPageSize;
-      const paginationCurrentPage = +req.query.paginationCurrentPage;
+    const paginationPageSize = +req.query.paginationPageSize;
+    const paginationCurrentPage = +req.query.paginationCurrentPage;
 
-      teamsList = await new Promise((resolve, reject) => {
-        connection.query(
-          (!!paginationPageSize && !!paginationCurrentPage) ? queries.getTeamsWithPagination : queries.getTeams,
-          [
-            paginationPageSize,
-            (paginationCurrentPage - 1) * paginationPageSize
-          ],
+    teamsList = await new Promise((resolve, reject) => {
+      connection.query(
+        (!!paginationPageSize && !!paginationCurrentPage) ? queries.getTeamsWithPagination : queries.getTeams,
+        [
+          paginationPageSize,
+          (paginationCurrentPage - 1) * paginationPageSize
+        ],
+      (error,result) => {
+        if(!error){
+          resolve(result);
+        }else{
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+
+          res.status(_resStatus).json({
+            error: _error,
+            message: _message
+          });
+          return;
+          //resolve(error.sqlMessage);
+        }
+      });
+    });
+
+    teamsCount = await new Promise((resolve, reject) => {
+      connection.query(
+        "select count(1) as 'count' from view_admin_teams",
         (error,result) => {
           if(!error){
-            resolve(result);
+            resolve(result[0].count);
           }else{
-            resolve(error.sqlMessage);
+            errorService.handleError(
+              errorService.errors.DATABASE_ERROR.code,
+              errorService.errors.DATABASE_ERROR.message,
+              error.sqlMessage
+            );
+
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_ERROR.code;
+            _message = errorService.errors.DATABASE_ERROR.message;
+
+            res.status(_resStatus).json({
+              error: _error,
+              message: _message
+            });
+            return;
+            //resolve(error.sqlMessage);
           }
         });
-      });
+    });
 
-      teamsCount = await new Promise((resolve, reject) => {
-        connection.query(
-          "select count(1) as 'count' from view_admin_teams",
-          (error,result) => {
-            if(!error){
-              resolve(result[0].count);
-            }else{
-              resolve(error.sqlMessage);
-            }
-          });
-      });
+    const _teamsList = crypto.encryptData({teamsList: teamsList, teamsCount: teamsCount});
 
-      const _data = crypto.encryptData({teamsList: teamsList, teamsCount: teamsCount});
+    res.status(_resStatus).json({
+      error: _error,
+      message: _message,
+      data: _teamsList
+    });
 
-      res.status(200).json({
-        data: _data
-      });
-
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        message: error
-      })
-    };
 })();
 }
 
 // Get a team by id
 function findTeam(req, res, next) {
-  // There isn't any query. __MS
+
 }
 
 function createTeam(req, res, next) {
-  try {
     const teamInfo = JSON.parse(req.body.teamInfo);
-    var message;
-    var teamId;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
@@ -108,29 +135,36 @@ function createTeam(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          teamId = result.insertId;
-          teamInfo.id  = teamId;
+          teamInfo.id  = result.insertId;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        const _team = crypto.encryptData(teamInfo);
+        const _teamInfo = crypto.encryptData(teamInfo);
 
-        res.status(200).json({
-          data: _team,
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _teamInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function updateTeam(req, res, next) {
-  try {
     const teamInfo = JSON.parse(req.body.teamInfo);
-    var message;
     var teamId = req.params.id;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
@@ -176,25 +210,33 @@ function updateTeam(req, res, next) {
       (error, result) => {
         if (!error) {
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        const _team = crypto.encryptData(teamInfo);
+        const _teamInfo = crypto.encryptData(teamInfo);
 
-        res.status(200).json({
-          data: _team,
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _teamInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function deleteTeam(req, res, next) {
-  try {
     var teamId = req.params.id;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
 
     connection.query(
@@ -203,15 +245,22 @@ function deleteTeam(req, res, next) {
       (error, result) => {
       if (!error) {
       } else {
-        message = error.sqlMessage;
-      }
-      res.status(200).json({
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
+      }
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message
       });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 exports.getTeams = getTeams;

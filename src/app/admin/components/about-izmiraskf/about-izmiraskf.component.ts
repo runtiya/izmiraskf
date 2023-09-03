@@ -88,7 +88,6 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
   }
 
   onUpdateAboutText() {
-    //console.log(this.aboutIASKFform.get('mapUrl'));
 
     if (this.aboutIASKFform.valid) {
       this.aboutiaskfService.updateAboutContent(this.aboutIASKFform.value);
