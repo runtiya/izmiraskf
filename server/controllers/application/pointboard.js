@@ -1,34 +1,43 @@
 const queries = require("../../queries/application/pointboard");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getPointBoard(req, res, next) {
-  try {
-    const groupstageId = req.params.groupstageid;
-    const matchWeek = req.params.matchweek;
-    var pointBoard = [];
-    var message;
+  const groupstageId = req.params.groupstageid;
+  const matchWeek = req.params.matchweek;
+  var pointBoard = [];
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.getPointBoard,
-      [groupstageId, matchWeek],
-      (error, result) => {
-        if (!error) {
-          pointBoard = result;
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.getPointBoard,
+    [groupstageId, matchWeek],
+    (error, result) => {
+      if (!error) {
+        pointBoard = result;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        const _pointBoard = crypto.encryptData(pointBoard);
-
-        res.status(200).json({
-          data: _pointBoard,
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      const _pointBoard = crypto.encryptData(pointBoard);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _pointBoard,
+      });
+    }
+  );
 }
 
 exports.getPointBoard = getPointBoard;

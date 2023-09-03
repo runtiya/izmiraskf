@@ -1,12 +1,14 @@
 const queries = require("../../queries/admin/teamsingroupstages");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getTeamsInGroupstages(req, res, next) {
-  try {
     const groupstageId = req.params.groupstageId;
     var teamsingroupstagesList = [];
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.getTeamsInGroupstages,
@@ -15,66 +17,101 @@ function getTeamsInGroupstages(req, res, next) {
         if (!error) {
           teamsingroupstagesList = result;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _teamsingroupstagesList = crypto.encryptData(teamsingroupstagesList);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _teamsingroupstagesList,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function getTeamsForGroupstages(req, res, next) {
-  try {
     var teamsList = [];
-    var message;
-    connection.query(queries.getTeamsForGroupstages, (error, result) => {
-      if (!error) {
-        teamsList = result;
-      } else {
-        message = error.sqlMessage;
-      }
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
-      const _teamsList = crypto.encryptData(teamsList);
+    connection.query(
+      queries.getTeamsForGroupstages,
+      (error, result) => {
+        if (!error) {
+          teamsList = result;
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
 
-      res.status(200).json({
-        data: _teamsList,
-      });
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+        }
+
+        const _teamsList = crypto.encryptData(teamsList);
+
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _teamsList,
+        });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function createTeamsInGroupstages(req, res, next) {
-  const groupstageId = req.params.groupstageId;
-  var teamsList = req.body;
-  var message;
-  var error = false;
+  (async () => {
+    const groupstageId = req.params.groupstageId;
+    var teamsList = req.body;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
-  async function buildGroups() {
-    try {
-      await connection.query(
-        queries.createTeamsInGroupstagesBeforeInsert,
-        [groupstageId],
-        (error, result) => {
-          if (!error) {
-            null;
-          } else {
-            throw error;
-          }
+    await new Promise((resolve, reject) => {
+      connection.query(
+      queries.createTeamsInGroupstagesBeforeInsert,
+      [groupstageId],
+      (error, result) => {
+        if (!error) {
+          resolve(result);
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+
+          res.status(_resStatus).json({
+            error: _error,
+            message: _message
+          });
+          return;
+          //reject(error.sqlMessage)
         }
-      );
+      });
+    });
 
-      for (let i = 0; i < teamsList.length; i++) {
-        const team = teamsList[i];
-        await connection.query(
+    for (let i = 0; i < teamsList.length; i++) {
+      const team = teamsList[i];
+      await new Promise((resolve, reject) => {
+        connection.query(
           queries.createTeamsInGroupstages,
           [
             team.createdAt,
@@ -91,30 +128,43 @@ function createTeamsInGroupstages(req, res, next) {
             if (!error) {
               teamsList[i].id = result.insertId;
             } else {
-              throw error;
+              errorService.handleError(
+                errorService.errors.DATABASE_ERROR.code,
+                errorService.errors.DATABASE_ERROR.message,
+                error.sqlMessage
+              );
+
+              _error = true;
+              _resStatus = errorService.errors.DATABASE_ERROR.code;
+              _message = errorService.errors.DATABASE_ERROR.message;
+
+              res.status(_resStatus).json({
+                error: _error,
+                message: _message
+              });
+              return;
+              //reject(error.sqlMessage)
             }
           }
         );
-      }
-    } catch (err) {
-      connection.rollback(() => {
-
-      });
-    } finally {
-      const _teamsList = crypto.encryptData(teamsList);
-      res.status(200).json({
-        data: _teamsList,
       });
     }
-  }
+    const _teamsList = crypto.encryptData(teamsList);
 
-  buildGroups();
+    res.status(_resStatus).json({
+      errro: _error,
+      message: _message,
+      data: _teamsList,
+    });
+
+  });
 }
 
 function updateTeamsForGroupstages(req, res, next) {
-  try {
     const teamInfo = req.body;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.updateTeamsForGroupstages,
@@ -130,42 +180,62 @@ function updateTeamsForGroupstages(req, res, next) {
         teamInfo.id,
       ],
       (error, result) => {
-        if (error) {
-          message = error.sqlMessage;
+        if (!error) {
+
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        res.status(200).json({
+        const _teamInfo = crypto.encryptData(teamInfo);
 
+        res.status(_resStatus).json({
+          errro: _error,
+          message: _message,
+          data: _teamInfo,
         });
+
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function deleteTeamsInGroupstages(req, res, next) {
-  try {
     const groupstageId = req.params.groupstageId;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
-      queries,
-      deleteTeamsInGroupstages[groupstageId],
+      queries.deleteTeamsInGroupstages,
+      [groupstageId],
       (error, result) => {
         if (!error) {
+
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        res.status(200).json({
-
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 exports.getTeamsInGroupstages = getTeamsInGroupstages;

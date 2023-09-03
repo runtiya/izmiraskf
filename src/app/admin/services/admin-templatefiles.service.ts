@@ -28,7 +28,7 @@ export class TemplateFilesService {
             this.templateFilesListSub.next([...this.templateFilesList]);
           },
           error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
+            this.globalFunctions.showSnackBar(error);
           }
         });
     } catch (error) {
@@ -41,34 +41,30 @@ export class TemplateFilesService {
   }
 
   updateDocument(templateFileInfo: TemplateFilesModel) {
-    try {
-      const formData = new FormData();
-      formData.append('file', templateFileInfo.fileAttachment);
-      formData.append('category', 'TEMPLATEFILES');
-      formData.append('templateFileInfo', JSON.stringify(templateFileInfo));
+    const formData = new FormData();
+    formData.append('file', templateFileInfo.fileAttachment);
+    formData.append('category', 'TEMPLATEFILES');
+    formData.append('templateFileInfo', JSON.stringify(templateFileInfo));
 
-      this.http
-        .put<{ }>(
-          'http://localhost:3000/admin/template-files/' + templateFileInfo.id, formData
-        )
-        .subscribe({
-          next: (data) => {
-            // Replace updated object with the old one
-            this.templateFilesList.forEach((item, i) => {
-              if (item.id == templateFileInfo.id) {
-                this.templateFilesList[i] = templateFileInfo;
-              }
-            });
-            this.templateFilesListSub.next([...this.templateFilesList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .put<{ data: TemplateFilesModel }>(
+        'http://localhost:3000/admin/template-files/' + templateFileInfo.id, formData
+      )
+      .subscribe({
+        next: (data) => {
+          // Replace updated object with the old one
+          this.templateFilesList.forEach((item, i) => {
+            if (item.id == templateFileInfo.id) {
+              this.templateFilesList[i] = data.data;
+            }
+          });
+          this.templateFilesListSub.next([...this.templateFilesList]);
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
 }

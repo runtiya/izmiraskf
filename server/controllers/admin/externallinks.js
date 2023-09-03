@@ -2,37 +2,46 @@ const queryexternallinks = require("../../queries/admin/externallinks");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
 const imagesFunction = require("../../functions/images");
+const errorService = require('../../services/error-service.js');
 
 // Get all external links list
 function getExternalLinks(req, res, next) {
-  try {
     var extlinkList = [];
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(queryexternallinks.getExternalLinks, (error, result) => {
       if (!error) {
         extlinkList = result;
       } else {
-        message = error.sqlMessage;
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
+
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
 
       const _extlinkList = crypto.encryptData(extlinkList);
 
-      res.status(200).json({
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
         data: _extlinkList,
       });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
-// Create a external link
+
 function createExternalLink(req, res, next) {
-  try {
     const linkInfo = JSON.parse(req.body.linkInfo);
-    var message;
-    var linkId;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
@@ -63,29 +72,36 @@ function createExternalLink(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          linkId = result.insertId;
-          linkInfo.id = linkId;
+          linkInfo.id = result.insertId;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _linkInfo = crypto.encryptData(linkInfo);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _linkInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 // Update an external link by id
 function updateExternalLink(req, res, next) {
-  try {
     const linkInfo = JSON.parse(req.body.linkInfo);
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
@@ -119,43 +135,61 @@ function updateExternalLink(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
+
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _linkInfo = crypto.encryptData(linkInfo);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _linkInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 // Delete an external link by id
 function deleteExternalLink(req, res, next) {
-  try {
     var linkId = req.params.id;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
+
     connection.query(
       queryexternallinks.deleteExternalLink,
       [linkId],
       (error, result) => {
         if (!error) {
-        } else {
-          message = error.sqlMessage;
-        }
-        res.status(200).json({
 
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+        }
+
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 exports.getExternalLinks = getExternalLinks;

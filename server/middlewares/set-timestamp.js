@@ -9,9 +9,10 @@ module.exports = (req, res, next) => {
     const teamInfo = JSON.parse(req.body.teamInfo);
     teamInfo.createdAt = new Date().toISOString().slice(0, 19);
     req.body.teamInfo = JSON.stringify(teamInfo);
-    return next();
+
   } catch (error) {
     console.log(error)
-    res.status(401).json({ error: true, message: "You are not authenticated!" });
+  } finally {
+    return next();
   }
 };

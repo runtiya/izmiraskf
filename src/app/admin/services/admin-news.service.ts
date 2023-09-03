@@ -21,24 +21,20 @@ export class NewsService {
     ) {}
 
   getNews(paginationPageSize?: number, paginationCurrentPage?: number) {
-    try {
-      this.http
-        .get<{data: {newsList: NewsModel[], newsCount: number}}>(
-          `http://localhost:3000/admin/haberler?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
-        )
-       .subscribe({
-        next: (data) => {
-          this.newsList = data.data.newsList;
-          this.newsCount = data.data.newsCount;
-          this.newsUpdated.next(data.data);
-        },
-        error: (error) => {
-          this.globalFunctions.showSnackBar('server.error');
-        }
-       });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: {newsList: NewsModel[], newsCount: number}}>(
+        `http://localhost:3000/admin/haberler?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+      )
+      .subscribe({
+      next: (data) => {
+        this.newsList = data.data.newsList;
+        this.newsCount = data.data.newsCount;
+        this.newsUpdated.next(data.data);
+      },
+      error: (error) => {
+        this.globalFunctions.showSnackBar(error);
+      }
+      });
   }
 
   getNewsUpdateListener() {
@@ -46,81 +42,68 @@ export class NewsService {
   }
 
   createNews(newsInfo: NewsModel) {
-    try {
-      const formData = new FormData();
-      formData.append('image', newsInfo.imageAttachment);
-      formData.append('newsInfo', JSON.stringify(newsInfo));
+    const formData = new FormData();
+    formData.append('image', newsInfo.imageAttachment);
+    formData.append('newsInfo', JSON.stringify(newsInfo));
 
-      this.http
-        .post<{data: NewsModel}>(
-          'http://localhost:3000/admin/haberler', formData
-        )
-        .subscribe({
-          next: (data) => {
-            newsInfo = data.data;
-            this.newsList.push(newsInfo);
-            this.newsCount++;
-            this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .post<{data: NewsModel}>(
+        'http://localhost:3000/admin/haberler', formData
+      )
+      .subscribe({
+        next: (data) => {
+          this.newsList.push(data.data);
+          this.newsCount++;
+          this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});
+          this.globalFunctions.showSnackBar("system.success.create");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   updateNews(newsInfo: NewsModel) {
-    try {
-      const formData = new FormData();
-      formData.append('image', newsInfo.imageAttachment);
-      formData.append('newsInfo', JSON.stringify(newsInfo));
+    const formData = new FormData();
+    formData.append('image', newsInfo.imageAttachment);
+    formData.append('newsInfo', JSON.stringify(newsInfo));
 
-      this.http
-        .put<{ data: NewsModel }>(
-          'http://localhost:3000/admin/haberler/' + newsInfo.id, formData
-        )
-        .subscribe({
-          next: (data) => {
-            this.newsList.forEach((item, i) => {
-              if (item.id == newsInfo.id) {
-                this.newsList[i] = data.data;
-              }
-            });
-            this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .put<{ data: NewsModel }>(
+        'http://localhost:3000/admin/haberler/' + newsInfo.id, formData
+      )
+      .subscribe({
+        next: (data) => {
+          this.newsList.forEach((item, i) => {
+            if (item.id == newsInfo.id) {
+              this.newsList[i] = data.data;
+            }
+          });
+          this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   deleteNews(newsId: number) {
-    try {
-      this.http
-        .delete<{ }>(
-          'http://localhost:3000/admin/haberler/' + newsId
-        )
-        .subscribe({
-          next: (data) => {
-            const updatedNews = this.newsList.filter(news => news.id !== newsId);
-            this.newsList = updatedNews;
-            this.newsCount--;
-            this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .delete<{ }>(
+        'http://localhost:3000/admin/haberler/' + newsId
+      )
+      .subscribe({
+        next: (data) => {
+          const updatedNews = this.newsList.filter(news => news.id !== newsId);
+          this.newsList = updatedNews;
+          this.newsCount--;
+          this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});
+          this.globalFunctions.showSnackBar("system.success.delete");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 }

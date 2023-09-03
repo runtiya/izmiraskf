@@ -1,33 +1,42 @@
 const queries = require("../../queries/application/weeklymatchprogram");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getWeeklyMatchProgram(req, res, next) {
-  try {
-    var weeklyMatchProgramList = [];
-    var message;
-    var seasonId = req.params.seasonid;
+  var weeklyMatchProgramList = [];
+  var seasonId = req.params.seasonid;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.getWeeklyMatchProgram,
-      [seasonId],
-      (error, result) => {
-        if (!error) {
-          weeklyMatchProgramList = result;
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.getWeeklyMatchProgram,
+    [seasonId],
+    (error, result) => {
+      if (!error) {
+        weeklyMatchProgramList = result;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        const _weeklyMatchProgramList = crypto.encryptData(weeklyMatchProgramList);
-
-        res.status(200).json({
-          data: _weeklyMatchProgramList,
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      const _weeklyMatchProgramList = crypto.encryptData(weeklyMatchProgramList);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _weeklyMatchProgramList,
+      });
+    }
+  );
 }
 
 exports.getWeeklyMatchProgram = getWeeklyMatchProgram;

@@ -17,24 +17,19 @@ export class SeasonsService {
   ) {}
 
   getSeasons() {
-    try {
-      this.http
-        .get<{data: SeasonsModel[]}>(
-          'http://localhost:3000/sezonlar'
-        )
-        .subscribe({
-          next: (data) => {
-            this.seasonsList = data.data;
-            this.seasonsListSub.next([...this.seasonsList]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: SeasonsModel[]}>(
+        'http://localhost:3000/sezonlar'
+      )
+      .subscribe({
+        next: (data) => {
+          this.seasonsList = data.data;
+          this.seasonsListSub.next([...this.seasonsList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getSeasonsListUpdateListener() {

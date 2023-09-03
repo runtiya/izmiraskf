@@ -1,12 +1,14 @@
 const queries = require("../../queries/admin/weeklymatchlist");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getWeeklyMatchList(req, res, next) {
-  try {
     var weeklyMatchList = [];
-    var message;
     var weeklyMatchProgramId = req.params.weeklymatchprogramid;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.getWeeklyMatchList,
@@ -15,64 +17,91 @@ function getWeeklyMatchList(req, res, next) {
         if (!error) {
           weeklyMatchList = result;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _weeklyMatchList = crypto.encryptData(weeklyMatchList);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _weeklyMatchList,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function createWeeklyMatchList(req, res, next) {
   const weeklyMatchList = req.body;
-  var message;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
   var _error = false;
 
-  try {
+  (async () => {
     for (let i = 0; i < weeklyMatchList.length; i++) {
       const _match = weeklyMatchList[i];
 
-      connection.query(
-        queries.createWeeklyMatchList,
-        [
-          _match.createdAt,
-          _match.createdBy,
-          _match.updatedAt,
-          _match.updatedBy,
-          _match.weeklyMatchProgramId,
-          _match.matchId,
-          _match.matchNo,
-          _match.isInList,
-        ],
-        (error, result) => {
-          if (!error) {
-            //pass
-          } else {
-            message = error.sqlMessage;
+      await new Promise((resolve, reject) => {
+        connection.query(
+          queries.createWeeklyMatchList,
+          [
+            _match.createdAt,
+            _match.createdBy,
+            _match.updatedAt,
+            _match.updatedBy,
+            _match.weeklyMatchProgramId,
+            _match.matchId,
+            _match.matchNo,
+            _match.isInList,
+          ],
+          (error, result) => {
+            if (!error) {
+
+            } else {
+              errorService.handleError(
+                errorService.errors.DATABASE_ERROR.code,
+                errorService.errors.DATABASE_ERROR.message,
+                error.sqlMessage
+              );
+
+              _error = true;
+              _resStatus = errorService.errors.DATABASE_ERROR.code;
+              _message = errorService.errors.DATABASE_ERROR.message;
+
+              res.status(_resStatus).json({
+                error: _error,
+                message: _message
+              });
+              return;
+              // resolve(error.sqlMessage);
+            }
           }
-        }
-      );
+        );
+      })
     }
-  } catch (error) {
 
-  } finally {
-    res.status(200).json({
-
+    res.status(_resStatus).json({
+      error: _error,
+      message: _message
     });
-  }
+  });
+
 }
 
 function addMatchToList(req, res, next) {
-  try {
     const weeklyMatchInfo = req.body;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
     var weeklyMatchId;
 
     connection.query(
@@ -89,28 +118,36 @@ function addMatchToList(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          weeklyMatchId = result.insertId;
+          weeklyMatchInfo.id = result.insertId;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        const _weeklyMatchId = crypto.encryptData(weeklyMatchId);
+        const _weeklyMatchInfo = crypto.encryptData(weeklyMatchInfo);
 
-        res.status(200).json({
-          data: _weeklyMatchId,
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _weeklyMatchInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function updateWeeklyMatchList(req, res, next) {
-  try {
     const weeklyMatchInfo = req.body;
     var weeklyMatchId = req.params.id;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.updateWeeklyMatchList,
@@ -129,23 +166,33 @@ function updateWeeklyMatchList(req, res, next) {
       (error, result) => {
         if (!error) {
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        res.status(200).json({
+        const _weeklyMatchInfo = crypto.encryptData(weeklyMatchInfo);
 
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _weeklyMatchInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function clearWeeklyMatchList(req, res, next) {
-  try {
     var weeklyMatchProgramId = req.params.id;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.clearWeeklyMatchList,
@@ -153,23 +200,30 @@ function clearWeeklyMatchList(req, res, next) {
       (error, result) => {
         if (!error) {
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        res.status(200).json({
-
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function deleteMatchFromList(req, res, next) {
-  try {
     var weeklyMatchListId = req.params.id;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.deleteMatchFromList,
@@ -177,17 +231,23 @@ function deleteMatchFromList(req, res, next) {
       (error, result) => {
         if (!error) {
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        res.status(200).json({
-
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 exports.getWeeklyMatchList = getWeeklyMatchList;

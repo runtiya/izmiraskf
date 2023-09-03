@@ -16,27 +16,22 @@ export class StaffITFFService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {}
+  ) {}
 
   getStaff() {
-    try {
-      this.http
-        .get<{ data: StaffITFFModel[] }>(
-          'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi'
-        )
-        .subscribe({
-          next: (data) => {
-            this.staffList = data.data;
-            this.staffListUpdated.next([...this.staffList]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
-
+    this.http
+      .get<{ data: StaffITFFModel[] }>(
+        'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi'
+      )
+      .subscribe({
+        next: (data) => {
+          this.staffList = data.data;
+          this.staffListUpdated.next([...this.staffList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getStaffListUpdateListener() {
@@ -44,82 +39,68 @@ export class StaffITFFService {
   }
 
   createStaff(staffInfo: StaffITFFModel) {
-    try {
-      const formData = new FormData();
-      formData.append('image', staffInfo.imageAttachment);
-      formData.append('staffInfo', JSON.stringify(staffInfo));
+    const formData = new FormData();
+    formData.append('image', staffInfo.imageAttachment);
+    formData.append('staffInfo', JSON.stringify(staffInfo));
 
-      this.http
-        .post<{ data: StaffITFFModel }>(
-          'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi', formData
-        )
-        .subscribe({
-          next: (data) => {
-            staffInfo = data.data;
-            this.staffList.push(staffInfo);
-            this.staffListUpdated.next([...this.staffList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .post<{ data: StaffITFFModel }>(
+        'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi', formData
+      )
+      .subscribe({
+        next: (data) => {
+          this.staffList.push(data.data);
+          this.staffListUpdated.next([...this.staffList]);
+          this.globalFunctions.showSnackBar("system.success.create");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   updateStaff(staffInfo: StaffITFFModel) {
-    try {
-      const formData = new FormData();
-      formData.append('image', staffInfo.imageAttachment);
-      formData.append('staffInfo', JSON.stringify(staffInfo));
+    const formData = new FormData();
+    formData.append('image', staffInfo.imageAttachment);
+    formData.append('staffInfo', JSON.stringify(staffInfo));
 
-      this.http
-        .put<{ data: StaffITFFModel }>(
-          'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi/' + staffInfo.id, formData
-        )
-        .subscribe({
-          next: (data) => {
-            // Replace updated object with the old one
-            this.staffList.forEach((item, i) => {
-              if (item.id == staffInfo.id) {
-                this.staffList[i] = data.data;
-              }
-            });
-            this.staffListUpdated.next([...this.staffList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
-
+    this.http
+      .put<{ data: StaffITFFModel }>(
+        'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi/' + staffInfo.id, formData
+      )
+      .subscribe({
+        next: (data) => {
+          // Replace updated object with the old one
+          this.staffList.forEach((item, i) => {
+            if (item.id == staffInfo.id) {
+              this.staffList[i] = data.data;
+            }
+          });
+          this.staffListUpdated.next([...this.staffList]);
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   deleteStaff(staffId: number) {
-    try {
-      this.http
-        .delete<{ }>(
-          'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi/' + staffId
-        )
-        .subscribe({
-          next: (data) => {
-            const filteredStaffList = this.staffList.filter(staff => staff.id !== staffId);
-            this.staffList = filteredStaffList;
-            this.staffListUpdated.next([...this.staffList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .delete<{ }>(
+        'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi/' + staffId
+      )
+      .subscribe({
+        next: (data) => {
+          const filteredStaffList = this.staffList.filter(staff => staff.id !== staffId);
+          this.staffList = filteredStaffList;
+          this.staffListUpdated.next([...this.staffList]);
+          this.globalFunctions.showSnackBar("system.success.delete");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
 
   }
 }

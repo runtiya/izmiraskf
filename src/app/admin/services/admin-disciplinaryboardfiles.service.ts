@@ -17,23 +17,19 @@ export class DisciplinaryBoardFilesService {
     ) {}
 
   getDisciplinaryBoardFiles(seasonId: number, caseType: string) {
-    try {
-      this.http
-        .get<{ data: DisciplinaryBoardFileModel[] }>(
-          'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + seasonId + '/' + caseType
-        )
-        .subscribe({
-          next: (data) => {
-            this.disciplinaryBoardFileList = data.data;
-            this.disciplinaryBoardFileList.length > 0 ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
-          },
-          error: (error) => {
-
-          }
-        });
-    } catch (error) {
-
-    }
+    this.http
+      .get<{ data: DisciplinaryBoardFileModel[] }>(
+        'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + seasonId + '/' + caseType
+      )
+      .subscribe({
+        next: (data) => {
+          this.disciplinaryBoardFileList = data.data;
+          this.disciplinaryBoardFileList.length > 0 ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getDisciplinaryBoardFilesUpdateListener() {
@@ -41,71 +37,58 @@ export class DisciplinaryBoardFilesService {
   }
 
   createDisciplinaryBoardFile(disciplinaryBoardFileInfo: DisciplinaryBoardFileModel) {
-    try {
-      this.http
-        .post<{ data: number }>(
-          'http://localhost:3000/admin/disiplin-kurulu-dosyalari', disciplinaryBoardFileInfo
-        )
-        .subscribe({
-          next: (data) => {
-            disciplinaryBoardFileInfo.id = data.data;
-            this.disciplinaryBoardFileList.push(disciplinaryBoardFileInfo);
-            this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .post<{ data: DisciplinaryBoardFileModel }>(
+        'http://localhost:3000/admin/disiplin-kurulu-dosyalari', disciplinaryBoardFileInfo
+      )
+      .subscribe({
+        next: (data) => {
+          this.disciplinaryBoardFileList.push(data.data);
+          this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);
+          this.globalFunctions.showSnackBar("system.success.create");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   updateDisciplinaryBoardFile(disciplinaryBoardFileInfo: DisciplinaryBoardFileModel) {
-    try {
-      this.http
-        .put<{ }>(
-          'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + disciplinaryBoardFileInfo.id, disciplinaryBoardFileInfo
-        )
-        .subscribe({
-          next: (data) => {
-            this.disciplinaryBoardFileList.forEach((item, i) => {
-              if (item.id == disciplinaryBoardFileInfo.id) {
-                this.disciplinaryBoardFileList[i] = disciplinaryBoardFileInfo;
-              }
-            });
-            this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .put<{ data: DisciplinaryBoardFileModel }>(
+        'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + disciplinaryBoardFileInfo.id, disciplinaryBoardFileInfo
+      )
+      .subscribe({
+        next: (data) => {
+          this.disciplinaryBoardFileList.forEach((item, i) => {
+            if (item.id == disciplinaryBoardFileInfo.id) {
+              this.disciplinaryBoardFileList[i] = data.data;
+            }
+          });
+          this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   deleteDisciplinaryBoardFile(disciplinaryBoardFileId: number) {
-    try {
-      this.http
-        .delete<{ }>(
-          'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + disciplinaryBoardFileId
-        )
-        .subscribe({
-          next: (data) => {
-            const filteredDisciplinaryBoardFileList = this.disciplinaryBoardFileList.filter(file => file.id !== disciplinaryBoardFileId);
-            this.disciplinaryBoardFileList = filteredDisciplinaryBoardFileList;
-            this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .delete<{ }>(
+        'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + disciplinaryBoardFileId
+      )
+      .subscribe({
+        next: (data) => {
+          const filteredDisciplinaryBoardFileList = this.disciplinaryBoardFileList.filter(file => file.id !== disciplinaryBoardFileId);
+          this.disciplinaryBoardFileList = filteredDisciplinaryBoardFileList;
+          this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);
+          this.globalFunctions.showSnackBar("system.success.delete");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 }

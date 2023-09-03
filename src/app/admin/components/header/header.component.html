@@ -133,9 +133,9 @@
 
 
     <div class="d-flex align-items-center" *ngIf="true">
-      <mat-card-subtitle>{{authenticatedUser.fullName}}</mat-card-subtitle>
-      <img *ngIf="false" mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="">
-      <img *ngIf="true" mat-card-avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s" alt="">
+      <mat-card-subtitle>{{userFullName}}</mat-card-subtitle>
+      <img *ngIf="userProfileImage" mat-card-avatar [src]="userProfileImage" [alt]="userName">
+      <img *ngIf="!userProfileImage" mat-card-avatar [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="'No Profile Image'">
     </div>
 
   </div>

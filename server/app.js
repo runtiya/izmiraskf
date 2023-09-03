@@ -53,7 +53,7 @@ const { url } = require('inspector');
 
 
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json({limit:'3000kb'}));
+app.use(bodyParser.json({limit:'8392kb'}));
 
 app.use("/images/", express.static(path.join("server/images")));
 app.use("/images/teams", express.static(path.join("server/images/teams")));
@@ -133,5 +133,6 @@ app.use('/weekly-match-list', applicationWeeklyMatchListRoutes);
 app.use('/statistics', applicationStatisticsRoutes);
 
 app.use('*', (req, res, next) => {res.status(404).json({message: '404 Not Found!'})});
+
 
 module.exports = app;

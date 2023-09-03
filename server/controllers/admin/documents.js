@@ -2,12 +2,14 @@ const queries = require("../../queries/admin/documents");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
 const filesFunction = require("../../functions/files");
+const errorService = require('../../services/error-service.js');
 
 function getDocuments(req, res, next) {
-  try {
     const fileCategory = req.params.filecategory;
     var documentsList = [];
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.getDocuments,
@@ -16,27 +18,33 @@ function getDocuments(req, res, next) {
       if (!error) {
         documentsList = result;
       } else {
-        message = error.sqlMessage;
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
+
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
 
       const _documentsList = crypto.encryptData(documentsList);
 
-      res.status(200).json({
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
         data: _documentsList,
       });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function createDocument(req, res, next) {
-  try {
     const documentInfo = JSON.parse(req.body.documentInfo);
     const fileCategory = req.params.filecategory;
-    var documentId;
-    var documentFilePath;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
 
     if (!!req.file) {
@@ -75,35 +83,38 @@ function createDocument(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          documentId = result.insertId;
-          documentFilePath = documentInfo.filePath;
+          documentInfo.id = result.insertId;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        const _data = crypto.encryptData({
-          documentId: documentId,
-          documentFilePath: documentFilePath
-        });
-        const _documentId = crypto.encryptData(documentId);
+        const _documentInfo = crypto.encryptData({documentInfo});
 
-        res.status(200).json({
-          data: _data,
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _documentInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function updateDocument(req, res, next) {
-  try {
     const documentInfo = JSON.parse(req.body.documentInfo);
     const fileCategory = req.params.filecategory;
     const documentId = req.params.id;
     var documentFilePath;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
@@ -144,29 +155,35 @@ function updateDocument(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          documentFilePath = documentInfo.filePath;
+
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        const _data = crypto.encryptData({
-          documentFilePath: documentFilePath
-        });
+        const _documentInfo = crypto.encryptData({documentInfo});
 
-        res.status(200).json({
-          data: _data,
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _documentInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function deleteDocument(req, res, next) {
-  try {
     const documentId = req.params.id;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.deleteDocument,
@@ -175,17 +192,23 @@ function deleteDocument(req, res, next) {
         if (!error) {
 
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        res.status(200).json({
-
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 exports.getDocuments = getDocuments;

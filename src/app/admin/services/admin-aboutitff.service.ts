@@ -19,23 +19,19 @@ export class AboutITFFService {
     ) {}
 
   getAboutContent() {
-    try {
-      this.http
-        .get<{data: AboutITFFModel}>(
-          'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda'
-        )
-        .subscribe({
-          next: (data) => {
-            this.aboutContent = data.data;
-            this.aboutContentSubject.next(this.aboutContent);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{ data: AboutITFFModel }>(
+        'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda'
+      )
+      .subscribe({
+        next: (data) => {
+          this.aboutContent = data.data;
+          this.aboutContentSubject.next(this.aboutContent);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
 
   }
 
@@ -44,27 +40,23 @@ export class AboutITFFService {
   }
 
   updateAboutContent(aboutContent: AboutITFFModel) {
-    try {
-      const formData = new FormData();
-      formData.append('image', aboutContent.imageAttachment);
-      formData.append('aboutContent', JSON.stringify(aboutContent));
+    const formData = new FormData();
+    formData.append('image', aboutContent.imageAttachment);
+    formData.append('aboutContent', JSON.stringify(aboutContent));
 
-      this.http
-        .put<{ data: AboutITFFModel }>(
-          'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda', formData
-        )
-        .subscribe({
-          next: (data) => {
-            this.aboutContentSubject.next(data.data);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .put<{ data: AboutITFFModel }>(
+        'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda', formData
+      )
+      .subscribe({
+        next: (data) => {
+          this.aboutContentSubject.next(data.data);
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
 
   }
 

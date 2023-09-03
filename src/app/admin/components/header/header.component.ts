@@ -15,10 +15,14 @@ export class AdminHeader implements OnInit, OnDestroy {
   authenticatedUser: UserModel = <UserModel>{};
   title: string = null;
   private authenticatedUserSub: Subscription;
+
+  userName: string = null;
+  userProfileImage: string = null;
+  userFullName: string = null;
+
   logoPath: string = null;
   private logoPathSubscription: Subscription;
   @Output() public sidenavToggle = new EventEmitter();
-
 
   constructor(
     private authService: AuthService,
@@ -26,6 +30,9 @@ export class AdminHeader implements OnInit, OnDestroy {
   ){}
 
   ngOnInit(): void {
+    this.userName = this.authService.getUserName();
+    this.userProfileImage = this.authService.getUserProfileImage();
+    this.userFullName = this.authService.getUserFullName();
     this.authenticatedUserSub = this.authService.getAuthenticatedUserListener()
     .subscribe({
       next: (data) => {
@@ -35,7 +42,6 @@ export class AdminHeader implements OnInit, OnDestroy {
 
       }
     });
-
 
     this.globalIzmirASKFService.getLogoPath();
     this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()

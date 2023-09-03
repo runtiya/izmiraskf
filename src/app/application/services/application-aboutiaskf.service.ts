@@ -17,24 +17,19 @@ export class AboutIASKFService {
   ) {}
 
   getAboutContent() {
-    try {
-      this.http
-        .get<{data: AboutIASKFModel}>(
-          'http://localhost:3000/izmiraskf/hakkimizda'
-        )
-        .subscribe({
-          next: (data) => {
-            this.aboutContent = data.data;
-            this.aboutContentSubject.next(this.aboutContent);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
-
+    this.http
+      .get<{data: AboutIASKFModel}>(
+        'http://localhost:3000/izmiraskf/hakkimizda'
+      )
+      .subscribe({
+        next: (data) => {
+          this.aboutContent = data.data;
+          this.aboutContentSubject.next(this.aboutContent);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
 

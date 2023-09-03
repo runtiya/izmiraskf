@@ -15,9 +15,10 @@ function encryptData(data) {
       iv: iv.toString('hex'), // Şifreleme için kullanılan IV'yi hex formatında döndürün
       encryptedData: encryptedData,
     };
+
   } catch (error) {
-    //console.log(error)
-    return null;
+    //return null;
+    return data;
 
   }
 

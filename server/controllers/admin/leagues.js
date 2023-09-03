@@ -1,12 +1,14 @@
 const queries = require("../../queries/admin/leagues");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getLeagues(req, res, next) {
-  try {
     var leagueList = [];
     const seasonId = req.params.seasonid;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(queries.getLeagues,
       [seasonId],
@@ -14,25 +16,32 @@ function getLeagues(req, res, next) {
       if (!error) {
         leagueList = result;
       } else {
-        message = error.sqlMessage;
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
+
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
 
       const _leagueList = crypto.encryptData(leagueList);
 
-      res.status(200).json({
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
         data: _leagueList,
       });
     });
-  } catch (error) {
-    next(error);
-  }
 }
 
 function createLeague(req, res, next) {
-  try {
     const leagueInfo = req.body;
-    var message;
-    var leagueId;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.createLeague,
@@ -50,27 +59,35 @@ function createLeague(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          leagueId = result.insertId;
+          leagueInfo = result.insertId;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        const _leagueId = crypto.encryptData(leagueId);
+        const _leagueInfo = crypto.encryptData(leagueInfo);
 
-        res.status(200).json({
-          data: _leagueId,
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _leagueInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function updateLeague(req, res, next) {
-  try {
     const leagueInfo = req.body;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(
       queries.updateLeague,
@@ -89,36 +106,59 @@ function updateLeague(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-        } else {
-          message = error.sqlMessage;
-        }
-        res.status(200).json({
 
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+        }
+
+        const _leagueInfo = crypto.encryptData(leagueInfo);
+
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
+          data: _leagueInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function deleteLeague(req, res, next) {
-  try {
     var leagueId = req.params.id;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
-    connection.query(queries.deleteLeague, [leagueId], (error, result) => {
-      if (!error) {
-      } else {
-        message = error.sqlMessage;
-      }
-      res.status(200).json({
+    connection.query(
+      queries.deleteLeague,
+      [leagueId],
+      (error, result) => {
+        if (!error) {
 
-      });
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+        }
+
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message
+        });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 exports.getLeagues = getLeagues;

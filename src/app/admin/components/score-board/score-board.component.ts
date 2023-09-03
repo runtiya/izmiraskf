@@ -365,7 +365,6 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
   }
 
   onMatchExplanationChange(_matchNo: string, _explanation: string) {
-    console.log(_explanation)
     let match = <FixtureModel>{};
     match = this.fixtureList.find(f => f.matchNo == _matchNo);
     let matchIndex = this.fixtureList.findIndex(f => f.matchNo == _matchNo);

@@ -18,23 +18,19 @@ export class DisciplinaryBoardFilesService {
   ) {}
 
   getDisciplinaryBoardFiles(seasonId: number, caseType: string) {
-    try {
-      this.http
-        .get<{ data: DisciplinaryBoardFileModel[] }>(
-          'http://localhost:3000/disiplin-kurulu-dosyalari/' + seasonId + '/' + caseType
-        )
-        .subscribe({
-          next: (data) => {
-            this.disciplinaryBoardFileList = data.data;
-            this.disciplinaryBoardFileList.length > 0 ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{ data: DisciplinaryBoardFileModel[] }>(
+        'http://localhost:3000/disiplin-kurulu-dosyalari/' + seasonId + '/' + caseType
+      )
+      .subscribe({
+        next: (data) => {
+          this.disciplinaryBoardFileList = data.data;
+          this.disciplinaryBoardFileList.length > 0 ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getDisciplinaryBoardFilesUpdateListener() {

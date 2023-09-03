@@ -15,27 +15,23 @@ export class TeamsService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {}
+  ) {}
 
   getTeams(paginationPageSize?: number, paginationCurrentPage?: number) {
-    try {
-      this.http
-        .get<{ data: {teamsList: TeamsModel[], teamsCount: number} }>(
-          `http://localhost:3000/admin/takimlar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
-        )
-        .subscribe({
-          next: (data) => {
-            this.teamsList = data.data.teamsList;
-            this.teamsCount = data.data.teamsCount;
-            this.teamsListSub.next(data.data);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{ data: {teamsList: TeamsModel[], teamsCount: number} }>(
+        `http://localhost:3000/admin/takimlar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+      )
+      .subscribe({
+        next: (data) => {
+          this.teamsList = data.data.teamsList;
+          this.teamsCount = data.data.teamsCount;
+          this.teamsListSub.next(data.data);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getTeamById(teamId: number) {
@@ -47,82 +43,69 @@ export class TeamsService {
   }
 
   createTeam(teamInfo: TeamsModel) {
-    try {
-      const formData = new FormData();
-      formData.append('image', teamInfo.imageAttachment);
-      formData.append('teamInfo', JSON.stringify(teamInfo));
+    const formData = new FormData();
+    formData.append('image', teamInfo.imageAttachment);
+    formData.append('teamInfo', JSON.stringify(teamInfo));
 
-      this.http
-        .post<{ data: TeamsModel }>(
-          'http://localhost:3000/admin/takimlar', formData
-        )
-        .subscribe({
-          next: (data) => {
-            teamInfo = data.data;
-            this.teamsList.push(teamInfo);
-            this.teamsCount++;
-            this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .post<{ data: TeamsModel }>(
+        'http://localhost:3000/admin/takimlar', formData
+      )
+      .subscribe({
+        next: (data) => {
+          this.teamsList.push(data.data);
+          this.teamsCount++;
+          this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});
+          this.globalFunctions.showSnackBar("system.success.create");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   updateTeam(teamInfo: TeamsModel) {
-    try {
-      const formData = new FormData();
-      formData.append('image', teamInfo.imageAttachment);
-      formData.append('teamInfo', JSON.stringify(teamInfo));
+    const formData = new FormData();
+    formData.append('image', teamInfo.imageAttachment);
+    formData.append('teamInfo', JSON.stringify(teamInfo));
 
-      this.http
-        .put<{ data: TeamsModel }>(
-          'http://localhost:3000/admin/takimlar/' + teamInfo.id, formData
-        )
-        .subscribe({
-          next: (data) => {
-            // Replace updated object with the old one
-            this.teamsList.forEach((item, i) => {
-              if (item.id == teamInfo.id) {
-                this.teamsList[i] = data.data;
-              }
-            });
-            this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .put<{ data: TeamsModel }>(
+        'http://localhost:3000/admin/takimlar/' + teamInfo.id, formData
+      )
+      .subscribe({
+        next: (data) => {
+          // Replace updated object with the old one
+          this.teamsList.forEach((item, i) => {
+            if (item.id == teamInfo.id) {
+              this.teamsList[i] = data.data;
+            }
+          });
+          this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   deleteTeam(teamId: number) {
-    try {
-      this.http
-        .delete<{ }>(
-          'http://localhost:3000/admin/takimlar/' + teamId
-        )
-        .subscribe({
-          next: (data) => {
-            const filteredteamsList = this.teamsList.filter(team => team.id !== teamId);
-            this.teamsList = filteredteamsList;
-            this.teamsCount--;
-            this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .delete<{ }>(
+        'http://localhost:3000/admin/takimlar/' + teamId
+      )
+      .subscribe({
+        next: (data) => {
+          const filteredteamsList = this.teamsList.filter(team => team.id !== teamId);
+          this.teamsList = filteredteamsList;
+          this.teamsCount--;
+          this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});
+          this.globalFunctions.showSnackBar("system.success.delete");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 }

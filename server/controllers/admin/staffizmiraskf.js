@@ -2,36 +2,45 @@ const queries = require("../../queries/admin/staffizmiraskf");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
 const imagesFunction = require("../../functions/images");
+const errorService = require('../../services/error-service.js');
 
 function getStaffList(req, res, next) {
-  try {
     var staffList = [];
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     connection.query(queries.getStaffList,
       (error, result) => {
       if (!error) {
         staffList = result;
       } else {
-        message = error.sqlMessage;
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
+
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
 
       const _staffList = crypto.encryptData(staffList);
 
-      res.status(200).json({
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
         data: _staffList,
       });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function createStaff(req, res, next) {
-  try {
     const staffInfo = JSON.parse(req.body.staffInfo);
-    var message;
-    var staffId;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
@@ -62,28 +71,35 @@ function createStaff(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          staffId = result.insertId;
-          staffInfo.id = staffId;
+          staffInfo.id = result.insertId;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _staffInfo = crypto.encryptData(staffInfo);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _staffInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function updateStaff(req, res, next) {
-  try {
     const staffInfo = JSON.parse(req.body.staffInfo);
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
@@ -118,41 +134,56 @@ function updateStaff(req, res, next) {
       (error, result) => {
         if (!error) {
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _staffInfo = crypto.encryptData(staffInfo);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _staffInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function deleteStaff(req, res, next) {
-  try {
     var staffId = req.params.id;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
+
     connection.query(
       queries.deleteStaff,
       [staffId],
       (error, result) => {
       if (!error) {
       } else {
-        message = error.sqlMessage;
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
+
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
 
-      res.status(200).json({
-
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message
       });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 exports.getStaffList = getStaffList;

@@ -1,13 +1,15 @@
 const queries = require("../../queries/application/news");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getNews(req, res, next) {
   (async () => {
-  try {
     var newsList = [];
     var newsCount = 0;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     const paginationPageSize = +req.query.paginationPageSize;
     const paginationCurrentPage = +req.query.paginationCurrentPage;
@@ -23,6 +25,16 @@ function getNews(req, res, next) {
           if (!error) {
             resolve(result);
           } else {
+            errorService.handleError(
+              errorService.errors.DATABASE_ERROR.code,
+              errorService.errors.DATABASE_ERROR.message,
+              error.sqlMessage
+            );
+
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_ERROR.code;
+            _message = errorService.errors.DATABASE_ERROR.message;
+
             resolve(error.sqlMessage);
           }
         })
@@ -35,78 +47,99 @@ function getNews(req, res, next) {
           if(!error){
             resolve(result[0].count);
           }else{
+            errorService.handleError(
+              errorService.errors.DATABASE_ERROR.code,
+              errorService.errors.DATABASE_ERROR.message,
+              error.sqlMessage
+            );
+
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_ERROR.code;
+            _message = errorService.errors.DATABASE_ERROR.message;
             resolve(error.sqlMessage);
           }
         })
     });
 
-      const _data = crypto.encryptData({newsList: newsList, newsCount: newsCount});
+      const _newsList = crypto.encryptData({newsList: newsList, newsCount: newsCount});
 
-      res.status(200).json({
-        data: _data,
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _newsList,
       });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-          message: error
-        });
-    }
   })();
   }
 
 
 function getNewsById(req, res, next) {
-  try {
-    var news;
-    var newsId = req.params.id;
-    var message;
+  var news;
+  var newsId = req.params.id;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.getNewsById,
-      [newsId],
-      (error, result) => {
-        if (!error) {
-          news = result[0];
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.getNewsById,
+    [newsId],
+    (error, result) => {
+      if (!error) {
+        news = result[0];
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        const _news = crypto.encryptData(news);
-
-        res.status(200).json({
-          data: _news,
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      const _news = crypto.encryptData(news);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _news,
+      });
+    }
+  );
 }
 
 function getNewsForSlider(req, res, next) {
-  try {
-    var newsList = [];
-    var message;
+  var newsList = [];
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.getNewsForSlider,
-      (error, result) => {
-        if (!error) {
-          newsList = result;
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.getNewsForSlider,
+    (error, result) => {
+      if (!error) {
+        newsList = result;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        const _newsList = crypto.encryptData(newsList);
-
-        res.status(200).json({
-          data: _newsList,
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      const _newsList = crypto.encryptData(newsList);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _newsList,
+      });
+    }
+  );
 }
 
 exports.getNews = getNews;

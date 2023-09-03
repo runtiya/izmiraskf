@@ -26,23 +26,19 @@ export class WeeklyMatchListService {
   ) {}
 
   getWeeklyMatchList(weeklyMatchProgramId: number) {
-    try {
-      this.http
-        .get<{data: WeeklyMatchListModel[]}>(
-          'http://localhost:3000/admin/weekly-match-list/' + weeklyMatchProgramId
-        )
-        .subscribe({
-          next: (data) => {
-            this.weeklyMatchList = data.data;
-            this.weeklyMatchListSub.next([...this.weeklyMatchList]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: WeeklyMatchListModel[]}>(
+        'http://localhost:3000/admin/weekly-match-list/' + weeklyMatchProgramId
+      )
+      .subscribe({
+        next: (data) => {
+          this.weeklyMatchList = data.data;
+          this.weeklyMatchListSub.next([...this.weeklyMatchList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getWeeklyMatchListUpdateListener() {
@@ -51,22 +47,18 @@ export class WeeklyMatchListService {
 
 
   createWeeklyMatchList(weeklyMatchListInfo: WeeklyMatchListModel[]) {
-    try {
-      this.http
-        .post<{ }>(
-          'http://localhost:3000/admin/weekly-match-list/create', weeklyMatchListInfo
-        )
-        .subscribe({
-          next: (data) => {
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .post<{ }>(
+        'http://localhost:3000/admin/weekly-match-list/create', weeklyMatchListInfo
+      )
+      .subscribe({
+        next: (data) => {
+          this.globalFunctions.showSnackBar("system.success.create");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   buildWeeklyMatchList(weeklyMatchProgramInfo: WeeklyMatchProgramModel, fixtureSearchIndex: FixtureSearchModel) {
@@ -110,72 +102,60 @@ export class WeeklyMatchListService {
   }
 
   updateMatchList(weeklyMatchInfo: WeeklyMatchListModel) {
-    try {
-      this.http
-        .put<{ }>(
-          'http://localhost:3000/admin/weekly-match-list/' + weeklyMatchInfo.id, weeklyMatchInfo
-        )
-        .subscribe({
-          next: (data) => {
-            this.weeklyMatchList.forEach((item, i) => {
-              if (item.id == weeklyMatchInfo.id) {
-                this.weeklyMatchList[i] = weeklyMatchInfo;
-              }
-            });
-            this.weeklyMatchListSub.next([...this.weeklyMatchList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .put<{ data: WeeklyMatchListModel }>(
+        'http://localhost:3000/admin/weekly-match-list/' + weeklyMatchInfo.id, weeklyMatchInfo
+      )
+      .subscribe({
+        next: (data) => {
+          this.weeklyMatchList.forEach((item, i) => {
+            if (item.id == weeklyMatchInfo.id) {
+              this.weeklyMatchList[i] = data.data;
+            }
+          });
+          this.weeklyMatchListSub.next([...this.weeklyMatchList]);
+          this.globalFunctions.showSnackBar("system.success.update");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   clearMatchList(weeklyMatchProgramId: number, fixtureSearchIndex: FixtureSearchModel) {
-    try {
-      this.http
-        .delete<{ }>(
-          'http://localhost:3000/admin/weekly-match-list/clear/' + weeklyMatchProgramId
-        )
-        .subscribe({
-          next: (data) => {
-            this.weeklyMatchList = [];
-              this.weeklyMatchListSub.next([]);
-              this.fixtureService.getFixtureBySearchIndex(fixtureSearchIndex);
-              this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .delete<{ }>(
+        'http://localhost:3000/admin/weekly-match-list/clear/' + weeklyMatchProgramId
+      )
+      .subscribe({
+        next: (data) => {
+          this.weeklyMatchList = [];
+            this.weeklyMatchListSub.next([]);
+            this.fixtureService.getFixtureBySearchIndex(fixtureSearchIndex);
+            this.globalFunctions.showSnackBar("system.success.delete");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   deleteMatchFromList(weeklyMatchListId: number) {
-    try {
-      this.http
-        .delete<{ }>(
-          'http://localhost:3000/admin/weekly-match-list/delete/' + weeklyMatchListId
-        )
-        .subscribe({
-          next: (data) => {
-            const filteredWeeklyMatchList = this.weeklyMatchList.filter(wml => wml.id !== weeklyMatchListId);
-            this.weeklyMatchList = filteredWeeklyMatchList;
-            this.weeklyMatchListSub.next([...this.weeklyMatchList]);
-            this.globalFunctions.showSnackBar("server.success");
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .delete<{ }>(
+        'http://localhost:3000/admin/weekly-match-list/delete/' + weeklyMatchListId
+      )
+      .subscribe({
+        next: (data) => {
+          const filteredWeeklyMatchList = this.weeklyMatchList.filter(wml => wml.id !== weeklyMatchListId);
+          this.weeklyMatchList = filteredWeeklyMatchList;
+          this.weeklyMatchListSub.next([...this.weeklyMatchList]);
+          this.globalFunctions.showSnackBar("system.success.delete");
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
 }

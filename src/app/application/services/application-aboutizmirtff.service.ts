@@ -17,24 +17,19 @@ export class AboutITFFService {
   ) {}
 
   getAboutContent() {
-    try {
-      this.http
-        .get<{data: AboutITFFModel}>(
-          'http://localhost:3000/tffiltemsilciligi/hakkimizda'
-        )
-        .subscribe({
-          next: (data) => {
-            this.aboutContent = data.data;
-            this.aboutContentSubject.next(this.aboutContent);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-
-    }
-
+    this.http
+      .get<{data: AboutITFFModel}>(
+        'http://localhost:3000/tffiltemsilciligi/hakkimizda'
+      )
+      .subscribe({
+        next: (data) => {
+          this.aboutContent = data.data;
+          this.aboutContentSubject.next(this.aboutContent);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getAboutContentListener() {

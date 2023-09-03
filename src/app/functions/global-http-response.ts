@@ -22,8 +22,13 @@ export class ResponseInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       tap((event) => {
         if (event instanceof HttpResponse) {
-          event.body.data = this.decryptData(event.body.data);
-          return event;
+          const responseData = event.body;
+          responseData.data = this.decryptData(event.body.data);
+          delete responseData.error;
+          delete responseData.message;
+
+          return event.clone({ body: responseData });
+          //return event;
         }
       })
     );

@@ -2,13 +2,15 @@ const queries = require("../../queries/admin/news");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
 const imagesFunction = require("../../functions/images");
+const errorService = require('../../services/error-service.js');
 
 function getNews(req, res, next) {
   (async () => {
-  try {
     var newsList = [];
     var newsCount = 0;
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     const paginationPageSize = +req.query.paginationPageSize;
     const paginationCurrentPage = +req.query.paginationCurrentPage;
@@ -24,7 +26,22 @@ function getNews(req, res, next) {
           if(!error){
             resolve(result);
           }else{
-            resolve(error.sqlMessage);
+            errorService.handleError(
+              errorService.errors.DATABASE_ERROR.code,
+              errorService.errors.DATABASE_ERROR.message,
+              error.sqlMessage
+            );
+
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_ERROR.code;
+            _message = errorService.errors.DATABASE_ERROR.message;
+
+            res.status(_resStatus).json({
+              error: _error,
+              message: _message
+            });
+            return;
+            //resolve(error.sqlMessage);
           }
         })
     });
@@ -36,23 +53,34 @@ function getNews(req, res, next) {
           if(!error){
             resolve(result[0].count);
           }else{
-            resolve(error.sqlMessage);
+            errorService.handleError(
+              errorService.errors.DATABASE_ERROR.code,
+              errorService.errors.DATABASE_ERROR.message,
+              error.sqlMessage
+            );
+
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_ERROR.code;
+            _message = errorService.errors.DATABASE_ERROR.message;
+
+            res.status(_resStatus).json({
+              error: _error,
+              message: _message
+            });
+            return;
+            //resolve(error.sqlMessage);
           }
         })
     });
 
-      const _data = crypto.encryptData({newsList: newsList, newsCount: newsCount});
+      const _newsList = crypto.encryptData({newsList: newsList, newsCount: newsCount});
 
-      res.status(200).json({
-        data: _data,
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _newsList,
       });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: error
-    });
-}
- })();
+  })();
 }
 
 // Get a news by id
@@ -61,10 +89,10 @@ function findNews(req, res, next) {
 }
 
 function createNews(req, res, next) {
-  try {
     const newsInfo = JSON.parse(req.body.newsInfo);
-    var message;
-    var newsId;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
@@ -94,28 +122,35 @@ function createNews(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          newsId = result.insertId;
-          newsInfo.id = newsId;
+          newsInfo.id = result.insertId;
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _newsInfo = crypto.encryptData(newsInfo);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _newsInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function updateNews(req, res, next) {
-  try {
     const newsInfo = JSON.parse(req.body.newsInfo);
-    var message;
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
     var newsId = req.params.id;
 
     if (!!req.file) {
@@ -147,41 +182,59 @@ function updateNews(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          //
+
         } else {
-          message = error.sqlMessage;
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
         }
 
         const _newsInfo = crypto.encryptData(newsInfo);
 
-        res.status(200).json({
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message,
           data: _newsInfo,
         });
       }
     );
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 function deleteNews(req, res, next) {
-  try {
     var newsId = req.params.id;
-    var message;
-    connection.query(queries.deleteNews, [newsId], (error, result) => {
-      if (!error) {
-        //
-      } else {
-        message = error.sqlMessage;
-      }
+    var _resStatus = 200;
+    var _error = false;
+    var _message = null;
 
-      res.status(200).json({
+    connection.query(
+      queries.deleteNews,
+      [newsId],
+      (error, result) => {
+        if (!error) {
 
-      });
+        } else {
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+        }
+
+        res.status(_resStatus).json({
+          error: _error,
+          message: _message
+        });
     });
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 exports.getNews = getNews;

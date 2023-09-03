@@ -17,23 +17,19 @@ export class DocumentsService {
   ) {}
 
   getDocuments(category: string) {
-    try {
-      this.http
-        .get<{data: DocumentsModel[]}>(
-          'http://localhost:3000/dokumanlar/' + category
-        )
-        .subscribe({
-          next: (data) => {
-            this.documentsList = data.data;
-            this.documentsListSub.next([...this.documentsList]);
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: DocumentsModel[]}>(
+        'http://localhost:3000/dokumanlar/' + category
+      )
+      .subscribe({
+        next: (data) => {
+          this.documentsList = data.data;
+          this.documentsListSub.next([...this.documentsList]);
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getDocumentsListUpdateListener() {

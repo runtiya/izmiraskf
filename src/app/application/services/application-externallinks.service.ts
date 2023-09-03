@@ -19,29 +19,25 @@ export class ExternalLinksService {
   ) {}
 
   getLinks(_linkType: string) {
-    try {
-      this.http
-        .get<{data: ExternalLinksModel[]}>(
-          'http://localhost:3000/disbaglantilar/' + _linkType
-        )
-        .subscribe({
-          next: (data) => {
-            this.extLinksList = data.data;
-              if (_linkType === 'SOCIALMEDIA') {
-                this.extLinksListSub.next([...this.extLinksList]);
-              } else if (_linkType === 'RELATEDLINK') {
-                this.extRelatedLinksListSub.next([...this.extLinksList]);
-              } else if (_linkType === 'ADVERTISEMENT') {
-                this.extAdvertisementListSub.next([...this.extLinksList]);
-              }
-          },
-          error: (error) => {
-            this.globalFunctions.showSnackBar('server.error');
-          }
-        });
-    } catch (error) {
-      this.globalFunctions.showSnackBar('system.error');
-    }
+    this.http
+      .get<{data: ExternalLinksModel[]}>(
+        'http://localhost:3000/disbaglantilar/' + _linkType
+      )
+      .subscribe({
+        next: (data) => {
+          this.extLinksList = data.data;
+            if (_linkType === 'SOCIALMEDIA') {
+              this.extLinksListSub.next([...this.extLinksList]);
+            } else if (_linkType === 'RELATEDLINK') {
+              this.extRelatedLinksListSub.next([...this.extLinksList]);
+            } else if (_linkType === 'ADVERTISEMENT') {
+              this.extAdvertisementListSub.next([...this.extLinksList]);
+            }
+        },
+        error: (error) => {
+          this.globalFunctions.showSnackBar(error);
+        }
+      });
   }
 
   getExternalLinksUpdateListener() {

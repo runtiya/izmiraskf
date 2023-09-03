@@ -1,162 +1,207 @@
 const queries = require('../../queries/admin/disciplinaryboarddecisions');
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getDisciplinaryBoardDecisions(req, res, next) {
-  try {
-    var disciplinaryBoardDecisionList = [];
-    var message;
-    const disciplinaryBoardFileId = req.params.fileid;
+  var disciplinaryBoardDecisionList = [];
+  const disciplinaryBoardFileId = req.params.fileid;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.getDisciplinaryBoardDecisions,
-      [disciplinaryBoardFileId],
-      (error, result) => {
-        if (!error) {
-          disciplinaryBoardDecisionList = result;
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.getDisciplinaryBoardDecisions,
+    [disciplinaryBoardFileId],
+    (error, result) => {
+      if (!error) {
+        disciplinaryBoardDecisionList = result;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
 
-        const _disciplinaryBoardDecisionList = crypto.encryptData(disciplinaryBoardDecisionList);
-
-        res.status(200).json({
-          data: _disciplinaryBoardDecisionList,
-        });
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      const _disciplinaryBoardDecisionList = crypto.encryptData(disciplinaryBoardDecisionList);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _disciplinaryBoardDecisionList
+      });
+    }
+  );
 }
 
 function createDisciplinaryBoardDecision(req, res, next) {
-  try {
-    const disciplinaryBoardDecisionInfo = req.body;
-    var message;
-    var disciplinaryBoardDecisionId;
+  const disciplinaryBoardDecisionInfo = req.body;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.createDisciplinaryBoardDecision,
-      [
-        disciplinaryBoardDecisionInfo.createdAt,
-        disciplinaryBoardDecisionInfo.createdBy,
-        disciplinaryBoardDecisionInfo.updatedAt,
-        disciplinaryBoardDecisionInfo.updatedBy,
-        disciplinaryBoardDecisionInfo.disciplinaryBoardFileId,
-        disciplinaryBoardDecisionInfo.leagueId,
-        disciplinaryBoardDecisionInfo.teamId,
-        disciplinaryBoardDecisionInfo.fullName,
-        disciplinaryBoardDecisionInfo.licenseNo,
-        disciplinaryBoardDecisionInfo.belongingTo,
-        disciplinaryBoardDecisionInfo.penalType,
-        disciplinaryBoardDecisionInfo.duration,
-        disciplinaryBoardDecisionInfo.explanation,
-      ],
-      (error, result) => {
-        if (!error) {
-          disciplinaryBoardDecisionId = result.insertId;
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.createDisciplinaryBoardDecision,
+    [
+      disciplinaryBoardDecisionInfo.createdAt,
+      disciplinaryBoardDecisionInfo.createdBy,
+      disciplinaryBoardDecisionInfo.updatedAt,
+      disciplinaryBoardDecisionInfo.updatedBy,
+      disciplinaryBoardDecisionInfo.disciplinaryBoardFileId,
+      disciplinaryBoardDecisionInfo.leagueId,
+      disciplinaryBoardDecisionInfo.teamId,
+      disciplinaryBoardDecisionInfo.fullName,
+      disciplinaryBoardDecisionInfo.licenseNo,
+      disciplinaryBoardDecisionInfo.belongingTo,
+      disciplinaryBoardDecisionInfo.penalType,
+      disciplinaryBoardDecisionInfo.duration,
+      disciplinaryBoardDecisionInfo.explanation,
+    ],
+    (error, result) => {
+      if (!error) {
+        disciplinaryBoardDecisionInfo.id = result.insertId;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        const _disciplinaryBoardDecisionId = crypto.encryptData(disciplinaryBoardDecisionId);
-
-        res.status(200).json({
-          data: _disciplinaryBoardDecisionId,
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      const _disciplinaryBoardDecisionInfo = crypto.encryptData(disciplinaryBoardDecisionInfo);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _disciplinaryBoardDecisionInfo,
+      });
+    }
+  );
 }
 
 function updateDisciplinaryBoardDecision(req, res, next) {
-  try {
-    const disciplinaryBoardDecisionInfo = req.body;
-    var message;
+  const disciplinaryBoardDecisionInfo = req.body;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.updateDisciplinaryBoardDecision,
-      [
-        disciplinaryBoardDecisionInfo.createdAt,
-        disciplinaryBoardDecisionInfo.createdBy,
-        disciplinaryBoardDecisionInfo.updatedAt,
-        disciplinaryBoardDecisionInfo.updatedBy,
-        disciplinaryBoardDecisionInfo.disciplinaryBoardFileId,
-        disciplinaryBoardDecisionInfo.leagueId,
-        disciplinaryBoardDecisionInfo.teamId,
-        disciplinaryBoardDecisionInfo.fullName,
-        disciplinaryBoardDecisionInfo.licenseNo,
-        disciplinaryBoardDecisionInfo.belongingTo,
-        disciplinaryBoardDecisionInfo.penalType,
-        disciplinaryBoardDecisionInfo.duration,
-        disciplinaryBoardDecisionInfo.explanation,
-        disciplinaryBoardDecisionInfo.id,
-      ],
-      (error, result) => {
-        if (!error) {
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.updateDisciplinaryBoardDecision,
+    [
+      disciplinaryBoardDecisionInfo.createdAt,
+      disciplinaryBoardDecisionInfo.createdBy,
+      disciplinaryBoardDecisionInfo.updatedAt,
+      disciplinaryBoardDecisionInfo.updatedBy,
+      disciplinaryBoardDecisionInfo.disciplinaryBoardFileId,
+      disciplinaryBoardDecisionInfo.leagueId,
+      disciplinaryBoardDecisionInfo.teamId,
+      disciplinaryBoardDecisionInfo.fullName,
+      disciplinaryBoardDecisionInfo.licenseNo,
+      disciplinaryBoardDecisionInfo.belongingTo,
+      disciplinaryBoardDecisionInfo.penalType,
+      disciplinaryBoardDecisionInfo.duration,
+      disciplinaryBoardDecisionInfo.explanation,
+      disciplinaryBoardDecisionInfo.id,
+    ],
+    (error, result) => {
+      if (!error) {
 
-        res.status(200).json({
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
+
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      const _disciplinaryBoardDecisionInfo = crypto.encryptData(disciplinaryBoardDecisionInfo);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _disciplinaryBoardDecisionInfo
+      });
+    }
+  );
 }
 
 function deleteDisciplinaryBoardDecision(req, res, next) {
-  try {
-    var disciplinaryBoardDecisionId = req.params.id;
-    var message;
+  var disciplinaryBoardDecisionId = req.params.id;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.deleteDisciplinaryBoardDecision,
-      [disciplinaryBoardDecisionId],
-      (error, result) => {
-        if (!error) {
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.deleteDisciplinaryBoardDecision,
+    [disciplinaryBoardDecisionId],
+    (error, result) => {
+      if (!error) {
 
-        res.status(200).json({
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
+
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message
+      });
+    }
+  );
 }
 
 function clearDisciplinaryBoardDecisions(req, res, next) {
-  try {
-    var disciplinaryBoardFileId = req.params.fileid;
-    var message;
+  var disciplinaryBoardFileId = req.params.fileid;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.clearDisciplinaryBoardDecisions,
-      [disciplinaryBoardFileId],
-      (error, result) => {
-        if (!error) {
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.clearDisciplinaryBoardDecisions,
+    [disciplinaryBoardFileId],
+    (error, result) => {
+      if (!error) {
 
-        res.status(200).json({
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message
+      });
+    }
+  );
 }
 
 exports.getDisciplinaryBoardDecisions = getDisciplinaryBoardDecisions;

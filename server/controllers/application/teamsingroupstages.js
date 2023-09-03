@@ -1,58 +1,76 @@
 const queries = require("../../queries/application/teamsingroupstages");
 const connection = require("../../functions/database").connectDatabase();
 const crypto = require('../../functions/crypto');
+const errorService = require('../../services/error-service.js');
 
 function getTeamsInGroupstages(req, res, next) {
-  try {
-    const groupstageId = req.params.groupstageId;
-    var teamsingroupstagesList = [];
-    var message;
+  const groupstageId = req.params.groupstageId;
+  var teamsingroupstagesList = [];
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    connection.query(
-      queries.getTeamsInGroupstages,
-      [groupstageId],
-      (error, result) => {
-        if (!error) {
-          teamsingroupstagesList = result;
-        } else {
-          message = error.sqlMessage;
-        }
+  connection.query(
+    queries.getTeamsInGroupstages,
+    [groupstageId],
+    (error, result) => {
+      if (!error) {
+        teamsingroupstagesList = result;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        const _teamsingroupstagesList = crypto.encryptData(teamsingroupstagesList);
-
-        res.status(200).json({
-          data: _teamsingroupstagesList,
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      const _teamsingroupstagesList = crypto.encryptData(teamsingroupstagesList);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _teamsingroupstagesList,
+      });
+    }
+  );
 }
 
 function getTeamsForGroupstages(req, res, next) {
-  try {
-    var teamsList = [];
-    var message;
-    connection.query(
-      queries.getTeamsForGroupstages,
-      (error, result) => {
-        if (!error) {
-          teamsList = result;
-        } else {
-          message = error.sqlMessage;
-        }
+  var teamsList = [];
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-        const _teamsList = crypto.encryptData(teamsList);
+  connection.query(
+    queries.getTeamsForGroupstages,
+    (error, result) => {
+      if (!error) {
+        teamsList = result;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-        res.status(200).json({
-          data: _teamsList,
-        });
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      const _teamsList = crypto.encryptData(teamsList);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _teamsList,
+      });
+    }
+  );
 }
 
 exports.getTeamsInGroupstages = getTeamsInGroupstages;
