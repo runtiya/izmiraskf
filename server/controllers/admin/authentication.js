@@ -1,4 +1,5 @@
-const connection = require("../../functions/database").connectDatabase();
+//const connection = require('../../functions/database.js').connectDatabase();
+const connection = require('../../functions/database.js');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require('../../functions/crypto');
