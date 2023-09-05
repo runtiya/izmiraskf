@@ -9,3 +9,8 @@
 mat-card-subtitle {
   color: whitesmoke;
 }
+
+.navbar-toggler {
+  color: #3F51B5;
+  background-color: whitesmoke;
+}

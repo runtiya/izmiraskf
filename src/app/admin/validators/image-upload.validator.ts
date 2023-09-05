@@ -14,7 +14,7 @@ export const imageUploadValidator = (control: AbstractControl): Promise<{[key: s
       let isValid = false;
       const mimeTypeArray = imageMimeTypeList;
 
-      isValid = (mimeTypeArray.find((element) => {return element == file.type}) ? true : false) && file.size < 5242880; // 5MB limitation
+      isValid = (mimeTypeArray.find((element) => {return element == file.type}) ? true : false) && file.size < 8388608; // 8MB limitation
 
       if (isValid) {
         observer.next(null);

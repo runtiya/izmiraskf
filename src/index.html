@@ -13,11 +13,33 @@
   <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
   <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet" />
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2nwWe78mR0JMxr6hqg5HoCMXawOehUrU&libraries=visualization"></script>
-
   <!-- https://weatherwidget.io/ -->
   <script>
-    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+
+    !function(d,s,id) {
+      console.log(d);
+      console.log(s);
+      console.log(id);
+      var js,fjs = d.getElementsByTagName(s)[0];
+      console.log(js);
+      console.log(fjs);
+      if(!d.getElementById(id)) {
+        console.log('if-block begin')
+        js=d.createElement(s);
+        js.id=id;
+        js.src='https://weatherwidget.io/js/widget.min.js';
+        fjs.parentNode.insertBefore(js,fjs);
+
+        console.log(js)
+        console.log(fjs);
+        console.log('if-block end')
+      }
+
+
+    }
+    //(document,'script','weatherwidget-io-js');
+
+
   </script>
 
 </head>

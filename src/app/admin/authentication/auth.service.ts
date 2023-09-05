@@ -14,10 +14,7 @@ export class AuthService {
   private isAuthenticated = false;
   private token: string;
   private tokenTimer: any;
-  private userName: string;
-  private userType: string;
-  private userProfileImage: string;
-  private userFullName: string;
+  private userInfo: UserModel;
   private authStatusListener = new Subject<boolean>();
 
   private usersList: UserModel[] = [];
@@ -41,19 +38,23 @@ export class AuthService {
   }
 
   getUserName() {
-    return this.userName;
+    return this.userInfo.userName;
   }
 
   getUserType() {
-    return this.userType;
+    return this.userInfo.userType;
   }
 
   getUserProfileImage() {
-    return this.userProfileImage;
+    return this.userInfo.imagePath;
   }
 
   getUserFullName() {
-    return this.userFullName;
+    return this.userInfo.fullName;
+  }
+
+  getAuthenticatedUser() {
+    return this.authenticatedUser;
   }
 
   getAuthStatusListener() {
@@ -148,10 +149,6 @@ export class AuthService {
             const expiresInDuration = data.data.expiresIn;
             this.setAuthTimer(expiresInDuration);
             this.isAuthenticated = true;
-            this.userName = data.data.user.userName.toString();
-            this.userType = data.data.user.userType.toString();
-            this.userProfileImage = data.data.user.imagePath.toString();
-            this.userFullName = data.data.user.fullName.toString();
             this.authStatusListener.next(true);
             this.authenticatedUser = data.data.user;
             this.authenticatedUserListener.next(data.data.user);
@@ -159,7 +156,7 @@ export class AuthService {
             const expirationDate = new Date(
               now.getTime() + expiresInDuration * 1000
             );
-            this.saveAuthData(this.token, expirationDate, this.userName, this.userType);
+            this.saveAuthData(this.token, expirationDate, data.data.user);
             this.globalFunctions.showSnackBar('login.success');
             this.router.navigate(['/admin/anasayfa']);
           } else {
@@ -189,7 +186,7 @@ export class AuthService {
     if (expiresIn > 0) {
       this.token = authInformation.token;
       this.isAuthenticated = true;
-      this.userName = authInformation.userName;
+      this.userInfo = authInformation.userInfo;
       this.setAuthTimer(expiresIn / 1000);
       this.authStatusListener.next(true);
     }
@@ -201,7 +198,7 @@ export class AuthService {
     this.authStatusListener.next(false);
     this.authenticatedUser = <UserModel>{};
     this.authenticatedUserListener.next(this.authenticatedUser);
-    this.userName = null;
+    this.userInfo = <UserModel>{};
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
 
@@ -220,33 +217,29 @@ export class AuthService {
     }, duration * 1000);
   }
 
-  private saveAuthData(token: string, expirationDate: Date, userName: string, userType: string) {
+  private saveAuthData(token: string, expirationDate: Date, user: UserModel) {
     localStorage.setItem("token", token);
     localStorage.setItem("expiration", expirationDate.toISOString());
-    localStorage.setItem("userName", userName);
-    localStorage.setItem("userType", userType)
+    localStorage.setItem("userInfo", JSON.stringify(user));
   }
 
   private clearAuthData() {
     localStorage.removeItem("token");
     localStorage.removeItem("expiration");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userType");
+    localStorage.removeItem("userInfo");
   }
 
   private getAuthData() {
     const token = localStorage.getItem("token");
     const expirationDate = localStorage.getItem("expiration");
-    const userName = localStorage.getItem("userName");
-    const userType = localStorage.getItem("userType");
+    const userInfo = localStorage.getItem("userName");
     if (!token || !expirationDate) {
       return;
     }
     return {
       token: token,
       expirationDate: new Date(expirationDate),
-      userName: userName,
-      userType: userType
+      userInfo: JSON.parse(userInfo)
     };
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { FormControl, NgForm } from "@angular/forms";
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE }  from "@angular/material/core";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { Router } from "@angular/router";
 
 import { NewsModel } from "../../models/application-news.model";
@@ -28,9 +28,10 @@ export class ApplicationHome implements OnInit, OnDestroy {
     private externalLinksService: ExternalLinksService,
     private globalFunctions: globalFunctions,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.weatherForecast(document, 'script', 'weatherwidget-io-js');
     this.globalFunctions.setToolbarTitle(null);
 
     this.newsService.getNewsForSlider();
@@ -40,8 +41,28 @@ export class ApplicationHome implements OnInit, OnDestroy {
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
           this.extAdvertisementList = data;
+        },
+        error: (error) => {
+
         }
-      })
+      });
+  }
+
+  weatherForecast(d, s, id) {
+    var js,fjs = d.getElementsByTagName(s)[0];
+    js=d.createElement(s);
+    js.id=id;
+    js.src='https://weatherwidget.io/js/widget.min.js';
+    fjs.parentNode.insertBefore(js,fjs);
+    /*
+    if(!d.getElementById(id)) {
+      js=d.createElement(s);
+      js.id=id;
+      js.src='https://weatherwidget.io/js/widget.min.js';
+      fjs.parentNode.insertBefore(js,fjs);
+      console.log(js)
+    }
+    */
   }
 
   showNewsList() {

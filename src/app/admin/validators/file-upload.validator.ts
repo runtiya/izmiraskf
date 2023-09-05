@@ -15,7 +15,7 @@ export const fileUploadValidator = (control: AbstractControl): Promise<{[key: st
       let isValid = false;
       const mimeTypeArray = fileMimeTypeList;
 
-      isValid = (mimeTypeArray.find((element) => {return element == file.type}) ? true : false) && file.size < 10485760; // 10MB limitation
+      isValid = (mimeTypeArray.find((element) => {return element == file.type}) ? true : false) && file.size < 8388608; // 8MB limitation
 
       if (isValid) {
         observer.next(null);

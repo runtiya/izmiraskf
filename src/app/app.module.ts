@@ -156,6 +156,7 @@ import { ApplicationFooter } from "./application/components/footer/footer.compon
 import { GlobalStatisticsTeamsCountByTown } from "./components/statistics-teams-count-by-town/statistics-teams-count-by-town.component";
 import { GlobalStatisticsStadiumsCountByTown } from "./components/statistics-stadiums-count-by-town/statistics-stadiums-count-by-town.component";
 import { GlobalStatisticsStadiumsCountByFloorType } from "./components/statistics-stadiums-count-by-floortype/statistics-stadiums-count-by-floortype.component";
+import { GlobalStatisticsMatchStatusByTown } from "./components/statistics-matchstatus-by-league/statistics-matchstatus-by-league.component";
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -294,7 +295,7 @@ import { ResponseInterceptor } from "./functions/global-http-response";
     GlobalStatisticsTeamsCountByTown,
     GlobalStatisticsStadiumsCountByTown,
     GlobalStatisticsStadiumsCountByFloorType,
-
+    GlobalStatisticsMatchStatusByTown
 
   ],
   imports: [

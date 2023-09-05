@@ -30,6 +30,9 @@ export class AdminHeader implements OnInit, OnDestroy {
   ){}
 
   ngOnInit(): void {
+    this.authenticatedUser = this.authService.getAuthenticatedUser() || JSON.parse(localStorage.getItem("userInfo"));
+    console.log(this.authenticatedUser)
+    /*
     this.userName = this.authService.getUserName();
     this.userProfileImage = this.authService.getUserProfileImage();
     this.userFullName = this.authService.getUserFullName();
@@ -42,6 +45,7 @@ export class AdminHeader implements OnInit, OnDestroy {
 
       }
     });
+    */
 
     this.globalIzmirASKFService.getLogoPath();
     this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
@@ -59,7 +63,7 @@ export class AdminHeader implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.authenticatedUserSub.unsubscribe();
+    //this.authenticatedUserSub.unsubscribe();
     this.logoPathSubscription.unsubscribe();
   }
 

@@ -1,0 +1,17 @@
+<div>
+  <mat-form-field class="form-input">
+    <mat-label>Sezon</mat-label>
+    <mat-select
+      matInput
+      placeholder="Sezon"
+      [(ngModel)]="seasonSelectionId"
+      (selectionChange)="onSeasonChange(seasonSelectionId)"
+    >
+      <mat-option *ngFor="let season of seasonsList" [value]="season.id">
+        {{ season.seasonName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <apx-chart [series]="chartOptions.series" [chart]="chartOptions.details" [title]="chartOptions.title" [labels]="chartOptions.labels" [dataLabels]="chartOptions.dataLabels" [colors]="chartOptions.colors"></apx-chart>
+</div>

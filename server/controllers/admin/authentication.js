@@ -1,4 +1,5 @@
-const connection = require("../../functions/database").connectDatabase();
+//const connection = require('../../functions/database.js').connectDatabase();
+const connection = require('../../functions/database.js');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require('../../functions/crypto');
@@ -16,13 +17,13 @@ function getUsers(req, res, next) {
       usersList = result;
     } else {
       errorService.handleError(
-        errorService.errors.SERVER_ERROR_DATABASE.code,
-        errorService.errors.SERVER_ERROR_DATABASE.message,
+        errorService.errors.DATABASE_ERROR.code,
+        errorService.errors.DATABASE_ERROR.message,
         error.sqlMessage
       );
       _error = true;
-      _resStatus = errorService.errors.SERVER_ERROR_DATABASE.code;
-      _message = errorService.errors.SERVER_ERROR_DATABASE.message;
+      _resStatus = errorService.errors.DATABASE_ERROR.code;
+      _message = errorService.errors.DATABASE_ERROR.message;
     }
 
     const _usersList = crypto.encryptData(usersList);
@@ -82,13 +83,13 @@ function createUser(req, res, next) {
               userInfo.id = result.insertId;
             } else {
               errorService.handleError(
-                errorService.errors.SERVER_ERROR_DATABASE.code,
-                errorService.errors.SERVER_ERROR_DATABASE.message,
+                errorService.errors.DATABASE_ERROR.code,
+                errorService.errors.DATABASE_ERROR.message,
                 error.sqlMessage
               );
               _error = true;
-              _resStatus = errorService.errors.SERVER_ERROR_DATABASE.code;
-              _message = errorService.errors.SERVER_ERROR_DATABASE.message;
+              _resStatus = errorService.errors.DATABASE_ERROR.code;
+              _message = errorService.errors.DATABASE_ERROR.message;
             }
 
             const _userInfo = crypto.encryptData(userInfo);
@@ -103,13 +104,13 @@ function createUser(req, res, next) {
       });
   } catch (error) {
     errorService.handleError(
-      errorService.errors.SERVER_ERROR_DATABASE.code,
-      errorService.errors.SERVER_ERROR_DATABASE.message,
+      errorService.errors.DATABASE_ERROR.code,
+      errorService.errors.DATABASE_ERROR.message,
       error.sqlMessage
     );
     _error = true;
-    _resStatus = errorService.errors.SERVER_ERROR_DATABASE.code;
-    _message = errorService.errors.SERVER_ERROR_DATABASE.message;
+    _resStatus = errorService.errors.DATABASE_ERROR.code;
+    _message = errorService.errors.DATABASE_ERROR.message;
 
     res.status(_resStatus).json({
       error: _error,
@@ -175,13 +176,13 @@ function updateUser(req, res, next) {
                   } else {
                     snackBarMessage = "server.error";
                     errorService.handleError(
-                      errorService.errors.SERVER_ERROR_DATABASE.code,
-                      errorService.errors.SERVER_ERROR_DATABASE.message,
+                      errorService.errors.DATABASE_ERROR.code,
+                      errorService.errors.DATABASE_ERROR.message,
                       error.sqlMessage
                     );
                     _error = true;
-                    _resStatus = errorService.errors.SERVER_ERROR_DATABASE.code;
-                    _message = errorService.errors.SERVER_ERROR_DATABASE.message;
+                    _resStatus = errorService.errors.DATABASE_ERROR.code;
+                    _message = errorService.errors.DATABASE_ERROR.message;
                     resolve(error.sqlMessage);
                   }
                 }
@@ -299,13 +300,13 @@ function deleteUser(req, res, next) {
       if (!error) {
       } else {
         errorService.handleError(
-          errorService.errors.SERVER_ERROR_DATABASE.code,
-          errorService.errors.SERVER_ERROR_DATABASE.message,
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
           error.sqlMessage
         );
         _error = true;
-        _resStatus = errorService.errors.SERVER_ERROR_DATABASE.code;
-        _message = errorService.errors.SERVER_ERROR_DATABASE.message;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
       }
 
       res.status(_resStatus).json({

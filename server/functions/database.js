@@ -1,5 +1,6 @@
 const environment = require('../environments/development');
-const mysql = require('mysql');
+/*const mysql = require('mysql');
+
 
 function connectDatabase() {
 
@@ -9,3 +10,10 @@ function connectDatabase() {
 
 
 exports.connectDatabase = connectDatabase;
+*/
+
+const mysql2 = require('mysql2');
+
+const pool = mysql2.createPool(environment.database);
+
+module.exports = pool;

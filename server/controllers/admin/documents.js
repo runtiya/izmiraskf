@@ -1,5 +1,6 @@
 const queries = require("../../queries/admin/documents");
-const connection = require("../../functions/database").connectDatabase();
+//const connection = require('../../functions/database.js').connectDatabase();
+const connection = require('../../functions/database.js');
 const crypto = require('../../functions/crypto');
 const filesFunction = require("../../functions/files");
 const errorService = require('../../services/error-service.js');

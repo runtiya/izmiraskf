@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
 import { StatisticsService } from "../../services/global-statistics.service";
-import { StatisticsModel } from "../../models/global-statistics.model";
 import { statisticsFunctions } from "../../functions/global-statistics.funtion";
 
 import { globalFunctions } from "../../functions/global.function";
@@ -14,7 +13,7 @@ import { globalFunctions } from "../../functions/global.function";
 })
 export class GlobalStatisticsStadiumsCountByFloorType implements OnInit, OnDestroy {
 
-  stadiumsCountByFloorTypeList: StatisticsModel[] = [];
+  stadiumsCountByFloorTypeList: any[] = [];
   private stadiumsCountByFloorTypeListSub: Subscription;
 
   chartOptions: any = this.statisticsFunctions.initChart();
@@ -31,7 +30,7 @@ export class GlobalStatisticsStadiumsCountByFloorType implements OnInit, OnDestr
     this.statisticsService.getStadiumsCountByFloorType();
     this.stadiumsCountByFloorTypeListSub = this.statisticsService.getStadiumsCountByFloorTypeUpdateListener()
       .subscribe({
-        next: (data: StatisticsModel[]) => {
+        next: (data: any[]) => {
           this.stadiumsCountByFloorTypeList = data;
           this.chartOptions.title.text = 'Zemin Türüne Göre Saha Sayısı';
           const { seriesArray, labelsArray } = this.statisticsFunctions.separateData(this.stadiumsCountByFloorTypeList);

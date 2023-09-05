@@ -1,5 +1,6 @@
 const queries = require('../../queries/admin/aboutizmirtff.js');
-const connection = require('../../functions/database.js').connectDatabase();
+//const connection = require('../../functions/database.js').connectDatabase();
+const connection = require('../../functions/database.js');
 const imagesFunction = require('../../functions/images');
 const crypto = require('../../functions/crypto');
 const errorService = require('../../services/error-service.js');
@@ -15,13 +16,13 @@ function getAboutContent(req, res, next) {
       aboutContent = result[0];
     } else {
       errorService.handleError(
-        errorService.errors.SERVER_ERROR_DATABASE.code,
-        errorService.errors.SERVER_ERROR_DATABASE.message,
+        errorService.errors.DATABASE_ERROR.code,
+        errorService.errors.DATABASE_ERROR.message,
         error.sqlMessage
       );
       _error = true;
-      _resStatus = errorService.errors.SERVER_ERROR_DATABASE.code;
-      _message = errorService.errors.SERVER_ERROR_DATABASE.message;
+      _resStatus = errorService.errors.DATABASE_ERROR.code;
+      _message = errorService.errors.DATABASE_ERROR.message;
     }
 
     const _aboutContent = crypto.encryptData(aboutContent);

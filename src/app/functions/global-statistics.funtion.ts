@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 
 import { ApexChart, ApexDataLabels, ApexNonAxisChartSeries, ApexTitleSubtitle } from "ng-apexcharts";
-import { StatisticsModel } from '../models/global-statistics.model';
 
 @Injectable({
     providedIn: 'root'
@@ -49,7 +48,7 @@ export class statisticsFunctions {
 
   }
 
-  separateData(data: StatisticsModel[]): { seriesArray: ApexNonAxisChartSeries, labelsArray: any[] } {
+  separateData(data: any[]): { seriesArray: ApexNonAxisChartSeries, labelsArray: any[] } {
     const seriesArray: ApexNonAxisChartSeries = [];
     const labelsArray: any[] = [];
 

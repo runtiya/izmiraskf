@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
 import { StatisticsService } from "../../services/global-statistics.service";
-import { StatisticsModel } from "../../models/global-statistics.model";
 import { statisticsFunctions } from "../../functions/global-statistics.funtion";
 
 import { globalFunctions } from "../../functions/global.function";
@@ -14,7 +13,7 @@ import { globalFunctions } from "../../functions/global.function";
 })
 export class GlobalStatisticsTeamsCountByTown implements OnInit, OnDestroy {
 
-  teamsCountByTownList: StatisticsModel[] = [];
+  teamsCountByTownList: any[] = [];
   private teamsCountByTownListSub: Subscription;
 
   chartOptions: any = this.statisticsFunctions.initChart();
@@ -31,7 +30,7 @@ export class GlobalStatisticsTeamsCountByTown implements OnInit, OnDestroy {
     this.statisticsService.getTeamsCountByTown();
     this.teamsCountByTownListSub = this.statisticsService.getTeamsCountByTownUpdateListener()
       .subscribe({
-        next: (data: StatisticsModel[]) => {
+        next: (data: any[]) => {
           this.teamsCountByTownList = data;
           this.chartOptions.title.text = 'İlçelere Göre Takım Sayısı';
           const { seriesArray, labelsArray } = this.statisticsFunctions.separateData(this.teamsCountByTownList);
