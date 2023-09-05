@@ -17,8 +17,8 @@ const environment = {
     connectionLimit: 10,
     maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
     idleTimeout: 15000, // idle connections timeout, in milliseconds, the default value 60000
-    queueLimit: 0, // 0 means there is no limit for queue total number
-    enableKeepAlive: false,
+    queueLimit: 0 , // 0 means there is no limit for queue total number
+    enableKeepAlive: true,
     keepAliveInitialDelay: 0
   },
   cryptojsSecretKey: "7ce2daf0bdac7688ca2fd73f08a8e130"
