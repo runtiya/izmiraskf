@@ -2,21 +2,22 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Subject } from "rxjs";
 
-import { StatisticsModel } from "../models/global-statistics.model";
-
 import { globalFunctions } from "../functions/global.function";
 
 
 @Injectable({ providedIn: 'root' })
 export class StatisticsService {
-  private teamsCountByTown: StatisticsModel[] = [];
-  private teamsCountByTownSub = new Subject<StatisticsModel[]>();
+  private teamsCountByTown: any[] = [];
+  private teamsCountByTownSub = new Subject<any[]>();
 
-  private stadiumsCountByTown: StatisticsModel[] = [];
-  private stadiumsCountByTownSub = new Subject<StatisticsModel[]>();
+  private stadiumsCountByTown: any[] = [];
+  private stadiumsCountByTownSub = new Subject<any[]>();
 
-  private stadiumsCountByFloorType: StatisticsModel[] = [];
-  private stadiumsCountByFloorTypeSub = new Subject<StatisticsModel[]>();
+  private stadiumsCountByFloorType: any[] = [];
+  private stadiumsCountByFloorTypeSub = new Subject<any[]>();
+
+  private matchStatusCountByLeague: any[] = [];
+  private matchStatusCountByLeagueSub = new Subject<any[]>();
 
   constructor(
     private http: HttpClient,
@@ -25,7 +26,7 @@ export class StatisticsService {
 
   getTeamsCountByTown() {
     this.http
-      .get<{ data: StatisticsModel[] }>(
+      .get<{ data: any[] }>(
         'http://localhost:3000/statistics/teams-count-by-town'
       )
       .subscribe({
@@ -45,7 +46,7 @@ export class StatisticsService {
 
   getStadiumsCountByTown() {
     this.http
-      .get<{ data: StatisticsModel[] }>(
+      .get<{ data: any[] }>(
         'http://localhost:3000/statistics/stadiums-count-by-town'
       )
       .subscribe({
@@ -65,7 +66,7 @@ export class StatisticsService {
 
   getStadiumsCountByFloorType() {
     this.http
-      .get<{ data: StatisticsModel[] }>(
+      .get<{ data: any[] }>(
         'http://localhost:3000/statistics/stadiums-count-by-floortype'
       )
       .subscribe({
@@ -81,6 +82,26 @@ export class StatisticsService {
 
   getStadiumsCountByFloorTypeUpdateListener() {
     return this.stadiumsCountByFloorTypeSub.asObservable();
+  }
+
+  getMatchStatusCountByLeague(seasonId: number) {
+    this.http
+      .get<{ data: any[] }>(
+        `http://localhost:3000/statistics/matchstatus-count-by-league?seasonid=${seasonId}`
+      )
+      .subscribe({
+        next: (data) => {
+          this.matchStatusCountByLeague = data.data;
+          this.matchStatusCountByLeagueSub.next([...this.matchStatusCountByLeague]);
+        },
+        error: (error) => {
+
+        }
+      });
+  }
+
+  getMatchStatusCountByLeagueUpdateListener() {
+    return this.matchStatusCountByLeagueSub.asObservable();
   }
 
 

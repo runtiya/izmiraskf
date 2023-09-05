@@ -11,5 +11,7 @@ router.get("/stadiums-count-by-town", statisticsController.getStadiumsCountByTow
 
 router.get("/stadiums-count-by-floortype", statisticsController.getStadiumsCountByFloorType);
 
+router.get("/matchstatus-count-by-league", statisticsController.getMatchStatusCountByLeague);
+
 
 module.exports = router;

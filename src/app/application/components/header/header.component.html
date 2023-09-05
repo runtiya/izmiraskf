@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg" id="header-application" style="background-color: #3F51B5;">
+<nav class="navbar navbar-expand-xl" id="header-application" style="background-color: #3F51B5;">
   <div class="container-fluid">
     <a
       class="navbar-brand"
@@ -106,17 +106,20 @@
       </ul>
     </div>
 
-    <div class="d-flex socialmedia-band">
-      <mat-card-subtitle class="socialmedia-selector" *ngFor="let link of externalLinksList">
-        <fa-icon
-          [icon]="findIconFaIcon(link.faBrand)"
-          matTooltip="{{link.linkName}}"
-          class="{{findIconFaClass(link.faBrand)}}"
-          (click)="routeToURL(link.url)"
-        >
-        </fa-icon>
-      </mat-card-subtitle>
+    <div class="socialmedia-band">
+      <div class="d-flex">
+        <mat-card-subtitle class="socialmedia-selector" *ngFor="let link of externalLinksList">
+          <fa-icon
+            [icon]="findIconFaIcon(link.faBrand)"
+            matTooltip="{{link.linkName}}"
+            class="{{findIconFaClass(link.faBrand)}}"
+            (click)="routeToURL(link.url)"
+          >
+          </fa-icon>
+        </mat-card-subtitle>
+      </div>
     </div>
+
 
   </div>
 </nav>

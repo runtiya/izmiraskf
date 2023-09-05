@@ -66,9 +66,7 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
   }
 
   onSeasonChange(seasonId: number) {
-    this.isLoading = true;
     this.leagueService.getLeagues(seasonId);
-    this.isLoading = false;
   }
 
   findSeasonName(seasonId: number): string {
