@@ -47,7 +47,7 @@ export class GlobalStatisticsMatchStatusByTown implements OnInit, OnDestroy {
     this.matchStatusCountByLeagueListSub = this.statisticsService.getMatchStatusCountByLeagueUpdateListener()
       .subscribe({
         next: (data: any[]) => {
-          console.log(data)
+
         }
       });
   }

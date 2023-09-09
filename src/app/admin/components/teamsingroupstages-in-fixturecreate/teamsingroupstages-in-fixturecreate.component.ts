@@ -87,6 +87,10 @@ export class AdminTeamsInGroupstagesInFixtureCreate implements OnInit, OnDestroy
     moveItemInArray(this.teamsingroupstagesList, event.previousIndex, event.currentIndex);
   }
 
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
+  }
+
   onSaveTeamsInGroupstages(teams: TeamsInGroupstagesModel[]) {
     const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
       data: {

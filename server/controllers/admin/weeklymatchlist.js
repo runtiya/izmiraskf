@@ -47,55 +47,54 @@ function createWeeklyMatchList(req, res, next) {
   var _message = null;
   var _error = false;
 
-  (async () => {
-    for (let i = 0; i < weeklyMatchList.length; i++) {
-      const _match = weeklyMatchList[i];
-
-      await new Promise((resolve, reject) => {
-        connection.query(
-          queries.createWeeklyMatchList,
-          [
-            _match.createdAt,
-            _match.createdBy,
-            _match.updatedAt,
-            _match.updatedBy,
-            _match.weeklyMatchProgramId,
-            _match.matchId,
-            _match.matchNo,
-            _match.isInList,
-          ],
-          (error, result) => {
-            if (!error) {
-
-            } else {
-              errorService.handleError(
-                errorService.errors.DATABASE_ERROR.code,
-                errorService.errors.DATABASE_ERROR.message,
-                error.sqlMessage
-              );
-
-              _error = true;
-              _resStatus = errorService.errors.DATABASE_ERROR.code;
-              _message = errorService.errors.DATABASE_ERROR.message;
-
-              res.status(_resStatus).json({
-                error: _error,
-                message: _message
-              });
-              return;
-              // resolve(error.sqlMessage);
-            }
+  const _promises = weeklyMatchList.map((match) => {
+    return new Promise(async (resolve, reject) => {
+      connection.query(
+        queries.createWeeklyMatchList,
+        [
+          match.createdAt,
+          match.createdBy,
+          match.updatedAt,
+          match.updatedBy,
+          match.weeklyMatchProgramId,
+          match.matchId,
+          match.matchNo,
+          match.isInList,
+        ],
+        (error, result) => {
+          if (!error) {
+            resolve();
+          } else {
+            reject(error);
           }
-        );
-      })
-    }
-
-    res.status(_resStatus).json({
-      error: _error,
-      message: _message
+        }
+      );
     });
   });
 
+  Promise.all(_promises)
+    .then(() => {
+
+    })
+    .catch((error) => {
+      errorService.handleError(
+        errorService.errors.DATABASE_ERROR.code,
+        errorService.errors.DATABASE_ERROR.message,
+        error.sqlMessage
+      );
+
+      _error = true;
+      _resStatus = errorService.errors.DATABASE_ERROR.code;
+      _message = errorService.errors.DATABASE_ERROR.message;
+
+      console.log(error.sqlMessage)
+    })
+    .finally(() => {
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message
+      });
+    });
 }
 
 function addMatchToList(req, res, next) {

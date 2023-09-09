@@ -103,28 +103,33 @@ function getMatchStatusCountByLeague(req, res, next) {
   var _error = false;
   var _message = null;
 
-  connection.query(queries.getMatchStatusCountByLeague, (error, result) => {
-    if (!error) {
-      matchStatusCountByLeague = result;
-    } else {
-      errorService.handleError(
-        errorService.errors.DATABASE_ERROR.code,
-        errorService.errors.DATABASE_ERROR.message,
-        error.sqlMessage
-      );
+  const seasonId = +req.query.seasonId;
 
-      _error = true;
-      _resStatus = errorService.errors.DATABASE_ERROR.code;
-      _message = errorService.errors.DATABASE_ERROR.message;
-    }
+  connection.query(
+    queries.getMatchStatusCountByLeague,
+    [seasonId],
+    (error, result) => {
+      if (!error) {
+        matchStatusCountByLeague = result;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
 
-    const _matchStatusCountByLeague = crypto.encryptData(matchStatusCountByLeague);
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
+      }
 
-    res.status(_resStatus).json({
-      error: _error,
-      message: _message,
-      data: _matchStatusCountByLeague,
-    });
+      const _matchStatusCountByLeague = crypto.encryptData(matchStatusCountByLeague);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _matchStatusCountByLeague,
+      });
   });
 }
 
