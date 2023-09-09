@@ -52,6 +52,7 @@ export class WeeklyMatchProgramService {
       )
       .subscribe({
         next: (responseData) => {
+          weeklyMatchProgramInfo.id = responseData.data.id;
           this.weeklyMatchProgramList.push(responseData.data);
           this.weeklyMatchProgramListSub.next([...this.weeklyMatchProgramList]);
           this.globalFunctions.showSnackBar("system.success.create");

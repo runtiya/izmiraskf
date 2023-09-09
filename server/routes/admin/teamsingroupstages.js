@@ -17,7 +17,5 @@ router.post("/:groupstageId", checkAuth, teamsingroupstagesController.createTeam
 
 router.put("", checkAuth, teamsingroupstagesController.updateTeamsForGroupstages)
 
-router.delete("/:groupstageId", checkAuth, teamsingroupstagesController.deleteTeamsInGroupstages);
-
 
 module.exports = router;

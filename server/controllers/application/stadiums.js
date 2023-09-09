@@ -5,73 +5,79 @@ const crypto = require('../../functions/crypto');
 const errorService = require('../../services/error-service.js');
 
 function getStadiums(req, res, next) {
-  (async () => {
-    var stadiumsList = [];
-    var stadiumsCount = 0;
-    var _resStatus = 200;
-    var _error = false;
-    var _message = null;
+  var stadiumsList = [];
+  var stadiumsCount = 0;
+  const paginationPageSize = +req.query.paginationPageSize;
+  const paginationCurrentPage = +req.query.paginationCurrentPage;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    const paginationPageSize = +req.query.paginationPageSize;
-    const paginationCurrentPage = +req.query.paginationCurrentPage;
-
-    stadiumsList = await new Promise((resolve, reject) => {
-      connection.query(
-        queries.getStadiums,
-        [
-          paginationPageSize,
-          (paginationCurrentPage - 1) * paginationPageSize
-        ],
-        (error, result) => {
-          if (!error) {
-            resolve(result);
-          } else {
-            errorService.handleError(
-              errorService.errors.DATABASE_ERROR.code,
-              errorService.errors.DATABASE_ERROR.message,
-              error.sqlMessage
-            );
-
-            _error = true;
-            _resStatus = errorService.errors.DATABASE_ERROR.code;
-            _message = errorService.errors.DATABASE_ERROR.message;
-
-            resolve(error.sqlMessage);
-          }
-        });
-    });
-
-    stadiumsCount = await new Promise((resolve, reject) => {
-      connection.query(
-        "select count(1) as 'count' from view_application_stadiums",
-        (error,result) => {
-          if(!error){
-            resolve(result[0].count);
-          }else{
-            errorService.handleError(
-              errorService.errors.DATABASE_ERROR.code,
-              errorService.errors.DATABASE_ERROR.message,
-              error.sqlMessage
-            );
-
-            _error = true;
-            _resStatus = errorService.errors.DATABASE_ERROR.code;
-            _message = errorService.errors.DATABASE_ERROR.message;
-
-            resolve(error.sqlMessage);
-          }
+  const stadiumsListPromise = new Promise(async (resolve, reject) => {
+    connection.query(
+      queries.getStadiums,
+      [
+        paginationPageSize,
+        (paginationCurrentPage - 1) * paginationPageSize
+      ],
+      (error, result) => {
+        if (!error) {
+          stadiumsList = result;
+          resolve();
+        } else {
+          resolve(error);
         }
+      });
+  });
+
+  const stadiumsCountPromise = new Promise(async (resolve, reject) => {
+    connection.query(
+      queries.getStadiumsCount,
+      (error,result) => {
+        if(!error){
+          stadiumsCount = result[0].count;
+          resolve();
+        }else{
+          errorService.handleError(
+            errorService.errors.DATABASE_ERROR.code,
+            errorService.errors.DATABASE_ERROR.message,
+            error.sqlMessage
+          );
+
+          _error = true;
+          _resStatus = errorService.errors.DATABASE_ERROR.code;
+          _message = errorService.errors.DATABASE_ERROR.message;
+
+          resolve(error.sqlMessage);
+        }
+      }
+    );
+  });
+
+  Promise.all([stadiumsListPromise, stadiumsCountPromise])
+    .then(() => {
+
+    })
+    .catch((error) => {
+      errorService.handleError(
+        errorService.errors.DATABASE_ERROR.code,
+        errorService.errors.DATABASE_ERROR.message,
+        error.sqlMessage
       );
-    });
 
-    const _stadiumsList = crypto.encryptData({stadiumsList: stadiumsList, stadiumsCount: stadiumsCount});
+      _error = true;
+      _resStatus = errorService.errors.DATABASE_ERROR.code;
+      _message = errorService.errors.DATABASE_ERROR.message;
+    })
+    .finally(() => {
+      const _stadiumsList = crypto.encryptData({stadiumsList: stadiumsList, stadiumsCount: stadiumsCount});
 
-    res.status(_resStatus).json({
-      error: _error,
-      message: _message,
-      data: _stadiumsList,
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _stadiumsList,
+      });
     });
-})();
 }
 
 function getStadiumById(req, res, next) {

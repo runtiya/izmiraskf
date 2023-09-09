@@ -4,6 +4,7 @@ const connection = require('../../functions/database.js');
 const crypto = require('../../functions/crypto');
 const errorService = require('../../services/error-service.js');
 
+
 function getFixtureBySearchIndex(req, res, next) {
     const searchIndex = req.body;
     var fixtureList = [];
@@ -113,8 +114,8 @@ function createFixture(req, res, next) {
   var _error = false;
   var _message = null;
 
-    for (let m = 0; m < _matchList.length; m++) {
-      var match = _matchList[m];
+  const _promises = _matchList.map((match) => {
+    return new Promise(async (resolve, reject) => {
       connection.query(
         queries.createFixture,
         [
@@ -141,27 +142,36 @@ function createFixture(req, res, next) {
         ],
         (error, result) => {
           if (!error) {
-            //pass
+            resolve();
           } else {
-            errorService.handleError(
-              errorService.errors.DATABASE_ERROR.code,
-              errorService.errors.DATABASE_ERROR.message,
-              error.sqlMessage
-            );
-
-            _error = true;
-            _resStatus = errorService.errors.DATABASE_ERROR.code;
-            _message = errorService.errors.DATABASE_ERROR.message;
-
-            res.status(_resStatus).json({
-              error: _error,
-              message: _message
-            });
-            return;
+            reject(error);
           }
         }
       );
-    }
+    });
+  });
+
+  Promise.all(_promises)
+    .then(() => {
+
+    })
+    .catch((error) => {
+      errorService.handleError(
+        errorService.errors.DATABASE_ERROR.code,
+        errorService.errors.DATABASE_ERROR.message,
+        error.sqlMessage
+      );
+
+      _error = true;
+      _resStatus = errorService.errors.DATABASE_ERROR.code;
+      _message = errorService.errors.DATABASE_ERROR.message;
+    })
+    .finally(() => {
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message
+      });
+    });
 }
 
 function updateFixture(req, res, next) {
@@ -170,8 +180,8 @@ function updateFixture(req, res, next) {
   var _error = false;
   var _message = null;
 
-    for (let m = 0; m < _fixtureList.length; m++) {
-      var match = _fixtureList[m];
+  const _promises = _fixtureList.map((match) => {
+    return new Promise(async (resolve, reject) => {
       connection.query(
         queries.updateFixture,
         [
@@ -199,28 +209,40 @@ function updateFixture(req, res, next) {
         ],
         (error, result) => {
           if (!error) {
-            //pass
+            resolve();
           } else {
-            errorService.handleError(
-              errorService.errors.DATABASE_ERROR.code,
-              errorService.errors.DATABASE_ERROR.message,
-              error.sqlMessage
-            );
-
-            _error = true;
-            _resStatus = errorService.errors.DATABASE_ERROR.code;
-            _message = errorService.errors.DATABASE_ERROR.message;
-
-            res.status(_resStatus).json({
-              error: _error,
-              message: _message
-            });
-            return;
+            reject(error);
           }
         }
       );
-    }
+    });
+  });
+
+  Promise.all(_promises)
+    .then(() => {
+
+    })
+    .catch((error) => {
+      errorService.handleError(
+        errorService.errors.DATABASE_ERROR.code,
+        errorService.errors.DATABASE_ERROR.message,
+        error.sqlMessage
+      );
+
+      _error = true;
+      _resStatus = errorService.errors.DATABASE_ERROR.code;
+      _message = errorService.errors.DATABASE_ERROR.message;
+
+    })
+    .finally(() => {
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message
+      });
+    })
+
 }
+
 
 function deleteMatch(req, res, next) {
     const id = req.params.id;
@@ -230,7 +252,9 @@ function deleteMatch(req, res, next) {
 
     connection.query(
       queries.deleteMatch,
-      [id],
+      [
+        id
+      ],
       (error, result) => {
         if (!error) {
 
