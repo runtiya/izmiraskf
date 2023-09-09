@@ -39,7 +39,7 @@ function getExternalLinks(req, res, next) {
 
 
 function createExternalLink(req, res, next) {
-    const linkInfo = JSON.parse(req.body.linkInfo);
+    const linkInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;
@@ -99,7 +99,7 @@ function createExternalLink(req, res, next) {
 
 // Update an external link by id
 function updateExternalLink(req, res, next) {
-    const linkInfo = JSON.parse(req.body.linkInfo);
+    const linkInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;

@@ -38,7 +38,7 @@ function getStaffList(req, res, next) {
 }
 
 function createStaff(req, res, next) {
-    const staffInfo = JSON.parse(req.body.staffInfo);
+    const staffInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;
@@ -97,7 +97,7 @@ function createStaff(req, res, next) {
 }
 
 function updateStaff(req, res, next) {
-    const staffInfo = JSON.parse(req.body.staffInfo);
+    const staffInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;

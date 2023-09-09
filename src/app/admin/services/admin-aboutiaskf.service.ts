@@ -19,6 +19,7 @@ export class AboutIASKFService {
     ) {}
 
   getAboutContent() {
+
     this.http
       .get<{ data: AboutIASKFModel }>(
         'http://localhost:3000/admin/izmiraskf/hakkimizda'
@@ -41,15 +42,15 @@ export class AboutIASKFService {
   updateAboutContent(aboutContent: AboutIASKFModel) {
     const formData = new FormData();
     formData.append('image', aboutContent.imageAttachment);
-    formData.append('aboutContent', JSON.stringify(aboutContent));
+    formData.append('requestData', JSON.stringify(aboutContent));
 
     this.http
       .put<{ data: AboutIASKFModel }>(
         'http://localhost:3000/admin/izmiraskf/hakkimizda', formData
       )
       .subscribe({
-        next: (data) => {
-          this.aboutContentSubject.next(data.data);
+        next: (responseData) => {
+          this.aboutContentSubject.next(responseData.data);
           this.globalFunctions.showSnackBar("system.success.update");
         },
         error: (error) => {

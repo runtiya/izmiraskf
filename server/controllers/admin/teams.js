@@ -91,7 +91,7 @@ function findTeam(req, res, next) {
 }
 
 function createTeam(req, res, next) {
-    const teamInfo = JSON.parse(req.body.teamInfo);
+    const teamInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;
@@ -161,7 +161,7 @@ function createTeam(req, res, next) {
 }
 
 function updateTeam(req, res, next) {
-    const teamInfo = JSON.parse(req.body.teamInfo);
+    const teamInfo = JSON.parse(req.body.requestData);
     var teamId = req.params.id;
     var _resStatus = 200;
     var _error = false;

@@ -45,6 +45,10 @@ export class AdminGroupStagesCreateModal implements OnInit {
     this.isLoading = true;
     this.groupstageSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.id : null, {validators: []}),
+      createdAt: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.createdAt : null, {validators: []}),
+      createdBy: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.createdBy : null, {validators: []}),
+      updatedAt: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.updatedAt : null, {validators: []}),
+      updatedBy: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.updatedBy : null, {validators: []}),
       seasonId: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.seasonId : this.data.seasonSelectionId, {validators: [Validators.required]}),
       leagueId: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.leagueId : this.data.leagueSelectionId, {validators: [Validators.required]}),
       groupName: new FormControl(this.pageMode == 'edit' ? this.groupstageInfo.groupName : null, {validators: [Validators.required, Validators.maxLength(200)]}),

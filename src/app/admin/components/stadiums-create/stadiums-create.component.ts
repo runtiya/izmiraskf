@@ -64,7 +64,7 @@ export class AdminStadiumsCreateModal {
       mapUrl: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.mapUrl : null, {validators: [Validators.maxLength(4000)]})
     });
 
-    this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.stadiumInfo.mapUrl);
+    this.mapSafeSrc = this.pageMode == 'create' ? null : this.globalFunctions.getSafeResourceUrl(this.stadiumInfo.mapUrl);
 
   }
 

@@ -41,15 +41,15 @@ export class StaffITFFService {
   createStaff(staffInfo: StaffITFFModel) {
     const formData = new FormData();
     formData.append('image', staffInfo.imageAttachment);
-    formData.append('staffInfo', JSON.stringify(staffInfo));
+    formData.append('requestData', JSON.stringify(staffInfo));
 
     this.http
       .post<{ data: StaffITFFModel }>(
         'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi', formData
       )
       .subscribe({
-        next: (data) => {
-          this.staffList.push(data.data);
+        next: (responseData) => {
+          this.staffList.push(responseData.data);
           this.staffListUpdated.next([...this.staffList]);
           this.globalFunctions.showSnackBar("system.success.create");
         },
@@ -62,7 +62,7 @@ export class StaffITFFService {
   updateStaff(staffInfo: StaffITFFModel) {
     const formData = new FormData();
     formData.append('image', staffInfo.imageAttachment);
-    formData.append('staffInfo', JSON.stringify(staffInfo));
+    formData.append('requestData', JSON.stringify(staffInfo));
 
     this.http
       .put<{ data: StaffITFFModel }>(

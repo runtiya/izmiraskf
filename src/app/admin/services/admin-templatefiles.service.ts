@@ -44,18 +44,18 @@ export class TemplateFilesService {
     const formData = new FormData();
     formData.append('file', templateFileInfo.fileAttachment);
     formData.append('category', 'TEMPLATEFILES');
-    formData.append('templateFileInfo', JSON.stringify(templateFileInfo));
+    formData.append('requstData', JSON.stringify(templateFileInfo));
 
     this.http
       .put<{ data: TemplateFilesModel }>(
         'http://localhost:3000/admin/template-files/' + templateFileInfo.id, formData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           // Replace updated object with the old one
           this.templateFilesList.forEach((item, i) => {
             if (item.id == templateFileInfo.id) {
-              this.templateFilesList[i] = data.data;
+              this.templateFilesList[i] = responseData.data;
             }
           });
           this.templateFilesListSub.next([...this.templateFilesList]);

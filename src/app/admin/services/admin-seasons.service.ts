@@ -36,13 +36,14 @@ export class SeasonsService {
   }
 
   createSeason(seasonInfo: SeasonsModel) {
+    const requestData = seasonInfo;
     this.http
       .post<{data: SeasonsModel}>(
-        'http://localhost:3000/admin/sezonlar', seasonInfo
+        'http://localhost:3000/admin/sezonlar', requestData
       )
       .subscribe({
-        next: (data) => {
-          this.seasonsList.push(data.data);
+        next: (responseData) => {
+          this.seasonsList.push(responseData.data);
           this.seasonsListSub.next([...this.seasonsList]);
           this.globalFunctions.showSnackBar("system.success.create");
         },
@@ -53,16 +54,17 @@ export class SeasonsService {
   }
 
   updateSeason(seasonInfo: SeasonsModel) {
+    const requestData = seasonInfo;
     this.http
       .put<{data: SeasonsModel}>(
-        'http://localhost:3000/admin/sezonlar/' + seasonInfo.id, seasonInfo
+        'http://localhost:3000/admin/sezonlar/' + requestData.id, requestData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           // Replace updated object with the old one
           this.seasonsList.forEach((item, i) => {
-            if (item.id == seasonInfo.id) {
-              this.seasonsList[i] = data.data;
+            if (item.id == requestData.id) {
+              this.seasonsList[i] = responseData.data;
             }
           });
           this.seasonsListSub.next([...this.seasonsList]);

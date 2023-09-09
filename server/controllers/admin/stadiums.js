@@ -91,11 +91,10 @@ function findStadium(req, res, next) {
 }
 
 function createStadium(req, res, next) {
-    const stadiumInfo = JSON.parse(req.body.stadiumInfo);
+    const stadiumInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;
-
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
@@ -160,7 +159,7 @@ function createStadium(req, res, next) {
 }
 
 function updateStadium(req, res, next) {
-    const stadiumInfo = JSON.parse(req.body.stadiumInfo);
+    const stadiumInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;

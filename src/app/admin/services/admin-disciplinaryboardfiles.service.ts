@@ -37,13 +37,14 @@ export class DisciplinaryBoardFilesService {
   }
 
   createDisciplinaryBoardFile(disciplinaryBoardFileInfo: DisciplinaryBoardFileModel) {
+    const requestData = disciplinaryBoardFileInfo;
     this.http
       .post<{ data: DisciplinaryBoardFileModel }>(
-        'http://localhost:3000/admin/disiplin-kurulu-dosyalari', disciplinaryBoardFileInfo
+        'http://localhost:3000/admin/disiplin-kurulu-dosyalari', requestData
       )
       .subscribe({
-        next: (data) => {
-          this.disciplinaryBoardFileList.push(data.data);
+        next: (responseData) => {
+          this.disciplinaryBoardFileList.push(responseData.data);
           this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);
           this.globalFunctions.showSnackBar("system.success.create");
         },
@@ -54,15 +55,17 @@ export class DisciplinaryBoardFilesService {
   }
 
   updateDisciplinaryBoardFile(disciplinaryBoardFileInfo: DisciplinaryBoardFileModel) {
+    const requestData = disciplinaryBoardFileInfo;
+
     this.http
       .put<{ data: DisciplinaryBoardFileModel }>(
-        'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + disciplinaryBoardFileInfo.id, disciplinaryBoardFileInfo
+        'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + disciplinaryBoardFileInfo.id, requestData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           this.disciplinaryBoardFileList.forEach((item, i) => {
-            if (item.id == disciplinaryBoardFileInfo.id) {
-              this.disciplinaryBoardFileList[i] = data.data;
+            if (item.id == requestData.id) {
+              this.disciplinaryBoardFileList[i] = responseData.data;
             }
           });
           this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]);

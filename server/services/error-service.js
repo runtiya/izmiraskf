@@ -27,6 +27,7 @@ class errorService {
 
   handleError(errorCode, errorMessage, customMessage) {
     //write a code to log the error
+    console.log(errorCode + ' -> ' + errorMessage + ' -> ' + customMessage)
   }
 }
 

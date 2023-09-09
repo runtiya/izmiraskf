@@ -44,15 +44,15 @@ export class NewsService {
   createNews(newsInfo: NewsModel) {
     const formData = new FormData();
     formData.append('image', newsInfo.imageAttachment);
-    formData.append('newsInfo', JSON.stringify(newsInfo));
+    formData.append('requestData', JSON.stringify(newsInfo));
 
     this.http
       .post<{data: NewsModel}>(
         'http://localhost:3000/admin/haberler', formData
       )
       .subscribe({
-        next: (data) => {
-          this.newsList.push(data.data);
+        next: (responseData) => {
+          this.newsList.push(responseData.data);
           this.newsCount++;
           this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});
           this.globalFunctions.showSnackBar("system.success.create");
@@ -66,17 +66,17 @@ export class NewsService {
   updateNews(newsInfo: NewsModel) {
     const formData = new FormData();
     formData.append('image', newsInfo.imageAttachment);
-    formData.append('newsInfo', JSON.stringify(newsInfo));
+    formData.append('requestData', JSON.stringify(newsInfo));
 
     this.http
       .put<{ data: NewsModel }>(
         'http://localhost:3000/admin/haberler/' + newsInfo.id, formData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           this.newsList.forEach((item, i) => {
             if (item.id == newsInfo.id) {
-              this.newsList[i] = data.data;
+              this.newsList[i] = responseData.data;
             }
           });
           this.newsUpdated.next({newsList: this.newsList, newsCount: this.newsCount});

@@ -5,15 +5,15 @@ const seasonsController = require('../../controllers/admin/seasons');
 
 const checkAuth = require('../../middlewares/check-auth');
 const extractImage = require('../../middlewares/extract-image');
+const setTimestamp = require('../../middlewares/setTimestamp');
 
-const router = express.Router();
-
+router = express.Router();
 
 router.get("", checkAuth, seasonsController.getSeasons);
 
-router.post("", checkAuth, seasonsController.createSeason);
+router.post("", checkAuth, setTimestamp, seasonsController.createSeason);
 
-router.put("/:id", checkAuth, seasonsController.updateSeason);
+router.put("/:id", checkAuth, setTimestamp, seasonsController.updateSeason);
 
 router.delete("/:id", checkAuth, seasonsController.deleteSeason)
 

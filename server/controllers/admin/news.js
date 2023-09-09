@@ -90,7 +90,7 @@ function findNews(req, res, next) {
 }
 
 function createNews(req, res, next) {
-    const newsInfo = JSON.parse(req.body.newsInfo);
+    const newsInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;
@@ -148,7 +148,7 @@ function createNews(req, res, next) {
 }
 
 function updateNews(req, res, next) {
-    const newsInfo = JSON.parse(req.body.newsInfo);
+    const newsInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;

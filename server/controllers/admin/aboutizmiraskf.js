@@ -43,7 +43,7 @@ function getAboutContent(req, res, next) {
 }
 
 function updateAboutContent(req, res, next) {
-  const aboutContent = JSON.parse(req.body.aboutContent);
+  const aboutContent = JSON.parse(req.body.requestData);
   var _resStatus = 200;
   var _error = false;
   var _message = null;
