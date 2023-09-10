@@ -5,7 +5,7 @@ const staffizmiraskfController = require('../../controllers/admin/staffizmiraskf
 
 const checkAuth = require('../../middlewares/check-auth');
 const extractImage = require('../../middlewares/extract-image');
-const setTimestamp = require('../../middlewares/setTimestamp')
+const setTimestamp = require('../../middlewares/setTimestamp');
 
 const router = express.Router();
 

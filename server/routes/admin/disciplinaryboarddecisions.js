@@ -5,15 +5,16 @@ const disciplinaryBoardDecisionController = require('../../controllers/admin/dis
 
 const checkAuth = require('../../middlewares/check-auth');
 const extractImage = require('../../middlewares/extract-image');
+const setTimestamp = require('../../middlewares/setTimestamp');
 
 const router = express.Router();
 
 
 router.get("/:fileid", checkAuth, disciplinaryBoardDecisionController.getDisciplinaryBoardDecisions);
 
-router.post("", checkAuth, disciplinaryBoardDecisionController.createDisciplinaryBoardDecision);
+router.post("", checkAuth, setTimestamp, disciplinaryBoardDecisionController.createDisciplinaryBoardDecision);
 
-router.put("/:id", checkAuth, disciplinaryBoardDecisionController.updateDisciplinaryBoardDecision);
+router.put("/:id", checkAuth, setTimestamp, disciplinaryBoardDecisionController.updateDisciplinaryBoardDecision);
 
 router.delete("/:id", checkAuth, disciplinaryBoardDecisionController.deleteDisciplinaryBoardDecision);
 
