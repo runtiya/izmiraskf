@@ -3,11 +3,11 @@ module.exports = (req, res, next) => {
   try {
     // Creating Mode
     if (req.method == 'POST') {
-      console.log('İNSERTED');
+      console.log('INSERTED');
       if (req.body.requestData ?? false) {
         const parsedRequest = JSON.parse(req.body.requestData);
         parsedRequest.createdAt = new Date().toISOString().slice(0, 19);
-        parsedRequest.createdBy = req.userData.userId;
+        parsedRequest.createdBy = req.userData.userId;  
         req.body.requestData = JSON.stringify(parsedRequest);
       } else {
         req.body.createdAt = new Date().toISOString().slice(0, 19);
@@ -22,6 +22,7 @@ module.exports = (req, res, next) => {
         const parsedRequest = JSON.parse(req.body.requestData);
         parsedRequest.updatedAt = new Date().toISOString().slice(0, 19);
         parsedRequest.updatedBy = req.userData.userId;
+        parsedRequest.createdAt ? parsedRequest.createdAt.slice(0, 19) : null;
         req.body.requestData = JSON.stringify(parsedRequest);
         console.log(req.body.requestData);
         console.log('-----------------------------');
@@ -31,8 +32,9 @@ module.exports = (req, res, next) => {
         console.log('sadece body ile geldik');
         req.body.updatedAt = new Date().toISOString().slice(0, 19);
         req.body.updatedBy = req.userData.userId;
-        console.log(req.body);
-        console.log('-----------------------------');
+        req.body.createdAt ? req.body.createdAt.slice(0, 19) : null;
+        //console.log(req.body);
+        //console.log('-----------------------------');
       }
     }
   } catch (error) {
