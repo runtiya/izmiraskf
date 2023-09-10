@@ -39,7 +39,7 @@ function getLeagues(req, res, next) {
 }
 
 function createLeague(req, res, next) {
-    const leagueInfo = req.body;
+    var  leagueInfo = req.body;
     var _resStatus = 200;
     var _error = false;
     var _message = null;
