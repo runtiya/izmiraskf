@@ -110,6 +110,7 @@ function createNews(req, res, next) {
       (error, result) => {
         if (!error) {
           newsInfo.id = result.insertId;
+          newsInfo.createdByUsername = req.userData.email;
         } else {
           errorService.handleError(
             errorService.errors.DATABASE_ERROR.code,
@@ -169,6 +170,7 @@ function updateNews(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
+            newsInfo.updatedByUsername = req.userData.email;
 
         } else {
           errorService.handleError(

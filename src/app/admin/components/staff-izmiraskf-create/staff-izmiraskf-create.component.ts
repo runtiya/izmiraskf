@@ -74,7 +74,6 @@ export class AdminCreateStaffIzmirAskfModal {
   onSubmitForm() {
 
     if (this.staffIASKFSubmitForm.valid) {
-
       this.isLoading = true;
       if (this.pageMode === "create") {
         this.staffService.createStaff(this.staffIASKFSubmitForm.value);
