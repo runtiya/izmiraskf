@@ -11,6 +11,8 @@ class errorService {
       // SERVICE AND FUNCTION ERRORS
       // encryption error
       SERVICE_ERROR_ENCRYTION: { code: 500, message: 'server.error.service.encryption' },
+      // settimestamp error
+      SERVICE_ERROR_SETTIMESTAMP: { code: 500, message: 'server.error.settimestamp'},
 
       // DATABASE ERRORS
       // database error
