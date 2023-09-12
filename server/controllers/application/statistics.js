@@ -103,7 +103,7 @@ function getMatchStatusCountByLeague(req, res, next) {
   var _error = false;
   var _message = null;
 
-  const seasonId = +req.query.seasonId;
+  const seasonId = +req.query.seasonid;
 
   connection.query(
     queries.getMatchStatusCountByLeague,

@@ -13,5 +13,17 @@
     </mat-select>
   </mat-form-field>
 
-  <apx-chart [series]="chartOptions.series" [chart]="chartOptions.details" [title]="chartOptions.title" [labels]="chartOptions.labels" [dataLabels]="chartOptions.dataLabels" [colors]="chartOptions.colors"></apx-chart>
+  <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [dataLabels]="chartOptions.dataLabels"
+    [plotOptions]="chartOptions.plotOptions"
+    [xaxis]="chartOptions.xaxis"
+    [stroke]="chartOptions.stroke"
+    [fill]="chartOptions.fill"
+    [title]="chartOptions.title"
+    [tooltip]="chartOptions.tooltip"
+    [legend]="chartOptions.legend"
+    [colors]="chartOptions.colors"
+  ></apx-chart>
 </div>

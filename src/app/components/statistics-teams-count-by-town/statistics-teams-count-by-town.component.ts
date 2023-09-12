@@ -16,7 +16,7 @@ export class GlobalStatisticsTeamsCountByTown implements OnInit, OnDestroy {
   teamsCountByTownList: any[] = [];
   private teamsCountByTownListSub: Subscription;
 
-  chartOptions: any = this.statisticsFunctions.initChart();
+  chartOptions: any = this.statisticsFunctions.initChartPie();
 
 
   constructor(
@@ -32,10 +32,9 @@ export class GlobalStatisticsTeamsCountByTown implements OnInit, OnDestroy {
       .subscribe({
         next: (data: any[]) => {
           this.teamsCountByTownList = data;
-          this.chartOptions.title.text = 'İlçelere Göre Takım Sayısı';
-          const { seriesArray, labelsArray } = this.statisticsFunctions.separateData(this.teamsCountByTownList);
+          this.chartOptions.title.text = "İlçelere Göre Takım Sayısı";
+          const { seriesArray, labelsArray } = this.statisticsFunctions.separateDataForPieChart(this.teamsCountByTownList);
           this.chartOptions.series = seriesArray;
-
           labelsArray.forEach((item, i) => {
             labelsArray[i] = this.globalFunctions.getTownValue(item);
           });
