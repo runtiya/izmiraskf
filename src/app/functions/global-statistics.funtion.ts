@@ -1,54 +1,104 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 
-import { ApexChart, ApexDataLabels, ApexNonAxisChartSeries, ApexTitleSubtitle } from "ng-apexcharts";
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ChartComponent,
+  ApexDataLabels,
+  ApexXAxis,
+  ApexPlotOptions,
+  ApexStroke,
+  ApexTitleSubtitle,
+  ApexTooltip,
+  ApexFill,
+  ApexLegend,
+  ApexNonAxisChartSeries,
+  ApexResponsive,
+  ApexTheme
+} from "ng-apexcharts";
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries | ApexNonAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  title: ApexTitleSubtitle;
+  details: ApexChart;
+  tooltip: ApexTooltip;
+  fill: ApexFill;
+  legend: ApexLegend;
+  labels: any;
+  colors: string[];
+  theme: ApexTheme;
+  responsive: ApexResponsive[];
+
+};
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class statisticsFunctions {
-
-  chartTitle: ApexTitleSubtitle = {
-    text: 'Grafik Başlığı',
-    style: {
-      fontFamily: 'Roboto',
-      //fontWeight: 500,
-      //color: '#3F51B5'
-    }
-  };
-  chartSeries: ApexNonAxisChartSeries = [1];
-  chartColors: any[] = ['#006c9e', '#de425b', '#69d148', '#7f6ebe', '#df61a9', '#ff6d68', '#a9dc5d', '#fcbe6e', '#d9e87b', '#fff4a0'];
-  chartLabels = ['label #1'];
-  chartDataLabels: ApexDataLabels = {
-    enabled: true
-  }
-
-  chartDetails: ApexChart = {
-    type: 'pie',
-    toolbar: {
-      show: true
-    }
-  };
+  @ViewChild("chart") chart: ChartComponent;
+  public chartOptionsPie: Partial<ChartOptions>;
+  public chartOptionsBart: Partial<ChartOptions>;
 
   constructor(
 
-  ) {}
-
-  initChart(): Object {
-    const chartOptions: Object = new Object({
-      title: this.chartTitle,
-      series: this.chartSeries,
-      colors: this.chartColors,
-      labels: this.chartLabels,
-      dataLabels: this.chartDataLabels,
-      details: this.chartDetails
-    });
-
-    return chartOptions;
+  ) {
 
   }
 
-  separateData(data: any[]): { seriesArray: ApexNonAxisChartSeries, labelsArray: any[] } {
+  initChartPie(): Object {
+    this.chartOptionsPie = {
+      title: {
+        text: "Grafik Başlığı",
+        style: {
+          fontFamily: "Roboto"
+        }
+      },
+      series: [1],
+      chart: {
+        type: "pie",
+        stacked: false,
+        stackType: "100%",
+        toolbar: {
+          show: true
+        }
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true
+        }
+      },
+      xaxis: {
+        categories: []
+      },
+      tooltip: {
+        y: {
+          formatter: null
+        }
+      },
+      legend: {
+        position: "top",
+        horizontalAlign: "left"
+      },
+      labels: ["label #1"],
+      dataLabels: {
+        enabled: true
+      },
+      //colors: ['#006c9e', '#de425b', '#69d148', '#7f6ebe', '#df61a9', '#ff6d68', '#a9dc5d', '#fcbe6e', '#d9e87b', '#fff4a0'],
+
+    }
+
+    return this.chartOptionsPie;
+
+  }
+
+
+  separateDataForPieChart(data: any[]): { seriesArray: ApexNonAxisChartSeries, labelsArray: any[] } {
     const seriesArray: ApexNonAxisChartSeries = [];
     const labelsArray: any[] = [];
 

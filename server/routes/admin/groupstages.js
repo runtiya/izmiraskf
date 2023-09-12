@@ -5,6 +5,7 @@ const groupsController = require('../../controllers/admin/groupstages');
 
 const checkAuth = require('../../middlewares/check-auth');
 const extractImage = require('../../middlewares/extract-image');
+const setTimestamp = require('../../middlewares/setTimestamp');
 
 const router = express.Router();
 
@@ -15,9 +16,9 @@ router.get("/son-musabaka-haftasi/:id", checkAuth, groupsController.getPlayedLas
 
 router.get("/:leagueid", checkAuth, groupsController.getGroupStages);
 
-router.post("", checkAuth, groupsController.createGroupStage);
+router.post("", checkAuth, setTimestamp, groupsController.createGroupStage);
 
-router.put("/:id", checkAuth, groupsController.updateGroupStage);
+router.put("/:id", checkAuth, setTimestamp, groupsController.updateGroupStage);
 
 router.delete("/:id", checkAuth, groupsController.deleteGroupStage)
 

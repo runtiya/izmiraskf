@@ -16,7 +16,7 @@ export class GlobalStatisticsStadiumsCountByTown implements OnInit, OnDestroy {
   stadiumsCountByTownList: any[] = [];
   private stadiumsCountByTownListSub: Subscription;
 
-  chartOptions: any = this.statisticsFunctions.initChart();
+  chartOptions: any = this.statisticsFunctions.initChartPie();
 
   constructor(
     private statisticsService: StatisticsService,
@@ -31,10 +31,9 @@ export class GlobalStatisticsStadiumsCountByTown implements OnInit, OnDestroy {
       .subscribe({
         next: (data: any[]) => {
           this.stadiumsCountByTownList = data;
-          this.chartOptions.title.text = 'İlçelere Göre Saha Sayısı';
-          const { seriesArray, labelsArray } = this.statisticsFunctions.separateData(this.stadiumsCountByTownList);
+          this.chartOptions.title.text = "İlçelere Göre Saha Sayısı";
+          const { seriesArray, labelsArray } = this.statisticsFunctions.separateDataForPieChart(this.stadiumsCountByTownList);
           this.chartOptions.series = seriesArray;
-
           labelsArray.forEach((item, i) => {
             labelsArray[i] = this.globalFunctions.getTownValue(item);
           });

@@ -41,15 +41,15 @@ export class StadiumsService {
   createStadium(stadiumInfo: StadiumsModel) {
     const formData = new FormData();
     formData.append('image', stadiumInfo.imageAttachment);
-    formData.append('stadiumInfo', JSON.stringify(stadiumInfo));
+    formData.append('requestData', JSON.stringify(stadiumInfo));
 
     this.http
       .post<{data: StadiumsModel}>(
         'http://localhost:3000/admin/sahalar', formData
       )
       .subscribe({
-        next: (data) => {
-          stadiumInfo = data.data;
+        next: (responseData) => {
+          stadiumInfo = responseData.data;
           this.stadiumsList.push(stadiumInfo);
           this.stadiumsCount++;
           this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
@@ -64,17 +64,17 @@ export class StadiumsService {
   updateStadium(stadiumInfo: StadiumsModel) {
     const formData = new FormData();
     formData.append('image', stadiumInfo.imageAttachment);
-    formData.append('stadiumInfo', JSON.stringify(stadiumInfo));
+    formData.append('requestData', JSON.stringify(stadiumInfo));
 
     this.http
       .put<{data: StadiumsModel }>(
         'http://localhost:3000/admin/sahalar/' + stadiumInfo.id, formData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           // Replace updated object with the old one
           let index = this.stadiumsList.findIndex(s => s.id == stadiumInfo.id);
-          this.stadiumsList[index] = data.data;
+          this.stadiumsList[index] = responseData.data;
           this.stadiumsListSub.next({stadiumsList: this.stadiumsList, stadiumsCount: this.stadiumsCount});
           this.globalFunctions.showSnackBar("system.success.update");
         },

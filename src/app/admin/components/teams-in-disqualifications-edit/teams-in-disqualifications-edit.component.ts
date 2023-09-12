@@ -27,6 +27,10 @@ export class AdminTeamsInDisqualificationsEditModal implements OnInit {
     this.isLoading = true;
     this.teamSubmitForm = new FormGroup({
       id: new FormControl(this.teamInfo.id, {validators: [Validators.required]}),
+      createdAt: new FormControl(this.teamInfo.createdAt, {validators: []}),
+      createdBy: new FormControl(this.teamInfo.createdBy, {validators: []}),
+      updatedAt: new FormControl(this.teamInfo.updatedAt, {validators: []}),
+      updatedBy: new FormControl(this.teamInfo.updatedBy, {validators: []}),
       groupstageId: new FormControl(this.teamInfo.groupstageId, {validators: [Validators.required]}),
       teamId: new FormControl(this.teamInfo.teamId, {validators: [Validators.required]}),
       teamOfficialName: new FormControl(this.teamInfo.teamOfficialName),

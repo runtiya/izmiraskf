@@ -207,7 +207,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
       data: {
         title: "İşlemi Onaylıyor musunuz?",
-        message: "Bu işlem Fikstür bilgilerinizi kalıcı olarak silecektir! İşleminizi onaylıyor musunuz?"
+        message: "Lütfen fikstür bilgilerinizin silindiğinden emin olun! İşleminizi onaylıyor musunuz?"
       }
     });
 
@@ -217,12 +217,10 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
           if (data) {
             teams.forEach((team, i) => team.orderNo = i+1);
             this.teamsingroupstagesService.createTeamsInGroupstages(teams, this.groupstageSelectionId);
-
-            this.fixturesService.clearFixture(this.groupstageSelectionId);
+            //this.fixturesService.clearFixture(this.groupstageSelectionId);
           }
         }
       });
-
   }
 
   onRemoveList(teamId: number) {

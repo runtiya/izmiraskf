@@ -31,7 +31,6 @@ export class AdminHeader implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authenticatedUser = this.authService.getAuthenticatedUser() || JSON.parse(localStorage.getItem("userInfo"));
-    console.log(this.authenticatedUser)
     /*
     this.userName = this.authService.getUserName();
     this.userProfileImage = this.authService.getUserProfileImage();

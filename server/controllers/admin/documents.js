@@ -41,7 +41,7 @@ function getDocuments(req, res, next) {
 }
 
 function createDocument(req, res, next) {
-    const documentInfo = JSON.parse(req.body.documentInfo);
+    const documentInfo = JSON.parse(req.body.requestData);
     const fileCategory = req.params.filecategory;
     var _resStatus = 200;
     var _error = false;
@@ -109,7 +109,7 @@ function createDocument(req, res, next) {
 }
 
 function updateDocument(req, res, next) {
-    const documentInfo = JSON.parse(req.body.documentInfo);
+    const documentInfo = JSON.parse(req.body.requestData);
     const fileCategory = req.params.filecategory;
     const documentId = req.params.id;
     var documentFilePath;

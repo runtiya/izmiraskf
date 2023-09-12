@@ -42,12 +42,14 @@ export class FixtureService {
   }
 
   createFixture(_matchList: MatchModel[], _fixtureSearchIndex: FixtureSearchModel) {
+    const requestData = _matchList;
+
     this.http
       .post<{ }>(
-        'http://localhost:3000/admin/fikstur/olustur', _matchList
+        'http://localhost:3000/admin/fikstur/olustur', requestData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           if (_fixtureSearchIndex) {
             this.getFixtureBySearchIndex(_fixtureSearchIndex);
           }
@@ -60,12 +62,13 @@ export class FixtureService {
   }
 
   updateFixture(_matchList: MatchModel[], _fixtureSearchIndex: FixtureSearchModel) {
+    const requestData = _matchList;
     this.http
       .put<{ }>(
-        'http://localhost:3000/admin/fikstur/guncelle', _matchList
+        'http://localhost:3000/admin/fikstur/guncelle', requestData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           if (_fixtureSearchIndex) {
             this.getFixtureBySearchIndex(_fixtureSearchIndex);
           }

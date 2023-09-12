@@ -16,7 +16,7 @@ export class GlobalStatisticsStadiumsCountByFloorType implements OnInit, OnDestr
   stadiumsCountByFloorTypeList: any[] = [];
   private stadiumsCountByFloorTypeListSub: Subscription;
 
-  chartOptions: any = this.statisticsFunctions.initChart();
+  chartOptions: any = this.statisticsFunctions.initChartPie();
 
 
   constructor(
@@ -32,14 +32,16 @@ export class GlobalStatisticsStadiumsCountByFloorType implements OnInit, OnDestr
       .subscribe({
         next: (data: any[]) => {
           this.stadiumsCountByFloorTypeList = data;
-          this.chartOptions.title.text = 'Zemin Türüne Göre Saha Sayısı';
-          const { seriesArray, labelsArray } = this.statisticsFunctions.separateData(this.stadiumsCountByFloorTypeList);
+
+          this.chartOptions.title.text = "Zemin Türüne Göre Saha Sayısı";
+          const { seriesArray, labelsArray } = this.statisticsFunctions.separateDataForPieChart(this.stadiumsCountByFloorTypeList);
           this.chartOptions.series = seriesArray;
 
           labelsArray.forEach((item, i) => {
             labelsArray[i] = this.globalFunctions.getFloorTypeValue(item);
           });
           this.chartOptions.labels = labelsArray;
+
         }
       });
   }

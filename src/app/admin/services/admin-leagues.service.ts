@@ -37,13 +37,14 @@ export class LeaguesService {
   }
 
   createLeague(leagueInfo: LeaguesModel) {
+    const requestData = leagueInfo;
     this.http
       .post<{ data: LeaguesModel }>(
-        'http://localhost:3000/admin/ligler', leagueInfo
+        'http://localhost:3000/admin/ligler', requestData
       )
       .subscribe({
-        next: (data) => {
-          this.leagueList.push(data.data);
+        next: (responseData) => {
+          this.leagueList.push(responseData.data);
           this.leagueListSub.next([...this.leagueList]);
           this.globalFunctions.showSnackBar("system.success.create");
         },
@@ -54,16 +55,18 @@ export class LeaguesService {
   }
 
   updateLeague(leagueInfo: LeaguesModel) {
+    const requestData = leagueInfo;
+
     this.http
       .put<{ data: LeaguesModel }>(
-        'http://localhost:3000/admin/ligler/' + leagueInfo.id, leagueInfo
+        'http://localhost:3000/admin/ligler/' + requestData.id, requestData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           // Replace updated object with the old one
           this.leagueList.forEach((item, i) => {
-            if (item.id == leagueInfo.id) {
-              this.leagueList[i] = data.data;
+            if (item.id == requestData.id) {
+              this.leagueList[i] = responseData.data;
             }
           });
           this.leagueListSub.next([...this.leagueList]);

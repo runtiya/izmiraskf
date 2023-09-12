@@ -5,15 +5,16 @@ const disciplinaryBoardFileController = require('../../controllers/admin/discipl
 
 const checkAuth = require('../../middlewares/check-auth');
 const extractImage = require('../../middlewares/extract-image');
+const setTimestamp = require('../../middlewares/setTimestamp');
 
 const router = express.Router();
 
 
 router.get("/:seasonid/:casetype", checkAuth, disciplinaryBoardFileController.getDisciplinaryBoardFiles);
 
-router.post("", checkAuth, disciplinaryBoardFileController.createDisciplinaryBoardFile);
+router.post("", checkAuth, setTimestamp, disciplinaryBoardFileController.createDisciplinaryBoardFile);
 
-router.put("/:id", checkAuth, disciplinaryBoardFileController.updateDisciplinaryBoardFile);
+router.put("/:id", checkAuth, setTimestamp, disciplinaryBoardFileController.updateDisciplinaryBoardFile);
 
 router.delete("/:id", checkAuth, disciplinaryBoardFileController.deleteDisciplinaryBoardFile);
 

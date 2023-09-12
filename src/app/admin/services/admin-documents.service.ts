@@ -39,19 +39,20 @@ export class DocumentsService {
     const formData = new FormData();
     formData.append('file', documentInfo.fileAttachment);
     formData.append('fileCategory', documentInfo.fileCategory);
-    formData.append('documentInfo', JSON.stringify(documentInfo));
+    formData.append('requestData', JSON.stringify(documentInfo));
 
     this.http
       .post<{data: DocumentsModel}>(
         'http://localhost:3000/admin/dokumanlar/' + documentInfo.fileCategory, formData
       )
       .subscribe({
-        next: (data) => {
-          this.documentsList.push(data.data);
+        next: (responseData) => {
+          this.documentsList.push(responseData.data);
           this.documentsListSub.next([...this.documentsList]);
           this.globalFunctions.showSnackBar("system.success.create");
         },
         error: (error) => {
+          console.log(error)
           this.globalFunctions.showSnackBar(error);
         }
       });
@@ -61,18 +62,18 @@ export class DocumentsService {
     const formData = new FormData();
     formData.append('file', documentInfo.fileAttachment);
     formData.append('category', documentInfo.fileCategory);
-    formData.append('documentInfo', JSON.stringify(documentInfo));
+    formData.append('requestData', JSON.stringify(documentInfo));
 
     this.http
       .put<{ data: DocumentsModel }>(
         'http://localhost:3000/admin/dokumanlar/' + documentInfo.fileCategory + '/' + documentInfo.id, formData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           // Replace updated object with the old one
           this.documentsList.forEach((item, i) => {
             if (item.id == documentInfo.id) {
-              this.documentsList[i] = data.data;
+              this.documentsList[i] = responseData.data;
             }
           });
 

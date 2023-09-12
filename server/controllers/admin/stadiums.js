@@ -6,27 +6,39 @@ const imagesFunction = require("../../functions/images");
 const errorService = require('../../services/error-service.js');
 
 function getStadiums(req, res, next) {
-  (async () => {
-    var stadiumsList = [];
-    var stadiumsCount = 0;
-    var _resStatus = 200;
-    var _error = false;
-    var _message = null;
+  var stadiumsList = [];
+  var stadiumsCount = 0;
+  const paginationPageSize = +req.query.paginationPageSize;
+  const paginationCurrentPage = +req.query.paginationCurrentPage;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    const paginationPageSize = +req.query.paginationPageSize;
-    const paginationCurrentPage = +req.query.paginationCurrentPage;
-
-    stadiumsList = await new Promise((resolve, reject) => {
-      connection.query(
-        (!!paginationPageSize && !!paginationCurrentPage) ? queries.getStadiumsWithPagination : queries.getStadiums,
-        [
-          paginationPageSize,
-          (paginationCurrentPage - 1) * paginationPageSize
-        ],
-        (error, result) => {
+  const stadiumsListPromise = new Promise(async (resolve, reject) => {
+    connection.query(
+      queries.getStadiums,
+      [
+        paginationPageSize,
+        (paginationCurrentPage - 1) * paginationPageSize
+      ],
+      (error, result) => {
         if (!error) {
-          resolve(result);
+          stadiumsList = result;
+          resolve();
         } else {
+          resolve(error);
+        }
+      });
+  });
+
+  const stadiumsCountPromise = new Promise(async (resolve, reject) => {
+    connection.query(
+      queries.getStadiumsCount,
+      (error,result) => {
+        if(!error){
+          stadiumsCount = result[0].count;
+          resolve();
+        }else{
           errorService.handleError(
             errorService.errors.DATABASE_ERROR.code,
             errorService.errors.DATABASE_ERROR.message,
@@ -37,52 +49,36 @@ function getStadiums(req, res, next) {
           _resStatus = errorService.errors.DATABASE_ERROR.code;
           _message = errorService.errors.DATABASE_ERROR.message;
 
-          res.status(_resStatus).json({
-            error: _error,
-            message: _message
-          });
-          return;
-          //resolve(error.sqlMessage);
+          resolve(error.sqlMessage);
         }
-      })
-    });
+      }
+    );
+  });
 
-    stadiumsCount = await new Promise((resolve, reject) => {
-      connection.query(
-        "select count(1) as 'count' from view_admin_stadiums",
-        (error,result) => {
-          if(!error){
-            resolve(result[0].count);
-          }else{
-            errorService.handleError(
-              errorService.errors.DATABASE_ERROR.code,
-              errorService.errors.DATABASE_ERROR.message,
-              error.sqlMessage
-            );
+  Promise.all([stadiumsListPromise, stadiumsCountPromise])
+    .then(() => {
 
-            _error = true;
-            _resStatus = errorService.errors.DATABASE_ERROR.code;
-            _message = errorService.errors.DATABASE_ERROR.message;
-
-            res.status(_resStatus).json({
-              error: _error,
-              message: _message
-            });
-            return;
-            //resolve(error.sqlMessage);
-          }
-        }
+    })
+    .catch((error) => {
+      errorService.handleError(
+        errorService.errors.DATABASE_ERROR.code,
+        errorService.errors.DATABASE_ERROR.message,
+        error.sqlMessage
       );
-    });
 
-    const _stadiumsList = crypto.encryptData({stadiumsList: stadiumsList, stadiumsCount: stadiumsCount});
+      _error = true;
+      _resStatus = errorService.errors.DATABASE_ERROR.code;
+      _message = errorService.errors.DATABASE_ERROR.message;
+    })
+    .finally(() => {
+      const _stadiumsList = crypto.encryptData({stadiumsList: stadiumsList, stadiumsCount: stadiumsCount});
 
-    res.status(_resStatus).json({
-      error: _error,
-      message: _message,
-      data: _stadiumsList,
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _stadiumsList,
+      });
     });
-  })()
 };
 
 // Get a stadium by id
@@ -91,11 +87,10 @@ function findStadium(req, res, next) {
 }
 
 function createStadium(req, res, next) {
-    const stadiumInfo = JSON.parse(req.body.stadiumInfo);
+    const stadiumInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;
-
     if (!!req.file) {
       const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
@@ -160,7 +155,7 @@ function createStadium(req, res, next) {
 }
 
 function updateStadium(req, res, next) {
-    const stadiumInfo = JSON.parse(req.body.stadiumInfo);
+    const stadiumInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;

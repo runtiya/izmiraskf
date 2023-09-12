@@ -44,23 +44,26 @@ export class WeeklyMatchProgramService {
   }
 
   createWeeklyMatchProgram(weeklyMatchProgramInfo: WeeklyMatchProgramModel) {
+    const requestData = weeklyMatchProgramInfo;
+
     this.http
       .post<{ data: WeeklyMatchProgramModel }>(
-        'http://localhost:3000/admin/weekly-match-program', weeklyMatchProgramInfo
+        'http://localhost:3000/admin/weekly-match-program', requestData
       )
       .subscribe({
-        next: (data) => {
-          this.weeklyMatchProgramList.push(data.data);
+        next: (responseData) => {
+          weeklyMatchProgramInfo.id = responseData.data.id;
+          this.weeklyMatchProgramList.push(responseData.data);
           this.weeklyMatchProgramListSub.next([...this.weeklyMatchProgramList]);
           this.globalFunctions.showSnackBar("system.success.create");
           let fixtureSearchIndex: FixtureSearchModel = this.fixtureFunctions.setFixtureSearchModel(
-            weeklyMatchProgramInfo.seasonId,
+            requestData.seasonId,
             null, null, null, null, null, null, null, null, null,
-            weeklyMatchProgramInfo.beginDate,
-            weeklyMatchProgramInfo.endDate,
+            requestData.beginDate,
+            requestData.endDate,
             null
           );
-          this.weeklyMatchListService.buildWeeklyMatchList(weeklyMatchProgramInfo, fixtureSearchIndex);
+          this.weeklyMatchListService.buildWeeklyMatchList(requestData, fixtureSearchIndex);
         },
         error: (error) => {
           this.globalFunctions.showSnackBar(error);
@@ -69,16 +72,17 @@ export class WeeklyMatchProgramService {
   }
 
   updateWeeklyMatchProgram(weeklyMatchProgramInfo: WeeklyMatchProgramModel) {
+    const requestData = weeklyMatchProgramInfo;
     this.http
       .put<{ data: WeeklyMatchProgramModel }>(
-        'http://localhost:3000/admin/weekly-match-program/' + weeklyMatchProgramInfo.seasonId + '/' + weeklyMatchProgramInfo.id, weeklyMatchProgramInfo
+        'http://localhost:3000/admin/weekly-match-program/' + requestData.seasonId + '/' + requestData.id, requestData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           // Replace updated object with the old one
           this.weeklyMatchProgramList.forEach((item, i) => {
-            if (item.id == weeklyMatchProgramInfo.id) {
-              this.weeklyMatchProgramList[i] = data.data;
+            if (item.id == requestData.id) {
+              this.weeklyMatchProgramList[i] = responseData.data;
             }
           });
           this.weeklyMatchProgramListSub.next([...this.weeklyMatchProgramList]);

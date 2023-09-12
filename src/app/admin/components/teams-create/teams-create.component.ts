@@ -75,7 +75,8 @@ export class AdminTeamsCreateModal implements OnInit {
             latitude: new FormControl(this.pageMode == 'edit' ? this.teamInfo.latitude : null, {validators: []}),
             mapUrl: new FormControl(this.pageMode == 'edit' ? this.teamInfo.mapUrl : null, {validators: [Validators.maxLength(4000)]})
           });
-          this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.teamInfo.mapUrl);
+          console.log(this.teamInfo)
+          this.mapSafeSrc = this.pageMode == 'create' ? null : this.globalFunctions.getSafeResourceUrl(this.teamInfo.mapUrl);
           this.isLoading = false;
           }
       });
@@ -145,7 +146,6 @@ export class AdminTeamsCreateModal implements OnInit {
     if (this.teamSubmitForm.valid) {
       this.isLoading = true;
       this.teamSubmitForm.get('colorCodes').enable();
-      alert(this.teamSubmitForm.get('createdAt').value)
       if (this.pageMode === "create") {
         this.teamService.createTeam(this.teamSubmitForm.value);
       }

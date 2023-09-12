@@ -41,13 +41,14 @@ export class TeamsInGroupstagesService {
 
 
   createTeamsInGroupstages(teamsInGroupstagesList: TeamsInGroupstagesModel[], groupstageSelectionId: number) {
+    const requestData = teamsInGroupstagesList;
     this.http
       .post<{data: TeamsInGroupstagesModel[]}>(
-        'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageSelectionId, teamsInGroupstagesList
+        'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageSelectionId, requestData
       )
       .subscribe({
-        next: (data) => {
-          this.teamsingroupstagesList = teamsInGroupstagesList;
+        next: (responseData) => {
+          this.teamsingroupstagesList = requestData;
           !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
           this.globalFunctions.showSnackBar("system.success.create");
         },
@@ -58,18 +59,19 @@ export class TeamsInGroupstagesService {
   }
 
   updateTeamsInGroupstages(teamInfo: TeamsInGroupstagesModel) {
+    const requestData = teamInfo;
     this.http
       .put<{ data: TeamsInGroupstagesModel }>(
-        'http://localhost:3000/admin/grup-takim-eslesmeleri', teamInfo
+        'http://localhost:3000/admin/grup-takim-eslesmeleri', requestData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           this.teamsingroupstagesList.forEach((item, i) => {
-            if (item.id == teamInfo.id) {
-              this.teamsingroupstagesList[i]["isExpelled"] = data.data.isExpelled;
-              this.teamsingroupstagesList[i]["isReceded"] = data.data.isReceded;
-              this.teamsingroupstagesList[i]["weekofExpelledorReceded"] = data.data.weekofExpelledorReceded;
-              this.teamsingroupstagesList[i]["explanation"] = data.data.explanation;
+            if (item.id == requestData.id) {
+              this.teamsingroupstagesList[i]["isExpelled"] = responseData.data.isExpelled;
+              this.teamsingroupstagesList[i]["isReceded"] = responseData.data.isReceded;
+              this.teamsingroupstagesList[i]["weekofExpelledorReceded"] = responseData.data.weekofExpelledorReceded;
+              this.teamsingroupstagesList[i]["explanation"] = responseData.data.explanation;
             }
             this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]);
             this.globalFunctions.showSnackBar("system.success.update");

@@ -17,25 +17,13 @@
   <script>
 
     !function(d,s,id) {
-      console.log(d);
-      console.log(s);
-      console.log(id);
       var js,fjs = d.getElementsByTagName(s)[0];
-      console.log(js);
-      console.log(fjs);
       if(!d.getElementById(id)) {
-        console.log('if-block begin')
         js=d.createElement(s);
         js.id=id;
         js.src='https://weatherwidget.io/js/widget.min.js';
         fjs.parentNode.insertBefore(js,fjs);
-
-        console.log(js)
-        console.log(fjs);
-        console.log('if-block end')
       }
-
-
     }
     //(document,'script','weatherwidget-io-js');
 

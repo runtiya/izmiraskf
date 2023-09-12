@@ -6,74 +6,60 @@ const imagesFunction = require("../../functions/images");
 const errorService = require('../../services/error-service.js');
 
 function getNews(req, res, next) {
-  (async () => {
-    var newsList = [];
-    var newsCount = 0;
-    var _resStatus = 200;
-    var _error = false;
-    var _message = null;
+  var newsList = [];
+  var newsCount = 0;
+  const paginationPageSize = +req.query.paginationPageSize;
+  const paginationCurrentPage = +req.query.paginationCurrentPage;
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
 
-    const paginationPageSize = +req.query.paginationPageSize;
-    const paginationCurrentPage = +req.query.paginationCurrentPage;
+  const newsListPromise = new Promise(async (resolve, reject) => {
+    connection.query(
+      (!!paginationPageSize && !!paginationCurrentPage) ? queries.getNewsWithPagination : queries.getNews,
+      [
+        paginationPageSize,
+        (paginationCurrentPage - 1) * paginationPageSize
+      ],
+      (error, result) => {
+        if(!error){
+          newsList = result;
+          resolve();
+        }else{
+          resolve(error);
+        }
+      });
+  });
 
-    newsList = await new Promise((resolve, reject) => {
-      connection.query(
-        (!!paginationPageSize && !!paginationCurrentPage) ? queries.getNewsWithPagination : queries.getNews,
-        [
-          paginationPageSize,
-          (paginationCurrentPage - 1) * paginationPageSize
-        ],
-        (error, result) => {
-          if(!error){
-            resolve(result);
-          }else{
-            errorService.handleError(
-              errorService.errors.DATABASE_ERROR.code,
-              errorService.errors.DATABASE_ERROR.message,
-              error.sqlMessage
-            );
+  const newsCountPromise = new Promise(async (resolve, reject) => {
+    connection.query(
+      queries.getNewsCount,
+      (error, result) => {
+        if(!error){
+          newsCount = result[0].count;
+          resolve();
+        }else{
+          resolve(error);
+        }
+      });
+  });
 
-            _error = true;
-            _resStatus = errorService.errors.DATABASE_ERROR.code;
-            _message = errorService.errors.DATABASE_ERROR.message;
+  Promise.all([newsListPromise, newsCountPromise])
+    .then(() => {
 
-            res.status(_resStatus).json({
-              error: _error,
-              message: _message
-            });
-            return;
-            //resolve(error.sqlMessage);
-          }
-        })
-    });
+    })
+    .catch((error) => {
+      errorService.handleError(
+        errorService.errors.DATABASE_ERROR.code,
+        errorService.errors.DATABASE_ERROR.message,
+        error.sqlMessage
+      );
 
-    newsCount = await new Promise((resolve, reject) => {
-      connection.query(
-        "select count(1) as 'count' from view_admin_news",
-        (error, result) => {
-          if(!error){
-            resolve(result[0].count);
-          }else{
-            errorService.handleError(
-              errorService.errors.DATABASE_ERROR.code,
-              errorService.errors.DATABASE_ERROR.message,
-              error.sqlMessage
-            );
-
-            _error = true;
-            _resStatus = errorService.errors.DATABASE_ERROR.code;
-            _message = errorService.errors.DATABASE_ERROR.message;
-
-            res.status(_resStatus).json({
-              error: _error,
-              message: _message
-            });
-            return;
-            //resolve(error.sqlMessage);
-          }
-        })
-    });
-
+      _error = true;
+      _resStatus = errorService.errors.DATABASE_ERROR.code;
+      _message = errorService.errors.DATABASE_ERROR.message;
+    })
+    .finally(() => {
       const _newsList = crypto.encryptData({newsList: newsList, newsCount: newsCount});
 
       res.status(_resStatus).json({
@@ -81,7 +67,7 @@ function getNews(req, res, next) {
         message: _message,
         data: _newsList,
       });
-  })();
+    });
 }
 
 // Get a news by id
@@ -90,7 +76,7 @@ function findNews(req, res, next) {
 }
 
 function createNews(req, res, next) {
-    const newsInfo = JSON.parse(req.body.newsInfo);
+    const newsInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;
@@ -124,6 +110,7 @@ function createNews(req, res, next) {
       (error, result) => {
         if (!error) {
           newsInfo.id = result.insertId;
+          newsInfo.createdByUsername = req.userData.email;
         } else {
           errorService.handleError(
             errorService.errors.DATABASE_ERROR.code,
@@ -148,7 +135,7 @@ function createNews(req, res, next) {
 }
 
 function updateNews(req, res, next) {
-    const newsInfo = JSON.parse(req.body.newsInfo);
+    const newsInfo = JSON.parse(req.body.requestData);
     var _resStatus = 200;
     var _error = false;
     var _message = null;
@@ -183,6 +170,7 @@ function updateNews(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
+            newsInfo.updatedByUsername = req.userData.email;
 
         } else {
           errorService.handleError(

@@ -39,13 +39,14 @@ export class DisciplinaryBoardDecisionsService {
 
 
   createDisciplinaryBoardDecision(disciplinaryBoardDecisionInfo: DisciplinaryBoardDecisionModel) {
+    const requestData = disciplinaryBoardDecisionInfo;
     this.http
       .post<{ data: DisciplinaryBoardDecisionModel }>(
-        'http://localhost:3000/admin/disiplin-kurulu-kararlari', disciplinaryBoardDecisionInfo
+        'http://localhost:3000/admin/disiplin-kurulu-kararlari', requestData
       )
       .subscribe({
-        next: (data) => {
-          this.disciplinaryBoardDecisionList.push(data.data);
+        next: (responseData) => {
+          this.disciplinaryBoardDecisionList.push(responseData.data);
           this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]);
           this.globalFunctions.showSnackBar("system.success.create");
         },
@@ -57,15 +58,16 @@ export class DisciplinaryBoardDecisionsService {
 
 
   updateDisciplinaryBoardDecision(disciplinaryBoardDecisionInfo: DisciplinaryBoardDecisionModel) {
+    const requestData = disciplinaryBoardDecisionInfo;
     this.http
       .put<{ data: DisciplinaryBoardDecisionModel }>(
-        'http://localhost:3000/admin/disiplin-kurulu-kararlari/' + disciplinaryBoardDecisionInfo.id, disciplinaryBoardDecisionInfo
+        'http://localhost:3000/admin/disiplin-kurulu-kararlari/' + requestData.id, requestData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           this.disciplinaryBoardDecisionList.forEach((item, i) => {
-            if (item.id == disciplinaryBoardDecisionInfo.id) {
-              this.disciplinaryBoardDecisionList[i] = data.data;
+            if (item.id == requestData.id) {
+              this.disciplinaryBoardDecisionList[i] = responseData.data;
             }
           });
           this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]);

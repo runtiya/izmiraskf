@@ -30,6 +30,10 @@ export class AdminSeasonsCreateModal implements OnInit, OnDestroy {
     this.isLoading = true;
     this.seasonSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.id : null, {validators: []}),
+      createdAt: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.createdAt : null, {validators: []}),
+      createdBy: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.createdBy : null, {validators: []}),
+      updatedAt: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.updatedAt : null, {validators: []}),
+      updatedBy: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.updatedBy : null, {validators: []}),
       seasonName: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.seasonName : seasonYearList[0] + ' SEZONU', {validators: [Validators.required, Validators.maxLength(200)]}),
       seasonYear: new FormControl(this.pageMode == 'edit' ? this.seasonInfo.seasonYear : seasonYearList[0], {validators: [Validators.required, Validators.maxLength(200)]}),
       isActive: new FormControl(this.pageMode == 'edit' ? !!this.seasonInfo.isActive : true, {validators: [Validators.required]}),

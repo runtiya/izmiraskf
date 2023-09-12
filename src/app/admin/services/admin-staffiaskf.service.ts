@@ -41,15 +41,15 @@ export class StaffIASKFService {
   createStaff(staffInfo: StaffIzmirAskfModel) {
     const formData = new FormData();
     formData.append('image', staffInfo.imageAttachment);
-    formData.append('staffInfo', JSON.stringify(staffInfo));
+    formData.append('requestData', JSON.stringify(staffInfo));
 
     this.http
       .post<{data: StaffIzmirAskfModel}>(
         'http://localhost:3000/admin/izmiraskf/yonetim-kurulu', formData
       )
       .subscribe({
-        next: (data) => {
-          this.staffList.push(data.data);
+        next: (responseData) => {
+          this.staffList.push(responseData.data);
           this.staffListUpdated.next([...this.staffList]);
           this.globalFunctions.showSnackBar("system.success.create");
         },
@@ -63,18 +63,18 @@ export class StaffIASKFService {
   updateStaff(staffInfo: StaffIzmirAskfModel) {
     const formData = new FormData();
     formData.append('image', staffInfo.imageAttachment);
-    formData.append('staffInfo', JSON.stringify(staffInfo));
+    formData.append('requestData', JSON.stringify(staffInfo));
 
     this.http
       .put<{ data: StaffIzmirAskfModel }>(
         'http://localhost:3000/admin/izmiraskf/yonetim-kurulu/' + staffInfo.id, formData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           // Replace updated object with the old one
           this.staffList.forEach((item, i) => {
             if (item.id == staffInfo.id) {
-              this.staffList[i] = data.data;
+              this.staffList[i] = responseData.data;
             }
           });
           this.staffListUpdated.next([...this.staffList]);

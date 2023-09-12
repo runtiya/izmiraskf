@@ -37,6 +37,10 @@ export class AdminLeaguesCreateModal {
     this.isLoading = true;
     this.leagueSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.id : null, {validators: []}),
+      createdAt: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.createdAt : null, {validators: []}),
+      createdBy: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.createdBy : null, {validators: []}),
+      updatedAt: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.updatedAt : null, {validators: []}),
+      updatedBy: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.updatedBy : null, {validators: []}),
       seasonId: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.seasonId : this.seasonSelectionId, {validators: [Validators.required]}),
       leagueName: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.leagueName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       category: new FormControl(this.pageMode == 'edit' ? this.leagueInfo.category : null, {validators: [Validators.required, Validators.maxLength(200)]}),

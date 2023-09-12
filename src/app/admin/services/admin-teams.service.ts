@@ -45,15 +45,15 @@ export class TeamsService {
   createTeam(teamInfo: TeamsModel) {
     const formData = new FormData();
     formData.append('image', teamInfo.imageAttachment);
-    formData.append('teamInfo', JSON.stringify(teamInfo));
+    formData.append('requestData', JSON.stringify(teamInfo));
 
     this.http
       .post<{ data: TeamsModel }>(
         'http://localhost:3000/admin/takimlar', formData
       )
       .subscribe({
-        next: (data) => {
-          this.teamsList.push(data.data);
+        next: (responseData) => {
+          this.teamsList.push(responseData.data);
           this.teamsCount++;
           this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});
           this.globalFunctions.showSnackBar("system.success.create");
@@ -67,18 +67,18 @@ export class TeamsService {
   updateTeam(teamInfo: TeamsModel) {
     const formData = new FormData();
     formData.append('image', teamInfo.imageAttachment);
-    formData.append('teamInfo', JSON.stringify(teamInfo));
+    formData.append('requestData', JSON.stringify(teamInfo));
 
     this.http
       .put<{ data: TeamsModel }>(
         'http://localhost:3000/admin/takimlar/' + teamInfo.id, formData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           // Replace updated object with the old one
           this.teamsList.forEach((item, i) => {
             if (item.id == teamInfo.id) {
-              this.teamsList[i] = data.data;
+              this.teamsList[i] = responseData.data;
             }
           });
           this.teamsListSub.next({teamsList: this.teamsList, teamsCount: this.teamsCount});

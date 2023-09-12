@@ -38,15 +38,15 @@ export class ExternalLinksService {
   createLink(linkInfo: ExternalLinksModel) {
     const formData = new FormData();
     formData.append('image', linkInfo.imageAttachment);
-    formData.append('linkInfo', JSON.stringify(linkInfo));
+    formData.append('requestData', JSON.stringify(linkInfo));
 
     this.http
       .post<{ data: ExternalLinksModel }>(
         'http://localhost:3000/admin/disbaglantilar', formData
       )
       .subscribe({
-        next: (data) => {
-          this.extLinksList.push(data.data);
+        next: (responseData) => {
+          this.extLinksList.push(responseData.data);
           this.extLinksListSub.next([...this.extLinksList]);
           this.globalFunctions.showSnackBar("system.success.create");
         },
@@ -59,18 +59,18 @@ export class ExternalLinksService {
   updateLink(linkInfo: ExternalLinksModel) {
     const formData = new FormData();
     formData.append('image', linkInfo.imageAttachment);
-    formData.append('linkInfo', JSON.stringify(linkInfo));
+    formData.append('requestData', JSON.stringify(linkInfo));
 
     this.http
       .put<{ data: ExternalLinksModel }>(
         'http://localhost:3000/admin/disbaglantilar/' + linkInfo.id, formData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           // Replace updated object with the old one
           this.extLinksList.forEach((item, i) => {
             if (item.id == linkInfo.id) {
-              this.extLinksList[i] = data.data;
+              this.extLinksList[i] = responseData.data;
             }
           });
           this.extLinksListSub.next([...this.extLinksList]);

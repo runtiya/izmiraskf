@@ -60,7 +60,6 @@ export class ApplicationHome implements OnInit, OnDestroy {
       js.id=id;
       js.src='https://weatherwidget.io/js/widget.min.js';
       fjs.parentNode.insertBefore(js,fjs);
-      console.log(js)
     }
     */
   }

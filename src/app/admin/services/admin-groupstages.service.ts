@@ -65,13 +65,15 @@ export class GroupStagesService {
   }
 
   createGroupStage(groupstageInfo: GroupStagesModel) {
+    const requestData = groupstageInfo;
+
     this.http
       .post<{data: GroupStagesModel}>(
-        'http://localhost:3000/admin/gruplar', groupstageInfo
+        'http://localhost:3000/admin/gruplar', requestData
       )
       .subscribe({
-        next: (data) => {
-          this.groupstageList.push(data.data);
+        next: (responseData) => {
+          this.groupstageList.push(responseData.data);
           this.groupstageListSub.next([...this.groupstageList]);
           this.globalFunctions.showSnackBar("system.success.create");
         },
@@ -82,16 +84,18 @@ export class GroupStagesService {
   }
 
   updateGroupStage(groupstageInfo: GroupStagesModel) {
+    const requestData = groupstageInfo;
+
     this.http
       .put<{ data: GroupStagesModel }>(
-        'http://localhost:3000/admin/gruplar/' + groupstageInfo.id, groupstageInfo
+        'http://localhost:3000/admin/gruplar/' + requestData.id, requestData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           // Replace updated object with the old one
           this.groupstageList.forEach((item, i) => {
-            if (item.id == groupstageInfo.id) {
-              this.groupstageList[i] = data.data;
+            if (item.id == requestData.id) {
+              this.groupstageList[i] = responseData.data;
             }
           });
           this.groupstageListSub.next([...this.groupstageList]);

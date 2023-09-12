@@ -20,4 +20,3 @@ export const matchStatusList = [
       class: 'icon-match-status match-status-byforfeit'
     }
   ];
-  

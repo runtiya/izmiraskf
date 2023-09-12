@@ -373,6 +373,10 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     this.fixtureList[matchIndex] = match;
   }
 
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
+  }
+
 
   onSearch() {
     let arr_fixtureSearchValues = [];

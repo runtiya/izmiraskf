@@ -47,12 +47,13 @@ export class WeeklyMatchListService {
 
 
   createWeeklyMatchList(weeklyMatchListInfo: WeeklyMatchListModel[]) {
+    const requestData = weeklyMatchListInfo;
     this.http
       .post<{ }>(
-        'http://localhost:3000/admin/weekly-match-list/create', weeklyMatchListInfo
+        'http://localhost:3000/admin/weekly-match-list/create', requestData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           this.globalFunctions.showSnackBar("system.success.create");
         },
         error: (error) => {
@@ -102,15 +103,17 @@ export class WeeklyMatchListService {
   }
 
   updateMatchList(weeklyMatchInfo: WeeklyMatchListModel) {
+    const requestData = weeklyMatchInfo;
+
     this.http
       .put<{ data: WeeklyMatchListModel }>(
-        'http://localhost:3000/admin/weekly-match-list/' + weeklyMatchInfo.id, weeklyMatchInfo
+        'http://localhost:3000/admin/weekly-match-list/' + requestData.id, requestData
       )
       .subscribe({
-        next: (data) => {
+        next: (responseData) => {
           this.weeklyMatchList.forEach((item, i) => {
-            if (item.id == weeklyMatchInfo.id) {
-              this.weeklyMatchList[i] = data.data;
+            if (item.id == requestData.id) {
+              this.weeklyMatchList[i] = responseData.data;
             }
           });
           this.weeklyMatchListSub.next([...this.weeklyMatchList]);
