@@ -20,6 +20,7 @@
         mat-fab
         color="primary"
         matTooltip="Oluştur"
+        [disabled]="!seasonSelectionId"
         (click)="onCreate()"
       >
         <mat-icon>add_circle</mat-icon>

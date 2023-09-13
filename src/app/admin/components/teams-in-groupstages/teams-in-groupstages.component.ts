@@ -206,7 +206,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
   onSaveTeamsInGroupstages(teams: TeamsInGroupstagesModel[]) {
     const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
       data: {
-        title: "İşlemi Onaylıyor musunuz?",
+        title: "İŞLEMİ ONAYLIYOR MUSUNUZ?",
         message: "Lütfen fikstür bilgilerinizin silindiğinden emin olun! İşleminizi onaylıyor musunuz?"
       }
     });
