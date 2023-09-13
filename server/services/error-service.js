@@ -1,3 +1,5 @@
+const ErrorLogs = require('../models/error-logs');
+const tzoffset = (new Date()).getTimezoneOffset() * 60000;
 class errorService {
   constructor() {
     this.errors = {
@@ -19,6 +21,8 @@ class errorService {
       DATABASE_ERROR: { code: 500, message: 'server.error.database' },
       // foreign key error
       DATABASE_FOREIGNKEY_ERROR: { code: 500, message: 'server.error.database.foreignkey' },
+      MONGO_CONNECTION_ERROR: { code: 500, message: 'mongo.error.connection' },
+      MONGO_CUSTOM_ERROR: { code: 500, message: 'mongo.error.custom' },
 
       // CLIENT ERRORS
       // form validation error
@@ -28,8 +32,15 @@ class errorService {
   }
 
   handleError(errorCode, errorMessage, customMessage) {
-    //write a code to log the error
-    console.log(errorCode + ' -> ' + errorMessage + ' -> ' + customMessage)
+
+    const errorLog = new ErrorLogs({
+      timestamp: new Date(Date.now() - tzoffset).toISOString(),
+      status: errorCode,
+      message: errorMessage,
+      explanation: customMessage
+    });
+
+    errorLog.save();
   }
 }
 

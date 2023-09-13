@@ -1,10 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const mongoose = require('mongoose');
+const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+const RequestLogs = require('./models/request-logs');
+const errorService = require('./services/error-service');
 
 
 const app = express();
 
+mongoose.connect("mongodb+srv://oguztasdelen96:5boUHb0wMJevByeD@izmiraskf.riyzadp.mongodb.net/?retryWrites=true&w=majority")
+  .then(() => {
+    console.log('Mongo Atlas connected successfully!');
+  })
+  .catch(() => {
+    console.log('Mongo Atlas connection failed!');
+  })
 // Admin Routes
 const adminNewsRoutes = require('./routes/admin/news');
 const adminAboutIASKFRoutes = require('./routes/admin/aboutizmiraskf');
@@ -81,6 +92,19 @@ app.use((req, res, next) => {
   //res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
   //res.setHeader('Cache-Control', 'public, max-age=30'); // As seconds
+
+  if (!(["OPTIONS"].includes(req.method))) {
+    // Request logging to MongoDB
+    const requestLog = new RequestLogs({
+      timestamp: new Date(Date.now() - tzoffset).toISOString(),
+      method: req.method,
+      url: req.originalUrl,
+      headers: JSON.stringify(req.headers),
+      body: JSON.stringify(req.body)
+    });
+
+    requestLog.save();
+  }
 
   next();
 });

@@ -15,6 +15,11 @@ function getStaffList(req, res, next) {
       (error, result) => {
       if (!error) {
         staffList = result;
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          "my error message"
+        );
       } else {
         errorService.handleError(
           errorService.errors.DATABASE_ERROR.code,
@@ -134,6 +139,7 @@ function updateStaff(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
+
         } else {
           errorService.handleError(
             errorService.errors.DATABASE_ERROR.code,

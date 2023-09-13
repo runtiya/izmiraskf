@@ -94,14 +94,21 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
     this.weeklyMatchProgramListSubscription = this.weeklymatchprogramService.getDocumentsListUpdateListener()
       .subscribe({
         next: (data: WeeklyMatchProgramModel[]) => {
-          this.weeklyMatchProgramList = data;
-          let _weeklyMatchProgramIds: Array<number> = [];
-          this.weeklyMatchProgramList.forEach(wmpl => {
-            _weeklyMatchProgramIds.push(wmpl.id);
-          });
+          if (data.length > 0) {
+            this.weeklyMatchProgramList = data;
+            let _weeklyMatchProgramIds: Array<number> = [];
+            this.weeklyMatchProgramList.forEach(wmpl => {
+              _weeklyMatchProgramIds.push(wmpl.id);
+            });
 
-          this.weeklymatchlistService.getWeeklyMatchList(this.seasonSelectionId);
-          this.onSearchFixture(_weeklyMatchProgramIds);
+            this.weeklymatchlistService.getWeeklyMatchList(this.seasonSelectionId);
+            this.onSearchFixture(_weeklyMatchProgramIds);
+          } else {
+            this.weeklyMatchProgramList = [];
+            this.weeklyMatchList = [];
+            this.fixtureList = [];
+          }
+
         },
         error: (error) => {
 

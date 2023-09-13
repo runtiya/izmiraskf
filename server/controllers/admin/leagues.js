@@ -60,7 +60,7 @@ function createLeague(req, res, next) {
       ],
       (error, result) => {
         if (!error) {
-          leagueInfo = result.insertId;
+          leagueInfo.id = result.insertId;
         } else {
           errorService.handleError(
             errorService.errors.DATABASE_ERROR.code,

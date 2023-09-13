@@ -85,10 +85,10 @@ export class AdminGroupList implements OnInit, OnDestroy {
       .subscribe((data: GroupStagesModel[]) => {
         if (data.length > 0) {
           this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
-          this.isLoading = false;
         } else {
           this.groupstageList = [];
         }
+        this.isLoading = false;
       });
   }
 
@@ -157,7 +157,7 @@ export class AdminGroupList implements OnInit, OnDestroy {
   }
 
   findPeriodSystem(periodSystem: number) {
-    return groupPeriodSystemList.find(e => {return e.value == periodSystem}).name
+    return groupPeriodSystemList.find(e => {return e.value == periodSystem}).name;
   }
 
   ngOnDestroy(): void {
