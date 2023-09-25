@@ -9,8 +9,9 @@ import { FixtureService } from "./admin-fixtures.service";
 import { FixtureModel } from "../models/admin-fixture.model";
 import { FixtureSearchModel } from "../models/admin-fixture-search-index.model";
 
-
 import { globalFunctions } from "../../functions/global.function";
+
+import { environment } from "../../../environments/environment";
 
 @Injectable({providedIn: 'root'})
 export class WeeklyMatchListService {
@@ -28,7 +29,7 @@ export class WeeklyMatchListService {
   getWeeklyMatchList(weeklyMatchProgramId: number) {
     this.http
       .get<{data: WeeklyMatchListModel[]}>(
-        'http://localhost:3000/admin/weekly-match-list/' + weeklyMatchProgramId
+        environment.serverUrl + "admin/weekly-match-list/" + weeklyMatchProgramId
       )
       .subscribe({
         next: (data) => {
@@ -50,7 +51,7 @@ export class WeeklyMatchListService {
     const requestData = weeklyMatchListInfo;
     this.http
       .post<{ }>(
-        'http://localhost:3000/admin/weekly-match-list/create', requestData
+        environment.serverUrl + "admin/weekly-match-list/create", requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -104,7 +105,7 @@ export class WeeklyMatchListService {
 
     this.http
       .put<{ data: WeeklyMatchListModel }>(
-        'http://localhost:3000/admin/weekly-match-list/' + requestData.id, requestData
+        environment.serverUrl + "admin/weekly-match-list/" + requestData.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -125,7 +126,7 @@ export class WeeklyMatchListService {
   clearMatchList(weeklyMatchProgramId: number, fixtureSearchIndex: FixtureSearchModel) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/weekly-match-list/clear/' + weeklyMatchProgramId
+        environment.serverUrl + "admin/weekly-match-list/clear/" + weeklyMatchProgramId
       )
       .subscribe({
         next: (data) => {
@@ -143,7 +144,7 @@ export class WeeklyMatchListService {
   deleteMatchFromList(weeklyMatchListId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/weekly-match-list/delete/' + weeklyMatchListId
+        environment.serverUrl + "admin/weekly-match-list/delete/" + weeklyMatchListId
       )
       .subscribe({
         next: (data) => {

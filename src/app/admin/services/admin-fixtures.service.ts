@@ -8,6 +8,8 @@ import { MatchModel } from "../models/admin-match.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class FixtureService {
   private fixtureList: FixtureModel[] = [];
@@ -21,7 +23,7 @@ export class FixtureService {
   getFixtureBySearchIndex(fixtureSearchIndex: FixtureSearchModel) {
     this.http
       .put<{data: FixtureModel[]}>(
-        'http://localhost:3000/admin/fixture/arama', fixtureSearchIndex
+        environment.serverUrl + "admin/fixture/search", fixtureSearchIndex
       )
       .subscribe({
         next: (data) => {
@@ -42,7 +44,7 @@ export class FixtureService {
     const requestData = _matchList;
     this.http
       .post<{ }>(
-        'http://localhost:3000/admin/fixture/olustur', requestData
+        environment.serverUrl + "admin/fixture/create", requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -61,7 +63,7 @@ export class FixtureService {
     const requestData = _matchList;
     this.http
       .put<{ }>(
-        'http://localhost:3000/admin/fixture/guncelle', requestData
+        environment.serverUrl + "admin/fixture/update", requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -100,7 +102,7 @@ export class FixtureService {
   deleteMatch(_id: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/fixture/sil/' +_id
+        environment.serverUrl + "admin/fixture/delete/" +_id
       )
       .subscribe({
         next: (data) => {
@@ -117,7 +119,7 @@ export class FixtureService {
   clearFixture(groupstageId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/fixture/temizle/' + groupstageId
+        environment.serverUrl + "admin/fixture/clear/" + groupstageId
       )
       .subscribe({
         next: (data) => {

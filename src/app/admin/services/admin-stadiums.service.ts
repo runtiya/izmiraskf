@@ -6,6 +6,8 @@ import { StadiumsModel } from "../models/admin-stadiums.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class StadiumsService {
   private stadiumsList: StadiumsModel[] = [];
@@ -20,7 +22,7 @@ export class StadiumsService {
   getStadiums(paginationPageSize?: number, paginationCurrentPage?: number) {
     this.http
       .get<{data: {stadiumsList: StadiumsModel[], stadiumsCount: number}}>(
-        `http://localhost:3000/admin/stadiums?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+        environment.serverUrl + `admin/stadiums?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
       )
       .subscribe({
         next: (data) => {
@@ -45,7 +47,7 @@ export class StadiumsService {
 
     this.http
       .post<{data: StadiumsModel}>(
-        'http://localhost:3000/admin/stadiums', formData
+        environment.serverUrl + "admin/stadiums", formData
       )
       .subscribe({
         next: (responseData) => {
@@ -68,7 +70,7 @@ export class StadiumsService {
 
     this.http
       .put<{data: StadiumsModel }>(
-        'http://localhost:3000/admin/stadiums/' + stadiumInfo.id, formData
+        environment.serverUrl + "admin/stadiums/" + stadiumInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -87,7 +89,7 @@ export class StadiumsService {
   deleteStadium(stadiumId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/stadiums/' + stadiumId
+        environment.serverUrl + "admin/stadiums/" + stadiumId
       )
       .subscribe({
         next: (data) => {

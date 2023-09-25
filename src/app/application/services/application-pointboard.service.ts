@@ -8,6 +8,8 @@ import { GroupStagesService } from "../services/application-groupstages.service"
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class PointBoardService {
   private pointBoardList: PointBoardModel[] = [];
@@ -55,7 +57,7 @@ export class PointBoardService {
 
   getCurrentPointBoard(_groupstageId: number, _matchWeek: number): Observable<any> {
     return this.http.get<{data: PointBoardModel[]}>(
-      'http://localhost:3000/point-board/' + _groupstageId + '/' + _matchWeek
+      environment.serverUrl + "point-board/" + _groupstageId + "/" + _matchWeek
       );
   }
 }

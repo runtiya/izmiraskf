@@ -6,6 +6,8 @@ import { LeaguesModel } from "../models/application-leagues.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class LeaguesService {
   private leagueList: LeaguesModel[] = [];
@@ -19,7 +21,7 @@ export class LeaguesService {
   getLeagues(seasonId: number) {
     this.http
       .get<{data: LeaguesModel[]}>(
-        'http://localhost:3000/leagues/' + seasonId
+        environment.serverUrl + "leagues/" + seasonId
       )
       .subscribe({
         next: (data) => {

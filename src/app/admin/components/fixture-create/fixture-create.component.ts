@@ -114,6 +114,13 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
             this.groupstageList = [];
             this.teamsingroupstagesList = [];
             this.fixtureList = [];
+            this.groupByFixture = [];
+
+            this.seasonSelectionId = null;
+            this.leagueSelectionId = null;
+            this.groupstageSelectionId = null;
+            this.onSearch();
+            this.isLoading = false;
           }
         }
       });
@@ -130,6 +137,12 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
             this.groupstageList = [];
             this.teamsingroupstagesList = [];
             this.fixtureList = [];
+            this.groupByFixture = [];
+
+            this.leagueSelectionId = null;
+            this.groupstageSelectionId = null;
+            this.onSearch();
+            this.isLoading = false;
           }
         }
       });
@@ -145,6 +158,11 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
             this.groupstageSelectionId = null;
             this.teamsingroupstagesList = [];
             this.fixtureList = [];
+            this.groupByFixture = [];
+
+            this.groupstageSelectionId = null;
+
+            this.isLoading = false;
           }
           this.onSearch();
         }
@@ -158,8 +176,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
           } else {
             this.teamsingroupstagesList = [];
           }
-        },
-        error: (error) => {
+          this.isLoading = false;
         }
       });
 
@@ -167,8 +184,14 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
     this.fixtureListSub = this.fixturesService.getFixtureUpdateListener()
       .subscribe({
         next: (data: FixtureModel[]) => {
-          this.fixtureList = data.sort((a, b) => a.orderNo - b.orderNo);
-          this.groupByFixture = this.groupByToFixture(this.fixtureList);
+          if (data.length > 0) {
+            this.fixtureList = data.sort((a, b) => a.orderNo - b.orderNo);
+            this.groupByFixture = this.groupByToFixture(this.fixtureList);
+          } else {
+            this.fixtureList = [];
+            this.groupByFixture = [];
+          }
+
           this.isLoading = false;
         }
       });
@@ -199,6 +222,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
 
 
   onSearch() {
+    this.isLoading = true;
     this.teamsingroupstagesService.getTeamsInGroupstages(this.groupstageSelectionId);
 
     this.fixtureSearchIndex = this.fixtureFunctions.setFixtureSearchModel(

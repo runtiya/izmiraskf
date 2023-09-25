@@ -6,6 +6,8 @@ import { TemplateFilesModel } from "../models/admin-templatefiles.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class TemplateFilesService {
   private templateFilesList: TemplateFilesModel[] = [];
@@ -20,7 +22,7 @@ export class TemplateFilesService {
     try {
       this.http
         .get<{data: TemplateFilesModel[]}>(
-          'http://localhost:3000/admin/template-files'
+          environment.serverUrl + "admin/template-files"
         )
         .subscribe({
           next: (data) => {
@@ -48,7 +50,7 @@ export class TemplateFilesService {
 
     this.http
       .put<{ data: TemplateFilesModel }>(
-        'http://localhost:3000/admin/template-files/' + templateFileInfo.id, formData
+        environment.serverUrl + "admin/template-files/" + templateFileInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {

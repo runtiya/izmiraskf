@@ -5,6 +5,8 @@ import { Subject } from 'rxjs';
 import { StaffIzmirAskfModel } from "../models/application-staffizmiraskf.model";
 
 import { globalFunctions } from "../../functions/global.function";
+
+import { environment } from "../../../environments/environment";
 @Injectable({providedIn: 'root'})
 export class StaffIASKFService {
   private staffList: StaffIzmirAskfModel[] = [];
@@ -18,7 +20,7 @@ export class StaffIASKFService {
   getStaff() {
     this.http
       .get<{data: any}>(
-        'http://localhost:3000/izmiraskf/staff'
+        environment.serverUrl + "izmiraskf/staff"
       )
       .subscribe({
         next: (data) => {

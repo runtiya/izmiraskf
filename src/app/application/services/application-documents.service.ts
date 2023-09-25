@@ -6,6 +6,8 @@ import { DocumentsModel } from "../models/application-documents.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class DocumentsService {
   private documentsList: DocumentsModel[] = [];
@@ -20,7 +22,7 @@ export class DocumentsService {
 
     this.http
       .get<{data: DocumentsModel[]}>(
-        'http://localhost:3000/documents/' + category
+        environment.serverUrl + "documents/" + category
       )
       .subscribe({
         next: (data) => {

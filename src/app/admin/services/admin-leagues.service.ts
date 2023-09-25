@@ -6,6 +6,8 @@ import { LeaguesModel } from "../models/admin-leagues.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class LeaguesService {
   private leagueList: LeaguesModel[] = [];
@@ -19,7 +21,7 @@ export class LeaguesService {
   getLeagues(seasonId: number) {
     this.http
       .get<{data: LeaguesModel[]}>(
-        'http://localhost:3000/admin/leagues/' + seasonId
+        environment.serverUrl + "admin/leagues/" + seasonId
       )
       .subscribe({
         next: (data) => {
@@ -40,7 +42,7 @@ export class LeaguesService {
     const requestData = leagueInfo;
     this.http
       .post<{ data: LeaguesModel }>(
-        'http://localhost:3000/admin/leagues', requestData
+        environment.serverUrl + "admin/leagues", requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -58,7 +60,7 @@ export class LeaguesService {
     const requestData = leagueInfo;
     this.http
       .put<{ data: LeaguesModel }>(
-        'http://localhost:3000/admin/leagues/' + requestData.id, requestData
+        environment.serverUrl + "admin/leagues/" + requestData.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -80,7 +82,7 @@ export class LeaguesService {
   deleteLeague(leagueId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/leagues/' + leagueId
+        environment.serverUrl + "admin/leagues/" + leagueId
       )
       .subscribe({
         next: (data) => {

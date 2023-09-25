@@ -6,6 +6,8 @@ import { TeamsModel } from "../models/application-teams.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({ providedIn: 'root' })
 export class TeamsService {
   private teamList: TeamsModel[] = [];
@@ -22,7 +24,7 @@ export class TeamsService {
   getTeams(paginationPageSize: number, paginationCurrentPage: number) {
     this.http
       .get<{ data: {teamsList: TeamsModel[], teamsCount: number} }>(
-        `http://localhost:3000/teams?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+        environment.serverUrl + `teams?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
       )
       .subscribe({
         next: (data) => {
@@ -42,7 +44,7 @@ export class TeamsService {
   getTeamById(_id: number) {
     this.http
       .get<{ data: TeamsModel}>(
-        'http://localhost:3000/teams/' + _id
+        environment.serverUrl + "teams/" + _id
       )
       .subscribe({
         next: (data) => {

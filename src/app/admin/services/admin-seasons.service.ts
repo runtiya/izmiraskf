@@ -5,6 +5,8 @@ import { Subject } from "rxjs";
 import { SeasonsModel } from "../models/admin-seasons.model";
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class SeasonsService {
   private seasonsList: SeasonsModel[] = [];
@@ -18,7 +20,7 @@ export class SeasonsService {
   getSeasons() {
     this.http
       .get<{data: SeasonsModel[]}>(
-        'http://localhost:3000/admin/seasons'
+        environment.serverUrl + "admin/seasons"
       )
       .subscribe({
         next: (data) => {
@@ -39,7 +41,7 @@ export class SeasonsService {
     const requestData = seasonInfo;
     this.http
       .post<{data: SeasonsModel}>(
-        'http://localhost:3000/admin/seasons', requestData
+        environment.serverUrl + "admin/seasons", requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -57,7 +59,7 @@ export class SeasonsService {
     const requestData = seasonInfo;
     this.http
       .put<{data: SeasonsModel}>(
-        'http://localhost:3000/admin/seasons/' + requestData.id, requestData
+        environment.serverUrl + "admin/seasons/" + requestData.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -79,7 +81,7 @@ export class SeasonsService {
   deleteSeason(seasonId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/seasons/' + seasonId
+        environment.serverUrl + "admin/seasons/" + seasonId
       )
       .subscribe({
         next: (data) => {

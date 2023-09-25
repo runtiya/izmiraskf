@@ -14,25 +14,25 @@ const storage = multer.diskStorage({
       error = null;
     }
     const cbFunctions = {
-      '/admin/takimlar': () => {
+      '/admin/teams': () => {
         cb(error, "server/images/teams");
       },
-      '/admin/sahalar': () => {
+      '/admin/stadiums': () => {
         cb(error, "server/images/stadiums");
       },
-      '/admin/haberler': () => {
+      '/admin/news': () => {
         cb(error, "server/images/news");
       },
-      '/admin/izmiraskf/yonetim-kurulu': () => {
+      '/admin/izmiraskf/staff': () => {
         cb(error, "server/images/staff");
       },
-      '/admin/tffiltemsilciligi/tffiltemsilciligi': () => {
+      '/admin/tffiltemsilciligi/staff': () => {
         cb(error, "server/images/staff");
       },
-      '/admin/kullanicilar': () => {
+      '/admin/users': () => {
         cb(error, "server/images/users");
       },
-      '/admin/disbaglantilar': () => {
+      '/admin/external-links': () => {
         cb(error, "server/images/icons");
       }
     };

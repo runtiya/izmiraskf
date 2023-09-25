@@ -6,6 +6,8 @@ import { StaffITFFModel } from "../models/application-staffizmirtff.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({ providedIn: 'root' })
 export class StaffITFFService {
   private staffList: StaffITFFModel[] = [];
@@ -19,7 +21,7 @@ export class StaffITFFService {
   getStaff() {
     this.http
       .get<{ data: StaffITFFModel[] }>(
-        'http://localhost:3000/tffiltemsilciligi/staff'
+        environment.serverUrl + "tffiltemsilciligi/staff"
       )
       .subscribe({
         next: (data) => {

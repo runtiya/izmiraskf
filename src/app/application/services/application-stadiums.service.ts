@@ -6,6 +6,8 @@ import { StadiumsModel } from "../models/application-stadiums.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class StadiumsService {
   private stadiumsList: StadiumsModel[] = [];
@@ -22,7 +24,7 @@ export class StadiumsService {
   getStadiums(paginationPageSize: number, paginationCurrentPage: number) {
     this.http
       .get<{data: {stadiumsList: StadiumsModel[], stadiumsCount: number }}>(
-        `http://localhost:3000/stadiums?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+        environment.serverUrl + `stadiums?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
       )
       .subscribe({
         next: (data) => {
@@ -42,7 +44,7 @@ export class StadiumsService {
   getStadiumById(_id: number) {
     this.http
       .get<{ data: StadiumsModel}>(
-        'http://localhost:3000/stadiums/' + _id
+        environment.serverUrl + "stadiums/" + _id
       )
       .subscribe({
         next: (data) => {

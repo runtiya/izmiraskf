@@ -6,6 +6,7 @@ import { WeeklyMatchListModel } from "../models/application-weeklymatchlist.mode
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
 
 @Injectable({providedIn: 'root'})
 export class WeeklyMatchListService {
@@ -20,7 +21,7 @@ export class WeeklyMatchListService {
   getWeeklyMatchList() {
     this.http
       .get<{data: WeeklyMatchListModel[]}>(
-        'http://localhost:3000/weekly-match-list/'
+        environment.serverUrl + "weekly-match-list/"
       )
       .subscribe({
         next: (data) => {

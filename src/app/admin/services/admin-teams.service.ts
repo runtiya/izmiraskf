@@ -6,6 +6,8 @@ import { TeamsModel } from "../models/admin-teams.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({ providedIn: 'root' })
 export class TeamsService {
   private teamsList: TeamsModel[] = [];
@@ -20,7 +22,7 @@ export class TeamsService {
   getTeams(paginationPageSize?: number, paginationCurrentPage?: number) {
     this.http
       .get<{ data: {teamsList: TeamsModel[], teamsCount: number} }>(
-        `http://localhost:3000/admin/teams?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+        environment.serverUrl + `admin/teams?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
       )
       .subscribe({
         next: (data) => {
@@ -45,7 +47,7 @@ export class TeamsService {
 
     this.http
       .post<{ data: TeamsModel }>(
-        'http://localhost:3000/admin/teams', formData
+        environment.serverUrl + "admin/teams", formData
       )
       .subscribe({
         next: (responseData) => {
@@ -67,7 +69,7 @@ export class TeamsService {
 
     this.http
       .put<{ data: TeamsModel }>(
-        'http://localhost:3000/admin/teams/' + teamInfo.id, formData
+        environment.serverUrl + "admin/teams/" + teamInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -89,7 +91,7 @@ export class TeamsService {
   deleteTeam(teamId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/teams/' + teamId
+        environment.serverUrl + "admin/teams/" + teamId
       )
       .subscribe({
         next: (data) => {

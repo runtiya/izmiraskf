@@ -6,6 +6,8 @@ import { NewsModel } from "../models/application-news.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class NewsService {
   private newsList: NewsModel[] = [];
@@ -25,7 +27,7 @@ export class NewsService {
   getNews(paginationPageSize: number, paginationCurrentPage: number) {
     this.http
       .get<{data: {newsList: NewsModel[], newsCount: number}}>(
-        `http://localhost:3000/news/list?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+        environment.serverUrl + `news/list?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
       )
       .subscribe({
       next: (data) => {
@@ -46,7 +48,7 @@ export class NewsService {
   getNewsById(id: number) {
     this.http
       .get<{data: NewsModel}>(
-        'http://localhost:3000/news/news-id/' + id
+        environment.serverUrl + "news/news-id/" + id
       )
       .subscribe({
         next: (data) => {
@@ -66,7 +68,7 @@ export class NewsService {
   getNewsForSlider() {
     this.http
       .get<{data: NewsModel[]}>(
-        'http://localhost:3000/news/hot-topics'
+        environment.serverUrl + "news/hot-topics"
       )
       .subscribe({
         next: (data) => {

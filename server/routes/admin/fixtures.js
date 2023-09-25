@@ -10,14 +10,14 @@ const setTimestamp = require('../../middlewares/setTimestamp');
 const router = express.Router();
 
 
-router.put("/arama", checkAuth, setTimestamp, fixturesController.getFixtureBySearchIndex);
+router.put("/search", checkAuth, setTimestamp, fixturesController.getFixtureBySearchIndex);
 
-router.post("/olustur", checkAuth, setTimestamp, fixturesController.createFixture);
+router.post("/create", checkAuth, setTimestamp, fixturesController.createFixture);
 
-router.put("/guncelle", checkAuth, setTimestamp, fixturesController.updateFixture);
+router.put("/update", checkAuth, setTimestamp, fixturesController.updateFixture);
 
-router.delete("/sil/:id", checkAuth, fixturesController.deleteMatch);
+router.delete("/delete/:id", checkAuth, fixturesController.deleteMatch);
 
-router.delete("/temizle/:groupstageid", checkAuth, fixturesController.clearFixture)
+router.delete("/clear/:groupstageid", checkAuth, fixturesController.clearFixture)
 
 module.exports = router;

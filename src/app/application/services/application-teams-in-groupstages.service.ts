@@ -7,6 +7,8 @@ import { TeamsModel } from "../models/application-teams.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class TeamsInGroupstagesService {
   private teamsingroupstagesList: TeamsInGroupstagesModel[] = [];
@@ -22,7 +24,7 @@ export class TeamsInGroupstagesService {
   getTeamsInGroupstages(groupstageId: number) {
     this.http
       .get<{data: TeamsInGroupstagesModel[]}>(
-        'http://localhost:3000/teams-in-groupstages/' + groupstageId
+        environment.serverUrl + "teams-in-groupstages/" + groupstageId
       )
       .subscribe({
         next: (data) => {
@@ -42,7 +44,7 @@ export class TeamsInGroupstagesService {
   getTeams() {
     this.http
       .get<{data: TeamsModel[]}>(
-        'http://localhost:3000/teams-in-groupstages'
+        environment.serverUrl + "teams-in-groupstages"
       )
       .subscribe({
         next: (data) => {

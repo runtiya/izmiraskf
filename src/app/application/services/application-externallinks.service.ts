@@ -6,6 +6,8 @@ import { ExternalLinksModel } from "../models/application-externallinks.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class ExternalLinksService {
   private extLinksList: ExternalLinksModel[] = [];
@@ -21,7 +23,7 @@ export class ExternalLinksService {
   getLinks(_linkType: string) {
     this.http
       .get<{data: ExternalLinksModel[]}>(
-        'http://localhost:3000/external-links/' + _linkType
+        environment.serverUrl + "external-links/" + _linkType
       )
       .subscribe({
         next: (data) => {

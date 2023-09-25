@@ -153,6 +153,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: Array<number>[]) => {
           this.weekSequenceList = data;
+          this.isLoading = false;
         }
       });
 
