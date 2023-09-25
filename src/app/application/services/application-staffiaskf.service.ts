@@ -1,17 +1,14 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
-import { map } from "rxjs/operators";
 
 import { StaffIzmirAskfModel } from "../models/application-staffizmiraskf.model";
 
 import { globalFunctions } from "../../functions/global.function";
-
 @Injectable({providedIn: 'root'})
 export class StaffIASKFService {
   private staffList: StaffIzmirAskfModel[] = [];
   private staffListUpdated = new Subject<StaffIzmirAskfModel[]>();
-
 
   constructor(
     private http: HttpClient,
@@ -21,7 +18,7 @@ export class StaffIASKFService {
   getStaff() {
     this.http
       .get<{data: any}>(
-        'http://localhost:3000/izmiraskf/yonetim-kurulu'
+        'http://localhost:3000/izmiraskf/staff'
       )
       .subscribe({
         next: (data) => {

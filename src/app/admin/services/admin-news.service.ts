@@ -1,9 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
-import { map } from "rxjs/operators";
-import { Router } from "@angular/router";
-
 
 import { NewsModel } from "../models/admin-news.model";
 
@@ -18,12 +15,12 @@ export class NewsService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {}
+  ) {}
 
   getNews(paginationPageSize?: number, paginationCurrentPage?: number) {
     this.http
       .get<{data: {newsList: NewsModel[], newsCount: number}}>(
-        `http://localhost:3000/admin/haberler?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+        `http://localhost:3000/admin/news?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
       )
       .subscribe({
       next: (data) => {
@@ -48,7 +45,7 @@ export class NewsService {
 
     this.http
       .post<{data: NewsModel}>(
-        'http://localhost:3000/admin/haberler', formData
+        'http://localhost:3000/admin/news', formData
       )
       .subscribe({
         next: (responseData) => {
@@ -70,7 +67,7 @@ export class NewsService {
 
     this.http
       .put<{ data: NewsModel }>(
-        'http://localhost:3000/admin/haberler/' + newsInfo.id, formData
+        'http://localhost:3000/admin/news/' + newsInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -91,7 +88,7 @@ export class NewsService {
   deleteNews(newsId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/haberler/' + newsId
+        'http://localhost:3000/admin/news/' + newsId
       )
       .subscribe({
         next: (data) => {

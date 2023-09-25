@@ -51,7 +51,6 @@ export class AdminStadiumsList implements OnInit, OnDestroy {
           this.isLoading = false;
         }
       });
-
   }
 
   onCreate() {

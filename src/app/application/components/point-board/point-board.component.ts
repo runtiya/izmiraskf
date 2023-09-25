@@ -45,14 +45,12 @@ export class ApplicationPointBoard implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.teamsingroupstageListSub = this.teamsingroupstageService.getTeamsInGroupstagesUpdateListener()
       .subscribe({
         next: (data: TeamsInGroupstagesModel[]) => {
           this.teamsingroupstageList = data;
           this.expelledOrRecededTeamsInGroupstageList = this.teamsingroupstageList.filter(t => !!t.isExpelled || !!t.isReceded);
-        },
-        error: (error) => {
-
         }
       });
 
@@ -60,16 +58,13 @@ export class ApplicationPointBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: PointBoardModel[]) => {
           this.pointBoardList = data;
-        },
-        error: (error) => {
+          this.isLoading = false;
         }
       });
-
   }
 
   findExpelledOrRecededTeam(_teamId: number): boolean {
     let team = this.expelledOrRecededTeamsInGroupstageList.find(team => team.teamId == _teamId);
-
     return !!team;
   }
 

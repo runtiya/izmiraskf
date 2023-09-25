@@ -9,6 +9,8 @@ import { documentCategoryList } from "../../../assets/lists/documents-category.l
 import { globalFunctions } from "../../../functions/global.function";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
+
+
 @Component({
   selector: 'app-application-documents-list',
   templateUrl: './documents-list.component.html',
@@ -29,7 +31,7 @@ export class ApplicationDocumentList implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-
+    this.isLoading = true;
     this.router.paramMap
       .subscribe(params => {
         this.url_category = params.get('category').toUpperCase();
@@ -42,6 +44,7 @@ export class ApplicationDocumentList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: DocumentsModel[]) => {
           this.documentsList = data;
+          this.isLoading = false;
         }
       });
   }

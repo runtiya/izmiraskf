@@ -76,17 +76,18 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
     private seasonsService: SeasonsService,
     private dialog: MatDialog,
     private globalFunctions: globalFunctions,
-    private router: ActivatedRoute,
+    private router: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.router.paramMap
-          .subscribe(params => {
-            this.url_caseType = params.get('casetype').toUpperCase();
-            this.toolbarTitle = disciplinaryCommitteesList.find(c => c.name == this.url_caseType).pageDecisionTitle;
-            this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-            this.seasonsService.getSeasons();
-          });
+      .subscribe(params => {
+        this.url_caseType = params.get('casetype').toUpperCase();
+        this.toolbarTitle = disciplinaryCommitteesList.find(c => c.name == this.url_caseType).pageDecisionTitle;
+        this.globalFunctions.setToolbarTitle(this.toolbarTitle);
+        this.seasonsService.getSeasons();
+      });
 
 
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
@@ -96,12 +97,8 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
           this.seasonSelectionId = this.seasonsList[0]["id"];
           this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
           this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
-        },
-        error: (error) => {
-
         }
       });
-
 
     this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
       .subscribe({
@@ -117,9 +114,6 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
             this.disciplinaryBoardFileDetails = null;
             this.disciplinaryBoardDecisionsList = [];
           }
-        },
-        error: (error) => {
-
         }
       });
 
@@ -140,16 +134,14 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
             this.filteredDisciplinaryBoardDecisionsList = this.disciplinaryBoardDecisionsList;
           }
 
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
-
   }
 
   onSearch() {
     if (this.disciplinaryBoardFileSelectionId !== null) {
+      this.isLoading = true;
       this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
       this.disciplinaryBoardFileDetails = this.disciplinaryBoardFileSelectionId !== null ? this.disciplinaryBoardFilesList.find(file => file.id == this.disciplinaryBoardFileSelectionId) : null;
     } else {
@@ -160,7 +152,6 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
 
   onSeasonChange() {
     this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
-    //this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
   }
 
   onFileNoChange() {

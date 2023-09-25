@@ -1,11 +1,8 @@
-import { DatePipe } from "@angular/common";
-import { Component, OnInit, OnDestroy, ViewChild, Input } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE }  from "@angular/material/core";
-import { FormBuilder } from '@angular/forms';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute } from "@angular/router";
+import { FormControl, FormGroup } from "@angular/forms";
+
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { NewsModel } from "../../models/application-news.model";
 import { NewsService } from "../../services/application-news.service";
@@ -13,6 +10,7 @@ import { NewsService } from "../../services/application-news.service";
 import { globalFunctions } from "../../../functions/global.function";
 
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 @Component({
   selector: 'app-application-news-details',
@@ -72,13 +70,14 @@ export class ApplicationNewsDetails implements OnInit, OnDestroy {
   }
 
   constructor(
-    private router: ActivatedRoute,
+    private activatedRouter: ActivatedRoute,
     private newsService: NewsService,
-    private _dateAdapter: DateAdapter<Date>,
-    private globalFunctions: globalFunctions
+    private globalFunctions: globalFunctions,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.newsForm = new FormGroup({
       createdAt: new FormControl(null, {validators: []}),
@@ -86,7 +85,7 @@ export class ApplicationNewsDetails implements OnInit, OnDestroy {
       content: new FormControl(null, {validators: []}),
     });
 
-    this.router.paramMap
+    this.activatedRouter.paramMap
       .subscribe(params => {
         this.url_newsId = Number(params.get('id'));
         this.newsService.getNewsById(this.url_newsId);
@@ -94,16 +93,21 @@ export class ApplicationNewsDetails implements OnInit, OnDestroy {
           .subscribe({
             next: (data) => {
               this.news = data;
-
               this.newsForm.get('createdAt').setValue(this.news.createdAt);
               this.newsForm.get('title').setValue(this.news.title);
               this.newsForm.get('content').setValue(this.news.content);
-            },
-            error: (error) => {
-
+              this.isLoading = false;
             }
           });
       });
+  }
+
+  showNewsList() {
+    this.router.navigate(['/haberler']);
+  }
+
+  getFontAwesomeIcon(_icon: string): IconDefinition {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   ngOnDestroy(): void {

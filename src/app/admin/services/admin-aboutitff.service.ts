@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
-import { map } from "rxjs/operators";
-import { Router } from "@angular/router";
 
 import { AboutITFFModel } from "../models/admin-aboutizmirtff.model";
 
@@ -21,7 +19,7 @@ export class AboutITFFService {
   getAboutContent() {
     this.http
       .get<{ data: AboutITFFModel }>(
-        'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda'
+        'http://localhost:3000/admin/tffiltemsilciligi/about-us'
       )
       .subscribe({
         next: (data) => {
@@ -32,7 +30,6 @@ export class AboutITFFService {
           this.globalFunctions.showSnackBar(error);
         }
       });
-
   }
 
   getAboutContentListener() {
@@ -46,7 +43,7 @@ export class AboutITFFService {
 
     this.http
       .put<{ data: AboutITFFModel }>(
-        'http://localhost:3000/admin/tffiltemsilciligi/hakkimizda', formData
+        'http://localhost:3000/admin/tffiltemsilciligi/about-us', formData
       )
       .subscribe({
         next: (responseData) => {
@@ -57,7 +54,6 @@ export class AboutITFFService {
           this.globalFunctions.showSnackBar(error);
         }
       });
-
   }
 
 }

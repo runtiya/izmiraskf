@@ -1,11 +1,6 @@
-import { DatePipe } from "@angular/common";
-import { Component, OnInit, OnDestroy, ViewChild, Input } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE }  from "@angular/material/core";
-import { FormBuilder } from '@angular/forms';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
-import { NewsModel } from "../../models/admin-news.model";
 import { NewsService } from "../../services/admin-news.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 
@@ -17,13 +12,12 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
   templateUrl: './news-create.component.html',
   styleUrls: ['../../../app.component.css', './news-create.component.css']
 })
-export class AdminNewsCreate implements OnInit, OnDestroy {
+export class AdminNewsCreate implements OnInit {
   toolbarTitle = "HABER OLUŞTUR";
   isLoading: boolean = false;
   newsCreateForm: FormGroup;
 
   newsContent = '';
-
 
   editorConfig: AngularEditorConfig = {
     editable: true,
@@ -69,16 +63,14 @@ export class AdminNewsCreate implements OnInit, OnDestroy {
     ]
 };
 
-
   constructor(
-    private _dateAdapter: DateAdapter<Date>,
-    private _datePipe: DatePipe,
+
     public newsService: NewsService,
-    private sanitizer: DomSanitizer,
     private globalFunctions: globalFunctions
     ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.newsCreateForm = new FormGroup({
       createdAt: new FormControl(null, {validators: []}),
@@ -91,7 +83,7 @@ export class AdminNewsCreate implements OnInit, OnDestroy {
       imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
       isVisible: new FormControl(true, {validators: [Validators.required]})
     });
-
+    this.isLoading = false;
   }
 
   onFilePicked(event: Event) {
@@ -129,14 +121,9 @@ export class AdminNewsCreate implements OnInit, OnDestroy {
       this.isLoading = false;
 
       this.onClearNewsForm();
-
     } else {
       null;
     }
-
-  }
-
-  ngOnDestroy(): void {
 
   }
 

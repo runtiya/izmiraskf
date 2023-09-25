@@ -141,6 +141,7 @@ import { ApplicationDisciplinaryBoardDecisionsList } from "./application/compone
 import { ApplicationDisciplinaryBoardDecisionsDetailsModal } from "./application/components/disciplinary-board-decisions-details/disciplinary-board-decisions-details.component";
 
 import { ApplicationWeeklyMatchList } from "./application/components/weekly-match-list/weekly-match-list.component";
+import { ApplicationWeeklyMatchListSliderInHome } from "./application/components/weekly-match-list-slider-in-home/weekly-match-list-slider-in-home.component";
 
 import { ApplicationPointBoard } from "./application/components/point-board/point-board.component";
 import { ApplicationFixtureByWeek } from "./application/components/fixture-by-week/fixture-by-week.component";
@@ -157,6 +158,7 @@ import { GlobalStatisticsTeamsCountByTown } from "./components/statistics-teams-
 import { GlobalStatisticsStadiumsCountByTown } from "./components/statistics-stadiums-count-by-town/statistics-stadiums-count-by-town.component";
 import { GlobalStatisticsStadiumsCountByFloorType } from "./components/statistics-stadiums-count-by-floortype/statistics-stadiums-count-by-floortype.component";
 import { GlobalStatisticsMatchStatusByTown } from "./components/statistics-matchstatus-by-league/statistics-matchstatus-by-league.component";
+import { GlobalStatisticsSeasonSummaryList } from "./components/statistics-season-summary-list/statistics-season-summary-list.component";
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -280,6 +282,7 @@ import { ResponseInterceptor } from "./functions/global-http-response";
     ApplicationDisciplinaryBoardDecisionsDetailsModal,
 
     ApplicationWeeklyMatchList,
+    ApplicationWeeklyMatchListSliderInHome,
 
     ApplicationPointBoard,
     ApplicationFixtureByWeek,
@@ -295,7 +298,8 @@ import { ResponseInterceptor } from "./functions/global-http-response";
     GlobalStatisticsTeamsCountByTown,
     GlobalStatisticsStadiumsCountByTown,
     GlobalStatisticsStadiumsCountByFloorType,
-    GlobalStatisticsMatchStatusByTown
+    GlobalStatisticsMatchStatusByTown,
+    GlobalStatisticsSeasonSummaryList
 
   ],
   imports: [
@@ -345,7 +349,7 @@ import { ResponseInterceptor } from "./functions/global-http-response";
     {provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: LOCALE_ID, useValue: 'tr-TR'},
-    DatePipe,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

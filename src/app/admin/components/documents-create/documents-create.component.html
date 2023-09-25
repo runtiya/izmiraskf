@@ -1,4 +1,5 @@
-<div>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div *ngIf="!isLoading">
   <mat-dialog-content class="mat-typography">
     <mat-card>
       <mat-dialog-actions align="end">
@@ -69,7 +70,7 @@
                 {{ documentSubmitForm.value.fileAttachment ? getFileSize(documentSubmitForm.value.fileAttachment.size) : getFileSize(documentSubmitForm.get('fileSize').value) }}
               </mat-card-subtitle>
               <mat-error *ngIf="!documentSubmitForm.get('fileAttachment').valid || !documentSubmitForm.get('fileName').valid">
-                Lütfen geçerli bir dosya seçiniz! (en fazla 10MB)
+                Lütfen geçerli bir dosya seçiniz! (en fazla 8MB)
               </mat-error>
             </div>
           </div>

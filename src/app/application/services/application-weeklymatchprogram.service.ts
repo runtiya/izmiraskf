@@ -4,8 +4,6 @@ import { Subject } from "rxjs";
 
 import { WeeklyMatchProgramModel } from "../models/application-weeklymatchprogram.model";
 
-import { fixtureFunctions } from "../functions/fixture.function";
-
 import { globalFunctions } from "../../functions/global.function";
 
 @Injectable({providedIn: 'root'})
@@ -15,13 +13,13 @@ export class WeeklyMatchProgramService {
 
   constructor(
     private http: HttpClient,
-    private globalFunctions: globalFunctions
+    private globalFunctions: globalFunctions,
   ) {}
 
-  getWeeklyMatchProgram(seasonId: number) {
+  getWeeklyMatchProgram() {
     this.http
       .get<{data: WeeklyMatchProgramModel[]}>(
-        'http://localhost:3000/weekly-match-program/' + seasonId
+        'http://localhost:3000/weekly-match-program/'
       )
       .subscribe({
         next: (data) => {

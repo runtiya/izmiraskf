@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
-import { map } from "rxjs/operators";
 
 import { StaffIzmirAskfModel } from "../models/admin-staffizmiraskf.model";
 
@@ -21,7 +20,7 @@ export class StaffIASKFService {
   getStaff() {
     this.http
       .get<{data: StaffIzmirAskfModel[]}>(
-        'http://localhost:3000/admin/izmiraskf/yonetim-kurulu'
+        'http://localhost:3000/admin/izmiraskf/staff'
       )
       .subscribe({
         next: (data) => {
@@ -45,7 +44,7 @@ export class StaffIASKFService {
 
     this.http
       .post<{data: StaffIzmirAskfModel}>(
-        'http://localhost:3000/admin/izmiraskf/yonetim-kurulu', formData
+        'http://localhost:3000/admin/izmiraskf/staff', formData
       )
       .subscribe({
         next: (responseData) => {
@@ -57,7 +56,6 @@ export class StaffIASKFService {
           this.globalFunctions.showSnackBar(error);
         }
       });
-
   }
 
   updateStaff(staffInfo: StaffIzmirAskfModel) {
@@ -67,7 +65,7 @@ export class StaffIASKFService {
 
     this.http
       .put<{ data: StaffIzmirAskfModel }>(
-        'http://localhost:3000/admin/izmiraskf/yonetim-kurulu/' + staffInfo.id, formData
+        'http://localhost:3000/admin/izmiraskf/staff/' + staffInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -84,13 +82,12 @@ export class StaffIASKFService {
           this.globalFunctions.showSnackBar(error);
         }
       });
-
   }
 
   deleteStaff(staffId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/izmiraskf/yonetim-kurulu/' + staffId
+        'http://localhost:3000/admin/izmiraskf/staff/' + staffId
       )
       .subscribe({
         next: (data) => {

@@ -15,12 +15,12 @@ export class StadiumsService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {}
+  ) {}
 
   getStadiums(paginationPageSize?: number, paginationCurrentPage?: number) {
     this.http
       .get<{data: {stadiumsList: StadiumsModel[], stadiumsCount: number}}>(
-        `http://localhost:3000/admin/sahalar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+        `http://localhost:3000/admin/stadiums?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
       )
       .subscribe({
         next: (data) => {
@@ -45,7 +45,7 @@ export class StadiumsService {
 
     this.http
       .post<{data: StadiumsModel}>(
-        'http://localhost:3000/admin/sahalar', formData
+        'http://localhost:3000/admin/stadiums', formData
       )
       .subscribe({
         next: (responseData) => {
@@ -68,7 +68,7 @@ export class StadiumsService {
 
     this.http
       .put<{data: StadiumsModel }>(
-        'http://localhost:3000/admin/sahalar/' + stadiumInfo.id, formData
+        'http://localhost:3000/admin/stadiums/' + stadiumInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -87,7 +87,7 @@ export class StadiumsService {
   deleteStadium(stadiumId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/sahalar/' + stadiumId
+        'http://localhost:3000/admin/stadiums/' + stadiumId
       )
       .subscribe({
         next: (data) => {
@@ -102,6 +102,4 @@ export class StadiumsService {
         }
       });
   }
-
-
 }

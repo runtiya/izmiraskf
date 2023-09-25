@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
 
@@ -16,19 +15,19 @@ import { globalFunctions } from "../../../functions/global.function";
 export class ApplicationIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
   toolbarTitle = "İZMİR TFF İL TEMSİLCİLİĞİ";
   isLoading: boolean = false;
-  //aboutcontent: AboutITFFModel;
   aboutcontent = <AboutITFFModel>{};
   private aboutcontentSubscription: Subscription;
 
   public mapSafeSrc: SafeResourceUrl;
 
-
   constructor(
     public aboutitffService : AboutITFFService,
-    private globalFunctions: globalFunctions
+    private globalFunctions: globalFunctions,
+
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.aboutitffService.getAboutContent();
     this.aboutcontentSubscription = this.aboutitffService.getAboutContentListener()
@@ -36,18 +35,14 @@ export class ApplicationIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
         next: (data: AboutITFFModel) => {
           this.aboutcontent = data;
           this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.aboutcontent.mapUrl);
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
-
   }
 
   autoAdjustRows(): number {
     const textarea = document.getElementById('input-abouttext') as HTMLTextAreaElement;
     const lines = textarea.value.split('\n');
-    //textarea.setAttribute('rows', String(lines.length * 3));
 
     return lines.length * 2;
   }
@@ -57,6 +52,6 @@ export class ApplicationIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.aboutcontentSubscription.unsubscribe();
   }
 }

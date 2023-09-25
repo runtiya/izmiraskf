@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { StatisticsService } from "../../services/global-statistics.service";
+import { GlobalStatisticsService } from "../../services/global-statistics.service";
 import { statisticsFunctions } from "../../functions/global-statistics.funtion";
 
 import { SeasonsModel } from "../../application/models/application-seasons.model";
@@ -31,7 +31,7 @@ export class GlobalStatisticsMatchStatusByTown implements OnInit, OnDestroy {
   matchStatusList = matchStatusList;
 
   constructor(
-    private statisticsService: StatisticsService,
+    private statisticsService: GlobalStatisticsService,
     private seasonsService: SeasonsService,
     private statisticsFunctions: statisticsFunctions,
     private globalFunctions: globalFunctions
@@ -115,5 +115,6 @@ export class GlobalStatisticsMatchStatusByTown implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.matchStatusCountByLeagueListSub.unsubscribe();
+    this.seasonsListSubscription.unsubscribe();
   }
 }

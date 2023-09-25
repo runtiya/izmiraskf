@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
-import { map } from "rxjs/operators";
 
 import { StaffITFFModel } from "../models/admin-staffizmirtff.model";
 
@@ -12,7 +11,6 @@ export class StaffITFFService {
   private staffList: StaffITFFModel[] = [];
   private staffListUpdated = new Subject<StaffITFFModel[]>();
 
-
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
@@ -21,7 +19,7 @@ export class StaffITFFService {
   getStaff() {
     this.http
       .get<{ data: StaffITFFModel[] }>(
-        'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi'
+        'http://localhost:3000/admin/tffiltemsilciligi/staff'
       )
       .subscribe({
         next: (data) => {
@@ -45,7 +43,7 @@ export class StaffITFFService {
 
     this.http
       .post<{ data: StaffITFFModel }>(
-        'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi', formData
+        'http://localhost:3000/admin/tffiltemsilciligi/staff', formData
       )
       .subscribe({
         next: (responseData) => {
@@ -66,7 +64,7 @@ export class StaffITFFService {
 
     this.http
       .put<{ data: StaffITFFModel }>(
-        'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi/' + staffInfo.id, formData
+        'http://localhost:3000/admin/tffiltemsilciligi/staff/' + staffInfo.id, formData
       )
       .subscribe({
         next: (data) => {
@@ -88,7 +86,7 @@ export class StaffITFFService {
   deleteStaff(staffId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/tffiltemsilciligi/tffiltemsilciligi/' + staffId
+        'http://localhost:3000/admin/tffiltemsilciligi/staff/' + staffId
       )
       .subscribe({
         next: (data) => {
@@ -101,6 +99,5 @@ export class StaffITFFService {
           this.globalFunctions.showSnackBar(error);
         }
       });
-
   }
 }

@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 
 import { StaffIzmirAskfModel } from "../../models/application-staffizmiraskf.model";
@@ -30,8 +29,8 @@ export class ApplicationStaffIzmirAskf implements OnInit, OnDestroy {
     this.staffizmiraskfListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffIzmirAskfModel[]) => {
         this.staffizmiraskfList = data;
+        this.isLoading = false;
       });
-    this.isLoading = false;
   }
 
   getFontAwesomeIcon(_icon: string): any {

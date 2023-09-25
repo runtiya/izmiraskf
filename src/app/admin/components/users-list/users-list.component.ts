@@ -21,8 +21,6 @@ export class AdminUsersList implements OnInit, OnDestroy {
   isLoading: boolean = false;
   usersList: UserModel[] = [];
   private usersListSub: Subscription;
-  private userType: string;
-  private userName: string;
 
   userAuthorityList = userAuthorityList;
 
@@ -42,19 +40,16 @@ export class AdminUsersList implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.authService.getUsersList();
     this.usersListSub = this.authService.getUsersListListener()
       .subscribe({
         next: (data: UserModel[]) => {
           this.usersList = data;
-
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
-
   }
 
   onCreate() {
@@ -80,7 +75,6 @@ export class AdminUsersList implements OnInit, OnDestroy {
 
   findAuthority(_name: string): string {
     return this.userAuthorityList.find(list => list.name == _name).value;
-
   }
 
   ngOnDestroy(): void {

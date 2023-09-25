@@ -1,7 +1,7 @@
 export const documentTransferFileTypeList = [
   {
-    name: 'DISIPLINKURULU',
-    value: 'Disiplin Kurulu / İl Tertip Komitesi'
+    name: 'DISIPLINKURULUKARARLARI',
+    value: 'Disiplin Kurulu Kararları / İl Tertip Komitesi Kararları'
   },
   {
     name: 'SKORTABLOSU',

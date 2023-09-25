@@ -14,7 +14,7 @@ export class TemplateFilesService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {}
+  ) {}
 
   getTemplateFiles() {
     try {

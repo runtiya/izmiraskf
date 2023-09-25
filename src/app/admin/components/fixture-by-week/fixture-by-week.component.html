@@ -1,4 +1,5 @@
-<div class="div-fixture-by-week">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="div-fixture-by-week" *ngIf="!isLoading">
   <mat-toolbar class="toolbar toolbar-title">
     <span>{{toolbarTitle}}</span>
   </mat-toolbar>
@@ -29,6 +30,15 @@
           matTooltip="{{ getMatchStatus(fixture.matchStatus) }}"
           >circle
         </mat-icon>
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        <fa-icon
+          [icon]="getFontAwesomeIcon('faCircleInfo')"
+          class="icon icon-circle-info"
+          *ngIf="fixture.explanation !== null"
+          matTooltip={{fixture.explanation}}
+        >
+        </fa-icon>
       </mat-card-subtitle>
     </mat-card-header>
 

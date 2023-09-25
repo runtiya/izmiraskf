@@ -16,12 +16,12 @@ export class GroupStagesService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {}
+  ) {}
 
   getGroupstages(leagueId: number) {
     this.http
       .get<{data: GroupStagesModel[]}>(
-        'http://localhost:3000/admin/gruplar/' + leagueId
+        'http://localhost:3000/admin/groupstages/' + leagueId
       )
       .subscribe({
         next: (data) => {
@@ -41,7 +41,7 @@ export class GroupStagesService {
   getGroupWeeks(groupstageId: number) {
     this.http
       .get<{data: Array<number>[]}>(
-        'http://localhost:3000/admin/gruplar/hafta-siralamasi/' + groupstageId
+        'http://localhost:3000/admin/groupstages/hafta-siralamasi/' + groupstageId
       )
       .subscribe({
         next: (data) => {
@@ -60,7 +60,7 @@ export class GroupStagesService {
 
   getPlayedLastMatchWeek(_groupstageId: number): Observable<any> {
     return this.http.get<{ data: number }>(
-      'http://localhost:3000/admin/gruplar/son-musabaka-haftasi/' + _groupstageId
+      'http://localhost:3000/admin/groupstages/son-musabaka-haftasi/' + _groupstageId
       );
   }
 
@@ -69,7 +69,7 @@ export class GroupStagesService {
 
     this.http
       .post<{data: GroupStagesModel}>(
-        'http://localhost:3000/admin/gruplar', requestData
+        'http://localhost:3000/admin/groupstages', requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -85,10 +85,9 @@ export class GroupStagesService {
 
   updateGroupStage(groupstageInfo: GroupStagesModel) {
     const requestData = groupstageInfo;
-
     this.http
       .put<{ data: GroupStagesModel }>(
-        'http://localhost:3000/admin/gruplar/' + requestData.id, requestData
+        'http://localhost:3000/admin/groupstages/' + requestData.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -110,7 +109,7 @@ export class GroupStagesService {
   deleteGroupStage(groupstageId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/gruplar/' + groupstageId
+        'http://localhost:3000/admin/groupstages/' + groupstageId
       )
       .subscribe({
         next: (data) => {

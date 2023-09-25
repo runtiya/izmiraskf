@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { StatisticsService } from "../../services/global-statistics.service";
+import { GlobalStatisticsService } from "../../services/global-statistics.service";
 import { statisticsFunctions } from "../../functions/global-statistics.funtion";
 
 import { globalFunctions } from "../../functions/global.function";
@@ -20,7 +20,7 @@ export class GlobalStatisticsTeamsCountByTown implements OnInit, OnDestroy {
 
 
   constructor(
-    private statisticsService: StatisticsService,
+    private statisticsService: GlobalStatisticsService,
     private statisticsFunctions: statisticsFunctions,
     private globalFunctions: globalFunctions
   ) {}

@@ -42,7 +42,8 @@ import {
   faFileText,
   faFilter,
   faFloppyDisk,
-  faMapLocationDot
+  faMapLocationDot,
+  faList
 } from "@fortawesome/free-solid-svg-icons";
 
 
@@ -76,5 +77,6 @@ export const fontAwesomeIconList = {
   faFileText: faFileText,
   faFilter: faFilter,
   faFloppyDisk: faFloppyDisk,
-  faMapLocationDot: faMapLocationDot
+  faMapLocationDot: faMapLocationDot,
+  faList: faList
 }

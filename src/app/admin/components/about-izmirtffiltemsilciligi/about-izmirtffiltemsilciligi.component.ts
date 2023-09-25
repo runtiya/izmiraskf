@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from "rxjs";
 import { SafeResourceUrl } from '@angular/platform-browser';
 
@@ -71,7 +71,6 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
     } catch (error) {
 
     }
-
   }
 
   filePickerRemove() {

@@ -17,9 +17,10 @@ export class DocumentsService {
   ) {}
 
   getDocuments(category: string) {
+
     this.http
       .get<{data: DocumentsModel[]}>(
-        'http://localhost:3000/dokumanlar/' + category
+        'http://localhost:3000/documents/' + category
       )
       .subscribe({
         next: (data) => {

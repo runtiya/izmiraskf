@@ -1,12 +1,10 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 
 import { StaffITFFModel } from "../../models/application-staffizmirtff.model";
 import { StaffITFFService } from "../../services/application-staffitff.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-
 
 @Component({
   selector: 'app-application-staffizmirtff-list',

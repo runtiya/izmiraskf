@@ -133,7 +133,44 @@ function getMatchStatusCountByLeague(req, res, next) {
   });
 }
 
+function getSeasonSummaryList(req, res, next) {
+  var seasonSummaryList = [];
+  var _resStatus = 200;
+  var _error = false;
+  var _message = null;
+
+  const seasonId = +req.query.seasonid;
+
+  connection.query(
+    queries.getSeasonSummaryList,
+    [seasonId],
+    (error, result) => {
+      if (!error) {
+        seasonSummaryList = result;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
+
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
+      }
+
+      const _seasonSummaryList = crypto.encryptData(seasonSummaryList);
+
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _seasonSummaryList,
+      });
+  });
+}
+
 exports.getTeamsCountByTown = getTeamsCountByTown;
 exports.getStadiumsCountByTown = getStadiumsCountByTown;
 exports.getStadiumsCountByFloorType = getStadiumsCountByFloorType;
 exports.getMatchStatusCountByLeague = getMatchStatusCountByLeague;
+exports.getSeasonSummaryList = getSeasonSummaryList;

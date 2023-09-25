@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
 
@@ -18,7 +17,6 @@ export class ApplicationIzmirASKF implements OnInit, OnDestroy {
   isLoading: boolean = false;
   aboutcontent = <AboutIASKFModel>{};
   private aboutcontentSubscription: Subscription;
-
   public mapSafeSrc: SafeResourceUrl;
 
   constructor(
@@ -27,6 +25,7 @@ export class ApplicationIzmirASKF implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.aboutiaskfService.getAboutContent();
     this.aboutcontentSubscription = this.aboutiaskfService.getAboutContentListener()
@@ -34,9 +33,7 @@ export class ApplicationIzmirASKF implements OnInit, OnDestroy {
         next: (data: AboutIASKFModel) => {
           this.aboutcontent = data;
           this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.aboutcontent.mapUrl);
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
   }
@@ -44,7 +41,6 @@ export class ApplicationIzmirASKF implements OnInit, OnDestroy {
   autoAdjustRows(): number {
     const textarea = document.getElementById('input-abouttext') as HTMLTextAreaElement;
     const lines = textarea.value.split('\n');
-    //textarea.setAttribute('rows', String(lines.length * 3));
 
     return lines.length * 2;
   }

@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 
 
@@ -50,9 +50,7 @@ export class AdminFixtureEditModal implements OnInit {
     private fixturesService: FixtureService,
     private globalFunctions: globalFunctions,
     private fixtureFunctions: fixtureFunctions
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -79,11 +77,17 @@ export class AdminFixtureEditModal implements OnInit {
       explanation: new FormControl(this.pageMode == 'edit' ? this.fixtureInfo.explanation : null, {validators: [Validators.maxLength(200)]}),
       orderNo: new FormControl(this.pageMode == 'edit' ? this.fixtureInfo.orderNo : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]})
     });
-    this.isLoading = false;
 
     // Set winnerByForfeit select-list
     this.inp_winnerByForfeit = this.fixtureSubmitForm.get('isHomeTeamWinByForfeit').value ? 'homeTeamWinByForfeit' : (this.fixtureSubmitForm.get('isAwayTeamWinByForfeit').value ? 'awayTeamWinByForfeit' : null);
 
+    // To set 'null' when matchDate has cleared
+    this.fixtureSubmitForm.get('matchDate').valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.fixtureSubmitForm.get('matchDate').setValue(null, {emitEvent: false});
+      }
+    });
+    this.isLoading = false;
   }
 
   onHomeTeamChange(teamId: number) {
@@ -93,20 +97,10 @@ export class AdminFixtureEditModal implements OnInit {
     } catch (error) {
       this.fixtureSubmitForm.get('stadiumId').setValue(null);
     }
-
-
   }
 
   onSubmitForm() {
     this.isLoading = true;
-    /*
-    let fixtureSearchIndex: FixtureSearchModel = this.fixtureFunctions.setFixtureSearchModel(
-      this.seasonSelectionId,
-      this.leagueSelectionId,
-      this.groupstageSelectionId,
-      null, null, null, null, null, null, null, null, null, null
-    );
-    */
 
     let weekNumber = this.fixtureSubmitForm.get('matchWeek').value;
     let orderNo = this.fixtureSubmitForm.get('orderNo').value;

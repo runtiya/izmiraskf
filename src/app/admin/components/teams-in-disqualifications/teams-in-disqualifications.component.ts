@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatDialog } from "@angular/material/dialog";
-import { Observable, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 
 import { GroupStagesModel } from "../../models/admin-groupstages.model";
 import { LeaguesModel } from "../../models/admin-leagues.model";
@@ -49,41 +48,80 @@ export class AdminTeamsInDisqualifications implements OnInit, OnDestroy {
             ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
-      .subscribe((data: SeasonsModel[]) => {
-        this.isLoading = true;
-        this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-        this.seasonSelectionId = this.seasonList[0]["id"];
-        this.leaguesService.getLeagues(this.seasonSelectionId);
-        this.isLoading = false;
+      .subscribe({
+        next: (data: SeasonsModel[]) => {
+          if (data.length > 0) {
+            this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+            this.seasonSelectionId = this.seasonList[0]["id"];
+            this.leaguesService.getLeagues(this.seasonSelectionId);
+          } else {
+            this.seasonSelectionId = null;
+            this.leagueSelectionId = null;
+            this.groupstageSelectionId = null;
+
+            this.seasonList = [];
+            this.leagueList = [];
+            this.groupstageList = [];
+            this.teamsingroupstagesList = [];
+
+            this.isLoading = false;
+          }
+        }
       });
 
     this.leagueListSub = this.leaguesService.getLeagueListUpdateListener()
-      .subscribe((data: LeaguesModel[]) => {
-        this.isLoading = true;
-        this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
-        this.leagueSelectionId = this.leagueList[0]["id"];
-        this.groupstagesService.getGroupstages(this.leagueSelectionId);
-        this.isLoading = false;
+      .subscribe({
+        next: (data: LeaguesModel[]) => {
+          if (data.length > 0) {
+            this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
+            this.leagueSelectionId = this.leagueList[0]["id"];
+            this.groupstagesService.getGroupstages(this.leagueSelectionId);
+          } else {
+            this.leagueSelectionId = null;
+            this.groupstageSelectionId = null;
+
+            this.leagueList = [];
+            this.groupstageList = [];
+            this.teamsingroupstagesList = [];
+
+            this.isLoading = false;
+          }
+        }
       });
 
     this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
-      .subscribe((data: GroupStagesModel[]) => {
-        this.isLoading = true;
-        this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
-        this.groupstageSelectionId = this.groupstageList[0]["id"];
-        this.teamsingroupstagesService.getTeamsInGroupstages(this.groupstageSelectionId);
-        this.isLoading = false;
+      .subscribe({
+        next: (data: GroupStagesModel[]) => {
+          if (data.length > 0) {
+            this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
+            this.groupstageSelectionId = this.groupstageList[0]["id"];
+            this.teamsingroupstagesService.getTeamsInGroupstages(this.groupstageSelectionId);
+          } else {
+            this.groupstageSelectionId = null;
+
+            this.groupstageList = [];
+            this.teamsingroupstagesList = [];
+            this.isLoading = false;
+          }
+
+        }
       });
 
 
     this.teamsingroupstagesListSub = this.teamsingroupstagesService.getTeamsInGroupstagesUpdateListener()
-      .subscribe((data: TeamsInGroupstagesModel[]) => {
-        this.isLoading = true;
-        this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
-        this.isLoading = false;
+      .subscribe({
+        next: (data: TeamsInGroupstagesModel[]) => {
+          if (data.length > 0) {
+            this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
+          } else {
+            this.teamsingroupstagesList = [];
+          }
+          this.isLoading = false;
+        }
       });
   }
 
@@ -100,19 +138,16 @@ export class AdminTeamsInDisqualifications implements OnInit, OnDestroy {
   onSeasonChange(seasonSelectionId: number) {
     this.isLoading = true;
     this.leaguesService.getLeagues(seasonSelectionId);
-    this.isLoading = false;
   }
 
   onLeagueChange(leagueSelectionId: number) {
     this.isLoading = true;
     this.groupstagesService.getGroupstages(leagueSelectionId);
-    this.isLoading = false;
   }
 
   onGroupstageChange(groupstageSelectionId: number) {
     this.isLoading = true;
     this.teamsingroupstagesService.getTeamsInGroupstages(groupstageSelectionId);
-    this.isLoading = false;
   }
 
   ngOnDestroy(): void {

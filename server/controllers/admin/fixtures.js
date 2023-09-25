@@ -259,15 +259,26 @@ function deleteMatch(req, res, next) {
         if (!error) {
 
         } else {
-          errorService.handleError(
-            errorService.errors.DATABASE_ERROR.code,
-            errorService.errors.DATABASE_ERROR.message,
-            error.sqlMessage
-          );
+          if (error.errno == 1451) {
+            errorService.handleError(
+              errorService.errors.DATABASE_FOREIGNKEY_ERROR.code,
+              errorService.errors.DATABASE_FOREIGNKEY_ERROR.message,
+              error.sqlMessage
+            );
 
-          _error = true;
-          _resStatus = errorService.errors.DATABASE_ERROR.code;
-          _message = errorService.errors.DATABASE_ERROR.message;
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_FOREIGNKEY_ERROR.code;
+            _message = errorService.errors.DATABASE_FOREIGNKEY_ERROR.message;
+          } else {
+            errorService.handleError(
+              errorService.errors.DATABASE_ERROR.code,
+              errorService.errors.DATABASE_ERROR.message,
+              error.sqlMessage
+            );
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_ERROR.code;
+            _message = errorService.errors.DATABASE_ERROR.message;
+          }
         }
 
         res.status(_resStatus).json({
@@ -290,15 +301,26 @@ function clearFixture(req, res, next) {
         if (!error) {
 
         } else {
-          errorService.handleError(
-            errorService.errors.DATABASE_ERROR.code,
-            errorService.errors.DATABASE_ERROR.message,
-            error.sqlMessage
-          );
+          if (error.errno == 1451) {
+            errorService.handleError(
+              errorService.errors.DATABASE_FOREIGNKEY_ERROR.code,
+              errorService.errors.DATABASE_FOREIGNKEY_ERROR.message,
+              error.sqlMessage
+            );
 
-          _error = true;
-          _resStatus = errorService.errors.DATABASE_ERROR.code;
-          _message = errorService.errors.DATABASE_ERROR.message;
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_FOREIGNKEY_ERROR.code;
+            _message = errorService.errors.DATABASE_FOREIGNKEY_ERROR.message;
+          } else {
+            errorService.handleError(
+              errorService.errors.DATABASE_ERROR.code,
+              errorService.errors.DATABASE_ERROR.message,
+              error.sqlMessage
+            );
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_ERROR.code;
+            _message = errorService.errors.DATABASE_ERROR.message;
+          }
         }
 
       res.status(_resStatus).json({

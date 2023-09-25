@@ -1,6 +1,6 @@
 import { Component, Inject, Input } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 
 import { DocumentsService } from "../../services/admin-documents.service";
@@ -62,12 +62,6 @@ export class AdminDocumentCreateModal {
       this.documentSubmitForm.patchValue({fileAttachment: file, fileMimeType: file.type, fileName: file.name, fileSize: file.size});
       this.documentSubmitForm.get('fileAttachment').updateValueAndValidity();
       const reader = new FileReader();
-      /*
-      reader.onloadend = () => {
-        let _filePath = this.documentSubmitForm.get('fileAttachment').valid ? reader.result as string : null;
-        this.documentSubmitForm.get('filePath').setValue(_filePath);
-      };
-      */
       reader.readAsDataURL(file);
     } catch (error) {
 
@@ -91,7 +85,6 @@ export class AdminDocumentCreateModal {
   }
 
   onSubmitForm() {
-
     if (this.documentSubmitForm.valid) {
       this.isLoading = true;
       if (this.pageMode === 'create') {
@@ -124,6 +117,5 @@ export class AdminDocumentCreateModal {
           }
         }
       });
-
   }
 }

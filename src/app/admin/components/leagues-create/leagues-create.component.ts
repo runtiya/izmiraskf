@@ -1,6 +1,6 @@
-import { Component, Inject, Input, OnChanges } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 
 import { LeaguesService } from "../../services/admin-leagues.service";
@@ -18,13 +18,11 @@ export class AdminLeaguesCreateModal {
   isLoading: boolean = false;
   pageMode: string = this.data.pageMode || 'create';
   leagueInfo = this.data.leagueInfo;
-  //seasonList = this.data.seasonList;
   seasonName = this.data.seasonName;
   seasonSelectionId = this.data.seasonSelectionId;
   leagueSubmitForm: FormGroup;
   leagueCategoryList = leagueCategoryList;
   leagueTypeList = leagueTypeList;
-
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Data,

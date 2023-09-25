@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
-import { map } from "rxjs/operators";
-import { Router } from "@angular/router";
 
 import { NewsModel } from "../models/application-news.model";
 
@@ -27,7 +25,7 @@ export class NewsService {
   getNews(paginationPageSize: number, paginationCurrentPage: number) {
     this.http
       .get<{data: {newsList: NewsModel[], newsCount: number}}>(
-        `http://localhost:3000/haberler/list?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+        `http://localhost:3000/news/list?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
       )
       .subscribe({
       next: (data) => {
@@ -48,7 +46,7 @@ export class NewsService {
   getNewsById(id: number) {
     this.http
       .get<{data: NewsModel}>(
-        'http://localhost:3000/haberler/news-id/' + id
+        'http://localhost:3000/news/news-id/' + id
       )
       .subscribe({
         next: (data) => {
@@ -68,7 +66,7 @@ export class NewsService {
   getNewsForSlider() {
     this.http
       .get<{data: NewsModel[]}>(
-        'http://localhost:3000/haberler/hot-topics'
+        'http://localhost:3000/news/hot-topics'
       )
       .subscribe({
         next: (data) => {

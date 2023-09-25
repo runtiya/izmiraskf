@@ -1,10 +1,10 @@
-<div>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div *ngIf="!isLoading">
   <mat-card>
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
       <form
         [formGroup]="newsCreateForm"
         (submit)="onCreateNews()"
-        *ngIf="!isLoading"
+
       >
         <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12">
@@ -73,7 +73,7 @@
               />
             </div>
             <mat-error *ngIf="!newsCreateForm.get('imageAttachment').valid">
-              Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+              Lütfen geçerli bir resim seçiniz! (en fazla 8MB)
             </mat-error>
           </div>
 

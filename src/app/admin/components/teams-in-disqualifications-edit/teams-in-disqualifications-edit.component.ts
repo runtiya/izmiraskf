@@ -1,10 +1,7 @@
-import { Dialog, DialogModule, DialogRef } from "@angular/cdk/dialog";
-import { Component, Inject, Input, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
-import { Subscription } from "rxjs";
-
 
 import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupstages.service";
 
@@ -18,10 +15,11 @@ export class AdminTeamsInDisqualificationsEditModal implements OnInit {
   teamInfo = this.data.teamInfo;
   teamSubmitForm: FormGroup
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Data,
-              public dialogRef: MatDialogRef<AdminTeamsInDisqualificationsEditModal>,
-              public teamsingroupstagesService: TeamsInGroupstagesService
-            ) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Data,
+    public dialogRef: MatDialogRef<AdminTeamsInDisqualificationsEditModal>,
+    public teamsingroupstagesService: TeamsInGroupstagesService
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;

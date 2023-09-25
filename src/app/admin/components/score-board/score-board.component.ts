@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { Subscription } from 'rxjs';
 
-import { DatePipe } from "@angular/common";
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatDialog } from "@angular/material/dialog";
 
 import { SeasonsModel } from "../../models/admin-seasons.model";
@@ -37,7 +35,6 @@ import { townList } from "../../../assets/lists/town-izmir.list";
 
 
 import { MatchModel } from "../../models/admin-match.model";
-
 
 @Component({
   selector: 'app-admin-score-board',
@@ -107,6 +104,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
@@ -120,9 +118,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
             this.groupstageList = [];
             this.weekSequenceList = [];
           }
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 
@@ -136,9 +132,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
             this.groupstageList = [];
             this.weekSequenceList = [];
           }
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 
@@ -151,9 +145,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
             this.groupstageList = [];
             this.weekSequenceList = [];
           }
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 
@@ -161,9 +153,6 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: Array<number>[]) => {
           this.weekSequenceList = data;
-        },
-        error: (error) => {
-
         }
       });
 
@@ -173,9 +162,6 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
           this.stadiumList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
-        },
-        error: (error) => {
-
         }
       });
 
@@ -185,9 +171,6 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
           this.teamList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
-        },
-        error: (error) => {
-
         }
       });
 
@@ -195,9 +178,6 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: WeeklyMatchProgramModel[]) => {
           this.weeklyMatchProgramList = data;
-        },
-        error: (error) => {
-
         }
       });
 
@@ -205,28 +185,28 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data;
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
   }
 
   onSeasonChange(_seasonSelectionId: number) {
+    this.isLoading = true;
     this.leaguesService.getLeagues(_seasonSelectionId);
     this.weeklymatchprogramService.getWeeklyMatchProgram(_seasonSelectionId);
   }
 
   onLeagueChange(_leagueSelectionId: number) {
+    this.isLoading = true;
     this.groupstagesService.getGroupstages(_leagueSelectionId);
   }
 
   onGroupstageChange(_groupstageSelectionId: number) {
+    this.isLoading = true;
     this.groupstagesService.getGroupWeeks(_groupstageSelectionId);
   }
 
   onScoreChange(_matchNo: string, _homeTeamScore: number, _awayTeamScore: number) {
-
     if (_homeTeamScore !== null && _awayTeamScore !== null && _matchNo !== null) {
       let match = <FixtureModel>{};
       match = this.fixtureList.find(f => f.matchNo == _matchNo);
@@ -264,7 +244,6 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
   }
 
   onPointChange(_matchNo: string, _homeTeamPoint: number, _awayTeamPoint: number) {
-
     if (_matchNo !== null && _homeTeamPoint !== null && _awayTeamPoint !== null) {
       let match = <FixtureModel>{};
       match = this.fixtureList.find(f => f.matchNo == _matchNo);
@@ -279,7 +258,6 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
   }
 
   onWinByForfeitChange(_matchNo: string, _winnerByForfeit: string) {
-
     let match = <FixtureModel>{};
     match = this.fixtureList.find(f => f.matchNo == _matchNo);
     let matchIndex = this.fixtureList.findIndex(f => f.matchNo == _matchNo);
@@ -301,9 +279,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
       } else {
         match.matchStatus = 'NOTPLAYED';
       }
-
     }
-
 
     if (match.homeTeamScore == null && match.awayTeamScore == null) {
       if (_winnerByForfeit == 'homeTeamWinByForfeit') {
@@ -360,7 +336,12 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     match = this.fixtureList.find(f => f.matchNo == _matchNo);
     let matchIndex = this.fixtureList.findIndex(f => f.matchNo == _matchNo);
 
-    match.matchDate = _matchDate;
+    if (_matchDate.toString() === '') {
+      match.matchDate = null;
+    } else {
+      match.matchDate = _matchDate;
+    }
+
     this.fixtureList[matchIndex] = match;
   }
 
@@ -379,6 +360,8 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
 
 
   onSearch() {
+    this.isLoading = true;
+
     let arr_fixtureSearchValues = [];
     this.fixtureSearchIndex = this.fixtureFunctions.setFixtureSearchModel(
       this.seasonSelectionId || null,
@@ -414,7 +397,8 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     if (_filteredSearchKeys.length >= 2) {
       this.fixtureService.getFixtureBySearchIndex(this.fixtureSearchIndex);
     } else {
-      this.globalFunctions.showSnackBar('En az iki arama anahtarı giriniz!');
+      this.globalFunctions.showSnackBar('scoreboard.search.keymissing');
+      this.isLoading = false;
     }
   }
 
@@ -480,6 +464,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
   }
 
   onSave() {
+    this.isLoading = true;
     this.matchList = this.fixtureFunctions.convertModelFixtureToMatch(this.fixtureList);
     this.fixtureService.updateFixture(this.matchList, this.fixtureSearchIndex);
   }
@@ -515,7 +500,6 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     try {
       for (let i = 0; i < tableData.length; i++) {
         const match = tableData[i];
-
 
         const matchNo: string = match["Müsabaka No"];
         const matchDate: string = match["Tarih Saat"];

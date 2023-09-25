@@ -14,12 +14,12 @@ export class DisciplinaryBoardFilesService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {}
+  ) {}
 
   getDisciplinaryBoardFiles(seasonId: number, caseType: string) {
     this.http
       .get<{ data: DisciplinaryBoardFileModel[] }>(
-        'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + seasonId + '/' + caseType
+        'http://localhost:3000/admin/disciplinary-board-files/' + seasonId + '/' + caseType
       )
       .subscribe({
         next: (data) => {
@@ -40,7 +40,7 @@ export class DisciplinaryBoardFilesService {
     const requestData = disciplinaryBoardFileInfo;
     this.http
       .post<{ data: DisciplinaryBoardFileModel }>(
-        'http://localhost:3000/admin/disiplin-kurulu-dosyalari', requestData
+        'http://localhost:3000/admin/disciplinary-board-files', requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -56,10 +56,9 @@ export class DisciplinaryBoardFilesService {
 
   updateDisciplinaryBoardFile(disciplinaryBoardFileInfo: DisciplinaryBoardFileModel) {
     const requestData = disciplinaryBoardFileInfo;
-
     this.http
       .put<{ data: DisciplinaryBoardFileModel }>(
-        'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + disciplinaryBoardFileInfo.id, requestData
+        'http://localhost:3000/admin/disciplinary-board-files/' + disciplinaryBoardFileInfo.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -80,7 +79,7 @@ export class DisciplinaryBoardFilesService {
   deleteDisciplinaryBoardFile(disciplinaryBoardFileId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/disiplin-kurulu-dosyalari/' + disciplinaryBoardFileId
+        'http://localhost:3000/admin/disciplinary-board-files/' + disciplinaryBoardFileId
       )
       .subscribe({
         next: (data) => {

@@ -1,4 +1,5 @@
-<div>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div *ngIf="!isLoading">
   <mat-dialog-content class="mat-typography">
     <mat-card>
       <mat-dialog-actions align="end">
@@ -41,7 +42,7 @@
               />
             </div>
             <mat-error *ngIf="!teamSubmitForm.get('imageAttachment').valid">
-              Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+              Lütfen geçerli bir resim seçiniz! (en fazla 8MB)
             </mat-error>
           </div>
 

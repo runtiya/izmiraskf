@@ -25,7 +25,6 @@ export class AdminTeamsList implements OnInit, OnDestroy {
   paginationCurrentPage: number = 1;
   private teamsListSub: Subscription;
 
-
   constructor(
     private teamsService: TeamsService,
     public dialog: MatDialog,

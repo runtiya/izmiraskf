@@ -6,14 +6,13 @@ const errorService = require('../../services/error-service.js');
 
 function getWeeklyMatchList(req, res, next) {
   var weeklyMatchList = [];
-  var seasonId = req.params.seasonid;
+
   var _resStatus = 200;
   var _error = false;
   var _message = null;
 
   connection.query(
     queries.getWeeklyMatchList,
-    [seasonId],
     (error, result) => {
       if (!error) {
         weeklyMatchList = result;

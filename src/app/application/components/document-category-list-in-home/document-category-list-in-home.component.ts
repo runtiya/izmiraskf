@@ -3,7 +3,6 @@ import { Router } from "@angular/router";
 
 import { documentCategoryList } from "../../../assets/lists/documents-category.list";
 
-
 @Component({
   selector: 'app-application-document-category-list-in-home',
   templateUrl: './document-category-list-in-home.component.html',
@@ -11,22 +10,14 @@ import { documentCategoryList } from "../../../assets/lists/documents-category.l
 })
 export class ApplicationDocumentCategoryListInHome {
   documentCategoryList = documentCategoryList;
+  isLoading: boolean = false;
 
   constructor(
-    private router: Router,
+    private router: Router
   ) {}
-
-  ngOnInit(): void {
-
-  }
 
   showDocumentsList(category: string) {
     let url: string = `/dokumanlar/${category.toLowerCase()}`;
     this.router.navigate([url]);
-  }
-
-
-  ngOnDestroy(): void {
-
   }
 }

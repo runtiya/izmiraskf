@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component } from "@angular/core";
 import { Subscription } from 'rxjs';
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
@@ -42,7 +42,7 @@ export class AdminDocumentList {
   ) {}
 
   ngOnInit() {
-
+    this.isLoading = true;
     this.router.paramMap
       .subscribe(params => {
         this.url_category = params.get('category').toUpperCase();
@@ -52,10 +52,10 @@ export class AdminDocumentList {
         this.documentService.getDocuments(this.documentCategory.name);
       });
 
-
     this.documentsSubscription = this.documentService.getDocumentsListUpdateListener()
       .subscribe((data: DocumentsModel[]) => {
         this.documents = data.sort((a, b) => {return a.orderNo - b.orderNo});
+        this.isLoading = false;
       });
   }
 

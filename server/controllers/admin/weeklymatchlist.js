@@ -86,8 +86,6 @@ function createWeeklyMatchList(req, res, next) {
       _error = true;
       _resStatus = errorService.errors.DATABASE_ERROR.code;
       _message = errorService.errors.DATABASE_ERROR.message;
-
-      console.log(error.sqlMessage)
     })
     .finally(() => {
       res.status(_resStatus).json({
@@ -199,16 +197,28 @@ function clearWeeklyMatchList(req, res, next) {
       [weeklyMatchProgramId],
       (error, result) => {
         if (!error) {
-        } else {
-          errorService.handleError(
-            errorService.errors.DATABASE_ERROR.code,
-            errorService.errors.DATABASE_ERROR.message,
-            error.sqlMessage
-          );
 
-          _error = true;
-          _resStatus = errorService.errors.DATABASE_ERROR.code;
-          _message = errorService.errors.DATABASE_ERROR.message;
+        } else {
+          if (error.errno == 1451) {
+            errorService.handleError(
+              errorService.errors.DATABASE_FOREIGNKEY_ERROR.code,
+              errorService.errors.DATABASE_FOREIGNKEY_ERROR.message,
+              error.sqlMessage
+            );
+
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_FOREIGNKEY_ERROR.code;
+            _message = errorService.errors.DATABASE_FOREIGNKEY_ERROR.message;
+          } else {
+            errorService.handleError(
+              errorService.errors.DATABASE_ERROR.code,
+              errorService.errors.DATABASE_ERROR.message,
+              error.sqlMessage
+            );
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_ERROR.code;
+            _message = errorService.errors.DATABASE_ERROR.message;
+          }
         }
 
         res.status(_resStatus).json({
@@ -230,16 +240,28 @@ function deleteMatchFromList(req, res, next) {
       [weeklyMatchListId],
       (error, result) => {
         if (!error) {
-        } else {
-          errorService.handleError(
-            errorService.errors.DATABASE_ERROR.code,
-            errorService.errors.DATABASE_ERROR.message,
-            error.sqlMessage
-          );
 
-          _error = true;
-          _resStatus = errorService.errors.DATABASE_ERROR.code;
-          _message = errorService.errors.DATABASE_ERROR.message;
+        } else {
+          if (error.errno == 1451) {
+            errorService.handleError(
+              errorService.errors.DATABASE_FOREIGNKEY_ERROR.code,
+              errorService.errors.DATABASE_FOREIGNKEY_ERROR.message,
+              error.sqlMessage
+            );
+
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_FOREIGNKEY_ERROR.code;
+            _message = errorService.errors.DATABASE_FOREIGNKEY_ERROR.message;
+          } else {
+            errorService.handleError(
+              errorService.errors.DATABASE_ERROR.code,
+              errorService.errors.DATABASE_ERROR.message,
+              error.sqlMessage
+            );
+            _error = true;
+            _resStatus = errorService.errors.DATABASE_ERROR.code;
+            _message = errorService.errors.DATABASE_ERROR.message;
+          }
         }
 
         res.status(_resStatus).json({

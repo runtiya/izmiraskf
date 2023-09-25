@@ -14,11 +14,10 @@ export class GlobalIzmirASKFService {
     private globalFunctions: globalFunctions
   ) {}
 
-
   getLogoPath() {
     return this.http
       .get<{ data: string}>(
-        'http://localhost:3000/izmiraskf/hakkimizda/getlogo'
+        'http://localhost:3000/izmiraskf/about-us/getlogo'
       )
       .subscribe({
         next: (data) => {

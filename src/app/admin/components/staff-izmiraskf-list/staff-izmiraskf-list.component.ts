@@ -20,7 +20,6 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
   staffizmiraskfList: StaffIzmirAskfModel[] = [];
   private staffizmiraskfListSub: Subscription;
 
-
   constructor(
     public staffService: StaffIASKFService,
     public dialog: MatDialog,
@@ -32,10 +31,12 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.staffService.getStaff();
     this.staffizmiraskfListSub = this.staffService.getStaffListUpdateListener()
-      .subscribe((data: StaffIzmirAskfModel[]) => {
-        this.staffizmiraskfList = data;
+      .subscribe({
+        next: (data: StaffIzmirAskfModel[]) => {
+          this.staffizmiraskfList = data;
+          this.isLoading = false;
+        }
       });
-    this.isLoading = false;
   }
 
   onCreate() {

@@ -72,7 +72,7 @@ export class AuthService {
   getUsersList() {
     this.http
       .get<{data: UserModel[]}>(
-        'http://localhost:3000/admin/kullanicilar'
+        'http://localhost:3000/admin/users'
       )
       .subscribe({
         next: (data) => {
@@ -92,7 +92,7 @@ export class AuthService {
 
     this.http
       .post<{ data: UserModel }>(
-        'http://localhost:3000/admin/kullanicilar/signup', formData
+        'http://localhost:3000/admin/users/signup', formData
       )
       .subscribe({
         next: (data) => {
@@ -114,7 +114,7 @@ export class AuthService {
 
     this.http
       .put<{data: {error: boolean, message: string, snackBarMessage: string, userInfo: UserModel} }>(
-        'http://localhost:3000/admin/kullanicilar/profileupdate/' + userInfo.id, formData
+        'http://localhost:3000/admin/users/profileupdate/' + userInfo.id, formData
       )
       .subscribe({
         next: (data) => {
@@ -140,7 +140,7 @@ export class AuthService {
   login(userForm: UserModel) {
     this.http
       .post<{data: {snackBarMessage: String, token: string, expiresIn: number, user: UserModel}}>(
-        'http://localhost:3000/admin/kullanicilar/login', userForm
+        'http://localhost:3000/admin/users/login', userForm
       )
       .subscribe({
         next: (data) => {
@@ -246,7 +246,7 @@ export class AuthService {
   deleteUser(_id: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/kullanicilar/' + _id
+        'http://localhost:3000/admin/users/' + _id
       )
       .subscribe({
         next: (data) => {

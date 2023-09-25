@@ -32,15 +32,10 @@ export class globalFunctions {
   ) {}
 
   public snackBar: Subject<string> = new Subject();
-  public showSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public getToolbarTitle: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
   showSnackBar(messageCode) {
     this.snackBar.next(systemMessages[messageCode]);
-  }
-
-  setSpinner(_displaySpinner: boolean) {
-    this.showSpinner.next(_displaySpinner);
   }
 
   setToolbarTitle(_toolbarTitle: string) {

@@ -13,16 +13,16 @@ export class DocumentsService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {}
+  ) {}
 
   getDocuments(category: string) {
     this.http
       .get<{data: DocumentsModel[]}>(
-        'http://localhost:3000/admin/dokumanlar/' + category
+        'http://localhost:3000/admin/documents/' + category
       )
       .subscribe({
-        next: (data) => {
-          this.documentsList = data.data;
+        next: (responseData) => {
+          this.documentsList = responseData.data;
           this.documentsListSub.next([...this.documentsList]);
         },
         error: (error) => {
@@ -43,7 +43,7 @@ export class DocumentsService {
 
     this.http
       .post<{data: DocumentsModel}>(
-        'http://localhost:3000/admin/dokumanlar/' + documentInfo.fileCategory, formData
+        'http://localhost:3000/admin/documents/' + documentInfo.fileCategory, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -52,7 +52,6 @@ export class DocumentsService {
           this.globalFunctions.showSnackBar("system.success.create");
         },
         error: (error) => {
-          console.log(error)
           this.globalFunctions.showSnackBar(error);
         }
       });
@@ -66,7 +65,7 @@ export class DocumentsService {
 
     this.http
       .put<{ data: DocumentsModel }>(
-        'http://localhost:3000/admin/dokumanlar/' + documentInfo.fileCategory + '/' + documentInfo.id, formData
+        'http://localhost:3000/admin/documents/' + documentInfo.fileCategory + '/' + documentInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -89,7 +88,7 @@ export class DocumentsService {
   deleteDocument(documentId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/dokumanlar/' + documentId
+        'http://localhost:3000/admin/documents/' + documentId
       )
       .subscribe({
         next: (data) => {

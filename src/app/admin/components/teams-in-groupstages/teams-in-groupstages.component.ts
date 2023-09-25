@@ -1,9 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { Observable, pipe, Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from "@angular/forms";
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { MatDialog } from "@angular/material/dialog";
 
 import { GroupStagesModel } from "../../models/admin-groupstages.model";
@@ -17,7 +16,6 @@ import { LeaguesService } from "../../services/admin-leagues.service";
 import { SeasonsService } from "../../services/admin-seasons.service";
 import { TeamsService } from "../../services/admin-teams.service";
 import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupstages.service";
-import { FixtureService } from "../../services/admin-fixtures.service";
 
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
@@ -60,12 +58,12 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
     private groupstagesService: GroupStagesService,
     private teamsService: TeamsService,
     private teamsingroupstagesService: TeamsInGroupstagesService,
-    private fixturesService: FixtureService,
     private globalFunctions: globalFunctions,
     public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
@@ -78,9 +76,8 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
         } else {
           this.seasonList = [];
           this.seasonSelectionId = null;
+          this.isLoading = false;
         }
-
-        this.isLoading = false;
       });
 
     this.leagueListSub = this.leaguesService.getLeagueListUpdateListener()
@@ -93,14 +90,12 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
         } else {
           this.leagueList = [];
           this.leagueSelectionId = null;
+          this.isLoading = false;
         }
-
-        this.isLoading = false;
       });
 
     this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
       .subscribe((data: GroupStagesModel[]) => {
-        this.isLoading = true;
         this.teamsingroupstagesList = []
         if (data.length > 0) {
           this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
@@ -109,9 +104,8 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
         } else {
           this.groupstageList = [];
           this.groupstageSelectionId = null;
+          this.isLoading = false;
         }
-
-        this.isLoading = false;
       });
 
 
@@ -130,10 +124,8 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
     this.teamsListSub = this.teamsService.getTeamsListUpdateListener()
       .subscribe({
         next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
-          this.isLoading = true;
-        this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
-        this.filteredTeamsList = this.teamsList;
-        this.isLoading = false;
+          this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
+          this.filteredTeamsList = this.teamsList;
         }
       });
 
@@ -164,19 +156,16 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
   onSeasonChange(seasonSelectionId: number) {
     this.isLoading = true;
     this.leaguesService.getLeagues(seasonSelectionId);
-    this.isLoading = false;
   }
 
   onLeagueChange(leagueSelectionId: number) {
     this.isLoading = true;
     this.groupstagesService.getGroupstages(leagueSelectionId);
-    this.isLoading = false;
   }
 
   onGroupstageChange(groupstageSelectionId: number) {
     this.isLoading = true;
     this.teamsingroupstagesService.getTeamsInGroupstages(groupstageSelectionId);
-    this.isLoading = false;
   }
 
   onAddList(teamId: number) {
@@ -207,7 +196,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
       data: {
         title: "İŞLEMİ ONAYLIYOR MUSUNUZ?",
-        message: "Lütfen fikstür bilgilerinizin silindiğinden emin olun! İşleminizi onaylıyor musunuz?"
+        message: "Grup-Takım eşleşmesi kaydedilecektir! İşleminizi onaylıyor musunuz?"
       }
     });
 
@@ -217,7 +206,6 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
           if (data) {
             teams.forEach((team, i) => team.orderNo = i+1);
             this.teamsingroupstagesService.createTeamsInGroupstages(teams, this.groupstageSelectionId);
-            //this.fixturesService.clearFixture(this.groupstageSelectionId);
           }
         }
       });

@@ -97,7 +97,7 @@ function createDocument(req, res, next) {
           _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        const _documentInfo = crypto.encryptData({documentInfo});
+        const _documentInfo = crypto.encryptData(documentInfo);
 
         res.status(_resStatus).json({
           error: _error,
@@ -169,7 +169,7 @@ function updateDocument(req, res, next) {
           _message = errorService.errors.DATABASE_ERROR.message;
         }
 
-        const _documentInfo = crypto.encryptData({documentInfo});
+        const _documentInfo = crypto.encryptData(documentInfo);
 
         res.status(_resStatus).json({
           error: _error,

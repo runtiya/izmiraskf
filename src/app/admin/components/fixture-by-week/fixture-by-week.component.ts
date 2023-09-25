@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy, Input } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from 'rxjs';
-import { Router } from "@angular/router";
 
 import { FixtureModel } from "../../models/admin-fixture.model";
 import { FixtureService } from "../../services/admin-fixtures.service";
@@ -9,7 +8,6 @@ import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages
 import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupstages.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-
 
 @Component({
   selector: 'app-admin-fixture-by-week',
@@ -31,13 +29,12 @@ export class AdminFixtureByWeek implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.fixtureListSub = this.fixtureService.getFixtureUpdateListener()
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data;
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 
@@ -45,9 +42,6 @@ export class AdminFixtureByWeek implements OnInit, OnDestroy {
       .subscribe({
         next: (data: TeamsInGroupstagesModel[]) => {
           this.teamsingroupstageList = data;
-        },
-        error: (error) => {
-
         }
       });
   }

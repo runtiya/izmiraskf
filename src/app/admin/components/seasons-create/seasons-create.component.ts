@@ -1,6 +1,6 @@
-import { Component, Inject, Input, OnInit, OnDestroy } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
@@ -12,7 +12,7 @@ import { seasonYearList } from "../../../assets/lists/season-year.list";
   templateUrl: './seasons-create.component.html',
   styleUrls: ['../../../app.component.css', './seasons-create.component.css']
 })
-export class AdminSeasonsCreateModal implements OnInit, OnDestroy {
+export class AdminSeasonsCreateModal implements OnInit {
   isLoading: boolean = false;
   pageMode: string = this.data.pageMode || 'create';
   seasonInfo = this.data.seasonInfo;
@@ -73,9 +73,5 @@ export class AdminSeasonsCreateModal implements OnInit, OnDestroy {
           }
         }
       });
-  }
-
-  ngOnDestroy(): void {
-
   }
 }

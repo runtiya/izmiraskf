@@ -9,7 +9,6 @@ import { Router } from "@angular/router";
 
 import { globalFunctions } from "../../../functions/global.function";
 
-
 @Component({
   selector: 'app-application-teamslist',
   templateUrl: './teams-list.component.html',

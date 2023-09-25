@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
-import { map } from "rxjs/operators";
-import { Router } from "@angular/router";
 
 import { AboutIASKFModel } from "../models/admin-aboutizmiraskf.model";
 
@@ -19,10 +17,9 @@ export class AboutIASKFService {
     ) {}
 
   getAboutContent() {
-
     this.http
       .get<{ data: AboutIASKFModel }>(
-        'http://localhost:3000/admin/izmiraskf/hakkimizda'
+        'http://localhost:3000/admin/izmiraskf/about-us'
       )
       .subscribe({
         next: (data) => {
@@ -46,7 +43,7 @@ export class AboutIASKFService {
 
     this.http
       .put<{ data: AboutIASKFModel }>(
-        'http://localhost:3000/admin/izmiraskf/hakkimizda', formData
+        'http://localhost:3000/admin/izmiraskf/about-us', formData
       )
       .subscribe({
         next: (responseData) => {

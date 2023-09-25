@@ -1,4 +1,5 @@
-<div>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div *ngIf="!isLoading">
   <mat-card>
     <mat-toolbar class="toolbar toolbar-title">
       <span>{{'BAĞLANTILAR'}}</span>

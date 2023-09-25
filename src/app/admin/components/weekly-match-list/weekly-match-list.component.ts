@@ -27,7 +27,6 @@ import { globalFunctions } from "../../../functions/global.function";
 import { fixtureFunctions } from "../../functions/fixture.function";
 
 import { FixtureSearchModel } from "../../models/admin-fixture-search-index.model";
-import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { fileImportExportFunctions } from "../../functions/file-import-export.function";
 
@@ -79,6 +78,7 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
@@ -92,11 +92,8 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
             this.seasonSelectionId = null;
             this.weeklyMatchProgramList = [];
             this.weeklyMatchList = [];
+            this.isLoading = false;
           }
-
-        },
-        error: (error) => {
-
         }
       });
 
@@ -110,13 +107,11 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
             this.fixtureService.getFixtureBySearchIndex(this.onGetFixtureSearchIndex(this.seasonSelectionId, this.weeklyMatchProgramSelectionId));
           } else {
             this.weeklyMatchProgramSelectionId = null;
+            this.weeklyMatchProgramList = [];
             this.weeklyMatchList = [];
             this.fixtureList = [];
+            this.isLoading = false;
           }
-
-        },
-        error: (error) => {
-
         }
       });
 
@@ -124,9 +119,6 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: WeeklyMatchListModel[]) => {
           this.weeklyMatchList = data;
-        },
-        error: (error) => {
-
         }
       });
 
@@ -134,9 +126,7 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data;
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 
@@ -145,18 +135,17 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
           this.stadiumList = data.stadiumsList;
-        },
-        error: (error) => {
-
         }
       });
   }
 
   onSeasonChange(seasonSelectionId: number) {
+    this.isLoading = true;
     this.weeklymatchprogramService.getWeeklyMatchProgram(seasonSelectionId);
   }
 
   onWeeklyMatchProgramChange(seasonSelectionId: number, weeklyMatchProgramId: number) {
+    this.isLoading = true;
     this.weeklymatchlistService.getWeeklyMatchList(weeklyMatchProgramId);
     this.fixtureService.getFixtureBySearchIndex(this.onGetFixtureSearchIndex(seasonSelectionId, weeklyMatchProgramId));
   }
@@ -215,29 +204,6 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
 
     this.weeklymatchlistService.updateMatchList(match);
   }
-
-  /*
-  onDelete(matchId: number, matchNo: string) {
-    let match = this.weeklyMatchList.find(wml => wml.matchId === matchId && wml.matchNo === matchNo);
-    const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
-      data: {
-        title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
-        message: `${matchNo} numaralı müsabaka ${match.weeklyMatchProgramId} numaralı Haftalık Bültenden silinecektir, işlemi onaylıyor musunuz?`
-      }
-    });
-
-    dialogRef.afterClosed()
-      .subscribe({
-        next: (data) => {
-          if (data) {
-            this.weeklymatchlistService.deleteMatchFromList(match.id);
-            this.fixtureService.getFixtureBySearchIndex(this.onGetFixtureSearchIndex(this.seasonSelectionId, this.weeklyMatchProgramSelectionId));
-          }
-        }
-      });
-
-  }
-  */
 
   onAddMatch() {
     this.seasonsListSubscription.unsubscribe();

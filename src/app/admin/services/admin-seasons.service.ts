@@ -13,12 +13,12 @@ export class SeasonsService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {}
+  ) {}
 
   getSeasons() {
     this.http
       .get<{data: SeasonsModel[]}>(
-        'http://localhost:3000/admin/sezonlar'
+        'http://localhost:3000/admin/seasons'
       )
       .subscribe({
         next: (data) => {
@@ -39,7 +39,7 @@ export class SeasonsService {
     const requestData = seasonInfo;
     this.http
       .post<{data: SeasonsModel}>(
-        'http://localhost:3000/admin/sezonlar', requestData
+        'http://localhost:3000/admin/seasons', requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -57,7 +57,7 @@ export class SeasonsService {
     const requestData = seasonInfo;
     this.http
       .put<{data: SeasonsModel}>(
-        'http://localhost:3000/admin/sezonlar/' + requestData.id, requestData
+        'http://localhost:3000/admin/seasons/' + requestData.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -79,7 +79,7 @@ export class SeasonsService {
   deleteSeason(seasonId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/sezonlar/' + seasonId
+        'http://localhost:3000/admin/seasons/' + seasonId
       )
       .subscribe({
         next: (data) => {

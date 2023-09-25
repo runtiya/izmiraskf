@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from "@angular/core";
+import { Component, EventEmitter, Output, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 
 import { AuthService } from "../../authentication/auth.service";
@@ -11,7 +11,6 @@ import { UserModel } from "../../models/admin-users.model";
   styleUrls: ['../../../app.component.css', './header.component.css']
 })
 export class AdminHeader implements OnInit, OnDestroy {
-
   authenticatedUser: UserModel = <UserModel>{};
   title: string = null;
   private authenticatedUserSub: Subscription;
@@ -31,20 +30,6 @@ export class AdminHeader implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authenticatedUser = this.authService.getAuthenticatedUser() || JSON.parse(localStorage.getItem("userInfo"));
-    /*
-    this.userName = this.authService.getUserName();
-    this.userProfileImage = this.authService.getUserProfileImage();
-    this.userFullName = this.authService.getUserFullName();
-    this.authenticatedUserSub = this.authService.getAuthenticatedUserListener()
-    .subscribe({
-      next: (data) => {
-        this.authenticatedUser = data;
-      },
-      error: (error) => {
-
-      }
-    });
-    */
 
     this.globalIzmirASKFService.getLogoPath();
     this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
@@ -62,9 +47,7 @@ export class AdminHeader implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    //this.authenticatedUserSub.unsubscribe();
     this.logoPathSubscription.unsubscribe();
   }
-
 
 }

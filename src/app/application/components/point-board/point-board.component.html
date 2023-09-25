@@ -1,4 +1,5 @@
-<div class="div-point-board">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="div-point-board" *ngIf="!isLoading">
   <div *ngIf="pointBoardList.length > 0">
     <mat-toolbar class="toolbar toolbar-title">
       <span>{{toolbarTitle}}</span>
@@ -35,7 +36,7 @@
       </mat-card-header>
 
       <mat-card-content>
-        <table mat-table [dataSource]="pointBoardList" class="mat-elevation-z8" *ngIf="!isLoading">
+        <table mat-table [dataSource]="pointBoardList" class="mat-elevation-z8" >
           <ng-container matColumnDef="order">
             <th mat-header-cell *matHeaderCellDef="" matTooltip="Sıra">Sıra</th>
             <td mat-cell *matCellDef="let team; let i = index">

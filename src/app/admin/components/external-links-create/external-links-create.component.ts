@@ -1,14 +1,14 @@
-import { Component, Inject, Input, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 
-import { ExternalLinksModel } from "../../models/admin-externallinks.model";
 import { ExternalLinksService } from "../../services/admin-externallinks.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
 import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
+import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-admin-external-links-create',
@@ -28,11 +28,12 @@ export class AdminExternalLinksCreateModal implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: Data,
     private dialogRef: MatDialogRef<AdminExternalLinksCreateModal>,
     private dialog: MatDialog,
-    private extLinkService: ExternalLinksService
+    private extLinkService: ExternalLinksService,
+    private globalFunctions: globalFunctions,
   ) {}
 
   ngOnInit(): void {
-
+    this.isLoading = true;
     this.extLinkSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.linkInfo.id : null, {validators: []}),
       createdAt: new FormControl(this.pageMode == 'edit' ? this.linkInfo.createdAt : null, {validators: []}),
@@ -48,9 +49,11 @@ export class AdminExternalLinksCreateModal implements OnInit {
       orderNo: new FormControl(this.pageMode == 'edit' ? this.linkInfo.orderNo : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]}),
       isActive: new FormControl(this.pageMode == 'edit' ? !!this.linkInfo.isActive : true, {validators: [Validators.required, Validators.maxLength(3)]}),
     });
+    this.isLoading = false;
   }
 
   onFilePicked(event: Event) {
+    this.isLoading = true;
     try {
       const file = (event.target as HTMLInputElement).files[0];
       this.extLinkSubmitForm.patchValue({imageAttachment: file});
@@ -58,12 +61,18 @@ export class AdminExternalLinksCreateModal implements OnInit {
       const reader = new FileReader();
       reader.onloadend = () => {
         let _imagePath = this.extLinkSubmitForm.get('imageAttachment').valid ? reader.result as string : null;
-        this.extLinkSubmitForm.get('imagePath').setValue(_imagePath);
+        if (_imagePath !== null) {
+          this.extLinkSubmitForm.get('imagePath').setValue(_imagePath);
+        } else {
+          this.globalFunctions.showSnackBar('image.upload.error.mimetypeorfilesize');
+        }
+
       };
       reader.readAsDataURL(file);
     } catch (error) {
-
+      this.globalFunctions.showSnackBar('image.upload.error');
     }
+    this.isLoading = false;
   }
 
   filePickerRemove() {
@@ -73,19 +82,15 @@ export class AdminExternalLinksCreateModal implements OnInit {
 
   onSubmitForm() {
     if (this.extLinkSubmitForm.valid) {
-
-      this.isLoading = true;
       if (this.pageMode === "create") {
         this.extLinkService.createLink(this.extLinkSubmitForm.value);
       }
       else {
         this.extLinkService.updateLink(this.extLinkSubmitForm.value);
       }
-      this.isLoading = false;
       this.dialogRef.close();
-
     } else {
-      null;
+
     }
   }
 

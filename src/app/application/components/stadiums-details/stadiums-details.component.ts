@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
 import { SafeResourceUrl } from '@angular/platform-browser';
 
@@ -38,6 +37,7 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.router.paramMap
       .subscribe(params => {
         this.url_stadiumId = Number(params.get('id'));
@@ -50,9 +50,7 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
               this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.stadium.mapUrl);
               this.toolbarTitle = data.stadiumName;
               this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-            },
-            error: (error) => {
-
+              this.isLoading = false;
             }
           });
       })

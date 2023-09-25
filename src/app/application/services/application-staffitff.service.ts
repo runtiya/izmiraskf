@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
-import { map } from "rxjs/operators";
 
 import { StaffITFFModel } from "../models/application-staffizmirtff.model";
 
@@ -12,7 +11,6 @@ export class StaffITFFService {
   private staffList: StaffITFFModel[] = [];
   private staffListUpdated = new Subject<StaffITFFModel[]>();
 
-
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
@@ -21,7 +19,7 @@ export class StaffITFFService {
   getStaff() {
     this.http
       .get<{ data: StaffITFFModel[] }>(
-        'http://localhost:3000/tffiltemsilciligi/tffiltemsilciligi'
+        'http://localhost:3000/tffiltemsilciligi/staff'
       )
       .subscribe({
         next: (data) => {

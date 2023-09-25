@@ -14,25 +14,22 @@ import { globalFunctions } from "../../../functions/global.function";
   styleUrls: ['../../../app.component.css', './external-links-in-home.component.css']
 })
 export class ApplicationExternalLinksInHome implements OnInit, OnDestroy {
-
+  isLoading: boolean = false;
   extLinksRelatedLinks: ExternalLinksModel[] = [];
   extLinksSocialMediaLinks: ExternalLinksModel[] = [];
   private extLinksSubscription: Subscription;
 
   constructor(
     private externalLinksService: ExternalLinksService,
-    private globalFunctions: globalFunctions,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.extLinksSubscription = this.externalLinksService.getExternalRelatedLinksUpdateListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
           this.extLinksRelatedLinks = data;
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
   }

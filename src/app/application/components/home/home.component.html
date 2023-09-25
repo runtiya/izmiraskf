@@ -1,8 +1,13 @@
 <div>
+
+
+
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <a class="weatherwidget-io" [href]="'https://forecast7.com/tr/38d4227d14/izmir/'" data-label_1="İZMİR" data-label_2="HAVA DURUMU" data-icons="Climacons Animated" data-mode="Current" data-days="3" data-theme="weather_one" >İZMİR HAVA DURUMU</a>
+      <app-application-weekly-match-list-slider-in-home></app-application-weekly-match-list-slider-in-home>
     </div>
+
     <div class="col-lg-9 col-md-12 col-sm-12">
       <app-application-news-slider></app-application-news-slider>
     </div>
@@ -15,6 +20,7 @@
           </mat-card>
         </div>
 
+        <!--
         <div class="col-lg-12 col-md-4 col-sm-12">
           <button
             mat-raised-button
@@ -26,6 +32,7 @@
             HABERLER VE DUYURULAR
           </button>
         </div>
+        -->
 
         <div class="col-lg-12 col-md-4 col-sm-12">
           <button
@@ -75,6 +82,8 @@
 
 
       <div class="row">
+
+
         <div class="col-lg-6 col-md-6 col-sm-12">
           <app-global-statistics-teams-count-by-town></app-global-statistics-teams-count-by-town>
         </div>
@@ -87,7 +96,7 @@
           <app-global-statistics-stadiums-count-by-floortype></app-global-statistics-stadiums-count-by-floortype>
         </div>
 
-        <div class="col-lg-8 col-md-6 col-sm-12">
+        <div class="col-lg-12 col-md-12 col-sm-12">
           <app-global-statistics-matchstatus-by-league></app-global-statistics-matchstatus-by-league>
         </div>
       </div>
@@ -98,7 +107,7 @@
       <app-application-external-links-in-home></app-application-external-links-in-home>
 
       <div class="col-lg-12 col-md-12 col-sm-12">
-        <a class="weatherwidget-io" href="https://forecast7.com/tr/38d4227d14/izmir/" data-label_1="İZMİR" data-label_2="HAVA DURUMU" data-icons="Climacons Animated" data-days="3" data-theme="weather_one" >İZMİR HAVA DURUMU</a>
+        <a class="weatherwidget-io" href="https://forecast7.com/tr/38d4227d14/izmir/" data-label_1="İZMİR" data-label_2="HAVA DURUMU" data-icons="Climacons Animated" data-days="5" data-theme="weather_one" >İZMİR HAVA DURUMU</a>
       </div>
 
       <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="extAdvertisementList.length > 0">

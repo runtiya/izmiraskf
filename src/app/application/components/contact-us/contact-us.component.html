@@ -1,4 +1,5 @@
-<div class="div-contactus">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="div-contactus" *ngIf="!isLoading">
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <mat-card>
