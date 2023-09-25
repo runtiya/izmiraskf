@@ -6,6 +6,8 @@ import { AboutITFFModel } from "../models/application-aboutizmirtff.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class AboutITFFService {
   private aboutContent: AboutITFFModel;
@@ -19,7 +21,7 @@ export class AboutITFFService {
   getAboutContent() {
     this.http
       .get<{data: AboutITFFModel}>(
-        'http://localhost:3000/tffiltemsilciligi/about-us'
+        environment.serverUrl + "tffiltemsilciligi/about-us"
       )
       .subscribe({
         next: (data) => {

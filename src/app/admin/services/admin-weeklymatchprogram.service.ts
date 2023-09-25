@@ -11,6 +11,8 @@ import { FixtureSearchModel } from "../models/admin-fixture-search-index.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class WeeklyMatchProgramService {
   private weeklyMatchProgramList: WeeklyMatchProgramModel[] = [];
@@ -48,7 +50,7 @@ export class WeeklyMatchProgramService {
 
     this.http
       .post<{ data: WeeklyMatchProgramModel }>(
-        'http://localhost:3000/admin/weekly-match-program', requestData
+        environment.serverUrl + "admin/weekly-match-program", requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -75,7 +77,7 @@ export class WeeklyMatchProgramService {
     const requestData = weeklyMatchProgramInfo;
     this.http
       .put<{ data: WeeklyMatchProgramModel }>(
-        'http://localhost:3000/admin/weekly-match-program/' + requestData.seasonId + '/' + requestData.id, requestData
+        environment.serverUrl + "admin/weekly-match-program/" + requestData.seasonId + '/' + requestData.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -97,7 +99,7 @@ export class WeeklyMatchProgramService {
   deleteWeeklyMatchProgram(seasonId: number, weeklyMatchProgramId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/weekly-match-program/' + seasonId + '/' + weeklyMatchProgramId
+        environment.serverUrl + "admin/weekly-match-program/" + seasonId + '/' + weeklyMatchProgramId
       )
       .subscribe({
         next: (data) => {

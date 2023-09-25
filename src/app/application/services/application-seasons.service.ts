@@ -6,6 +6,8 @@ import { SeasonsModel } from "../models/application-seasons.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class SeasonsService {
   private seasonsList: SeasonsModel[] = [];
@@ -19,7 +21,7 @@ export class SeasonsService {
   getSeasons() {
     this.http
       .get<{data: SeasonsModel[]}>(
-        'http://localhost:3000/seasons'
+        environment.serverUrl + "seasons"
       )
       .subscribe({
         next: (data) => {

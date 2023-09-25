@@ -6,6 +6,8 @@ import { GroupStagesModel } from "../models/application-groupstages.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class GroupStagesService {
   private groupstageList: GroupStagesModel[] = [];
@@ -21,7 +23,7 @@ export class GroupStagesService {
   getGroupstages(leagueId: number) {
     this.http
       .get<{data: GroupStagesModel[]}>(
-        'http://localhost:3000/groupstages/' + leagueId
+        environment.serverUrl + "groupstages/" + leagueId
       )
       .subscribe({
         next: (data) => {
@@ -41,7 +43,7 @@ export class GroupStagesService {
   getGroupWeeks(groupstageId: number) {
     this.http
       .get<{data: Array<number>[]}>(
-        'http://localhost:3000/groupstages/hafta-siralamasi/' + groupstageId
+        environment.serverUrl + "groupstages/week-order/" + groupstageId
       )
       .subscribe({
         next: (data) => {
@@ -60,7 +62,7 @@ export class GroupStagesService {
 
   getPlayedLastMatchWeek(_groupstageId: number): Observable<any> {
     return this.http.get<{data: number}>(
-      'http://localhost:3000/groupstages/son-musabaka-haftasi/' + _groupstageId
+      environment.serverUrl + "groupstages/last-match-week/" + _groupstageId
       );
   }
 }

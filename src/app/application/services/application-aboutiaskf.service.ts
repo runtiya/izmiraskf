@@ -6,6 +6,8 @@ import { AboutIASKFModel } from "../models/application-aboutizmiraskf.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class AboutIASKFService {
   private aboutContent: AboutIASKFModel;
@@ -20,7 +22,7 @@ export class AboutIASKFService {
   getAboutContent() {
     this.http
       .get<{data: AboutIASKFModel}>(
-        'http://localhost:3000/izmiraskf/about-us'
+        environment.serverUrl + "izmiraskf/about-us"
       )
       .subscribe({
         next: (data) => {

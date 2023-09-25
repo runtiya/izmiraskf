@@ -7,6 +7,8 @@ import { FixtureSearchModel } from "../models/application-fixture-search-index.m
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class FixtureService {
   private fixtureList: FixtureModel[] = [];
@@ -20,7 +22,7 @@ export class FixtureService {
   getFixtureBySearchIndex(fixtureSearchIndex: FixtureSearchModel) {
     this.http
       .put<{data: FixtureModel[]}>(
-        'http://localhost:3000/fixture/arama', fixtureSearchIndex
+        environment.serverUrl + "fixture/search", fixtureSearchIndex
       )
       .subscribe({
         next: (data) => {

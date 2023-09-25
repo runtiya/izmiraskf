@@ -45,8 +45,8 @@ export class AdminTeamsInGroupstagesInFixtureCreate implements OnInit, OnDestroy
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.teamsingroupstagesListSub = this.teamsingroupstagesService.getTeamsInGroupstagesUpdateListener()
+      this.isLoading = true;
+      this.teamsingroupstagesListSub = this.teamsingroupstagesService.getTeamsInGroupstagesUpdateListener()
       .subscribe({
         next: (data: TeamsInGroupstagesModel[]) => {
           if (data.length > 0) {
@@ -59,6 +59,7 @@ export class AdminTeamsInGroupstagesInFixtureCreate implements OnInit, OnDestroy
           this.isLoading = false;
         }
       });
+
 
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe({
@@ -113,5 +114,6 @@ export class AdminTeamsInGroupstagesInFixtureCreate implements OnInit, OnDestroy
 
   ngOnDestroy(): void {
     this.teamsingroupstagesListSub.unsubscribe();
+    this.stadiumListSub.unsubscribe();
   }
 }

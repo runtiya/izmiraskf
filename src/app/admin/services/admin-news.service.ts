@@ -6,6 +6,8 @@ import { NewsModel } from "../models/admin-news.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class NewsService {
   private newsList: NewsModel[] = [];
@@ -20,7 +22,7 @@ export class NewsService {
   getNews(paginationPageSize?: number, paginationCurrentPage?: number) {
     this.http
       .get<{data: {newsList: NewsModel[], newsCount: number}}>(
-        `http://localhost:3000/admin/news?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+        environment.serverUrl + `admin/news?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
       )
       .subscribe({
       next: (data) => {
@@ -45,7 +47,7 @@ export class NewsService {
 
     this.http
       .post<{data: NewsModel}>(
-        'http://localhost:3000/admin/news', formData
+        environment.serverUrl + "admin/news", formData
       )
       .subscribe({
         next: (responseData) => {
@@ -67,7 +69,7 @@ export class NewsService {
 
     this.http
       .put<{ data: NewsModel }>(
-        'http://localhost:3000/admin/news/' + newsInfo.id, formData
+        environment.serverUrl + "admin/news/" + newsInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -88,7 +90,7 @@ export class NewsService {
   deleteNews(newsId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/news/' + newsId
+        environment.serverUrl + "admin/news/" + newsId
       )
       .subscribe({
         next: (data) => {

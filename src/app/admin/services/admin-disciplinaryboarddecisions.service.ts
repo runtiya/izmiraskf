@@ -5,6 +5,8 @@ import { Subject } from "rxjs";
 import { DisciplinaryBoardDecisionModel } from "../models/admin-disciplinaryboarddecisions.model";
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({ providedIn: 'root' })
 export class DisciplinaryBoardDecisionsService {
   private disciplinaryBoardDecisionList: DisciplinaryBoardDecisionModel[] = [];
@@ -18,7 +20,7 @@ export class DisciplinaryBoardDecisionsService {
   getDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
     this.http
       .get<{ data: DisciplinaryBoardDecisionModel[] }>(
-        'http://localhost:3000/admin/disciplinary-board-decisions/' + disciplinaryBoardFileId
+        environment.serverUrl + "admin/disciplinary-board-decisions/" + disciplinaryBoardFileId
       )
       .subscribe({
         next: (data) => {
@@ -39,7 +41,7 @@ export class DisciplinaryBoardDecisionsService {
     const requestData = disciplinaryBoardDecisionInfo;
     this.http
       .post<{ data: DisciplinaryBoardDecisionModel }>(
-        'http://localhost:3000/admin/disciplinary-board-decisions', requestData
+        environment.serverUrl + "admin/disciplinary-board-decisions", requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -57,7 +59,7 @@ export class DisciplinaryBoardDecisionsService {
     const requestData = disciplinaryBoardDecisionInfo;
     this.http
       .put<{ data: DisciplinaryBoardDecisionModel }>(
-        'http://localhost:3000/admin/disciplinary-board-decisions/' + requestData.id, requestData
+        environment.serverUrl + "admin/disciplinary-board-decisions/" + requestData.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -78,7 +80,7 @@ export class DisciplinaryBoardDecisionsService {
   deleteDisciplinaryBoardDecision(disciplinaryBoardDecisionId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/disciplinary-board-decisions/' + disciplinaryBoardDecisionId
+        environment.serverUrl + "admin/disciplinary-board-decisions/" + disciplinaryBoardDecisionId
       )
       .subscribe({
         next: (data) => {
@@ -96,7 +98,7 @@ export class DisciplinaryBoardDecisionsService {
   clearDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/disciplinary-board-decisions/temizle/' + disciplinaryBoardFileId
+        environment.serverUrl + "admin/disciplinary-board-decisions/temizle/" + disciplinaryBoardFileId
       )
       .subscribe({
         next: (data) => {

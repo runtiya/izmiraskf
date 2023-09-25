@@ -5,6 +5,8 @@ import { Subject } from "rxjs";
 import { DocumentsModel } from "../models/admin-documents.model";
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class DocumentsService {
   private documentsList: DocumentsModel[] = [];
@@ -18,7 +20,7 @@ export class DocumentsService {
   getDocuments(category: string) {
     this.http
       .get<{data: DocumentsModel[]}>(
-        'http://localhost:3000/admin/documents/' + category
+        environment.serverUrl + "admin/documents/" + category
       )
       .subscribe({
         next: (responseData) => {
@@ -43,7 +45,7 @@ export class DocumentsService {
 
     this.http
       .post<{data: DocumentsModel}>(
-        'http://localhost:3000/admin/documents/' + documentInfo.fileCategory, formData
+        environment.serverUrl + "admin/documents/" + documentInfo.fileCategory, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -65,7 +67,7 @@ export class DocumentsService {
 
     this.http
       .put<{ data: DocumentsModel }>(
-        'http://localhost:3000/admin/documents/' + documentInfo.fileCategory + '/' + documentInfo.id, formData
+        environment.serverUrl + "admin/documents/" + documentInfo.fileCategory + '/' + documentInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -88,7 +90,7 @@ export class DocumentsService {
   deleteDocument(documentId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/documents/' + documentId
+        environment.serverUrl + "admin/documents/" + documentId
       )
       .subscribe({
         next: (data) => {

@@ -5,6 +5,8 @@ import { Subject } from "rxjs";
 import { ExternalLinksModel } from "../models/admin-externallinks.model";
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class ExternalLinksService {
   private extLinksList: ExternalLinksModel[] = [];
@@ -18,7 +20,7 @@ export class ExternalLinksService {
   getLinks() {
     this.http
       .get<{data: ExternalLinksModel[]}>(
-        'http://localhost:3000/admin/external-links'
+        environment.serverUrl + "admin/external-links"
       )
       .subscribe({
         next: (data) => {
@@ -42,7 +44,7 @@ export class ExternalLinksService {
 
     this.http
       .post<{ data: ExternalLinksModel }>(
-        'http://localhost:3000/admin/external-links', formData
+        environment.serverUrl + "admin/external-links", formData
       )
       .subscribe({
         next: (responseData) => {
@@ -63,7 +65,7 @@ export class ExternalLinksService {
 
     this.http
       .put<{ data: ExternalLinksModel }>(
-        'http://localhost:3000/admin/external-links/' + linkInfo.id, formData
+        environment.serverUrl + "admin/external-links/" + linkInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -85,7 +87,7 @@ export class ExternalLinksService {
   deleteLink(linkId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/external-links/' + linkId
+        environment.serverUrl + "admin/external-links/" + linkId
       )
       .subscribe({
         next: (data) => {

@@ -216,7 +216,7 @@ function updateUser(req, res, next) {
 
       const _data = crypto.encryptData({
         error: _error,
-        message: message,
+        message: _message,
         snackBarMessage: snackBarMessage,
         userInfo: userInfo
       });

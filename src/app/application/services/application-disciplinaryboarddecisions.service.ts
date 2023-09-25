@@ -6,6 +6,8 @@ import { DisciplinaryBoardDecisionModel } from "../models/application-disciplina
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({ providedIn: 'root' })
 export class DisciplinaryBoardDecisionsService {
 
@@ -21,7 +23,7 @@ export class DisciplinaryBoardDecisionsService {
   getDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
     this.http
       .get<{ data: DisciplinaryBoardDecisionModel[] }>(
-        'http://localhost:3000/disciplinary-board-decisions/' + disciplinaryBoardFileId
+        environment.serverUrl + "disciplinary-board-decisions/" + disciplinaryBoardFileId
       )
       .subscribe({
         next: (data) => {

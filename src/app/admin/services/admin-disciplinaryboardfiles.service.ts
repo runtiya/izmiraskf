@@ -5,6 +5,8 @@ import { Subject } from "rxjs";
 import { DisciplinaryBoardFileModel } from "../models/admin-disciplinaryboardfiles.model";
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({ providedIn: 'root' })
 export class DisciplinaryBoardFilesService {
 
@@ -19,7 +21,7 @@ export class DisciplinaryBoardFilesService {
   getDisciplinaryBoardFiles(seasonId: number, caseType: string) {
     this.http
       .get<{ data: DisciplinaryBoardFileModel[] }>(
-        'http://localhost:3000/admin/disciplinary-board-files/' + seasonId + '/' + caseType
+        environment.serverUrl + "admin/disciplinary-board-files/" + seasonId + '/' + caseType
       )
       .subscribe({
         next: (data) => {
@@ -40,7 +42,7 @@ export class DisciplinaryBoardFilesService {
     const requestData = disciplinaryBoardFileInfo;
     this.http
       .post<{ data: DisciplinaryBoardFileModel }>(
-        'http://localhost:3000/admin/disciplinary-board-files', requestData
+        environment.serverUrl + "admin/disciplinary-board-files", requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -58,7 +60,7 @@ export class DisciplinaryBoardFilesService {
     const requestData = disciplinaryBoardFileInfo;
     this.http
       .put<{ data: DisciplinaryBoardFileModel }>(
-        'http://localhost:3000/admin/disciplinary-board-files/' + disciplinaryBoardFileInfo.id, requestData
+        environment.serverUrl + "admin/disciplinary-board-files/" + disciplinaryBoardFileInfo.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -79,7 +81,7 @@ export class DisciplinaryBoardFilesService {
   deleteDisciplinaryBoardFile(disciplinaryBoardFileId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/disciplinary-board-files/' + disciplinaryBoardFileId
+        environment.serverUrl + "admin/disciplinary-board-files/" + disciplinaryBoardFileId
       )
       .subscribe({
         next: (data) => {

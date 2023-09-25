@@ -8,7 +8,7 @@ const extractImage = require('../../middlewares/extract-image');
 const router = express.Router();
 
 
-router.put("/arama", fixturesController.getFixtureBySearchIndex);
+router.put("/search", fixturesController.getFixtureBySearchIndex);
 
 
 module.exports = router;

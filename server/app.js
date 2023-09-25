@@ -4,7 +4,6 @@ const path = require('path');
 const mongoose = require('mongoose');
 const tzoffset = (new Date()).getTimezoneOffset() * 60000;
 const RequestLogs = require('./models/request-logs');
-const errorService = require('./services/error-service');
 
 
 const app = express();

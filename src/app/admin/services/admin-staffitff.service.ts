@@ -6,6 +6,8 @@ import { StaffITFFModel } from "../models/admin-staffizmirtff.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({ providedIn: 'root' })
 export class StaffITFFService {
   private staffList: StaffITFFModel[] = [];
@@ -19,7 +21,7 @@ export class StaffITFFService {
   getStaff() {
     this.http
       .get<{ data: StaffITFFModel[] }>(
-        'http://localhost:3000/admin/tffiltemsilciligi/staff'
+        environment.serverUrl + "admin/tffiltemsilciligi/staff"
       )
       .subscribe({
         next: (data) => {
@@ -43,7 +45,7 @@ export class StaffITFFService {
 
     this.http
       .post<{ data: StaffITFFModel }>(
-        'http://localhost:3000/admin/tffiltemsilciligi/staff', formData
+        environment.serverUrl + "admin/tffiltemsilciligi/staff", formData
       )
       .subscribe({
         next: (responseData) => {
@@ -64,7 +66,7 @@ export class StaffITFFService {
 
     this.http
       .put<{ data: StaffITFFModel }>(
-        'http://localhost:3000/admin/tffiltemsilciligi/staff/' + staffInfo.id, formData
+        environment.serverUrl + "admin/tffiltemsilciligi/staff/" + staffInfo.id, formData
       )
       .subscribe({
         next: (data) => {
@@ -86,7 +88,7 @@ export class StaffITFFService {
   deleteStaff(staffId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/tffiltemsilciligi/staff/' + staffId
+        environment.serverUrl + "admin/tffiltemsilciligi/staff/" + staffId
       )
       .subscribe({
         next: (data) => {

@@ -38,6 +38,8 @@ const onError = error => {
 const onListening = () => {
   const addr = server.address();
   const bind = typeof addr === "string" ? "pipe" + addr : "port" + port;
+
+  console.log("server is onListening")
 }
 
 const port = normalizePort(process.env.PORT || "3000");

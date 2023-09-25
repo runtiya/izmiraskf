@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   development: true,
-  apiUrl: "http://localhost:3000/api",
+  serverUrl: "http://localhost:3000/",
   GOOGLE_API_KEY: "AIzaSyB2nwWe78mR0JMxr6hqg5HoCMXawOehUrU",
   MongoUserName: "oguztasdelen96",
   MongoPassword: "5boUHb0wMJevByeD"

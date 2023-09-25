@@ -6,6 +6,8 @@ import { DisciplinaryBoardFileModel } from "../models/application-disciplinarybo
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({ providedIn: 'root' })
 export class DisciplinaryBoardFilesService {
 
@@ -20,7 +22,7 @@ export class DisciplinaryBoardFilesService {
   getDisciplinaryBoardFiles(seasonId: number, caseType: string) {
     this.http
       .get<{ data: DisciplinaryBoardFileModel[] }>(
-        'http://localhost:3000/disciplinary-board-files/' + seasonId + '/' + caseType
+        environment.serverUrl + "disciplinary-board-files/" + seasonId + "/" + caseType
       )
       .subscribe({
         next: (data) => {

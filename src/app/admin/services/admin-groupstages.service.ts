@@ -6,6 +6,8 @@ import { GroupStagesModel } from "../models/admin-groupstages.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class GroupStagesService {
   private groupstageList: GroupStagesModel[] = [];
@@ -21,7 +23,7 @@ export class GroupStagesService {
   getGroupstages(leagueId: number) {
     this.http
       .get<{data: GroupStagesModel[]}>(
-        'http://localhost:3000/admin/groupstages/' + leagueId
+        environment.serverUrl + "admin/groupstages/" + leagueId
       )
       .subscribe({
         next: (data) => {
@@ -41,7 +43,7 @@ export class GroupStagesService {
   getGroupWeeks(groupstageId: number) {
     this.http
       .get<{data: Array<number>[]}>(
-        'http://localhost:3000/admin/groupstages/hafta-siralamasi/' + groupstageId
+        environment.serverUrl + "admin/groupstages/hafta-siralamasi/" + groupstageId
       )
       .subscribe({
         next: (data) => {
@@ -60,7 +62,7 @@ export class GroupStagesService {
 
   getPlayedLastMatchWeek(_groupstageId: number): Observable<any> {
     return this.http.get<{ data: number }>(
-      'http://localhost:3000/admin/groupstages/son-musabaka-haftasi/' + _groupstageId
+      environment.serverUrl + "admin/groupstages/son-musabaka-haftasi/" + _groupstageId
       );
   }
 
@@ -69,7 +71,7 @@ export class GroupStagesService {
 
     this.http
       .post<{data: GroupStagesModel}>(
-        'http://localhost:3000/admin/groupstages', requestData
+        environment.serverUrl + "admin/groupstages", requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -87,7 +89,7 @@ export class GroupStagesService {
     const requestData = groupstageInfo;
     this.http
       .put<{ data: GroupStagesModel }>(
-        'http://localhost:3000/admin/groupstages/' + requestData.id, requestData
+        environment.serverUrl + "admin/groupstages/" + requestData.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -109,7 +111,7 @@ export class GroupStagesService {
   deleteGroupStage(groupstageId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/groupstages/' + groupstageId
+        environment.serverUrl + "admin/groupstages/" + groupstageId
       )
       .subscribe({
         next: (data) => {

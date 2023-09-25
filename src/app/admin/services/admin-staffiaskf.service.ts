@@ -6,6 +6,8 @@ import { StaffIzmirAskfModel } from "../models/admin-staffizmiraskf.model";
 
 import { globalFunctions } from "../../functions/global.function";
 
+import { environment } from "../../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class StaffIASKFService {
   private staffList: StaffIzmirAskfModel[] = [];
@@ -20,7 +22,7 @@ export class StaffIASKFService {
   getStaff() {
     this.http
       .get<{data: StaffIzmirAskfModel[]}>(
-        'http://localhost:3000/admin/izmiraskf/staff'
+        environment.serverUrl + "admin/izmiraskf/staff"
       )
       .subscribe({
         next: (data) => {
@@ -44,7 +46,7 @@ export class StaffIASKFService {
 
     this.http
       .post<{data: StaffIzmirAskfModel}>(
-        'http://localhost:3000/admin/izmiraskf/staff', formData
+        environment.serverUrl + "admin/izmiraskf/staff", formData
       )
       .subscribe({
         next: (responseData) => {
@@ -65,7 +67,7 @@ export class StaffIASKFService {
 
     this.http
       .put<{ data: StaffIzmirAskfModel }>(
-        'http://localhost:3000/admin/izmiraskf/staff/' + staffInfo.id, formData
+        environment.serverUrl + "admin/izmiraskf/staff/" + staffInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -87,7 +89,7 @@ export class StaffIASKFService {
   deleteStaff(staffId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/izmiraskf/staff/' + staffId
+        environment.serverUrl + "admin/izmiraskf/staff/" + staffId
       )
       .subscribe({
         next: (data) => {
