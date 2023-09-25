@@ -45,7 +45,6 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
     private globalFunctions: globalFunctions
     ){}
 
-
   ngOnInit(): void {
     this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
@@ -62,7 +61,6 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
             this.isLoading = false;
           });
       });
-
   }
 
   onSeasonChange(seasonId: number) {

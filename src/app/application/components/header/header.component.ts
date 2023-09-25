@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from "@angular/core";
+import { Component, EventEmitter, Output, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 
 import { AuthService } from "../../../admin/authentication/auth.service";
@@ -24,7 +24,6 @@ export class ApplicationHeader implements OnInit, OnDestroy {
   logoPath: string = null;
   private logoPathSubscription: Subscription;
 
-
   constructor(
     private authService: AuthService,
     private globalIzmirASKFService: GlobalIzmirASKFService,
@@ -33,7 +32,6 @@ export class ApplicationHeader implements OnInit, OnDestroy {
   ){}
 
   ngOnInit(): void {
-
     this.externalLinksService.getLinks('SOCIALMEDIA');
     this.externalLinksListSub = this.externalLinksService.getExternalLinksUpdateListener()
       .subscribe({
@@ -79,6 +77,4 @@ export class ApplicationHeader implements OnInit, OnDestroy {
     this.logoPathSubscription.unsubscribe();
     this.externalLinksListSub.unsubscribe();
   }
-
-
 }

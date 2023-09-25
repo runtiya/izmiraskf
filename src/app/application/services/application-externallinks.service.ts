@@ -21,18 +21,19 @@ export class ExternalLinksService {
   getLinks(_linkType: string) {
     this.http
       .get<{data: ExternalLinksModel[]}>(
-        'http://localhost:3000/disbaglantilar/' + _linkType
+        'http://localhost:3000/external-links/' + _linkType
       )
       .subscribe({
         next: (data) => {
           this.extLinksList = data.data;
-            if (_linkType === 'SOCIALMEDIA') {
-              this.extLinksListSub.next([...this.extLinksList]);
-            } else if (_linkType === 'RELATEDLINK') {
-              this.extRelatedLinksListSub.next([...this.extLinksList]);
-            } else if (_linkType === 'ADVERTISEMENT') {
-              this.extAdvertisementListSub.next([...this.extLinksList]);
-            }
+          if (_linkType === 'SOCIALMEDIA') {
+            this.extLinksListSub.next([...this.extLinksList]);
+          } else if (_linkType === 'RELATEDLINK') {
+            this.extRelatedLinksListSub.next([...this.extLinksList]);
+          } else if (_linkType === 'ADVERTISEMENT') {
+            this.extAdvertisementListSub.next([...this.extLinksList]);
+          }
+
         },
         error: (error) => {
           this.globalFunctions.showSnackBar(error);

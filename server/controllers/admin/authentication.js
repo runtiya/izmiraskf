@@ -1,3 +1,4 @@
+const queries = require('../../queries/admin/authentication.js');
 //const connection = require('../../functions/database.js').connectDatabase();
 const connection = require('../../functions/database.js');
 const bcrypt = require("bcrypt");
@@ -5,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require('../../functions/crypto');
 const imagesFunction = require("../../functions/images");
 const errorService = require('../../services/error-service.js');
+const environment = require("../../environments/development.js");
 
 function getUsers(req, res, next) {
   var usersList = [];
@@ -12,27 +14,30 @@ function getUsers(req, res, next) {
   var _error = false;
   var _message = null;
 
-  connection.query("select * from view_admin_users", [], (error, result) => {
-    if (!error) {
-      usersList = result;
-    } else {
-      errorService.handleError(
-        errorService.errors.DATABASE_ERROR.code,
-        errorService.errors.DATABASE_ERROR.message,
-        error.sqlMessage
-      );
-      _error = true;
-      _resStatus = errorService.errors.DATABASE_ERROR.code;
-      _message = errorService.errors.DATABASE_ERROR.message;
-    }
+  connection.query(
+    queries.getUsers,
+    [],
+    (error, result) => {
+      if (!error) {
+        usersList = result;
+      } else {
+        errorService.handleError(
+          errorService.errors.DATABASE_ERROR.code,
+          errorService.errors.DATABASE_ERROR.message,
+          error.sqlMessage
+        );
+        _error = true;
+        _resStatus = errorService.errors.DATABASE_ERROR.code;
+        _message = errorService.errors.DATABASE_ERROR.message;
+      }
 
-    const _usersList = crypto.encryptData(usersList);
+      const _usersList = crypto.encryptData(usersList);
 
-    res.status(_resStatus).json({
-      error: _error,
-      message: _message,
-      data: _usersList,
-    });
+      res.status(_resStatus).json({
+        error: _error,
+        message: _message,
+        data: _usersList,
+      });
   });
 }
 
@@ -65,7 +70,7 @@ function createUser(req, res, next) {
       })
       .then(() => {
         connection.query(
-          "insert into users (createdat, createdby, updatedat, updatedby, fullname, username, userpassword, imagepath, usertype, isactive) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          queries.createUser,
           [
             userInfo.createdAt,
             userInfo.createdBy,
@@ -77,6 +82,7 @@ function createUser(req, res, next) {
             userInfo.imagePath,
             userInfo.userType,
             userInfo.isActive,
+            false
           ],
           (error, result) => {
             if (!error) {
@@ -144,7 +150,7 @@ function updateUser(req, res, next) {
   }
 
   connection.query(
-    "select * from view_admin_users where id = ?",
+    queries.getUserById,
     [userInfo.id],
     async (error, result) => {
       if (!error) {
@@ -157,7 +163,7 @@ function updateUser(req, res, next) {
           if (isValidCredential) {
             const result = await new Promise((resolve, reject) => {
               connection.query(
-                "update users set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, fullname = ?, imagepath = ?, usertype = ?, isactive = ? where id = ?",
+                queries.updateUser,
                 [
                   userInfo.createdAt,
                   userInfo.createdBy,
@@ -167,6 +173,7 @@ function updateUser(req, res, next) {
                   userInfo.imagePath,
                   userInfo.userType,
                   userInfo.isActive,
+                  false,
                   userInfo.id,
                 ],
                 (error, result) => {
@@ -235,7 +242,7 @@ function userLogin(req, res, next) {
   var _message = null;
 
   connection.query(
-    "select * from view_admin_users where username = ? and isactive = ?",
+    queries.userLogin,
     [userInfo.userName, true],
     async (error, result) => {
       if (!error) {
@@ -248,7 +255,7 @@ function userLogin(req, res, next) {
           if (isValidCredential) {
             token = jwt.sign(
               { email: _user.userName, userId: _user.id },
-              "secret_this_should_be_longer",
+              environment.jwtSecretKey,
               { expiresIn: "1h" }
             );
           } else {
@@ -294,7 +301,7 @@ function deleteUser(req, res, next) {
   var _message = null;
 
   connection.query(
-    "delete from users where id = ?",
+    queries.deleteUser,
     [userId],
     (error, result) => {
       if (!error) {

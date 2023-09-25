@@ -4,7 +4,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dial
 import { Data } from "@angular/router";
 import { SafeResourceUrl } from '@angular/platform-browser';
 
-import { StadiumsModel } from "../../models/admin-stadiums.model";
 import { StadiumsService } from "../../services/admin-stadiums.service";
 
 import { townList } from "../../../assets/lists/town-izmir.list";
@@ -37,7 +36,7 @@ export class AdminStadiumsCreateModal {
   ) {}
 
   ngOnInit() {
-
+    this.isLoading = true;
     this.stadiumsCreateForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.id : null, {validators: []}),
       createdAt: new FormControl(this.pageMode == 'edit' ? this.stadiumInfo.createdAt : null, {validators: []}),
@@ -65,7 +64,7 @@ export class AdminStadiumsCreateModal {
     });
 
     this.mapSafeSrc = this.pageMode == 'create' ? null : this.globalFunctions.getSafeResourceUrl(this.stadiumInfo.mapUrl);
-
+    this.isLoading = false;
   }
 
   onMapSrcChange(url: string) {
@@ -94,7 +93,6 @@ export class AdminStadiumsCreateModal {
   }
 
   onSubmitForm() {
-
     if (this.stadiumsCreateForm.valid) {
       this.isLoading = true;
       if (this.pageMode === "create") {

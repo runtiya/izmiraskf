@@ -5,6 +5,6 @@ const weeklymatchlistController = require('../../controllers/application/weeklym
 const router = express.Router();
 
 
-router.get("/:seasonid", weeklymatchlistController.getWeeklyMatchList);
+router.get("", weeklymatchlistController.getWeeklyMatchList);
 
 module.exports = router;

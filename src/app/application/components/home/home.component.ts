@@ -1,10 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { FormControl, NgForm } from "@angular/forms";
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { Router } from "@angular/router";
 
-import { NewsModel } from "../../models/application-news.model";
 import { NewsService } from "../../services/application-news.service";
 
 import { ExternalLinksService } from "../../services/application-externallinks.service";
@@ -27,7 +24,7 @@ export class ApplicationHome implements OnInit, OnDestroy {
     private newsService: NewsService,
     private externalLinksService: ExternalLinksService,
     private globalFunctions: globalFunctions,
-    private router: Router,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -54,14 +51,6 @@ export class ApplicationHome implements OnInit, OnDestroy {
     js.id=id;
     js.src='https://weatherwidget.io/js/widget.min.js';
     fjs.parentNode.insertBefore(js,fjs);
-    /*
-    if(!d.getElementById(id)) {
-      js=d.createElement(s);
-      js.id=id;
-      js.src='https://weatherwidget.io/js/widget.min.js';
-      fjs.parentNode.insertBefore(js,fjs);
-    }
-    */
   }
 
   showNewsList() {

@@ -1,4 +1,5 @@
-<div class="card-aboutizmirtffiltemsilciligi">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="card-aboutizmirtffiltemsilciligi" *ngIf="!isLoading">
   <mat-card>
     <form
       [formGroup]="aboutITFFform"
@@ -34,7 +35,7 @@
             />
           </div>
           <mat-error *ngIf="!aboutITFFform.get('imageAttachment').valid">
-            Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+            Lütfen geçerli bir resim seçiniz! (en fazla 8MB)
           </mat-error>
       </div>
 

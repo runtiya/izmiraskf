@@ -13,5 +13,7 @@ router.get("/stadiums-count-by-floortype", statisticsController.getStadiumsCount
 
 router.get("/matchstatus-count-by-league", statisticsController.getMatchStatusCountByLeague);
 
+router.get("/season-summary-list", statisticsController.getSeasonSummaryList);
+
 
 module.exports = router;

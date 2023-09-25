@@ -30,6 +30,7 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.team.colorCodes = "#000000;#000000";
     this.router.paramMap
       .subscribe(params => {
@@ -42,10 +43,7 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
               this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.team.mapUrl);
               this.toolbarTitle = data.officialName;
               this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-
-            },
-            error: (error) => {
-
+              this.isLoading = false;
             }
           });
       });

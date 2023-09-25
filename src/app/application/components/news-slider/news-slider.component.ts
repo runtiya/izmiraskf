@@ -5,7 +5,6 @@ import { Router } from "@angular/router";
 import { NewsModel } from "../../models/application-news.model";
 import { NewsService } from "../../services/application-news.service";
 
-
 import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
@@ -15,9 +14,9 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class ApplicationNewsSlider implements OnInit, OnDestroy {
   toolbarTitle = "HABERLER";
+  isLoading: boolean = false;
   newsList: NewsModel[] = [];
   private newsListSubscription: Subscription;
-
 
   constructor(
     private newsService: NewsService,
@@ -26,21 +25,22 @@ export class ApplicationNewsSlider implements OnInit, OnDestroy {
   ){}
 
   ngOnInit(): void {
-
+    this.isLoading = true;
     this.newsListSubscription = this.newsService.getNewsForSliderUpdateListener()
       .subscribe({
         next: (data) => {
           this.newsList = data;
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
-
   }
 
   showNewsDetails(_id: number) {
     this.router.navigate(['/haberler/detaylar', _id]);
+  }
+
+  getDate(date: string): string {
+    return this.globalFunctions.getLocalDate(date);
   }
 
   ngOnDestroy(): void {

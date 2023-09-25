@@ -1,4 +1,5 @@
-<div class="div-news-list">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="div-news-list" *ngIf="!isLoading">
   <mat-toolbar class="toolbar toolbar-title">
     <mat-card-title>{{ toolbarTitle }}</mat-card-title>
   </mat-toolbar>

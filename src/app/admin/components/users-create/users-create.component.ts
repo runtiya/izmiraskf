@@ -1,10 +1,9 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 
 import { AuthService } from "../../authentication/auth.service";
-import { UserModel } from "../../models/admin-users.model";
 
 import { userAuthorityList } from "../../assets/lists/user-authority.list";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
@@ -14,7 +13,7 @@ import { imageUploadValidator } from "../../validators/image-upload.validator";
   templateUrl: './users-create.component.html',
   styleUrls:['../../../app.component.css', './users-create.component.css']
 })
-export class AdminUsersCreateModal implements OnInit, OnDestroy {
+export class AdminUsersCreateModal implements OnInit {
   isLoading: boolean = false;
   userSubmitForm: FormGroup;
   userAuthorityList = userAuthorityList;
@@ -29,6 +28,7 @@ export class AdminUsersCreateModal implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.userSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.userInfo.id : null, {validators: []}),
       createdAt: new FormControl(this.pageMode == 'edit' ? this.userInfo.createdAt : null, {validators: []}),
@@ -43,6 +43,7 @@ export class AdminUsersCreateModal implements OnInit, OnDestroy {
       userType: new FormControl(this.pageMode == 'edit' ? this.userInfo.userType : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       isActive: new FormControl(this.pageMode == 'edit' ? !!this.userInfo.isActive : null, {validators: [Validators.required]}),
     });
+    this.isLoading = false;
   }
 
   onFilePicked(event: Event) {
@@ -80,7 +81,4 @@ export class AdminUsersCreateModal implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-
-  }
 }

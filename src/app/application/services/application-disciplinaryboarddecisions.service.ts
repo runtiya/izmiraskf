@@ -14,18 +14,19 @@ export class DisciplinaryBoardDecisionsService {
 
   constructor(
     private http: HttpClient,
-    private globalFunctions: globalFunctions
+    private globalFunctions: globalFunctions,
+
   ) {}
 
   getDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
     this.http
       .get<{ data: DisciplinaryBoardDecisionModel[] }>(
-        'http://localhost:3000/disiplin-kurulu-kararlari/' + disciplinaryBoardFileId
+        'http://localhost:3000/disciplinary-board-decisions/' + disciplinaryBoardFileId
       )
       .subscribe({
         next: (data) => {
           this.disciplinaryBoardDecisionList = data.data;
-          this.disciplinaryBoardDecisionList.length > 0 ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
+          this.disciplinaryBoardDecisionList.length > 0 ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([])
         },
         error: (error) => {
           this.globalFunctions.showSnackBar(error);

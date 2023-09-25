@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject, Observable } from "rxjs";
-import { concatMap, map } from "rxjs/operators";
 
 import { PointBoardModel } from "../models/application-pointboard.model";
 
@@ -56,7 +55,7 @@ export class PointBoardService {
 
   getCurrentPointBoard(_groupstageId: number, _matchWeek: number): Observable<any> {
     return this.http.get<{data: PointBoardModel[]}>(
-      'http://localhost:3000/puan-tablosu/' + _groupstageId + '/' + _matchWeek
+      'http://localhost:3000/point-board/' + _groupstageId + '/' + _matchWeek
       );
   }
 }

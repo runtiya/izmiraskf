@@ -46,6 +46,7 @@ export class AdminWeeklyMatchProgramList implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
@@ -58,10 +59,8 @@ export class AdminWeeklyMatchProgramList implements OnInit, OnDestroy {
           } else {
             this.seasonSelectionId = null;
             this.weeklyMatchProgramList = [];
+            this.isLoading = false;
           }
-
-        },
-        error: (error) => {
         }
       });
 
@@ -69,9 +68,7 @@ export class AdminWeeklyMatchProgramList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: WeeklyMatchProgramModel[]) => {
           this.weeklyMatchProgramList = data;
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
   }
@@ -79,7 +76,6 @@ export class AdminWeeklyMatchProgramList implements OnInit, OnDestroy {
   onSeasonChange(seasonId: number) {
     this.isLoading = true;
     this.weeklymatchprogramService.getWeeklyMatchProgram(seasonId);
-    this.isLoading = false;
   }
 
   onActiveChange(weeklyMatchProgram: WeeklyMatchProgramModel) {
@@ -121,7 +117,6 @@ export class AdminWeeklyMatchProgramList implements OnInit, OnDestroy {
           }
         }
       });
-
   }
 
   ngOnDestroy(): void {

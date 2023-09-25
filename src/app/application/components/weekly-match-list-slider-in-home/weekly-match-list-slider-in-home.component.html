@@ -1,0 +1,11 @@
+<div class="marquee " *ngIf="fixtureList.length>0">
+  <div class="d-flex align-items-center">
+    <div>
+      <mat-card-title class="marquee-title" (click)="showWeeklyMatchList()">{{title}}</mat-card-title>
+    </div>
+    <div>
+      <mat-card-title class="marquee-text" [innerHTML]="marqueeText"></mat-card-title>
+    </div>
+  </div>
+
+</div>

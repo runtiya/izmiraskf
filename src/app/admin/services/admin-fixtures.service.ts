@@ -7,7 +7,6 @@ import { FixtureSearchModel } from "../models/admin-fixture-search-index.model";
 import { MatchModel } from "../models/admin-match.model";
 
 import { globalFunctions } from "../../functions/global.function";
-import { fixtureFunctions } from "../functions/fixture.function";
 
 @Injectable({providedIn: 'root'})
 export class FixtureService {
@@ -16,15 +15,13 @@ export class FixtureService {
 
   constructor(
     private http: HttpClient,
-    private globalFunctions: globalFunctions,
-    private fixtureFunctions: fixtureFunctions
+    private globalFunctions: globalFunctions
   ) {}
 
   getFixtureBySearchIndex(fixtureSearchIndex: FixtureSearchModel) {
-    // Not known why http.get doesn't work!
     this.http
       .put<{data: FixtureModel[]}>(
-        'http://localhost:3000/admin/fikstur/arama', fixtureSearchIndex
+        'http://localhost:3000/admin/fixture/arama', fixtureSearchIndex
       )
       .subscribe({
         next: (data) => {
@@ -43,10 +40,9 @@ export class FixtureService {
 
   createFixture(_matchList: MatchModel[], _fixtureSearchIndex: FixtureSearchModel) {
     const requestData = _matchList;
-
     this.http
       .post<{ }>(
-        'http://localhost:3000/admin/fikstur/olustur', requestData
+        'http://localhost:3000/admin/fixture/olustur', requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -65,7 +61,7 @@ export class FixtureService {
     const requestData = _matchList;
     this.http
       .put<{ }>(
-        'http://localhost:3000/admin/fikstur/guncelle', requestData
+        'http://localhost:3000/admin/fixture/guncelle', requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -79,7 +75,6 @@ export class FixtureService {
         }
       });
   }
-
 
   checkMatch(_matchDay: FixtureModel, _matchNo: string, _isSameMatch: boolean): boolean {
     let doesMatchExist: boolean = this.checkMatchExist(_matchDay);
@@ -102,11 +97,10 @@ export class FixtureService {
     return !!match;
   }
 
-
   deleteMatch(_id: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/fikstur/sil/' +_id
+        'http://localhost:3000/admin/fixture/sil/' +_id
       )
       .subscribe({
         next: (data) => {
@@ -123,7 +117,7 @@ export class FixtureService {
   clearFixture(groupstageId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/fikstur/temizle/' + groupstageId
+        'http://localhost:3000/admin/fixture/temizle/' + groupstageId
       )
       .subscribe({
         next: (data) => {

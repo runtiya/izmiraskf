@@ -1,0 +1,42 @@
+
+/* Kayan yazıyı içeren div'i stilize edin */
+.marquee {
+  white-space: nowrap; /* Satırları kırpmadan yazıyı sıkıştırın */
+  overflow: hidden; /* Taşan içeriği gizle */
+  position: relative; /* Pozisyonu ayarlayın */
+  background-color: transparent; /* Arka plan rengini ayarlayın */
+  padding: 1rem 0; /* Boşluk ekleyin */
+  /*background-color: #3F51B5; */
+}
+
+.marquee-title {
+  position: absolute;
+  white-space: nowrap;
+  top: 0;
+  padding: 0 0.5rem ;
+  z-index: 1;
+  color: white;
+  background-color: #3F51B5;
+  cursor: pointer;
+}
+
+/* Kayan animasyonu */
+.marquee .marquee-text {
+  position: absolute; /* Pozisyonu ayarlayın */
+  top: 0; /* Üstten başlasın */
+  left: 100%; /* Başlangıçta ekran dışında olsun */
+  white-space: nowrap; /* Satırları kırpmadan yazıyı sıkıştırın */
+  animation: marquee 20s linear infinite; /* Kayan animasyonu ayarlayın */
+  font-weight: 550;
+  color: #3F51B5;
+}
+
+/* Kayan animasyonu tanımı */
+@keyframes marquee {
+  0% {
+      left: 100%; /* Başlangıçta ekran dışında olsun */
+  }
+  100% {
+      left: -100%; /* Sona geldiğinde ekran dışına çıksın */
+  }
+}

@@ -4,23 +4,21 @@ import { Subject } from "rxjs";
 
 import { DisciplinaryBoardDecisionModel } from "../models/admin-disciplinaryboarddecisions.model";
 import { globalFunctions } from "../../functions/global.function";
+
 @Injectable({ providedIn: 'root' })
 export class DisciplinaryBoardDecisionsService {
-
   private disciplinaryBoardDecisionList: DisciplinaryBoardDecisionModel[] = [];
   private disciplinaryBoardDecisionListSub = new Subject<DisciplinaryBoardDecisionModel[]>();
 
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {
-
-  }
+    ) {}
 
   getDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
     this.http
       .get<{ data: DisciplinaryBoardDecisionModel[] }>(
-        'http://localhost:3000/admin/disiplin-kurulu-kararlari/' + disciplinaryBoardFileId
+        'http://localhost:3000/admin/disciplinary-board-decisions/' + disciplinaryBoardFileId
       )
       .subscribe({
         next: (data) => {
@@ -37,12 +35,11 @@ export class DisciplinaryBoardDecisionsService {
     return this.disciplinaryBoardDecisionListSub.asObservable();
   }
 
-
   createDisciplinaryBoardDecision(disciplinaryBoardDecisionInfo: DisciplinaryBoardDecisionModel) {
     const requestData = disciplinaryBoardDecisionInfo;
     this.http
       .post<{ data: DisciplinaryBoardDecisionModel }>(
-        'http://localhost:3000/admin/disiplin-kurulu-kararlari', requestData
+        'http://localhost:3000/admin/disciplinary-board-decisions', requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -56,12 +53,11 @@ export class DisciplinaryBoardDecisionsService {
       });
   }
 
-
   updateDisciplinaryBoardDecision(disciplinaryBoardDecisionInfo: DisciplinaryBoardDecisionModel) {
     const requestData = disciplinaryBoardDecisionInfo;
     this.http
       .put<{ data: DisciplinaryBoardDecisionModel }>(
-        'http://localhost:3000/admin/disiplin-kurulu-kararlari/' + requestData.id, requestData
+        'http://localhost:3000/admin/disciplinary-board-decisions/' + requestData.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -82,7 +78,7 @@ export class DisciplinaryBoardDecisionsService {
   deleteDisciplinaryBoardDecision(disciplinaryBoardDecisionId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/disiplin-kurulu-kararlari/' + disciplinaryBoardDecisionId
+        'http://localhost:3000/admin/disciplinary-board-decisions/' + disciplinaryBoardDecisionId
       )
       .subscribe({
         next: (data) => {
@@ -100,7 +96,7 @@ export class DisciplinaryBoardDecisionsService {
   clearDisciplinaryBoardDecisions(disciplinaryBoardFileId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/disiplin-kurulu-kararlari/temizle/' + disciplinaryBoardFileId
+        'http://localhost:3000/admin/disciplinary-board-decisions/temizle/' + disciplinaryBoardFileId
       )
       .subscribe({
         next: (data) => {

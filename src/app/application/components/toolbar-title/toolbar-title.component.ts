@@ -3,7 +3,6 @@ import { Subscription } from "rxjs";
 
 import { globalFunctions } from "../../../functions/global.function";
 
-
 @Component({
   selector: 'app-application-toolbar-title',
   templateUrl: './toolbar-title.component.html',
@@ -15,7 +14,7 @@ export class ApplicationToolbarTitle implements OnInit, OnDestroy {
   toolbarTitleSubscription: Subscription;
 
   constructor(
-    private globalFunctions: globalFunctions,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
@@ -27,8 +26,6 @@ export class ApplicationToolbarTitle implements OnInit, OnDestroy {
         }, 0)
 
       });
-
-
   }
 
   ngOnDestroy(): void {

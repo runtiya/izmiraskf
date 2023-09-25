@@ -22,12 +22,12 @@ export class StadiumsService {
   getStadiums(paginationPageSize: number, paginationCurrentPage: number) {
     this.http
       .get<{data: {stadiumsList: StadiumsModel[], stadiumsCount: number }}>(
-        `http://localhost:3000/sahalar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+        `http://localhost:3000/stadiums?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
       )
       .subscribe({
         next: (data) => {
           this.stadiumsList = data.data.stadiumsList;
-          this.stadiumsListSub.next(data.data);
+          this.stadiumsListSub.next(data.data)
         },
         error: (error) => {
           this.globalFunctions.showSnackBar(error);
@@ -42,7 +42,7 @@ export class StadiumsService {
   getStadiumById(_id: number) {
     this.http
       .get<{ data: StadiumsModel}>(
-        'http://localhost:3000/sahalar/' + _id
+        'http://localhost:3000/stadiums/' + _id
       )
       .subscribe({
         next: (data) => {

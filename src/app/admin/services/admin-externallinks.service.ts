@@ -13,12 +13,12 @@ export class ExternalLinksService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {}
+  ) {}
 
   getLinks() {
     this.http
       .get<{data: ExternalLinksModel[]}>(
-        'http://localhost:3000/admin/disbaglantilar'
+        'http://localhost:3000/admin/external-links'
       )
       .subscribe({
         next: (data) => {
@@ -42,7 +42,7 @@ export class ExternalLinksService {
 
     this.http
       .post<{ data: ExternalLinksModel }>(
-        'http://localhost:3000/admin/disbaglantilar', formData
+        'http://localhost:3000/admin/external-links', formData
       )
       .subscribe({
         next: (responseData) => {
@@ -63,7 +63,7 @@ export class ExternalLinksService {
 
     this.http
       .put<{ data: ExternalLinksModel }>(
-        'http://localhost:3000/admin/disbaglantilar/' + linkInfo.id, formData
+        'http://localhost:3000/admin/external-links/' + linkInfo.id, formData
       )
       .subscribe({
         next: (responseData) => {
@@ -85,7 +85,7 @@ export class ExternalLinksService {
   deleteLink(linkId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/disbaglantilar/' + linkId
+        'http://localhost:3000/admin/external-links/' + linkId
       )
       .subscribe({
         next: (data) => {

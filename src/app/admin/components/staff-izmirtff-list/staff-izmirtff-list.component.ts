@@ -9,7 +9,6 @@ import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmatio
 
 import { globalFunctions } from "../../../functions/global.function";
 
-
 @Component({
   selector: 'app-admin-staffizmirtff-list',
   templateUrl: './staff-izmirtff-list.component.html',

@@ -22,7 +22,7 @@ export class TeamsInGroupstagesService {
   getTeamsInGroupstages(groupstageId: number) {
     this.http
       .get<{data: TeamsInGroupstagesModel[]}>(
-        'http://localhost:3000/grup-takim-eslesmeleri/' + groupstageId
+        'http://localhost:3000/teams-in-groupstages/' + groupstageId
       )
       .subscribe({
         next: (data) => {
@@ -42,7 +42,7 @@ export class TeamsInGroupstagesService {
   getTeams() {
     this.http
       .get<{data: TeamsModel[]}>(
-        'http://localhost:3000/grup-takim-eslesmeleri'
+        'http://localhost:3000/teams-in-groupstages'
       )
       .subscribe({
         next: (data) => {

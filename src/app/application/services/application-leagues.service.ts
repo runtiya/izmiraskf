@@ -19,7 +19,7 @@ export class LeaguesService {
   getLeagues(seasonId: number) {
     this.http
       .get<{data: LeaguesModel[]}>(
-        'http://localhost:3000/ligler/' + seasonId
+        'http://localhost:3000/leagues/' + seasonId
       )
       .subscribe({
         next: (data) => {

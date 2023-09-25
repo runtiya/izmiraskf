@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 
-import { AuthService } from "../../../admin/authentication/auth.service";
 import { GlobalIzmirASKFService } from "../../../services/global-izmiraskf.service";
 import { ExternalLinksModel } from "../../models/application-externallinks.model";
 import { ExternalLinksService } from "../../services/application-externallinks.service";
@@ -11,13 +10,13 @@ import { globalFunctions } from "../../../functions/global.function";
 import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
-
 @Component({
   selector: 'app-application-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['../../../app.component.css', './footer.component.css']
 })
 export class ApplicationFooter implements OnInit, OnDestroy {
+  isLoading: boolean = false;
   externalLinksList: ExternalLinksModel[] = [];
   private externalLinksListSub: Subscription;
   logoPath: string = null;
@@ -28,16 +27,14 @@ export class ApplicationFooter implements OnInit, OnDestroy {
     private externalLinksService: ExternalLinksService,
     private globalIzmirASKFService: GlobalIzmirASKFService,
     private globalFunctions: globalFunctions,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-
     this.externalLinksListSub = this.externalLinksService.getExternalLinksUpdateListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
           this.externalLinksList = data;
-
         },
         error: (error) => {
 
@@ -76,6 +73,6 @@ export class ApplicationFooter implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.externalLinksListSub.unsubscribe();
   }
 }

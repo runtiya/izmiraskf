@@ -1,6 +1,5 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 import { Subscription } from 'rxjs';
 
@@ -110,7 +109,7 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-
+    this.isLoading = true;
     this.seasonsService.getSeasons();
     this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
@@ -123,9 +122,7 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
             this.groupstageList = [];
             this.weekSequenceList = [];
           }
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 
@@ -139,9 +136,7 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
             this.groupstageList = [];
             this.weekSequenceList = [];
           }
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 
@@ -154,9 +149,7 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
             this.groupstageList = [];
             this.weekSequenceList = [];
           }
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 
@@ -164,9 +157,7 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
       .subscribe({
         next: (data: Array<number>[]) => {
           this.weekSequenceList = data;
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 
@@ -176,9 +167,6 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
           this.stadiumList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
-        },
-        error: (error) => {
-
         }
       });
 
@@ -188,9 +176,6 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
       .subscribe({
         next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
           this.teamList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
-        },
-        error: (error) => {
-
         }
       });
 
@@ -198,9 +183,6 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
       .subscribe({
         next: (data: WeeklyMatchProgramModel[]) => {
           this.weeklyMatchProgramList = data;
-        },
-        error: (error) => {
-
         }
       });
 
@@ -208,24 +190,25 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data;
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 
   }
 
   onSeasonChange(_seasonSelectionId: number) {
+    this.isLoading = true;
     this.leaguesService.getLeagues(_seasonSelectionId);
     this.weeklymatchprogramService.getWeeklyMatchProgram(_seasonSelectionId);
   }
 
   onLeagueChange(_leagueSelectionId: number) {
+    this.isLoading = true;
     this.groupstagesService.getGroupstages(_leagueSelectionId);
   }
 
   onGroupstageChange(_groupstageSelectionId: number) {
+    this.isLoading = true;
     this.groupstagesService.getGroupWeeks(_groupstageSelectionId);
   }
 
@@ -246,6 +229,10 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
     const shortTime = this.globalFunctions.getLocalDateTime(_date);
 
     return longDate || shortTime ? (longDate + " " + shortTime) : null;
+  }
+
+  getFontAwesomeIcon(_icon: string): any {
+    return this.globalFunctions.getFontAwesomeIcon(_icon);
   }
 
   isMatchinList(matchId: number, matchNo: string): boolean {
@@ -276,6 +263,8 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
   }
 
   onSearch() {
+    this.isLoading = true;
+
     let arr_fixtureSearchValues = [];
     this.fixtureSearchIndex = this.fixtureFunctions.setFixtureSearchModel(
       this.seasonSelectionId || null,
@@ -311,6 +300,7 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
     if (_filteredSearchKeys.length >= 2) {
       this.fixtureService.getFixtureBySearchIndex(this.fixtureSearchIndex);
     } else {
+      this.isLoading = false;
       this.globalFunctions.showSnackBar('En az iki arama anahtarı giriniz!');
     }
   }

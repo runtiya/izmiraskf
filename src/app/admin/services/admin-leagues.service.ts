@@ -14,12 +14,12 @@ export class LeaguesService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
-    ) {}
+  ) {}
 
   getLeagues(seasonId: number) {
     this.http
       .get<{data: LeaguesModel[]}>(
-        'http://localhost:3000/admin/ligler/' + seasonId
+        'http://localhost:3000/admin/leagues/' + seasonId
       )
       .subscribe({
         next: (data) => {
@@ -40,7 +40,7 @@ export class LeaguesService {
     const requestData = leagueInfo;
     this.http
       .post<{ data: LeaguesModel }>(
-        'http://localhost:3000/admin/ligler', requestData
+        'http://localhost:3000/admin/leagues', requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -56,10 +56,9 @@ export class LeaguesService {
 
   updateLeague(leagueInfo: LeaguesModel) {
     const requestData = leagueInfo;
-
     this.http
       .put<{ data: LeaguesModel }>(
-        'http://localhost:3000/admin/ligler/' + requestData.id, requestData
+        'http://localhost:3000/admin/leagues/' + requestData.id, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -81,7 +80,7 @@ export class LeaguesService {
   deleteLeague(leagueId: number) {
     this.http
       .delete<{ }>(
-        'http://localhost:3000/admin/ligler/' + leagueId
+        'http://localhost:3000/admin/leagues/' + leagueId
       )
       .subscribe({
         next: (data) => {

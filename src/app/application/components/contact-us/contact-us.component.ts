@@ -16,6 +16,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class ApplicationContactUs implements OnInit, OnDestroy {
   toolbarTitle = "İLETİŞİM";
+  isLoading: boolean = false;
   aboutcontent = <AboutIASKFModel>{};
   public aboutcontentSubscription: Subscription;
 
@@ -24,21 +25,19 @@ export class ApplicationContactUs implements OnInit, OnDestroy {
 
   constructor(
     private aboutiaskfService: AboutIASKFService,
-    private globalFunctions: globalFunctions,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-
     this.aboutiaskfService.getAboutContent();
     this.aboutcontentSubscription = this.aboutiaskfService.getAboutContentListener()
       .subscribe({
         next: (data: AboutIASKFModel) => {
           this.aboutcontent = data;
           this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.aboutcontent.mapUrl);
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 

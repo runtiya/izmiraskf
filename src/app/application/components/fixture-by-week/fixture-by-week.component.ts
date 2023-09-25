@@ -7,10 +7,6 @@ import { FixtureService } from "../../services/application-fixtures.service";
 
 
 import { globalFunctions } from "../../../functions/global.function";
-import { fontAwesomeIconList } from "../../../assets/lists/font-awesome-icon.list";
-import { matchStatusList } from "../../../assets/lists/match-status.list";
-
-
 
 @Component({
   selector: 'app-application-fixture-by-week',
@@ -30,13 +26,12 @@ export class ApplicationFixtureByWeek implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.fixtureListSub = this.fixtureService.getFixtureUpdateListener()
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data;
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
   }

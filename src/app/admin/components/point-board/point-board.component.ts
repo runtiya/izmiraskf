@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from 'rxjs';
 
 import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages.model";
@@ -39,10 +39,11 @@ export class AdminPointBoard implements OnInit, OnDestroy {
   constructor(
     private teamsingroupstageService: TeamsInGroupstagesService,
     private pointboardService: PointBoardService,
-    private globalFunctions: globalFunctions,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.teamsingroupstageListSub = this.teamsingroupstageService.getTeamsInGroupstagesUpdateListener()
       .subscribe({
         next: (data: TeamsInGroupstagesModel[]) => {
@@ -53,9 +54,6 @@ export class AdminPointBoard implements OnInit, OnDestroy {
             this.teamsingroupstageList = [];
           }
 
-        },
-        error: (error) => {
-
         }
       });
 
@@ -63,9 +61,7 @@ export class AdminPointBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: PointBoardModel[]) => {
           this.pointBoardList = data;
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
 

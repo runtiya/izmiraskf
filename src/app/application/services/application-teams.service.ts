@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
 import { TeamsModel } from "../models/application-teams.model";
@@ -22,7 +22,7 @@ export class TeamsService {
   getTeams(paginationPageSize: number, paginationCurrentPage: number) {
     this.http
       .get<{ data: {teamsList: TeamsModel[], teamsCount: number} }>(
-        `http://localhost:3000/takimlar?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
+        `http://localhost:3000/teams?paginationPageSize=${paginationPageSize}&paginationCurrentPage=${paginationCurrentPage}`
       )
       .subscribe({
         next: (data) => {
@@ -42,7 +42,7 @@ export class TeamsService {
   getTeamById(_id: number) {
     this.http
       .get<{ data: TeamsModel}>(
-        'http://localhost:3000/takimlar/' + _id
+        'http://localhost:3000/teams/' + _id
       )
       .subscribe({
         next: (data) => {

@@ -20,7 +20,7 @@ export class DisciplinaryBoardFilesService {
   getDisciplinaryBoardFiles(seasonId: number, caseType: string) {
     this.http
       .get<{ data: DisciplinaryBoardFileModel[] }>(
-        'http://localhost:3000/disiplin-kurulu-dosyalari/' + seasonId + '/' + caseType
+        'http://localhost:3000/disciplinary-board-files/' + seasonId + '/' + caseType
       )
       .subscribe({
         next: (data) => {

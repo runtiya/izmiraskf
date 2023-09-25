@@ -1,7 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, Input, Output } from "@angular/core";
 import { Subscription } from "rxjs";
-import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from "@angular/router";
 import { PageEvent } from "@angular/material/paginator";
 
@@ -9,6 +7,7 @@ import { NewsModel } from "../../models/application-news.model";
 import { NewsService } from "../../services/application-news.service";
 
 import { globalFunctions } from "../../../functions/global.function";
+
 
 @Component({
   selector: 'app-application-news-list',
@@ -29,10 +28,11 @@ export class ApplicationNewsList implements OnInit, OnDestroy {
   constructor(
     public newsService: NewsService,
     private router: Router,
-    private globalFunctions: globalFunctions,
+    private globalFunctions: globalFunctions
     ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.newsService.getNews(this.paginationPageSize, this.paginationCurrentPage);
     this.newsSub = this.newsService.getNewsUpdateListener()

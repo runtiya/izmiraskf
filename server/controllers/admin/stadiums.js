@@ -126,7 +126,8 @@ function createStadium(req, res, next) {
         stadiumInfo.hasClosedCircuitCameraSystem,
         stadiumInfo.longitude,
         stadiumInfo.latitude,
-        stadiumInfo.mapUrl
+        stadiumInfo.mapUrl,
+        false
       ],
       (error, result) => {
         if (!error) {
@@ -199,6 +200,7 @@ function updateStadium(req, res, next) {
         stadiumInfo.longitude,
         stadiumInfo.latitude,
         stadiumInfo.mapUrl,
+        false,
         stadiumId || stadiumInfo.id,
       ],
       (error, result) => {

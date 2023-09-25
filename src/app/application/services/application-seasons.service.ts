@@ -19,7 +19,7 @@ export class SeasonsService {
   getSeasons() {
     this.http
       .get<{data: SeasonsModel[]}>(
-        'http://localhost:3000/sezonlar'
+        'http://localhost:3000/seasons'
       )
       .subscribe({
         next: (data) => {

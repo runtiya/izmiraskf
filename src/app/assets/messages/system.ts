@@ -30,5 +30,10 @@ export const systemMessages = {
   'file.import.error' : 'HATA! Dosya Yükleme Hatası!',
   'file.import.error.mimetype' : 'HATA! Yanlış dosya türü seçtiniz!',
 
+  // Image Upload
+  'image.upload.error' : 'HATA! Görsel Yükleme Hatası!',
+  'image.upload.error.mimetypeorfilesize' : 'HATA! Yanlış görsel türü veya yüksek dosya boyutu seçtiniz!',
 
+  // Score Board
+  'scoreboard.search.keymissing' : 'HATA! Lütfen en az iki (2) arama anahtarı belirtiniz!'
 }

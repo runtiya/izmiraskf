@@ -1,4 +1,5 @@
-<mat-dialog-content class="mat-typography">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-dialog-content class="mat-typography" *ngIf="!isLoading">
   <div class="container">
     <mat-card>
       <mat-dialog-actions align="end">
@@ -10,7 +11,7 @@
       <form
         [formGroup]="userSubmitForm"
         (submit)="onSubmitForm()"
-        *ngIf="!isLoading"
+
       >
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12">
@@ -41,7 +42,7 @@
                 [alt]="userSubmitForm.value.fullName"/>
             </div>
             <mat-error *ngIf="!userSubmitForm.get('imageAttachment').valid">
-              Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+              Lütfen geçerli bir resim seçiniz! (en fazla 8MB)
             </mat-error>
           </div>
 

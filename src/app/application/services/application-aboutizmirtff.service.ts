@@ -19,7 +19,7 @@ export class AboutITFFService {
   getAboutContent() {
     this.http
       .get<{data: AboutITFFModel}>(
-        'http://localhost:3000/tffiltemsilciligi/hakkimizda'
+        'http://localhost:3000/tffiltemsilciligi/about-us'
       )
       .subscribe({
         next: (data) => {

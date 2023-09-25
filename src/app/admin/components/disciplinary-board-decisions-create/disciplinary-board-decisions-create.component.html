@@ -1,4 +1,5 @@
-<div>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div *ngIf="!isLoading">
   <mat-dialog-content class="mat-typography">
     <mat-card>
       <mat-dialog-actions align="end">
@@ -10,7 +11,7 @@
       <form
         [formGroup]="disciplinaryBoardDecisionsSubmitForm"
         (submit)="onSubmitForm()"
-        *ngIf="!isLoading"
+
       >
         <div class="row">
           <!-- SeasonSelectedValue - Not Part of FormGroup/Model, using just for information -->

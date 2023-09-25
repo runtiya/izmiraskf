@@ -1,14 +1,9 @@
-import { Dialog, DialogModule, DialogRef } from "@angular/cdk/dialog";
-import { Component, Inject, Input, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
-import { Subscription } from "rxjs";
 
-import { WeeklyMatchProgramModel } from "../../models/admin-weeklymatchprogram.model";
 import { WeeklyMatchProgramService } from "../../services/admin-weeklymatchprogram.service";
-
-import { globalFunctions } from "../../../functions/global.function";
 
 @Component({
   selector: 'app-admin-weeklymatchprogram-create',
@@ -26,7 +21,6 @@ export class AdminWeeklyMatchProgramCreateModal implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
     public dialogRef: MatDialogRef<AdminWeeklyMatchProgramCreateModal>,
-    private globalFunctions: globalFunctions,
     private weeklyMatchProgramService: WeeklyMatchProgramService
   ) {}
 

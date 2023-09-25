@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { MatDialog } from "@angular/material/dialog";
 
 import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages.model";
@@ -21,6 +21,7 @@ import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmatio
   styleUrls: ['../../../app.component.css', './teamsingroupstages-in-fixturecreate.component.css']
 })
 export class AdminTeamsInGroupstagesInFixtureCreate implements OnInit, OnDestroy {
+  isLoading: boolean = false;
   teamsingroupstagesList: TeamsInGroupstagesModel[] = [];
   private teamsingroupstagesListSub: Subscription;
   stadiumList: StadiumsModel[] = [];
@@ -40,10 +41,11 @@ export class AdminTeamsInGroupstagesInFixtureCreate implements OnInit, OnDestroy
     private stadiumService: StadiumsService,
     private fixturesService: FixtureService,
     private globalFunctions: globalFunctions,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.teamsingroupstagesListSub = this.teamsingroupstagesService.getTeamsInGroupstagesUpdateListener()
       .subscribe({
         next: (data: TeamsInGroupstagesModel[]) => {
@@ -54,8 +56,7 @@ export class AdminTeamsInGroupstagesInFixtureCreate implements OnInit, OnDestroy
             this.teamsingroupstagesList = [];
             this.groupstageSelectionId = null;
           }
-        },
-        error: (error) => {
+          this.isLoading = false;
         }
       });
 
@@ -63,8 +64,6 @@ export class AdminTeamsInGroupstagesInFixtureCreate implements OnInit, OnDestroy
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
           this.stadiumList = data.stadiumsList;
-        },
-        error: (error) => {
         }
       });
   }

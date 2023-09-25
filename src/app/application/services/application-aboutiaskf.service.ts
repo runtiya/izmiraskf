@@ -14,12 +14,13 @@ export class AboutIASKFService {
   constructor(
     private http: HttpClient,
     private globalFunctions: globalFunctions
+
   ) {}
 
   getAboutContent() {
     this.http
       .get<{data: AboutIASKFModel}>(
-        'http://localhost:3000/izmiraskf/hakkimizda'
+        'http://localhost:3000/izmiraskf/about-us'
       )
       .subscribe({
         next: (data) => {
@@ -31,8 +32,6 @@ export class AboutIASKFService {
         }
       });
   }
-
-
 
   getAboutContentListener() {
     return this.aboutContentSubject.asObservable();

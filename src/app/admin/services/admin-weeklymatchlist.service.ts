@@ -93,13 +93,10 @@ export class WeeklyMatchListService {
           error: (error) => {
 
           }
-
         });
-
     } catch (error) {
 
     }
-
   }
 
   updateMatchList(weeklyMatchInfo: WeeklyMatchListModel) {

@@ -1,22 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 
 import { FixtureSearchModel } from "../models/application-fixture-search-index.model";
-import { FixtureModel } from '../models/application-fixture.model';
-
-
 
 @Injectable({
     providedIn: 'root'
 })
 export class fixtureFunctions {
 
-
   constructor(
-  ) {
-
-  }
-
+  ) {}
 
   setFixtureSearchModel(
     _seasonId: number,

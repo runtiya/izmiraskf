@@ -1,7 +1,6 @@
-import { Dialog, DialogModule, DialogRef } from "@angular/cdk/dialog";
-import { Component, Inject, Input, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 import { Subscription } from "rxjs";
 import { SafeResourceUrl } from '@angular/platform-browser';
@@ -75,7 +74,6 @@ export class AdminTeamsCreateModal implements OnInit {
             latitude: new FormControl(this.pageMode == 'edit' ? this.teamInfo.latitude : null, {validators: []}),
             mapUrl: new FormControl(this.pageMode == 'edit' ? this.teamInfo.mapUrl : null, {validators: [Validators.maxLength(4000)]})
           });
-          console.log(this.teamInfo)
           this.mapSafeSrc = this.pageMode == 'create' ? null : this.globalFunctions.getSafeResourceUrl(this.teamInfo.mapUrl);
           this.isLoading = false;
           }

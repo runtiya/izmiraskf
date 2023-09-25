@@ -38,8 +38,8 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     private globalFunctions: globalFunctions
   ) {}
 
-
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.extLinkService.getLinks();
     this.extLinksSubscription = this.extLinkService.getExternalLinksUpdateListener()
@@ -48,6 +48,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
         this.extLinksRelatedLinks = this.extLinks.filter(link => link.linkType == "RELATEDLINK");
         this.extLinksSocialMediaLinks = this.extLinks.filter(link => link.linkType == "SOCIALMEDIA");
         this.extLinksAdvertisements = this.extLinks.filter(link => link.linkType == "ADVERTISEMENT");
+        this.isLoading = false;
       });
   }
 

@@ -1,4 +1,5 @@
-<div>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div *ngIf="!isLoading">
   <mat-toolbar class="toolbar toolbar-title">
     <span>GRUP ({{ teamsingroupstagesList.length }})</span>
   </mat-toolbar>

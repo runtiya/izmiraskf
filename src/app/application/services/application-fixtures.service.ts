@@ -20,7 +20,7 @@ export class FixtureService {
   getFixtureBySearchIndex(fixtureSearchIndex: FixtureSearchModel) {
     this.http
       .put<{data: FixtureModel[]}>(
-        'http://localhost:3000/fikstur/arama', fixtureSearchIndex
+        'http://localhost:3000/fixture/arama', fixtureSearchIndex
       )
       .subscribe({
         next: (data) => {

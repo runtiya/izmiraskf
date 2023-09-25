@@ -1,11 +1,6 @@
-import { DatePipe } from "@angular/common";
-import { Component, OnInit, OnDestroy, ViewChild, Input } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE }  from "@angular/material/core";
-import { FormBuilder } from '@angular/forms';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
-import { UserModel } from "../../models/admin-users.model";
 import { AuthService } from "../../authentication/auth.service";
 
 import { globalFunctions } from "../../../functions/global.function";
@@ -15,7 +10,7 @@ import { globalFunctions } from "../../../functions/global.function";
   templateUrl: './login.component.html',
   styleUrls: ['../../../app.component.css', './login.component.css']
 })
-export class AdminLogin implements OnInit, OnDestroy {
+export class AdminLogin implements OnInit {
   toolbarTitle = "SİSTEM GİRİŞ";
   isLoading: boolean = false;
   userForm: FormGroup;
@@ -41,7 +36,6 @@ export class AdminLogin implements OnInit, OnDestroy {
       userType: new FormControl(null, {validators: []}),
       isActive: new FormControl(null, {validators: []})
     });
-
   }
 
   changePasswordType(): void {
@@ -53,29 +47,13 @@ export class AdminLogin implements OnInit, OnDestroy {
       field.setAttribute('type', 'text');
       this.isPasswordVisible = true;
     }
-
   }
 
   onLogin() {
-
     if (this.userForm.valid) {
       this.authService.login(this.userForm.value);
     } else {
 
     }
-
-    /*
-    this.userForm.get('fullName').setValue('RUNTIYA Yazılım');
-    this.userForm.get('userName').setValue('runtiya@izmiraskf.com');
-    this.userForm.get('userPassword').setValue('1234');
-    this.userForm.get('userType').setValue('YONETICI');
-    this.userForm.get('isActive').setValue(true);
-
-    this.usersService.createUser(this.userForm.value);
-    */
-  }
-
-  ngOnDestroy(): void {
-
   }
 }

@@ -5,8 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { globalFunctions } from "./functions/global.function";
 
 import { AuthService } from "./admin/authentication/auth.service";
-import { GlobalIzmirASKFService } from "./services/global-izmiraskf.service";
-import { ExternalLinksService } from "./application/services/application-externallinks.service";
 import { UserModel } from "../app/admin/models/admin-users.model";
 
 @Component({
@@ -17,7 +15,6 @@ import { UserModel } from "../app/admin/models/admin-users.model";
 export class AppComponent implements OnInit {
   title = 'izmiraskf';
   snackBarDuration = 3000; //milisecond
-  showSpinner: boolean;
   userIsAuthenticated = false;
   private authListenerSubs: Subscription;
 
@@ -40,13 +37,6 @@ export class AppComponent implements OnInit {
         duration: this.snackBarDuration
       });
     });
-
-    // <mat-spinner> subscription
-    this.globalFunctions.showSpinner
-      .subscribe((_displaySpinner: boolean) => {
-        this.showSpinner = _displaySpinner;
-      });
-
     // Auto Authentication Control
     this.authService.autoAuthUser();
 

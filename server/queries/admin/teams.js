@@ -3,7 +3,8 @@ module.exports = {
   "getTeamsWithPagination" : "select * from view_admin_teams limit ? offset ?",
   "getTeamsCount" : "select count(1) as 'count' from view_admin_teams",
   "findTeam" : "" ,
-  "createTeam" : "insert into teams(createdat, createdby, updatedat, updatedby, tffclubcode, officialname, shortname, imagepath, city, town, address, phonenumber, faxnumber, stadiumid, presidentname, colorcodes, websiteurl, isaskfmember, isvisible, longitude, latitude, mapurl) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ,
-  "updateTeam" : "update teams set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, tffclubcode = ?, officialname = ?, shortname = ?, imagepath = ?, city = ?, town = ?, address = ?, phonenumber = ?, faxnumber = ?, stadiumid = ?, presidentname = ?, colorcodes = ?, websiteurl = ?, isaskfmember = ?, isvisible = ?, longitude = ?, latitude = ?, mapurl = ? where id = ?" ,
-  "deleteTeam" : "delete from teams where id = ?"
+  "createTeam" : "insert into teams(createdat, createdby, updatedat, updatedby, tffclubcode, officialname, shortname, imagepath, city, town, address, phonenumber, faxnumber, stadiumid, presidentname, colorcodes, websiteurl, isaskfmember, isvisible, longitude, latitude, mapurl, isdeleted) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ,
+  "updateTeam" : "update teams set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, tffclubcode = ?, officialname = ?, shortname = ?, imagepath = ?, city = ?, town = ?, address = ?, phonenumber = ?, faxnumber = ?, stadiumid = ?, presidentname = ?, colorcodes = ?, websiteurl = ?, isaskfmember = ?, isvisible = ?, longitude = ?, latitude = ?, mapurl = ?, isdeleted = ? where id = ?" ,
+  //"deleteTeam" : "delete from teams where id = ?"
+  "deleteTeam" : "update teams set isdeleted = true where id = ?"
 }

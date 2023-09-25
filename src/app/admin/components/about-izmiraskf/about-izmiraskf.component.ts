@@ -25,7 +25,7 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
 
   constructor(
     public aboutiaskfService : AboutIASKFService,
-    private globalFunctions: globalFunctions,
+    private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit() {
@@ -48,8 +48,8 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
           longitude: new FormControl(data.longitude, {validators: []}),
           mapUrl: new FormControl(data.mapUrl, {validators: [Validators.maxLength(4000)]})
         });
-        this.isLoading = false;
         this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(data.mapUrl);
+        this.isLoading = false;
       });
 
   }
@@ -75,7 +75,6 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
     } catch (error) {
 
     }
-
   }
 
   filePickerRemove() {
@@ -88,14 +87,12 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
   }
 
   onUpdateAboutText() {
-
     if (this.aboutIASKFform.valid) {
       this.aboutiaskfService.updateAboutContent(this.aboutIASKFform.value);
     }
     else {
       return null;
     };
-
   }
 
   ngOnDestroy(): void {

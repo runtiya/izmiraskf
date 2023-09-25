@@ -1,9 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { SeasonsModel } from "../../models/application-seasons.model";
-import { SeasonsService } from "../../services/application-seasons.service";
-
 import { WeeklyMatchProgramModel } from "../../models/application-weeklymatchprogram.model";
 import { WeeklyMatchProgramService } from "../../services/application-weeklymatchprogram.service";
 
@@ -12,7 +9,6 @@ import { WeeklyMatchListService } from "../../services/application-weeklymatchli
 
 import { FixtureModel } from "../../models/application-fixture.model";
 import { FixtureService } from "../../services/application-fixtures.service";
-import { FixtureSearchModel } from "../../models/application-fixture-search-index.model";
 
 import { globalFunctions } from "../../../functions/global.function";
 import { fixtureFunctions } from "../../functions/fixture.function";
@@ -28,9 +24,6 @@ import { townList } from "../../../assets/lists/town-izmir.list";
 export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
   toolbarTitle = "HAFTALIK BÜLTEN";
   isLoading: boolean = false;
-
-  seasonsList: SeasonsModel[] = [];
-  private seasonsListSubscription: Subscription;
   weeklyMatchProgramList: WeeklyMatchProgramModel[] = [];
   private weeklyMatchProgramListSubscription: Subscription;
   weeklyMatchList: WeeklyMatchListModel[] = [];
@@ -67,30 +60,19 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private seasonsService: SeasonsService,
     private weeklymatchprogramService: WeeklyMatchProgramService,
     private weeklymatchlistService: WeeklyMatchListService,
     private fixtureService: FixtureService,
     private globalFunctions: globalFunctions,
     private fixtureFunctions: fixtureFunctions
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-    this.seasonsService.getSeasons();
-    this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
-      .subscribe({
-        next: (data: SeasonsModel[]) => {
-          this.seasonsList = data;
-          this.seasonSelectionId = this.seasonsList[0]["id"];
-          this.weeklymatchprogramService.getWeeklyMatchProgram(this.seasonSelectionId);
-          this.weeklymatchlistService.getWeeklyMatchList(this.seasonSelectionId);
-        },
-        error: (error) => {
 
-        }
-      });
-
+    this.weeklymatchprogramService.getWeeklyMatchProgram();
     this.weeklyMatchProgramListSubscription = this.weeklymatchprogramService.getDocumentsListUpdateListener()
       .subscribe({
         next: (data: WeeklyMatchProgramModel[]) => {
@@ -101,17 +83,13 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
               _weeklyMatchProgramIds.push(wmpl.id);
             });
 
-            this.weeklymatchlistService.getWeeklyMatchList(this.seasonSelectionId);
+            this.weeklymatchlistService.getWeeklyMatchList();
             this.onSearchFixture(_weeklyMatchProgramIds);
           } else {
             this.weeklyMatchProgramList = [];
             this.weeklyMatchList = [];
             this.fixtureList = [];
           }
-
-        },
-        error: (error) => {
-
         }
       });
 
@@ -119,9 +97,6 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: WeeklyMatchListModel[]) => {
           this.weeklyMatchList = data;
-        },
-        error: (error) => {
-
         }
       });
 
@@ -139,12 +114,9 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
           this.filterDateList = this.getDistinctMatchDate(this.fixtureList);
 
           this.onSearch();
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
-
   }
 
   onSearchFixture(weeklyMatchProgramIds: Array<number>) {
@@ -188,7 +160,7 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
   }
 
   getDistinctGroupstageName(fixtureList: FixtureModel[]): Array<string> {
-    const distinctGroupstageName = [...new Set(fixtureList.map(f => f.groupstageName))].filter(f => f !== null);
+    const distinctGroupstageName = [...new Set(fixtureList.map(f => f.groupstageName))].filter(f => f !== null).sort((a, b) => a.localeCompare(b));
     return distinctGroupstageName;
   }
 
@@ -199,12 +171,12 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
   }
 
   getDistinctTownName(fixtureList: FixtureModel[]): Array<string> {
-    const distinctTownName = [...new Set(fixtureList.map(f => f.stadiumTown))].filter(f => f !== null);
+    const distinctTownName = [...new Set(fixtureList.map(f => f.stadiumTown))].filter(f => f !== null).sort((a, b) => a.localeCompare(b));
     return distinctTownName;
   }
 
   getDistinctStadiumName(fixtureList: FixtureModel[]): Array<string> {
-    const distinctStadiumName = [...new Set(fixtureList.map(f => f.stadiumName))].filter(f => f !== null);
+    const distinctStadiumName = [...new Set(fixtureList.map(f => f.stadiumName))].filter(f => f !== null).sort((a, b) => a.localeCompare(b));
     return distinctStadiumName;
   }
 
@@ -230,7 +202,6 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
   }
 
   onExport() {
-
     const _searchOptionsBar = document.getElementById("searchOptionsBar-WeeklyMatchList");
     const _header = document.getElementById("header-application");
     const _footer = document.getElementById("footer");
@@ -244,56 +215,11 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
     _header.hidden = false;
     _footer.hidden = false;
     _exportButton.hidden = false;
-
-    /*
-    const printContent = document.getElementById('tableWeeklyMatchList');
-    if (printContent) {
-      const popupWin = window.open();
-      popupWin.document.open();
-      popupWin.document.write(`
-      <!doctype html>
-      <html lang="en">
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>HAFTALIK BÜLTEN</title>
-          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-        </head>
-        <body>
-          <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Lig</th>
-            <th scope="col">Ev Sahibi Takım</th>
-            <th scope="col">Misafir Takım</th>
-            <th scope="col">Saha</th>
-            <th scope="col">Tarih</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody">
-          <td scope="row">1. AMATÖR KÜME PLAY-OFF YARI FİNAL MÜSABAKALARI</td>
-          <td>ÇOK ÇOK UZUN BİR TAKIM ADI OLABİLİR</td>
-          <td>DAHA KISA TAKIM ADLARINA DA TAMAM MIYIZ PEKİ?</td>
-          <td>BİR FUTBOL SAHASI BULALIM, DÜNYA'DAN UZAK</td>
-          <td>İNSANLARIN ZAMANI UNUTTUĞU BİR ZAMANDA</td>
-        </tbody>
-      </table>
-          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-        </body>
-      </html>
-    `);
-
-      popupWin.document.close();
-
-    }
-    */
-
   }
 
   ngOnDestroy(): void {
-    this.seasonsListSubscription.unsubscribe();
     this.weeklyMatchProgramListSubscription.unsubscribe();
     this.weeklyMatchListSubscription.unsubscribe();
-    this.fixtureListSub.unsubscribe();
+    this.fixtureListSub.unsubscribe()
   }
 }

@@ -1,6 +1,7 @@
-<div class="card-aboutizmiraskf">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="card-aboutizmiraskf" *ngIf="!isLoading">
   <mat-card>
-    <form [formGroup]="aboutIASKFform" (submit)="onUpdateAboutText()" *ngIf="!isLoading" enctype="multipart/form-data">
+    <form [formGroup]="aboutIASKFform" (submit)="onUpdateAboutText()" *ngIf="!isLoading"  enctype="multipart/form-data">
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6">
           <button mat-stroked-button type="button" color="primary" class="btn-image-picker"
@@ -15,7 +16,7 @@
               [alt]="toolbarTitle" />
           </div>
           <mat-error *ngIf="!aboutIASKFform.get('imageAttachment').valid">
-            Lütfen geçerli bir resim seçiniz! (en fazla 5MB)
+            Lütfen geçerli bir resim seçiniz! (en fazla 8MB)
           </mat-error>
         </div>
 
@@ -90,6 +91,7 @@
             </textarea>
             <mat-hint align="end">{{aboutIASKFform.get('mapUrl').value ? aboutIASKFform.get('mapUrl').value.length :
               0}}/4000</mat-hint>
+              <mat-hint>{{"Google Haritalar paylaş kısmında verilen URL adresi içerisindeki 'src' değerini yazınız!"}}</mat-hint>
             <mat-error *ngIf="aboutIASKFform.get('mapUrl').invalid">En fazla 4000 karakter!</mat-error>
           </mat-form-field>
 

@@ -1,9 +1,6 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
-import { Subscription } from "rxjs";
-import { DatePipe } from "@angular/common";
 
 import { DisciplinaryBoardFileModel } from "../../models/application-disciplinaryboardfiles.model";
 import { DisciplinaryBoardDecisionModel } from "../../models/application-disciplinaryboarddecisions.model";

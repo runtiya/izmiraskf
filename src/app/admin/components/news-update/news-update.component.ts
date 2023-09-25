@@ -2,12 +2,9 @@ import { Component, Inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
-import { DatePipe } from "@angular/common";
 
-import { NewsModel } from "../../models/admin-news.model";
 import { NewsService } from "../../services/admin-news.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-import { globalFunctions } from "../../../functions/global.function";
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
@@ -69,15 +66,11 @@ export class AdminNewsUpdateModal {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Data,
     private dialog: MatDialog,
-    private newsService: NewsService,
-    private _datePipe: DatePipe,
-    private globalFunctions: globalFunctions
-    ) {
-
-  }
-
+    private newsService: NewsService
+    ) {}
 
   ngOnInit() {
+    this.isLoading = true;
     this.newsUpdateForm = new FormGroup({
       id: new FormControl(this.newsInfo.id, {validators: []}),
       createdAt: new FormControl(this.newsInfo.createdAt, {validators: []}),
@@ -92,7 +85,7 @@ export class AdminNewsUpdateModal {
       imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
       isVisible: new FormControl(!!this.newsInfo.isVisible, {validators: [Validators.required]})
     });
-
+    this.isLoading = false;
   }
 
   onFilePicked(event: Event) {

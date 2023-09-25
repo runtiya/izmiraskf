@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from "@angular/material/dialog";
 
 import { SeasonsModel } from "../../models/admin-seasons.model";
@@ -30,10 +29,22 @@ import { fixtureFunctions } from "../../functions/fixture.function";
 import { fileImportExportFunctions } from "../../functions/file-import-export.function";
 import { globalFunctions } from "../../../functions/global.function";
 
-import { fixtureKey3, fixtureKey4, fixtureKey5, fixtureKey6, fixtureKey7, fixtureKey8, fixtureKey9, fixtureKey10, fixtureKey11, fixtureKey12, fixtureKey13, fixtureKey14, fixtureKey15 } from "../../assets/lists/fixture-keys.list";
+import {
+  fixtureKey3,
+  fixtureKey4,
+  fixtureKey5,
+  fixtureKey6,
+  fixtureKey7,
+  fixtureKey8,
+  fixtureKey9,
+  fixtureKey10,
+  fixtureKey11,
+  fixtureKey12,
+  fixtureKey13,
+  fixtureKey14,
+  fixtureKey15
+} from "../../assets/lists/fixture-keys.list";
 
-import { GlobalFixtureExportModel } from "../../../models/global-fixture-export.model";
-import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-admin-fixture-create',
@@ -104,9 +115,6 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
             this.teamsingroupstagesList = [];
             this.fixtureList = [];
           }
-        },
-        error: (error) => {
-
         }
       });
 
@@ -123,9 +131,6 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
             this.teamsingroupstagesList = [];
             this.fixtureList = [];
           }
-        },
-        error: (error) => {
-
         }
       });
 
@@ -142,8 +147,6 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
             this.fixtureList = [];
           }
           this.onSearch();
-        },
-        error: (error) => {
         }
       });
 
@@ -166,8 +169,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
         next: (data: FixtureModel[]) => {
           this.fixtureList = data.sort((a, b) => a.orderNo - b.orderNo);
           this.groupByFixture = this.groupByToFixture(this.fixtureList);
-        },
-        error: (error) => {
+          this.isLoading = false;
         }
       });
 

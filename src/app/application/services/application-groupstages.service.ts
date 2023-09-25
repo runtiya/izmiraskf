@@ -21,7 +21,7 @@ export class GroupStagesService {
   getGroupstages(leagueId: number) {
     this.http
       .get<{data: GroupStagesModel[]}>(
-        'http://localhost:3000/gruplar/' + leagueId
+        'http://localhost:3000/groupstages/' + leagueId
       )
       .subscribe({
         next: (data) => {
@@ -41,7 +41,7 @@ export class GroupStagesService {
   getGroupWeeks(groupstageId: number) {
     this.http
       .get<{data: Array<number>[]}>(
-        'http://localhost:3000/gruplar/hafta-siralamasi/' + groupstageId
+        'http://localhost:3000/groupstages/hafta-siralamasi/' + groupstageId
       )
       .subscribe({
         next: (data) => {
@@ -60,7 +60,7 @@ export class GroupStagesService {
 
   getPlayedLastMatchWeek(_groupstageId: number): Observable<any> {
     return this.http.get<{data: number}>(
-      'http://localhost:3000/gruplar/son-musabaka-haftasi/' + _groupstageId
+      'http://localhost:3000/groupstages/son-musabaka-haftasi/' + _groupstageId
       );
   }
 }

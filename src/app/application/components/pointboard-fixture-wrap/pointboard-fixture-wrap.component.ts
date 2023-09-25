@@ -10,14 +10,11 @@ import { LeaguesService } from "../../services/application-leagues.service";
 import { GroupStagesModel } from "../../models/application-groupstages.model";
 import { GroupStagesService } from "../../services/application-groupstages.service";
 
-import { TeamsInGroupstagesModel } from "../../models/application-teams-in-groupstages.model";
 import { TeamsInGroupstagesService } from "../../services/application-teams-in-groupstages.service";
 
-import { FixtureModel } from "../../models/application-fixture.model";
 import { FixtureSearchModel } from "../../models/application-fixture-search-index.model";
 import { FixtureService } from "../../services/application-fixtures.service";
 
-import { PointBoardModel } from "../../models/application-pointboard.model";
 import { PointBoardService } from "../../services/application-pointboard.service";
 
 import { globalFunctions } from "../../../functions/global.function";

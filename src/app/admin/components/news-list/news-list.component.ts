@@ -1,7 +1,6 @@
-import { Component, Inject, OnDestroy, OnInit, Input, Output } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { PageEvent } from "@angular/material/paginator";
 
 import { NewsModel } from "../../models/admin-news.model";
@@ -41,7 +40,6 @@ export class AdminNewsList implements OnInit, OnDestroy {
         this.newsCount = data.newsCount;
         this.isLoading = false;
       });
-
   }
 
   onDelete(id: number) {
@@ -78,7 +76,6 @@ export class AdminNewsList implements OnInit, OnDestroy {
   onChangePaginationPage(paginationData: PageEvent){
     this.newsService.getNews(paginationData.pageSize, paginationData.pageIndex + 1);
   }
-
 
   ngOnDestroy(): void {
     this.newsSub.unsubscribe();

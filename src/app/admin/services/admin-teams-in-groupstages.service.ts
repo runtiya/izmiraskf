@@ -22,7 +22,7 @@ export class TeamsInGroupstagesService {
   getTeamsInGroupstages(groupstageId: number) {
     this.http
       .get<{data: TeamsInGroupstagesModel[]}>(
-        'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageId
+        'http://localhost:3000/admin/teams-in-groupstages/' + groupstageId
       )
       .subscribe({
         next: (data) => {
@@ -44,7 +44,7 @@ export class TeamsInGroupstagesService {
     const requestData = teamsInGroupstagesList;
     this.http
       .post<{data: TeamsInGroupstagesModel[]}>(
-        'http://localhost:3000/admin/grup-takim-eslesmeleri/' + groupstageSelectionId, requestData
+        'http://localhost:3000/admin/teams-in-groupstages/' + groupstageSelectionId, requestData
       )
       .subscribe({
         next: (responseData) => {
@@ -62,7 +62,7 @@ export class TeamsInGroupstagesService {
     const requestData = teamInfo;
     this.http
       .put<{ data: TeamsInGroupstagesModel }>(
-        'http://localhost:3000/admin/grup-takim-eslesmeleri', requestData
+        'http://localhost:3000/admin/teams-in-groupstages', requestData
       )
       .subscribe({
         next: (responseData) => {

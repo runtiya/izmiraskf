@@ -1,11 +1,10 @@
-import { Component, Inject, Input } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 
 import { StaffITFFService } from "../../services/admin-staffitff.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-import { globalFunctions } from "../../../functions/global.function";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
@@ -24,13 +23,11 @@ export class AdminCreateStaffIzmirTFFModal {
     @Inject(MAT_DIALOG_DATA) public data: Data,
     private dialogRef: MatDialogRef<AdminCreateStaffIzmirTFFModal>,
     private dialog: MatDialog,
-    private staffService: StaffITFFService,
-    private globalFunctions: globalFunctions
+    private staffService: StaffITFFService
   ) {}
 
-
   ngOnInit() {
-
+    this.isLoading = true;
     this.staffITFFSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.staffInfo.id : null, {validators: []}),
       createdAt: new FormControl(this.pageMode == 'edit' ? this.staffInfo.createdAt : null, {validators: []}),
@@ -46,12 +43,11 @@ export class AdminCreateStaffIzmirTFFModal {
       isVisible: new FormControl(this.pageMode == 'edit' ? !!this.staffInfo.isVisible : true, {validators: [Validators.required]}),
       orderNo: new FormControl(this.pageMode == 'edit' ? this.staffInfo.orderNo : 1, {validators: [Validators.required, Validators.maxLength(3), Validators.min(1), Validators.max(999)]})
     });
-
+    this.isLoading = false;
   }
 
   onFilePicked(event: Event) {
     try {
-
       const file = (event.target as HTMLInputElement).files[0];
       this.staffITFFSubmitForm.patchValue({imageAttachment: file});
       this.staffITFFSubmitForm.get('imageAttachment').updateValueAndValidity();
@@ -72,9 +68,7 @@ export class AdminCreateStaffIzmirTFFModal {
   }
 
   onSubmitForm() {
-
     if (this.staffITFFSubmitForm.valid) {
-
       this.isLoading = true;
       if (this.pageMode === "create") {
         this.staffService.createStaff(this.staffITFFSubmitForm.value);
@@ -91,7 +85,6 @@ export class AdminCreateStaffIzmirTFFModal {
   }
 
   onDelete(id: number) {
-
     const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
       data: {
         title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',

@@ -1,14 +1,10 @@
-import { Dialog, DialogModule, DialogRef } from "@angular/cdk/dialog";
-import { Component, Inject, Input } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ɵInjectableAnimationEngine } from "@angular/platform-browser/animations";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Data } from "@angular/router";
 
-import { StaffIzmirAskfModel } from "../../models/admin-staffizmiraskf.model";
 import { StaffIASKFService } from "../../services/admin-staffiaskf.service";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-import { globalFunctions } from "../../../functions/global.function";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
@@ -26,12 +22,11 @@ export class AdminCreateStaffIzmirAskfModal {
     @Inject(MAT_DIALOG_DATA) public data: Data,
     private dialogRef: MatDialogRef<AdminCreateStaffIzmirAskfModal>,
     private dialog: MatDialog,
-    private staffService: StaffIASKFService,
-    private globalFunctions: globalFunctions
+    private staffService: StaffIASKFService
   ) {}
 
   ngOnInit() {
-
+    this.isLoading = true;
     this.staffIASKFSubmitForm = new FormGroup({
       id: new FormControl(this.pageMode == 'edit' ? this.staffInfo.id : null, {validators: []}),
       createdAt: new FormControl(this.pageMode == 'edit' ? this.staffInfo.createdAt : null, {validators: []}),
@@ -47,7 +42,7 @@ export class AdminCreateStaffIzmirAskfModal {
       isVisible: new FormControl(this.pageMode == 'edit' ? !!this.staffInfo.isVisible : true, {validators: [Validators.required]}),
       orderNo: new FormControl(this.pageMode == 'edit' ? this.staffInfo.orderNo : 1, {validators: [Validators.required, Validators.maxLength(3), Validators.min(1), Validators.max(999)]})
     });
-
+    this.isLoading = false;
   }
 
   onFilePicked(event: Event) {
@@ -72,7 +67,6 @@ export class AdminCreateStaffIzmirAskfModal {
   }
 
   onSubmitForm() {
-
     if (this.staffIASKFSubmitForm.valid) {
       this.isLoading = true;
       if (this.pageMode === "create") {
@@ -83,14 +77,12 @@ export class AdminCreateStaffIzmirAskfModal {
       }
       this.isLoading = false;
       this.dialogRef.close();
-
     } else {
       null;
     }
   }
 
   onDelete(id: number) {
-
     const dialogRef = this.dialog.open(AdminConfirmationDialogModal, {
       data: {
         title: 'İŞLEMİ ONAYLIYOR MUSUNUZ?',
