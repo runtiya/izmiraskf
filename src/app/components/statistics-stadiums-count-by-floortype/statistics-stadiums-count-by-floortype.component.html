@@ -1,5 +1,13 @@
 <div>
-
-  <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [title]="chartOptions.title" [labels]="chartOptions.labels" [dataLabels]="chartOptions.dataLabels" [colors]="chartOptions.colors"></apx-chart>
+  <apx-chart
+    *ngIf="!isLoading"
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [title]="chartOptions.title"
+    [labels]="chartOptions.labels"
+    [dataLabels]="chartOptions.dataLabels"
+    [colors]="chartOptions.colors"
+  ></apx-chart>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
 
 </div>

@@ -89,6 +89,8 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
             this.weeklyMatchProgramList = [];
             this.weeklyMatchList = [];
             this.fixtureList = [];
+
+            this.isLoading = false;
           }
         }
       });
@@ -96,7 +98,11 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
     this.weeklyMatchListSubscription = this.weeklymatchlistService.getWeeklyMatchListUpdateListener()
       .subscribe({
         next: (data: WeeklyMatchListModel[]) => {
-          this.weeklyMatchList = data;
+          if (data.length > 0) {
+            this.weeklyMatchList = data;
+          } else {
+            this.weeklyMatchList = [];
+          }
         }
       });
 

@@ -1,6 +1,6 @@
 module.exports = {
-  "getNews" : "select * from view_application_news limit ? offset ?" ,
-  "getNewsById" : "select * from view_application_news where id = ?" ,
-  "getNewsForSlider" : "select * from view_application_newsforslider",
-  "getNewsCount": "select count(1) as 'count' from view_application_news"
+  "getNews" : "select * from VIEW_APPLICATION_NEWS limit ? offset ?" ,
+  "getNewsById" : "select * from VIEW_APPLICATION_NEWS where id = ?" ,
+  "getNewsForSlider" : "select * from VIEW_APPLICATION_NEWSFORSLIDER",
+  "getNewsCount": "select count(1) as 'count' from VIEW_APPLICATION_NEWS"
 }

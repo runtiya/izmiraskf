@@ -89,9 +89,11 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
             this.seasonSelectionId = this.seasonSelectionId || this.seasonsList[0]["id"];
             this.weeklymatchprogramService.getWeeklyMatchProgram(this.seasonSelectionId);
           } else {
-            this.seasonSelectionId = null;
             this.weeklyMatchProgramList = [];
             this.weeklyMatchList = [];
+
+            this.seasonSelectionId = null;
+            this.weeklyMatchProgramSelectionId = null;
             this.isLoading = false;
           }
         }

@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="seasonsList.length > 0">
   <mat-form-field class="form-input">
     <mat-label>Sezon</mat-label>
     <mat-select
@@ -14,6 +14,7 @@
   </mat-form-field>
 
   <apx-chart
+    *ngIf="!isLoading"
     [series]="chartOptions.series"
     [chart]="chartOptions.chart"
     [dataLabels]="chartOptions.dataLabels"
@@ -26,4 +27,5 @@
     [legend]="chartOptions.legend"
     [colors]="chartOptions.colors"
   ></apx-chart>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
 </div>

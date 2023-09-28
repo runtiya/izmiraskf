@@ -1,4 +1,4 @@
 module.exports = {
-  "getAboutContent" : "select * from view_application_aboutiaskf" ,
-  "getLogoPath" : "select imagePath from view_application_aboutiaskf"
+  "getAboutContent" : "select * from VIEW_APPLICATION_ABOUTIASKF" ,
+  "getLogoPath" : "select imagePath from VIEW_APPLICATION_ABOUTIASKF"
 }

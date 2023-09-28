@@ -49,13 +49,13 @@ function getFixtureBySearchIndex(req, res, next) {
       ? "matchDate < " + JSON.stringify(searchIndex.endDate + " 23:59")
       : "true";
     let weeklyMatchProgramIndex = searchIndex.weeklyMatchProgramId
-      ? "matchno in (select matchno from view_admin_weeklymatchlist where weeklymatchprogramid = " +
+      ? "matchno in (select matchno from VIEW_ADMIN_WEEKLYMATCHLIST where weeklymatchprogramid = " +
         searchIndex.weeklyMatchProgramId +
         ")"
       : "true";
     // Select query should be include parameters. __MS
     connection.query(
-      "select * from view_admin_fixtures where " +
+      "select * from VIEW_ADMIN_FIXTURES where " +
         seasonSearchIndex +
         " and " +
         leagueSearchIndex +

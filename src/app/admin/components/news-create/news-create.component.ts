@@ -64,7 +64,6 @@ export class AdminNewsCreate implements OnInit {
 };
 
   constructor(
-
     public newsService: NewsService,
     private globalFunctions: globalFunctions
     ) {}
@@ -114,7 +113,6 @@ export class AdminNewsCreate implements OnInit {
   }
 
   onCreateNews() {
-
     if (this.newsCreateForm.valid) {
       this.isLoading = true;
       this.newsService.createNews(this.newsCreateForm.value);

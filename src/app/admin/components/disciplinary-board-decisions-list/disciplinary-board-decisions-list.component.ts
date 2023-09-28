@@ -101,11 +101,24 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
 
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe((data: SeasonsModel[]) => {
+        if (data.length > 0) {
           this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
           this.seasonSelectionId = this.seasonsList[0]["id"];
           this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
           this.leaguesService.getLeagues(this.seasonSelectionId);
           this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+        } else {
+          this.seasonsList = [];
+          this.leaguesList = [];
+          this.disciplinaryBoardFilesList = [];
+          this.disciplinaryBoardDecisionsList = [];
+
+          this.seasonSelectionId = null;
+          this.disciplinaryBoardFileSelectionId = null;
+
+          this.isLoading = false;
+        }
+
       });
 
     this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
@@ -116,7 +129,10 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
           this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
         } else {
           this.disciplinaryBoardFilesList = [];
+
           this.disciplinaryBoardFileSelectionId = null;
+
+          this.isLoading = false;
         }
       });
 
@@ -150,13 +166,11 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
     this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
     this.leaguesService.getLeagues(this.seasonSelectionId);
     this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
-    this.isLoading = false;
   }
 
   onFileNoChange() {
     this.isLoading = true;
     this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
-    this.isLoading = false;
   }
 
   findDisciplinaryBoardFileId(disciplinaryBoardFileName: string): number {

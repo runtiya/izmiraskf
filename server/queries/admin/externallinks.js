@@ -1,6 +1,6 @@
 module.exports = {
-  "getExternalLinks" : "select * from view_admin_externallinks",
-  "createExternalLink" : "insert into externallinks(createdat, createdby, updatedat, updatedby, linkname, url, linktype, imagepath, fabrand, orderno, isactive)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-  "updateExternalLink" : "update externallinks set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, linkname = ?, url = ?, linktype = ?, imagepath = ?, fabrand = ?, orderno = ?, isactive = ? where id = ?",
-  "deleteExternalLink" : "delete from externallinks where id = ?"
+  "getExternalLinks" : "select * from VIEW_ADMIN_EXTERNALLINKS",
+  "createExternalLink" : "insert into EXTERNALLINKS(createdat, createdby, updatedat, updatedby, linkname, url, linktype, imagepath, fabrand, orderno, isactive)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+  "updateExternalLink" : "update EXTERNALLINKS set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, linkname = ?, url = ?, linktype = ?, imagepath = ?, fabrand = ?, orderno = ?, isactive = ? where id = ?",
+  "deleteExternalLink" : "delete from EXTERNALLINKS where id = ?"
 }

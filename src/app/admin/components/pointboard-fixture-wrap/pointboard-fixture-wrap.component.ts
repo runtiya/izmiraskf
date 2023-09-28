@@ -26,6 +26,7 @@ import { globalFunctions } from "../../../functions/global.function";
   styleUrls: ['../../../app.component.css', './pointboard-fixture-wrap.component.css']
 })
 export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
+  isLoading: boolean = false;
   toolbarTitle = "PUAN TABLOSU VE FİKSTÜR";
   seasonList: SeasonsModel[] = [];
   private seasonListSub: Subscription;
@@ -54,6 +55,7 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
@@ -73,9 +75,9 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
             this.leagueSelectionId = null;
             this.groupstageSelectionId = null;
             this.matchWeekSelectionValue = null;
+
+            this.isLoading = false;
           }
-        },
-        error: (error) => {
         }
       });
 
@@ -94,9 +96,9 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
             this.leagueSelectionId = null;
             this.groupstageSelectionId = null;
             this.matchWeekSelectionValue = null;
+
+            this.isLoading = false;
           }
-        },
-        error: (error) => {
         }
       });
 
@@ -120,9 +122,6 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
                     this.matchWeekSelectionValue = data.data;
 
                   }
-                },
-                error: (error) => {
-
                 }
               });
           } else {
@@ -131,10 +130,9 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
 
             this.groupstageSelectionId = null;
             this.matchWeekSelectionValue = null;
-          }
 
-        },
-        error: (error) => {
+            this.isLoading = false;
+          }
 
         }
       });
@@ -143,9 +141,6 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
       .subscribe({
         next: (data: Array<number>[]) => {
           this.weekSequenceList = data;
-        },
-        error: (error) => {
-
         }
       });
   }

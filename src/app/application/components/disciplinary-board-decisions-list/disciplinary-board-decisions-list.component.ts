@@ -93,10 +93,22 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
-          this.seasonsList = data;
-          this.seasonSelectionId = this.seasonsList[0]["id"];
-          this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
-          this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+          if (data.length > 0) {
+            this.seasonsList = data;
+            this.seasonSelectionId = this.seasonsList[0]["id"];
+            this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
+            this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+          } else {
+            this.seasonsList = [];
+            this.disciplinaryBoardFilesList = [];
+            this.disciplinaryBoardDecisionsList = [];
+
+            this.seasonSelectionId = null;
+            this.disciplinaryBoardFileSelectionId = null;
+
+            this.isLoading = false;
+          }
+
         }
       });
 
@@ -109,10 +121,13 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
             this.disciplinaryBoardFileDetails = this.disciplinaryBoardFilesList[0];
             this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
           } else {
-            this.disciplinaryBoardFilesList = data;
+            this.disciplinaryBoardFilesList = [];
+            this.disciplinaryBoardDecisionsList = [];
+
             this.disciplinaryBoardFileSelectionId = null;
             this.disciplinaryBoardFileDetails = null;
-            this.disciplinaryBoardDecisionsList = [];
+
+            this.isLoading = false;
           }
         }
       });

@@ -1,6 +1,10 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <div *ngIf="!isLoading">
   <div class="col-lg-12 col-md-12 col-sm-12">
+    <mat-toolbar class="toolbar toolbar-title">
+      <span>KURUM YÖNLENDİRMELERİ</span>
+    </mat-toolbar>
+
     <mat-card class="card create-card">
       <button
         class="create-button"
@@ -13,9 +17,6 @@
       </button>
     </mat-card>
 
-    <mat-toolbar class="toolbar toolbar-title">
-      <span>Kurum Yönlendirmeleri</span>
-    </mat-toolbar>
     <table
       mat-table
       [dataSource]="extLinksRelatedLinks"
@@ -86,6 +87,10 @@
 
   <mat-divider></mat-divider>
 
+  <mat-toolbar class="toolbar toolbar-title">
+    <span>SOSYAL MEDYA YÖNLENDİRMELERİ</span>
+  </mat-toolbar>
+
   <mat-card class="card create-card">
     <button
       class="create-button"
@@ -98,9 +103,6 @@
     </button>
   </mat-card>
 
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>Sosyal Medya Yönlendirmeleri</span>
-  </mat-toolbar>
   <table
     mat-table
     [dataSource]="extLinksSocialMediaLinks"
@@ -166,6 +168,10 @@
   <mat-divider></mat-divider>
 
   <div class="col-lg-12 col-md-12 col-sm-12">
+    <mat-toolbar class="toolbar toolbar-title">
+      <span>REKLAMLAR</span>
+    </mat-toolbar>
+
     <mat-card class="card create-card">
       <button
         class="create-button"
@@ -178,9 +184,6 @@
       </button>
     </mat-card>
 
-    <mat-toolbar class="toolbar toolbar-title">
-      <span>Reklamlar</span>
-    </mat-toolbar>
     <table
       mat-table
       [dataSource]="extLinksAdvertisements"

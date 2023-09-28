@@ -12,12 +12,11 @@ import { globalFunctions } from "../../functions/global.function";
   styleUrls: ['../../app.component.css', './statistics-stadiums-count-by-floortype.component.css']
 })
 export class GlobalStatisticsStadiumsCountByFloorType implements OnInit, OnDestroy {
-
+  isLoading: boolean = false;
   stadiumsCountByFloorTypeList: any[] = [];
   private stadiumsCountByFloorTypeListSub: Subscription;
 
   chartOptions: any = this.statisticsFunctions.initChartPie();
-
 
   constructor(
     private statisticsService: GlobalStatisticsService,
@@ -26,7 +25,7 @@ export class GlobalStatisticsStadiumsCountByFloorType implements OnInit, OnDestr
   ) {}
 
   ngOnInit(): void {
-
+    this.isLoading = true;
     this.statisticsService.getStadiumsCountByFloorType();
     this.stadiumsCountByFloorTypeListSub = this.statisticsService.getStadiumsCountByFloorTypeUpdateListener()
       .subscribe({
@@ -42,6 +41,7 @@ export class GlobalStatisticsStadiumsCountByFloorType implements OnInit, OnDestr
           });
           this.chartOptions.labels = labelsArray;
 
+          this.isLoading = false;
         }
       });
   }

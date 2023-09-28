@@ -1,90 +1,93 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="div-fixture-by-week" *ngIf="!isLoading">
-  <mat-toolbar class="toolbar toolbar-title">
-    <span>{{toolbarTitle}}</span>
-  </mat-toolbar>
+<div *ngIf="!isLoading">
+  <div class="div-fixture-by-week" *ngIf="fixtureList.length > 0">
+    <mat-toolbar class="toolbar toolbar-title">
+      <span>{{toolbarTitle}}</span>
+    </mat-toolbar>
 
-  <mat-card *ngFor="let fixture of fixtureList">
-    <mat-card-header class="card-fixture-header justify-content-center">
-      <mat-card-subtitle class="stadium-in-fixture">
-        <fa-icon
-          [icon]="getFontAwesomeIcon('faLocationPin')"
-          class="icon icon-location-pin"
-          matTooltip="Saha"
-        >
-        </fa-icon>
-        {{ fixture.stadiumName || 'Saha Belirtilmedi' }}
-      </mat-card-subtitle>
-      <mat-card-subtitle>
-        <fa-icon
-          [icon]="getFontAwesomeIcon('faStopwatch')"
-          class="icon icon-stop-watch"
-          matTooltip="Tarih"
-        >
-        </fa-icon>
-        {{ getMatchDate(fixture.matchDate) || 'Tarih Belirtilmedi' }}
-      </mat-card-subtitle>
-      <mat-card-subtitle>
-        <mat-icon
-          class="{{ getMatchStatusClass(fixture.matchStatus) }}"
-          matTooltip="{{ getMatchStatus(fixture.matchStatus) }}"
-          >circle
-        </mat-icon>
-      </mat-card-subtitle>
-      <mat-card-subtitle>
-        <fa-icon
-          [icon]="getFontAwesomeIcon('faCircleInfo')"
-          class="icon icon-circle-info"
-          *ngIf="fixture.explanation !== null"
-          matTooltip={{fixture.explanation}}
-        >
-        </fa-icon>
-      </mat-card-subtitle>
-    </mat-card-header>
+    <mat-card *ngFor="let fixture of fixtureList">
+      <mat-card-header class="card-fixture-header justify-content-center">
+        <mat-card-subtitle class="stadium-in-fixture">
+          <fa-icon
+            [icon]="getFontAwesomeIcon('faLocationPin')"
+            class="icon icon-location-pin"
+            matTooltip="Saha"
+          >
+          </fa-icon>
+          {{ fixture.stadiumName || 'Saha Belirtilmedi' }}
+        </mat-card-subtitle>
+        <mat-card-subtitle>
+          <fa-icon
+            [icon]="getFontAwesomeIcon('faStopwatch')"
+            class="icon icon-stop-watch"
+            matTooltip="Tarih"
+          >
+          </fa-icon>
+          {{ getMatchDate(fixture.matchDate) || 'Tarih Belirtilmedi' }}
+        </mat-card-subtitle>
+        <mat-card-subtitle>
+          <mat-icon
+            class="{{ getMatchStatusClass(fixture.matchStatus) }}"
+            matTooltip="{{ getMatchStatus(fixture.matchStatus) }}"
+            >circle
+          </mat-icon>
+        </mat-card-subtitle>
+        <mat-card-subtitle>
+          <fa-icon
+            [icon]="getFontAwesomeIcon('faCircleInfo')"
+            class="icon icon-circle-info"
+            *ngIf="fixture.explanation !== null"
+            matTooltip={{fixture.explanation}}
+          >
+          </fa-icon>
+        </mat-card-subtitle>
+      </mat-card-header>
 
-    <mat-card-content class="card-fixture-content">
-      <div class="row">
-        <div class="col-4">
-          <div class="div-matchday matchday-hometeam-info team-in-fixture">
-            <img mat-card-avatar [src]="fixture.homeTeamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{fixture.homeTeamOfficialName}}">
-            <mat-card-title class="text-teamname text-hometeam">
-              {{fixture.homeTeamShortName || homeTeamOfficialName || "BAY"}}
-              <fa-icon
-                *ngIf="fixture.isHomeTeamWinByForfeit"
-                [icon]="getFontAwesomeIcon('faCircleH')"
-                class="icon icon-circle-h"
-                matTooltip="Hükmen Galip"
-              >
-              </fa-icon>
+      <mat-card-content class="card-fixture-content">
+        <div class="row">
+          <div class="col-4">
+            <div class="div-matchday matchday-hometeam-info team-in-fixture">
+              <img mat-card-avatar [src]="fixture.homeTeamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{fixture.homeTeamOfficialName}}">
+              <mat-card-title class="text-teamname text-hometeam">
+                {{fixture.homeTeamShortName || homeTeamOfficialName || "BAY"}}
+                <fa-icon
+                  *ngIf="fixture.isHomeTeamWinByForfeit"
+                  [icon]="getFontAwesomeIcon('faCircleH')"
+                  class="icon icon-circle-h"
+                  matTooltip="Hükmen Galip"
+                >
+                </fa-icon>
+              </mat-card-title>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <mat-card-title class="title-score">
+              {{ (fixture.homeTeamScore !== null ? fixture.homeTeamScore  : '')
+                  + " - "
+                  + (fixture.awayTeamScore !== null ? fixture.awayTeamScore : '')
+              }}
             </mat-card-title>
           </div>
-        </div>
 
-        <div class="col-4">
-          <mat-card-title class="title-score">
-            {{ (fixture.homeTeamScore !== null ? fixture.homeTeamScore  : '')
-                + " - "
-                + (fixture.awayTeamScore !== null ? fixture.awayTeamScore : '')
-            }}
-          </mat-card-title>
-        </div>
-
-        <div class="col-4">
-          <div class="div-matchday matchday-awayteam-info team-in-fixture">
-            <img mat-card-avatar [src]="fixture.awayTeamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{fixture.awayTeamOfficialName}}">
-            <mat-card-title class="text-teamname text-hometeam">
-              {{fixture.awayTeamShortName || awayTeamOfficialName || "BAY"}}
-              <fa-icon
-                *ngIf="fixture.isAwayTeamWinByForfeit"
-                [icon]="getFontAwesomeIcon('faCircleH')"
-                class="icon icon-circle-h"
-                matTooltip="Hükmen Galip"
-              >
-              </fa-icon>
-            </mat-card-title>
+          <div class="col-4">
+            <div class="div-matchday matchday-awayteam-info team-in-fixture">
+              <img mat-card-avatar [src]="fixture.awayTeamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{fixture.awayTeamOfficialName}}">
+              <mat-card-title class="text-teamname text-hometeam">
+                {{fixture.awayTeamShortName || awayTeamOfficialName || "BAY"}}
+                <fa-icon
+                  *ngIf="fixture.isAwayTeamWinByForfeit"
+                  [icon]="getFontAwesomeIcon('faCircleH')"
+                  class="icon icon-circle-h"
+                  matTooltip="Hükmen Galip"
+                >
+                </fa-icon>
+              </mat-card-title>
+            </div>
           </div>
         </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
+

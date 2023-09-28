@@ -12,12 +12,11 @@ import { globalFunctions } from "../../functions/global.function";
   styleUrls: ['../../app.component.css', './statistics-teams-count-by-town.component.css']
 })
 export class GlobalStatisticsTeamsCountByTown implements OnInit, OnDestroy {
-
+  isLoading: boolean = false;
   teamsCountByTownList: any[] = [];
   private teamsCountByTownListSub: Subscription;
 
   chartOptions: any = this.statisticsFunctions.initChartPie();
-
 
   constructor(
     private statisticsService: GlobalStatisticsService,
@@ -26,7 +25,7 @@ export class GlobalStatisticsTeamsCountByTown implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-
+    this.isLoading = true;
     this.statisticsService.getTeamsCountByTown();
     this.teamsCountByTownListSub = this.statisticsService.getTeamsCountByTownUpdateListener()
       .subscribe({
@@ -39,6 +38,7 @@ export class GlobalStatisticsTeamsCountByTown implements OnInit, OnDestroy {
             labelsArray[i] = this.globalFunctions.getTownValue(item);
           });
           this.chartOptions.labels = labelsArray;
+          this.isLoading = false;
         }
       });
   }

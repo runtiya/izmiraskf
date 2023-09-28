@@ -1,3 +1,3 @@
 module.exports = {
-  "getDisciplinaryBoardDecisions" : "select * from view_application_disciplinaryboarddecisions where disciplinaryBoardFileId = ?"
+  "getDisciplinaryBoardDecisions" : "select * from VIEW_APPLICATION_DISCIPLINARYBOARDDECISIONS where disciplinaryBoardFileId = ?"
 }

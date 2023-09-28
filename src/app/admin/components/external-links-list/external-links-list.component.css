@@ -19,3 +19,12 @@ mat-divider {
   width: 5%;
   height: auto;
 }
+
+.create-card {
+  margin: 1rem 0;
+}
+
+.toolbar {
+  background-color: whitesmoke;
+  color: #3F51B5;
+}

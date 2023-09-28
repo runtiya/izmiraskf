@@ -1,4 +1,4 @@
 module.exports = {
-  "getTeamsInGroupstages" : "select * from view_application_teamsingroupstages where groupstageId = ?" ,
-  "getTeamsForGroupstages" : "select * from view_application_teamsforgroupstages"
+  "getTeamsInGroupstages" : "select * from VIEW_APPLICATION_TEAMSINGROUPSTAGES where groupstageId = ?" ,
+  "getTeamsForGroupstages" : "select * from VIEW_APPLICATION_TEAMSFORGROUPSTAGES"
 }

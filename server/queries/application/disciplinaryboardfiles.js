@@ -1,3 +1,3 @@
 module.exports = {
-  "getDisciplinaryBoardFiles" : "select * from view_application_disciplinaryboardfiles where seasonid = ? and casetype = ?"
+  "getDisciplinaryBoardFiles" : "select * from VIEW_APPLICATION_DISCIPLINARYBOARDFILES where seasonid = ? and casetype = ?"
 }

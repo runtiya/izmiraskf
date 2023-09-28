@@ -6,7 +6,7 @@
     </mat-toolbar>
 
     <mat-card-content class="card-externallink" *ngFor="let link of extLinksRelatedLinks">
-      <a href="{{link.url}}" target="_blank" rel="noopener noreferrer" class="d-flex align-items-center">
+      <a [href]="link.url" target="_blank" rel="noopener noreferrer" class="d-flex align-items-center">
         <img mat-card-sm-image class="image-icon-external-links" [src]="link.imagePath" [alt]="link.linkName">
         <mat-card-subtitle>{{link.linkName}}</mat-card-subtitle>
       </a>

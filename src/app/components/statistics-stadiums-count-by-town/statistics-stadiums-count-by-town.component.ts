@@ -12,7 +12,7 @@ import { globalFunctions } from "../../functions/global.function";
   styleUrls: ['../../app.component.css', './statistics-stadiums-count-by-town.component.css']
 })
 export class GlobalStatisticsStadiumsCountByTown implements OnInit, OnDestroy {
-
+  isLoading: boolean = false;
   stadiumsCountByTownList: any[] = [];
   private stadiumsCountByTownListSub: Subscription;
 
@@ -25,7 +25,7 @@ export class GlobalStatisticsStadiumsCountByTown implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-
+    this.isLoading = true;
     this.statisticsService.getStadiumsCountByTown();
     this.stadiumsCountByTownListSub = this.statisticsService.getStadiumsCountByTownUpdateListener()
       .subscribe({
@@ -38,6 +38,7 @@ export class GlobalStatisticsStadiumsCountByTown implements OnInit, OnDestroy {
             labelsArray[i] = this.globalFunctions.getTownValue(item);
           });
           this.chartOptions.labels = labelsArray;
+          this.isLoading = false;
         }
       });
   }

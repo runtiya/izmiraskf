@@ -1,6 +1,6 @@
 module.exports = {
-  "getWeeklyMatchProgram" : "select * from view_admin_weeklymatchprogram where seasonid = ?" ,
-  "createWeeklyMatchProgram" : "insert into weeklymatchprogram(createdat, createdby, updatedat, updatedby, seasonid, begindate, enddate, isactive) values (?, ?, ?, ?, ?, ?, ?, ?)" ,
-  "updateWeeklyMatchProgram" : "update weeklymatchprogram set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonid = ?, begindate = ?, enddate = ?, isactive = ?  where id = ? and seasonid = ?" ,
-  "deleteWeeklyMatchProgram" : "delete from weeklymatchprogram where id = ? and seasonid = ?" ,
+  "getWeeklyMatchProgram" : "select * from VIEW_ADMIN_WEEKLYMATCHPROGRAM where seasonid = ?" ,
+  "createWeeklyMatchProgram" : "insert into WEEKLYMATCHPROGRAM(createdat, createdby, updatedat, updatedby, seasonid, begindate, enddate, isactive) values (?, ?, ?, ?, ?, ?, ?, ?)" ,
+  "updateWeeklyMatchProgram" : "update WEEKLYMATCHPROGRAM set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, seasonid = ?, begindate = ?, enddate = ?, isactive = ?  where id = ? and seasonid = ?" ,
+  "deleteWeeklyMatchProgram" : "delete from WEEKLYMATCHPROGRAM where id = ? and seasonid = ?" ,
 }

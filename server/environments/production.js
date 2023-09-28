@@ -8,10 +8,10 @@ const environment = {
     port: 3306,
     password: '17Nisan1996',
     database: 'izmiraskf'*/
-    host: '127.0.0.1',
-    user: 'root',
+    host: 'izmiraskf-db.cntb1o9kqd1o.us-east-1.rds.amazonaws.com',
+    user: 'admin',
     port: 3306,
-    password: '17Nisan1996',
+    password: 'izmirASKF35',
     database: 'izmiraskf',
     waitForConnections: true,
     connectionLimit: 10,

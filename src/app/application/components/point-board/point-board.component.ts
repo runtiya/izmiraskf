@@ -45,20 +45,29 @@ export class ApplicationPointBoard implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.teamsingroupstageListSub = this.teamsingroupstageService.getTeamsInGroupstagesUpdateListener()
       .subscribe({
         next: (data: TeamsInGroupstagesModel[]) => {
-          this.teamsingroupstageList = data;
-          this.expelledOrRecededTeamsInGroupstageList = this.teamsingroupstageList.filter(t => !!t.isExpelled || !!t.isReceded);
+          if (data.length > 0) {
+            this.teamsingroupstageList = data;
+            this.expelledOrRecededTeamsInGroupstageList = this.teamsingroupstageList.filter(t => !!t.isExpelled || !!t.isReceded);
+          } else {
+            this.teamsingroupstageList = [];
+            this.expelledOrRecededTeamsInGroupstageList = [];
+          }
+
         }
       });
 
     this.pointBoardListSub = this.pointboardService.getPointBoardUpdateListener()
       .subscribe({
         next: (data: PointBoardModel[]) => {
-          this.pointBoardList = data;
-          this.isLoading = false;
+          if (data.length > 0) {
+            this.pointBoardList = data;
+          } else {
+            this.pointBoardList = [];
+          }
+
         }
       });
   }
