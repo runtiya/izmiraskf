@@ -1,7 +1,7 @@
 module.exports = {
-  "getTeamsCountByTown" : "select * from view_global_statistics_teamscountbytown" ,
-  "getStadiumsCountByTown" : "select * from view_global_statistics_stadiumscountbytown",
-  "getStadiumsCountByFloorType" : "select * from view_global_statistics_stadiumscountbyfloortype",
-  "getMatchStatusCountByLeague" : "select * from view_global_statistics_matchstatuscountbyleague where seasonid = ?",
-  "getSeasonSummaryList" : "select * from view_global_statistics_seasonsummarylist where seasonid = ?"
+  "getTeamsCountByTown" : "select * from VIEW_GLOBAL_STATISTICS_TEAMSCOUNTBYTOWN" ,
+  "getStadiumsCountByTown" : "select * from VIEW_GLOBAL_STATISTICS_STADIUMSCOUNTBYTOWN",
+  "getStadiumsCountByFloorType" : "select * from VIEW_GLOBAL_STATISTICS_STADIUMSCOUNTBYFLOORTYPE",
+  "getMatchStatusCountByLeague" : "select * from VIEW_GLOBAL_STATISTICS_MATCHSTATUSCOUNTBYLEAGUE where seasonid = ?",
+  "getSeasonSummaryList" : "select * from VIEW_GLOBAL_STATISTICS_SEASONSUMMARYLIST where seasonid = ?"
 }

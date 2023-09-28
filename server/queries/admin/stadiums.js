@@ -1,11 +1,11 @@
 module.exports = {
-  "getStadiums" : "select * from view_admin_stadiums" ,
-  "getStadiumsWithPagination" : "select * from view_admin_stadiums limit ? offset ?",
-  "getStadiumsCount" : "select count(1) as 'count' from view_admin_stadiums",
+  "getStadiums" : "select * from VIEW_ADMIN_STADIUMS" ,
+  "getStadiumsWithPagination" : "select * from VIEW_ADMIN_STADIUMS limit ? offset ?",
+  "getStadiumsCount" : "select count(1) as 'count' from VIEW_ADMIN_STADIUMS",
   "findStadium" : "" ,
-  "createStadium" : "insert into stadiums(createdat, createdby, updatedat, updatedby, stadiumname, city, town, address, phonenumber, imagepath, audiencecapacity, sizelength, sizewidth, floortype, haslightning, hasseating, hasdisabledtribune, hasclosedcircuitcamerasystem, longitude, latitude, mapurl, isdeleted)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"  ,
-  "updateStadium" : "update stadiums set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, stadiumname = ?, city = ?, town = ?, address = ?, phonenumber = ?, imagepath = ?, audiencecapacity = ?, sizelength = ?, sizewidth = ?, floortype = ?, haslightning = ?, hasseating = ?, hasdisabledtribune = ?, hasclosedcircuitcamerasystem = ?, longitude = ?, latitude = ?, mapurl = ?, isdeleted = ? where id = ?" ,
-  //"deleteStadium" : "delete from stadiums where id = ?"
-  "deleteStadium" : "update stadiums set isdeleted = true where id = ?"
+  "createStadium" : "insert into STADIUMS(createdat, createdby, updatedat, updatedby, stadiumname, city, town, address, phonenumber, imagepath, audiencecapacity, sizelength, sizewidth, floortype, haslightning, hasseating, hasdisabledtribune, hasclosedcircuitcamerasystem, longitude, latitude, mapurl, isdeleted)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"  ,
+  "updateStadium" : "update STADIUMS set createdat = ?, createdby = ?, updatedat = ?, updatedby = ?, stadiumname = ?, city = ?, town = ?, address = ?, phonenumber = ?, imagepath = ?, audiencecapacity = ?, sizelength = ?, sizewidth = ?, floortype = ?, haslightning = ?, hasseating = ?, hasdisabledtribune = ?, hasclosedcircuitcamerasystem = ?, longitude = ?, latitude = ?, mapurl = ?, isdeleted = ? where id = ?" ,
+  //"deleteStadium" : "delete from STADIUMS where id = ?"
+  "deleteStadium" : "update STADIUMS set isdeleted = true where id = ?"
 
 }

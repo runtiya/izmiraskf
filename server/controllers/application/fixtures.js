@@ -48,13 +48,13 @@ function getFixtureBySearchIndex(req, res, next) {
     ? "matchDate < " + JSON.stringify(searchIndex.endDate + " 23:59")
     : "true";
   let weeklyMatchProgramSearchIndex = searchIndex.weeklyMatchProgramIds
-    ? `matchno in (select matchno from view_application_weeklymatchlist where weeklymatchprogramid in (${searchIndex.weeklyMatchProgramIds
+    ? `matchno in (select matchno from VIEW_APPLICATION_WEEKLYMATCHLIST where weeklymatchprogramid in (${searchIndex.weeklyMatchProgramIds
         .map((item) => `${item}`)
         .join(", ")}))`
     : "true";
 
   connection.query(
-    "select * from view_application_fixtures where " +
+    "select * from VIEW_APPLICATION_FIXTURES where " +
       seasonSearchIndex +
       " and " +
       leagueSearchIndex +

@@ -63,18 +63,33 @@ export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
         });
 
       this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
-          .subscribe((data: SeasonsModel[]) => {
+        .subscribe((data: SeasonsModel[]) => {
+          if (data.length > 0) {
             this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
             this.seasonSelectionId = this.seasonsList[0]["id"];
             this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
-          });
+          } else {
+            this.seasonsList = [];
+            this.disciplinaryBoardFilesList = [];
+
+            this.seasonSelectionId = null;
+
+            this.isLoading = false;
+          }
+
+        });
 
       this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
-          .subscribe((data: DisciplinaryBoardFileModel[]) => {
+        .subscribe((data: DisciplinaryBoardFileModel[]) => {
+          if (data.length > 0) {
             const filteredDisciplinaryBoardFilesList = data.filter(file => file.seasonId == this.seasonSelectionId && file.caseType == this.url_caseType);
             this.disciplinaryBoardFilesList = filteredDisciplinaryBoardFilesList.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
-            this.isLoading = false;
-          })
+          } else {
+            this.disciplinaryBoardFilesList = [];
+          }
+
+          this.isLoading = false;
+        });
   }
 
   onSeasonChange(seasonChangedID: number) {

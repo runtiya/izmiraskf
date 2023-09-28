@@ -27,6 +27,7 @@ import { globalFunctions } from "../../../functions/global.function";
 })
 export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
   toolbarTitle = "PUAN TABLOSU VE FİKSTÜR";
+  isLoading: boolean = false;
   seasonList: SeasonsModel[] = [];
   private seasonListSub: Subscription;
   leagueList: LeaguesModel[] = [];
@@ -55,6 +56,7 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
+    this.isLoading = true;
     this.seasonsService.getSeasons();
     this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
@@ -73,9 +75,9 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
             this.leagueSelectionId = null;
             this.groupstageSelectionId = null;
             this.matchWeekSelectionValue = null;
+
+            this.isLoading = false;
           }
-        },
-        error: (error) => {
         }
       });
 
@@ -94,9 +96,9 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
             this.leagueSelectionId = null;
             this.groupstageSelectionId = null;
             this.matchWeekSelectionValue = null;
+
+            this.isLoading = false;
           }
-        },
-        error: (error) => {
         }
       });
 
@@ -119,8 +121,6 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
                   } else {
                     this.matchWeekSelectionValue = data.data;
                   }
-                },
-                error: (error) => {
                 }
               });
           } else {
@@ -129,9 +129,9 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
 
             this.groupstageSelectionId = null;
             this.matchWeekSelectionValue = null;
+
+            this.isLoading = false;
           }
-        },
-        error: (error) => {
         }
       });
 
@@ -139,26 +139,28 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
       .subscribe({
         next: (data: Array<number>[]) => {
           this.weekSequenceList = data;
-        },
-        error: (error) => {
-
+          this.isLoading = false;
         }
       });
   }
 
   onSeasonChange() {
+    this.isLoading = true;
     this.leaguesService.getLeagues(this.seasonSelectionId);
   }
 
   onLeagueChange() {
-      this.groupstagesService.getGroupstages(this.leagueSelectionId);
+    this.isLoading = true;
+    this.groupstagesService.getGroupstages(this.leagueSelectionId);
   }
 
   onGroupStageChange() {
+    this.isLoading = true;
     this.groupstagesService.getGroupWeeks(this.groupstageSelectionId);
   }
 
   onSearch() {
+
     // Get Teams In Disqualifications
     this.teamsingroupstageService.getTeamsInGroupstages(this.groupstageSelectionId);
 

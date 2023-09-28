@@ -1,3 +1,3 @@
 module.exports = {
-  "getLeagues" : "select * from view_application_leagues where seasonid = ?"
+  "getLeagues" : "select * from VIEW_APPLICATION_LEAGUES where seasonid = ?"
 }

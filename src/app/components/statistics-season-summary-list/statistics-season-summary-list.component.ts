@@ -13,7 +13,7 @@ import { SeasonsService } from "../../application/services/application-seasons.s
   styleUrls: ['../../app.component.css', './statistics-season-summary-list.component.css']
 })
 export class GlobalStatisticsSeasonSummaryList implements OnInit, OnDestroy {
-
+  isLoading: boolean = false;
   seasonSummaryList: any[] = [];
   _seasonSummaryList: any[];
   private seasonSummaryListSub: Subscription;
@@ -43,26 +43,44 @@ export class GlobalStatisticsSeasonSummaryList implements OnInit, OnDestroy {
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
-          this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-          this.seasonSelectionId = this.seasonsList[0]["id"];
-          this.statisticsService.getSeasonSummaryList(this.seasonSelectionId);
+          if (data.length > 0) {
+            this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+            this.seasonSelectionId = this.seasonsList[0]["id"];
+            this.statisticsService.getSeasonSummaryList(this.seasonSelectionId);
+          } else {
+            this.seasonsList = [];
+            this.seasonSummaryList = [];
+
+            this.seasonSelectionId = null;
+            this.totalMatchCount = 0;
+
+            this.isLoading = false;
+          }
+
         }
       });
 
     this.seasonSummaryListSub = this.statisticsService.getSeasonSummaryListUpdateListener()
       .subscribe({
         next: (data: any[]) => {
-          this.seasonSummaryList = data;
-          this.totalMatchCount = 0;
-          this.seasonSummaryList.forEach(ssl => {
-            this.totalMatchCount += ssl.totalMatches;
-          });
+          if (data.length > 0) {
+            this.seasonSummaryList = data;
+            this.totalMatchCount = 0;
+            this.seasonSummaryList.forEach(ssl => {
+              this.totalMatchCount += ssl.totalMatches;
+            });
+          } else {
+            this.seasonSummaryList = [];
+            this.totalMatchCount = 0;
+          }
+          this.isLoading = false;
         }
       });
 
   }
 
   onSeasonChange(seasonId: number) {
+    this.isLoading = true;
     this.statisticsService.getSeasonSummaryList(seasonId);
   }
 

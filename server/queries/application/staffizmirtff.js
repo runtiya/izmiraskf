@@ -1,3 +1,3 @@
 module.exports = {
-  "getStaffList" : "select * from view_application_staffitff"
+  "getStaffList" : "select * from VIEW_APPLICATION_STAFFITFF"
 }

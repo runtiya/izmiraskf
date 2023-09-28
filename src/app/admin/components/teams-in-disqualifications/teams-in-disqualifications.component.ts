@@ -101,13 +101,13 @@ export class AdminTeamsInDisqualifications implements OnInit, OnDestroy {
             this.groupstageSelectionId = this.groupstageList[0]["id"];
             this.teamsingroupstagesService.getTeamsInGroupstages(this.groupstageSelectionId);
           } else {
-            this.groupstageSelectionId = null;
-
             this.groupstageList = [];
             this.teamsingroupstagesList = [];
+
+            this.groupstageSelectionId = null;
+
             this.isLoading = false;
           }
-
         }
       });
 

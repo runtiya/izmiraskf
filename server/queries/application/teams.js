@@ -1,6 +1,6 @@
 module.exports = {
-  "getTeams" : "select * from view_application_teams",
-  "getTeamsWithPagination" : "select * from view_application_teams limit ? offset ?",
-  "getTeamById" : "select * from view_application_teams where id = ?",
-  "getTeamsCount" : "select count(1) as 'count' from view_application_teams"
+  "getTeams" : "select * from VIEW_APPLICATION_TEAMS",
+  "getTeamsWithPagination" : "select * from VIEW_APPLICATION_TEAMS limit ? offset ?",
+  "getTeamById" : "select * from VIEW_APPLICATION_TEAMS where id = ?",
+  "getTeamsCount" : "select count(1) as 'count' from VIEW_APPLICATION_TEAMS"
 }

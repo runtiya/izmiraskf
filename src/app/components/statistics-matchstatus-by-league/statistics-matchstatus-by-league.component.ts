@@ -16,7 +16,7 @@ import { matchStatusList } from "../../assets/lists/match-status.list";
   styleUrls: ['../../app.component.css', './statistics-matchstatus-by-league.component.css']
 })
 export class GlobalStatisticsMatchStatusByTown implements OnInit, OnDestroy {
-
+  isLoading: boolean = false;
   matchStatusCountByLeagueList: any[] = [];
   _matchStatusCountByLeagueList: any[];
   private matchStatusCountByLeagueListSub: Subscription;
@@ -40,13 +40,23 @@ export class GlobalStatisticsMatchStatusByTown implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.seasonsService.getSeasons();
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
-          this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-          this.seasonSelectionId = this.seasonsList[0]["id"];
-          this.statisticsService.getMatchStatusCountByLeague(this.seasonSelectionId);
+          if (data.length > 0) {
+            this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+            this.seasonSelectionId = this.seasonsList[0]["id"];
+            this.statisticsService.getMatchStatusCountByLeague(this.seasonSelectionId);
+          } else {
+            this.seasonsList = [];
+            this.matchStatusCountByLeagueList = [];
+
+            this.seasonSelectionId = null;
+            this.isLoading = false;
+          }
+
         }
       });
 
@@ -90,11 +100,14 @@ export class GlobalStatisticsMatchStatusByTown implements OnInit, OnDestroy {
             this.chartOptions.series.push(_series)
           });
 
+          this.isLoading = false;
+
         }
       });
   }
 
   onSeasonChange(seasonId: number) {
+    this.isLoading = true;
     this.statisticsService.getMatchStatusCountByLeague(seasonId);
   }
 

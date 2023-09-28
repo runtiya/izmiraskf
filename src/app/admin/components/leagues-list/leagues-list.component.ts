@@ -50,20 +50,39 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
-      .subscribe((data: SeasonsModel[]) => {
-        this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-        this.seasonSelectionId = this.seasonsList[0]["id"];
-        this.leagueService.getLeagues(this.seasonSelectionId);
-        this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
-          .subscribe((data: LeaguesModel[]) => {
-            const filteredLeagueList = data.filter(league => league.seasonId === this.seasonSelectionId);
-            this.leagueList = filteredLeagueList.sort((a, b) => a.orderNo - b.orderNo);
+      .subscribe({
+        next: (data: SeasonsModel[]) => {
+          if (data.length > 0) {
+            this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+            this.seasonSelectionId = this.seasonsList[0]["id"];
+            this.leagueService.getLeagues(this.seasonSelectionId);
+          } else {
+            this.seasonsList = [];
+            this.leagueList = [];
+
+            this.seasonSelectionId = null;
+
             this.isLoading = false;
-          });
+          }
+        }
       });
+
+      this.leagueListSubscription = this.leagueService.getLeagueListUpdateListener()
+        .subscribe({
+          next: (data: LeaguesModel[]) => {
+            if (data.length > 0) {
+              const filteredLeagueList = data.filter(league => league.seasonId === this.seasonSelectionId);
+              this.leagueList = filteredLeagueList.sort((a, b) => a.orderNo - b.orderNo);
+            } else {
+              this.leagueList = [];
+            }
+            this.isLoading = false;
+          }
+        })
   }
 
   onSeasonChange(seasonId: number) {
+    this.isLoading = true;
     this.leagueService.getLeagues(seasonId);
   }
 
@@ -80,6 +99,7 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
   }
 
   onCreate() {
+    this.isLoading = true;
     const dialogRef = this.dialog.open(AdminLeaguesCreateModal, {
       data: {
         pageMode: 'create',

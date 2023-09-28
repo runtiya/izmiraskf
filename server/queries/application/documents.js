@@ -1,3 +1,3 @@
 module.exports = {
-  "getDocuments" : "select * from view_application_documents where filecategory = ?"
+  "getDocuments" : "select * from VIEW_APPLICATION_DOCUMENTS where filecategory = ?"
 }

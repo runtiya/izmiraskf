@@ -172,3 +172,7 @@ input[type="file"] {
 
 /* Social Media Class Attributes End */
 
+.toolbar {
+  background-color: #3F51B5;
+  color: white;
+}

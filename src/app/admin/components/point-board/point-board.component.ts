@@ -43,7 +43,6 @@ export class AdminPointBoard implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.teamsingroupstageListSub = this.teamsingroupstageService.getTeamsInGroupstagesUpdateListener()
       .subscribe({
         next: (data: TeamsInGroupstagesModel[]) => {
@@ -52,6 +51,7 @@ export class AdminPointBoard implements OnInit, OnDestroy {
             this.expelledOrRecededTeamsInGroupstageList = this.teamsingroupstageList.filter(t => !!t.isExpelled || !!t.isReceded);
           } else {
             this.teamsingroupstageList = [];
+            this.expelledOrRecededTeamsInGroupstageList = [];
           }
 
         }
@@ -60,8 +60,11 @@ export class AdminPointBoard implements OnInit, OnDestroy {
     this.pointBoardListSub = this.pointboardService.getPointBoardUpdateListener()
       .subscribe({
         next: (data: PointBoardModel[]) => {
-          this.pointBoardList = data;
-          this.isLoading = false;
+          if (data.length > 0) {
+            this.pointBoardList = data;
+          } else {
+            this.pointBoardList = [];
+          }
         }
       });
 

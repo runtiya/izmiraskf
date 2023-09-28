@@ -1,3 +1,3 @@
 module.exports = {
-  "getWeeklyMatchProgram" : "select * from view_application_weeklymatchprogram"
+  "getWeeklyMatchProgram" : "select * from VIEW_APPLICATION_WEEKLYMATCHPROGRAM"
 }

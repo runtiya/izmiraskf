@@ -84,12 +84,12 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
 
 
   tableColumns: string[] = [
-                                    "matchNo",
-                                    "homeTeam",
-                                    "details",
-                                    "awayTeam",
-                                    "actions"
-                                  ];
+                            "matchNo",
+                            "homeTeam",
+                            "details",
+                            "awayTeam",
+                            "actions"
+                          ];
 
 
   constructor(
@@ -301,7 +301,7 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
       this.fixtureService.getFixtureBySearchIndex(this.fixtureSearchIndex);
     } else {
       this.isLoading = false;
-      this.globalFunctions.showSnackBar('En az iki arama anahtarı giriniz!');
+      this.globalFunctions.showSnackBar('scoreboard.search.keymissing');
     }
   }
 

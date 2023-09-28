@@ -13,7 +13,7 @@
     </mat-card>
   </div>
 
-  <div class="row" >
+  <div class="row" *ngIf="staffizmirtffList.length > 0">
     <div class="{{i == 0 ? 'col-lg-12 col-md-12' : 'col-lg-6 col-md-6'}} col-sm-12" *ngFor="let staffizmirtff of staffizmirtffList; let i = index">
       <mat-card>
         <mat-card-header>
@@ -49,5 +49,7 @@
     </div>
 
   </div>
+
+  <app-application-no-content-info *ngIf="staffizmirtffList.length <= 0"></app-application-no-content-info>
 
 </div>

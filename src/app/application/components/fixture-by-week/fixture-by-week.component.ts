@@ -26,12 +26,14 @@ export class ApplicationFixtureByWeek implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.fixtureListSub = this.fixtureService.getFixtureUpdateListener()
       .subscribe({
         next: (data: FixtureModel[]) => {
-          this.fixtureList = data;
-          this.isLoading = false;
+          if (data.length > 0) {
+            this.fixtureList = data;
+          } else {
+            this.fixtureList = [];
+          }
         }
       });
   }
