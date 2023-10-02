@@ -158,6 +158,12 @@
             </mat-icon>
           </mat-card-subtitle>
 
+          <mat-card-subtitle *ngIf="fixture.homeTeamScore !== null && fixture.awayTeamScore !== null">
+            <b class="font-match-score">
+              {{fixture.homeTeamScore + " - " + fixture.awayTeamScore}}
+            </b>
+          </mat-card-subtitle>
+
           <mat-card-subtitle>
             {{fixture.explanation}}
           </mat-card-subtitle>

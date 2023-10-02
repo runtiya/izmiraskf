@@ -110,14 +110,20 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
-          if (data.length > 0) {
-            this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-          } else {
-            this.seasonList = [];
-            this.leagueList = [];
-            this.groupstageList = [];
-            this.weekSequenceList = [];
-          }
+          this.seasonList = [];
+          this.leagueList = [];
+          this.groupstageList = [];
+          this.weekSequenceList = [];
+          this.weeklyMatchProgramList = [];
+
+          this.seasonSelectionId = null;
+          this.leagueSelectionId = null;
+          this.groupstageSelectionId = null;
+          this.matchWeekSelectionValue = null;
+          this.weeklyMatchProgramId = null;
+
+          this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+
           this.isLoading = false;
         }
       });
@@ -125,13 +131,16 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     this.leagueListSub = this.leaguesService.getLeagueListUpdateListener()
       .subscribe({
         next: (data: LeaguesModel[]) => {
-          if (data.length > 0) {
-            this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
-          } else {
-            this.leagueList = [];
-            this.groupstageList = [];
-            this.weekSequenceList = [];
-          }
+          this.leagueList = [];
+          this.groupstageList = [];
+          this.weekSequenceList = [];
+
+          this.leagueSelectionId = null;
+          this.groupstageSelectionId = null;
+          this.matchWeekSelectionValue = null;
+
+          this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
+
           this.isLoading = false;
         }
       });
@@ -139,12 +148,13 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
       .subscribe({
         next: (data: GroupStagesModel[]) => {
-          if (data.length > 0) {
-            this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
-          } else {
-            this.groupstageList = [];
-            this.weekSequenceList = [];
-          }
+          this.groupstageList = [];
+          this.weekSequenceList = [];
+
+          this.groupstageSelectionId = null;
+          this.matchWeekSelectionValue = null;
+          this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
+
           this.isLoading = false;
         }
       });
@@ -152,7 +162,11 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     this.weekSequenceListSub = this.groupstagesService.getGroupWeeksUpdateListener()
       .subscribe({
         next: (data: Array<number>[]) => {
+          this.weekSequenceList = [];
+          this.matchWeekSelectionValue = null;
+
           this.weekSequenceList = data;
+
           this.isLoading = false;
         }
       });

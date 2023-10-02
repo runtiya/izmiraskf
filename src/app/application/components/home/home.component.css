@@ -18,14 +18,18 @@
   position: relative;
   width: 100%;
   padding-top: 100%; /*1:1 ratio*/
-
 }
 
 .card-advertisement-2 {
   position: relative;
   width: 100%;
   padding-top: 25%; /*4:1 ratio*/
+}
 
+.card-advertisement-3 {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /*1:1 ratio*/
 }
 
 .img-advertisement {

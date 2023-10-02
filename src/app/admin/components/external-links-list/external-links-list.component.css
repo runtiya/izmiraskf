@@ -16,8 +16,11 @@ mat-divider {
 }
 
 .image-icon-external-links {
+  /*
   width: 5%;
   height: auto;
+  */
+  object-fit: contain;
 }
 
 .create-card {
