@@ -16,6 +16,9 @@ a {
 }
 
 .image-icon-external-links {
+  /*
   width: 15%;
   height: auto;
+  */
+  object-fit: contain;
 }

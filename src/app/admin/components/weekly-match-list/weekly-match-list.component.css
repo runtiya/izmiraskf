@@ -7,6 +7,9 @@
   width: 100%;
 }
 
+.font-match-score {
+  font-size: x-large;
+}
 
 .btn-export-weeklymatchlist {
   background-color: darkorange !important;
