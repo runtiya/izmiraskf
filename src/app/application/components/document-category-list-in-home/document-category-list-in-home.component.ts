@@ -3,6 +3,8 @@ import { Router } from "@angular/router";
 
 import { documentCategoryList } from "../../../assets/lists/documents-category.list";
 
+import { environment } from "../../../../environments/environment";
+
 @Component({
   selector: 'app-application-document-category-list-in-home',
   templateUrl: './document-category-list-in-home.component.html',
@@ -11,6 +13,7 @@ import { documentCategoryList } from "../../../assets/lists/documents-category.l
 export class ApplicationDocumentCategoryListInHome {
   documentCategoryList = documentCategoryList;
   isLoading: boolean = false;
+  environment = environment;
 
   constructor(
     private router: Router

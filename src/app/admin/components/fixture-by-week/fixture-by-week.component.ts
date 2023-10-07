@@ -8,6 +8,7 @@ import { TeamsInGroupstagesModel } from "../../models/admin-teams-in-groupstages
 import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupstages.service";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-fixture-by-week',
@@ -21,6 +22,7 @@ export class AdminFixtureByWeek implements OnInit, OnDestroy {
   teamsingroupstageList: TeamsInGroupstagesModel[] = [];
   private teamsingroupstageListSub: Subscription;
   private fixtureListSub: Subscription;
+  environment = environment;
 
   constructor(
     private fixtureService: FixtureService,
@@ -34,6 +36,15 @@ export class AdminFixtureByWeek implements OnInit, OnDestroy {
         next: (data: FixtureModel[]) => {
           if (data.length > 0) {
             this.fixtureList = data;
+            this.fixtureList.map(f => {
+              if (f.homeTeamImagePath !== null && !f.homeTeamImagePath.includes(environment.serverUrl)) {
+                f.homeTeamImagePath = `${environment.serverUrl}${f.homeTeamImagePath}`;
+              }
+
+              if (f.awayTeamImagePath !== null && !f.awayTeamImagePath.includes(environment.serverUrl)) {
+                f.awayTeamImagePath = `${environment.serverUrl}${f.awayTeamImagePath}`;
+              }
+            });
           } else {
             this.fixtureList = [];
           }

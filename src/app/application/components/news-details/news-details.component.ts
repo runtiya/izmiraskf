@@ -11,6 +11,7 @@ import { globalFunctions } from "../../../functions/global.function";
 
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-news-details',
@@ -24,6 +25,7 @@ export class ApplicationNewsDetails implements OnInit, OnDestroy {
   private newsSub: Subscription;
   url_newsId: number;
   newsForm: FormGroup;
+  environment = environment;
 
   editorConfig: AngularEditorConfig = {
     editable: false,
@@ -93,6 +95,7 @@ export class ApplicationNewsDetails implements OnInit, OnDestroy {
           .subscribe({
             next: (data) => {
               this.news = data;
+              this.news.imagePath = (this.news.imagePath ? `${environment.serverUrl}${this.news.imagePath}` : null);
               this.newsForm.get('createdAt').setValue(this.globalFunctions.getLocalDateTime(this.news.createdAt));
               this.newsForm.get('title').setValue(this.news.title);
               this.newsForm.get('content').setValue(this.news.content);

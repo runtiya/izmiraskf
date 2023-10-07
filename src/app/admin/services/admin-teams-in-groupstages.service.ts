@@ -50,7 +50,7 @@ export class TeamsInGroupstagesService {
       )
       .subscribe({
         next: (responseData) => {
-          this.teamsingroupstagesList = requestData;
+          this.teamsingroupstagesList = responseData.data;
           !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
           this.globalFunctions.showSnackBar("system.success.create");
         },

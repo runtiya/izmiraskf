@@ -134,8 +134,7 @@
 
     <div class="d-flex align-items-center" *ngIf="true">
       <mat-card-subtitle>{{authenticatedUser.fullName || authenticatedUser.userName}}</mat-card-subtitle>
-      <img *ngIf="authenticatedUser.imagePath" mat-card-avatar [src]="authenticatedUser.imagePath" [alt]="authenticatedUser.userName">
-      <img *ngIf="!authenticatedUser.imagePath" mat-card-avatar [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="'No Profile Image'">
+      <img mat-card-avatar [src]="authenticatedUser.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="authenticatedUser.userName">
     </div>
 
   </div>

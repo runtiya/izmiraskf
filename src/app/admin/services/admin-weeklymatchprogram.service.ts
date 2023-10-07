@@ -28,7 +28,7 @@ export class WeeklyMatchProgramService {
   getWeeklyMatchProgram(seasonId: number) {
     this.http
       .get<{data: WeeklyMatchProgramModel[]}>(
-        'http://localhost:3000/admin/weekly-match-program/' + seasonId
+        environment.serverUrl + "admin/weekly-match-program/" + seasonId
       )
       .subscribe({
         next: (data) => {

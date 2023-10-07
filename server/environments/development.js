@@ -25,8 +25,9 @@ const environment = {
     keepAliveInitialDelay: 0
   },
   cryptojsSecretKey: "7ce2daf0bdac7688ca2fd73f08a8e130",
-  jwtSecretKey: "izmir_askf_jwt_secret_or_private_key" //"secret_this_should_be_longer"
-
+  jwtSecretKey: "izmir_askf_jwt_secret_or_private_key",
+  MongoAtlasUserName: "oguztasdelen96",
+  MongoAtlasPassword: "5boUHb0wMJevByeD"
 };
 
 module.exports = environment;

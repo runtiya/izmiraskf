@@ -86,10 +86,8 @@ function createTeam(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
-      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        url,
-        "/images/teams/",
+        "images/teams/",
         req.file.filename
       );
       teamInfo.imagePath = imagePath;
@@ -158,10 +156,8 @@ function updateTeam(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
-      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        url,
-        "/images/teams/",
+        "images/teams/",
         req.file.filename
       );
       teamInfo.imagePath = imagePath;

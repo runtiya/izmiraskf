@@ -9,6 +9,7 @@ import { AdminTeamsCreateModal } from "../teams-create/teams-create.component";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-teamslist',
@@ -24,6 +25,7 @@ export class AdminTeamsList implements OnInit, OnDestroy {
   paginationPageSize: number = this.paginationPageSizeOptions[1];
   paginationCurrentPage: number = 1;
   private teamsListSub: Subscription;
+  environment = environment;
 
   constructor(
     private teamsService: TeamsService,
@@ -39,6 +41,11 @@ export class AdminTeamsList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
           this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName)).filter((t, index) => index < 20);
+          this.teamsList.map(t => {
+            if (t.imagePath !== null) {
+              t.imagePath = `${environment.serverUrl}${t.imagePath}`;
+            }
+          });
           this.teamsCount = data.teamsCount;
           this.isLoading = false;
         }

@@ -8,6 +8,7 @@ import { PointBoardModel } from "../../models/admin-pointboard.model";
 import { PointBoardService } from "../../services/admin-pointboard.service";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-point-board',
@@ -22,6 +23,7 @@ export class AdminPointBoard implements OnInit, OnDestroy {
   expelledOrRecededTeamsInGroupstageList: TeamsInGroupstagesModel[] = [];
   pointBoardList: PointBoardModel[] = [];
   private pointBoardListSub: Subscription;
+  environment = environment;
 
   tableColumnsPointBoard: string[] = [
                                       "order",
@@ -48,6 +50,11 @@ export class AdminPointBoard implements OnInit, OnDestroy {
         next: (data: TeamsInGroupstagesModel[]) => {
           if (data.length > 0) {
             this.teamsingroupstageList = data;
+            this.teamsingroupstageList.map(t => {
+              if (t.teamImagePath !== null) {
+                t.teamImagePath = `${environment.serverUrl}${t.teamImagePath}`;
+              }
+            });
             this.expelledOrRecededTeamsInGroupstageList = this.teamsingroupstageList.filter(t => !!t.isExpelled || !!t.isReceded);
           } else {
             this.teamsingroupstageList = [];
@@ -62,6 +69,11 @@ export class AdminPointBoard implements OnInit, OnDestroy {
         next: (data: PointBoardModel[]) => {
           if (data.length > 0) {
             this.pointBoardList = data;
+            this.pointBoardList.map(p => {
+              if (p.teamImagePath !== null) {
+                p.teamImagePath = `${environment.serverUrl}${p.teamImagePath}`;
+              }
+            });
           } else {
             this.pointBoardList = [];
           }

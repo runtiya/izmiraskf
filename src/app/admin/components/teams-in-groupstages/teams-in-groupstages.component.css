@@ -65,6 +65,7 @@
 
 .image-teamlogo-teamsingroupstages {
   margin-bottom: 0;
+  object-fit: contain;
 }
 
 .btn-teamsingroupstages-save {

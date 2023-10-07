@@ -10,6 +10,7 @@ import { userAuthorityList } from "../../assets/lists/user-authority.list";
 import { AdminUsersCreateModal } from "../users-create/users-create.component";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-userslist',
@@ -23,15 +24,16 @@ export class AdminUsersList implements OnInit, OnDestroy {
   private usersListSub: Subscription;
 
   userAuthorityList = userAuthorityList;
+  environment = environment;
 
   tableColumns: string[] = [
-                                "image",
-                                "fullName",
-                                "userName",
-                                "authority",
-                                "isActive",
-                                "actions"
-                              ];
+                            "image",
+                            "fullName",
+                            "userName",
+                            "authority",
+                            "isActive",
+                            "actions"
+                          ];
 
   constructor(
     private authService: AuthService,
@@ -47,6 +49,11 @@ export class AdminUsersList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: UserModel[]) => {
           this.usersList = data;
+          this.usersList.map(u => {
+            if (u.imagePath !== null) {
+              u.imagePath = `${environment.serverUrl}${u.imagePath}`;
+            }
+          });
           this.isLoading = false;
         }
       });

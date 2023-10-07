@@ -4,7 +4,9 @@
     <span>GRUP ({{ teamsingroupstagesList.length }})</span>
   </mat-toolbar>
 
+  <app-application-no-record-info *ngIf="teamsingroupstagesList.length <= 0"></app-application-no-record-info>
   <div
+    *ngIf="teamsingroupstagesList.length > 0"
     cdkDropList
     class="cdk-drop-list"
     (cdkDropListDropped)="drop($event)"

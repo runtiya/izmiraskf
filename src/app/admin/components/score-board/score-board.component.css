@@ -100,5 +100,5 @@
 }
 
 .mat-mdc-card-avatar {
-  object-fit: fill;
+  object-fit: contain;
 }

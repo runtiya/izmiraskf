@@ -9,6 +9,7 @@ import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-external-links-create',
@@ -23,6 +24,7 @@ export class AdminExternalLinksCreateModal implements OnInit {
   imagePreview: string;
   extLinkSubmitForm: FormGroup;
   faBrandList = faBrandList;
+  environment = environment;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Data,
@@ -43,7 +45,7 @@ export class AdminExternalLinksCreateModal implements OnInit {
       linkName: new FormControl(this.pageMode == 'edit' ? this.linkInfo.linkName : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       url: new FormControl(this.pageMode == 'edit' ? this.linkInfo.url : null, {validators: [Validators.required, Validators.maxLength(200)]}),
       linkType: new FormControl(this.pageMode == 'edit' ? this.linkInfo.linkType : this.linkType, {validators: []}),
-      imagePath: new FormControl(this.pageMode == 'edit' ? this.linkInfo.imagePath : null, {validators: []}),
+      imagePath: new FormControl(this.pageMode == 'edit' ? (this.linkInfo.imagePath !== null && !this.linkInfo.imagePath.includes(environment.serverUrl) ? (environment.serverUrl + this.linkInfo.imagePath) : this.linkInfo.imagePath) : null, {validators: []}),
       imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
       faBrand: new FormControl(this.pageMode == 'edit' ? this.linkInfo.faBrand : null, {validators: [this.linkType == "SOCIALMEDIA" ? Validators.required : Validators.maxLength(1)]}),
       orderNo: new FormControl(this.pageMode == 'edit' ? this.linkInfo.orderNo : 1, {validators: [Validators.required, Validators.min(1), Validators.max(999)]}),

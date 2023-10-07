@@ -1,12 +1,10 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { Router } from "@angular/router";
-
 import { ExternalLinksModel } from "../../models/application-externallinks.model";
 import { ExternalLinksService } from "../../services/application-externallinks.service";
 
-import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-external-links-in-home',
@@ -18,6 +16,7 @@ export class ApplicationExternalLinksInHome implements OnInit, OnDestroy {
   extLinksRelatedLinks: ExternalLinksModel[] = [];
   extLinksSocialMediaLinks: ExternalLinksModel[] = [];
   private extLinksSubscription: Subscription;
+  environment = environment;
 
   constructor(
     private externalLinksService: ExternalLinksService,
@@ -29,6 +28,11 @@ export class ApplicationExternalLinksInHome implements OnInit, OnDestroy {
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
           this.extLinksRelatedLinks = data;
+          this.extLinksRelatedLinks.map(l => {
+            if (l.imagePath !== null) {
+              l.imagePath = `${environment.serverUrl}${l.imagePath}`;
+            }
+          });
           this.isLoading = false;
         }
       });

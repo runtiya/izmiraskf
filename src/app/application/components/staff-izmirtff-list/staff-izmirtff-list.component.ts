@@ -5,6 +5,7 @@ import { StaffITFFModel } from "../../models/application-staffizmirtff.model";
 import { StaffITFFService } from "../../services/application-staffitff.service";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-staffizmirtff-list',
@@ -16,6 +17,7 @@ export class ApplicationStaffIzmirTFF implements OnInit, OnDestroy {
   isLoading: boolean = false;
   staffizmirtffList: StaffITFFModel[] = [];
   private staffizmirtffListSub: Subscription;
+  environment = environment;
 
   constructor(
     public staffService: StaffITFFService,
@@ -29,6 +31,9 @@ export class ApplicationStaffIzmirTFF implements OnInit, OnDestroy {
     this.staffizmirtffListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffITFFModel[]) => {
         this.staffizmirtffList = data;
+        this.staffizmirtffList.map(s => {
+          s.imagePath = `${environment.serverUrl}${s.imagePath}`;
+        });
         this.isLoading = false;
       });
   }

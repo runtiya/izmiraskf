@@ -4,6 +4,7 @@ import { Subject } from "rxjs";
 
 import { globalFunctions } from "../functions/global.function";
 
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class GlobalStatisticsService {
@@ -30,7 +31,7 @@ export class GlobalStatisticsService {
   getTeamsCountByTown() {
     this.http
       .get<{ data: any[] }>(
-        'http://localhost:3000/statistics/teams-count-by-town'
+        environment.serverUrl + "statistics/teams-count-by-town"
       )
       .subscribe({
         next: (responseData) => {
@@ -50,7 +51,7 @@ export class GlobalStatisticsService {
   getStadiumsCountByTown() {
     this.http
       .get<{ data: any[] }>(
-        'http://localhost:3000/statistics/stadiums-count-by-town'
+        environment.serverUrl + "statistics/stadiums-count-by-town"
       )
       .subscribe({
         next: (responseData) => {
@@ -70,7 +71,7 @@ export class GlobalStatisticsService {
   getStadiumsCountByFloorType() {
     this.http
       .get<{ data: any[] }>(
-        'http://localhost:3000/statistics/stadiums-count-by-floortype'
+        environment.serverUrl + "statistics/stadiums-count-by-floortype"
       )
       .subscribe({
         next: (responseData) => {
@@ -90,7 +91,7 @@ export class GlobalStatisticsService {
   getMatchStatusCountByLeague(seasonId: number) {
     this.http
       .get<{ data: any[] }>(
-        `http://localhost:3000/statistics/matchstatus-count-by-league?seasonid=${seasonId}`
+        environment.serverUrl + `statistics/matchstatus-count-by-league?seasonid=${seasonId}`
       )
       .subscribe({
         next: (responseData) => {
@@ -110,7 +111,7 @@ export class GlobalStatisticsService {
   getSeasonSummaryList(seasonId: number) {
     this.http
       .get<{ data: any[] }>(
-        `http://localhost:3000/statistics/season-summary-list?seasonid=${seasonId}`
+        environment.serverUrl + `statistics/season-summary-list?seasonid=${seasonId}`
       )
       .subscribe({
         next: (responseData) => {

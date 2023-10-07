@@ -8,6 +8,7 @@ import { TeamsService } from "../../services/application-teams.service";
 import { Router } from "@angular/router";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-teamslist',
@@ -23,6 +24,7 @@ export class ApplicationTeamsList implements OnInit, OnDestroy {
   paginationPageSize: number = this.paginationPageSizeOptions[1];
   paginationCurrentPage: number = 1;
   private teamsListSub: Subscription;
+  environment = environment;
 
   constructor(
     private teamsService: TeamsService,
@@ -38,6 +40,11 @@ export class ApplicationTeamsList implements OnInit, OnDestroy {
     this.teamsListSub = this.teamsService.getTeamsListUpdateListener()
       .subscribe((data: {teamsList: TeamsModel[], teamsCount: number}) => {
         this.teamsList = data.teamsList;
+        this.teamsList.map(t => {
+          if (t.imagePath !== null) {
+            t.imagePath = `${environment.serverUrl}${t.imagePath}`;
+          }
+        });
         this.teamsCount = data.teamsCount;
         this.isLoading = false;
       });

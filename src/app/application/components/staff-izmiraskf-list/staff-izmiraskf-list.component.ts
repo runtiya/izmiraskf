@@ -5,6 +5,7 @@ import { StaffIzmirAskfModel } from "../../models/application-staffizmiraskf.mod
 import { StaffIASKFService } from "../../services/application-staffiaskf.service";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-staffizmiraskf-list',
@@ -16,6 +17,7 @@ export class ApplicationStaffIzmirAskf implements OnInit, OnDestroy {
   isLoading: boolean = false;
   staffizmiraskfList: StaffIzmirAskfModel[] = [];
   private staffizmiraskfListSub: Subscription;
+  environment = environment;
 
   constructor(
     public staffService: StaffIASKFService,
@@ -29,6 +31,9 @@ export class ApplicationStaffIzmirAskf implements OnInit, OnDestroy {
     this.staffizmiraskfListSub = this.staffService.getStaffListUpdateListener()
       .subscribe((data: StaffIzmirAskfModel[]) => {
         this.staffizmiraskfList = data;
+        this.staffizmiraskfList.map(s => {
+          s.imagePath = `${environment.serverUrl}${s.imagePath}`;
+        });
         this.isLoading = false;
       });
   }

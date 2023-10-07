@@ -9,3 +9,7 @@ mat-action-row button {
 .toolbar {
   margin-bottom: 1rem;
 }
+
+.mat-mdc-card-avatar {
+  object-fit: contain;
+}

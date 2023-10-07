@@ -70,7 +70,7 @@ function getNews(req, res, next) {
     });
 }
 
-// Get a news by id
+
 function findNews(req, res, next) {
 
 }
@@ -82,12 +82,11 @@ function createNews(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
-      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        url,
-        "/images/news/",
+        "images/news/",
         req.file.filename
       );
+
       newsInfo.imagePath = imagePath;
     } else {
       if (!newsInfo.imagePath) {
@@ -142,10 +141,8 @@ function updateNews(req, res, next) {
     var newsId = req.params.id;
 
     if (!!req.file) {
-      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        url,
-        "/images/news/",
+        "images/news/",
         req.file.filename
       );
       newsInfo.imagePath = imagePath;

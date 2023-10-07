@@ -15,6 +15,7 @@ import { fixtureFunctions } from "../../functions/fixture.function";
 
 import { matchStatusList } from "../../../assets/lists/match-status.list";
 import { townList } from "../../../assets/lists/town-izmir.list";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-weeklymatch-list',
@@ -33,6 +34,7 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
 
   matchStatusList: Array<any> = matchStatusList;
   townList: Array<any> = townList;
+  environment = environment;
 
   @Input() seasonSelectionId: number;
 
@@ -110,6 +112,15 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data.sort((a, b) => new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime());
+          this.fixtureList.map(f => {
+            if (f.homeTeamImagePath !== null && !f.homeTeamImagePath.includes(environment.serverUrl)) {
+              f.homeTeamImagePath = `${environment.serverUrl}${f.homeTeamImagePath}`;
+            }
+
+            if (f.awayTeamImagePath !== null && !f.awayTeamImagePath.includes(environment.serverUrl)) {
+              f.awayTeamImagePath = `${environment.serverUrl}${f.awayTeamImagePath}`;
+            }
+          });
 
           this.filterSeasonList = this.getDistinctSeasonName(this.fixtureList);
           this.filterLeagueList = this.getDistinctLeagueName(this.fixtureList);

@@ -11,6 +11,7 @@ import { townList } from "../../../assets/lists/town-izmir.list";
 import { floorTypeList } from "../../../assets/lists/floor-type.list";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-stadiums-details',
@@ -27,6 +28,7 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
   cityList = cityList;
   townList = townList;
   floorTypeList = floorTypeList;
+  environment = environment;
 
   public mapSafeSrc: SafeResourceUrl;
 
@@ -47,6 +49,7 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
           .subscribe({
             next: (data: StadiumsModel) => {
               this.stadium = data;
+              this.stadium.imagePath = this.stadium.imagePath ? `${environment.serverUrl}${this.stadium.imagePath}` : null;
               this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.stadium.mapUrl);
               this.toolbarTitle = data.stadiumName;
               this.globalFunctions.setToolbarTitle(this.toolbarTitle);

@@ -56,7 +56,7 @@ const storage = multer.diskStorage({
     //const ext = MIME_TYPE_MAP[file.mimetype];
     //cb(null, fileName + "-" + Date.now() + "." + ext);
     //cb(null, Date.now() + "-" + fileName);
-    cb(null, Date.now() + file.originalname);
+    cb(null, Date.now() + "-" + file.originalname);
   }
 });
 

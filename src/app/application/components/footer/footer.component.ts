@@ -9,6 +9,7 @@ import { ExternalLinksService } from "../../services/application-externallinks.s
 import { globalFunctions } from "../../../functions/global.function";
 import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-footer',
@@ -22,6 +23,7 @@ export class ApplicationFooter implements OnInit, OnDestroy {
   logoPath: string = null;
   private logoPathSubscription: Subscription;
   faBrandList = faBrandList;
+  environment = environment;
 
   constructor(
     private externalLinksService: ExternalLinksService,
@@ -35,19 +37,13 @@ export class ApplicationFooter implements OnInit, OnDestroy {
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
           this.externalLinksList = data;
-        },
-        error: (error) => {
-
         }
       });
 
     this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
         next: (data: string) => {
-          this.logoPath = data;
-        },
-        error: (error) => {
-
+          this.logoPath = `${environment.serverUrl}${data}`;
         }
       });
   }

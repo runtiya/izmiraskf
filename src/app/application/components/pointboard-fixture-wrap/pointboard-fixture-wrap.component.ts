@@ -55,8 +55,8 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.isLoading = true;
+    this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
     this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
@@ -120,6 +120,7 @@ export class ApplicationPointBoardFixtureWrap implements OnInit, OnDestroy {
                     this.onSearch();
                   } else {
                     this.matchWeekSelectionValue = data.data;
+                    this.isLoading = false;
                   }
                 }
               });

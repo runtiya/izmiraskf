@@ -22,6 +22,7 @@ import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmatio
 import { townList } from "../../../assets/lists/town-izmir.list";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-teams-in-groupstages',
@@ -51,6 +52,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
   filteredTeamsList: TeamsModel[] = [];
 
   townList = townList;
+  environment = environment;
 
   constructor(
     private seasonsService: SeasonsService,
@@ -114,6 +116,11 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
         this.isLoading = true;
         if (data.length > 0) {
           this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
+          this.teamsingroupstagesList.map(t => {
+            if (t.teamImagePath !== null && !t.teamImagePath.includes(environment.serverUrl)) {
+              t.teamImagePath = `${environment.serverUrl}${t.teamImagePath}`;
+            }
+          });
         } else {
           this.teamsingroupstagesList = [];
         }
@@ -125,6 +132,11 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
       .subscribe({
         next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
           this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
+          this.teamsList.map(t => {
+            if (t.imagePath) {
+              t.imagePath = `${environment.serverUrl}${t.imagePath}`;
+            }
+          });
           this.filteredTeamsList = this.teamsList;
         }
       });
@@ -176,7 +188,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
       castTeam.id = null;
       castTeam.teamId = selectedTeam.id;
       castTeam.teamImagePath = selectedTeam.imagePath;
-      castTeam.teamOfficialName = selectedTeam.officialName;
+      castTeam.teamOfficialName = selectedTeam.officialName.replace(environment.serverUrl, null);
       castTeam.teamShortName = selectedTeam.shortName;
       castTeam.groupstageId = this.groupstageSelectionId;
       castTeam.isExpelled = false;
@@ -187,7 +199,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
 
       this.teamsingroupstagesList.push(castTeam);
     } else {
-      this.globalFunctions.showSnackBar("Grup seçiniz");
+      this.globalFunctions.showSnackBar("teamsingroupstages.groupstages.missing.error");
     }
 
   }
@@ -205,6 +217,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
         next: (data) => {
           if (data) {
             teams.forEach((team, i) => team.orderNo = i+1);
+            this.isLoading = true;
             this.teamsingroupstagesService.createTeamsInGroupstages(teams, this.groupstageSelectionId);
           }
         }

@@ -42,10 +42,8 @@ function updateAboutContent(req, res, next) {
   var _message = null;
 
   if (!!req.file) {
-    const url = req.protocol + "://" + req.get("host");
     const imagePath = imagesFunction.setImagePath(
-      url,
-      "/images/",
+      "images/",
       req.file.filename
     );
     aboutContent.imagePath = imagePath;

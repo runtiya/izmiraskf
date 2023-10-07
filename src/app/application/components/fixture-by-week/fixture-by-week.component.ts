@@ -7,6 +7,7 @@ import { FixtureService } from "../../services/application-fixtures.service";
 
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-fixture-by-week',
@@ -18,6 +19,7 @@ export class ApplicationFixtureByWeek implements OnInit, OnDestroy {
   isLoading: boolean = false;
   fixtureList: FixtureModel[] = [];
   private fixtureListSub: Subscription;
+  environment = environment;
 
   constructor(
     private fixtureService: FixtureService,
@@ -31,6 +33,15 @@ export class ApplicationFixtureByWeek implements OnInit, OnDestroy {
         next: (data: FixtureModel[]) => {
           if (data.length > 0) {
             this.fixtureList = data;
+            this.fixtureList.map(f => {
+              if (f.homeTeamImagePath !== null && !f.homeTeamImagePath.includes(environment.serverUrl)) {
+                f.homeTeamImagePath = `${environment.serverUrl}${f.homeTeamImagePath}`;
+              }
+
+              if (f.awayTeamImagePath !== null && !f.awayTeamImagePath.includes(environment.serverUrl)) {
+                f.awayTeamImagePath = `${environment.serverUrl}${f.awayTeamImagePath}`;
+              }
+            });
           } else {
             this.fixtureList = [];
           }

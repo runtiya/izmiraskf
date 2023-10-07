@@ -170,6 +170,10 @@ input[type="file"] {
   color: #FFFC00;
 }
 
+.img-team-logo {
+  object-fit: contain;
+}
+
 /* Social Media Class Attributes End */
 
 .toolbar {

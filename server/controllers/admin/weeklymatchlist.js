@@ -100,7 +100,6 @@ function addMatchToList(req, res, next) {
     var _resStatus = 200;
     var _error = false;
     var _message = null;
-    var weeklyMatchId;
 
     connection.query(
       queries.addMatchToList,
