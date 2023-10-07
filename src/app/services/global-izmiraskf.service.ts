@@ -4,6 +4,8 @@ import { Subject } from 'rxjs';
 
 import { globalFunctions } from "../functions/global.function";
 
+import { environment } from "../../environments/environment";
+
 @Injectable({providedIn: 'root'})
 export class GlobalIzmirASKFService {
   private logoPath: string = null;
@@ -17,7 +19,7 @@ export class GlobalIzmirASKFService {
   getLogoPath() {
     return this.http
       .get<{ data: string}>(
-        'http://localhost:3000/izmiraskf/about-us/getlogo'
+        environment.serverUrl + "izmiraskf/about-us/getlogo"
       )
       .subscribe({
         next: (data) => {

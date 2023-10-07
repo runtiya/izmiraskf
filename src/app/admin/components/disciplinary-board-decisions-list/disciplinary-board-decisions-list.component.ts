@@ -28,6 +28,7 @@ import { disciplinaryCommitteesList } from "../../../assets/lists/disciplinary-c
 
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -61,6 +62,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
   disciplinaryBoardDecisionsSubmitForm: FormGroup;
 
   url_caseType: string = null;
+  environment = environment;
 
   @Input() seasonSelectionId: number;
   @Input() disciplinaryBoardFileSelectionId: number;
@@ -146,6 +148,11 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
           this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
+          this.teamsList.map(t => {
+            if (t.imagePath !== null) {
+              t.imagePath = `${environment.serverUrl}${t.imagePath}`;
+            }
+          });
         }
       })
 

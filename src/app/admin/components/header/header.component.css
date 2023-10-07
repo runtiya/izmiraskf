@@ -4,6 +4,7 @@
 
 .mat-mdc-card-avatar {
   margin: 0 0.5rem;
+  object-fit: contain;
 }
 
 mat-card-subtitle {

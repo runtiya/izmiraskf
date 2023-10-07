@@ -12,6 +12,7 @@ import { townList } from "../../../assets/lists/town-izmir.list";
 import { floorTypeList } from "../../../assets/lists/floor-type.list";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-stadiums-list',
@@ -30,6 +31,7 @@ export class ApplicationStadiumList implements OnInit, OnDestroy {
   cityListArray = cityList;
   townListArray = townList;
   floorTypeListArray = floorTypeList;
+  environment = environment;
 
   constructor(
     public stadiumService: StadiumsService,
@@ -46,6 +48,11 @@ export class ApplicationStadiumList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
           this.stadiumsList = data.stadiumsList;
+          this.stadiumsList.map(s => {
+            if (s.imagePath !== null) {
+              s.imagePath = `${environment.serverUrl}${s.imagePath}`;
+            }
+          });
           this.stadiumsCount = data.stadiumsCount;
           this.isLoading = false;
         }

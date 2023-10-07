@@ -9,6 +9,7 @@ import { AdminNewsUpdateModal } from "../news-update/news-update.component";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-news-list',
@@ -24,6 +25,7 @@ export class AdminNewsList implements OnInit, OnDestroy {
   paginationPageSizeOptions: Array<number> = this.globalFunctions.getPaginationPageSizeOptions();
   paginationPageSize: number = this.paginationPageSizeOptions[0];
   paginationCurrentPage: number = 1;
+  environment = environment;
 
   constructor(
     private newsService: NewsService,
@@ -35,10 +37,17 @@ export class AdminNewsList implements OnInit, OnDestroy {
     this.isLoading = true;
     this.newsService.getNews(this.paginationPageSize, this.paginationCurrentPage);
     this.newsSub = this.newsService.getNewsUpdateListener()
-      .subscribe((data: {newsList: NewsModel[], newsCount: number}) => {
-        this.newsList = data.newsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        this.newsCount = data.newsCount;
-        this.isLoading = false;
+      .subscribe({
+        next: (data: {newsList: NewsModel[], newsCount: number}) => {
+          this.newsList = data.newsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+          this.newsList.map(n => {
+            if (n.imagePath !== null) {
+              n.imagePath = `${environment.serverUrl}${n.imagePath}`;
+            }
+          });
+          this.newsCount = data.newsCount;
+          this.isLoading = false;
+        }
       });
   }
 

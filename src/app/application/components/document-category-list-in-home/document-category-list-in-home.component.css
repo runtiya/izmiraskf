@@ -7,11 +7,12 @@
   background-color: aqua;
   transition: 100ms ease-in;
 
-  .card-image {
-    opacity: 90%;
-    filter: blur(0.1rem);
-    size: 100%;
-  }
+}
+
+.card-image:hover {
+  opacity: 90%;
+  filter: blur(0.1rem);
+  size: 100%;
 }
 
 

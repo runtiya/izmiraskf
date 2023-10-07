@@ -5,6 +5,8 @@ import { AuthService } from "../../authentication/auth.service";
 import { GlobalIzmirASKFService } from "../../../services/global-izmiraskf.service";
 import { UserModel } from "../../models/admin-users.model";
 
+import { environment } from "../../../../environments/environment";
+
 @Component({
   selector: 'admin-header',
   templateUrl: './header.component.html',
@@ -23,6 +25,8 @@ export class AdminHeader implements OnInit, OnDestroy {
   private logoPathSubscription: Subscription;
   @Output() public sidenavToggle = new EventEmitter();
 
+  environment = environment;
+
   constructor(
     private authService: AuthService,
     private globalIzmirASKFService: GlobalIzmirASKFService
@@ -30,14 +34,13 @@ export class AdminHeader implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authenticatedUser = this.authService.getAuthenticatedUser() || JSON.parse(localStorage.getItem("userInfo"));
+    this.authenticatedUser.imagePath = this.authenticatedUser.imagePath !== null ? `${environment.serverUrl}${this.authenticatedUser.imagePath}` : null
 
     this.globalIzmirASKFService.getLogoPath();
     this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
         next: (data: string) => {
-          this.logoPath = data;
-        },
-        error: (error) => {
+          this.logoPath = `${environment.serverUrl}${data}`;
         }
       });
   }

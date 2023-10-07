@@ -4,11 +4,12 @@ const path = require('path');
 const mongoose = require('mongoose');
 const tzoffset = (new Date()).getTimezoneOffset() * 60000;
 const RequestLogs = require('./models/request-logs');
+const environment = require('./environments/development');
 
 
 const app = express();
 
-mongoose.connect("mongodb+srv://oguztasdelen96:5boUHb0wMJevByeD@izmiraskf.riyzadp.mongodb.net/?retryWrites=true&w=majority")
+mongoose.connect(`mongodb+srv://${environment.MongoAtlasUserName}:${environment.MongoAtlasPassword}@izmiraskf.riyzadp.mongodb.net/?retryWrites=true&w=majority`)
   .then(() => {
     console.log('Mongo Atlas connected successfully!');
   })

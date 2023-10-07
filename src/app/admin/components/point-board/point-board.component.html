@@ -47,7 +47,7 @@
           <ng-container matColumnDef="team">
             <th mat-header-cell *matHeaderCellDef="">Takım</th>
             <td mat-cell *matCellDef="let team" class="team-in-pointboard">
-              <img mat-card-avatar [src]="team.teamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{team.teamOfficialName}}">
+              <img mat-card-avatar class="img-team-logo" [src]="team.teamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{team.teamOfficialName}}">
               {{ team.teamShortName || team.teamOfficialName }}
             </td>
           </ng-container>

@@ -13,6 +13,7 @@ function getNews(req, res, next) {
   var _error = false;
   var _message = null;
 
+
   const newsListPromise = new Promise(async (resolve, reject) => {
     connection.query(
       queries.getNews,

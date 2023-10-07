@@ -99,7 +99,6 @@ export class AdminLeaguesList implements OnInit, OnDestroy {
   }
 
   onCreate() {
-    this.isLoading = true;
     const dialogRef = this.dialog.open(AdminLeaguesCreateModal, {
       data: {
         pageMode: 'create',

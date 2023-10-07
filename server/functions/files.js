@@ -1,8 +1,8 @@
 const environment = require('../environments/development');
 
-function setFilePath(_url, _fileCategory, _fileName) {
+function setFilePath(_fileCategory, _fileName) {
   const folder = getFolder(_fileCategory);
-  return _url + folder + _fileName;
+  return folder + _fileName;
 }
 
 function getFolder(_fileCategory) {
@@ -10,26 +10,26 @@ function getFolder(_fileCategory) {
 
   const fileCategoryList = {
     'BELGELER': () => {
-      _folder = "/files/documents/";
+      _folder = "files/documents/";
     },
     'TALIMATLAR': () => {
-      _folder = "/files/instructions/";
+      _folder = "files/instructions/";
     },
     'LISANSFORMLARI': () => {
-      _folder = "/files/license-forms/";
+      _folder = "files/license-forms/";
     },
     'AMATORLIGSTATULERI': () => {
-      _folder = "/files/statuses/";
+      _folder = "files/statuses/";
     },
     'AKTARMADOSYALARI': () => {
-      _folder = "/files/template-files/";
+      _folder = "files/template-files/";
     }
   };
 
   if (_fileCategory in fileCategoryList) {
     fileCategoryList[_fileCategory]();
   } else {
-    _folder = "/files/";
+    _folder = "files/";
   }
 
   return _folder;

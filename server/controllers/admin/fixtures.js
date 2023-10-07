@@ -53,7 +53,7 @@ function getFixtureBySearchIndex(req, res, next) {
         searchIndex.weeklyMatchProgramId +
         ")"
       : "true";
-    // Select query should be include parameters. __MS
+
     connection.query(
       "select * from VIEW_ADMIN_FIXTURES where " +
         seasonSearchIndex +

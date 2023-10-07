@@ -33,8 +33,9 @@ import { fileImportExportFunctions } from "../../functions/file-import-export.fu
 import { matchStatusList } from "../../../assets/lists/match-status.list";
 import { townList } from "../../../assets/lists/town-izmir.list";
 
-
 import { MatchModel } from "../../models/admin-match.model";
+
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-score-board',
@@ -63,6 +64,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
   matchList: MatchModel[] = [];
   matchStatusList: Array<any> = matchStatusList;
   townList: Array<any> = townList;
+  environment = environment;
 
 
   @Input() seasonSelectionId: number;
@@ -186,6 +188,11 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
           this.teamList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
+          this.teamList.map(t => {
+            if (t.imagePath !== null) {
+              t.imagePath = `${environment.serverUrl}${t.imagePath}`;
+            }
+          });
         }
       });
 
@@ -200,6 +207,15 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data;
+          this.fixtureList.map(f => {
+            if (f.homeTeamImagePath !== null && !f.homeTeamImagePath.includes(environment.serverUrl)) {
+              f.homeTeamImagePath = `${environment.serverUrl}${f.homeTeamImagePath}`;
+            }
+
+            if (f.awayTeamImagePath !== null && !f.awayTeamImagePath.includes(environment.serverUrl)) {
+              f.awayTeamImagePath = `${environment.serverUrl}${f.awayTeamImagePath}`;
+            }
+          });
           this.isLoading = false;
         }
       });

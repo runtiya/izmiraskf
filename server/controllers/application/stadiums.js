@@ -15,7 +15,7 @@ function getStadiums(req, res, next) {
 
   const stadiumsListPromise = new Promise(async (resolve, reject) => {
     connection.query(
-      queries.getStadiums,
+      (!!paginationPageSize && !!paginationCurrentPage) ? queries.getStadiumsWithPagination : queries.getStadiums,
       [
         paginationPageSize,
         (paginationCurrentPage - 1) * paginationPageSize

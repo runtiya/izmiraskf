@@ -1,6 +1,6 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <div *ngIf="!isLoading">
-  <mat-card>
+  <mat-card *ngIf="extLinksRelatedLinks.length > 0">
     <mat-toolbar class="toolbar toolbar-title">
       <span>{{'BAĞLANTILAR'}}</span>
     </mat-toolbar>

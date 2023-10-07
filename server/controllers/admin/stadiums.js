@@ -16,7 +16,7 @@ function getStadiums(req, res, next) {
 
   const stadiumsListPromise = new Promise(async (resolve, reject) => {
     connection.query(
-      queries.getStadiums,
+      (!!paginationPageSize && !!paginationCurrentPage) ? queries.getStadiumsWithPagination : queries.getStadiums,
       [
         paginationPageSize,
         (paginationCurrentPage - 1) * paginationPageSize
@@ -81,9 +81,9 @@ function getStadiums(req, res, next) {
     });
 };
 
-// Get a stadium by id
+
 function findStadium(req, res, next) {
-  // There isn't any select query.
+
 }
 
 function createStadium(req, res, next) {
@@ -92,10 +92,8 @@ function createStadium(req, res, next) {
     var _error = false;
     var _message = null;
     if (!!req.file) {
-      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        url,
-        "/images/stadiums/",
+        "images/stadiums/",
         req.file.filename
       );
       stadiumInfo.imagePath = imagePath;
@@ -163,10 +161,8 @@ function updateStadium(req, res, next) {
     var stadiumId = req.params.id;
 
     if (!!req.file) {
-      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        url,
-        "/images/stadiums/",
+        "images/stadiums/",
         req.file.filename
       );
       stadiumInfo.imagePath = imagePath;

@@ -153,13 +153,11 @@ export class AdminGroupList implements OnInit, OnDestroy {
     this.isLoading = true;
     this.leagueSelectionId = null;
     this.leagueService.getLeagues(seasonId);
-    this.isLoading = false;
   }
 
   onLeagueChange(leagueId: number) {
     this.isLoading = true;
     this.groupstageService.getGroupstages(leagueId);
-    this.isLoading = false;
   }
 
   findSeasonName(seasonId: number): string {

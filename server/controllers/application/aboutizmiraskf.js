@@ -38,8 +38,6 @@ function getAboutContent(req, res, next) {
   );
 }
 
-
-
 function getLogoPath(req, res, next) {
   var logoPath = null;
   var _resStatus = 200;

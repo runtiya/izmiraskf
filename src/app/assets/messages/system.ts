@@ -35,5 +35,8 @@ export const systemMessages = {
   'image.upload.error.mimetypeorfilesize' : 'HATA! Yanlış görsel türü veya yüksek dosya boyutu seçtiniz!',
 
   // Score Board
-  'scoreboard.search.keymissing' : 'HATA! Lütfen en az iki (2) arama anahtarı belirtiniz!'
+  'scoreboard.search.keymissing' : 'HATA! Lütfen en az iki (2) arama anahtarı belirtiniz!',
+
+  // Teams-In-Groupstages
+  'teamsingroupstages.groupstages.missing.error': 'HATA! Lütfen Grup bilgisi seçiniz!',
 }

@@ -120,7 +120,7 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
                     this.onSearch();
                   } else {
                     this.matchWeekSelectionValue = data.data;
-
+                    this.isLoading = false;
                   }
                 }
               });
@@ -134,6 +134,7 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
             this.isLoading = false;
           }
 
+
         }
       });
 
@@ -141,19 +142,23 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
       .subscribe({
         next: (data: Array<number>[]) => {
           this.weekSequenceList = data;
+          this.isLoading = false;
         }
       });
   }
 
   onSeasonChange() {
+    this.isLoading = true;
     this.leaguesService.getLeagues(this.seasonSelectionId);
   }
 
   onLeagueChange() {
+    this.isLoading = true;
       this.groupstagesService.getGroupstages(this.leagueSelectionId);
   }
 
   onGroupStageChange() {
+    this.isLoading = true;
     //this.matchWeekSelectionValue = null;
     this.groupstagesService.getGroupWeeks(this.groupstageSelectionId);
   }

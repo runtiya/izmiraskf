@@ -8,6 +8,7 @@ import { AboutIASKFService } from "../../services/admin-aboutiaskf.service";
 
 import { globalFunctions } from "../../../functions/global.function";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-izmiraskf',
@@ -20,8 +21,8 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
   aboutIASKFform: FormGroup;
   aboutcontent: AboutIASKFModel;
   private aboutcontentSubscription: Subscription;
-
   private mapSafeSrc: SafeResourceUrl;
+  environment = environment;
 
   constructor(
     public aboutiaskfService : AboutIASKFService,
@@ -37,7 +38,7 @@ export class AdminIzmirASKF implements OnInit, OnDestroy {
         this.aboutIASKFform = new FormGroup({
           updatedAt: new FormControl(data.updatedAt, {validators: []}),
           updatedBy: new FormControl(data.updatedBy, {validators: []}),
-          imagePath: new FormControl(data.imagePath, {validators: []}),
+          imagePath: new FormControl(data.imagePath ? (environment.serverUrl + data.imagePath) : null, {validators: []}),
           imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
           aboutText: new FormControl(data.aboutText, {validators: [Validators.maxLength(4000)]}),
           address: new FormControl(data.address, {validators: [Validators.maxLength(2000)]}),

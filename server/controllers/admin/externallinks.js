@@ -45,10 +45,8 @@ function createExternalLink(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
-      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        url,
-        "/images/icons/",
+        "images/icons/",
         req.file.filename
       );
       linkInfo.imagePath = imagePath;
@@ -105,10 +103,8 @@ function updateExternalLink(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
-      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        url,
-        "/images/icons/",
+        "images/icons/",
         req.file.filename
       );
       linkInfo.imagePath = imagePath;
@@ -160,7 +156,6 @@ function updateExternalLink(req, res, next) {
     );
 }
 
-// Delete an external link by id
 function deleteExternalLink(req, res, next) {
     var linkId = req.params.id;
     var _resStatus = 200;

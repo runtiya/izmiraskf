@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 
 import { NewsModel } from "../models/admin-news.model";
 import { NewsService } from "../services/admin-news.service";
@@ -8,13 +7,17 @@ import { DisciplinaryBoardFileModel } from '../models/admin-disciplinaryboardfil
 
 import { globalFunctions } from "../../functions/global.function";
 
-import { template_news_disciplinaryboard_disiplinkurulu, template_news_disciplinaryboard_iltertipkomitesi } from "../assets/texts/news-text";
+import {
+  template_news_disciplinaryboard_disiplinkurulu,
+  template_news_disciplinaryboard_iltertipkomitesi
+} from "../assets/texts/news-text";
+
+import { environment } from "../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class disciplinaryBoardFunctions {
-
   newsContentTemplate: string;
 
   constructor(
@@ -27,10 +30,10 @@ export class disciplinaryBoardFunctions {
     let _imagePath: string = null;
     if (disciplinaryBoardFile.caseType === "DISIPLINKURULU") {
       _template = template_news_disciplinaryboard_disiplinkurulu;
-      _imagePath = "http://localhost:3000/images/statics/disiplinkurulukararlari.jpg";
+      _imagePath = environment.serverUrl + "images/statics/disiplinkurulukararlari.jpg";
     } else if (disciplinaryBoardFile.caseType === "ILTERTIPKOMITESI") {
       _template = template_news_disciplinaryboard_iltertipkomitesi;
-      _imagePath = "http://localhost:3000/images/statics/tertipkomitesikararlari.jpg";
+      _imagePath = environment.serverUrl + "images/statics/tertipkomitesikararlari.jpg";
     }
 
     let _newsModel = <NewsModel>{};

@@ -9,6 +9,8 @@ import { ExternalLinksModel } from "../../models/application-externallinks.model
 
 import { globalFunctions } from "../../../functions/global.function";
 
+import { environment } from "../../../../environments/environment";
+
 @Component({
   selector: 'app-application-home',
   templateUrl: './home.component.html',
@@ -19,6 +21,8 @@ export class ApplicationHome implements OnInit, OnDestroy {
 
   extAdvertisementList: ExternalLinksModel[] = [];
   private extAdvertisementListSubscription: Subscription;
+
+  environment = environment;
 
   constructor(
     private newsService: NewsService,
@@ -38,9 +42,11 @@ export class ApplicationHome implements OnInit, OnDestroy {
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
           this.extAdvertisementList = data;
-        },
-        error: (error) => {
-
+          this.extAdvertisementList.map(a => {
+            if (a.imagePath !== null) {
+              a.imagePath = `${environment.serverUrl}${a.imagePath}`;
+            }
+          });
         }
       });
   }

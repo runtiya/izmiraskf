@@ -15,6 +15,7 @@ import { TeamsInGroupstagesService } from "../../services/admin-teams-in-groupst
 import { AdminTeamsInDisqualificationsEditModal } from "../teams-in-disqualifications-edit/teams-in-disqualifications-edit.component";
 
 import { globalFunctions } from "../../../functions/global.function";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-teams-in-disqualifications',
@@ -32,6 +33,7 @@ export class AdminTeamsInDisqualifications implements OnInit, OnDestroy {
   private groupstageListSub: Subscription;
   teamsingroupstagesList: TeamsInGroupstagesModel[] = [];
   private teamsingroupstagesListSub: Subscription;
+  environment = environment;
 
   tableColumns: string[] = ['orderNo', 'teamName', 'status', 'weekofExpelledorReceded', 'explanation', 'edit'];
 
@@ -117,6 +119,11 @@ export class AdminTeamsInDisqualifications implements OnInit, OnDestroy {
         next: (data: TeamsInGroupstagesModel[]) => {
           if (data.length > 0) {
             this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
+            this.teamsingroupstagesList.map(t => {
+              if (t.teamImagePath) {
+                t.teamImagePath = `${environment.serverUrl}${t.teamImagePath}`;
+              }
+            });
           } else {
             this.teamsingroupstagesList = [];
           }

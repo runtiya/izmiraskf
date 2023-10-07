@@ -49,10 +49,12 @@
     </div>
   </div>
 
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
   <table
     mat-table
     [dataSource]="teamsingroupstagesList"
     class="mat-elevation-z8"
+    *ngIf="!isLoading"
   >
     <ng-container matColumnDef="orderNo">
       <th mat-header-cell *matHeaderCellDef>Sıra</th>
@@ -111,7 +113,7 @@
     ></tr>
   </table>
 
-  <mat-card>
+  <mat-card *ngIf="!isLoading">
     <mat-card-content>
       <mat-card-subtitle
         >Toplam Kayıt Sayısı:

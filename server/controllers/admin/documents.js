@@ -47,16 +47,12 @@ function createDocument(req, res, next) {
     var _error = false;
     var _message = null;
 
-
     if (!!req.file) {
-      const url = req.protocol + "://" + req.get("host");
       const filePath = filesFunction.setFilePath(
-        url,
         fileCategory,
         req.file.filename
       );
       documentInfo.filePath = filePath;
-      //documentInfo.fileName = req.file.filename;
       documentInfo.fileMimeType = req.file.mimetype;
       documentInfo.fileSize = req.file.size;
     } else {
@@ -118,14 +114,11 @@ function updateDocument(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
-      const url = req.protocol + "://" + req.get("host");
       const filePath = filesFunction.setFilePath(
-        url,
         fileCategory,
         req.file.filename
       );
       documentInfo.filePath = filePath;
-      //documentInfo.fileName = req.file.filename;
       documentInfo.fileMimeType = req.file.mimetype;
       documentInfo.fileSize = req.file.size;
     } else {

@@ -13,6 +13,7 @@ import { cityList } from "../assets/lists/city-tr.list";
 import { townList } from "../assets/lists/town-izmir.list";
 import { floorTypeList } from "../assets/lists/floor-type.list";
 import { matchStatusList } from "../assets/lists/match-status.list";
+import { environment } from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +25,7 @@ export class globalFunctions {
   floorTypeList = floorTypeList;
   matchStatusList = matchStatusList;
   fontAwesomeIconList = fontAwesomeIconList;
+  environment = environment;
 
   constructor(
     private _datePipe: DatePipe,

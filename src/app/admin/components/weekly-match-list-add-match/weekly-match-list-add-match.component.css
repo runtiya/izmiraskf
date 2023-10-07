@@ -7,8 +7,15 @@ mat-action-row button {
 }
 
 .image-teamlogo-weeklymatchlist-search {
+  /*
   width: 15%;
   height: auto;
+  */
+  object-fit: contain;
+}
+
+.image-teamlogo-scoreboard-search {
+  object-fit: contain;
 }
 
 .btn-search {
