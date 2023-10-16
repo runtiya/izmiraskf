@@ -1,14 +1,8 @@
 const express = require('express');
-const multer = require('multer');
 
 const stadiumsController = require('../../controllers/application/stadiums');
 
-
-const extractImage = require('../../middlewares/extract-image');
-
 const router = express.Router();
-
-
 
 router.get("", stadiumsController.getStadiums);
 

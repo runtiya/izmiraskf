@@ -10,7 +10,7 @@ const requestCache = require('../../middlewares/request-cache');
 const router = express.Router();
 
 
-router.get("", checkAuth, requestCache(3000), teamsController.getTeams);
+router.get("", checkAuth, teamsController.getTeams);
 
 router.get("/:id", checkAuth, teamsController.findTeam);
 

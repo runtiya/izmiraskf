@@ -6,7 +6,6 @@ import { AboutITFFModel } from "../../models/application-aboutizmirtff.model";
 import { AboutITFFService } from "../../services/application-aboutizmirtff.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-izmirtff',
@@ -19,7 +18,6 @@ export class ApplicationIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
   aboutcontent = <AboutITFFModel>{};
   private aboutcontentSubscription: Subscription;
   public mapSafeSrc: SafeResourceUrl;
-  environment = environment;
 
   constructor(
     public aboutitffService : AboutITFFService,
@@ -35,7 +33,6 @@ export class ApplicationIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
       .subscribe({
         next: (data: AboutITFFModel) => {
           this.aboutcontent = data;
-          this.aboutcontent.imagePath = this.aboutcontent.imagePath !== null ? `${environment.serverUrl}${this.aboutcontent.imagePath}` : null;
           this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.aboutcontent.mapUrl);
           this.isLoading = false;
         }

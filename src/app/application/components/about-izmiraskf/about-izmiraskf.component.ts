@@ -7,8 +7,6 @@ import { AboutIASKFService } from "../../services/application-aboutiaskf.service
 
 import { globalFunctions } from "../../../functions/global.function";
 
-import { environment } from "../../../../environments/environment";
-
 @Component({
   selector: 'app-application-izmiraskf',
   templateUrl: './about-izmiraskf.component.html',
@@ -20,7 +18,6 @@ export class ApplicationIzmirASKF implements OnInit, OnDestroy {
   aboutcontent = <AboutIASKFModel>{};
   private aboutcontentSubscription: Subscription;
   public mapSafeSrc: SafeResourceUrl;
-  environment = environment;
 
   constructor(
     public aboutiaskfService : AboutIASKFService,
@@ -35,7 +32,6 @@ export class ApplicationIzmirASKF implements OnInit, OnDestroy {
       .subscribe({
         next: (data: AboutIASKFModel) => {
           this.aboutcontent = data;
-          this.aboutcontent.imagePath = this.aboutcontent.imagePath !== null ? `${environment.serverUrl}${this.aboutcontent.imagePath}` : null;
           this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.aboutcontent.mapUrl);
           this.isLoading = false;
         }

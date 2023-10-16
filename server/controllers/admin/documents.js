@@ -48,7 +48,9 @@ function createDocument(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
       const filePath = filesFunction.setFilePath(
+        url,
         fileCategory,
         req.file.filename
       );
@@ -114,7 +116,9 @@ function updateDocument(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
       const filePath = filesFunction.setFilePath(
+        url,
         fileCategory,
         req.file.filename
       );

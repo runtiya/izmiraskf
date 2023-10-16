@@ -11,7 +11,6 @@ import { documentTransferFileTypeList } from "../../../assets/lists/documents-tr
 import { globalFunctions } from "../../../functions/global.function";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-documents-list',
@@ -27,7 +26,6 @@ export class AdminDocumentList {
   documentTransferFileTypeList = documentTransferFileTypeList;
   url_category: string;
   documentCategory = null;
-  environment = environment;
   tableColumns: string[] = [
                             "orderNo",
                             "fileName",
@@ -57,11 +55,6 @@ export class AdminDocumentList {
     this.documentsSubscription = this.documentService.getDocumentsListUpdateListener()
       .subscribe((data: DocumentsModel[]) => {
         this.documents = data.sort((a, b) => {return a.orderNo - b.orderNo});
-        this.documents.map(d => {
-          if (d.filePath !== null) {
-            d.filePath = `${environment.serverUrl}${d.filePath}`;
-          }
-        });
         this.isLoading = false;
       });
   }

@@ -28,12 +28,12 @@ import { globalFunctions } from "../../../functions/global.function";
 export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
   isLoading: boolean = false;
   toolbarTitle = "PUAN TABLOSU VE FİKSTÜR";
-  seasonList: SeasonsModel[] = [];
-  private seasonListSub: Subscription;
-  leagueList: LeaguesModel[] = [];
-  private leagueListSub: Subscription;
-  groupstageList: GroupStagesModel[] = [];
-  private groupstageListSub: Subscription;
+  seasonsList: SeasonsModel[] = [];
+  private seasonsListSub: Subscription;
+  leaguesList: LeaguesModel[] = [];
+  private leaguesListSub: Subscription;
+  groupstagesList: GroupStagesModel[] = [];
+  private groupstagesListSub: Subscription;
   weekSequenceList: Array<number>[] = [];
   private weekSequenceListSub: Subscription;
 
@@ -58,17 +58,18 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
     this.isLoading = true;
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.seasonsService.getSeasons();
-    this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
+    this.seasonsListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
+          console.log(data)
           if (data.length > 0) {
-            this.seasonList = data;
-            this.seasonSelectionId = this.seasonList[0].id;
+            this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+            this.seasonSelectionId = this.seasonsList[0].id;
             this.leaguesService.getLeagues(this.seasonSelectionId);
           } else {
-            this.seasonList = [];
-            this.leagueList = [];
-            this.groupstageList = [];
+            this.seasonsList = [];
+            this.leaguesList = [];
+            this.groupstagesList = [];
             this.weekSequenceList = [];
 
             this.seasonSelectionId = null;
@@ -81,16 +82,16 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
         }
       });
 
-    this.leagueListSub = this.leaguesService.getLeagueListUpdateListener()
+    this.leaguesListSub = this.leaguesService.getLeagueListUpdateListener()
       .subscribe({
         next: (data: LeaguesModel[]) => {
           if (data.length > 0) {
-            this.leagueList = data;
-            this.leagueSelectionId = this.leagueList[0].id;
+            this.leaguesList = data.sort((a, b) => a.orderNo - b.orderNo);
+            this.leagueSelectionId = this.leaguesList[0].id;
             this.groupstagesService.getGroupstages(this.leagueSelectionId);
           } else {
-            this.leagueList = [];
-            this.groupstageList = [];
+            this.leaguesList = [];
+            this.groupstagesList = [];
             this.weekSequenceList = [];
 
             this.leagueSelectionId = null;
@@ -102,12 +103,12 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
         }
       });
 
-    this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
+    this.groupstagesListSub = this.groupstagesService.getGroupStageListUpdateListener()
       .subscribe({
         next: (data: GroupStagesModel[]) => {
           if (data.length > 0) {
-            this.groupstageList = data;
-            this.groupstageSelectionId = this.groupstageList[0].id;
+            this.groupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
+            this.groupstageSelectionId = this.groupstagesList[0].id;
             this.groupstagesService.getGroupWeeks(this.groupstageSelectionId);
             this.groupstagesService.getPlayedLastMatchWeek(this.groupstageSelectionId)
               .subscribe({
@@ -125,7 +126,7 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
                 }
               });
           } else {
-            this.groupstageList = [];
+            this.groupstagesList = [];
             this.weekSequenceList = [];
 
             this.groupstageSelectionId = null;
@@ -179,9 +180,9 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.seasonListSub.unsubscribe();
-    this.leagueListSub.unsubscribe();
-    this.groupstageListSub.unsubscribe();
+    this.seasonsListSub.unsubscribe();
+    this.leaguesListSub.unsubscribe();
+    this.groupstagesListSub.unsubscribe();
     this.weekSequenceListSub.unsubscribe();
   }
 }

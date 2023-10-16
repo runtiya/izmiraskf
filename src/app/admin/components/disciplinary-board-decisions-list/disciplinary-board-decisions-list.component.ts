@@ -102,45 +102,50 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
       });
 
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
-      .subscribe((data: SeasonsModel[]) => {
-        if (data.length > 0) {
-          this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
-          this.seasonSelectionId = this.seasonsList[0]["id"];
-          this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
-          this.leaguesService.getLeagues(this.seasonSelectionId);
-          this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
-        } else {
-          this.seasonsList = [];
-          this.leaguesList = [];
-          this.disciplinaryBoardFilesList = [];
-          this.disciplinaryBoardDecisionsList = [];
+      .subscribe({
+        next: (data: SeasonsModel[]) => {
+          if (data.length > 0) {
+            this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+            this.seasonSelectionId = this.seasonsList[0]["id"];
+            this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
+            this.leaguesService.getLeagues(this.seasonSelectionId);
+            this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+          } else {
+            this.seasonsList = [];
+            this.leaguesList = [];
+            this.disciplinaryBoardFilesList = [];
+            this.disciplinaryBoardDecisionsList = [];
 
-          this.seasonSelectionId = null;
-          this.disciplinaryBoardFileSelectionId = null;
+            this.seasonSelectionId = null;
+            this.disciplinaryBoardFileSelectionId = null;
 
-          this.isLoading = false;
+            this.isLoading = false;
+          }
         }
-
       });
 
     this.disciplinaryBoardFilesListSubscription = this.disciplinaryBoardFilesService.getDisciplinaryBoardFilesUpdateListener()
-      .subscribe((data: DisciplinaryBoardFileModel[]) => {
-        if (data.length > 0) {
-          this.disciplinaryBoardFilesList = data.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
-          this.disciplinaryBoardFileSelectionId = this.disciplinaryBoardFilesList[0]["id"];
-          this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
-        } else {
-          this.disciplinaryBoardFilesList = [];
+      .subscribe({
+        next: (data: DisciplinaryBoardFileModel[]) => {
+          if (data.length > 0) {
+            this.disciplinaryBoardFilesList = data.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
+            this.disciplinaryBoardFileSelectionId = this.disciplinaryBoardFilesList[0]["id"];
+            this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);
+          } else {
+            this.disciplinaryBoardFilesList = [];
 
-          this.disciplinaryBoardFileSelectionId = null;
+            this.disciplinaryBoardFileSelectionId = null;
 
-          this.isLoading = false;
+            this.isLoading = false;
+          }
         }
       });
 
     this.leaguesListSubscription = this.leaguesService.getLeagueListUpdateListener()
-      .subscribe((data: LeaguesModel[]) => {
-        this.leaguesList = data.sort((a, b) => a.orderNo - b.orderNo);
+      .subscribe({
+        next: (data: LeaguesModel[]) => {
+          this.leaguesList = data.sort((a, b) => a.orderNo - b.orderNo);
+        }
       });
 
     this.teamsService.getTeams();
@@ -157,14 +162,16 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
       })
 
     this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisionsUpdateListener()
-      .subscribe((data: DisciplinaryBoardDecisionModel[]) => {
-        if (data.length > 0) {
-          const filteredDisciplinaryBoardDecisionsList = data.filter(decision => decision.disciplinaryBoardFileId === this.disciplinaryBoardFileSelectionId);
-          this.disciplinaryBoardDecisionsList = filteredDisciplinaryBoardDecisionsList.sort((a, b) => a.leagueId - b.leagueId);
-        } else {
-          this.disciplinaryBoardDecisionsList = [];
+      .subscribe({
+        next: (data: DisciplinaryBoardDecisionModel[]) => {
+          if (data.length > 0) {
+            const filteredDisciplinaryBoardDecisionsList = data.filter(decision => decision.disciplinaryBoardFileId === this.disciplinaryBoardFileSelectionId);
+            this.disciplinaryBoardDecisionsList = filteredDisciplinaryBoardDecisionsList.sort((a, b) => a.leagueId - b.leagueId);
+          } else {
+            this.disciplinaryBoardDecisionsList = [];
+          }
+          this.isLoading = false;
         }
-        this.isLoading = false;
       });
   }
 

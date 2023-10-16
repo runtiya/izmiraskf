@@ -14,7 +14,10 @@ function getPointBoard(req, res, next) {
 
     connection.query(
       queries.getPointBoard,
-      [groupstageId, matchWeek],
+      [
+        groupstageId,
+        matchWeek
+      ],
       (error, result) => {
         if (!error) {
           pointBoard = result;

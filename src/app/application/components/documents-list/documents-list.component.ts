@@ -8,7 +8,6 @@ import { DocumentsService } from "../../services/application-documents.service";
 import { documentCategoryList } from "../../../assets/lists/documents-category.list";
 import { globalFunctions } from "../../../functions/global.function";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-documents-list',
@@ -22,7 +21,6 @@ export class ApplicationDocumentList implements OnInit, OnDestroy {
   private documentsListSubscription: Subscription;
   documentCategoryList = documentCategoryList;
   url_category: string;
-  environment = environment;
 
   constructor(
     private router: ActivatedRoute,
@@ -43,12 +41,8 @@ export class ApplicationDocumentList implements OnInit, OnDestroy {
     this.documentsListSubscription = this.documentService.getDocumentsListUpdateListener()
       .subscribe({
         next: (data: DocumentsModel[]) => {
-          this.documentsList = data;
-          this.documentsList.map(d => {
-            if (d.filePath !== null) {
-              d.filePath = `${environment.serverUrl}${d.filePath}`;
-            }
-          });
+          this.documentsList = data.sort((a, b) => {return a.orderNo - b.orderNo});
+
           this.isLoading = false;
         }
       });

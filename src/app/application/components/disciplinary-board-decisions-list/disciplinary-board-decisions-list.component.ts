@@ -94,7 +94,7 @@ export class ApplicationDisciplinaryBoardDecisionsList implements OnInit, OnDest
       .subscribe({
         next: (data: SeasonsModel[]) => {
           if (data.length > 0) {
-            this.seasonsList = data;
+            this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
             this.seasonSelectionId = this.seasonsList[0]["id"];
             this.disciplinaryBoardFilesService.getDisciplinaryBoardFiles(this.seasonSelectionId, this.url_caseType);
             this.disciplinaryBoardDecisionsService.getDisciplinaryBoardDecisions(this.disciplinaryBoardFileSelectionId);

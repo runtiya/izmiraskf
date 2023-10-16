@@ -44,8 +44,10 @@ function createStaff(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        "images/staff/",
+        url,
+        "/images/staff/",
         req.file.filename
       );
       staffInfo.imagePath = imagePath;
@@ -101,8 +103,10 @@ function updateStaff(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        "images/staff/",
+        url,
+        "/images/staff/",
         req.file.filename
       );
       staffInfo.imagePath = imagePath;

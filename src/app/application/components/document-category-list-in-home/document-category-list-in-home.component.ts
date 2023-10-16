@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { documentCategoryList } from "../../../assets/lists/documents-category.list";
-
 import { environment } from "../../../../environments/environment";
 
 @Component({
@@ -13,6 +12,7 @@ import { environment } from "../../../../environments/environment";
 export class ApplicationDocumentCategoryListInHome {
   documentCategoryList = documentCategoryList;
   isLoading: boolean = false;
+
   environment = environment;
 
   constructor(

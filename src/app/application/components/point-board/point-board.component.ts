@@ -9,7 +9,6 @@ import { PointBoardModel } from "../../models/application-pointboard.model";
 import { PointBoardService } from "../../services/application-pointboard.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-point-board',
@@ -24,7 +23,6 @@ export class ApplicationPointBoard implements OnInit, OnDestroy {
   expelledOrRecededTeamsInGroupstageList: TeamsInGroupstagesModel[] = [];
   pointBoardList: PointBoardModel[] = [];
   private pointBoardListSub: Subscription;
-  environment = environment;
 
   tableColumnsPointBoard: string[] = [
                                       "order",
@@ -66,11 +64,6 @@ export class ApplicationPointBoard implements OnInit, OnDestroy {
         next: (data: PointBoardModel[]) => {
           if (data.length > 0) {
             this.pointBoardList = data;
-            this.pointBoardList.map(p => {
-              if (p.teamImagePath !== null) {
-                p.teamImagePath = `${environment.serverUrl}${p.teamImagePath}`;
-              }
-            });
           } else {
             this.pointBoardList = [];
           }

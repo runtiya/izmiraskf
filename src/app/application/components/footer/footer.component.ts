@@ -36,14 +36,14 @@ export class ApplicationFooter implements OnInit, OnDestroy {
     this.externalLinksListSub = this.externalLinksService.getExternalLinksUpdateListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
-          this.externalLinksList = data;
+          this.externalLinksList = data.sort((a, b) => {return a.orderNo - b.orderNo});
         }
       });
 
     this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
         next: (data: string) => {
-          this.logoPath = `${environment.serverUrl}${data}`;
+          this.logoPath = data;
         }
       });
   }
@@ -53,11 +53,11 @@ export class ApplicationFooter implements OnInit, OnDestroy {
   }
 
   findIconFaIcon(_faBrand: string): IconDefinition {
-    return faBrandList.find(b => b.name == _faBrand).faIcon;
+    return this.faBrandList.find(b => b.name == _faBrand).faIcon;
   }
 
   findIconFaClass(_faBrand: string): string {
-    return faBrandList.find(b => b.name == _faBrand).faClass
+    return this.faBrandList.find(b => b.name == _faBrand).faClass
   }
 
   routeToURL(_url: string) {

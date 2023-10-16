@@ -8,7 +8,6 @@ import { ExternalLinksService } from "../../services/application-externallinks.s
 import { ExternalLinksModel } from "../../models/application-externallinks.model";
 
 import { globalFunctions } from "../../../functions/global.function";
-
 import { environment } from "../../../../environments/environment";
 
 @Component({
@@ -41,12 +40,7 @@ export class ApplicationHome implements OnInit, OnDestroy {
     this.extAdvertisementListSubscription = this.externalLinksService.getExternalAdvertisementUpdateListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
-          this.extAdvertisementList = data;
-          this.extAdvertisementList.map(a => {
-            if (a.imagePath !== null) {
-              a.imagePath = `${environment.serverUrl}${a.imagePath}`;
-            }
-          });
+          this.extAdvertisementList = data.sort((a, b) => {return a.orderNo - b.orderNo});
         }
       });
   }

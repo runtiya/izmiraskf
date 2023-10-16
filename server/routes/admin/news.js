@@ -10,9 +10,6 @@ const setTimestamp = require('../../middlewares/setTimestamp');
 const router = express.Router();
 
 
-
-
-
 router.get("", checkAuth, newsController.getNews);
 
 router.get("/:id", checkAuth, newsController.findNews);

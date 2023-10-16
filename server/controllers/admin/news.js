@@ -82,8 +82,10 @@ function createNews(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        "images/news/",
+        url,
+        "/images/news/",
         req.file.filename
       );
 
@@ -141,8 +143,10 @@ function updateNews(req, res, next) {
     var newsId = req.params.id;
 
     if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        "images/news/",
+        url,
+        "/images/news/",
         req.file.filename
       );
       newsInfo.imagePath = imagePath;

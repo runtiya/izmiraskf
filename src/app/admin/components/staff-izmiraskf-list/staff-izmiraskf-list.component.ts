@@ -8,7 +8,6 @@ import { AdminCreateStaffIzmirAskfModal } from "../staff-izmiraskf-create/staff-
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-staffizmiraskf-list',
@@ -20,7 +19,6 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
   isLoading: boolean = false;
   staffizmiraskfList: StaffIzmirAskfModel[] = [];
   private staffizmiraskfListSub: Subscription;
-  environment = environment;
 
   constructor(
     public staffService: StaffIASKFService,
@@ -36,11 +34,6 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
       .subscribe({
         next: (data: StaffIzmirAskfModel[]) => {
           this.staffizmiraskfList = data;
-          this.staffizmiraskfList.map(s => {
-            if (s.imagePath !== null) {
-              s.imagePath = `${environment.serverUrl}${s.imagePath}`;
-            }
-          });
           this.isLoading = false;
         }
       });
@@ -79,7 +72,6 @@ export class AdminStaffIzmirAskf implements OnInit, OnDestroy {
           }
         }
       });
-
   }
 
   getFontAwesomeIcon(_icon: string): any {
