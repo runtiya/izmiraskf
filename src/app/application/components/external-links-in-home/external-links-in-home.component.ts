@@ -4,8 +4,6 @@ import { Subscription } from "rxjs";
 import { ExternalLinksModel } from "../../models/application-externallinks.model";
 import { ExternalLinksService } from "../../services/application-externallinks.service";
 
-import { environment } from "../../../../environments/environment";
-
 @Component({
   selector: 'app-application-external-links-in-home',
   templateUrl: './external-links-in-home.component.html',
@@ -16,7 +14,6 @@ export class ApplicationExternalLinksInHome implements OnInit, OnDestroy {
   extLinksRelatedLinks: ExternalLinksModel[] = [];
   extLinksSocialMediaLinks: ExternalLinksModel[] = [];
   private extLinksSubscription: Subscription;
-  environment = environment;
 
   constructor(
     private externalLinksService: ExternalLinksService,
@@ -27,12 +24,8 @@ export class ApplicationExternalLinksInHome implements OnInit, OnDestroy {
     this.extLinksSubscription = this.externalLinksService.getExternalRelatedLinksUpdateListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
-          this.extLinksRelatedLinks = data;
-          this.extLinksRelatedLinks.map(l => {
-            if (l.imagePath !== null) {
-              l.imagePath = `${environment.serverUrl}${l.imagePath}`;
-            }
-          });
+          this.extLinksRelatedLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
+
           this.isLoading = false;
         }
       });

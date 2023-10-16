@@ -10,7 +10,7 @@ const setTimestamp = require('../../middlewares/setTimestamp');
 const router = express.Router();
 
 
-router.put("/search", checkAuth, setTimestamp, fixturesController.getFixtureBySearchIndex);
+router.put("/search", checkAuth, fixturesController.getFixtureBySearchIndex);
 
 router.post("/create", checkAuth, setTimestamp, fixturesController.createFixture);
 

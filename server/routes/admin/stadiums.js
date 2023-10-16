@@ -9,10 +9,6 @@ const setTimestamp = require('../../middlewares/setTimestamp');
 
 const router = express.Router();
 
-
-
-
-
 router.get("", checkAuth, stadiumsController.getStadiums);
 
 router.get("/:id", checkAuth, stadiumsController.findStadium);

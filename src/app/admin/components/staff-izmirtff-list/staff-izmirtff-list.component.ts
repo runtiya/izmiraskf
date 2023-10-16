@@ -8,7 +8,6 @@ import { AdminCreateStaffIzmirTFFModal } from "../staff-izmirtff-create/staff-iz
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-staffizmirtff-list',
@@ -20,7 +19,6 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
   isLoading: boolean = false;
   staffizmirtffList: StaffITFFModel[] = [];
   private staffizmirtffListSub: Subscription;
-  environment = environment;
 
   constructor(
     public staffService: StaffITFFService,
@@ -36,11 +34,6 @@ export class AdminStaffIzmirTFF implements OnInit, OnDestroy {
       .subscribe({
         next: (data: StaffITFFModel[]) => {
           this.staffizmirtffList = data;
-          this.staffizmirtffList.map(s => {
-            if (s.imagePath !== null) {
-              s.imagePath = `${environment.serverUrl}${s.imagePath}`;
-            }
-          });
           this.isLoading = false;
         }
       });

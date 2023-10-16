@@ -1,9 +1,6 @@
 const express = require('express');
-const multer = require('multer');
 
 const newsController = require('../../controllers/application/news');
-
-const extractImage = require('../../middlewares/extract-image');
 
 const router = express.Router();
 

@@ -28,7 +28,6 @@ import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmatio
 import { fixtureFunctions } from "../../functions/fixture.function";
 import { fileImportExportFunctions } from "../../functions/file-import-export.function";
 import { globalFunctions } from "../../../functions/global.function";
-import { environment } from "../../../../environments/environment";
 
 import {
   fixtureKey3,
@@ -68,7 +67,6 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
   private fixtureListSub: Subscription;
   stadiumList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
-  environment = environment;
 
   fixtureSearchIndex: FixtureSearchModel = <FixtureSearchModel>{};
 
@@ -174,11 +172,6 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
         next: (data: TeamsInGroupstagesModel[]) => {
           if (data.length > 0) {
             this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
-            this.teamsingroupstagesList.map(t => {
-              if (t.teamImagePath !== null && !t.teamImagePath.includes(environment.serverUrl)) {
-                t.teamImagePath = `${environment.serverUrl}${t.teamImagePath}`;
-              }
-            });
           } else {
             this.teamsingroupstagesList = [];
           }
@@ -192,15 +185,6 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
         next: (data: FixtureModel[]) => {
           if (data.length > 0) {
             this.fixtureList = data.sort((a, b) => a.orderNo - b.orderNo);
-            this.fixtureList.map(f => {
-              if (f.homeTeamImagePath !== null && !f.homeTeamImagePath.includes(environment.serverUrl)) {
-                f.homeTeamImagePath = `${environment.serverUrl}${f.homeTeamImagePath}`;
-              }
-
-              if (f.awayTeamImagePath !== null && !f.awayTeamImagePath.includes(environment.serverUrl)) {
-                f.awayTeamImagePath = `${environment.serverUrl}${f.awayTeamImagePath}`;
-              }
-            });
             this.groupByFixture = this.groupByToFixture(this.fixtureList);
           } else {
             this.fixtureList = [];

@@ -1,9 +1,6 @@
 const express = require('express');
-const multer = require('multer');
 
 const groupsController = require('../../controllers/application/groupstages');
-
-const extractImage = require('../../middlewares/extract-image');
 
 const router = express.Router();
 

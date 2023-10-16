@@ -10,8 +10,6 @@ import { globalFunctions } from "../../../functions/global.function";
 import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
-import { environment } from "../../../../environments/environment";
-
 @Component({
   selector: 'app-application-header',
   templateUrl: './header.component.html',
@@ -21,7 +19,6 @@ export class ApplicationHeader implements OnInit, OnDestroy {
   externalLinksList: ExternalLinksModel[] = [];
   private externalLinksListSub: Subscription;
   faBrandList = faBrandList;
-  environment = environment;
 
   @Output() public sidenavToggle = new EventEmitter();
   logoPath: string = null;
@@ -39,7 +36,7 @@ export class ApplicationHeader implements OnInit, OnDestroy {
     this.externalLinksListSub = this.externalLinksService.getExternalLinksUpdateListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
-          this.externalLinksList = data;
+          this.externalLinksList = data.sort((a, b) => {return a.orderNo - b.orderNo});
         }
       });
 
@@ -48,18 +45,18 @@ export class ApplicationHeader implements OnInit, OnDestroy {
     this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
         next: (data: string) => {
-          this.logoPath = `${environment.serverUrl}${data}`;
+          this.logoPath = data;
         }
       });
 
   }
 
   findIconFaIcon(_faBrand: string): IconDefinition {
-    return faBrandList.find(b => b.name == _faBrand).faIcon;
+    return this.faBrandList.find(b => b.name == _faBrand).faIcon;
   }
 
   findIconFaClass(_faBrand: string): string {
-    return faBrandList.find(b => b.name == _faBrand).faClass
+    return this.faBrandList.find(b => b.name == _faBrand).faClass
   }
 
   routeToURL(_url: string) {

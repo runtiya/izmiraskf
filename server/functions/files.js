@@ -1,8 +1,8 @@
 const environment = require('../environments/development');
 
-function setFilePath(_fileCategory, _fileName) {
+function setFilePath(_url, _fileCategory, _fileName) {
   const folder = getFolder(_fileCategory);
-  return folder + _fileName;
+  return `${_url}${folder}${_fileName}`;
 }
 
 function getFolder(_fileCategory) {

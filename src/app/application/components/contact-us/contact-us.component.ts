@@ -8,7 +8,6 @@ import { AboutIASKFService } from "../../services/application-aboutiaskf.service
 
 import { globalFunctions } from "../../../functions/global.function";
 
-
 @Component({
   selector: 'app-application-contact-us',
   templateUrl: './contact-us.component.html',

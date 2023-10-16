@@ -8,7 +8,6 @@ import { AboutITFFService } from "../../services/admin-aboutitff.service";
 
 import { globalFunctions } from "../../../functions/global.function";
 import { imageUploadValidator } from "../../validators/image-upload.validator";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-izmirtff',
@@ -23,7 +22,6 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
   private aboutcontentSubscription: Subscription;
 
   private mapSafeSrc: SafeResourceUrl;
-  environment = environment;
 
   constructor(
     public aboutitffService: AboutITFFService,
@@ -39,7 +37,7 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
         this.aboutITFFform = new FormGroup({
           updatedAt: new FormControl(data.updatedAt, {validators: []}),
           updatedBy: new FormControl(data.updatedBy, {validators: []}),
-          imagePath: new FormControl(data.imagePath ? (environment.serverUrl + data.imagePath) : null, {validators: []}),
+          imagePath: new FormControl(data.imagePath, {validators: []}),
           imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
           aboutText: new FormControl(data.aboutText, {validators: [Validators.maxLength(4000)]}),
           address: new FormControl(data.address, {validators: [Validators.maxLength(2000)]}),

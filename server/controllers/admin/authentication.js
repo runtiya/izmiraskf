@@ -49,8 +49,10 @@ function createUser(req, res, next) {
   var _message = null;
 
   if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
     const imagePath = imagesFunction.setImagePath(
-      "images/users/",
+      url,
+      "/images/users/",
       req.file.filename
     );
     userInfo.imagePath = imagePath;
@@ -134,8 +136,10 @@ function updateUser(req, res, next) {
   var snackBarMessage;
 
   if (!!req.file) {
+    const url = req.protocol + "://" + req.get("host");
     const imagePath = imagesFunction.setImagePath(
-      "images/users/",
+      url,
+      "/images/users/",
       req.file.filename
     );
     userInfo.imagePath = imagePath;

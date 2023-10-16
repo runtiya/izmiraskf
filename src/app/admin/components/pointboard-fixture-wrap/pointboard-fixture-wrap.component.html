@@ -10,7 +10,7 @@
           [(ngModel)]="seasonSelectionId"
           (selectionChange)="onSeasonChange()"
         >
-          <mat-option *ngFor="let season of seasonList" [value]="season.id">
+          <mat-option *ngFor="let season of seasonsList" [value]="season.id">
             {{ season.seasonName }}
           </mat-option>
         </mat-select>
@@ -26,7 +26,7 @@
           [(ngModel)]="leagueSelectionId"
           (selectionChange)="onLeagueChange()"
         >
-          <mat-option *ngFor="let league of leagueList" [value]="league.id">
+          <mat-option *ngFor="let league of leaguesList" [value]="league.id">
             {{ league.leagueName }}
           </mat-option>
         </mat-select>
@@ -42,7 +42,7 @@
           [(ngModel)]="groupstageSelectionId"
           (selectionChange)="onGroupStageChange()"
         >
-          <mat-option *ngFor="let group of groupstageList" [value]="group.id">
+          <mat-option *ngFor="let group of groupstagesList" [value]="group.id">
             {{ group.groupName }}
           </mat-option>
         </mat-select>

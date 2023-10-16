@@ -6,7 +6,6 @@ import { NewsModel } from "../../models/application-news.model";
 import { NewsService } from "../../services/application-news.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-news-slider',
@@ -18,7 +17,6 @@ export class ApplicationNewsSlider implements OnInit, OnDestroy {
   isLoading: boolean = false;
   newsList: NewsModel[] = [];
   private newsListSubscription: Subscription;
-  environment = environment;
 
   constructor(
     private newsService: NewsService,
@@ -32,11 +30,6 @@ export class ApplicationNewsSlider implements OnInit, OnDestroy {
       .subscribe({
         next: (data) => {
           this.newsList = data;
-          this.newsList.map(n => {
-            if (n.imagePath !== null) {
-              n.imagePath = `${environment.serverUrl}${n.imagePath}`;
-            }
-          })
           this.isLoading = false;
         }
       });

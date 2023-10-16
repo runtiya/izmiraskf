@@ -45,8 +45,10 @@ function createExternalLink(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        "images/icons/",
+        url,
+        "/images/icons/",
         req.file.filename
       );
       linkInfo.imagePath = imagePath;
@@ -103,8 +105,10 @@ function updateExternalLink(req, res, next) {
     var _message = null;
 
     if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        "images/icons/",
+        url,
+        "/images/icons/",
         req.file.filename
       );
       linkInfo.imagePath = imagePath;

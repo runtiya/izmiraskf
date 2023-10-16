@@ -13,7 +13,6 @@ import { floorTypeList } from "../../../assets/lists/floor-type.list";
 
 import { globalFunctions } from "../../../functions/global.function";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-stadiums-list',
@@ -33,7 +32,6 @@ export class AdminStadiumsList implements OnInit, OnDestroy {
   cityListArray = cityList;
   townListArray = townList;
   floorTypeListArray = floorTypeList;
-  environment = environment;
 
   constructor(
     private stadiumService: StadiumsService,
@@ -48,13 +46,9 @@ export class AdminStadiumsList implements OnInit, OnDestroy {
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
-          this.stadiumsList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName)).filter((t, index) => index < 20);
-          this.stadiumsList.map(s => {
-            if (s.imagePath !== null) {
-              s.imagePath = `${environment.serverUrl}${s.imagePath}`;
-            }
-          });
+          this.stadiumsList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName)).filter((t, index) => index < this.paginationPageSize);
           this.stadiumsCount = data.stadiumsCount;
+
           this.isLoading = false;
         }
       });

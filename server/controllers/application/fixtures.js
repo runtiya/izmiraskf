@@ -53,6 +53,7 @@ function getFixtureBySearchIndex(req, res, next) {
         .join(", ")}))`
     : "true";
 
+
   connection.query(
     "select * from VIEW_APPLICATION_FIXTURES where " +
       seasonSearchIndex +

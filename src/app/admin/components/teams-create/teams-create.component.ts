@@ -15,7 +15,6 @@ import { globalFunctions } from "../../../functions/global.function";
 
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
 
-
 @Component({
   selector: 'app-admin-teams-create',
   templateUrl: './teams-create.component.html',

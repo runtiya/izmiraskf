@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from 'rxjs';
 import { MatDialog } from "@angular/material/dialog";
 
-
 import { SeasonsModel } from "../../models/admin-seasons.model";
 import { SeasonsService } from "../../services/admin-seasons.service";
 import { AdminSeasonsCreateModal } from "../seasons-create/seasons-create.component";

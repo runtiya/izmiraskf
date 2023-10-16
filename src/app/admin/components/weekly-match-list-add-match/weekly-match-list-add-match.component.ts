@@ -36,7 +36,6 @@ import { matchStatusList } from "../../../assets/lists/match-status.list";
 import { townList } from "../../../assets/lists/town-izmir.list";
 
 import { MatchModel } from "../../models/admin-match.model";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-weeklymatch-list-add-match',
@@ -45,18 +44,18 @@ import { environment } from "../../../../environments/environment";
 })
 export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
   isLoading: boolean = false;
-  seasonList: SeasonsModel[] = [];
-  private seasonListSub: Subscription;
-  leagueList: LeaguesModel[] = [];
-  private leagueListSub: Subscription;
-  groupstageList: GroupStagesModel[] = [];
-  private groupstageListSub: Subscription;
+  seasonsList: SeasonsModel[] = [];
+  private seasonsListSub: Subscription;
+  leaguesList: LeaguesModel[] = [];
+  private leaguesListSub: Subscription;
+  groupstagesList: GroupStagesModel[] = [];
+  private groupstagesListSub: Subscription;
   weekSequenceList: Array<number>[] = [];
   private weekSequenceListSub: Subscription;
-  stadiumList: StadiumsModel[] = [];
-  private stadiumListSub: Subscription;
-  teamList: TeamsModel[] = [];
-  private teamListSub: Subscription;
+  stadiumsList: StadiumsModel[] = [];
+  private stadiumsListSub: Subscription;
+  teamsList: TeamsModel[] = [];
+  private teamsListSub: Subscription;
   weeklyMatchProgramList: WeeklyMatchProgramModel[] = [];
   private weeklyMatchProgramListSub: Subscription;
   fixtureList: FixtureModel[] = [];
@@ -64,7 +63,6 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
   matchList: MatchModel[] = [];
   matchStatusList: Array<any> = matchStatusList;
   townList: Array<any> = townList;
-  environment = environment;
 
   addedMatchToWeeklyProgram: WeeklyMatchListModel[] = [];
 
@@ -112,42 +110,42 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
     this.seasonsService.getSeasons();
-    this.seasonListSub = this.seasonsService.getSeasonsListUpdateListener()
+    this.seasonsListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
           if (data.length > 0) {
-            this.seasonList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+            this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
           } else {
-            this.seasonList = [];
-            this.leagueList = [];
-            this.groupstageList = [];
+            this.seasonsList = [];
+            this.leaguesList = [];
+            this.groupstagesList = [];
             this.weekSequenceList = [];
           }
           this.isLoading = false;
         }
       });
 
-    this.leagueListSub = this.leaguesService.getLeagueListUpdateListener()
+    this.leaguesListSub = this.leaguesService.getLeagueListUpdateListener()
       .subscribe({
         next: (data: LeaguesModel[]) => {
           if (data.length > 0) {
-            this.leagueList = data.sort((a, b) => a.orderNo - b.orderNo);
+            this.leaguesList = data.sort((a, b) => a.orderNo - b.orderNo);
           } else {
-            this.leagueList = [];
-            this.groupstageList = [];
+            this.leaguesList = [];
+            this.groupstagesList = [];
             this.weekSequenceList = [];
           }
           this.isLoading = false;
         }
       });
 
-    this.groupstageListSub = this.groupstagesService.getGroupStageListUpdateListener()
+    this.groupstagesListSub = this.groupstagesService.getGroupStageListUpdateListener()
       .subscribe({
         next: (data: GroupStagesModel[]) => {
           if (data.length > 0) {
-            this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
+            this.groupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
           } else {
-            this.groupstageList = [];
+            this.groupstagesList = [];
             this.weekSequenceList = [];
           }
           this.isLoading = false;
@@ -164,24 +162,19 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
 
 
     this.stadiumsService.getStadiums();
-    this.stadiumListSub = this.stadiumsService.getStadiumListUpdateListener()
+    this.stadiumsListSub = this.stadiumsService.getStadiumListUpdateListener()
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
-          this.stadiumList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
+          this.stadiumsList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
         }
       });
 
 
     this.teamsService.getTeams();
-    this.teamListSub = this.teamsService.getTeamsListUpdateListener()
+    this.teamsListSub = this.teamsService.getTeamsListUpdateListener()
       .subscribe({
         next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
-          this.teamList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
-          this.teamList.map(t => {
-            if (t.imagePath !== null) {
-              t.imagePath = `${environment.serverUrl}${t.imagePath}`;
-            }
-          });
+          this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
         }
       });
 
@@ -196,15 +189,7 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data;
-          this.fixtureList.map(f => {
-            if (f.homeTeamImagePath !== null && !f.homeTeamImagePath.includes(environment.serverUrl)) {
-              f.homeTeamImagePath = `${environment.serverUrl}${f.homeTeamImagePath}`;
-            }
 
-            if (f.awayTeamImagePath !== null && !f.awayTeamImagePath.includes(environment.serverUrl)) {
-              f.awayTeamImagePath = `${environment.serverUrl}${f.awayTeamImagePath}`;
-            }
-          });
           this.isLoading = false;
         }
       });
@@ -330,11 +315,11 @@ export class AdminWeeklyMatchListAddMatchModal implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.seasonListSub.unsubscribe();
-    this.leagueListSub.unsubscribe();
-    this.groupstageListSub.unsubscribe();
-    this.stadiumListSub.unsubscribe();
-    this.teamListSub.unsubscribe();
+    this.seasonsListSub.unsubscribe();
+    this.leaguesListSub.unsubscribe();
+    this.groupstagesListSub.unsubscribe();
+    this.stadiumsListSub.unsubscribe();
+    this.teamsListSub.unsubscribe();
     this.fixtureListSub.unsubscribe();
   }
 }

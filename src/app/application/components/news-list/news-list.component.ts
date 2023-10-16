@@ -7,7 +7,6 @@ import { NewsModel } from "../../models/application-news.model";
 import { NewsService } from "../../services/application-news.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-news-list',
@@ -24,7 +23,6 @@ export class ApplicationNewsList implements OnInit, OnDestroy {
   paginationPageSizeOptions: Array<number> = this.globalFunctions.getPaginationPageSizeOptions();
   paginationPageSize: number = this.paginationPageSizeOptions[0];
   paginationCurrentPage: number = 1;
-  environment = environment;
 
   constructor(
     public newsService: NewsService,
@@ -39,12 +37,8 @@ export class ApplicationNewsList implements OnInit, OnDestroy {
     this.newsSub = this.newsService.getNewsUpdateListener()
       .subscribe((data: {newsList: NewsModel[], newsCount: number}) => {
         this.newsList = data.newsList;
-        this.newsList.map(n => {
-          if (n.imagePath !== null) {
-            n.imagePath = `${environment.serverUrl}${n.imagePath}`;
-          }
-        });
         this.newsCount = data.newsCount;
+
         this.isLoading = false;
       });
   }

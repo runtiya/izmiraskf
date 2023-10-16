@@ -29,7 +29,6 @@ import { fixtureFunctions } from "../../functions/fixture.function";
 import { FixtureSearchModel } from "../../models/admin-fixture-search-index.model";
 
 import { fileImportExportFunctions } from "../../functions/file-import-export.function";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-weeklymatch-list',
@@ -52,7 +51,6 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
   private teamsingroupstgesListSub: Subscription;
   stadiumList: StadiumsModel[] = [];
   private stadiumListSub: Subscription;
-  environment = environment;
 
   @Input() seasonSelectionId: number;
   @Input() weeklyMatchProgramSelectionId: number;
@@ -86,7 +84,7 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: SeasonsModel[]) => {
           if (data.length > 0) {
-            this.seasonsList = data;
+            this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
             this.seasonSelectionId = this.seasonSelectionId || this.seasonsList[0]["id"];
             this.weeklymatchprogramService.getWeeklyMatchProgram(this.seasonSelectionId);
           } else {
@@ -129,15 +127,7 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data;
-          this.fixtureList.map(f => {
-            if (f.homeTeamImagePath !== null && !f.homeTeamImagePath.includes(environment.serverUrl)) {
-              f.homeTeamImagePath = `${environment.serverUrl}${f.homeTeamImagePath}`;
-            }
 
-            if (f.awayTeamImagePath !== null && !f.awayTeamImagePath.includes(environment.serverUrl)) {
-              f.awayTeamImagePath = `${environment.serverUrl}${f.awayTeamImagePath}`;
-            }
-          });
           this.isLoading = false;
         }
       });

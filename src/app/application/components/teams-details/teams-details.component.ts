@@ -8,7 +8,6 @@ import { TeamsModel } from "../../models/application-teams.model";
 import { TeamsService } from "../../services/application-teams.service";
 
 import { globalFunctions } from "../../../functions/global.function";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-application-teams-details',
@@ -22,7 +21,6 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
   private teamSub: Subscription;
   url_teamId: number;
   public mapSafeSrc: SafeResourceUrl;
-  environment = environment;
 
   constructor(
     private teamsService: TeamsService,
@@ -42,7 +40,6 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
           .subscribe({
             next: (data: TeamsModel) => {
               this.team = data;
-              this.team.imagePath = (this.team.imagePath ? `${environment.serverUrl}${this.team.imagePath}` : null);
               this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.team.mapUrl);
               this.toolbarTitle = data.officialName;
               this.globalFunctions.setToolbarTitle(this.toolbarTitle);

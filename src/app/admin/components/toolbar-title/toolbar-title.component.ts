@@ -21,8 +21,6 @@ export class AdminToolbarTitle implements OnInit, OnDestroy {
           this.toolbarTitle = _toolbarTitle;
         }, 0);
       });
-
-
   }
 
   ngOnDestroy(): void {

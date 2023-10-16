@@ -91,9 +91,12 @@ function createStadium(req, res, next) {
     var _resStatus = 200;
     var _error = false;
     var _message = null;
+
     if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        "images/stadiums/",
+        url,
+        "/images/stadiums/",
         req.file.filename
       );
       stadiumInfo.imagePath = imagePath;
@@ -161,8 +164,10 @@ function updateStadium(req, res, next) {
     var stadiumId = req.params.id;
 
     if (!!req.file) {
+      const url = req.protocol + "://" + req.get("host");
       const imagePath = imagesFunction.setImagePath(
-        "images/stadiums/",
+        url,
+        "/images/stadiums/",
         req.file.filename
       );
       stadiumInfo.imagePath = imagePath;

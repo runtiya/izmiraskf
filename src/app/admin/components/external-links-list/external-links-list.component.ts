@@ -5,10 +5,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { ExternalLinksModel } from "../../models/admin-externallinks.model";
 import { ExternalLinksService } from "../../services/admin-externallinks.service";
 import { AdminExternalLinksCreateModal } from "../external-links-create/external-links-create.component";
-import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
+
 import { globalFunctions } from "../../../functions/global.function";
 import { AdminConfirmationDialogModal } from "../confirmation-dialog/confirmation-dialog.component";
-import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-admin-external-links-list',
@@ -23,8 +22,6 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
   extLinksSocialMediaLinks: ExternalLinksModel[] = [];
   extLinksAdvertisements: ExternalLinksModel[] = [];
   private extLinksSubscription: Subscription;
-  faBrandList = faBrandList;
-  environment = environment;
 
   tableColumns: string[] = [
                               "orderNo",
@@ -47,11 +44,7 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     this.extLinksSubscription = this.extLinkService.getExternalLinksUpdateListener()
       .subscribe((data: ExternalLinksModel[]) => {
         this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
-        this.extLinks.map(l => {
-          if (l.imagePath !== null && !l.imagePath.includes(environment.serverUrl)) {
-            l.imagePath = `${environment.serverUrl}${l.imagePath}`;
-          }
-        });
+
         this.extLinksRelatedLinks = this.extLinks.filter(link => link.linkType == "RELATEDLINK");
         this.extLinksSocialMediaLinks = this.extLinks.filter(link => link.linkType == "SOCIALMEDIA");
         this.extLinksAdvertisements = this.extLinks.filter(link => link.linkType == "ADVERTISEMENT");
