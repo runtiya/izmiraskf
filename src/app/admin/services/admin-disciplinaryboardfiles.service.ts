@@ -29,6 +29,7 @@ export class DisciplinaryBoardFilesService {
           this.disciplinaryBoardFileList.length > 0 ? this.disciplinaryBoardFileListSub.next([...this.disciplinaryBoardFileList]) : this.disciplinaryBoardFileListSub.next([]);
         },
         error: (error) => {
+          this.disciplinaryBoardFileListSub.next(<DisciplinaryBoardFileModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

@@ -28,6 +28,7 @@ export class StaffIASKFService {
           this.staffListUpdated.next([...this.staffList]);
         },
         error: (error) => {
+          this.staffListUpdated.next(<StaffIzmirAskfModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

@@ -12,8 +12,6 @@ function getFixtureBySearchIndex(req, res, next) {
     var _error = false;
     var _message = null;
 
-    console.log(searchIndex)
-
     let seasonSearchIndex = searchIndex.seasonId
       ? "seasonId = " + searchIndex.seasonId
       : "true";

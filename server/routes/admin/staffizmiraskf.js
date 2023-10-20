@@ -1,5 +1,4 @@
 const express = require('express');
-const multer = require('multer');
 
 const staffizmiraskfController = require('../../controllers/admin/staffizmiraskf');
 

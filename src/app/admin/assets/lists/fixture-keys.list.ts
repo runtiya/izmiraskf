@@ -2448,7 +2448,7 @@ export const fixtureKey13 = [
       {
         orderNo: 4,
         homeTeam: 10,
-        awayTeam: 13
+        awayTeam: 3
       },
       {
         orderNo: 5,
@@ -2972,7 +2972,7 @@ export const fixtureKey14 = [
       {
         orderNo: 4,
         homeTeam: 10,
-        awayTeam: 13
+        awayTeam: 3
       },
       {
         orderNo: 5,

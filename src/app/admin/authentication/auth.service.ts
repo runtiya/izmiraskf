@@ -80,6 +80,7 @@ export class AuthService {
           this.usersListSub.next([...this.usersList]);
         },
         error: (error) => {
+          this.usersListSub.next(<UserModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

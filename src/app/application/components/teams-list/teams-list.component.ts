@@ -37,9 +37,8 @@ export class ApplicationTeamsList implements OnInit, OnDestroy {
     this.teamsService.getTeams(this.paginationPageSize, this.paginationCurrentPage);
     this.teamsListSub = this.teamsService.getTeamsListUpdateListener()
       .subscribe((data: {teamsList: TeamsModel[], teamsCount: number}) => {
-        this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
+        this.teamsList = data.teamsList.length > 0 ? data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName)) : [];
         this.teamsCount = data.teamsCount;
-
         this.isLoading = false;
       });
   }
@@ -49,7 +48,10 @@ export class ApplicationTeamsList implements OnInit, OnDestroy {
   }
 
   onChangePaginationPage(paginationData: PageEvent) {
-    this.teamsService.getTeams(paginationData.pageSize, paginationData.pageIndex + 1);
+    this.isLoading = true;
+    this.paginationPageSize = paginationData.pageSize;
+    this.paginationCurrentPage = paginationData.pageIndex + 1;
+    this.teamsService.getTeams(this.paginationPageSize, this.paginationCurrentPage);
   }
 
   ngOnDestroy(): void {

@@ -29,6 +29,7 @@ export class WeeklyMatchListService {
           this.weeklyMatchListSub.next([...this.weeklyMatchList]);
         },
         error: (error) => {
+          this.weeklyMatchListSub.next(<WeeklyMatchListModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

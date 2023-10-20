@@ -37,8 +37,8 @@ export class AdminNewsList implements OnInit, OnDestroy {
     this.newsSub = this.newsService.getNewsUpdateListener()
       .subscribe({
         next: (data: {newsList: NewsModel[], newsCount: number}) => {
-          this.newsList = data.newsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-          this.newsCount = data.newsCount;
+          this.newsList = (data.newsList.length > 0) ? data.newsList.sort((a, b) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || b.id - a.id) : [];
+          this.newsCount = data.newsCount || 0;
 
           this.isLoading = false;
         }
@@ -77,7 +77,10 @@ export class AdminNewsList implements OnInit, OnDestroy {
   }
 
   onChangePaginationPage(paginationData: PageEvent){
-    this.newsService.getNews(paginationData.pageSize, paginationData.pageIndex + 1);
+    this.isLoading = true;
+    this.paginationPageSize = paginationData.pageSize;
+    this.paginationCurrentPage = paginationData.pageIndex + 1;
+    this.newsService.getNews(this.paginationPageSize, this.paginationCurrentPage);
   }
 
   ngOnDestroy(): void {

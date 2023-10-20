@@ -14,7 +14,7 @@ import { UserModel } from "../app/admin/models/admin-users.model";
 })
 export class AppComponent implements OnInit {
   title = 'izmiraskf';
-  snackBarDuration = 3000; //milisecond
+  snackBarDuration = 10000; //milisecond
   userIsAuthenticated = false;
   private authListenerSubs: Subscription;
 

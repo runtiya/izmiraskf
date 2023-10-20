@@ -39,6 +39,7 @@ export class GlobalStatisticsService {
           this.teamsCountByTownSub.next([...this.teamsCountByTown]);
         },
         error: (error) => {
+          this.teamsCountByTownSub.next([]);
           this.globalFunctions.showSnackBar(error);
         }
       });

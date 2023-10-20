@@ -31,6 +31,7 @@ export class StadiumsService {
           this.stadiumsListSub.next(data.data);
         },
         error: (error) => {
+          this.stadiumsListSub.next({stadiumsList: <StadiumsModel[]>{}, stadiumsCount: 0});
           this.globalFunctions.showSnackBar(error);
         }
       });

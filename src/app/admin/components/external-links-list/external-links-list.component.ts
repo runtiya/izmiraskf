@@ -42,13 +42,22 @@ export class AdminExternalLinks implements OnInit, OnDestroy {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.extLinkService.getLinks();
     this.extLinksSubscription = this.extLinkService.getExternalLinksUpdateListener()
-      .subscribe((data: ExternalLinksModel[]) => {
-        this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
+      .subscribe({
+        next: (data: ExternalLinksModel[]) => {
+          if (data.length > 0) {
+            this.extLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
 
-        this.extLinksRelatedLinks = this.extLinks.filter(link => link.linkType == "RELATEDLINK");
-        this.extLinksSocialMediaLinks = this.extLinks.filter(link => link.linkType == "SOCIALMEDIA");
-        this.extLinksAdvertisements = this.extLinks.filter(link => link.linkType == "ADVERTISEMENT");
-        this.isLoading = false;
+            this.extLinksRelatedLinks = this.extLinks.filter(link => link.linkType == "RELATEDLINK");
+            this.extLinksSocialMediaLinks = this.extLinks.filter(link => link.linkType == "SOCIALMEDIA");
+            this.extLinksAdvertisements = this.extLinks.filter(link => link.linkType == "ADVERTISEMENT");
+          } else {
+            this.extLinks = [];
+            this.extLinksRelatedLinks = [];
+            this.extLinksSocialMediaLinks = [];
+            this.extLinksAdvertisements = [];
+          }
+          this.isLoading = false;
+        }
       });
   }
 

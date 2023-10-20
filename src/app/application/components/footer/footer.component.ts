@@ -36,7 +36,7 @@ export class ApplicationFooter implements OnInit, OnDestroy {
     this.externalLinksListSub = this.externalLinksService.getExternalLinksUpdateListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
-          this.externalLinksList = data.sort((a, b) => {return a.orderNo - b.orderNo});
+          this.externalLinksList = data.length > 0 ? data.sort((a, b) => {return a.orderNo - b.orderNo}) : [];
         }
       });
 

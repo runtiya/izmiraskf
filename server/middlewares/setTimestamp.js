@@ -4,7 +4,7 @@ const tzoffset = (new Date()).getTimezoneOffset() * 60000;
 module.exports = (req, res, next) => {
   try {
     true;
-    /*
+
     // Creating Mode
     if (req.method == 'POST') {
       if (req.body.requestData ?? false) {
@@ -32,7 +32,7 @@ module.exports = (req, res, next) => {
         req.body.updatedBy = req.userData.userId;
       }
     }
-    */
+
   } catch (error) {
     /*
     errorService.handleError(
@@ -41,6 +41,7 @@ module.exports = (req, res, next) => {
       error
     );
     */
+    true;
   } finally {
       return next();
   }

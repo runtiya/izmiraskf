@@ -28,6 +28,7 @@ export class SeasonsService {
           this.seasonsListSub.next([...this.seasonsList]);
         },
         error: (error) => {
+          this.seasonsListSub.next(<SeasonsModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

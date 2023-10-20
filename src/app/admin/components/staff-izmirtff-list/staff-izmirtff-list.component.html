@@ -18,7 +18,7 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title-group>
-            <img mat-card-md-image class="img-staff" [src]="staffizmirtff.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="staffizmirtff.title">
+            <img mat-card-sm-image class="img-staff" [src]="staffizmirtff.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="staffizmirtff.title">
             <mat-card-title>{{ staffizmirtff.fullName}}</mat-card-title>
             <mat-card-subtitle>{{ staffizmirtff.title }}</mat-card-subtitle>
             <mat-card-subtitle *ngIf="staffizmirtff.phone">
@@ -49,6 +49,6 @@
 
   </div>
 
-  <app-application-no-content-info *ngIf="staffizmirtffList.length <= 0"></app-application-no-content-info>
+  <app-application-no-content-info *ngIf="!(staffizmirtffList.length > 0)"></app-application-no-content-info>
 
 </div>

@@ -112,11 +112,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
     this.teamsingroupstagesListSub = this.teamsingroupstagesService.getTeamsInGroupstagesUpdateListener()
       .subscribe((data: TeamsInGroupstagesModel[]) => {
         this.isLoading = true;
-        if (data.length > 0) {
-          this.teamsingroupstagesList = data.sort((a, b) => a.orderNo - b.orderNo);
-        } else {
-          this.teamsingroupstagesList = [];
-        }
+        this.teamsingroupstagesList = data.length > 0 ? data.sort((a, b) => a.orderNo - b.orderNo) : [];
         this.filteredTeamsList = this.teamsList;
         this.isLoading = false;
       });
@@ -125,7 +121,7 @@ export class AdminTeamsInGroupstages implements OnInit, OnDestroy {
     this.teamsListSub = this.teamsService.getTeamsListUpdateListener()
       .subscribe({
         next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
-          this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
+          this.teamsList = (data.teamsList.length > 0) ? data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName)) : [];
           this.filteredTeamsList = this.teamsList;
         }
       });

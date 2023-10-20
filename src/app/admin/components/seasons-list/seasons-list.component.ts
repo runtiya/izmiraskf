@@ -39,7 +39,7 @@ export class AdminSeasonsList implements OnInit, OnDestroy {
     this.seasonsListSubscription = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
-          this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
+          this.seasonsList = (data.length > 0) ? data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear)) : [];
           this.isLoading = false;
         }
       });

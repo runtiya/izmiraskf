@@ -29,6 +29,7 @@ export class AboutITFFService {
           this.aboutContentSubject.next(this.aboutContent);
         },
         error: (error) => {
+          this.aboutContentSubject.next(<AboutITFFModel>{});
           this.globalFunctions.showSnackBar(error);
         }
       });
