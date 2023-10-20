@@ -37,6 +37,7 @@ export class WeeklyMatchListService {
           this.weeklyMatchListSub.next([...this.weeklyMatchList]);
         },
         error: (error) => {
+          this.weeklyMatchListSub.next(<WeeklyMatchListModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });
@@ -64,40 +65,36 @@ export class WeeklyMatchListService {
   }
 
   buildWeeklyMatchList(weeklyMatchProgramInfo: WeeklyMatchProgramModel, fixtureSearchIndex: FixtureSearchModel) {
-    try {
-      var _weeklyMatchList: WeeklyMatchListModel[] = [];
-      this.fixtureService.getFixtureBySearchIndex(fixtureSearchIndex);
-      this.fixtureListSub = this.fixtureService.getFixtureUpdateListener()
-        .subscribe({
-          next: (data: FixtureModel[]) => {
-            this.fixtureList = data.sort((a, b) => a.orderNo - b.orderNo);
+    var _weeklyMatchList: WeeklyMatchListModel[] = [];
+    this.fixtureService.getFixtureBySearchIndex(fixtureSearchIndex);
+    this.fixtureListSub = this.fixtureService.getFixtureUpdateListener()
+      .subscribe({
+        next: (data: FixtureModel[]) => {
+          this.fixtureList = data.sort((a, b) => a.orderNo - b.orderNo);
 
-            for (let i = 0; i < this.fixtureList.length; i++) {
-              const fixture = this.fixtureList[i];
-              let _match: WeeklyMatchListModel = <WeeklyMatchListModel>{};
+          for (let i = 0; i < this.fixtureList.length; i++) {
+            const fixture = this.fixtureList[i];
+            let _match: WeeklyMatchListModel = <WeeklyMatchListModel>{};
 
-              _match.createdAt = null;
-              _match.createdBy = null;
-              _match.updatedAt = null;
-              _match.updatedBy = null;
-              _match.weeklyMatchProgramId = weeklyMatchProgramInfo.id;
-              _match.matchId = fixture.id;
-              _match.matchNo = fixture.matchNo;
-              _match.isInList = true;
+            _match.createdAt = null;
+            _match.createdBy = null;
+            _match.updatedAt = null;
+            _match.updatedBy = null;
+            _match.weeklyMatchProgramId = weeklyMatchProgramInfo.id;
+            _match.matchId = fixture.id;
+            _match.matchNo = fixture.matchNo;
+            _match.isInList = true;
 
-              _weeklyMatchList.push(_match);
-            }
-            this.createWeeklyMatchList(_weeklyMatchList);
-            this.fixtureListSub.unsubscribe();
-
-          },
-          error: (error) => {
-
+            _weeklyMatchList.push(_match);
           }
-        });
-    } catch (error) {
+          this.createWeeklyMatchList(_weeklyMatchList);
+          this.fixtureListSub.unsubscribe();
 
-    }
+        },
+        error: (error) => {
+
+        }
+      });
   }
 
   updateMatchList(weeklyMatchInfo: WeeklyMatchListModel) {

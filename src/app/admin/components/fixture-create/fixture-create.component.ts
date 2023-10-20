@@ -199,7 +199,7 @@ export class AdminFixtureCreate implements OnInit, OnDestroy {
     this.stadiumListSub = this.stadiumsService.getStadiumListUpdateListener()
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
-          this.stadiumList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
+          this.stadiumList = (data.stadiumsList.length > 0) ? data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName)) : [];
         }
       });
   }

@@ -35,9 +35,11 @@ export class ExternalLinksService {
           } else if (_linkType === 'ADVERTISEMENT') {
             this.extAdvertisementListSub.next([...this.extLinksList]);
           }
-
         },
         error: (error) => {
+          this.extLinksListSub.next(<ExternalLinksModel[]>{});
+          this.extRelatedLinksListSub.next(<ExternalLinksModel[]>{});
+          this.extAdvertisementListSub.next(<ExternalLinksModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

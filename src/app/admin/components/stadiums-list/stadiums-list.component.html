@@ -1,18 +1,16 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div *ngIf="!isLoading">
-  <div class="col-12">
-    <mat-card class="card create-card">
-      <button
-        class="create-button"
-        mat-fab
-        color="primary"
-        matTooltip="Oluştur"
-        (click)="onCreate()"
-      >
-        <mat-icon>add_circle</mat-icon>
-      </button>
-    </mat-card>
-  </div>
+<div class="col-lg-12 col-md-12 col-sm-12" *ngIf="!isLoading">
+  <mat-card class="card create-card">
+    <button
+      class="create-button"
+      mat-fab
+      color="primary"
+      matTooltip="Oluştur"
+      (click)="onCreate()"
+    >
+      <mat-icon>add_circle</mat-icon>
+    </button>
+  </mat-card>
 
   <div class="row">
     <div
@@ -46,15 +44,7 @@
       </mat-card>
     </div>
   </div>
-  <mat-paginator
-    [length]="stadiumsCount"
-    [pageSize]="paginationPageSize"
-    [pageSizeOptions]="paginationPageSizeOptions"
-    (page)="onChangePaginationPage($event)"
-    *ngIf="stadiumsList.length"
-  >
-    0
-  </mat-paginator>
-
-  <app-application-no-content-info *ngIf="stadiumsList.length <= 0"></app-application-no-content-info>
 </div>
+
+<mat-paginator [hidden]="isLoading" [length]="stadiumsCount" [pageSize]="paginationPageSize" [pageSizeOptions]="paginationPageSizeOptions" (page)="onChangePaginationPage($event)" *ngIf="stadiumsList.length"> 0 </mat-paginator>
+<app-application-no-content-info *ngIf="stadiumsList.length <= 0 && !isLoading"></app-application-no-content-info>

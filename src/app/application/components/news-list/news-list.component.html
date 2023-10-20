@@ -23,8 +23,7 @@
       </button>
     </mat-action-row>
   </mat-card>
-
-  <mat-paginator [length]="newsCount" [pageSize]="paginationPageSize" [pageSizeOptions]="paginationPageSizeOptions" (page)="onChangePaginationPage($event)" *ngIf="newsList.length" > 0 </mat-paginator>
-
-  <app-application-no-content-info *ngIf="newsList.length <= 0"></app-application-no-content-info>
 </div>
+
+<mat-paginator [hidden]="isLoading" [length]="newsCount" [pageSize]="paginationPageSize" [pageSizeOptions]="paginationPageSizeOptions" (page)="onChangePaginationPage($event)" *ngIf="newsList.length" > 0 </mat-paginator>
+<app-application-no-content-info *ngIf="!(newsList.length > 0) && !isLoading"></app-application-no-content-info>

@@ -35,11 +35,12 @@ export class ApplicationNewsList implements OnInit, OnDestroy {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.newsService.getNews(this.paginationPageSize, this.paginationCurrentPage);
     this.newsSub = this.newsService.getNewsUpdateListener()
-      .subscribe((data: {newsList: NewsModel[], newsCount: number}) => {
-        this.newsList = data.newsList;
-        this.newsCount = data.newsCount;
-
-        this.isLoading = false;
+      .subscribe({
+        next: (data: {newsList: NewsModel[], newsCount: number}) => {
+          this.newsList = data.newsList.length > 0 ? data.newsList : [];
+          this.newsCount = data.newsCount;
+          this.isLoading = false;
+        }
       });
   }
 
@@ -52,7 +53,10 @@ export class ApplicationNewsList implements OnInit, OnDestroy {
   }
 
   onChangePaginationPage(paginationData: PageEvent){
-    this.newsService.getNews(paginationData.pageSize, paginationData.pageIndex + 1);
+    this.isLoading = true;
+    this.paginationPageSize = paginationData.pageSize;
+    this.paginationCurrentPage = paginationData.pageIndex + 1;
+    this.newsService.getNews(this.paginationPageSize, this.paginationCurrentPage);
   }
 
   ngOnDestroy(): void {

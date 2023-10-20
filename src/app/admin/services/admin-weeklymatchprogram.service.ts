@@ -36,6 +36,7 @@ export class WeeklyMatchProgramService {
           this.weeklyMatchProgramListSub.next([...this.weeklyMatchProgramList]);
         },
         error: (error) => {
+          this.weeklyMatchProgramListSub.next(<WeeklyMatchProgramModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

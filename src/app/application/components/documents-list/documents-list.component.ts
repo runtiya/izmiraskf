@@ -41,8 +41,7 @@ export class ApplicationDocumentList implements OnInit, OnDestroy {
     this.documentsListSubscription = this.documentService.getDocumentsListUpdateListener()
       .subscribe({
         next: (data: DocumentsModel[]) => {
-          this.documentsList = data.sort((a, b) => {return a.orderNo - b.orderNo});
-
+          this.documentsList = data.length > 0 ? data.sort((a, b) => {return a.orderNo - b.orderNo}) : [];
           this.isLoading = false;
         }
       });

@@ -75,3 +75,7 @@
 .icon-delete-team:hover {
   cursor: auto;
 }
+
+.list-teams-in-groupstages {
+  margin-bottom: 1rem;
+}

@@ -53,9 +53,11 @@ export class AdminDocumentList {
       });
 
     this.documentsSubscription = this.documentService.getDocumentsListUpdateListener()
-      .subscribe((data: DocumentsModel[]) => {
-        this.documents = data.sort((a, b) => {return a.orderNo - b.orderNo});
-        this.isLoading = false;
+      .subscribe({
+        next: (data: DocumentsModel[]) => {
+          this.documents = (data.length > 0) ? data.sort((a, b) => {return a.orderNo - b.orderNo}) : [];
+          this.isLoading = false;
+        }
       });
   }
 

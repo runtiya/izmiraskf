@@ -45,7 +45,7 @@ export class ApplicationStadiumList implements OnInit, OnDestroy {
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
-          this.stadiumsList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
+          this.stadiumsList = data.stadiumsList.length > 0 ? data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName)) : [];
           this.stadiumsCount = data.stadiumsCount;
           this.isLoading = false;
         }
@@ -87,7 +87,10 @@ export class ApplicationStadiumList implements OnInit, OnDestroy {
   }
 
   onChangePaginationPage(paginationData: PageEvent){
-    this.stadiumService.getStadiums(paginationData.pageSize, paginationData.pageIndex + 1);
+    this.isLoading = true;
+    this.paginationPageSize = paginationData.pageSize;
+    this.paginationCurrentPage = paginationData.pageIndex + 1;
+    this.stadiumService.getStadiums(this.paginationPageSize, this.paginationCurrentPage);
   }
 
   ngOnDestroy(): void {

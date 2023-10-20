@@ -5,7 +5,6 @@ const teamsController = require('../../controllers/admin/teams');
 const checkAuth = require('../../middlewares/check-auth');
 const extractImage = require('../../middlewares/extract-image');
 const setTimestamp = require('../../middlewares/setTimestamp');
-const requestCache = require('../../middlewares/request-cache');
 
 const router = express.Router();
 

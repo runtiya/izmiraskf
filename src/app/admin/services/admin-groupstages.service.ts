@@ -31,6 +31,7 @@ export class GroupStagesService {
           this.groupstageListSub.next([...this.groupstageList]);
         },
         error: (error) => {
+          this.groupstageListSub.next(<GroupStagesModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

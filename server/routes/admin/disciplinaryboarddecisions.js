@@ -1,10 +1,8 @@
 const express = require('express');
-const multer = require('multer');
 
 const disciplinaryBoardDecisionController = require('../../controllers/admin/disciplinaryboarddecisions');
 
 const checkAuth = require('../../middlewares/check-auth');
-const extractImage = require('../../middlewares/extract-image');
 const setTimestamp = require('../../middlewares/setTimestamp');
 
 const router = express.Router();

@@ -1,5 +1,4 @@
 const express = require('express');
-const multer = require('multer');
 
 const documentsController = require('../../controllers/admin/documents');
 

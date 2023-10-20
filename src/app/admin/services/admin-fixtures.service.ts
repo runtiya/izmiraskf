@@ -31,6 +31,7 @@ export class FixtureService {
           !!this.fixtureList ? this.fixtureListSub.next([...this.fixtureList]) : this.fixtureListSub.next([]);
         },
         error: (error) => {
+          this.fixtureListSub.next(<FixtureModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

@@ -34,6 +34,7 @@ export class PointBoardService {
               });
           },
           error: (error) => {
+            this.pointBoardListSub.next(<PointBoardModel[]>{});
             this.globalFunctions.showSnackBar(error);
           }
         });
@@ -45,6 +46,7 @@ export class PointBoardService {
             this.pointBoardListSub.next([...this.pointBoardList]);
           },
           error: (error) => {
+            this.pointBoardListSub.next(<PointBoardModel[]>{});
             this.globalFunctions.showSnackBar(error);
           }
         });

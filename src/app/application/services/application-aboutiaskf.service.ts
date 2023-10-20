@@ -30,6 +30,7 @@ export class AboutIASKFService {
           this.aboutContentSubject.next(this.aboutContent);
         },
         error: (error) => {
+          this.aboutContentSubject.next(<AboutIASKFModel>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

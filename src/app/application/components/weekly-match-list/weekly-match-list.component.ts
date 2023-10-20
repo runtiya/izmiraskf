@@ -109,7 +109,7 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
     this.fixtureListSub = this.fixtureService.getFixtureUpdateListener()
       .subscribe({
         next: (data: FixtureModel[]) => {
-          this.fixtureList = data.sort((a, b) => new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime());
+          this.fixtureList = data.length > 0 ? data.sort((a, b) => new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()) : [];
 
           this.filterSeasonList = this.getDistinctSeasonName(this.fixtureList);
           this.filterLeagueList = this.getDistinctLeagueName(this.fixtureList);

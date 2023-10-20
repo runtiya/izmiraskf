@@ -35,6 +35,7 @@ export class NewsService {
         this.newsUpdated.next(data.data);
       },
       error: (error) => {
+        this.newsUpdated.next({newsList: <NewsModel[]>{}, newsCount: 0});
         this.globalFunctions.showSnackBar(error);
       }
       });

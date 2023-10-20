@@ -28,6 +28,7 @@ export class DocumentsService {
           this.documentsListSub.next([...this.documentsList]);
         },
         error: (error) => {
+          this.documentsListSub.next(<DocumentsModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

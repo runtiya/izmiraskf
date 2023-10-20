@@ -24,8 +24,7 @@ export class ApplicationExternalLinksInHome implements OnInit, OnDestroy {
     this.extLinksSubscription = this.externalLinksService.getExternalRelatedLinksUpdateListener()
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
-          this.extLinksRelatedLinks = data.sort((a, b) => {return a.orderNo - b.orderNo});
-
+          this.extLinksRelatedLinks = data.length > 0 ? data.sort((a, b) => {return a.orderNo - b.orderNo}) : [];
           this.isLoading = false;
         }
       });

@@ -28,6 +28,7 @@ export class DisciplinaryBoardDecisionsService {
           !!this.disciplinaryBoardDecisionList ? this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]) : this.disciplinaryBoardDecisionListSub.next([]);
         },
         error: (error) => {
+          this.disciplinaryBoardDecisionListSub.next(<DisciplinaryBoardDecisionModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

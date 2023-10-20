@@ -32,6 +32,7 @@ export class TeamsInGroupstagesService {
           !!this.teamsingroupstagesList ? this.teamsingroupstagesListSub.next([...this.teamsingroupstagesList]) : this.teamsingroupstagesListSub.next([]);
         },
         error: (error) => {
+          this.teamsingroupstagesListSub.next(<TeamsInGroupstagesModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

@@ -46,7 +46,7 @@ export class AdminUsersList implements OnInit, OnDestroy {
     this.usersListSub = this.authService.getUsersListListener()
       .subscribe({
         next: (data: UserModel[]) => {
-          this.usersList = data;
+          this.usersList = data.length > 0 ? data : [];
 
           this.isLoading = false;
         }

@@ -32,6 +32,7 @@ export class TeamsService {
           this.teamListSub.next(data.data);
         },
         error: (error) => {
+          this.teamListSub.next({teamsList: <TeamsModel[]>{}, teamsCount: 0});
           this.globalFunctions.showSnackBar(error);
         }
       });

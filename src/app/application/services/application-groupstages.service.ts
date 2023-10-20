@@ -43,7 +43,7 @@ export class GroupStagesService {
   getGroupWeeks(groupstageId: number) {
     this.http
       .get<{data: Array<number>[]}>(
-        environment.serverUrl + "groupstages/week-order/" + groupstageId
+        environment.serverUrl + "groupstages/hafta-siralamasi/" + groupstageId
       )
       .subscribe({
         next: (data) => {
@@ -62,7 +62,7 @@ export class GroupStagesService {
 
   getPlayedLastMatchWeek(_groupstageId: number): Observable<any> {
     return this.http.get<{data: number}>(
-      environment.serverUrl + "groupstages/last-match-week/" + _groupstageId
+      environment.serverUrl + "groupstages/son-musabaka-haftasi/" + _groupstageId
       );
   }
 }

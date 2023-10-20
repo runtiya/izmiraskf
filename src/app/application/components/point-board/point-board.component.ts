@@ -62,12 +62,7 @@ export class ApplicationPointBoard implements OnInit, OnDestroy {
     this.pointBoardListSub = this.pointboardService.getPointBoardUpdateListener()
       .subscribe({
         next: (data: PointBoardModel[]) => {
-          if (data.length > 0) {
-            this.pointBoardList = data;
-          } else {
-            this.pointBoardList = [];
-          }
-
+          this.pointBoardList = data.length > 0 ? data : [];
         }
       });
   }

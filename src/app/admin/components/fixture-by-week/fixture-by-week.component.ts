@@ -36,15 +36,6 @@ export class AdminFixtureByWeek implements OnInit, OnDestroy {
         next: (data: FixtureModel[]) => {
           if (data.length > 0) {
             this.fixtureList = data;
-            this.fixtureList.map(f => {
-              if (f.homeTeamImagePath !== null && !f.homeTeamImagePath.includes(environment.serverUrl)) {
-                f.homeTeamImagePath = `${environment.serverUrl}${f.homeTeamImagePath}`;
-              }
-
-              if (f.awayTeamImagePath !== null && !f.awayTeamImagePath.includes(environment.serverUrl)) {
-                f.awayTeamImagePath = `${environment.serverUrl}${f.awayTeamImagePath}`;
-              }
-            });
           } else {
             this.fixtureList = [];
           }

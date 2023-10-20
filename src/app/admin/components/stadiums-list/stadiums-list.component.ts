@@ -46,8 +46,8 @@ export class AdminStadiumsList implements OnInit, OnDestroy {
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
-          this.stadiumsList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName)).filter((t, index) => index < this.paginationPageSize);
-          this.stadiumsCount = data.stadiumsCount;
+          this.stadiumsList = (data.stadiumsList.length > 0) ? data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName)).filter((t, index) => index < this.paginationPageSize) : [];
+          this.stadiumsCount = data.stadiumsCount || 0;
 
           this.isLoading = false;
         }
@@ -90,7 +90,10 @@ export class AdminStadiumsList implements OnInit, OnDestroy {
   }
 
   onChangePaginationPage(paginationData: PageEvent) {
-    this.stadiumService.getStadiums(paginationData.pageSize, paginationData.pageIndex + 1);
+    this.isLoading = true;
+    this.paginationPageSize = paginationData.pageSize;
+    this.paginationCurrentPage = paginationData.pageIndex + 1;
+    this.stadiumService.getStadiums(this.paginationPageSize, this.paginationCurrentPage);
   }
 
   onCityList(city: string) {

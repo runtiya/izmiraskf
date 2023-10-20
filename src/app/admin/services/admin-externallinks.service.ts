@@ -28,6 +28,7 @@ export class ExternalLinksService {
           this.extLinksListSub.next([...this.extLinksList]);
         },
         error: (error) => {
+          this.extLinksListSub.next(<ExternalLinksModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

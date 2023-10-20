@@ -29,6 +29,7 @@ export class StaffITFFService {
           this.staffListUpdated.next([...this.staffList]);
         },
         error: (error) => {
+          this.staffListUpdated.next(<StaffITFFModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

@@ -119,14 +119,14 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
     this.weeklyMatchListSubscription = this.weeklymatchlistService.getWeeklyMatchListUpdateListener()
       .subscribe({
         next: (data: WeeklyMatchListModel[]) => {
-          this.weeklyMatchList = data;
+          this.weeklyMatchList = data.length > 0 ? data : [];
         }
       });
 
     this.fixtureListSub = this.fixtureService.getFixtureUpdateListener()
       .subscribe({
         next: (data: FixtureModel[]) => {
-          this.fixtureList = data;
+          this.fixtureList = data.length > 0 ? data : [];
 
           this.isLoading = false;
         }
@@ -136,7 +136,7 @@ export class AdminWeeklyMatchList implements OnInit, OnDestroy {
     this.stadiumListSub = this.stadiumService.getStadiumListUpdateListener()
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
-          this.stadiumList = data.stadiumsList;
+          this.stadiumList = data.stadiumsList.length > 0 ? data.stadiumsList : [];
         }
       });
   }

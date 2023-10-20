@@ -33,23 +33,25 @@ export class AdminIzmirTFFIlTemsilciligi implements OnInit, OnDestroy {
     this.globalFunctions.setToolbarTitle(this.toolbarTitle);
     this.aboutitffService.getAboutContent();
     this.aboutcontentSubscription = this.aboutitffService.getAboutContentListener()
-      .subscribe((data: AboutITFFModel) => {
-        this.aboutITFFform = new FormGroup({
-          updatedAt: new FormControl(data.updatedAt, {validators: []}),
-          updatedBy: new FormControl(data.updatedBy, {validators: []}),
-          imagePath: new FormControl(data.imagePath, {validators: []}),
-          imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
-          aboutText: new FormControl(data.aboutText, {validators: [Validators.maxLength(4000)]}),
-          address: new FormControl(data.address, {validators: [Validators.maxLength(2000)]}),
-          phoneNumber: new FormControl(data.phoneNumber, {validators: [Validators.maxLength(100)]}),
-          faxNumber: new FormControl(data.faxNumber, {validators: [Validators.maxLength(100)]}),
-          email: new FormControl(data.email, {validators: [Validators.maxLength(100)]}),
-          latitude: new FormControl(data.latitude, {validators: []}),
-          longitude: new FormControl(data.longitude, {validators: []}),
-          mapUrl: new FormControl(data.mapUrl, {validators: [Validators.maxLength(4000)]})
-        });
-        this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(data.mapUrl);
-        this.isLoading = false;
+      .subscribe({
+        next: (data: AboutITFFModel) => {
+          this.aboutITFFform = new FormGroup({
+            updatedAt: new FormControl(data.updatedAt, {validators: []}),
+            updatedBy: new FormControl(data.updatedBy, {validators: []}),
+            imagePath: new FormControl(data.imagePath, {validators: []}),
+            imageAttachment: new FormControl(null, {validators: [], asyncValidators: [imageUploadValidator]}),
+            aboutText: new FormControl(data.aboutText, {validators: [Validators.maxLength(4000)]}),
+            address: new FormControl(data.address, {validators: [Validators.maxLength(2000)]}),
+            phoneNumber: new FormControl(data.phoneNumber, {validators: [Validators.maxLength(100)]}),
+            faxNumber: new FormControl(data.faxNumber, {validators: [Validators.maxLength(100)]}),
+            email: new FormControl(data.email, {validators: [Validators.maxLength(100)]}),
+            latitude: new FormControl(data.latitude, {validators: []}),
+            longitude: new FormControl(data.longitude, {validators: []}),
+            mapUrl: new FormControl(data.mapUrl, {validators: [Validators.maxLength(4000)]})
+          });
+          this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(data.mapUrl);
+          this.isLoading = false;
+        }
       });
   }
 

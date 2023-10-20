@@ -123,6 +123,6 @@
     </mat-card>
   </div>
 
-  <app-application-no-record-info *ngIf="pointBoardList.length <= 0"></app-application-no-record-info>
+  <app-application-no-record-info *ngIf="!(pointBoardList.length > 0) && !isLoading"></app-application-no-record-info>
 
 </div>

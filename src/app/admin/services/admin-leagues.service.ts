@@ -29,6 +29,7 @@ export class LeaguesService {
           this.leagueListSub.next([...this.leagueList]);
         },
         error: (error) => {
+          this.leagueListSub.next(<LeaguesModel[]>{});
           this.globalFunctions.showSnackBar(error);
         }
       });

@@ -61,7 +61,6 @@ export class AdminPointBoardFixtureWrap implements OnInit, OnDestroy {
     this.seasonsListSub = this.seasonsService.getSeasonsListUpdateListener()
       .subscribe({
         next: (data: SeasonsModel[]) => {
-          console.log(data)
           if (data.length > 0) {
             this.seasonsList = data.sort((a, b) => b.seasonYear.localeCompare(a.seasonYear));
             this.seasonSelectionId = this.seasonsList[0].id;

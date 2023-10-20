@@ -152,6 +152,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
 
           this.groupstageSelectionId = null;
           this.matchWeekSelectionValue = null;
+
           this.groupstageList = data.sort((a, b) => a.orderNo - b.orderNo);
 
           this.isLoading = false;
@@ -175,7 +176,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     this.stadiumListSub = this.stadiumsService.getStadiumListUpdateListener()
       .subscribe({
         next: (data: {stadiumsList: StadiumsModel[], stadiumsCount: number}) => {
-          this.stadiumList = data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName));
+          this.stadiumList = (data.stadiumsList.length > 0) ? data.stadiumsList.sort((a, b) => a.stadiumName.localeCompare(b.stadiumName)) : [];
         }
       });
 
@@ -184,7 +185,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     this.teamListSub = this.teamsService.getTeamsListUpdateListener()
       .subscribe({
         next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
-          this.teamList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
+          this.teamList = (data.teamsList.length > 0) ? data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName)) : [];
         }
       });
 
