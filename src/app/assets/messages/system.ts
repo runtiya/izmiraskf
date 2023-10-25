@@ -39,4 +39,8 @@ export const systemMessages = {
 
   // Teams-In-Groupstages
   'teamsingroupstages.groupstages.missing.error': 'HATA! Lütfen Grup bilgisi seçiniz!',
+
+  // Applıcation
+  'application.error.stadium.notfound' : 'Hata! Saha Bulunamadı!',
+  'application.error.team.notfound' : 'Hata! Takım Bulunamadı'
 }

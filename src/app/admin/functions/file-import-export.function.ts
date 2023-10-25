@@ -46,12 +46,12 @@ export class fileImportExportFunctions {
         const match = week.matchList[m];
 
         let globalFixtureExport = <GlobalFixtureExportModel>{};
-        globalFixtureExport.Lig = match["leagueName"];
-        globalFixtureExport.Hafta = `${w + 1}. HAFTA`;
-        globalFixtureExport.Ev_Sahibi_Takım = match["homeTeamOfficialName"] || 'BAY';
-        globalFixtureExport.Misafir_Takım = match["awayTeamOfficialName"] || 'BAY';
-        globalFixtureExport.Tarih_Saat = this.globalFunctions.getDateTime(match["matchDate"]) || 'Belirtilmemiş';
-        globalFixtureExport.Saha = match["stadiumName"] || 'Belirtilmemiş';
+        globalFixtureExport["Lig"] = match["leagueName"];
+        globalFixtureExport["Hafta"] = `${w + 1}. HAFTA`;
+        globalFixtureExport["Ev Sahibi Takım"] = match["homeTeamOfficialName"] || 'BAY';
+        globalFixtureExport["Misafir Takım"] = match["awayTeamOfficialName"] || 'BAY';
+        globalFixtureExport["Tarih Saat"] = this.globalFunctions.getDateTime(match["matchDate"]) || 'Belirtilmemiş';
+        globalFixtureExport["Saha"] = match["stadiumName"] || 'Belirtilmemiş';
 
         fileData.push(globalFixtureExport);
       }

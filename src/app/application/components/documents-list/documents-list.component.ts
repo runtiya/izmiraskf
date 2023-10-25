@@ -29,9 +29,9 @@ export class ApplicationDocumentList implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.router.paramMap
       .subscribe(params => {
+        this.isLoading = true;
         this.url_category = params.get('category').toUpperCase();
         let documentCategory = documentCategoryList.find(d => d.name == this.url_category).value;
         this.globalFunctions.setToolbarTitle(documentCategory);

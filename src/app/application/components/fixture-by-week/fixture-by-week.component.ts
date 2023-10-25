@@ -54,11 +54,21 @@ export class ApplicationFixtureByWeek implements OnInit, OnDestroy {
   }
 
   showStadiumDetails(_stadiumId: number) {
-    this.router.navigate(['/sahalar/detaylar', _stadiumId]);
+    if (_stadiumId !== null) {
+      this.router.navigate(['/sahalar/detaylar', _stadiumId]);
+    } else {
+      this.globalFunctions.showSnackBar('application.error.stadium.notfound');
+    }
+
   }
 
   showTeamDetails(_teamId: number) {
-    this.router.navigate(['/takimlar/detaylar', _teamId]);
+    if (_teamId !== null) {
+      this.router.navigate(['/takimlar/detaylar', _teamId]);
+    } else {
+      this.globalFunctions.showSnackBar('application.error.team.notfound');
+    }
+
   }
 
   ngOnDestroy(): void {

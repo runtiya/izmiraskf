@@ -554,9 +554,11 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     }
   }
 
+  /*
   onImport() {
     this.fileImportExportFunctions.importExcelScoreBoard();
   }
+  */
 
   onExport() {
     this.fileImportExportFunctions.exportExcelScoreBoard(this.fixtureList, this.teamList, this.stadiumList);

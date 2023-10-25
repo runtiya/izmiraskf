@@ -106,7 +106,7 @@ export class AdminTeamsInGroupstagesInFixtureCreate implements OnInit, OnDestroy
             teams.forEach((team, i) => team.orderNo = i+1);
             this.teamsingroupstagesService.createTeamsInGroupstages(teams, this.groupstageSelectionId);
 
-            this.fixturesService.clearFixture(this.groupstageSelectionId);
+            //this.fixturesService.clearFixture(this.groupstageSelectionId);
           }
         }
       });

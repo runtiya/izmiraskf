@@ -42,9 +42,9 @@ export class AdminDocumentList {
   ) {}
 
   ngOnInit() {
-    this.isLoading = true;
     this.router.paramMap
       .subscribe(params => {
+        this.isLoading = true;
         this.url_category = params.get('category').toUpperCase();
         this.documentCategory = this.documentCategoryList.find(d => d.name == this.url_category);
         this.toolbarTitle = this.documentCategory.value;
