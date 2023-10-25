@@ -35,5 +35,5 @@
     </div>
   </div>
 
-  <app-application-no-content-info *ngIf="!(documentsList.length > 0)"></app-application-no-content-info>
+  <app-application-no-content-info *ngIf="!(documentsList.length > 0) && !isLoading"></app-application-no-content-info>
 </div>

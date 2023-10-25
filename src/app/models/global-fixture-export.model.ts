@@ -1,8 +1,8 @@
 export interface GlobalFixtureExportModel {
-  Lig: string,
-  Hafta: string,
-  Ev_Sahibi_Takım: string,
-  Misafir_Takım: string,
-  Tarih_Saat: string,
-  Saha: string
+  "Lig": string,
+  "Hafta": string,
+  "Ev Sahibi Takım": string,
+  "Misafir Takım": string,
+  "Tarih Saat": string,
+  "Saha": string
 }

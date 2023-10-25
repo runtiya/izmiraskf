@@ -22,7 +22,7 @@
                 <mat-option [value]="null">
                   {{ "Seçiniz" }}
                 </mat-option>
-                <mat-option *ngFor="let season of seasonList" [value]="season.id">
+                <mat-option *ngFor="let season of seasonsList" [value]="season.id">
                   {{ season.seasonName }}
                 </mat-option>
               </mat-select>
@@ -41,7 +41,7 @@
                 <mat-option [value]="null">
                   {{ "Seçiniz" }}
                 </mat-option>
-                <mat-option *ngFor="let league of leagueList" [value]="league.id">
+                <mat-option *ngFor="let league of leaguesList" [value]="league.id">
                   {{ league.leagueName }}
                 </mat-option>
               </mat-select>
@@ -60,7 +60,7 @@
                 <mat-option [value]="null">
                   {{ "Seçiniz" }}
                 </mat-option>
-                <mat-option *ngFor="let group of groupstageList" [value]="group.id">
+                <mat-option *ngFor="let group of groupstagesList" [value]="group.id">
                   {{ group.groupName }}
                 </mat-option>
               </mat-select>
@@ -106,7 +106,7 @@
                 <mat-option [value]="null">
                   {{ "Seçiniz" }}
                 </mat-option>
-                <mat-option *ngFor="let stadium of stadiumList" [value]="stadium.id">
+                <mat-option *ngFor="let stadium of stadiumsList" [value]="stadium.id">
                   {{ stadium.stadiumName }}
                 </mat-option>
               </mat-select>
@@ -124,7 +124,7 @@
                 <mat-option [value]="null">
                   {{ "Seçiniz" }}
                 </mat-option>
-                <mat-option *ngFor="let team of teamList" [value]="team.id">
+                <mat-option *ngFor="let team of teamsList" [value]="team.id">
                   <div class="d-flex align-items-center">
                     <img mat-card-avatar class="image-teamlogo-weeklymatchlist-search" [src]="team.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="team.shortName || team.officialname">
                     {{team.shortName || team.officialName}}
@@ -145,7 +145,7 @@
                 <mat-option [value]="null">
                   {{ "Seçiniz" }}
                 </mat-option>
-                <mat-option *ngFor="let team of teamList" [value]="team.id">
+                <mat-option *ngFor="let team of teamsList" [value]="team.id">
                   <div class="d-flex align-items-center">
                     <img mat-card-avatar class="image-teamlogo-weeklymatchlist-search" [src]="team.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="team.shortName || team.officialname">
                     {{team.shortName || team.officialName}}
