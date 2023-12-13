@@ -1,15 +1,24 @@
-<nav class="navbar navbar-expand-lg" style="background-color: #3F51B5;" >
+<mat-toolbar>
+  <img
+    [src]="izmirAskfLogoPath"
+    mat-card-sm-image
+    class="toolbar-image"
+    alt="İZMİR ASKF"
+    routerLink="/admin/anasayfa"
+  />
+  <span class="toolbar-spacer"></span>
+
+  <img
+    [src]="tffizmirLogoPath"
+    mat-card-sm-image
+    class="toolbar-image"
+    alt="TFF İZMİR İL TEMSİLCİLİĞİ"
+    routerLink="/admin/anasayfa"
+  />
+</mat-toolbar>
+
+<nav class="navbar navbar-expand-xl toolbar">
   <div class="container-fluid">
-    <a
-      class="navbar-brand"
-      routerLink="/admin/anasayfa"
-    >
-      <img
-        mat-card-sm-image
-        [src]="logoPath"
-        [alt]="'İZMİR ASKF'"
-      >
-    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -19,125 +28,310 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-      <span class="navbar-toggler-icon"></span>
+      <mat-icon class="navbar-toggler-icon">menu</mat-icon>
     </button>
     <div class="collapse navbar-collapse" id="navbarAdminPanel">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <!-- Home -->
         <li class="nav-item">
-          <a
-            class="nav-link"
+          <button
+            mat-button
+            class="primary nav-link"
             aria-current="page"
             routerLink="/admin/anasayfa"
-          >Ana Sayfa</a>
+          >
+            Ana Sayfa
+          </button>
         </li>
         <!-- Content Management -->
         <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
+          <button
+            mat-button
+            class="primary nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >İçerik Yönetimi</a>
+          >
+            İçerik Yönetimi
+          </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="admin/izmiraskf">İzmir ASKF</a></li>
-            <li><a class="dropdown-item" routerLink="admin/izmiraskf/yonetim-kurulu">Yönetim Kurulu</a></li>
             <li>
-              <hr class="dropdown-divider">
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/izmiraskf"
+              >
+                İzmir ASKF
+              </button>
             </li>
-            <li><a class="dropdown-item" routerLink="admin/izmirtffiltemsilciligi">TFF İl Temsilciliği</a></li>
-            <li><a class="dropdown-item" routerLink="admin/izmirtffiltemsilciligi/tffiltemsilciligi">Yönetim Kurulu</a></li>
             <li>
-              <hr class="dropdown-divider">
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/izmiraskf/yonetim-kurulu"
+              >
+                Yönetim Kurulu
+              </button>
             </li>
-            <li><a class="dropdown-item" routerLink="admin/haberler">Haberler</a></li>
             <li>
-              <hr class="dropdown-divider">
+              <hr class="dropdown-divider" />
             </li>
-            <li><a class="dropdown-item" routerLink="admin/disbaglantilar">Dış Bağlantılar</a></li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/izmirtffiltemsilciligi"
+              >
+                TFF İl Temsilciliği
+              </button>
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/izmirtffiltemsilciligi/tffiltemsilciligi"
+              >
+                Yönetim Kurulu
+              </button>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/haberler"
+              >
+                Haberler
+              </button>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/disbaglantilar"
+              >
+                Dış Bağlantılar
+              </button>
+            </li>
           </ul>
         </li>
-         <!-- Documents -->
-         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Dokümanlar</a>
+        <!-- Documents -->
+        <li class="nav-item dropdown">
+          <button
+            mat-button
+            class="primary nav-link dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Dokümanlar
+          </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="admin/dokumanlar/amatorligstatuleri">Amatör Lig Statüleri</a></li>
-            <li><a class="dropdown-item" routerLink="admin/dokumanlar/talimatlar">Talimatlar</a></li>
-            <li><a class="dropdown-item" routerLink="admin/dokumanlar/lisansformlari">Lisans Formları</a></li>
-            <li><a class="dropdown-item" routerLink="admin/dokumanlar/belgeler">Belgeler</a></li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/dokumanlar/amatorligstatuleri"
+              >
+                Amatör Lig Statüleri
+              </button>
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/dokumanlar/talimatlar"
+              >
+                Talimatlar
+              </button>
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/dokumanlar/lisansformlari"
+              >
+                Lisans Formları
+              </button>
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/dokumanlar/belgeler"
+              >
+                Belgeler
+              </button>
+            </li>
           </ul>
         </li>
         <!-- Info Center -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Bilgi Bankası</a>
+          <button
+            mat-button
+            class="primary nav-link dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            >Bilgi Bankası</button
+          >
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="admin/takimlar">Takımlar</a></li>
-            <li><a class="dropdown-item" routerLink="admin/sahalar">Sahalar</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" routerLink="admin/komite-dosyalari/disiplinkurulu">Disiplin Kurulu Dosyaları</a></li>
-            <li><a class="dropdown-item" routerLink="admin/komite-kararlari/disiplinkurulu">Disiplin Kurulu Kararları</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" routerLink="admin/komite-dosyalari/iltertipkomitesi">İl Tertip Komitesi Dosyaları</a></li>
-            <li><a class="dropdown-item" routerLink="admin/komite-kararlari/iltertipkomitesi">İl Tertip Komitesi Kararları</a></li>
+            <li>
+              <button mat-button class="primary dropdown-item" routerLink="admin/takimlar">Takımlar</button>
+            </li>
+            <li>
+              <button mat-button class="primary dropdown-item" routerLink="admin/sahalar">Sahalar</button>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/komite-dosyalari/disiplinkurulu"
+                >Disiplin Kurulu Dosyaları</button
+              >
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/komite-kararlari/disiplinkurulu"
+                >Disiplin Kurulu Kararları</button
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/komite-dosyalari/iltertipkomitesi"
+                >İl Tertip Komitesi Dosyaları</button
+              >
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/komite-kararlari/iltertipkomitesi"
+                >İl Tertip Komitesi Kararları</button
+              >
+            </li>
           </ul>
         </li>
         <!-- Data Management -->
         <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
+          <button
+            mat-button
+            class="primary nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >Veri Yönetimi</a>
+            >Veri Yönetimi</button
+          >
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="admin/sezonlar">Sezonlar</a></li>
-            <li><a class="dropdown-item" routerLink="admin/ligler">Ligler</a></li>
-            <li><a class="dropdown-item" routerLink="admin/gruplar">Gruplar</a></li>
-            <li><a class="dropdown-item" routerLink="admin/gruplar/takimlar">Grup-Takım Eşleşmeleri</a></li>
-            <li><a class="dropdown-item" routerLink="admin/gruplar/ihrac-ve-cekilme">İhraç ve Çekilme</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" routerLink="admin/fikstur">Fikstür</a></li>
-            <li><a class="dropdown-item" routerLink="admin/skor-tablosu">Skor Tablosu</a></li>
-            <li><a class="dropdown-item" routerLink="admin/puan-tablosu">Puan Durumu</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" routerLink="admin/haftalik-bulten">Haftalık Bülten</a></li>
-            <li><a class="dropdown-item" routerLink="admin/haftalik-musabaka-listesi">Haftalık Müsabaka Listesi</a></li>
+            <li>
+              <button mat-button class="primary dropdown-item" routerLink="admin/sezonlar">Sezonlar</button>
+            </li>
+            <li>
+              <button mat-button class="primary dropdown-item" routerLink="admin/ligler">Ligler</button>
+            </li>
+            <li>
+              <button mat-button class="primary dropdown-item" routerLink="admin/gruplar">Gruplar</button>
+            </li>
+            <li>
+              <button mat-button class="primary dropdown-item" routerLink="admin/gruplar/takimlar"
+                >Grup-Takım Eşleşmeleri</button
+              >
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/gruplar/ihrac-ve-cekilme"
+                >İhraç ve Çekilme</button
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <button mat-button class="primary dropdown-item" routerLink="admin/fikstur">Fikstür</button>
+            </li>
+            <li>
+              <button mat-button class="primary dropdown-item" routerLink="admin/skor-tablosu"
+                >Skor Tablosu</button
+              >
+            </li>
+            <li>
+              <button mat-button class="primary dropdown-item" routerLink="admin/puan-tablosu"
+                >Puan Durumu</button
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <button mat-button class="primary dropdown-item" routerLink="admin/haftalik-bulten"
+                >Haftalık Bülten</button
+              >
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/haftalik-musabaka-listesi"
+                >Haftalık Müsabaka Listesi</button
+              >
+            </li>
           </ul>
         </li>
         <!-- Settings -->
         <li class="nav-item dropdown">
-          <a
+          <button
+            mat-button
             class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >Araçlar</a>
+            >Araçlar</button
+          >
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="admin/kullanicilar">Kullanıcılar</a></li>
-            <li><a class="dropdown-item" routerLink="admin/dokumanlar/aktarmadosyalari">Aktarma Dosyaları</a></li>
+            <li>
+              <button mat-button class="primary dropdown-item" routerLink="admin/kullanicilar"
+                >Kullanıcılar</button
+              >
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/dokumanlar/aktarmadosyalari"
+                >Aktarma Dosyaları</button
+              >
+            </li>
           </ul>
         </li>
         <!-- Logout -->
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="admin/kullanici-guvenli-cikis">Güvenli Çıkış</a>
+          <button
+            mat-button
+            class="primary nav-item"
+            aria-current="page"
+            routerLink="admin/kullanici-guvenli-cikis"
+            >Güvenli Çıkış</button
+          >
         </li>
-
-        <li class="nav-item"><a class="nav-link" aria-current="page" routerLink="admin/kullanici-giris">Sistem Giriş</a></li>
       </ul>
     </div>
 
-
     <div class="d-flex align-items-center" *ngIf="true">
-      <mat-card-subtitle>{{authenticatedUser.fullName || authenticatedUser.userName}}</mat-card-subtitle>
-      <img mat-card-avatar [src]="authenticatedUser.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="authenticatedUser.userName">
+      <mat-card-subtitle style="color: whitesmoke;">{{
+        authenticatedUser.fullName || authenticatedUser.userName
+      }}</mat-card-subtitle>
+      <img
+        mat-card-avatar
+        [src]="
+          authenticatedUser.imagePath ||
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'
+        "
+        [alt]="authenticatedUser.userName"
+      />
     </div>
-
   </div>
-
-
 </nav>

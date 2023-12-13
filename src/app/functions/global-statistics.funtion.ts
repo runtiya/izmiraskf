@@ -1,5 +1,4 @@
 import { Injectable, ViewChild } from '@angular/core';
-import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 
 import {
   ApexAxisChartSeries,
@@ -89,7 +88,7 @@ export class statisticsFunctions {
       dataLabels: {
         enabled: true
       },
-      //colors: ['#006c9e', '#de425b', '#69d148', '#7f6ebe', '#df61a9', '#ff6d68', '#a9dc5d', '#fcbe6e', '#d9e87b', '#fff4a0'],
+      colors: ['#00378F', '#923993', '#DC4B80', '#FF7B66', '#FFB957', '#F9F871', '#00B38B', '#84001F', '#8C8DB9', '#B08D00'],
 
     }
 

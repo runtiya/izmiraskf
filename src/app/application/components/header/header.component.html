@@ -1,17 +1,25 @@
-<nav class="navbar navbar-expand-xl" id="header-application" style="background-color: #3F51B5;">
+<mat-toolbar>
+  <img
+    [src]="izmirAskfLogoPath"
+    mat-card-sm-image
+    class="toolbar-image"
+    alt="İZMİR ASKF"
+    routerLink="/"
+  >
+  <span class="toolbar-spacer"></span>
+
+  <img
+    [src]="tffizmirLogoPath"
+    mat-card-sm-image
+    class="toolbar-image"
+    alt="TFF İZMİR İL TEMSİLCİLİĞİ"
+    routerLink="/"
+  >
+</mat-toolbar>
+
+
+<nav class="navbar navbar-expand-xl toolbar" id="header-application">
   <div class="container-fluid">
-    <a
-      class="navbar-brand"
-      routerLink="/"
-    >
-      <img
-        [src]="logoPath"
-        mat-card-sm-image
-        alt="İzmir ASKF"
-        width="30"
-        height="24"
-      >
-    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -21,105 +29,214 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-      <span class="navbar-toggler-icon"></span>
+      <mat-icon class="navbar-toggler-icon">menu</mat-icon>
     </button>
     <div class="collapse navbar-collapse" id="navbarApplicationPanel">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <!-- Home -->
         <li class="nav-item">
-          <a
-            class="nav-link"
+          <button
+            mat-button
+            class="primary nav-link"
             aria-current="page"
             routerLink="/"
-          >Ana Sayfa</a>
+          >Ana Sayfa</button>
         </li>
         <!-- Institutional İzmir ASKF -->
         <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
+          <button
+            mat-button
+            class="primary nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >İzmir ASKF</a>
+          >İzmir ASKF</button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="/izmiraskf/hakkimizda">Hakkımızda</a></li>
-            <li><a class="dropdown-item" routerLink="/izmiraskf/yonetim-kurulu">Yönetim Kurulumuz</a></li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="/izmiraskf/hakkimizda"
+              >Hakkımızda</button>
+            </li>
+
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="/izmiraskf/yonetim-kurulu"
+              >Yönetim Kurulumuz</button>
+            </li>
           </ul>
         </li>
         <!-- Institutional İzmir TFF İl Temsilciliği -->
         <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
+          <button
+            mat-button
+            class="primary nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >TFF İl Temsilciliği</a>
+          >TFF İl Temsilciliği</button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="/tffiltemsilciligi/hakkimizda">Hakkımızda</a></li>
-            <li><a class="dropdown-item" routerLink="/tffiltemsilciligi/tffiltemsilciligi">TFF İl Temsilciliği</a></li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="/tffiltemsilciligi/hakkimizda"
+              >Hakkımızda</button>
+            </li>
+
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="/tffiltemsilciligi/tffiltemsilciligi"
+              >TFF İl Temsilciliği</button>
+            </li>
           </ul>
         </li>
          <!-- News -->
          <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/haberler">Haberler</a>
+          <button
+            mat-button
+            class="primary nav-link"
+            aria-current="page"
+            routerLink="/haberler"
+          >Haberler</button>
         </li>
         <!-- Info Center -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Bilgi Bankası</a>
+          <button
+            mat-button
+            class="primary nav-link dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >Bilgi Bankası</button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="/takimlar">Takımlar</a></li>
-            <li><a class="dropdown-item" routerLink="/sahalar">Sahalar</a></li>
-            <li><a class="dropdown-item" routerLink="/komite-kararlari/disiplinkurulu">Disiplin Kurulu Kararları</a></li>
-            <li><a class="dropdown-item" routerLink="/komite-kararlari/iltertipkomitesi">İl Tertip Komitesi Kararları</a></li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="/takimlar"
+              >Takımlar</button>
+            </li>
+
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="/sahalar"
+              >Sahalar</button>
+            </li>
+
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="/komite-kararlari/disiplinkurulu"
+              >Disiplin Kurulu Kararları</button>
+            </li>
+
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="/komite-kararlari/iltertipkomitesi"
+              >İl Tertip Komitesi Kararları</button>
+            </li>
           </ul>
         </li>
         <!-- Weekly Match Program -->
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/haftalik-bulten">Haftalık Bülten</a>
+          <button
+            mat-button
+            class="primary nav-link"
+            aria-current="page"
+            routerLink="/haftalik-bulten"
+          >Haftalık Bülten</button>
         </li>
         <!-- Point Board & Fixture -->
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/puan-tablosu-fikstur">Puan Durumu ve Fikstür</a>
+          <button
+            mat-button
+            class="primary nav-link"
+            aria-current="page"
+            routerLink="/puan-tablosu-fikstur"
+          >Puan Durumu ve Fikstür</button>
         </li>
         <!-- Documents -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">Dokümanlar</a>
+          <button
+            mat-button
+            class="primary nav-link dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >Dokümanlar</button>
+
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="dokumanlar/amatorligstatuleri">Amatör Lig Statüleri</a></li>
-            <li><a class="dropdown-item" routerLink="dokumanlar/talimatlar">Talimatlar</a></li>
-            <li><a class="dropdown-item" routerLink="dokumanlar/lisansformlari">Lisans Formları</a></li>
-            <li><a class="dropdown-item" routerLink="dokumanlar/belgeler">Belgeler</a></li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="dokumanlar/amatorligstatuleri"
+              >Statüler</button>
+            </li>
+
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="dokumanlar/talimatlar"
+              >Talimatlar</button>
+            </li>
+
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="dokumanlar/lisansformlari"
+              >Lisans Formları</button>
+            </li>
+
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="dokumanlar/belgeler"
+              >Belgeler</button>
+            </li>
           </ul>
         </li>
-        <!-- Logout -->
+        <!-- Contact -->
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/iletisim">İletişim</a>
+          <button
+            mat-button
+            class="primary nav-link"
+            aria-current="page"
+            routerLink="/iletisim"
+          >İletişim</button>
         </li>
         <!-- Login -->
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="admin/kullanici-giris">Sistem Giriş</a>
+          <button
+            mat-button
+            class="primary nav-link"
+            aria-current="page"
+            routerLink="/admin/kullanici-giris"
+          >Sistem Giriş</button>
         </li>
       </ul>
     </div>
 
-    <div class="socialmedia-band">
-      <div class="d-flex">
-        <mat-card-subtitle class="socialmedia-selector" *ngFor="let link of externalLinksList">
-          <fa-icon
-            [icon]="findIconFaIcon(link.faBrand)"
-            matTooltip="{{link.linkName}}"
-            class="{{findIconFaClass(link.faBrand)}}"
-            (click)="routeToURL(link.url)"
-          >
-          </fa-icon>
-        </mat-card-subtitle>
+    <div class="d-flex align-items-center" *ngIf="true">
+      <div class="fa-brands" *ngFor="let link of externalLinksList">
+        <fa-icon
+        [icon]="findIconFaIcon(link.faBrand)"
+        matTooltip="{{link.linkName}}"
+        class="{{findIconFaClass(link.faBrand)}}"
+        (click)="routeToURL(link.url)"
+      ></fa-icon>
       </div>
     </div>
-
 
   </div>
 </nav>

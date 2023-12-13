@@ -3,6 +3,7 @@ import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 
 import { GlobalIzmirASKFService } from "../../../services/global-izmiraskf.service";
+import { GlobalITFFService } from "../../../services/global-tffizmiriltemsilciligi.service";
 import { ExternalLinksModel } from "../../models/application-externallinks.model";
 import { ExternalLinksService } from "../../services/application-externallinks.service";
 
@@ -20,14 +21,17 @@ export class ApplicationFooter implements OnInit, OnDestroy {
   isLoading: boolean = false;
   externalLinksList: ExternalLinksModel[] = [];
   private externalLinksListSub: Subscription;
-  logoPath: string = null;
-  private logoPathSubscription: Subscription;
+  izmirAskfLogoPath: string = null;
+  private izmirAskfLogoPathSubscription: Subscription;
+  tffizmirLogoPath: string = null;
+  private tffIzmirLogoPathSubscription: Subscription;
   faBrandList = faBrandList;
   environment = environment;
 
   constructor(
     private externalLinksService: ExternalLinksService,
     private globalIzmirASKFService: GlobalIzmirASKFService,
+    private globalITFFService: GlobalITFFService,
     private globalFunctions: globalFunctions,
     private router: Router
   ) {}
@@ -40,10 +44,17 @@ export class ApplicationFooter implements OnInit, OnDestroy {
         }
       });
 
-    this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
+    this.izmirAskfLogoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
         next: (data: string) => {
-          this.logoPath = data;
+          this.izmirAskfLogoPath = data;
+        }
+      });
+
+    this.tffIzmirLogoPathSubscription = this.globalITFFService.getLogoPathUpdateListener()
+      .subscribe({
+        next: (data: string) => {
+          this.tffizmirLogoPath = data;
         }
       });
   }

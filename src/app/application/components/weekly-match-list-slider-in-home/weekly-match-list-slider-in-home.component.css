@@ -16,7 +16,7 @@
   padding: 0 0.5rem ;
   z-index: 1;
   color: white;
-  background-color: #3F51B5;
+  background-color: #00378F;
   cursor: pointer;
 }
 
@@ -29,7 +29,7 @@
   animation: marquee 20s linear infinite; /* Kayan animasyonu ayarlayın */
   font-weight: 550;
   font-size: medium;
-  color: #3F51B5;
+  color: #00378F;
 }
 
 /* Kayan animasyonu tanımı */

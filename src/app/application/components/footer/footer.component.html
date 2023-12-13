@@ -1,38 +1,49 @@
+
+
 <div class="body-footer" id="footer-application">
   <div class="container">
-    <br>
-    <div class="row d-flex align-items-center">
-      <div class="col-lg-4 col-md-12 col-sm-12">
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <img
+          [src]="izmirAskfLogoPath"
+          mat-card-sm-image
+          class="toolbar-image"
+          alt="İZMİR ASKF"
+          routerLink="/"
+        >
+      </div>
+
+      <div class="col-lg-4 col-md-4 col-sm-4">
         <mat-card-subtitle>
-          <div class="d-flex align-items-center justify-content-center">
-            <img mat-card-sm-image [src]="logoPath" [alt]="'İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU'" (click)="onRouteHome()">
-            <!--İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU-->
-          </div>
+          &copy; İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU
         </mat-card-subtitle>
-      </div>
+        <mat-card-subtitle>
+          {{ getFullYear() + " Tüm hakları saklıdır. "}}
+        </mat-card-subtitle>
 
-      <div class="col-lg-4 col-md-12 col-sm-12">
-        <div class="justify-content-center">
-          <mat-card-subtitle>
-            &copy; {{ + getFullYear() + " Tüm hakları saklıdır. "}}
-          </mat-card-subtitle>
-          <div class="d-flex align-items-center justify-content-center">
-            <mat-card-subtitle class="socialmedia-selector" *ngFor="let link of externalLinksList">
-              <fa-icon
-                [icon]="findIconFaIcon(link.faBrand)"
-                matTooltip="{{link.linkName}}"
-                class="{{findIconFaClass(link.faBrand)}}"
-                (click)="routeToURL(link.url)"
-              >
-              </fa-icon>
-            </mat-card-subtitle>
-          </div>
-
+        <div class="d-flex align-items-center justify-content-center">
+          <div class="fa-brands" *ngFor="let link of externalLinksList">
+            <fa-icon
+            [icon]="findIconFaIcon(link.faBrand)"
+            matTooltip="{{link.linkName}}"
+            class="{{findIconFaClass(link.faBrand)}}"
+            (click)="routeToURL(link.url)"
+          ></fa-icon>
+          <mat-card-subtitle>{{link.linkName}}</mat-card-subtitle></div>
         </div>
-
       </div>
 
-      <div class="col-lg-4 col-md-12 col-sm-12">
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <img
+          [src]="tffizmirLogoPath"
+          mat-card-sm-image
+          class="toolbar-image"
+          alt="TFF İZMİR İL TEMSİLCİLİĞİ"
+          routerLink="/"
+        >
+      </div>
+
+      <div class="col-12">
         <mat-card-subtitle>
           <div class="d-flex align-items-center justify-content-center">
             Powered by
@@ -40,11 +51,9 @@
               <img mat-card-sm-image [src]="environment.serverUrl + 'images/statics/runtiya-logo.png'" [alt]="'RUNTIYA'">
             </a>
           </div>
-
         </mat-card-subtitle>
       </div>
     </div>
-    <br>
   </div>
 </div>
 

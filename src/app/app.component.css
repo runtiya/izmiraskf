@@ -8,7 +8,7 @@
 }
 
 #footer {
-  background-color: #3F51B5;
+  background-color: #00378F;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -77,7 +77,7 @@ tr.table-detail-row:hover {
 }
 
 tr.table-header-row {
-  background-color: #3F51B5;
+  background-color: #00378F;
 }
 
 .mdc-data-table__header-cell {
@@ -177,6 +177,6 @@ input[type="file"] {
 /* Social Media Class Attributes End */
 
 .toolbar {
-  background-color: #3F51B5;
+  background-color: #00378F;
   color: white;
 }

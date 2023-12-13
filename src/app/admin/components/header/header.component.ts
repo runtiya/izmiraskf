@@ -3,6 +3,7 @@ import { Subscription } from "rxjs";
 
 import { AuthService } from "../../authentication/auth.service";
 import { GlobalIzmirASKFService } from "../../../services/global-izmiraskf.service";
+import { GlobalITFFService } from "../../../services/global-tffizmiriltemsilciligi.service";
 import { UserModel } from "../../models/admin-users.model";
 
 @Component({
@@ -19,23 +20,34 @@ export class AdminHeader implements OnInit, OnDestroy {
   userProfileImage: string = null;
   userFullName: string = null;
 
-  logoPath: string = null;
-  private logoPathSubscription: Subscription;
+  izmirAskfLogoPath: string = null;
+  private izmirAskfLogoPathSubscription: Subscription;
+  tffizmirLogoPath: string = null;
+  private tffIzmirLogoPathSubscription: Subscription;
   @Output() public sidenavToggle = new EventEmitter();
 
   constructor(
     private authService: AuthService,
-    private globalIzmirASKFService: GlobalIzmirASKFService
+    private globalIzmirASKFService: GlobalIzmirASKFService,
+    private globalITFFService: GlobalITFFService,
   ){}
 
   ngOnInit(): void {
     this.authenticatedUser = this.authService.getAuthenticatedUser() || JSON.parse(localStorage.getItem("userInfo"));
 
     this.globalIzmirASKFService.getLogoPath();
-    this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
+    this.izmirAskfLogoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
         next: (data: string) => {
-          this.logoPath = data;
+          this.izmirAskfLogoPath = data;
+        }
+      });
+
+    this.globalITFFService.getLogoPath();
+    this.tffIzmirLogoPathSubscription = this.globalITFFService.getLogoPathUpdateListener()
+      .subscribe({
+        next: (data: string) => {
+          this.tffizmirLogoPath = data;
         }
       });
   }
@@ -45,7 +57,8 @@ export class AdminHeader implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.logoPathSubscription.unsubscribe();
+    this.izmirAskfLogoPathSubscription.unsubscribe();
+    this.tffIzmirLogoPathSubscription.unsubscribe();
   }
 
 }

@@ -1,17 +1,44 @@
-.nav-item .nav-link {
-  color: white;
+
+.dropdown-item {
+  justify-content: start;
 }
+
+.dropdown-item:hover {
+  color: #00378F !important;
+}
+
+.dropdown-menu {
+  background-color: #00378F;
+}
+
+.navbar-nav {
+  margin: auto;
+}
+
+.navbar-toggler-icon {
+  color: whitesmoke;
+}
+
+.mat-mdc-button {
+  color: whitesmoke !important;
+  font-weight: 500;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar-image {
+  height: 100%;
+  width: auto;
+}
+
 
 .mat-mdc-card-avatar {
   margin: 0 0.5rem;
   object-fit: contain;
 }
 
-mat-card-subtitle {
-  color: whitesmoke;
-}
-
-.navbar-toggler {
-  color: #3F51B5;
-  background-color: whitesmoke;
+.dropdown-divider {
+  border-top: 1px solid whitesmoke;
 }
