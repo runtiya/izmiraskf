@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Output, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { AuthService } from "../../../admin/authentication/auth.service";
 import { GlobalIzmirASKFService } from "../../../services/global-izmiraskf.service";
+import { GlobalITFFService } from "../../../services/global-tffizmiriltemsilciligi.service";
 import { ExternalLinksModel } from "../../models/application-externallinks.model";
 import { ExternalLinksService } from "../../services/application-externallinks.service";
 
-import { globalFunctions } from "../../../functions/global.function";
 import { faBrandList } from "../../../assets/lists/font-awesome-brand.list";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
@@ -21,14 +20,15 @@ export class ApplicationHeader implements OnInit, OnDestroy {
   faBrandList = faBrandList;
 
   @Output() public sidenavToggle = new EventEmitter();
-  logoPath: string = null;
-  private logoPathSubscription: Subscription;
+  izmirAskfLogoPath: string = null;
+  private izmirAskfLogoPathSubscription: Subscription;
+  tffizmirLogoPath: string = null;
+  private tffIzmirLogoPathSubscription: Subscription;
 
   constructor(
-    private authService: AuthService,
     private globalIzmirASKFService: GlobalIzmirASKFService,
+    private globalITFFService: GlobalITFFService,
     private externalLinksService: ExternalLinksService,
-    private globalFunctions: globalFunctions
   ){}
 
   ngOnInit(): void {
@@ -42,10 +42,18 @@ export class ApplicationHeader implements OnInit, OnDestroy {
 
 
     this.globalIzmirASKFService.getLogoPath();
-    this.logoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
+    this.izmirAskfLogoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
         next: (data: string) => {
-          this.logoPath = data;
+          this.izmirAskfLogoPath = data;
+        }
+      });
+
+    this.globalITFFService.getLogoPath();
+    this.tffIzmirLogoPathSubscription = this.globalITFFService.getLogoPathUpdateListener()
+      .subscribe({
+        next: (data: string) => {
+          this.tffizmirLogoPath = data;
         }
       });
 
@@ -68,7 +76,8 @@ export class ApplicationHeader implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.logoPathSubscription.unsubscribe();
+    this.izmirAskfLogoPathSubscription.unsubscribe();
+    this.tffIzmirLogoPathSubscription.unsubscribe();
     this.externalLinksListSub.unsubscribe();
   }
 }

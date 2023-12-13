@@ -1,18 +1,40 @@
-.nav-item .nav-link {
-  color: white;
+
+.dropdown-item {
+  justify-content: start;
+}
+
+.dropdown-item:hover {
+  color: #00378F !important;
+}
+
+.dropdown-menu {
+  background-color: #00378F;
+}
+
+.navbar-nav {
+  margin: auto;
+}
+
+.navbar-toggler-icon {
+  color: whitesmoke;
+}
+
+.mat-mdc-button {
+  color: whitesmoke !important;
+  font-weight: 500;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar-image {
+  height: 100%;
+  width: auto;
 }
 
 .fa-brands {
-  margin-left: 0.25rem;
+  margin-left: 0.5rem;
   font-size: large;
-  color: whitesmoke !important;
-}
-
-.socialmedia-selector {
-  color: whitesmoke
-}
-
-.navbar-toggler {
-  color: #3F51B5;
-  background-color: whitesmoke;
+  color: whitesmoke;
 }

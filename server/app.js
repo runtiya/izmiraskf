@@ -5,9 +5,40 @@ const mongoose = require('mongoose');
 const tzoffset = (new Date()).getTimezoneOffset() * 60000;
 const RequestLogs = require('./models/request-logs');
 const environment = require('./environments/development');
-
+const rateLimit = require("express-rate-limit");
+const cors = require("cors");
 
 const app = express();
+
+app.use(cors());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 16,
+  standardHeaders: 'draft-7',
+  legacyHeaders: true,
+  keyGenerator: (req) => {
+    return 'all-request';
+  },
+  message: {
+    error: true,
+    message: "server.error.toomanyrequest"
+  }
+});
+
+const limiter2 = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: 'draft-7',
+  legacyHeaders: true,
+  keyGenerator: (req) => {
+    return 'all-request';
+  },
+  message: {
+    error: true,
+    message: "server.error.toomanyrequest2"
+  }
+})
 
 mongoose.connect(`mongodb+srv://${environment.MongoAtlasUserName}:${environment.MongoAtlasPassword}@izmiraskf.riyzadp.mongodb.net/?retryWrites=true&w=majority`)
   .then(() => {
