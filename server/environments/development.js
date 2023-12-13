@@ -2,7 +2,6 @@ const environment = {
   production: false,
   development: true,
   database: {
-
     host: '127.0.0.1',
     user: 'root',
     port: 3306,
