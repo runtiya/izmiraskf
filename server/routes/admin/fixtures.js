@@ -10,9 +10,9 @@ const router = express.Router();
 
 router.put("/search", checkAuth, fixturesController.getFixtureBySearchIndex);
 
-router.post("/create", checkAuth, setTimestamp, fixturesController.createFixture);
+router.post("/create", checkAuth, fixturesController.createFixture);
 
-router.put("/update", checkAuth, setTimestamp, fixturesController.updateFixture);
+router.put("/update", checkAuth, fixturesController.updateFixture);
 
 router.delete("/delete/:id", checkAuth, fixturesController.deleteMatch);
 

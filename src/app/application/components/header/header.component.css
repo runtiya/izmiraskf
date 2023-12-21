@@ -1,6 +1,11 @@
+.mat-mdc-card-sm-image {
+  height: auto;
+  width: 3rem;
+}
 
 .dropdown-item {
   justify-content: start;
+
 }
 
 .dropdown-item:hover {
@@ -8,7 +13,7 @@
 }
 
 .dropdown-menu {
-  background-color: #00378F;
+  background-color: #00378f;
 }
 
 .navbar-nav {
@@ -16,25 +21,18 @@
 }
 
 .navbar-toggler-icon {
-  color: whitesmoke;
+  color: white;
 }
 
 .mat-mdc-button {
-  color: whitesmoke !important;
+  color: white !important;
   font-weight: 500;
+  font-size: small;
 }
 
-.toolbar-spacer {
-  flex: 1 1 auto;
-}
-
-.toolbar-image {
-  height: 100%;
-  width: auto;
-}
 
 .fa-brands {
-  margin-left: 0.5rem;
-  font-size: large;
-  color: whitesmoke;
+  margin: 0 0.1rem;
+  font-size: medium;
+  color: white;
 }

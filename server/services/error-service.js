@@ -28,6 +28,9 @@ class errorService {
       // form validation error
       SERVICE_ERROR_FORM_VALIDATION: { code: 400, message: 'server.error.form.validation' },
 
+      // SYSTEM ERRORS
+      SYSTEM_ERROR_REQUESTCACHE: { code: 500, message: 'system.error.request.cache'}
+
     }
   }
 

@@ -2,7 +2,9 @@
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <a class="weatherwidget-io" [href]="'https://forecast7.com/tr/38d4227d14/izmir/'" data-label_1="İZMİR" data-label_2="HAVA DURUMU" data-icons="Climacons Animated" data-mode="Current" data-days="3" data-theme="weather_one" >İZMİR HAVA DURUMU</a>
+
       <app-application-weekly-match-list-slider-in-home></app-application-weekly-match-list-slider-in-home>
+
     </div>
 
     <div class="col-lg-9 col-md-12 col-sm-12">
@@ -16,20 +18,6 @@
             <img mat-card-image [src]="environment.serverUrl + 'images/statics/ataturk-banner.jpg'" [alt]="'Mustafa Kemal ATATÜRK'">
           </mat-card>
         </div>
-
-        <!--
-        <div class="col-lg-12 col-md-4 col-sm-12">
-          <button
-            mat-raised-button
-            type="button"
-            color="primary"
-            class="btn btn-news-router"
-            (click)="showNewsList()"
-          >
-            HABERLER VE DUYURULAR
-          </button>
-        </div>
-        -->
 
         <div class="col-lg-12 col-md-4 col-sm-12">
           <button
@@ -55,15 +43,15 @@
           </button>
         </div>
 
-
-        <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="extAdvertisementList.length > 0 && extAdvertisementList[0].imagePath !== null">
+        <div class="col-12">
           <mat-card class="card card-advertisement card-advertisement-1">
-            <a [href]="extAdvertisementList[0].url" target="_blank" rel="noopener noreferrer">
+            <a *ngIf="extAdvertisementList.length > 0 && extAdvertisementList[0]" [href]="extAdvertisementList[0].url" target="_blank" rel="noopener noreferrer">
               <img class="img-advertisement" [src]="extAdvertisementList[0].imagePath" [alt]="extAdvertisementList[0].linkName">
             </a>
+
+            <img *ngIf="extAdvertisementList.length === 0 && !extAdvertisementList[0]" class="img-advertisement" [src]="'assets/advertisement1.png'">
           </mat-card>
         </div>
-
       </div>
     </div>
 
@@ -71,11 +59,13 @@
       <app-application-document-category-list-in-home></app-application-document-category-list-in-home>
     </div>
 
-    <div class="col-lg-9 col-md-12 col-sm-12" *ngIf="extAdvertisementList.length > 0 && extAdvertisementList[1].imagePath !== null">
+    <div class="col-lg-9 col-md-12 col-sm-12">
       <mat-card class="card card-advertisement card-advertisement-2">
-        <a [href]="extAdvertisementList[1].url" target="_blank">
+        <a *ngIf="extAdvertisementList.length > 0 && extAdvertisementList[1]" [href]="extAdvertisementList[1].url" target="_blank">
           <img class="img-advertisement" [src]="extAdvertisementList[1].imagePath" [alt]="extAdvertisementList[1].linkName">
         </a>
+
+        <img *ngIf="!extAdvertisementList[1]" class="img-advertisement" [src]="'assets/advertisement2.png'">
       </mat-card>
 
 
@@ -103,21 +93,18 @@
       <app-application-external-links-in-home></app-application-external-links-in-home>
 
       <div class="col-lg-12 col-md-12 col-sm-12">
-        <a class="weatherwidget-io" href="https://forecast7.com/tr/38d4227d14/izmir/" data-label_1="İZMİR" data-label_2="HAVA DURUMU" data-icons="Climacons Animated" data-days="5" data-theme="weather_one" >İZMİR HAVA DURUMU</a>
-      </div>
-
-      <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="extAdvertisementList.length > 0 && extAdvertisementList[2].imagePath !== null">
         <mat-card class="card card-advertisement card-advertisement-3">
-          <a [href]="extAdvertisementList[2].url" target="_blank">
+          <a *ngIf="extAdvertisementList.length > 0 && extAdvertisementList[2]" [href]="extAdvertisementList[2].url" target="_blank">
             <img class="img-advertisement" [src]="extAdvertisementList[2].imagePath" [alt]="extAdvertisementList[2].linkName">
           </a>
+
+          <img *ngIf="!extAdvertisementList[2]" class="img-advertisement" [src]="'assets/advertisement3.png'">
         </mat-card>
       </div>
-    </div>
 
-    <div class="col-lg-12 col-md-12 col-sm-12">
-
-
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <a class="weatherwidget-io" href="https://forecast7.com/tr/38d4227d14/izmir/" data-label_1="İZMİR" data-label_2="HAVA DURUMU" data-icons="Climacons Animated" data-days="5" data-theme="weather_one" >İZMİR HAVA DURUMU</a>
+      </div>
     </div>
 
 

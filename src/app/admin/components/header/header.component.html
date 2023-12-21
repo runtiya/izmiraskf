@@ -1,23 +1,46 @@
-<mat-toolbar>
-  <img
-    [src]="izmirAskfLogoPath"
-    mat-card-sm-image
-    class="toolbar-image"
-    alt="İZMİR ASKF"
-    routerLink="/admin/anasayfa"
-  />
-  <span class="toolbar-spacer"></span>
+<!--
+<div class="row align-items-center">
+  <div class="col-6">
+    <div class="d-flex justify-content-center">
+      <img
+        [src]="izmirAskfLogoPath"
+        mat-card-sm-image
+        alt="İZMİR ASKF"
+        routerLink="/"
+      >
+    </div>
+  </div>
 
-  <img
-    [src]="tffizmirLogoPath"
-    mat-card-sm-image
-    class="toolbar-image"
-    alt="TFF İZMİR İL TEMSİLCİLİĞİ"
-    routerLink="/admin/anasayfa"
-  />
-</mat-toolbar>
+  <div class="col-6">
+    <div class="d-flex justify-content-center">
+      <img
+        [src]="tffizmirLogoPath"
+        mat-card-sm-image
+        alt="TFF İZMİR İL TEMSİLCİLİĞİ"
+        routerLink="/"
+      >
+    </div>
+  </div>
+</div>
+-->
 
 <nav class="navbar navbar-expand-xl toolbar">
+  <div class="d-flex justify-content-center">
+    <img
+      [src]="izmirAskfLogoPath"
+      mat-card-sm-image
+      alt="İZMİR ASKF"
+      routerLink="/"
+    />
+  </div>
+  <div class="d-flex justify-content-center">
+    <img
+      [src]="tffizmirLogoPath"
+      mat-card-sm-image
+      alt="TFF İZMİR İL TEMSİLCİLİĞİ"
+      routerLink="/"
+    />
+  </div>
   <div class="container-fluid">
     <button
       class="navbar-toggler"
@@ -40,7 +63,7 @@
             aria-current="page"
             routerLink="/admin/anasayfa"
           >
-            Ana Sayfa
+            ANA SAYFA
           </button>
         </li>
         <!-- Content Management -->
@@ -51,7 +74,7 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            İçerik Yönetimi
+            İÇERİK YÖNETİMİ
           </button>
           <ul class="dropdown-menu">
             <li>
@@ -127,7 +150,7 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Dokümanlar
+            DOKÜMANLAR
           </button>
           <ul class="dropdown-menu">
             <li>
@@ -175,14 +198,27 @@
             class="primary nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-            >Bilgi Bankası</button
           >
+            BİLGİ BANKASI
+          </button>
           <ul class="dropdown-menu">
             <li>
-              <button mat-button class="primary dropdown-item" routerLink="admin/takimlar">Takımlar</button>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/takimlar"
+              >
+                Takımlar
+              </button>
             </li>
             <li>
-              <button mat-button class="primary dropdown-item" routerLink="admin/sahalar">Sahalar</button>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/sahalar"
+              >
+                Sahalar
+              </button>
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
@@ -190,16 +226,18 @@
                 mat-button
                 class="primary dropdown-item"
                 routerLink="admin/komite-dosyalari/disiplinkurulu"
-                >Disiplin Kurulu Dosyaları</button
               >
+                Disiplin Kurulu Dosyaları
+              </button>
             </li>
             <li>
               <button
                 mat-button
                 class="primary dropdown-item"
                 routerLink="admin/komite-kararlari/disiplinkurulu"
-                >Disiplin Kurulu Kararları</button
               >
+                Disiplin Kurulu Kararları
+              </button>
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
@@ -207,16 +245,18 @@
                 mat-button
                 class="primary dropdown-item"
                 routerLink="admin/komite-dosyalari/iltertipkomitesi"
-                >İl Tertip Komitesi Dosyaları</button
               >
+                İl Tertip Komitesi Dosyaları
+              </button>
             </li>
             <li>
               <button
                 mat-button
                 class="primary dropdown-item"
                 routerLink="admin/komite-kararlari/iltertipkomitesi"
-                >İl Tertip Komitesi Kararları</button
               >
+                İl Tertip Komitesi Kararları
+              </button>
             </li>
           </ul>
         </li>
@@ -227,58 +267,101 @@
             class="primary nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-            >Veri Yönetimi</button
           >
+            VERİ YÖNETİMİ
+          </button>
           <ul class="dropdown-menu">
             <li>
-              <button mat-button class="primary dropdown-item" routerLink="admin/sezonlar">Sezonlar</button>
-            </li>
-            <li>
-              <button mat-button class="primary dropdown-item" routerLink="admin/ligler">Ligler</button>
-            </li>
-            <li>
-              <button mat-button class="primary dropdown-item" routerLink="admin/gruplar">Gruplar</button>
-            </li>
-            <li>
-              <button mat-button class="primary dropdown-item" routerLink="admin/gruplar/takimlar"
-                >Grup-Takım Eşleşmeleri</button
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/sezonlar"
               >
+                Sezonlar
+              </button>
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/ligler"
+              >
+                Ligler
+              </button>
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/gruplar"
+              >
+                Gruplar
+              </button>
+            </li>
+            <li>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/gruplar/takimlar"
+              >
+                Grup-Takım Eşleşmeleri
+              </button>
             </li>
             <li>
               <button
                 mat-button
                 class="primary dropdown-item"
                 routerLink="admin/gruplar/ihrac-ve-cekilme"
-                >İhraç ve Çekilme</button
               >
+                İhraç ve Çekilme
+              </button>
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <button mat-button class="primary dropdown-item" routerLink="admin/fikstur">Fikstür</button>
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/fikstur"
+              >
+                Fikstür
+              </button>
             </li>
             <li>
-              <button mat-button class="primary dropdown-item" routerLink="admin/skor-tablosu"
-                >Skor Tablosu</button
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/skor-tablosu"
               >
+                Skor Tablosu
+              </button>
             </li>
             <li>
-              <button mat-button class="primary dropdown-item" routerLink="admin/puan-tablosu"
-                >Puan Durumu</button
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/puan-tablosu"
               >
+                Puan Durumu
+              </button>
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <button mat-button class="primary dropdown-item" routerLink="admin/haftalik-bulten"
-                >Haftalık Bülten</button
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/haftalik-bulten"
               >
+                Haftalık Bülten
+              </button>
             </li>
             <li>
               <button
                 mat-button
                 class="primary dropdown-item"
                 routerLink="admin/haftalik-musabaka-listesi"
-                >Haftalık Müsabaka Listesi</button
               >
+                Haftalık Müsabaka Listesi
+              </button>
             </li>
           </ul>
         </li>
@@ -289,21 +372,27 @@
             class="nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-            >Araçlar</button
           >
+            ARAÇLAR
+          </button>
           <ul class="dropdown-menu">
             <li>
-              <button mat-button class="primary dropdown-item" routerLink="admin/kullanicilar"
-                >Kullanıcılar</button
+              <button
+                mat-button
+                class="primary dropdown-item"
+                routerLink="admin/kullanicilar"
               >
+                Kullanıcılar
+              </button>
             </li>
             <li>
               <button
                 mat-button
                 class="primary dropdown-item"
                 routerLink="admin/dokumanlar/aktarmadosyalari"
-                >Aktarma Dosyaları</button
               >
+                Aktarma Dosyaları
+              </button>
             </li>
           </ul>
         </li>
@@ -314,21 +403,22 @@
             class="primary nav-item"
             aria-current="page"
             routerLink="admin/kullanici-guvenli-cikis"
-            >Güvenli Çıkış</button
           >
+            GÜVENLİ ÇIKIŞ
+          </button>
         </li>
       </ul>
     </div>
 
     <div class="d-flex align-items-center" *ngIf="true">
-      <mat-card-subtitle style="color: whitesmoke;">{{
+      <mat-card-subtitle style="color: whitesmoke">{{
         authenticatedUser.fullName || authenticatedUser.userName
       }}</mat-card-subtitle>
       <img
         mat-card-avatar
         [src]="
           authenticatedUser.imagePath ||
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'
+          'assets/no-profile.png'
         "
         [alt]="authenticatedUser.userName"
       />

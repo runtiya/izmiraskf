@@ -16,7 +16,7 @@
     <ng-container matColumnDef="image">
       <th mat-header-cell *matHeaderCellDef="">Profil Fotoğrafı</th>
       <td mat-cell *matCellDef="let user">
-        <img mat-card-avatar class="image-user-profile" [src]="user.imagePath || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'" alt="">
+        <img mat-card-avatar class="image-user-profile" [src]="user.imagePath || 'assets/no-profile.png'" alt="">
       </td>
     </ng-container>
 

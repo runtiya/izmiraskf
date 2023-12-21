@@ -12,13 +12,14 @@ const app = express();
 
 app.use(cors());
 
+// Limiter
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 16,
-  standardHeaders: 'draft-7',
+  windowMs: 5 * 60 * 1000, // 5 mins
+  max: 1000, // Limit each IP to 1000 requests per `window`
+  standardHeaders: true,
   legacyHeaders: true,
   keyGenerator: (req) => {
-    return 'all-request';
+    return req.ip; // IP-based, means for each ID
   },
   message: {
     error: true,
@@ -26,27 +27,19 @@ const limiter = rateLimit({
   }
 });
 
-const limiter2 = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  standardHeaders: 'draft-7',
-  legacyHeaders: true,
-  keyGenerator: (req) => {
-    return 'all-request';
-  },
-  message: {
-    error: true,
-    message: "server.error.toomanyrequest2"
-  }
-})
+// Use Limiter
+app.use(limiter);
 
+// Connect Mongo DB
 mongoose.connect(`mongodb+srv://${environment.MongoAtlasUserName}:${environment.MongoAtlasPassword}@izmiraskf.riyzadp.mongodb.net/?retryWrites=true&w=majority`)
   .then(() => {
     console.log('Mongo Atlas connected successfully!');
   })
   .catch(() => {
     console.log('Mongo Atlas connection failed!');
-  })
+  });
+
+
 // Admin Routes
 const adminNewsRoutes = require('./routes/admin/news');
 const adminAboutIASKFRoutes = require('./routes/admin/aboutizmiraskf');
@@ -119,10 +112,10 @@ app.use("/files/template-files", express.static(path.join("server/files/template
 // CORS - Cross-Origin Resource Sharing
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  //res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control');
+  //res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-  //res.setHeader('Cache-Control', 'public, max-age=30'); // As seconds
+  res.setHeader('Cache-Control', 'public, max-age=10'); // As seconds
 
   if (!(["OPTIONS"].includes(req.method))) {
     // Request logging to MongoDB
@@ -186,7 +179,7 @@ app.use('/weekly-match-program', applicationWeeklyMatchProgramRoutes);
 app.use('/weekly-match-list', applicationWeeklyMatchListRoutes);
 app.use('/statistics', applicationStatisticsRoutes);
 
-app.use('*', (req, res, next) => {res.status(404).json({message: '404 Not Found!'})});
+app.use('*', (req, res, next) => {res.status(404).json({error: true, message: '404 Not Found!'})});
 
 
 module.exports = app;

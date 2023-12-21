@@ -9,7 +9,6 @@ export const systemMessages = {
   'server.error' : 'HATA! İşleminiz tamamlanamadı!',
   'server.error.payloadtoolarge': 'HATA! İşleminiz büyük veri içermektedir!',
   'server.error.toomanyrequest': 'HATA! Çok fazla işlem denendi!',
-  'server.error.toomanyrequest2': 'asdasdsda',
   'server.error.notfound' : 'HATA! Sayfa bulunamadı!',
   'server.error.database' : 'HATA! Veritabanı hatası!',
   'server.error.database.foreignkey' : 'HATA! Alt kayıt bulundu!',

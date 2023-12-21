@@ -26,7 +26,7 @@
   top: 0; /* Üstten başlasın */
   left: 100%; /* Başlangıçta ekran dışında olsun */
   white-space: nowrap; /* Satırları kırpmadan yazıyı sıkıştırın */
-  animation: marquee 20s linear infinite; /* Kayan animasyonu ayarlayın */
+  animation: marquee 25s linear infinite; /* Kayan animasyonu ayarlayın */
   font-weight: 550;
   font-size: medium;
   color: #00378F;
