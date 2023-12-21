@@ -1,10 +1,10 @@
 .card-document-category-list {
   cursor: pointer;
-  background-color: #00378F;
+  background-color: #00378f;
 }
 
 .card-document-category-list:hover{
-  background-color: aqua;
+  background-color: #00378f;
   transition: 100ms ease-in;
 
 }
@@ -22,7 +22,7 @@
 }
 
 .carousel-caption {
-  background-color: rgba(63, 81, 181, 0.85);
+  background-color: rgba(0, 55, 143, 0.85);
   left: 0;
   right: 0;
   width: 100%;

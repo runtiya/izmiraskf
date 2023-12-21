@@ -1,19 +1,38 @@
+.mat-mdc-card-sm-image {
+  height: auto;
+  width: 4rem;
+}
+
 .container {
   text-align: center;
 }
 
 .body-footer {
-  background-color: whitesmoke;
+  background-color: #00378F;
 }
 
 .fa-brands {
   margin-left: 0.5rem;
-  font-size: medium;
-  color: #00378F !important;
+  color: white !important;
 }
 
-mat-card-subtitle {
-  color: #00378F;
-  margin: 0.5rem 0;
+p {
+  color: white;
+  font-size: smaller;
+}
+
+li {
+  display: flex;
+}
+
+.nav-item {
+  font-weight: 550;
+  cursor: pointer;
+}
+
+.dropdown-item {
+  font-weight: 100;
+  justify-content: start !important;
+  cursor: pointer;
 }
 

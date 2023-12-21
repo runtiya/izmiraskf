@@ -3,7 +3,7 @@ const queries = require("../../queries/admin/fixtures");
 const connection = require('../../functions/database.js');
 const crypto = require('../../functions/crypto');
 const errorService = require('../../services/error-service.js');
-
+const tzoffset = (new Date()).getTimezoneOffset() * 60000;
 
 function getFixtureBySearchIndex(req, res, next) {
     const searchIndex = req.body;
@@ -119,8 +119,8 @@ function createFixture(req, res, next) {
       connection.query(
         queries.createFixture,
         [
-          match.createdAt,
-          match.createdBy,
+          match.createdAt || (new Date(Date.now() - tzoffset)).toISOString().slice(0, 19).replace(/[^0-9:-]/g, ' '),
+          match.createdBy || req.userData.userId,
           match.updatedAt,
           match.updatedBy,
           match.groupstageId,
@@ -187,8 +187,8 @@ function updateFixture(req, res, next) {
         [
           match.createdAt,
           match.createdBy,
-          match.updatedAt,
-          match.updatedBy,
+          match.updatedAt || (new Date(Date.now() - tzoffset)).toISOString().slice(0, 19).replace(/[^0-9:-]/g, ' '),
+          match.updatedBy || req.userData.userId,
           match.groupstageId,
           match.matchNo,
           match.matchWeek,

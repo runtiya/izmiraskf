@@ -3,56 +3,83 @@
 <div class="body-footer" id="footer-application">
   <div class="container">
     <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-4">
-        <img
-          [src]="izmirAskfLogoPath"
-          mat-card-sm-image
-          class="toolbar-image"
-          alt="İZMİR ASKF"
-          routerLink="/"
-        >
+
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="d-flex align-items-center">
+          <img
+            [src]="izmirAskfLogoPath"
+            mat-card-sm-image
+            alt="İZMİR ASKF"
+            routerLink="/"
+          >
+          <span><p>İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU</p></span>
+        </div>
+
+        <div class="d-flex align-items-center">
+          <img
+            [src]="tffizmirLogoPath"
+            mat-card-sm-image
+            alt="TFF İZMİR İL TEMSİLCİLİĞİ"
+            routerLink="/"
+          >
+          <span><p>TÜRKİYE FUTBOL FEDERASYONU İZMİR İL TEMSİLCİLİĞİ</p></span>
+        </div>
+
+        <div class="d-flex align-items-center">
+          <img
+            [src]="'assets/taskk-logo.png'"
+            mat-card-sm-image
+            alt="TASKK"
+            routerLink="/"
+          >
+          <span><p>TÜRKİYE AMATÖR SPOR KULÜPLERİ KONFEDERASYONU</p></span>
+        </div>
       </div>
 
-      <div class="col-lg-4 col-md-4 col-sm-4">
-        <mat-card-subtitle>
-          &copy; İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU
-        </mat-card-subtitle>
-        <mat-card-subtitle>
-          {{ getFullYear() + " Tüm hakları saklıdır. "}}
-        </mat-card-subtitle>
+
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <p >
+          &copy; {{getFullYear()}} İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU
+        </p>
 
         <div class="d-flex align-items-center justify-content-center">
           <div class="fa-brands" *ngFor="let link of externalLinksList">
             <fa-icon
-            [icon]="findIconFaIcon(link.faBrand)"
-            matTooltip="{{link.linkName}}"
-            class="{{findIconFaClass(link.faBrand)}}"
-            (click)="routeToURL(link.url)"
-          ></fa-icon>
-          <mat-card-subtitle>{{link.linkName}}</mat-card-subtitle></div>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-4 col-sm-4">
-        <img
-          [src]="tffizmirLogoPath"
-          mat-card-sm-image
-          class="toolbar-image"
-          alt="TFF İZMİR İL TEMSİLCİLİĞİ"
-          routerLink="/"
-        >
-      </div>
-
-      <div class="col-12">
-        <mat-card-subtitle>
-          <div class="d-flex align-items-center justify-content-center">
-            Powered by
-            <a href="https://www.runtiya.com" target="_blank">
-              <img mat-card-sm-image [src]="environment.serverUrl + 'images/statics/runtiya-logo.png'" [alt]="'RUNTIYA'">
-            </a>
+              [icon]="findIconFaIcon(link.faBrand)"
+              matTooltip="{{link.linkName}}"
+              class="{{findIconFaClass(link.faBrand)}}"
+              (click)="routeToURL(link.url)"
+            ></fa-icon>
+            <span><p>{{link.linkName}}</p></span>
           </div>
-        </mat-card-subtitle>
+        </div>
+
+        <a href="https://www.runtiya.com" target="_blank">
+          <img mat-card-md-image [src]="'assets/runtiya-logo-white.png'" [alt]="'RUNTIYA'">
+        </a>
       </div>
+
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-start">
+          <li class="nav-item" routerLink="/haberler"><p>Haberler</p></li>
+          <li class="nav-item"><p>Kurul Kararları</p></li>
+          <ul>
+            <li class="dropdown-item" routerLink="/komite-kararlari/disiplinkurulu"><p>Disiplin Kurulu Kararları</p></li>
+            <li class="dropdown-item" routerLink="/komite-kararlari/iltertipkomitesi"><p>İl Tertip Komitesi Kararları</p></li>
+          </ul>
+          <li class="nav-item" routerLink="/haftalik-bulten"><p>Haftalık Bülten</p></li>
+          <li class="nav-item" routerLink="/puan-tablosu-fikstur"><p>Puan Durumu ve Fikstür</p></li>
+          <li class="nav-item"><p>Dokümanlar</p></li>
+          <ul>
+            <li class="dropdown-item" routerLink="/dokumanlar/amatorligstatuleri"><p>Statüler</p></li>
+            <li class="dropdown-item" routerLink="/dokumanlar/talimatlar"><p>Talimatlar</p></li>
+            <li class="dropdown-item" routerLink="/dokumanlar/lisansformlari"><p>Lisans Formları</p></li>
+            <li class="dropdown-item" routerLink="/dokumanlar/belgeler"><p>Belgeler</p></li>
+          </ul>
+          <li class="nav-item" routerLink="/iletisim"><p>İletişim</p></li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </div>

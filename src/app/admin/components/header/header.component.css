@@ -1,3 +1,7 @@
+.mat-mdc-card-sm-image {
+  height: auto;
+  width: 3rem;
+}
 
 .dropdown-item {
   justify-content: start;
@@ -16,29 +20,25 @@
 }
 
 .navbar-toggler-icon {
-  color: whitesmoke;
+  color: white;
 }
 
 .mat-mdc-button {
-  color: whitesmoke !important;
+  color: white !important;
   font-weight: 500;
+  font-size: small;
 }
 
 .toolbar-spacer {
   flex: 1 1 auto;
 }
 
-.toolbar-image {
-  height: 100%;
-  width: auto;
-}
-
-
 .mat-mdc-card-avatar {
+  background-color: white;
   margin: 0 0.5rem;
   object-fit: contain;
 }
 
 .dropdown-divider {
-  border-top: 1px solid whitesmoke;
+  border-top: 1px solid white;
 }

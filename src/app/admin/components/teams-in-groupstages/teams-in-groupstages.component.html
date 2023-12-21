@@ -88,7 +88,7 @@
 
           <mat-card-subtitle>{{ i + 1 }}</mat-card-subtitle>
           <div class="d-flex align-items-center">
-            <img mat-card-avatar class="image-teamlogo-teamsingroupstages" [src]="team.teamImagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" [alt]="team.teamShortName ||teamOfficialName">
+            <img mat-card-avatar class="image-teamlogo-teamsingroupstages" [src]="team.teamImagePath || 'assets/no-profile.png'" [alt]="team.teamShortName ||teamOfficialName">
             <mat-card-title class="team-in-list">{{
               team.teamShortName || team.teamOfficialName
             }}</mat-card-title>
@@ -128,7 +128,7 @@
               class="{{ matchList(team.id) ? 'match-team-list' : null }}"
             >
               <mat-card-title-group>
-                <img mat-card-avatar class="image-teamlogo-teamsingroupstages" [src]="team.imagePath || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc6dYptPDzTNQh8ScooEG0lSXCgM-GWt2NKVuz9CmYcg&s'" alt="{{team.officialName}}">
+                <img mat-card-avatar class="image-teamlogo-teamsingroupstages" [src]="team.imagePath || 'assets/no-profile.png'" alt="{{team.officialName}}">
                 <mat-card-title class="card-team-name">{{
                   team.shortName || team.officialName
                 }}</mat-card-title>

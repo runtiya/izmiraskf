@@ -1,4 +1,5 @@
 const cache = require('memory-cache');
+const errorService = require('../services/error-service');
 
 const requestCaching = (cachingAsMiliseconds) => {
     return (req, res, next) => {
@@ -15,6 +16,11 @@ const requestCaching = (cachingAsMiliseconds) => {
                 next();
             }
         } catch (error) {
+          errorService.handleError(
+            errorService.errors.SYSTEM_ERROR_REQUESTCACHE.code,
+            errorService.errors.SYSTEM_ERROR_REQUESTCACHE.message,
+            error
+          );
           // Write error message
           next();
         }

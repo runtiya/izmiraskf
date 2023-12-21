@@ -1,24 +1,51 @@
-<mat-toolbar>
-  <img
-    [src]="izmirAskfLogoPath"
-    mat-card-sm-image
-    class="toolbar-image"
-    alt="İZMİR ASKF"
-    routerLink="/"
-  >
-  <span class="toolbar-spacer"></span>
+<!--
+<div class="row align-items-center">
+  <div class="col-6">
+    <div class="d-flex justify-content-center">
+      <img
+        [src]="izmirAskfLogoPath"
+        mat-card-sm-image
+        class=""
+        alt="İZMİR ASKF"
+        routerLink="/"
+      >
+    </div>
+  </div>
 
-  <img
-    [src]="tffizmirLogoPath"
-    mat-card-sm-image
-    class="toolbar-image"
-    alt="TFF İZMİR İL TEMSİLCİLİĞİ"
-    routerLink="/"
-  >
-</mat-toolbar>
-
+  <div class="col-6">
+    <div class="d-flex justify-content-center">
+      <img
+        [src]="tffizmirLogoPath"
+        mat-card-sm-image
+        class=""
+        alt="TFF İZMİR İL TEMSİLCİLİĞİ"
+        routerLink="/"
+      >
+    </div>
+  </div>
+</div>
+-->
 
 <nav class="navbar navbar-expand-xl toolbar" id="header-application">
+  <div class="d-flex justify-content-center">
+    <img
+      [src]="izmirAskfLogoPath"
+      mat-card-sm-image
+      class=""
+      alt="İZMİR ASKF"
+      routerLink="/"
+    />
+  </div>
+  <div class="d-flex justify-content-center">
+    <img
+      [src]="tffizmirLogoPath"
+      mat-card-sm-image
+      class=""
+      alt="TFF İZMİR İL TEMSİLCİLİĞİ"
+      routerLink="/"
+    />
+  </div>
+
   <div class="container-fluid">
     <button
       class="navbar-toggler"
@@ -40,7 +67,9 @@
             class="primary nav-link"
             aria-current="page"
             routerLink="/"
-          >Ana Sayfa</button>
+          >
+            ANA SAYFA
+          </button>
         </li>
         <!-- Institutional İzmir ASKF -->
         <li class="nav-item dropdown">
@@ -49,14 +78,18 @@
             class="primary nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >İzmir ASKF</button>
+          >
+            İZMİR ASKF
+          </button>
           <ul class="dropdown-menu">
             <li>
               <button
                 mat-button
                 class="primary dropdown-item"
                 routerLink="/izmiraskf/hakkimizda"
-              >Hakkımızda</button>
+              >
+                Hakkımızda
+              </button>
             </li>
 
             <li>
@@ -64,7 +97,9 @@
                 mat-button
                 class="primary dropdown-item"
                 routerLink="/izmiraskf/yonetim-kurulu"
-              >Yönetim Kurulumuz</button>
+              >
+                Yönetim Kurulumuz
+              </button>
             </li>
           </ul>
         </li>
@@ -75,14 +110,18 @@
             class="primary nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >TFF İl Temsilciliği</button>
+          >
+            TFF İL TEMSİLCİLİĞİ
+          </button>
           <ul class="dropdown-menu">
             <li>
               <button
                 mat-button
                 class="primary dropdown-item"
                 routerLink="/tffiltemsilciligi/hakkimizda"
-              >Hakkımızda</button>
+              >
+                Hakkımızda
+              </button>
             </li>
 
             <li>
@@ -90,18 +129,22 @@
                 mat-button
                 class="primary dropdown-item"
                 routerLink="/tffiltemsilciligi/tffiltemsilciligi"
-              >TFF İl Temsilciliği</button>
+              >
+                TFF İl Temsilciliği
+              </button>
             </li>
           </ul>
         </li>
-         <!-- News -->
-         <li class="nav-item">
+        <!-- News -->
+        <li class="nav-item">
           <button
             mat-button
             class="primary nav-link"
             aria-current="page"
             routerLink="/haberler"
-          >Haberler</button>
+          >
+            HABERLER
+          </button>
         </li>
         <!-- Info Center -->
         <li class="nav-item dropdown">
@@ -110,14 +153,18 @@
             class="primary nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >Bilgi Bankası</button>
+          >
+            BİLGİ BANKASI
+          </button>
           <ul class="dropdown-menu">
             <li>
               <button
                 mat-button
                 class="primary dropdown-item"
                 routerLink="/takimlar"
-              >Takımlar</button>
+              >
+                Takımlar
+              </button>
             </li>
 
             <li>
@@ -125,7 +172,9 @@
                 mat-button
                 class="primary dropdown-item"
                 routerLink="/sahalar"
-              >Sahalar</button>
+              >
+                Sahalar
+              </button>
             </li>
 
             <li>
@@ -133,7 +182,9 @@
                 mat-button
                 class="primary dropdown-item"
                 routerLink="/komite-kararlari/disiplinkurulu"
-              >Disiplin Kurulu Kararları</button>
+              >
+                Disiplin Kurulu Kararları
+              </button>
             </li>
 
             <li>
@@ -141,7 +192,9 @@
                 mat-button
                 class="primary dropdown-item"
                 routerLink="/komite-kararlari/iltertipkomitesi"
-              >İl Tertip Komitesi Kararları</button>
+              >
+                İl Tertip Komitesi Kararları
+              </button>
             </li>
           </ul>
         </li>
@@ -152,7 +205,9 @@
             class="primary nav-link"
             aria-current="page"
             routerLink="/haftalik-bulten"
-          >Haftalık Bülten</button>
+          >
+            HAFTALIK BÜLTEN
+          </button>
         </li>
         <!-- Point Board & Fixture -->
         <li class="nav-item">
@@ -161,7 +216,9 @@
             class="primary nav-link"
             aria-current="page"
             routerLink="/puan-tablosu-fikstur"
-          >Puan Durumu ve Fikstür</button>
+          >
+            PUAN DURUMU VE FİKSTÜR
+          </button>
         </li>
         <!-- Documents -->
         <li class="nav-item dropdown">
@@ -170,7 +227,9 @@
             class="primary nav-link dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >Dokümanlar</button>
+          >
+            DOKÜMANLAR
+          </button>
 
           <ul class="dropdown-menu">
             <li>
@@ -178,7 +237,9 @@
                 mat-button
                 class="primary dropdown-item"
                 routerLink="dokumanlar/amatorligstatuleri"
-              >Statüler</button>
+              >
+                Statüler
+              </button>
             </li>
 
             <li>
@@ -186,7 +247,9 @@
                 mat-button
                 class="primary dropdown-item"
                 routerLink="dokumanlar/talimatlar"
-              >Talimatlar</button>
+              >
+                Talimatlar
+              </button>
             </li>
 
             <li>
@@ -194,7 +257,9 @@
                 mat-button
                 class="primary dropdown-item"
                 routerLink="dokumanlar/lisansformlari"
-              >Lisans Formları</button>
+              >
+                Lisans Formları
+              </button>
             </li>
 
             <li>
@@ -202,7 +267,9 @@
                 mat-button
                 class="primary dropdown-item"
                 routerLink="dokumanlar/belgeler"
-              >Belgeler</button>
+              >
+                Belgeler
+              </button>
             </li>
           </ul>
         </li>
@@ -213,7 +280,9 @@
             class="primary nav-link"
             aria-current="page"
             routerLink="/iletisim"
-          >İletişim</button>
+          >
+            İLETİŞİM
+          </button>
         </li>
         <!-- Login -->
         <li class="nav-item">
@@ -222,21 +291,23 @@
             class="primary nav-link"
             aria-current="page"
             routerLink="/admin/kullanici-giris"
-          >Sistem Giriş</button>
+          >
+            SİSTEM GİRİŞ
+          </button>
         </li>
       </ul>
     </div>
 
+
     <div class="d-flex align-items-center" *ngIf="true">
-      <div class="fa-brands" *ngFor="let link of externalLinksList">
+      <div class="fa-brands justify-content-center" *ngFor="let link of externalLinksList">
         <fa-icon
-        [icon]="findIconFaIcon(link.faBrand)"
-        matTooltip="{{link.linkName}}"
-        class="{{findIconFaClass(link.faBrand)}}"
-        (click)="routeToURL(link.url)"
-      ></fa-icon>
+          [icon]="findIconFaIcon(link.faBrand)"
+          matTooltip="{{ link.linkName }}"
+          class="{{ findIconFaClass(link.faBrand) }}"
+          (click)="routeToURL(link.url)"
+        ></fa-icon>
       </div>
     </div>
-
   </div>
 </nav>

@@ -83,11 +83,11 @@ export class ApplicationWeeklyMatchListSliderInHome implements OnInit, OnDestroy
           this.fixtureList.forEach(f => {
             this.marqueeText += `
             <a>
-            <b>${f.homeTeamShortName || f.homeTeamOfficialName}</b>
+            ${f.homeTeamShortName || f.homeTeamOfficialName}
             ${f.homeTeamScore !== null ? f.homeTeamScore.toString() : ''} - ${f.awayTeamScore !== null ? f.homeTeamScore.toString() : ''}
-            <b>${f.awayTeamShortName || f.awayTeamOfficialName}</b>
+            ${f.awayTeamShortName || f.awayTeamOfficialName}
             </a>
-            |
+            •
             `;
           });
         }
