@@ -10,7 +10,7 @@ export const faBrandList = [
   {
     name: "TWITTER",
     value: "Twitter",
-    faIcon: fontAwesomeIconList.faTwitter,
+    faIcon: fontAwesomeIconList.faXTwitter,
     faClass: "fa-brands fa-twitter",
     color: "#1DA1F2"
   },

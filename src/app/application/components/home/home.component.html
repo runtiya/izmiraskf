@@ -3,8 +3,9 @@
     <div class="col-lg-12 col-md-12 col-sm-12">
       <a class="weatherwidget-io" [href]="'https://forecast7.com/tr/38d4227d14/izmir/'" data-label_1="İZMİR" data-label_2="HAVA DURUMU" data-icons="Climacons Animated" data-mode="Current" data-days="3" data-theme="weather_one" >İZMİR HAVA DURUMU</a>
 
-      <app-application-weekly-match-list-slider-in-home></app-application-weekly-match-list-slider-in-home>
-
+      <!--
+        <app-application-weekly-match-list-slider-in-home></app-application-weekly-match-list-slider-in-home>
+      -->
     </div>
 
     <div class="col-lg-9 col-md-12 col-sm-12">
@@ -27,7 +28,10 @@
             class="btn btn-disciplinaryboard-router"
             (click)="showDisciplinaryBoardDecisions()"
           >
-            DİSİPLİN KURULU KARARLARI
+            <mat-card-subtitle [style]="'color:white'">
+              DİSİPLİN KURULU KARARLARI
+            </mat-card-subtitle>
+
           </button>
         </div>
 
@@ -39,7 +43,10 @@
             class="btn btn-disciplinaryboard-router"
             (click)="showOrganizinCommitteeDecisions()"
           >
-            İL TERTİP KOMİTESİ KARARLARI
+
+            <mat-card-subtitle [style]="'color:white'">
+              İL TERTİP KOMİTESİ KARARLARI
+            </mat-card-subtitle>
           </button>
         </div>
 

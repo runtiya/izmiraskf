@@ -18,12 +18,7 @@
             />
             <div>
               <mat-card-title>{{ stadium.stadiumName }}</mat-card-title>
-              <mat-card-subtitle *ngIf="stadium.town">{{
-                "İlçe: " + onTownList(stadium.town)
-              }}</mat-card-subtitle>
-              <mat-card-subtitle *ngIf="stadium.floorType">{{
-                "Zemin Türü: " + onFloorTypeList(stadium.floorType)
-              }}</mat-card-subtitle>
+
             </div>
           </div>
         </mat-card-content>

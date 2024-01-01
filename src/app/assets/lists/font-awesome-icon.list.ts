@@ -8,12 +8,12 @@ import {
 
 import {
   faFacebook,
-  faTwitter,
+  faXTwitter,
   faInstagram,
   faLinkedin,
   faYoutube,
   faSnapchat,
-  faTiktok
+  faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
 
 import {
@@ -62,7 +62,7 @@ export const fontAwesomeIconList = {
   faLocationPin: faLocationPin,
   faStopwatch: faStopwatch,
   faFacebook: faFacebook,
-  faTwitter: faTwitter,
+  faXTwitter: faXTwitter,
   faInstagram: faInstagram,
   faLinkedin: faLinkedin,
   faYoutube: faYoutube,

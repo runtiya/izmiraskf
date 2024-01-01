@@ -19,7 +19,6 @@ module.exports = (req, res, next) => {
     // Updating Mode
     } else if(req.method == 'PUT') {
       if (req.body.requestData ?? false) {
-        console.log(1)
         const parsedRequest = JSON.parse(req.body.requestData);
         parsedRequest.updatedAt = (new Date(Date.now() - tzoffset)).toISOString().slice(0, 19).replace(/[^0-9:-]/g, ' ');
         parsedRequest.updatedBy = req.userData.userId;
@@ -34,8 +33,6 @@ module.exports = (req, res, next) => {
     }
 
   } catch (error) {
-    console.log(error)
-
     errorService.handleError(
       errorService.errors.SERVICE_ERROR_SETTIMESTAMP.code,
       errorService.errors.SERVICE_ERROR_SETTIMESTAMP.message,

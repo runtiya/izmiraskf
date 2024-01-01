@@ -41,8 +41,6 @@ export class ApplicationHome implements OnInit, OnDestroy {
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
           this.extAdvertisementList = data.length > 0 ? data.sort((a, b) => {return a.orderNo - b.orderNo}) : [];
-
-          console.log(data)
         }
       });
   }

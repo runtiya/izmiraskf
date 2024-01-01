@@ -1,7 +1,9 @@
+/*
 .mat-mdc-card-sm-image {
   height: auto;
   width: 3rem;
 }
+*/
 
 .dropdown-item {
   justify-content: start;
@@ -33,6 +35,6 @@
 
 .fa-brands {
   margin: 0 0.1rem;
-  font-size: medium;
+  font-size: large;
   color: white;
 }

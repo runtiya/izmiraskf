@@ -12,7 +12,7 @@
             alt="İZMİR ASKF"
             routerLink="/"
           >
-          <span><p>İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU</p></span>
+          <mat-card-subtitle>İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU</mat-card-subtitle>
         </div>
 
         <div class="d-flex align-items-center">
@@ -22,7 +22,7 @@
             alt="TFF İZMİR İL TEMSİLCİLİĞİ"
             routerLink="/"
           >
-          <span><p>TÜRKİYE FUTBOL FEDERASYONU İZMİR İL TEMSİLCİLİĞİ</p></span>
+          <mat-card-subtitle>TÜRKİYE FUTBOL FEDERASYONU İZMİR İL TEMSİLCİLİĞİ</mat-card-subtitle>
         </div>
 
         <div class="d-flex align-items-center">
@@ -32,16 +32,16 @@
             alt="TASKK"
             routerLink="/"
           >
-          <span><p>TÜRKİYE AMATÖR SPOR KULÜPLERİ KONFEDERASYONU</p></span>
+          <mat-card-subtitle>TÜRKİYE AMATÖR SPOR KULÜPLERİ KONFEDERASYONU</mat-card-subtitle>
         </div>
       </div>
 
 
       <div class="col-lg-4 col-md-4 col-sm-12">
-        <p >
+        <mat-card-subtitle>
           &copy; {{getFullYear()}} İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU
-        </p>
-
+        </mat-card-subtitle>
+        <br>
         <div class="d-flex align-items-center justify-content-center">
           <div class="fa-brands" *ngFor="let link of externalLinksList">
             <fa-icon
@@ -50,10 +50,10 @@
               class="{{findIconFaClass(link.faBrand)}}"
               (click)="routeToURL(link.url)"
             ></fa-icon>
-            <span><p>{{link.linkName}}</p></span>
+            <mat-card-subtitle>{{link.linkName}}</mat-card-subtitle>
           </div>
         </div>
-
+        <br>
         <a href="https://www.runtiya.com" target="_blank">
           <img mat-card-md-image [src]="'assets/runtiya-logo-white.png'" [alt]="'RUNTIYA'">
         </a>
@@ -61,22 +61,22 @@
 
       <div class="col-lg-4 col-md-4 col-sm-12">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-start">
-          <li class="nav-item" routerLink="/haberler"><p>Haberler</p></li>
-          <li class="nav-item"><p>Kurul Kararları</p></li>
+          <li class="nav-item" routerLink="/haberler"><mat-card-subtitle>Haberler</mat-card-subtitle></li>
+          <li class="nav-item"><mat-card-subtitle>Kurul Kararları</mat-card-subtitle></li>
           <ul>
-            <li class="dropdown-item" routerLink="/komite-kararlari/disiplinkurulu"><p>Disiplin Kurulu Kararları</p></li>
-            <li class="dropdown-item" routerLink="/komite-kararlari/iltertipkomitesi"><p>İl Tertip Komitesi Kararları</p></li>
+            <li class="dropdown-item" routerLink="/komite-kararlari/disiplinkurulu"><mat-card-subtitle>Disiplin Kurulu Kararları</mat-card-subtitle></li>
+            <li class="dropdown-item" routerLink="/komite-kararlari/iltertipkomitesi"><mat-card-subtitle>İl Tertip Komitesi Kararları</mat-card-subtitle></li>
           </ul>
-          <li class="nav-item" routerLink="/haftalik-bulten"><p>Haftalık Bülten</p></li>
-          <li class="nav-item" routerLink="/puan-tablosu-fikstur"><p>Puan Durumu ve Fikstür</p></li>
-          <li class="nav-item"><p>Dokümanlar</p></li>
+          <li class="nav-item" routerLink="/haftalik-bulten"><mat-card-subtitle>Haftalık Bülten</mat-card-subtitle></li>
+          <li class="nav-item" routerLink="/puan-tablosu-fikstur"><mat-card-subtitle>Puan Durumu ve Fikstür</mat-card-subtitle></li>
+          <li class="nav-item"><mat-card-subtitle>Dokümanlar</mat-card-subtitle></li>
           <ul>
-            <li class="dropdown-item" routerLink="/dokumanlar/amatorligstatuleri"><p>Statüler</p></li>
-            <li class="dropdown-item" routerLink="/dokumanlar/talimatlar"><p>Talimatlar</p></li>
-            <li class="dropdown-item" routerLink="/dokumanlar/lisansformlari"><p>Lisans Formları</p></li>
-            <li class="dropdown-item" routerLink="/dokumanlar/belgeler"><p>Belgeler</p></li>
+            <li class="dropdown-item" routerLink="/dokumanlar/amatorligstatuleri"><mat-card-subtitle>Statüler</mat-card-subtitle></li>
+            <li class="dropdown-item" routerLink="/dokumanlar/talimatlar"><mat-card-subtitle>Talimatlar</mat-card-subtitle></li>
+            <li class="dropdown-item" routerLink="/dokumanlar/lisansformlari"><mat-card-subtitle>Lisans Formları</mat-card-subtitle></li>
+            <li class="dropdown-item" routerLink="/dokumanlar/belgeler"><mat-card-subtitle>Belgeler</mat-card-subtitle></li>
           </ul>
-          <li class="nav-item" routerLink="/iletisim"><p>İletişim</p></li>
+          <li class="nav-item" routerLink="/iletisim"><mat-card-subtitle>İletişim</mat-card-subtitle></li>
         </ul>
       </div>
 
