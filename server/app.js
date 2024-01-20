@@ -90,23 +90,24 @@ const { url } = require('inspector');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit:'8392kb'}));
 
-app.use("/images/", express.static(path.join("server/images")));
-app.use("/images/teams", express.static(path.join("server/images/teams")));
-app.use("/images/stadiums", express.static(path.join("server/images/stadiums")));
-app.use("/images/news", express.static(path.join("server/images/news")));
-app.use("/images/staff", express.static(path.join("server/images/staff")));
-app.use("/images/users", express.static(path.join("server/images/users")));
-app.use("/images/icons", express.static(path.join("server/images/icons")));
-app.use("/images/statics", express.static(path.join("server/images/statics")));
+
+// Images and Files path definitions
+app.use("/images/teams", express.static(path.join("images/teams")));
+app.use("/images/stadiums", express.static(path.join("images/stadiums")));
+app.use("/images/news", express.static(path.join("images/news")));
+app.use("/images/staff", express.static(path.join("images/staff")));
+app.use("/images/users", express.static(path.join("images/users")));
+app.use("/images/icons", express.static(path.join("images/icons")));
+app.use("/images/statics", express.static(path.join("images/statics")));
+app.use("/images/", express.static(path.join("images")));
 
 
-app.use("/files/", express.static(path.join("server/files")));
-app.use("/files/documents", express.static(path.join("server/files/documents")));
-app.use("/files/instructions", express.static(path.join("server/files/instructions")));
-app.use("/files/license-forms", express.static(path.join("server/files/license-forms")));
-app.use("/files/statuses", express.static(path.join("server/files/statuses")));
-app.use("/files/template-files", express.static(path.join("server/files/template-files")));
-
+app.use("/files/documents", express.static(path.join("files/documents")));
+app.use("/files/instructions", express.static(path.join("files/instructions")));
+app.use("/files/license-forms", express.static(path.join("files/license-forms")));
+app.use("/files/statuses", express.static(path.join("files/statuses")));
+app.use("/files/template-files", express.static(path.join("files/template-files")));
+app.use("/files/", express.static(path.join("files")));
 
 
 // CORS - Cross-Origin Resource Sharing
