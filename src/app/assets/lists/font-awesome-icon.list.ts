@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/fontawesome-svg-core";
 
 import {
-  faFacebook,
+  faFacebookF,
   faXTwitter,
   faInstagram,
   faLinkedin,
@@ -61,7 +61,7 @@ export const fontAwesomeIconList = {
   faSort: faSort,
   faLocationPin: faLocationPin,
   faStopwatch: faStopwatch,
-  faFacebook: faFacebook,
+  faFacebookF: faFacebookF,
   faXTwitter: faXTwitter,
   faInstagram: faInstagram,
   faLinkedin: faLinkedin,

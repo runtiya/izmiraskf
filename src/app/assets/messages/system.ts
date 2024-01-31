@@ -1,11 +1,11 @@
 export const systemMessages = {
   // Authentication Messages
-  'login.success': 'Giriş Başarılı!',
-  'login.failure': 'Hata! Hatalı Kullanıcı Adı veya Şifre girdiniz!',
-  'login.wrong.password': 'Hata! Hatalı Şifre girdiniz!',
+  'login.success': 'Giriş başarılı.',
+  'login.failure': 'HATA! Hatalı Kullanıcı Adı veya Şifre girdiniz!',
+  'login.wrong.password': 'HATA! Hatalı Şifre girdiniz!',
 
   // Server Messages
-  'server.success': 'BAŞARILI! İşlem tamamlandı!',
+  'server.success': 'İşlem tamamlandı!',
   'server.error' : 'HATA! İşleminiz tamamlanamadı!',
   'server.error.payloadtoolarge': 'HATA! İşleminiz büyük veri içermektedir!',
   'server.error.toomanyrequest': 'HATA! Çok fazla işlem denendi!',
@@ -16,16 +16,16 @@ export const systemMessages = {
   'server.error.service.encryption' : 'HATA! Veri şifreleme hatası!',
 
   // System Messages
-  'system.error' : 'DİKKAT! Sistem hatası!',
-  'system.success.create' : 'Başarılı! Kayıt eklendi!',
-  'system.success.update' : 'Başarılı! Kayıt güncellendi!',
-  'system.success.delete' : 'Başarılı! Kayıt silindi!',
+  'system.error' : 'Dikkat! Sistem hatası!',
+  'system.success.create' : 'Kayıt eklendi.',
+  'system.success.update' : 'Kayıt güncellendi.',
+  'system.success.delete' : 'Kayıt silindi.',
 
   // Fixture Messages
-  'fixture.error.sameweekandorderno' : 'DİKKAT! Hafta ve Sıra Numarasına sahip başka bir maç bulundu!',
+  'fixture.error.sameweekandorderno' : 'Dikkat! Hafta ve Sıra Numarasına sahip başka bir maç bulundu!',
 
   // Disciplinary Board Messages
-  'disciplinaryboard.error.selectfile' : 'DİKKAT! Lütfen Dosya Numarası seçiniz!',
+  'disciplinaryboard.error.selectfile' : 'Dikkat! Lütfen Dosya Numarası seçiniz!',
 
   // Excel Import
   'file.import.error' : 'HATA! Dosya Yükleme Hatası!',
@@ -42,6 +42,6 @@ export const systemMessages = {
   'teamsingroupstages.groupstages.missing.error': 'HATA! Lütfen Grup bilgisi seçiniz!',
 
   // Applıcation
-  'application.error.stadium.notfound' : 'Hata! Saha Bulunamadı!',
-  'application.error.team.notfound' : 'Hata! Takım Bulunamadı'
+  'application.error.stadium.notfound' : 'HATA! Saha Bulunamadı!',
+  'application.error.team.notfound' : 'HATA! Takım Bulunamadı'
 }

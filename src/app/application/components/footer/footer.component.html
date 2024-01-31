@@ -5,41 +5,39 @@
     <div class="row">
 
       <div class="col-lg-4 col-md-4 col-sm-12">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-center">
           <img
             [src]="izmirAskfLogoPath"
             mat-card-sm-image
             alt="İZMİR ASKF"
             routerLink="/"
           >
-          <mat-card-subtitle>İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU</mat-card-subtitle>
         </div>
 
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-center">
           <img
             [src]="tffizmirLogoPath"
             mat-card-sm-image
             alt="TFF İZMİR İL TEMSİLCİLİĞİ"
             routerLink="/"
           >
-          <mat-card-subtitle>TÜRKİYE FUTBOL FEDERASYONU İZMİR İL TEMSİLCİLİĞİ</mat-card-subtitle>
         </div>
 
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-center">
           <img
             [src]="'assets/taskk-logo.png'"
             mat-card-sm-image
             alt="TASKK"
             routerLink="/"
           >
-          <mat-card-subtitle>TÜRKİYE AMATÖR SPOR KULÜPLERİ KONFEDERASYONU</mat-card-subtitle>
         </div>
+
       </div>
 
 
       <div class="col-lg-4 col-md-4 col-sm-12">
         <mat-card-subtitle>
-          &copy; {{getFullYear()}} İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU
+          İZMİR AMATÖR SPOR KULÜPLERİ FEDERASYONU
         </mat-card-subtitle>
         <br>
         <div class="d-flex align-items-center justify-content-center">
@@ -50,34 +48,37 @@
               class="{{findIconFaClass(link.faBrand)}}"
               (click)="routeToURL(link.url)"
             ></fa-icon>
-            <mat-card-subtitle>{{link.linkName}}</mat-card-subtitle>
+            <mat-card-subtitle [style.font-size]="'small'">{{link.linkName}}</mat-card-subtitle>
           </div>
         </div>
         <br>
-        <a href="https://www.runtiya.com" target="_blank">
-          <img mat-card-md-image [src]="'assets/runtiya-logo-white.png'" [alt]="'RUNTIYA'">
+        <a [href]="'https://www.runtiya.com'" target="_blank">
+          <img mat-card-md-image [src]="'assets/runtiya-logo.png'" [alt]="'RUNTIYA'">
         </a>
       </div>
 
       <div class="col-lg-4 col-md-4 col-sm-12">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-start">
-          <li class="nav-item" routerLink="/haberler"><mat-card-subtitle>Haberler</mat-card-subtitle></li>
-          <li class="nav-item"><mat-card-subtitle>Kurul Kararları</mat-card-subtitle></li>
-          <ul>
-            <li class="dropdown-item" routerLink="/komite-kararlari/disiplinkurulu"><mat-card-subtitle>Disiplin Kurulu Kararları</mat-card-subtitle></li>
-            <li class="dropdown-item" routerLink="/komite-kararlari/iltertipkomitesi"><mat-card-subtitle>İl Tertip Komitesi Kararları</mat-card-subtitle></li>
+        <div class="justify-content-center">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-start">
+            <li class="nav-item" routerLink="/haberler"><mat-card-subtitle>Haberler</mat-card-subtitle></li>
+            <li class="nav-item"><mat-card-subtitle>Kurul Kararları</mat-card-subtitle></li>
+            <ul>
+              <li class="dropdown-item" routerLink="/komite-kararlari/disiplinkurulu"><mat-card-subtitle>Disiplin Kurulu Kararları</mat-card-subtitle></li>
+              <li class="dropdown-item" routerLink="/komite-kararlari/iltertipkomitesi"><mat-card-subtitle>İl Tertip Komitesi Kararları</mat-card-subtitle></li>
+            </ul>
+            <li class="nav-item" routerLink="/haftalik-bulten"><mat-card-subtitle>Haftalık Bülten</mat-card-subtitle></li>
+            <li class="nav-item" routerLink="/puan-tablosu-fikstur"><mat-card-subtitle>Puan Durumu ve Fikstür</mat-card-subtitle></li>
+            <li class="nav-item"><mat-card-subtitle>Dokümanlar</mat-card-subtitle></li>
+            <ul>
+              <li class="dropdown-item" routerLink="/dokumanlar/amatorligstatuleri"><mat-card-subtitle>Statüler</mat-card-subtitle></li>
+              <li class="dropdown-item" routerLink="/dokumanlar/talimatlar"><mat-card-subtitle>Talimatlar</mat-card-subtitle></li>
+              <li class="dropdown-item" routerLink="/dokumanlar/lisansformlari"><mat-card-subtitle>Lisans Formları</mat-card-subtitle></li>
+              <li class="dropdown-item" routerLink="/dokumanlar/belgeler"><mat-card-subtitle>Belgeler</mat-card-subtitle></li>
+            </ul>
+            <li class="nav-item" routerLink="/iletisim"><mat-card-subtitle>İletişim</mat-card-subtitle></li>
           </ul>
-          <li class="nav-item" routerLink="/haftalik-bulten"><mat-card-subtitle>Haftalık Bülten</mat-card-subtitle></li>
-          <li class="nav-item" routerLink="/puan-tablosu-fikstur"><mat-card-subtitle>Puan Durumu ve Fikstür</mat-card-subtitle></li>
-          <li class="nav-item"><mat-card-subtitle>Dokümanlar</mat-card-subtitle></li>
-          <ul>
-            <li class="dropdown-item" routerLink="/dokumanlar/amatorligstatuleri"><mat-card-subtitle>Statüler</mat-card-subtitle></li>
-            <li class="dropdown-item" routerLink="/dokumanlar/talimatlar"><mat-card-subtitle>Talimatlar</mat-card-subtitle></li>
-            <li class="dropdown-item" routerLink="/dokumanlar/lisansformlari"><mat-card-subtitle>Lisans Formları</mat-card-subtitle></li>
-            <li class="dropdown-item" routerLink="/dokumanlar/belgeler"><mat-card-subtitle>Belgeler</mat-card-subtitle></li>
-          </ul>
-          <li class="nav-item" routerLink="/iletisim"><mat-card-subtitle>İletişim</mat-card-subtitle></li>
-        </ul>
+        </div>
+
       </div>
 
     </div>

@@ -55,7 +55,8 @@ export class disciplinaryBoardFunctions {
       title: disciplinaryBoardFile.title,
       caseNo: disciplinaryBoardFile.caseNo,
       caseDate: this.globalFunctions.getDate(disciplinaryBoardFile.caseDate),
-      caseType: disciplinaryBoardFile.caseType.toLowerCase()
+      caseType: disciplinaryBoardFile.caseType.toLowerCase(),
+      clientUrl: environment.clientUrl
     }
 
     return template.replace(/{{(\w+)}}/g, (match, placeholder) => {

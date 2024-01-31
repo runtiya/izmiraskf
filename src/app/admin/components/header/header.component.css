@@ -1,6 +1,6 @@
 .mat-mdc-card-sm-image {
   height: auto;
-  width: 3rem;
+  width: 4rem;
 }
 
 .dropdown-item {
@@ -25,12 +25,7 @@
 
 .mat-mdc-button {
   color: white !important;
-  font-weight: 500;
-  font-size: small;
-}
-
-.toolbar-spacer {
-  flex: 1 1 auto;
+  font-size: smaller;
 }
 
 .mat-mdc-card-avatar {

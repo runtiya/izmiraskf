@@ -92,22 +92,22 @@ app.use(bodyParser.json({limit:'8392kb'}));
 
 
 // Images and Files path definitions
-app.use("/images/teams", express.static(path.join("images/teams")));
-app.use("/images/stadiums", express.static(path.join("images/stadiums")));
-app.use("/images/news", express.static(path.join("images/news")));
-app.use("/images/staff", express.static(path.join("images/staff")));
-app.use("/images/users", express.static(path.join("images/users")));
-app.use("/images/icons", express.static(path.join("images/icons")));
-app.use("/images/statics", express.static(path.join("images/statics")));
-app.use("/images/", express.static(path.join("images")));
+app.use("/images/teams", express.static(path.join(__dirname, "images/teams")));
+app.use("/images/stadiums", express.static(path.join(__dirname, "images/stadiums")));
+app.use("/images/news", express.static(path.join(__dirname, "images/news")));
+app.use("/images/staff", express.static(path.join(__dirname, "images/staff")));
+app.use("/images/users", express.static(path.join(__dirname, "images/users")));
+app.use("/images/icons", express.static(path.join(__dirname, "images/icons")));
+app.use("/images/statics", express.static(path.join(__dirname, "images/statics")));
+app.use("/images/", express.static(path.join(__dirname, "images")));
 
 
-app.use("/files/documents", express.static(path.join("files/documents")));
-app.use("/files/instructions", express.static(path.join("files/instructions")));
-app.use("/files/license-forms", express.static(path.join("files/license-forms")));
-app.use("/files/statuses", express.static(path.join("files/statuses")));
-app.use("/files/template-files", express.static(path.join("files/template-files")));
-app.use("/files/", express.static(path.join("files")));
+app.use("/files/documents", express.static(path.join(__dirname, "files/documents")));
+app.use("/files/instructions", express.static(path.join(__dirname, "files/instructions")));
+app.use("/files/license-forms", express.static(path.join(__dirname, "files/license-forms")));
+app.use("/files/statuses", express.static(path.join(__dirname, "files/statuses")));
+app.use("/files/template-files", express.static(path.join(__dirname, "files/template-files")));
+app.use("/files/", express.static(path.join(__dirname, "files")));
 
 
 // CORS - Cross-Origin Resource Sharing

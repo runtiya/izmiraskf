@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { TeamsModel } from "../../models/application-teams.model";
@@ -23,27 +23,33 @@ export class ApplicationTeamDetails implements OnInit, OnDestroy {
   public mapSafeSrc: SafeResourceUrl;
 
   constructor(
+    private activatedRouter: ActivatedRoute,
     private teamsService: TeamsService,
     public dialog: MatDialog,
-    private router: ActivatedRoute,
+    private router: Router,
     private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
     this.team.colorCodes = "#000000;#000000";
-    this.router.paramMap
+    this.activatedRouter.paramMap
       .subscribe(params => {
         this.url_teamId = Number(params.get('id'));
         this.teamsService.getTeamById(this.url_teamId);
         this.teamSub = this.teamsService.getTeamByIdUpdateListener()
           .subscribe({
             next: (data: TeamsModel) => {
-              this.team = data;
-              this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.team.mapUrl);
-              this.toolbarTitle = data.officialName;
-              this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-              this.isLoading = false;
+              if (data != null) {
+                this.team = data;
+                this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.team.mapUrl);
+                this.toolbarTitle = data.officialName;
+                this.globalFunctions.setToolbarTitle(this.toolbarTitle);
+                this.isLoading = false;
+              } else {
+                this.router.navigate(['404-sayfa-bulunamadi']);
+              }
+
             }
           });
       });

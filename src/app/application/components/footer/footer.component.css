@@ -7,6 +7,7 @@
 
 .container {
   text-align: center;
+  padding-bottom: 0.5rem;
 }
 
 .body-footer {
@@ -14,15 +15,19 @@
   margin-top: 0.5rem;
 }
 
+.mat-mdc-card-sm-image {
+  margin-bottom: 0.5rem;
+}
+
 .fa-brands {
   margin-left: 0.5rem;
   color: white !important;
-  font-size: large;
+  font-size: small;
+  cursor: pointer;
 }
 
 .mat-mdc-card-subtitle {
   color: white;
-  font-weight: 400;
 }
 
 li {
@@ -30,13 +35,12 @@ li {
 }
 
 .nav-item {
-  font-weight: 550;
+
   cursor: pointer;
 }
 
 .dropdown-item {
   font-weight: 100;
-  justify-content: start !important;
   cursor: pointer;
 }
 
