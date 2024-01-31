@@ -92,11 +92,16 @@ export class ApplicationNewsDetails implements OnInit, OnDestroy {
         this.newsSub = this.newsService.getNewsByIdUpdateListener()
           .subscribe({
             next: (data) => {
-              this.news = data;
-              this.newsForm.get('createdAt').setValue(this.globalFunctions.getLocalDateTime(this.news.createdAt));
-              this.newsForm.get('title').setValue(this.news.title);
-              this.newsForm.get('content').setValue(this.news.content);
-              this.isLoading = false;
+              if (data != null) {
+                this.news = data;
+                this.newsForm.get('createdAt').setValue(this.globalFunctions.getLocalDateTime(this.news.createdAt));
+                this.newsForm.get('title').setValue(this.news.title);
+                this.newsForm.get('content').setValue(this.news.content);
+                this.isLoading = false;
+              } else {
+                this.router.navigate(['404-sayfa-bulunamadi']);
+              }
+
             }
           });
       });

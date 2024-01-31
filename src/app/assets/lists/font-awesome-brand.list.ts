@@ -3,7 +3,7 @@ export const faBrandList = [
   {
     name: "FACEBOOK",
     value: "Facebook",
-    faIcon: fontAwesomeIconList.faFacebook,
+    faIcon: fontAwesomeIconList.faFacebookF,
     faClass: "fa-brands fa-facebook-f",
     color: "#1877F2"
   },

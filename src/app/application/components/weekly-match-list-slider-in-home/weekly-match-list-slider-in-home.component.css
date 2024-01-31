@@ -12,6 +12,7 @@
 .marquee-title {
   position: absolute;
   white-space: nowrap;
+  font-size: medium;
   top: 0;
   padding: 0 0.5rem ;
   z-index: 1;

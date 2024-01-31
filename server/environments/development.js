@@ -2,10 +2,10 @@ const environment = {
   production: false,
   development: true,
   database: {
-    host: '37.148.209.130',
-    user: 'izmiraskf',
+    host: 'localhost',
+    user: 'root',
     port: 3306,
-    password: 'Askfdb35!',
+    password: '17Nisan1996',
     database: 'izmiraskf',
 
     waitForConnections: true,

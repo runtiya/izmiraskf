@@ -1,13 +1,14 @@
-/*
 .mat-mdc-card-sm-image {
   height: auto;
-  width: 3rem;
+  width: 4rem;
 }
-*/
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
 
 .dropdown-item {
   justify-content: start;
-
 }
 
 .dropdown-item:hover {
@@ -28,13 +29,13 @@
 
 .mat-mdc-button {
   color: white !important;
-  font-weight: 500;
-  font-size: small;
+  font-size: smaller;
 }
-
 
 .fa-brands {
   margin: 0 0.1rem;
-  font-size: large;
+  font-size: small;
   color: white;
 }
+
+

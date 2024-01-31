@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { StadiumsModel } from "../../models/application-stadiums.model";
@@ -31,14 +31,15 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
   public mapSafeSrc: SafeResourceUrl;
 
   constructor(
-    private router: ActivatedRoute,
+    private activatedRouter: ActivatedRoute,
+    private router: Router,
     private stadiumsService: StadiumsService,
     private globalFunctions: globalFunctions
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.router.paramMap
+    this.activatedRouter.paramMap
       .subscribe(params => {
         this.url_stadiumId = Number(params.get('id'));
 
@@ -46,11 +47,16 @@ export class ApplicationStadiumDetails implements OnInit, OnDestroy {
         this.stadiumSub = this.stadiumsService.getStadiumByIdUpdateListener()
           .subscribe({
             next: (data: StadiumsModel) => {
-              this.stadium = data;
-              this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.stadium.mapUrl);
-              this.toolbarTitle = data.stadiumName;
-              this.globalFunctions.setToolbarTitle(this.toolbarTitle);
-              this.isLoading = false;
+              if (data != null) {
+                this.stadium = data;
+                this.mapSafeSrc = this.globalFunctions.getSafeResourceUrl(this.stadium.mapUrl);
+                this.toolbarTitle = data.stadiumName;
+                this.globalFunctions.setToolbarTitle(this.toolbarTitle);
+                this.isLoading = false;
+              } else {
+                this.router.navigate(['404-sayfa-bulunamadi']);
+              }
+
             }
           });
       })

@@ -5,11 +5,10 @@
 export const environment = {
   production: false,
   development: true,
-  //serverUrl: "http://localhost:3000/",
-  serverUrl: "http://37.148.209.130:3000/",
-  GOOGLE_API_KEY: "AIzaSyB2nwWe78mR0JMxr6hqg5HoCMXawOehUrU",
-  MongoUserName: "oguztasdelen96",
-  MongoPassword: "5boUHb0wMJevByeD"
+  serverUrl: "http://localhost:3000/",
+  clientUrl: "http://localhost:4200"
+  //serverUrl: "http://www.runtiya.online:3000/",
+  //clientUrl: "http://www.runtiya.online"
 };
 
 /*

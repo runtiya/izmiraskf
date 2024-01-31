@@ -2,8 +2,7 @@ const environment = {
   production: true,
   development: false,
   database: {
-
-    host: '127.0.0.1',
+    host: 'www.runtiya.online', //37.148.209.130
     user: 'root',
     port: 3306,
     password: '17Nisan1996',
