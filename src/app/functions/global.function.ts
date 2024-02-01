@@ -39,6 +39,10 @@ export class globalFunctions {
     this.snackBar.next(systemMessages[messageCode]);
   }
 
+  showSnackBarDirectly(message) {
+    this.snackBar.next(message)
+  }
+
   setToolbarTitle(_toolbarTitle: string) {
     this.getToolbarTitle.next(_toolbarTitle);
   }

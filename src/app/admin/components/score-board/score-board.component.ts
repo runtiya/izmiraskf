@@ -488,11 +488,14 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     try {
       const file = (event.target as HTMLInputElement).files[0];
       let isValidMimeType = this.globalFunctions.checkMimeType(file.type);
+      console.log(isValidMimeType)
       if (isValidMimeType) {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           let fileData: string = e.target.result;
+          console.log(fileData)
           let fileDataParseResult = this.fileImportExportFunctions.parseExcelDataToJSON(fileData);
+          console.log(fileDataParseResult)
           if (fileDataParseResult !== null) {
             this.setFileDataToFixtureList(fileDataParseResult);
           } else {

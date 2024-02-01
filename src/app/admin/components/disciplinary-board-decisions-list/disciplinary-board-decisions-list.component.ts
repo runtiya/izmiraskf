@@ -307,6 +307,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
 
         // Filter to remove null rows. Get only filled rows
         const filteredData = jsonData.filter(r => r[0] != null || r[1] != null || r[2] != null || r[3] != null);
+        console.log(filteredData)
         this.buildDisciplinaryBoardDecisionSubmitFormGroup();
         this.patchFileToTable(filteredData);
       };
@@ -342,15 +343,15 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
     for (let i = 1; i < fileData.length; i++) {
       const row = fileData[i];
 
-      let _disciplinaryBoardFileId = this.findDisciplinaryBoardFileId(row[0].toString());
-      let _leagueId = this.findLeagueId(row[1].toString());
-      let _teamId = this.findTeamId(row[2].toString());
-      let _fullName = row[3].toString();
-      let _licenseNo = row[4].toString();
-      let _belongingTo = this.findBelongingToName(row[5].toString());
-      let _penalType = this.findPenalTypeName(row[6].toString());
-      let _duration = row[7].toString();
-      let _explanation = row[8].toString();
+      let _disciplinaryBoardFileId = row[0] ? this.findDisciplinaryBoardFileId(row[0].toString()) : null;
+      let _leagueId = row[1] ? this.findLeagueId(row[1].toString()) : null;
+      let _teamId = row[2] ? this.findTeamId(row[2].toString()) : null;
+      let _fullName = row[3] ? row[3].toString() : null;
+      let _licenseNo = row[4] ? row[4].toString() : null;
+      let _belongingTo = row[5] ? this.findBelongingToName(row[5].toString()) : null;
+      let _penalType = row[6] ? this.findPenalTypeName(row[6].toString()) : null;
+      let _duration = row[7] ? row[7].toString() : null;
+      let _explanation = row[8] ? row[8].toString() : null;
 
       this.disciplinaryBoardDecisionsSubmitForm.get('createdAt').setValue(null);
       this.disciplinaryBoardDecisionsSubmitForm.get('disciplinaryBoardFileId').setValue(_disciplinaryBoardFileId);
@@ -367,7 +368,7 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
         disciplinaryBoardDecisionImportedFormsList.push(this.disciplinaryBoardDecisionsSubmitForm.value);
         this.disciplinaryBoardDecisionsSubmitForm.reset();
       } else {
-        this.globalFunctions.showSnackBar('Hata! Yüklenen dosyada ' + i + '. satır hatalıdır!');
+        this.globalFunctions.showSnackBarDirectly('HATA! Yüklenen dosyada ' + (i+1) + '. satır hatalıdır!');
         disciplinaryBoardDecisionImportedFormsList = [];
         break;
       }

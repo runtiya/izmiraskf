@@ -86,11 +86,12 @@
             </div>
           </div>
         </div>
+        <mat-card-actions *ngIf="fixture.explanation != null">
+          <mat-card-subtitle>
+            {{fixture.explanation}}
+          </mat-card-subtitle>
+        </mat-card-actions>
       </mat-card-content>
-
-      <mat-card-footer>
-
-      </mat-card-footer>
     </mat-card>
   </div>
 </div>
