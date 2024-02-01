@@ -5,10 +5,10 @@
 export const environment = {
   production: false,
   development: true,
-  serverUrl: "http://localhost:3000/",
-  clientUrl: "http://localhost:4200"
-  //serverUrl: "http://www.runtiya.online:3000/",
-  //clientUrl: "http://www.runtiya.online"
+  //serverUrl: "http://localhost:3000/",
+  //clientUrl: "http://localhost:4200"
+  serverUrl: "http://www.runtiya.online:3000/",
+  clientUrl: "http://www.runtiya.online"
 };
 
 /*
