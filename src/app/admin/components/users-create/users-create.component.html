@@ -38,7 +38,7 @@
             >
               <img
                 mat-card-lg-image
-                [src]="userSubmitForm.value.imagePath || 'assets/no-profile.png'"
+                [src]="userSubmitForm.value.imagePath || 'assets/no-team-logo.png'"
                 [alt]="userSubmitForm.value.fullName"/>
             </div>
             <mat-error *ngIf="!userSubmitForm.get('imageAttachment').valid">

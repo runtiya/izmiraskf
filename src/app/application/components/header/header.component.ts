@@ -40,7 +40,7 @@ export class ApplicationHeader implements OnInit, OnDestroy {
         }
       });
 
-
+    /*
     this.globalIzmirASKFService.getLogoPath();
     this.izmirAskfLogoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
@@ -56,7 +56,7 @@ export class ApplicationHeader implements OnInit, OnDestroy {
           this.tffizmirLogoPath = data;
         }
       });
-
+    */
   }
 
   findIconFaIcon(_faBrand: string): IconDefinition {

@@ -2,19 +2,20 @@ const environment = {
   production: false,
   development: true,
   database: {
-    /*
+
     host: 'localhost',
     user: 'root',
     port: 3306,
     password: '17Nisan1996',
     database: 'izmiraskf',
-    */
 
+    /*
     host: 'www.runtiya.online',
     user: 'izmiraskf',
     port: 3306,
     password: 'Askfdb35!',
     database: 'izmiraskf',
+    */
 
     waitForConnections: true,
     connectionLimit: 10,

@@ -27,7 +27,7 @@
 <nav class="navbar navbar-expand-xl toolbar">
   <div class="d-flex justify-content-center">
     <img
-      [src]="izmirAskfLogoPath"
+      [src]="'assets/izmiraskf-logo.png'"
       mat-card-sm-image
       alt="İZMİR ASKF"
       routerLink="/"
@@ -35,7 +35,7 @@
   </div>
   <div class="d-flex justify-content-center">
     <img
-      [src]="tffizmirLogoPath"
+      [src]="'assets/tff-logo.png'"
       mat-card-sm-image
       alt="TFF İZMİR İL TEMSİLCİLİĞİ"
       routerLink="/"
@@ -418,7 +418,7 @@
         mat-card-avatar
         [src]="
           authenticatedUser.imagePath ||
-          'assets/no-profile.png'
+          'assets/no-team-logo.png'
         "
         [alt]="authenticatedUser.userName"
       />

@@ -74,7 +74,7 @@
               >
                 <mat-option *ngFor="let team of teamsList" [value]="team.id">
                   <div class="d-flex align-items-center">
-                    <img mat-card-avatar [src]="team.imagePath || 'assets/no-profile.png'" [alt]="team.shortName || team.officialName">
+                    <img mat-card-avatar [src]="team.imagePath || 'assets/no-team-logo.png'" [alt]="team.shortName || team.officialName">
                     {{ team.officialName }}
                   </div>
 

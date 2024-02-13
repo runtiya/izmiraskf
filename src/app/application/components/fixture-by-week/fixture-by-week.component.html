@@ -47,7 +47,7 @@
         <div class="row">
           <div class="col-4">
             <div class="div-matchday matchday-hometeam-info team-in-fixture" (click)="showTeamDetails(fixture.homeTeamId)">
-              <img mat-card-avatar class="img-team-logo" [src]="fixture.homeTeamImagePath || 'assets/no-profile.png'" alt="{{fixture.homeTeamOfficialName}}">
+              <img mat-card-avatar class="img-team-logo" [src]="fixture.homeTeamImagePath || 'assets/no-team-logo.png'" alt="{{fixture.homeTeamOfficialName}}">
               <mat-card-title class="text-teamname text-hometeam">
                 {{fixture.homeTeamShortName || homeTeamOfficialName || "BAY"}}
                 <fa-icon
@@ -72,7 +72,7 @@
 
           <div class="col-4">
             <div class="div-matchday matchday-awayteam-info team-in-fixture" (click)="showTeamDetails(fixture.awayTeamId)">
-              <img mat-card-avatar class="img-team-logo" [src]="fixture.awayTeamImagePath || 'assets/no-profile.png'" alt="{{fixture.awayTeamOfficialName}}">
+              <img mat-card-avatar class="img-team-logo" [src]="fixture.awayTeamImagePath || 'assets/no-team-logo.png'" alt="{{fixture.awayTeamOfficialName}}">
               <mat-card-title class="text-teamname text-hometeam">
                 {{fixture.awayTeamShortName || awayTeamOfficialName || "BAY"}}
                 <fa-icon

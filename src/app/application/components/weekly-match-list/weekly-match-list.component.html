@@ -141,7 +141,7 @@
         <th mat-header-cell *matHeaderCellDef="">Ev Sahibi Takım</th>
         <td mat-cell *matCellDef="let fixture">
           <div class="d-flex align-items-center">
-            <img mat-card-avatar class="img-team-logo" [src]="fixture.homeTeamImagePath || 'assets/no-profile.png'" alt="{{fixture.homeTeamShortName || fixture.homeTeamOfficialName || 'BAY'}}">
+            <img mat-card-avatar class="img-team-logo" [src]="fixture.homeTeamImagePath || 'assets/no-team-logo.png'" alt="{{fixture.homeTeamShortName || fixture.homeTeamOfficialName || 'BAY'}}">
             <fa-icon
               *ngIf="
                 fixture.homeTeamIsExpelled || fixture.homeTeamIsReceded
@@ -220,7 +220,7 @@
         <th mat-header-cell *matHeaderCellDef="">Misafir Takım</th>
         <td mat-cell *matCellDef="let fixture">
           <div class="d-flex align-items-center">
-            <img mat-card-avatar class="img-team-logo" [src]="fixture.awayTeamImagePath || 'assets/no-profile.png'" alt="{{fixture.awayTeamShortName || fixture.awayTeamOfficialName || 'BAY'}}">
+            <img mat-card-avatar class="img-team-logo" [src]="fixture.awayTeamImagePath || 'assets/no-team-logo.png'" alt="{{fixture.awayTeamShortName || fixture.awayTeamOfficialName || 'BAY'}}">
             <fa-icon
               *ngIf="
                 fixture.awayTeamIsExpelled || fixture.awayTeamIsReceded

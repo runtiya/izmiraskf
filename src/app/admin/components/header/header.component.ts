@@ -35,6 +35,7 @@ export class AdminHeader implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.authenticatedUser = this.authService.getAuthenticatedUser() || JSON.parse(localStorage.getItem("userInfo"));
 
+    /*
     this.globalIzmirASKFService.getLogoPath();
     this.izmirAskfLogoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
@@ -50,6 +51,7 @@ export class AdminHeader implements OnInit, OnDestroy {
           this.tffizmirLogoPath = data;
         }
       });
+      */
   }
 
   public onToggleSidenav = () => {

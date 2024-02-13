@@ -92,6 +92,7 @@ app.use(bodyParser.json({limit:'8392kb'}));
 
 
 // Images and Files path definitions
+
 app.use("/images/teams", express.static(path.join(__dirname, "images/teams")));
 app.use("/images/stadiums", express.static(path.join(__dirname, "images/stadiums")));
 app.use("/images/news", express.static(path.join(__dirname, "images/news")));

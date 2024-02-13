@@ -231,11 +231,10 @@ function updateUser(req, res, next) {
 }
 
 function userLogin(req, res, next) {
-  let fetchedUser = null;
   const userInfo = req.body;
   var snackBarMessage;
   var token;
-  var expiresIn = 3600;
+  var expiresIn = 1800;
   var _user;
   var _resStatus = 200;
   var _error = false;
@@ -247,28 +246,28 @@ function userLogin(req, res, next) {
     async (error, result) => {
       if (!error) {
         _user = result[0] || null;
+        // Check if user exist
         if (_user) {
           let isValidCredential = await bcrypt.compare(
             userInfo.userPassword,
             _user.userPassword
           );
+          // Check if the password is correct
           if (isValidCredential) {
             token = jwt.sign(
-              { email: _user.userName, userId: _user.id },
+              { email: _user.userName, userId: _user.id, userType: _user.usertype },
               environment.jwtSecretKey,
-              { expiresIn: "1h" }
+              { expiresIn: "0.5h" }
             );
           } else {
             // Wrong password
             _error = true;
             _message = "User Authentication failed!";
-            snackBarMessage = "Hatalı Kullanıcı Adı veya Şifre girdiniz!";
           }
         } else {
           // Wrong username
           _error = true;
           _message = "User Authentication failed!";
-          snackBarMessage = "Hatalı Kullanıcı Adı veya Şifre girdiniz!";
         }
       } else {
         // System error
@@ -279,9 +278,8 @@ function userLogin(req, res, next) {
 
       const _data = crypto.encryptData({
         error: _error,
-        snackBarMessage: snackBarMessage,
         token: token,
-        expiresIn: 3600,
+        expiresIn: expiresIn,
         user: _user
       });
 

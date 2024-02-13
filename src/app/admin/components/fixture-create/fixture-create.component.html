@@ -154,7 +154,7 @@
                   <ng-container matColumnDef="homeTeam">
                     <th mat-header-cell *matHeaderCellDef="">Ev Sahibi Takım</th>
                     <td mat-cell *matCellDef="let matchDay">
-                      <img mat-card-avatar class="img-team-logo" [src]="matchDay.homeTeamImagePath || 'assets/no-profile.png'" [alt]="matchDay.homeTeamShortName || matchDay.homeTeamOfficialName || 'BAY'">
+                      <img mat-card-avatar class="img-team-logo" [src]="matchDay.homeTeamImagePath || 'assets/no-team-logo.png'" [alt]="matchDay.homeTeamShortName || matchDay.homeTeamOfficialName || 'BAY'">
                       <mat-card-title class="font-title-teamname">
                         <fa-icon
                           *ngIf="matchDay.homeTeamIsExpelled || matchDay.homeTeamIsReceded"
@@ -243,7 +243,7 @@
                   <ng-container matColumnDef="awayTeam">
                     <th mat-header-cell *matHeaderCellDef="">Misafir Takım</th>
                     <td mat-cell *matCellDef="let matchDay">
-                      <img mat-card-avatar class="img-team-logo" [src]="matchDay.awayTeamImagePath || 'assets/no-profile.png'" [alt]="matchDay.awayTeamShortName || matchDay.awayTeamOfficialName || 'BAY'">
+                      <img mat-card-avatar class="img-team-logo" [src]="matchDay.awayTeamImagePath || 'assets/no-team-logo.png'" [alt]="matchDay.awayTeamShortName || matchDay.awayTeamOfficialName || 'BAY'">
                       <mat-card-title class="font-title-teamname">
                         <fa-icon
                           *ngIf="matchDay.isAwayTeamWinByForfeit"
