@@ -4,15 +4,17 @@
     <form [formGroup]="aboutIASKFform" (submit)="onUpdateAboutText()" *ngIf="!isLoading"  enctype="multipart/form-data">
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6">
+          <!--
           <button mat-stroked-button type="button" color="primary" class="btn-image-picker"
             (click)="filePicker.click()">Resim Seç</button>
           <button mat-stroked-button type="button" color="warn" class="btn-image-picker"
             *ngIf="aboutIASKFform.value.imagePath !== '' && aboutIASKFform.value.imagePath && aboutIASKFform.get('imageAttachment').valid"
             (click)="filePickerRemove()">Kaldır</button>
           <input type="file" name="image" #filePicker (change)="onFilePicked($event)" />
+          -->
           <div class="image-preview">
             <img mat-card-xl-image
-              [src]="aboutIASKFform.value.imagePath || 'assets/no-profile.png'"
+              [src]="'assets/izmiraskf-logo.png'"
               [alt]="toolbarTitle" />
           </div>
           <mat-error *ngIf="!aboutIASKFform.get('imageAttachment').valid">

@@ -105,7 +105,7 @@ export class DisciplinaryBoardDecisionsService {
         next: (data) => {
           this.disciplinaryBoardDecisionList = [];
           this.disciplinaryBoardDecisionListSub.next([...this.disciplinaryBoardDecisionList]);
-          this.globalFunctions.showSnackBar("server.success.delete");
+          this.globalFunctions.showSnackBar("system.success.delete");
         },
         error: (error) => {
           this.globalFunctions.showSnackBar(error);

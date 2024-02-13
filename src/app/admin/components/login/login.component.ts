@@ -11,7 +11,7 @@ import { globalFunctions } from "../../../functions/global.function";
   styleUrls: ['../../../app.component.css', './login.component.css']
 })
 export class AdminLogin implements OnInit {
-  toolbarTitle = "SİSTEM GİRİŞ";
+  toolbarTitle = "YÖNETİCİ PANELİ GİRİŞ";
   isLoading: boolean = false;
   userForm: FormGroup;
   @Input() isPasswordVisible: boolean = false;

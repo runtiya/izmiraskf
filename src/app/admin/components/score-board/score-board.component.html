@@ -117,7 +117,7 @@
           </mat-option>
           <mat-option *ngFor="let team of teamList" [value]="team.id">
             <div class="d-flex align-items-center">
-              <img mat-card-avatar class="image-teamlogo-scoreboard-search" [src]="team.imagePath || 'assets/no-profile.png'" [alt]="team.shortName || team.officialname || 'BAY'">
+              <img mat-card-avatar class="image-teamlogo-scoreboard-search" [src]="team.imagePath || 'assets/no-team-logo.png'" [alt]="team.shortName || team.officialname || 'BAY'">
               {{team.shortName || team.officialName || 'BAY'}}
             </div>
           </mat-option>
@@ -138,7 +138,7 @@
           </mat-option>
           <mat-option *ngFor="let team of teamList" [value]="team.id">
             <div class="d-flex align-items-center">
-              <img mat-card-avatar class="image-teamlogo-scoreboard-search" [src]="team.imagePath || 'assets/no-profile.png'" [alt]="team.shortName || team.officialname || 'BAY'">
+              <img mat-card-avatar class="image-teamlogo-scoreboard-search" [src]="team.imagePath || 'assets/no-team-logo.png'" [alt]="team.shortName || team.officialname || 'BAY'">
               {{team.shortName || team.officialName || 'BAY'}}
             </div>
           </mat-option>
@@ -343,7 +343,7 @@
             <p></p>
             <div class="row" [align]="'center'">
               <div class="col-lg-4 col-md-12 col-sm-12">
-                <img mat-card-avatar [src]="fixture.homeTeamImagePath || 'assets/no-profile.png'" [alt]="fixture.homeTeamShortName || fixture.homeTeamOfficialName || 'BAY'">
+                <img mat-card-sm-image [src]="fixture.homeTeamImagePath || 'assets/no-team-logo.png'" [alt]="fixture.homeTeamShortName || fixture.homeTeamOfficialName || 'BAY'">
                 <mat-card-title class="font-team">
                   <fa-icon
                     *ngIf="
@@ -446,7 +446,7 @@
               </div>
 
               <div class="col-lg-4 col-md-12 col-sm-12">
-                <img mat-card-avatar [src]="fixture.awayTeamImagePath || 'assets/no-profile.png'" [alt]="fixture.awayTeamShortName || fixture.awayTeamOfficialName || 'BAY'">
+                <img mat-card-sm-image [src]="fixture.awayTeamImagePath || 'assets/no-team-logo.png'" [alt]="fixture.awayTeamShortName || fixture.awayTeamOfficialName || 'BAY'">
                 <mat-card-title class="font-team">
                   <fa-icon
                     *ngIf="fixture.isAwayTeamWinByForfeit"

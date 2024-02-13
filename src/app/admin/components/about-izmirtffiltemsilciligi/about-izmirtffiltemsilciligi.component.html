@@ -7,176 +7,252 @@
       *ngIf="!isLoading"
       enctype="multipart/form-data"
     >
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6">
-        <button
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+          <!--
+          <button
             mat-stroked-button
             type="button"
             color="primary"
             class="btn-image-picker"
             (click)="filePicker.click()"
-          >Resim Seç</button>
+          >
+            Resim Seç
+          </button>
           <button
             mat-stroked-button
             type="button"
             color="warn"
             class="btn-image-picker"
-            *ngIf="aboutITFFform.value.imagePath !== '' && aboutITFFform.value.imagePath && aboutITFFform.get('imageAttachment').valid"
+            *ngIf="
+              aboutITFFform.value.imagePath !== '' &&
+              aboutITFFform.value.imagePath &&
+              aboutITFFform.get('imageAttachment').valid
+            "
             (click)="filePickerRemove()"
-          >Kaldır</button>
-          <input type="file" name="image" #filePicker (change)="onFilePicked($event)" />
-          <div
-            class="image-preview"
           >
+            Kaldır
+          </button>
+          <input
+            type="file"
+            name="image"
+            #filePicker
+            (change)="onFilePicked($event)"
+          />
+          -->
+          <div class="image-preview">
             <img
               mat-card-xl-image
-              [src]="aboutITFFform.value.imagePath || 'assets/no-profile.png'"
+              [src]="'assets/tff-logo.png'"
               [alt]="toolbarTitle"
             />
           </div>
           <mat-error *ngIf="!aboutITFFform.get('imageAttachment').valid">
             Lütfen geçerli bir resim seçiniz! (en fazla 8MB)
           </mat-error>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Hakkımızda</mat-label>
+            <textarea
+              matInput
+              type="text"
+              formControlName="aboutText"
+              rows="10"
+              placeholder="İzmir TFF İl Temsilciliği hakkında (en fazla 4000 karakter)"
+            >
+            </textarea>
+            <mat-hint align="end"
+              >{{
+                aboutITFFform.get("aboutText").value
+                  ? aboutITFFform.get("aboutText").value.length
+                  : 0
+              }}/4000</mat-hint
+            >
+            <mat-error *ngIf="aboutITFFform.get('aboutText').invalid"
+              >En fazla 4000 karakter girebilirsiniz!</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Telefon</mat-label>
+            <fa-icon
+              matTextPrefix=""
+              matTooltip="Telefon"
+              class="icon"
+              [icon]="getFontAwesomeIcon('faPhone')"
+            ></fa-icon>
+            <input
+              matInput
+              type="text"
+              formControlName="phoneNumber"
+              placeholder="Telefon"
+            />
+            <mat-hint align="end"
+              >{{
+                aboutITFFform.get("phoneNumber").value
+                  ? aboutITFFform.get("phoneNumber").value.length
+                  : 0
+              }}/200</mat-hint
+            >
+            <mat-error *ngIf="aboutITFFform.get('phoneNumber').invalid"
+              >Lütfen telefon numarası giriniz! (en fazla 200
+              karakter)</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Fax</mat-label>
+            <fa-icon
+              matTextPrefix=""
+              matTooltip="Fax"
+              class="icon"
+              [icon]="getFontAwesomeIcon('faFax')"
+            ></fa-icon>
+            <input
+              matInput
+              type="text"
+              formControlName="faxNumber"
+              placeholder="Fax"
+            />
+            <mat-hint align="end"
+              >{{
+                aboutITFFform.get("faxNumber").value
+                  ? aboutITFFform.get("faxNumber").value.length
+                  : 0
+              }}/200</mat-hint
+            >
+            <mat-error *ngIf="aboutITFFform.get('faxNumber').invalid"
+              >Lütfen fax numarası giriniz! (en fazla 200 karakter)</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>E-posta</mat-label>
+            <fa-icon
+              matTextPrefix=""
+              matTooltip="E-Posta"
+              class="icon"
+              [icon]="getFontAwesomeIcon('faEnvelope')"
+            ></fa-icon>
+            <input
+              matInput
+              type="text"
+              formControlName="email"
+              placeholder="E-posta"
+            />
+            <mat-hint align="end"
+              >{{
+                aboutITFFform.get("email").value
+                  ? aboutITFFform.get("email").value.length
+                  : 0
+              }}/200</mat-hint
+            >
+            <mat-error *ngIf="aboutITFFform.get('email').invalid"
+              >Lütfen e-posta adresi giriniz! (en fazla 200 karakter)</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Adres</mat-label>
+            <fa-icon
+              matTextPrefix=""
+              matTooltip="Adres"
+              class="icon"
+              [icon]="getFontAwesomeIcon('faLocationDot')"
+            ></fa-icon>
+            <textarea
+              matInput
+              type="text"
+              formControlName="address"
+              rows="1"
+              placeholder="Adres (en fazla 2000 karakter)"
+            >
+            </textarea>
+            <mat-hint align="end"
+              >{{
+                aboutITFFform.get("address").value
+                  ? aboutITFFform.get("address").value.length
+                  : 0
+              }}/2000</mat-hint
+            >
+            <mat-error *ngIf="aboutITFFform.get('address').invalid"
+              >En fazla 2000 karakter!</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <mat-form-field class="form-input">
+            <mat-label>Harita Adresi</mat-label>
+            <fa-icon
+              matTextPrefix=""
+              matTooltip="Harita Adresi"
+              class="icon"
+              [icon]="getFontAwesomeIcon('faMapLocationDot')"
+            ></fa-icon>
+            <textarea
+              matInput
+              type="text"
+              formControlName="mapUrl"
+              rows="2"
+              (change)="onMapSrcChange(aboutITFFform.get('mapUrl').value)"
+              placeholder="Harita Adresi (en fazla 4000 karakter)"
+            >
+            </textarea>
+            <mat-hint align="end"
+              >{{
+                aboutITFFform.get("mapUrl").value
+                  ? aboutITFFform.get("mapUrl").value.length
+                  : 0
+              }}/4000</mat-hint
+            >
+            <mat-error *ngIf="aboutITFFform.get('mapUrl').invalid"
+              >En fazla 4000 karakter!</mat-error
+            >
+          </mat-form-field>
+        </div>
       </div>
 
-      <div class="col-lg-12 col-md-12 col-sm-12">
-        <mat-form-field class="form-input">
-          <mat-label>Hakkımızda</mat-label>
-          <textarea
-            matInput
-            type="text"
-            formControlName="aboutText"
-            rows="10"
-            placeholder="İzmir TFF İl Temsilciliği hakkında (en fazla 4000 karakter)"
-          >
-          </textarea>
-          <mat-hint align="end">{{aboutITFFform.get('aboutText').value ? aboutITFFform.get('aboutText').value.length : 0}}/4000</mat-hint>
-          <mat-error *ngIf="aboutITFFform.get('aboutText').invalid">En fazla 4000 karakter girebilirsiniz!</mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="col-lg-4 col-md-4 col-sm-12">
-        <mat-form-field class="form-input">
-          <mat-label>Telefon</mat-label>
-          <fa-icon
-            matTextPrefix=""
-            matTooltip="Telefon"
-            class="icon"
-            [icon]="getFontAwesomeIcon('faPhone')"
-          ></fa-icon>
-          <input
-            matInput
-            type="text"
-            formControlName="phoneNumber"
-            placeholder="Telefon"
-          >
-          <mat-hint align="end">{{aboutITFFform.get('phoneNumber').value ? aboutITFFform.get('phoneNumber').value.length : 0}}/200</mat-hint>
-          <mat-error *ngIf="aboutITFFform.get('phoneNumber').invalid">Lütfen telefon numarası giriniz! (en fazla 200 karakter)</mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="col-lg-4 col-md-4 col-sm-12">
-        <mat-form-field class="form-input">
-          <mat-label>Fax</mat-label>
-          <fa-icon
-            matTextPrefix=""
-            matTooltip="Fax"
-            class="icon"
-            [icon]="getFontAwesomeIcon('faFax')"
-          ></fa-icon>
-          <input
-            matInput
-            type="text"
-            formControlName="faxNumber"
-            placeholder="Fax"
-          >
-          <mat-hint align="end">{{aboutITFFform.get('faxNumber').value ? aboutITFFform.get('faxNumber').value.length : 0}}/200</mat-hint>
-          <mat-error *ngIf="aboutITFFform.get('faxNumber').invalid">Lütfen fax numarası giriniz! (en fazla 200 karakter)</mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="col-lg-4 col-md-4 col-sm-12">
-        <mat-form-field class="form-input">
-          <mat-label>E-posta</mat-label>
-          <fa-icon
-            matTextPrefix=""
-            matTooltip="E-Posta"
-            class="icon"
-            [icon]="getFontAwesomeIcon('faEnvelope')"
-          ></fa-icon>
-          <input
-            matInput
-            type="text"
-            formControlName="email"
-            placeholder="E-posta"
-          >
-          <mat-hint align="end">{{aboutITFFform.get('email').value ? aboutITFFform.get('email').value.length : 0}}/200</mat-hint>
-          <mat-error *ngIf="aboutITFFform.get('email').invalid">Lütfen e-posta adresi giriniz! (en fazla 200 karakter)</mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="col-lg-12 col-md-12 col-sm-12">
-        <mat-form-field class="form-input">
-          <mat-label>Adres</mat-label>
-          <fa-icon
-            matTextPrefix=""
-            matTooltip="Adres"
-            class="icon"
-            [icon]="getFontAwesomeIcon('faLocationDot')"
-          ></fa-icon>
-          <textarea
-            matInput
-            type="text"
-            formControlName="address"
-            rows="1"
-            placeholder="Adres (en fazla 2000 karakter)"
-          >
-          </textarea>
-          <mat-hint align="end">{{aboutITFFform.get('address').value ? aboutITFFform.get('address').value.length : 0}}/2000</mat-hint>
-          <mat-error *ngIf="aboutITFFform.get('address').invalid">En fazla 2000 karakter!</mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="col-lg-12 col-md-12 col-sm-12">
-        <mat-form-field class="form-input">
-          <mat-label>Harita Adresi</mat-label>
-          <fa-icon matTextPrefix="" matTooltip="Harita Adresi" class="icon"
-            [icon]="getFontAwesomeIcon('faMapLocationDot')"></fa-icon>
-          <textarea matInput type="text" formControlName="mapUrl" rows="2" (change)="onMapSrcChange(aboutITFFform.get('mapUrl').value)"
-            placeholder="Harita Adresi (en fazla 4000 karakter)">
-          </textarea>
-          <mat-hint align="end">{{aboutITFFform.get('mapUrl').value ? aboutITFFform.get('mapUrl').value.length :
-            0}}/4000</mat-hint>
-          <mat-error *ngIf="aboutITFFform.get('mapUrl').invalid">En fazla 4000 karakter!</mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div>
-      <iframe
-            *ngIf="mapSafeSrc"
-            [src]="mapSafeSrc"
-            width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
+      <div>
+        <iframe
+          *ngIf="mapSafeSrc"
+          [src]="mapSafeSrc"
+          width="100%"
+          height="400"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        >
         </iframe>
 
-      <app-application-no-content-map *ngIf="!mapSafeSrc"></app-application-no-content-map>
+        <app-application-no-content-map
+          *ngIf="!mapSafeSrc"
+        ></app-application-no-content-map>
+      </div>
 
-    </div>
-
-
-    <button
-      class="btn btn-save"
-      mat-raised-button
-      color="primary"
-      type="submit"
-    >
-      <fa-icon
-        class="icon"
-        [icon]="getFontAwesomeIcon('faFloppyDisk')"
-      ></fa-icon>
-      Kaydet
-    </button>
+      <button
+        class="btn btn-save"
+        mat-raised-button
+        color="primary"
+        type="submit"
+      >
+        <fa-icon
+          class="icon"
+          [icon]="getFontAwesomeIcon('faFloppyDisk')"
+        ></fa-icon>
+        Kaydet
+      </button>
     </form>
   </mat-card>
 </div>

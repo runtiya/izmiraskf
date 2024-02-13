@@ -68,11 +68,11 @@
                   *ngFor="let team of teamsingroupstagesList"
                   [value]="team.teamId"
                 >
-                  <img mat-card-avatar [src]="team.teamImagePath || 'assets/no-profile.png'" [alt]="team.teamShortName || team.teamOfficialName">
+                  <img mat-card-avatar [src]="team.teamImagePath || 'assets/no-team-logo.png'" [alt]="team.teamShortName || team.teamOfficialName">
                   {{ team.teamShortName || team.teamOfficialName }}
                 </mat-option>
                 <mat-option [value]="null">
-                  <img mat-card-avatar [src]="'assets/no-profile.png'" [alt]="'BAY'">
+                  <img mat-card-avatar [src]="'assets/no-team-logo.png'" [alt]="'BAY'">
                   {{ "Bay" }}
                 </mat-option>
               </mat-select>
@@ -94,11 +94,11 @@
                   *ngFor="let team of teamsingroupstagesList"
                   [value]="team.teamId"
                 >
-                  <img mat-card-avatar [src]="team.teamImagePath || 'assets/no-profile.png'" [alt]="team.teamShortName || team.teamOfficialName">
+                  <img mat-card-avatar [src]="team.teamImagePath || 'assets/no-team-logo.png'" [alt]="team.teamShortName || team.teamOfficialName">
                   {{ team.teamOfficialName }}
                 </mat-option>
                 <mat-option [value]="null">
-                  <img mat-card-avatar [src]="'assets/no-profile.png'" [alt]="'BAY'">
+                  <img mat-card-avatar [src]="'assets/no-team-logo.png'" [alt]="'BAY'">
                   {{ "Bay" }}
                 </mat-option>
               </mat-select>
