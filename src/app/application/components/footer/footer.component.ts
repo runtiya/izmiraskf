@@ -44,6 +44,7 @@ export class ApplicationFooter implements OnInit, OnDestroy {
         }
       });
 
+    /*
     this.izmirAskfLogoPathSubscription = this.globalIzmirASKFService.getLogoPathUpdateListener()
       .subscribe({
         next: (data: string) => {
@@ -57,6 +58,7 @@ export class ApplicationFooter implements OnInit, OnDestroy {
           this.tffizmirLogoPath = data;
         }
       });
+    */
   }
 
   getFullYear(): string {

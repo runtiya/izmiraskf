@@ -59,8 +59,10 @@ export class AdminHeader implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    /*
     this.izmirAskfLogoPathSubscription.unsubscribe();
     this.tffIzmirLogoPathSubscription.unsubscribe();
+    */
   }
 
 }

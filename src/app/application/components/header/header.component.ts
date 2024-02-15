@@ -76,8 +76,10 @@ export class ApplicationHeader implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    /*
     this.izmirAskfLogoPathSubscription.unsubscribe();
     this.tffIzmirLogoPathSubscription.unsubscribe();
+    */
     this.externalLinksListSub.unsubscribe();
   }
 }
