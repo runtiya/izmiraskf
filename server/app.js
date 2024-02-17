@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -5,6 +6,7 @@ const mongoose = require('mongoose');
 const tzoffset = (new Date()).getTimezoneOffset() * 60000;
 const RequestLogs = require('./models/request-logs');
 const environment = require('./environments/development');
+
 const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 

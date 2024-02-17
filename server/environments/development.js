@@ -3,11 +3,11 @@ const environment = {
   development: true,
   database: {
 
-    host: 'localhost',
-    user: 'root',
-    port: 3306,
-    password: '17Nisan1996',
-    database: 'izmiraskf',
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    port: process.env.DATABASE_PORT,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME,
 
     /*
     host: 'www.runtiya.online',
@@ -25,10 +25,10 @@ const environment = {
     enableKeepAlive: true,
     keepAliveInitialDelay: 0
   },
-  cryptojsSecretKey: "7ce2daf0bdac7688ca2fd73f08a8e130",
-  jwtSecretKey: "izmir_askf_jwt_secret_or_private_key",
-  MongoAtlasUserName: "oguztasdelen96",
-  MongoAtlasPassword: "5boUHb0wMJevByeD"
+  cryptojsSecretKey: process.env.SYSTEM_CRYPTOJSSECRETKEY,
+  jwtSecretKey: process.env.SYSTEM_JWTSECRETKEY,
+  MongoAtlasUserName: process.env.MONGO_ATLAS_USERNAME,
+  MongoAtlasPassword: process.env.MONGO_ATLAS_PASSWORD
 };
 
 module.exports = environment;
