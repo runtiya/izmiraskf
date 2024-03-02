@@ -3,6 +3,6 @@ export const environment = {
   development: false,
   //serverUrl: "http://localhost:3000/",
   //clientUrl: "http://localhost:4200"
-  serverUrl: "http://www.runtiya.online:3000/",
-  clientUrl: "http://www.runtiya.online"
+  serverUrl: "https://www.runtiya.online:3000/",
+  clientUrl: "https://www.runtiya.online"
 };
