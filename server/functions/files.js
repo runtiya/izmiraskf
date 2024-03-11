@@ -10,19 +10,19 @@ function getFolder(_fileCategory) {
 
   const fileCategoryList = {
     'BELGELER': () => {
-      _folder = "files/documents/";
+      _folder = "/files/documents/";
     },
     'TALIMATLAR': () => {
-      _folder = "files/instructions/";
+      _folder = "/files/instructions/";
     },
     'LISANSFORMLARI': () => {
-      _folder = "files/license-forms/";
+      _folder = "/files/license-forms/";
     },
     'AMATORLIGSTATULERI': () => {
-      _folder = "files/statuses/";
+      _folder = "/files/statuses/";
     },
     'AKTARMADOSYALARI': () => {
-      _folder = "files/template-files/";
+      _folder = "/files/template-files/";
     }
   };
 

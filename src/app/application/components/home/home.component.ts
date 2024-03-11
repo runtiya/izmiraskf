@@ -21,6 +21,10 @@ export class ApplicationHome implements OnInit, OnDestroy {
   extAdvertisementList: ExternalLinksModel[] = [];
   private extAdvertisementListSubscription: Subscription;
 
+  addOne: ExternalLinksModel = null;
+  addTwo: ExternalLinksModel = null;
+  addThree: ExternalLinksModel = null;
+
   environment = environment;
 
   constructor(
@@ -41,12 +45,16 @@ export class ApplicationHome implements OnInit, OnDestroy {
       .subscribe({
         next: (data: ExternalLinksModel[]) => {
           this.extAdvertisementList = data.length > 0 ? data.sort((a, b) => {return a.orderNo - b.orderNo}) : [];
+
+          this.addOne = this.extAdvertisementList.find(eal => eal.orderNo == 1);
+          this.addTwo = this.extAdvertisementList.find(eal => eal.orderNo == 2);
+          this.addThree = this.extAdvertisementList.find(eal => eal.orderNo == 3);
         }
       });
   }
 
-  weatherForecast(d, s, id) {
-    var js,fjs = d.getElementsByTagName(s)[0];
+  weatherForecast(d: Document, s: string, id: string) {
+    var js, fjs = d.getElementsByTagName(s)[0];
     js=d.createElement(s);
     js.id=id;
     js.src='https://weatherwidget.io/js/widget.min.js';
