@@ -200,6 +200,7 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data;
+          this.fixtureList.forEach(f => f.matchDate = '2024-03-07T17:53:11')
           this.isLoading = false;
         }
       });
@@ -488,14 +489,11 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
     try {
       const file = (event.target as HTMLInputElement).files[0];
       let isValidMimeType = this.globalFunctions.checkMimeType(file.type);
-      console.log(isValidMimeType)
       if (isValidMimeType) {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           let fileData: string = e.target.result;
-          console.log(fileData)
           let fileDataParseResult = this.fileImportExportFunctions.parseExcelDataToJSON(fileData);
-          console.log(fileDataParseResult)
           if (fileDataParseResult !== null) {
             this.setFileDataToFixtureList(fileDataParseResult);
           } else {

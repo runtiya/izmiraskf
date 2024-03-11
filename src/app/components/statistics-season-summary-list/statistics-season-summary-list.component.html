@@ -39,7 +39,7 @@
     <ng-container matColumnDef="teamsCount">
       <th mat-header-cell *matHeaderCellDef="" matTooltip="Takım Sayısı">Takım Sayısı</th>
       <td mat-cell *matCellDef="let summary">
-        {{ (summary.uniqueHomeTeams || summary.uniqueAwayTeams) + " Takım" }}
+        {{ (summary.teamsCount) + " Takım" }}
       </td>
     </ng-container>
 

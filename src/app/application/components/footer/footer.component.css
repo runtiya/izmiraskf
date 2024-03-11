@@ -35,12 +35,10 @@ li {
 }
 
 .nav-item {
-
   cursor: pointer;
 }
 
 .dropdown-item {
-  font-weight: 100;
   cursor: pointer;
 }
 

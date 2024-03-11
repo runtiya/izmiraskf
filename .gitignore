@@ -42,6 +42,6 @@ testem.log
 Thumbs.db
 
 
-#/server/images
-#/server/files
-server/.env
+/server/images
+/server/files
+.env
