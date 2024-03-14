@@ -43,10 +43,10 @@ function getFixtureBySearchIndex(req, res, next) {
       ? "town = " + JSON.stringify(searchIndex.town)
       : "true";
     let startDateSearchIndex = searchIndex.startDate
-      ? "matchDate > " + JSON.stringify(searchIndex.startDate + " 00:00")
+      ? "matchDate > " + JSON.stringify(searchIndex.startDate + "T00:00")
       : "true";
     let endDateSearchIndex = searchIndex.endDate
-      ? "matchDate < " + JSON.stringify(searchIndex.endDate + " 23:59")
+      ? "matchDate < " + JSON.stringify(searchIndex.endDate + "T23:59")
       : "true";
     let weeklyMatchProgramIndex = searchIndex.weeklyMatchProgramId
       ? "matchno in (select matchno from VIEW_ADMIN_WEEKLYMATCHLIST where weeklymatchprogramid = " +
