@@ -307,7 +307,6 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
 
         // Filter to remove null rows. Get only filled rows
         const filteredData = jsonData.filter(r => r[0] != null || r[1] != null || r[2] != null || r[3] != null);
-        console.log(filteredData)
         this.buildDisciplinaryBoardDecisionSubmitFormGroup();
         this.patchFileToTable(filteredData);
       };
