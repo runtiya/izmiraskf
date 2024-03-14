@@ -84,8 +84,6 @@ export class AdminDisciplinaryBoardFilesList implements OnInit, OnDestroy {
           if (data.length > 0) {
             const filteredDisciplinaryBoardFilesList = data.filter(file => file.seasonId == this.seasonSelectionId && file.caseType == this.url_caseType);
             this.disciplinaryBoardFilesList = filteredDisciplinaryBoardFilesList.sort((a, b) => b.caseDate.toString().localeCompare(a.caseDate.toString()));
-
-            console.log(data)
           } else {
             this.disciplinaryBoardFilesList = [];
           }
