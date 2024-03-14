@@ -200,7 +200,6 @@ export class AdminScoreBoard implements OnInit, OnDestroy {
       .subscribe({
         next: (data: FixtureModel[]) => {
           this.fixtureList = data;
-          this.fixtureList.forEach(f => f.matchDate = '2024-03-07T17:53:11')
           this.isLoading = false;
         }
       });

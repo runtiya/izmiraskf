@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { NewsService } from "../../services/admin-news.service";
@@ -16,7 +16,7 @@ export class AdminNewsCreate implements OnInit {
   toolbarTitle = "HABER OLUŞTUR";
   isLoading: boolean = false;
   newsCreateForm: FormGroup;
-
+  @ViewChild('filePicker') filePicker: ElementRef;
   newsContent = '';
 
   editorConfig: AngularEditorConfig = {
@@ -104,12 +104,15 @@ export class AdminNewsCreate implements OnInit {
   filePickerRemove() {
     this.newsCreateForm.get('imageAttachment').setValue(null);
     this.newsCreateForm.get('imagePath').setValue(null);
+    this.filePicker.nativeElement.value = '';
   }
 
   onClearNewsForm() {
     this.newsCreateForm.reset();
     this.newsCreateForm.get('imageAttachment').setValue(null);
     this.newsCreateForm.get('imagePath').setValue(null);
+    this.newsCreateForm.get('isVisible').setValue(true);
+    this.filePicker.nativeElement.value = '';
   }
 
   onCreateNews() {
