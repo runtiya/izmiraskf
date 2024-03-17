@@ -16,6 +16,9 @@ import { fixtureFunctions } from "../../functions/fixture.function";
 import { matchStatusList } from "../../../assets/lists/match-status.list";
 import { townList } from "../../../assets/lists/town-izmir.list";
 
+import {jsPDF} from 'jspdf';
+import html2canvas from "html2canvas";
+
 @Component({
   selector: 'app-application-weeklymatch-list',
   templateUrl: './weekly-match-list.component.html',
@@ -208,6 +211,7 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
   }
 
   onExport() {
+    /*
     const _searchOptionsBar = document.getElementById("searchOptionsBar-WeeklyMatchList");
     const _header = document.getElementById("header-application");
     const _footer = document.getElementById("footer");
@@ -221,6 +225,22 @@ export class ApplicationWeeklyMatchList implements OnInit, OnDestroy {
     _header.hidden = false;
     _footer.hidden = false;
     _exportButton.hidden = false;
+    */
+
+    var data = document.getElementById('tableWeeklyMatchList');
+    html2canvas(data).then(canvas => {
+    // Few necessary setting options
+    var imgWidth = 208;
+    var pageHeight = 295;
+    var imgHeight = canvas.height * imgWidth / canvas.width;
+    var heightLeft = imgHeight;
+
+    const contentDataURL = canvas.toDataURL('image/png')
+    let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+    var position = 0;
+    pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+    pdf.save('haftalik-bulten-' + new Date().toLocaleDateString() + '.pdf'); // Generated PDF
+    });
   }
 
   ngOnDestroy(): void {

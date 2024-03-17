@@ -153,11 +153,6 @@ export class AdminDisciplinaryBoardDecisionsList implements OnInit, OnDestroy {
       .subscribe({
         next: (data: {teamsList: TeamsModel[], teamsCount: number}) => {
           this.teamsList = data.teamsList.sort((a, b) => a.officialName.localeCompare(b.officialName));
-          this.teamsList.map(t => {
-            if (t.imagePath !== null) {
-              t.imagePath = `${environment.serverUrl}${t.imagePath}`;
-            }
-          });
         }
       })
 
